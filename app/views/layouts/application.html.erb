@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+  <title><%= content_for(:title) || "Pila Derflice" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Pila Derflice">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag :app %>
+    <%= javascript_importmap_tags %>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="contact-header">
+    <div class="contact-item">
+      <svg width="14" height="14" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      +420 602 446 339
+    </div>
+    <div class="contact-item">
+      <svg width="14" height="14" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      stepan.merta@seznam.cz
+    </div>
+  </div>
+  <div class="main-nav">
+    <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
+    </button>
+    <div class="logo">
+      <%= image_tag "logo-wm.png", alt: "Pila Derflice", class: "logo" %>
+    </div>
+    <nav class="nav-links desktop-nav">
+      <a href="#" class="nav-link">Domů</a>
+      <a href="#" class="nav-link">Eshop</a>
+      <a href="#" class="nav-link">Služby</a>
+      <a href="#" class="nav-link">Sortiment</a>
+      <a href="#" class="nav-link">Ceník</a>
+      <a href="#" class="nav-link">Kontakt</a>
+    </nav>
+    <div class="lang-dropdown">
+      <button class="btn-pill lang-btn">
+        <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
+          <rect width="600" height="400" fill="#d7141a"/>
+          <rect width="600" height="200" fill="#fff"/>
+          <polygon points="0,0 0,400 300,200" fill="#11457e"/>
+        </svg>
+        <span class="chevron">▼</span>
+      </button>
+      <div class="lang-dropdown-content">
+        <a href="#" class="lang-option">
+          <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
+            <rect width="600" height="400" fill="#d7141a"/>
+            <rect width="600" height="200" fill="#fff"/>
+            <polygon points="0,0 0,400 300,200" fill="#11457e"/>
+          </svg>
+        </a>
+        <a href="#" class="lang-option">
+          <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
+            <rect width="600" height="400" fill="#ed2939"/>
+            <rect width="600" height="133.33" y="133.33" fill="#fff"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="mobile-sidebar" id="mobileSidebar">
+    <div class="sidebar-header">
+      <%= image_tag "logo-wm.png", alt: "Pila Derflice", class: "sidebar-logo" %>
+      <button class="close-sidebar" id="closeSidebar">✕</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-link">Domů</a>
+      <a href="#" class="nav-link">Eshop</a>
+      <a href="#" class="nav-link">Služby</a>
+      <a href="#" class="nav-link">Sortiment</a>
+      <a href="#" class="nav-link">Ceník</a>
+      <a href="#" class="nav-link">Kontakt</a>
+    </nav>
+    <div class="sidebar-contact">
+      <div class="contact-item">
+        <svg width="18" height="18" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +420 602 446 339
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        stepan.merta@seznam.cz
+      </div>
+    </div>
+  </aside>
+</header>
+
+<%= yield %>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-top">
+
+      <div class="footer-col brand-col">
+        <%= image_tag "logo-dm.png", alt: "Pila Derflice", class: "footer-logo" %>
+        <h2>Štěpán Merta</h2>
+        <span class="brand-blue">Pila Derflice</span>
+      </div>
+
+      <div class="footer-col">
+        <h3>Kontakt</h3>
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+            +420 602 446 339
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            +420 515 235 527
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            stepan.merta@seznam.cz
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            Derflice 66, 671 28 Znojmo
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Pondělí - Pátek : 7:00 - 15:30
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Služby</h3>
+        <ul class="link-list">
+          <li><a href="#">Zakázková výroba</a></li>
+          <li><a href="#">Hoblování</a></li>
+          <li><a href="#">Doprava </a></li>
+          <li><a href="#">Impregnace</a></li>
+          <li><a href="#">Pořez / Prodej kulatiny</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Sortiment</h3>
+        <ul class="link-list">
+          <li><a href="#">Palivové dřevo</a></li>
+          <li><a href="#">Stavební řezivo</a></li>
+          <li><a href="#">Truhlářské řezivo</a></li>
+          <li><a href="#">Výrobní zbytky</a></li>
+          <li><a href="#">Okrasné kamenivo</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col social-col">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="#5c8df6">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7.3v-6.9h-2V11.2h2V9.3c0-2.8 1.3-4.3 4.3-4.3 1.1 0 2.5.2 2.5.2v2.7h-1.4c-1.4 0-1.6.8-1.6 1.7v1.6h2.9l-.4 2.9h-2.5V21H19c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10510.197962898043!2d16.121110787158198!3d48.80957630000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d5449f74dd161%3A0xe25da7a72d478ac5!2sPila%20Derflice%20-%20%C5%A0t%C4%9Bp%C3%A1n%20Merta%20-%20Prodej%20D%C5%99eva%20Znojmo!5e0!3m2!1scs!2scz!4v1783167177644!5m2!1scs!2scz"
+        width="100%"
+        height="350"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

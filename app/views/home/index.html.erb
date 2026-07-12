@@ -1,0 +1,142 @@
+<main class="main">
+  <section class="hero-section">
+    <div class="left-part">
+      <div>
+        <h1><span class="text-accent">KVALITNÍ DŘEVO</span><br>PRO DOMOV, DÍLNU I STAVBU</h1>
+        <p>Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku.</p>
+      </div>
+      <div class="domu-buttons">
+        <a href="#" class="btn-eshop">DO ESHOPU</a>
+        <a href="#" class="btn-vyroba">VÝROBA NA MÍRU</a>
+      </div>
+
+      <div class="reviews">
+        <%= image_tag "google-review.png", alt: "Google recenze", class: "google-logo", width: "48", height: "48" %>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 48" width="280" height="48">
+          <defs>
+            <g id="star">
+              <path fill="#FABB05" d="M24 34.54l12.36 7.46-3.28-14.06 10.92-9.46-14.38-1.22L24 4 18.38 17.26 4 18.48l10.92 9.46-3.28 14.06z"/>
+            </g>
+          </defs>
+
+          <use href="#star" x="0" y="0" />
+          <use href="#star" x="60" y="0" />
+          <use href="#star" x="120" y="0" />
+          <use href="#star" x="180" y="0" />
+          <use href="#star" x="240" y="0" />
+        </svg>
+
+        <div class="review-text">
+          <strong>4.6 </strong><span class="review-text-accent">(11+ recenzí)</span>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/doprava.png", alt: "Vlastní doprava" %>
+          </div>
+          <span class="feature-text">Vlastní<br>doprava</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/vyroba.png", alt: "Výroba na míru" %>
+          </div>
+          <span class="feature-text">Výroba<br>na míru</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/sortiment.png", alt: "Šíroký sortiment" %>
+          </div>
+          <span class="feature-text">Široký<br>sortiment</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/vyrobce.png", alt: "Lokální výrobce" %>
+          </div>
+          <span class="feature-text">Lokální<br>výrobce</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/garance.png", alt: "Záruka kvality" %>
+          </div>
+          <span class="feature-text">Záruka<br>kvality</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-item">
+            <%= image_tag "features/wallet.png", alt: "Férové ceny" %>
+          </div>
+          <span class="feature-text">Férové<br>ceny</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-part">
+      <div class="akcni-product-card">
+        <div class="badge">Akční nabídka</div>
+        <%= image_tag "akcni-nabidka.png", alt: "Akční nabídka", class: "hero-image" %>
+        <div class="product-info">
+          <div class="product-subinfo">
+            <h2 class="product-title"> PALIVOVÉ DŘEVO – AKÁT 32 CM</h2>
+            <ul class="product-features">
+              <li>Vysoká výhřevnost</li>
+              <li>Skladem ihned</li>
+              <li>Rychlé dodání</li>
+            </ul>
+          </div>
+          <div class="akcni-product-price">
+            <span class="akcni-nabidka-price"> od 1500 / 1 PRMS</span>
+            <a href="#" class="akce-btn-eshop">Prohlédnout si</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-categories-section">
+        <h2 class="top-categories-title"><span class="brand-blue">TOP</span> Kategorie</h2>
+
+        <div class="top-categories-grid">
+          <div class="top-categories-item">
+            <%= image_tag "top-kategorie/top-palivove-drevo.png", alt: "Palivové dřevo", class: "top-categories-image" %>
+            <a href="#" class="top-categories-button">Palivové dřevo</a>
+          </div>
+
+          <div class="top-categories-item">
+            <%= image_tag "top-kategorie/top-stavebni-drevo.png", alt: "Stavební dřevo", class: "top-categories-image" %>
+            <a href="#" class="top-categories-button">Stavební dřevo</a>
+          </div>
+
+          <div class="top-categories-item">
+            <%= image_tag "top-kategorie/top-vyrobni-zbytky.png", alt: "Výrobní zbytky", class: "top-categories-image" %>
+            <a href="#" class="top-categories-button">Výrobní zbytky</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section class="let-zkusenosti-section">
+    <div class="let-zkusenosti-banner">
+      <h2>Již přes 30 let zkušeností</h2>
+    </div>
+  </section>
+  <section class="akcni-nabidka-section">
+    <div class="akcni-nabidka-left">
+      <div class="akcni-nabidka-header">
+        <h1>AKČNÍ <span style="color: #2C8FFF">NABÍDKA</span></h1>
+        <div class="akcni-nabidka">
+          <h4><b>Kvalitní palivové dřevo, které zahřeje víc než jen cenou.</b></h4>
+          <h4>Suché, štípané a ihned připravené k topení.<br>Doprava až k vám domů – rychle, spolehlivě a bez starostí.</h4>
+        </div>
+        <div class="akcni-nabidka-cenik">
+          <a href="#" class="akcni-nabidka-button">Ceník</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

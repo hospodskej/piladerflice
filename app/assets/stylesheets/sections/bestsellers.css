@@ -1,0 +1,89 @@
+.nejprodavanejsi-produkty-section {
+    color: #000000;
+    margin-top: 100px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nejprodavanejsi-produkty-section h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.nejprodavanejsi-produkty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.nejprodavanejsi-produkty-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.nejprodavanejsi-produkty-card {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.nejprodavanejsi-produkty-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+}
+
+.nejprodavanejsi-produkty-desc {
+    font-weight: 650;
+    font-size: 1.1rem;
+}
+
+.nejprodavanejsi-produkty-title {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.nejprodavanejsi-produkty-card .btn-prohlednout {
+    background-color: #2C8FFF;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.nejprodavanejsi-produkty-card .nejprodavanejsi-produkty-stock {
+    color: #00aa00;
+    font-weight: 500;
+}
+
+.nejprodavanejsi-produkty-card:hover {
+    background-color: #2C8FFF;
+    color: #ffffff;
+}
+
+.nejprodavanejsi-produkty-card:hover .btn-prohlednout {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.nejprodavanejsi-produkty-card:hover .nejprodavanejsi-produkty-stock {
+    color: #000000;
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .nejprodavanejsi-produkty-grid {
+        grid-template-columns: 1fr;
+    }
+}

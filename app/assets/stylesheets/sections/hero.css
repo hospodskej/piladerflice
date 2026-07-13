@@ -1,0 +1,326 @@
+.hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 0;
+    align-items: stretch;
+}
+
+.hero-section .left-part {
+    max-width: 650px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.left-part h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+    margin: 0 0 20px 0;
+    font-weight: 900;
+    color: #000000;
+}
+
+.left-part .text-accent {
+    color: #2C8FFF;
+}
+
+.left-part p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0 0 32px 0;
+}
+
+.domu-buttons {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.btn-eshop, .btn-vyroba {
+    flex: 1;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-eshop {
+    background-color: #2C8FFF;
+    color: #ffffff;
+    border: none;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-eshop:hover {
+    background-color: #1A6FCC;
+}
+
+.btn-vyroba {
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-vyroba:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.reviews {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: auto;
+}
+
+.google-logo {
+    width: 32px;
+    height: auto;
+}
+
+.reviews svg {
+    width: 160px;
+    height: auto;
+    margin-right: -35px;
+}
+
+.review-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.review-text strong {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000000;
+    line-height: 1;
+}
+
+.review-text-accent {
+    font-size: 16px;
+    color: #2C8FFF;
+    font-weight: 500;
+}
+
+.features {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 40px;
+    margin-bottom: 65px;
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
+
+.feature-item {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
+
+.feature-item img {
+    max-height: 38px;
+    width: auto;
+}
+
+.feature-text {
+    font-size: 16px;
+    line-height: 1.3;
+    color: #222222;
+    font-weight: 500;
+}
+
+.right-part {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 650px;
+}
+
+.akcni-product-card {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0, 0.05);
+}
+
+.badge {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    background-color: #2C8FFF;
+    color: #fff;
+    padding: 6px 18px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-radius: 8px;
+    z-index: 2;
+}
+
+.hero-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.product-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 132, 255, 0.9);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.product-title {
+    margin: 0 0 12px 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.product-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.product-features li {
+    position: relative;
+    padding-left: 16px;
+}
+
+.product-features li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.akcni-nabidka-price {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.akcni-product-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.akce-btn-eshop {
+    background-color: #ffffff;
+    color: #2C8FFF;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+@media (max-width: 992px) {
+    .left-part,
+    .right-part {
+        margin: 0 auto;
+    }
+
+    .hero-section {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    .hero-section .left-part {
+        order: 1;
+        width: 100%;
+    }
+
+    .hero-section .right-part {
+        order: 2;
+        width: 100%;
+    }
+
+    .left-part h1 {
+        font-size: 2.2rem;
+    }
+
+    .domu-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .features {
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .feature-card {
+        min-width: 30%;
+        margin-bottom: 20px;
+    }
+
+    .product-info {
+        position: relative;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .akcni-product-price {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .akcni-product-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-image {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .left-part h1 {
+        font-size: 1.8rem;
+    }
+}

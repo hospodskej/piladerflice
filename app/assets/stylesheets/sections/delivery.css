@@ -1,0 +1,49 @@
+.dorucujeme-section {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.dorucujeme-text {
+    flex: 1;
+}
+
+.dorucujeme-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.dorucujeme-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.dorucujeme-map {
+    flex: 1;
+    text-align: right;
+}
+
+.dorucujeme-map img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .dorucujeme-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dorucujeme-map {
+        text-align: center;
+        margin-top: 40px;
+    }
+}

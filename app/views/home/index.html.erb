@@ -6,8 +6,8 @@
         <p>Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku.</p>
       </div>
       <div class="domu-buttons">
-        <a href="#" class="btn-eshop">DO ESHOPU</a>
-        <a href="#" class="btn-vyroba">VÝROBA NA MÍRU</a>
+        <%= link_to "DO ESHOPU", "#", class: "btn-eshop" %>
+        <%= link_to "VÝROBA NA MÍRU", "/kontakt#kalkulace", class: "btn-vyroba" %>
       </div>
 
       <div class="reviews">
@@ -109,7 +109,7 @@
           <h4>Suché, štípané a ihned připravené k topení.<br>Doprava až k vám domů – rychle, spolehlivě a bez starostí.</h4>
         </div>
         <div class="akcni-nabidka-cenik">
-          <a href="#" class="akcni-nabidka-button">Ceník</a>
+          <%= link_to "Ceník", "/kontakt#cenik", class: "akcni-nabidka-button" %>
         </div>
       </div>
     </div>
@@ -255,7 +255,7 @@
 
       <p>Palivové dřevo rozvážíme po celé jižní Moravě i severním Rakousku, a to včetně hraničních oblastí mezi Vysočinou a středním Rakouskem. Patří sem například města a obce jako Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, na rakouské straně pak například Drosendorf, Raabs an der Thaya, Hardegg či Thaya.</p>
       <p>Cena dopravy se vždy odvíjí od vzdálenosti a množství objednaného dřeva, aby byla co nejvýhodnější pro každého zákazníka.</p>
-      <%= link_to "Ceník", "#", class: "btn-primary" %>
+      <%= link_to "Ceník", "/kontakt#cenik", class: "btn-primary" %>
     </div>
 
     <div class="dorucujeme-map">
@@ -291,7 +291,7 @@
         </ol>
         <%= image_tag "jak-objednat/pila.png", alt: "Zpracování dřeva", class: "how-to-order-image" %>
 
-        <%= link_to "Zadat poptávku", "#", class: "btn-objednat" %>
+        <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-objednat" %>
       </div>
 
     </div>
@@ -345,5 +345,21 @@
 
 
   </section>
+  <section class="o-sobe-section">
+    <div class="o-sobe-card">
+      <div class="o-sobe-image-wrapper">
+        <%= image_tag "o-sobe/nakladak.png", alt: "Nakládání dřeva v lese", class: "o-sobe-image" %>
+      </div>
 
+      <div class="o-sobe-text">
+        <h2>Co bychom <span style="color: #2C8FFF">o sobě řekli?</span></h2>
+        <p>Naše pila, vedená panem Štěpánem Mertou, působí v oboru zpracování dřeva již <strong>přes 30 let.</strong></p>
+        <p>Díky dlouholeté praxi a zkušenostem jsme schopni <strong>vyhovět specifickým požadavkům</strong> našich zákazníků.</p>
+        <p>Disponujeme <strong>moderním vybavením</strong>, včetně automatické štípačky, pásové pily, hoblovačky, impregnační vany apod.</p>
+        <p>Zajišťujeme dopravu výrobků přímo k vám domů.</p>
+        <p>I přes menší tým čítající přibližně 10 zaměstnanců si zakládáme na <strong>dodržování termínů</strong> a <strong>poskytování vysoké kvality služeb.</strong></p>
+        <%= link_to "Poptávka", "/kontakt#kalkulace", class: "btn-primary" %>
+      </div>
+    </div>
+  </section>
 </main>

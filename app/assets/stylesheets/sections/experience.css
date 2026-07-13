@@ -1,0 +1,54 @@
+.let-zkusenosti-section {
+    width: 100%;
+    padding: 80px 20px 20px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.let-zkusenosti-banner {
+    position: relative;
+    padding: 30px 190px;
+    display: inline-block;
+    z-index: 1;
+}
+
+.let-zkusenosti-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #2C8FFF;
+    transform: skewX(-45deg);
+    z-index: -1;
+}
+
+.let-zkusenosti-banner h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 992px) {
+    .let-zkusenosti-section {
+        padding: 40px 10px 10px;
+    }
+
+    .let-zkusenosti-banner {
+        padding: 20px 40px;
+    }
+
+    .let-zkusenosti-banner h2 {
+        font-size: 1.5rem;
+    }
+
+    .let-zkusenosti-banner::before {
+        transform: skewX(-45deg);
+    }
+}

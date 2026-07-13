@@ -1,0 +1,98 @@
+.how-to-order-section {
+    margin-top: 100px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.how-to-order-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.how-to-order-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.how-to-order-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #333333;
+    padding: 30px;
+    border-radius: 4px;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.how-to-order-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.highlight-text {
+    color: #2c8FFF;
+}
+
+.how-to-order-steps {
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.how-to-order-steps li {
+    font-size: 0.95rem;
+    font-weight: 650;
+    margin-bottom: 18px;
+    line-height: 1.4;
+}
+
+.how-to-order-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.btn-objednat {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #2C8FFF;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.how-to-order-card:hover {
+    background-color: #2C8FFF;
+    border-color: #2C8FFF;
+    color: #ffffff;
+}
+
+.how-to-order-card:hover .highlight-text {
+    color: #000000;
+}
+
+.how-to-order-card:hover .btn-objednat {
+    background-color: #E6E6E6;
+    color: #000000;
+}
+
+@media (max-width: 992px) {
+    .how-to-order-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,246 @@
+.site-header {
+    background-color: #E6E6E6;
+    padding: 10px 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.contact-header {
+    display: flex;
+    justify-content: flex-end;
+    gap: 25px;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-item svg {
+    stroke: #2C8FFF !important;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+}
+
+.sidebar-logo {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #111;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #2C8FFF;
+}
+
+.nav-link:active {
+    color: #2C8FFF !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #2C8FFF !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.chevron {
+    font-size: 10px;
+    color: #000000;
+    margin-left: 2px;
+}
+
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-btn {
+    background-color: #D8D8D8;
+    border: 1px solid #444;
+    border-radius: 20px;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.lang-btn:hover {
+    background-color: #C7C7C7;
+}
+
+.lang-btn .chevron {
+    font-size: 10px;
+    color: #111;
+}
+
+.lang-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #D8D8D8;
+    min-width: 90px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    padding: 10px 14px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.lang-option:hover {
+    background-color: #f1f1f1;
+}
+
+.lang-dropdown:hover .lang-dropdown-content {
+    display: block;
+}
+
+.menu-toggle,
+.sidebar-overlay,
+.mobile-sidebar {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .contact-header,
+    .desktop-nav {
+        display: none;
+    }
+
+    .site-header {
+        padding: 15px 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #111;
+        padding: 0;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .mobile-sidebar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 260px;
+        height: 100vh;
+        background-color: #ededed;
+        box-shadow: 2px 0 15px rgba(0,0,0,0.2);
+        z-index: 100;
+        transition: left 0.3s ease;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .mobile-sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+    }
+
+    .sidebar-logo {
+        height: 40px;
+    }
+
+    .close-sidebar {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #111;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sidebar-nav .nav-link {
+        font-size: 18px;
+    }
+
+    .sidebar-contact {
+        margin-top: auto;
+        border-top: 1px solid #ccc;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sidebar-contact .contact-item {
+        font-size: 15px;
+    }
+}

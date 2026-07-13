@@ -48,6 +48,8 @@ document.addEventListener("turbo:load", function() {
         resetTimer();
     });
 
+    goToSlide(currentIndex);
+
     // Start the timer when the page loads
     resetTimer();
 });

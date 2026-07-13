@@ -1,0 +1,108 @@
+.site-footer {
+    background-color: #27272b;
+    color: #e0e0e0;
+    padding: 60px 40px 40px 40px;
+    font-family: inherit;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr auto;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.footer-col h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 15px;
+}
+
+.brand-col h2 {
+    font-size: 24px;
+    margin: 0 0 5px 0;
+    color: #ffffff;
+}
+
+.contact-list,
+.link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.contact-list li,
+.link-list a {
+    font-size: 14px;
+    color: #cccccc;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.link-list a:hover {
+    color: #ffffff;
+}
+
+.contact-list svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    stroke: #aaaaaa;
+}
+
+.social-col {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.social-col svg {
+    width: 28px;
+    height: 28px;
+    transition: opacity 0.2s;
+}
+
+.social-col a:hover svg {
+    opacity: 0.8;
+}
+
+.footer-map {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.footer-map iframe {
+    display: block;
+    filter: invert(90%) hue-rotate(180deg) contrast(90%);
+}
+
+@media (max-width: 992px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .social-col {
+        justify-content: flex-start;
+    }
+}

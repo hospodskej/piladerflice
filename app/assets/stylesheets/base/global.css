@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #E6E6E6;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main {
+    width: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.brand-blue {
+    color: #2C8FFF;
+    font-weight: 700;
+}
+
+@media (max-width: 992px) {
+    main {
+        padding: 20px;
+    }
+}

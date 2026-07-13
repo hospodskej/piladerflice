@@ -1,0 +1,106 @@
+.akcni-nabidka-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 100px;
+}
+
+.akcni-nabidka h4 {
+    font-weight: 400;
+}
+
+.akcni-nabidka-cenik {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.akcni-nabidka-button {
+    background-color: #2C8FFF;
+    font-weight: 700;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    padding: 10px 35px;
+    border-radius: 6px;
+}
+
+.akcni-nabidka-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.product-image-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 663px;
+    height: 331px;
+    background-color: #2C8FFF;
+    border-radius: 12px;
+    top: 16px;
+    left: 16px;
+    z-index: 0;
+}
+
+.akcni-badge {
+    position: absolute;
+    top: -47.5px;
+    left: -15.5px;
+    width: 95px;
+    height: 95px;
+    background-color: #2C8FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #E6E6E6;
+    font-weight: 900;
+    font-size: 1.3rem;
+    z-index: 10;
+}
+
+.akcni-nabidka-image {
+    width: 663px;
+    height: 331px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .product-image-wrapper::before {
+        width: 100%;
+        max-width: 500px;
+        height: 100%;
+        top: 10px;
+        left: 10px;
+    }
+
+    .akcni-nabidka-section {
+        grid-template-columns: 1fr;
+    }
+
+    .akcni-nabidka-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+    }
+
+    .akcni-badge {
+        width: 70px;
+        height: 70px;
+        font-size: 1rem;
+        top: -35px;
+        left: -35px;
+    }
+}

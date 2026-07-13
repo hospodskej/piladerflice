@@ -17,12 +17,12 @@
       <%= image_tag "logo-wm.png", alt: "Pila Derflice", class: "logo" %>
     </div>
     <nav class="nav-links desktop-nav">
-      <a href="/" class="nav-link <%= 'active' if current_page?(root_path) %>">Domů</a>
+      <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
       <a href="#" class="nav-link">Eshop</a>
       <a href="#" class="nav-link">Služby</a>
       <a href="#" class="nav-link">Sortiment</a>
-      <a href="#" class="nav-link">Ceník</a>
-      <a href="#" class="nav-link">Kontakt</a>
+      <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
+      <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>
     <div class="lang-dropdown">
       <button class="btn-pill lang-btn">
@@ -57,12 +57,12 @@
       <button class="close-sidebar" id="closeSidebar">✕</button>
     </div>
     <nav class="sidebar-nav">
-      <a href="/" class="nav-link <%= 'active' if current_page?(root_path) %>">Domů</a>
+      <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
       <a href="#" class="nav-link">Eshop</a>
       <a href="#" class="nav-link">Služby</a>
       <a href="#" class="nav-link">Sortiment</a>
-      <a href="#" class="nav-link">Ceník</a>
-      <a href="#" class="nav-link">Kontakt</a>
+      <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
+      <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>
     <div class="sidebar-contact">
       <div class="contact-item">

@@ -33,54 +33,31 @@
       </div>
 
       <div class="features">
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/doprava.png", alt: "Vlastní doprava" %>
-          </div>
-          <span class="feature-text">Vlastní<br>doprava</span>
-        </div>
+        <% features = [
+          { name: "Vlastní<br>doprava", img: "doprava.png" },
+          { name: "Výroba<br>na míru", img: "vyroba.png"},
+          { name: "Široký<br>sortiment", img: "sortiment.png"},
+          { name: "Lokální<br>výrobce", img: "vyrobce.png"},
+          { name: "Záruka<br>kvality", img: "garance.png"},
+          { name: "Férové<br>ceny", img: "wallet.png"}
+        ] %>
 
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/vyroba.png", alt: "Výroba na míru" %>
+        <% features.each do |feature| %>
+          <div class="feature-card">
+            <div class="feature-item">
+              <%= image_tag "features/#{feature[:img]}", alt: feature[:name] %>
+            </div>
+            <span class="feature-text"><%= feature[:name].html_safe %></span>
           </div>
-          <span class="feature-text">Výroba<br>na míru</span>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/sortiment.png", alt: "Šíroký sortiment" %>
-          </div>
-          <span class="feature-text">Široký<br>sortiment</span>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/vyrobce.png", alt: "Lokální výrobce" %>
-          </div>
-          <span class="feature-text">Lokální<br>výrobce</span>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/garance.png", alt: "Záruka kvality" %>
-          </div>
-          <span class="feature-text">Záruka<br>kvality</span>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-item">
-            <%= image_tag "features/wallet.png", alt: "Férové ceny" %>
-          </div>
-          <span class="feature-text">Férové<br>ceny</span>
-        </div>
+        <% end %>
       </div>
+
     </div>
 
     <div class="right-part">
       <div class="akcni-product-card">
         <div class="badge">Akční nabídka</div>
-        <%= image_tag "akcni-nabidka.png", alt: "Akční nabídka", class: "hero-image" %>
+        <%= image_tag "akcni-nabidka-hero.png", alt: "Akční nabídka", class: "hero-image" %>
         <div class="product-info">
           <div class="product-subinfo">
             <h2 class="product-title"> PALIVOVÉ DŘEVO – AKÁT 32 CM</h2>
@@ -100,21 +77,19 @@
       <div class="top-categories-section">
         <h2 class="top-categories-title"><span class="brand-blue">TOP</span> Kategorie</h2>
 
+        <% categories = [
+          { name: "Palivové dřevo", img: "top-palivove-drevo.png", url: "#" },
+          { name: "Stavební dřevo", img: "top-stavebni-drevo.png", url: "#" },
+          { name: "Výrobní zbytky", img: "top-vyrobni-zbytky.png", url: "#" },
+        ] %>
+
         <div class="top-categories-grid">
-          <div class="top-categories-item">
-            <%= image_tag "top-kategorie/top-palivove-drevo.png", alt: "Palivové dřevo", class: "top-categories-image" %>
-            <a href="#" class="top-categories-button">Palivové dřevo</a>
-          </div>
-
-          <div class="top-categories-item">
-            <%= image_tag "top-kategorie/top-stavebni-drevo.png", alt: "Stavební dřevo", class: "top-categories-image" %>
-            <a href="#" class="top-categories-button">Stavební dřevo</a>
-          </div>
-
-          <div class="top-categories-item">
-            <%= image_tag "top-kategorie/top-vyrobni-zbytky.png", alt: "Výrobní zbytky", class: "top-categories-image" %>
-            <a href="#" class="top-categories-button">Výrobní zbytky</a>
-          </div>
+          <% categories.each do |category| %>
+            <div class="top-categories-item">
+              <%= image_tag "top-kategorie/#{category[:img]}", alt: category[:name], class: "top-categories-image" %>
+              <%= link_to category[:name], category[:url], class: "top-categories-button" %>
+            </div>
+          <% end %>
         </div>
       </div>
 
@@ -138,5 +113,237 @@
         </div>
       </div>
     </div>
+    <div class="akcni-nabidka-right">
+      <div class="akcni-nabidka-decoration">
+        <div class="product-image-wrapper">
+          <div class="akcni-badge">AKCE</div>
+          <%= image_tag "akcni-nabidka.png", alt: "Akční nabídka - palivové dřevo", class: "akcni-nabidka-image" %>
+        </div>
+      </div>
+    </div>
   </section>
+  <section class="nejprodavanejsi-produkty-section">
+    <h1><span style="color: #2C8FFF">Nejprodávanější</span>    produkty?</h1>
+    <div class="nejprodavanejsi-produkty-grid">
+      <% nejprodavanejsi = [
+        {
+          title: "Tvrdé palivové dřevo",
+          desc: "Akát, 33cm",
+          stock: "skladem",
+          price: "1800 KČ / 1 PRMS",
+          img: "akat.png",
+        },
+        {
+          title: "Trámy, 1. výrobní jakkost",
+          desc: "Smrk",
+          stock: "skladem",
+          price: "1800 KČ / 1 PRMS",
+          img: "smrk.png"
+        },
+        {
+          title: "Tvrdé palivové dřevo",
+          desc: "Akát, 33cm",
+          stock: "skladem",
+          price: "1800 KČ / 1 PRMS",
+          img: "akat2.png"
+        }
+      ] %>
+
+      <% nejprodavanejsi.each do |product| %>
+        <div class="nejprodavanejsi-produkty-card">
+          <%= image_tag "nejprodavanejsi-produkty/#{product[:img]}", alt: product[:title], class: "nejprodavanejsi-produkty-image" %>
+
+          <div class="nejprodavanejsi-produkty-details">
+            <span class="nejprodavanejsi-produkty-title"><%= product[:title] %></span>
+            <span class="nejprodavanejsi-produkty-desc"><strong><%= product[:desc] %></strong></span>
+            <span class="nejprodavanejsi-produkty-stock"><%= product[:stock] %></span>
+            <span class="nejprodavanejsi-produkty-price"><strong><%= product[:price] %></strong></span>
+            <%= link_to "PROHLÉDNOUT", "#", class:"btn-prohlednout" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </section>
+  <section class="nabidka-section">
+    <div class="nabidka-header">
+      <h2>Co vám můžeme <span style="color: #2C8FFF">nabídnout?</span></h2>
+      <div class="nabidka-text">
+        <p>Pokud topíte dřevem a sháníte kvalitní otop do krbu či na zátop? Potřebujete stavební dřevo k rekonstrukci či stavbě altánů, plotů či dřevostaveb? Vyrábíte nábytek z <strong>kvalitního řeziva</strong>, pak se na nás nebojte obrátit.</p>
+        <p>Za tu dobu nabízíme <strong>široký sortiment</strong> dřevěných materiálů, včetně prken, latí, trámů a fošen. Pro zahradní úpravy máme okrasné kamenivo, a pro další využití také piliny, hobliny a štěpku.</p>
+      </div>
+    </div>
+
+    <% sortiment = [
+      { name: "Palivové dřevo", img: "palivove-drevo.png", url: "#"},
+      { name: "Stavební řezivo", img: "stavebni-rezivo.png", url: "#"},
+      { name: "Truhlářské řezivo", img: "truhlarske-rezivo.png", url: "#"},
+      { name: "Výrobní zbytky", img: "vyrobni-zbytky.png", url: "#"},
+      { name: "Okrasné kamenivo", img: "okrasne-kamenivo.png", url: "#"}
+    ] %>
+
+    <div class="nabidka-grid">
+      <% sortiment.each do |item| %>
+        <div class="nabidka-card">
+          <%= image_tag "sortiment/#{item[:img]}", alt: item[:name], class: "nabidka-image" %>
+          <%= link_to item[:name], item[:url], class: "nabidka-btn" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+  <section class="sluzby-section">
+    <h2>Jaké služby <span style="color: #2C8FFF">poskytujeme?</span></h2>
+
+    <% sluzby = [
+      {
+        title: "Cenová kalkulace",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        button: nil
+      },
+      {
+        title: "Doprava",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        button: nil
+      },
+      {
+        title: "Impregnace",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        button: nil
+      },
+      {
+        title: "Hoblování",
+        content: "Nabízíme možnost ohoblování dřevěného materiálu přesně podle vašich požadavků. Disponujeme výkonnou hoblovačkou s hoblovacím průřezem až 80 cm, která si poradí i s rozměrnějšími kusy.<br><br>Hoblujeme nejčastěji fošny, prkna a hranoly libovolné délky. Zákazník si může určit, která strana bude pohledová, a hloubku úběru. Každý kus zpracováváme pečlivě, s důrazem na kvalitu povrchu a preciznost provedení.",
+        button: "Ceník"
+      },
+      {
+        title: "Pořez / Prodej kulatiny",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+        button: nil
+      }
+    ] %>
+
+    <div class="accordion">
+      <% sluzby.each do |sluzba| %>
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span class="accordion-title"><%= sluzba[:title] %></span>
+            <span class="accordion-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+
+          <div class="accordion-content-wrapper">
+            <div class="accordion-content">
+              <div class="accordion-body">
+                <p><%= sluzba[:content].html_safe %></p>
+                <% if sluzba[:button] %>
+                  <%= link_to sluzba[:button], "#", class: "btn-cenik" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <% end %>
+    </div>
+  </section>
+  <section class="dorucujeme-section">
+    <div class="dorucujeme-text">
+      <h2> Kam všude <span style="color: #2C8FFF">doručujeme?</span></h2>
+
+      <p>Palivové dřevo rozvážíme po celé jižní Moravě i severním Rakousku, a to včetně hraničních oblastí mezi Vysočinou a středním Rakouskem. Patří sem například města a obce jako Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, na rakouské straně pak například Drosendorf, Raabs an der Thaya, Hardegg či Thaya.</p>
+      <p>Cena dopravy se vždy odvíjí od vzdálenosti a množství objednaného dřeva, aby byla co nejvýhodnější pro každého zákazníka.</p>
+      <%= link_to "Ceník", "#", class: "btn-primary" %>
+    </div>
+
+    <div class="dorucujeme-map">
+      <%= image_tag "mapa-doruceni.png", alt: "Mapa doručení po jížní Moravě a Rakousku" %>
+    </div>
+  </section>
+  <section class="how-to-order-section">
+    <h2>Jak si u nás <span style="color: #2C8FFF">objednat?</span></h2>
+
+    <div class="how-to-order-grid">
+      <div class="how-to-order-card">
+        <h3 class="how-to-order-title">Nakoupit <span class="highlight-text">online</span></h3>
+
+        <ol class="how-to-order-steps">
+          <li>Vyber produkt v e-shopu</li>
+          <li>Přidejte do košíku</li>
+          <li>Zadejte kontaktní údaje a dopravu</li>
+          <li>Přejděte k dokončení objednávky</li>
+        </ol>
+        <%= image_tag "jak-objednat/drevo.png", alt: "Palivové dřevo", class: "how-to-order-image" %>
+
+        <%= link_to "Nakoupit online", "#", class: "btn-objednat" %>
+      </div>
+
+      <div class="how-to-order-card">
+        <h3 class="how-to-order-title">Zadat <span class="highlight-text">poptávku</span></h3>
+
+        <ol class="how-to-order-steps">
+          <li>Poptáte nám, co potřebujete</li>
+          <li>Připravíme přesnou kalkulaci a návrh</li>
+          <li>Na základě domluvy výrobek vyrobíme</li>
+          <li>Doručíme až k Vám nebo připravíme k osobnímu odběru</li>
+        </ol>
+        <%= image_tag "jak-objednat/pila.png", alt: "Zpracování dřeva", class: "how-to-order-image" %>
+
+        <%= link_to "Zadat poptávku", "#", class: "btn-objednat" %>
+      </div>
+
+    </div>
+  </section>
+  <section class="co-by-vas-mohlo-zajimat">
+    <h2>Co by Vás mohlo <span style="color: #2C8FFF">zajímat?</span></h2>
+
+    <% zajimavosti = [
+      {
+        title: "Kolik stojí doprava?",
+        text: "Cena dopravy se odvíjí od vzdálenosti a množství objednaného dřeva.<br>Po předání adresy a požadovaného množství vám vždy spočítáme přesnou cenu, aby byla pro vás co nejvýhodnější.",
+        image: "co-by-vas-mohlo-zajimat/nakladak.png"
+      },
+      {
+        title: "Jak správně skladovat dřevo?",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.<br>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.",
+        image: "co-by-vas-mohlo-zajimat/sklad.png"
+      },
+      {
+        title: "Kdy je nejlepší čas na nákup?",
+        text: "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus.<br>Aenean lacinia bibendum nulla sed consectetur.",
+        image: "co-by-vas-mohlo-zajimat/cas.png"
+      }
+    ] %>
+
+    <div class="carousel-wrapper" id="zajimatCarousel">
+      <button class="carousel-btn prev-btn" id="carouselPrev" aria-label="Předchozí">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="carousel-container">
+        <% zajimavosti.each_with_index do |slide, index| %>
+          <div class="carousel-slide" <% 'active' if index == 0 %>>
+            <%= image_tag slide[:image], class: "carousel-bg-img", alt: slide[:title] %>
+            <div class="carousel-overlay"></div>
+
+            <div class="carousel-content">
+              <h3><%= slide[:title] %></h3>
+              <div class="carousel-text">
+                <p><%= slide[:text].html_safe %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <button class="carousel-btn next-btn" id="carouselNext" aria-label="Další">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+
+  </section>
+
 </main>

@@ -1,0 +1,48 @@
+<main class="main">
+  <section class="sortiment-page-section">
+    <h2 class="section-main-title">Sortiment</h2>
+
+    <div class="sortiment-grid-5">
+      <% @kategorie.each do |kat| %>
+        <%= link_to kat.link, class: "sortiment-card" do %>
+
+          <div class="sortiment-card-img">
+            <%= image_tag kat.image, alt: kat.title %>
+          </div>
+          <div class="sortiment-card-text">
+            <h3><%= kat.title %></h3>
+            <p><%= kat.text %></p>
+          </div>
+
+        <% end %>
+      <% end %>
+    </div>
+
+    <h2 class="section-main-title order-title">Jak si u nás <span style="color: #2C8FFF">objednat?</span></h2>
+    <div class="order-split-grid">
+
+      <div class="order-box">
+        <h3>Nakoupit <span class="text-blue">online</span></h3>
+        <ul class="order-steps-list">
+          <% @eshop_kroky.each_with_index do |krok, index| %>
+            <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
+          <% end %>
+        </ul>
+        <%= image_tag "jak-objednat/drevo.png", class: "order-box-img", alt: "Dřevo" %>
+        <%= link_to "Nakoupit online", "#", class: "btn-primary full-width" %>
+      </div>
+
+      <div class="order-box">
+        <h3>Zadat <span class="text-blue">poptávku</span></h3>
+        <ul class="order-steps-list">
+          <% @poptavka_kroky.each_with_index do |krok, index| %>
+            <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
+          <% end %>
+        </ul>
+        <%= image_tag "jak-objednat/pila.png", class: "order-box-img", alt: "Pila" %>
+        <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-primary full-width" %>
+      </div>
+
+    </div>
+  </section>
+</main>

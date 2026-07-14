@@ -1,0 +1,47 @@
+<main class="main">
+  <section class="sluzby-page-section">
+    <% @sluzby_page_data.each_with_index do |sluzba, index| %>
+
+      <%# ID se vygeneruje dynamicky z názvu služby v databázi %>
+      <div class="sluzba-row <%= 'reverse-layout' if index.odd? %>" id="<%= sluzba.title.parameterize %>">
+
+        <div class="sluzba-content">
+          <h2><%= sluzba.title %></h2>
+
+          <div class="sluzba-text">
+            <%= simple_format(sluzba.content) %>
+          </div>
+
+          <% if sluzba.button_text.present? %>
+            <%= link_to sluzba.button_text, sluzba.button_path, class: "btn-primary" %>
+          <% end %>
+        </div>
+
+        <% if sluzba.images.any? %>
+          <div class="sluzba-carousel-wrapper">
+
+            <button class="carousel-btn prev-btn" aria-label="Předchozí">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+            </button>
+
+            <div class="carousel-track-container">
+              <ul class="carousel-track">
+                <% sluzba.images.each_with_index do |img, img_index| %>
+                  <li class="carousel-slide <%= 'current-slide' if img_index == 0 %>">
+                    <%= image_tag img, alt: sluzba.title %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <button class="carousel-btn next-btn" aria-label="Další">
+              <svg viewBox="0 0 24 24" fill="white"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </button>
+
+          </div>
+        <% end %>
+
+      </div>
+    <% end %>
+  </section>
+</main>

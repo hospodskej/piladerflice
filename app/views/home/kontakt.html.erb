@@ -1,18 +1,19 @@
-<section class="kontakt-page-section">
-  <h1 class="kontakt-main-title">Informační formuláře</h1>
-  <div class="kontakt-layout-grid">
+<main class="main">
+  <section class="kontakt-page-section">
+    <h1 class="kontakt-main-title">Informační formuláře</h1>
+    <div class="kontakt-layout-grid">
 
-    <div class="kontakt-image-wrapper">
-      <%= image_tag "kontakt/drevo.png", alt: "Palivové dřevo", class: "kontakt-image" %>
-    </div>
-
-    <div class="kontakt-details-wrapper">
-      <div class="kontakt-titles">
-        <h2>Štěpán Merta</h2>
-        <h3 style="color: #2C8FFF">Pila Derflice</h3>
+      <div class="kontakt-image-wrapper">
+        <%= image_tag "kontakt/drevo.png", alt: "Palivové dřevo", class: "kontakt-image" %>
       </div>
 
-      <div class="kontakt-info-group">
+      <div class="kontakt-details-wrapper">
+        <div class="kontakt-titles">
+          <h2>Štěpán Merta</h2>
+          <h3 style="color: #2C8FFF">Pila Derflice</h3>
+        </div>
+
+        <div class="kontakt-info-group">
           <h4>Kontakt</h4>
           <ul class="kontakt-list-items">
             <li>
@@ -34,7 +35,7 @@
           </ul>
         </div>
 
-      <div class="kontakt-info-group">
+        <div class="kontakt-info-group">
           <h4>Otevírací doba</h4>
           <ul class="kontakt-list-items">
             <li>
@@ -44,7 +45,7 @@
           </ul>
         </div>
 
-      <div class="kontakt-info-group">
+        <div class="kontakt-info-group">
           <h4>Informace</h4>
           <ul class="kontakt-list-items">
             <li>
@@ -65,240 +66,239 @@
             </li>
           </ul>
         </div>
-    </div>
-  </div>
-</section>
-<section class="kalkulace" id="kalkulace">
-  <div class="kalkulace-header">
-    <h2>Poptejte se na naše výroby <span style="color: #2C8FFF">a my Vám připravíme nezávaznou kalkulaci</span></h2>
-  </div>
-
-  <div class="kalkulace-toggles">
-    <button type="button" class="toggle-btn active">Palivové dřevo</button>
-    <button type="button" class="toggle-btn">Stavební řezivo</button>
-  </div>
-
-  <form class="kalkulace-form" action="#" method="POST">
-    <h3 class="form-section-title">Kontakt</h3>
-    <div class="kalkulace-grid-2">
-      <div class="form-group">
-        <label for="jmeno">Jméno</label>
-        <input type="text" id="jmeno" name="jmeno" required>
-      </div>
-      <div class="form-group">
-        <label for="ulice">Ulice</label>
-        <input type="text" id="ulice" name="ulice" required>
-      </div>
-      <div class="form-group">
-        <label for="prijmeni">Příjmení</label>
-        <input type="text" id="prijmeni" name="prijmeni" required>
-      </div>
-      <div class="form-group">
-        <label for="cislo_popisne">Číslo popisné</label>
-        <input type="text" id="cislo_popisne" name="cislo_popisne" required>
-      </div>
-      <div class="form-group">
-        <label for="telefon">Telefon</label>
-        <input type="tel" id="telefon" name="telefon" required>
-      </div>
-      <div class="form-group">
-        <label for="mesto">Město</label>
-        <input type="text" id="mesto" name="mesto" required>
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="psc">PSČ</label>
-        <input type="text" id="psc" name="psc" required>
       </div>
     </div>
-
-    <h3 class="form-section-title">Formulář</h3>
-
-    <%
-      varianty = ["Skládané", "Sypané"]
-      druhy = ["Akát", "Dub", "Smrk", "Buk"]
-      delky = ["33 cm", "50 cm", "1 m"]
-      mnozstvi = ["5 PRM", "10 PRM", "15 PRM"]
-    %>
-
-    <div class="kalkulace-labels-row">
-      <div class="kalkulace-grid-4">
-        <label class="grid-label">Varianta</label>
-        <label class="grid-label">Druh</label>
-        <label class="grid-label">Délka</label>
-        <label class="grid-label">Množství</label>
-      </div>
-      <div class="delete-spacer"></div>
+  </section>
+  <section class="kalkulace" id="kalkulace">
+    <div class="kalkulace-header">
+      <h2>Poptejte se na naše výroby <span style="color: #2C8FFF">a my Vám připravíme nezávaznou kalkulaci</span></h2>
     </div>
 
-    <div id="kalkulace-items-container">
-      <div class="kalkulace-row">
-        <div class="kalkulace-grid-4">
+    <div class="kalkulace-toggles">
+      <button type="button" class="toggle-btn active">Palivové dřevo</button>
+      <button type="button" class="toggle-btn">Stavební řezivo</button>
+    </div>
 
-          <div class="form-group">
-            <select name="varianta[]">
-              <% varianty.each do |v| %>
-                <option><%= v %></option>
-              <% end %>
-            </select>
-          </div>
+    <%= form_with url: "#", class: "kalkulace-form", id: "kalkulace-form" do |form| %>
+      <h3 class="form-section-title">Kontakt</h3>
+      <div class="kalkulace-grid-2">
 
-          <div class="form-group">
-            <select name="druh[]">
-              <% druhy.each do |d| %>
-                <option><%= d %></option>
-              <% end %>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <select name="delka[]">
-              <% delky.each do |dl| %>
-                <option><%= dl %></option>
-              <% end %>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <select name="mnozstvi[]">
-              <% mnozstvi.each do |m| %>
-                <option><%= m %></option>
-              <% end %>
-            </select>
-          </div>
-
+        <div class="form-group">
+          <%= form.label :jmeno, "Jméno" %>
+          <%= form.text_field :jmeno, required: true %>
         </div>
-        <button type="button" class="delete-item-btn" aria-label="Smazat">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
+
+        <div class="form-group">
+          <%= form.label :ulice, "Ulice" %>
+          <%= form.text_field :ulice, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :prijmeni, "Příjmení" %>
+          <%= form.text_field :prijmeni, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :cislo_popisne, "Číslo popisné" %>
+          <%= form.text_field :cislo_popisne, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :telefon, "Telefon" %>
+          <%= form.telephone_field :telefon, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :mesto, "Město" %>
+          <%= form.text_field :mesto, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :email, "E-mail" %>
+          <%= form.email_field :email, required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :psc, "PSČ" %>
+          <%= form.text_field :psc, required: true %>
+        </div>
+
+      </div>
+
+      <h3 class="form-section-title">Formulář</h3>
+
+      <%# --- FORM CONFIGURATION DATA --- %>
+      <%
+        varianty = ["Skládané", "Sypané"]
+        druhy = ["Akát", "Dub", "Smrk", "Buk"]
+        delky = ["33 cm", "50 cm", "1 m"]
+        mnozstvi = ["5 PRM", "10 PRM", "15 PRM"]
+      %>
+
+      <div class="kalkulace-labels-row">
+        <div class="kalkulace-grid-4">
+          <label class="grid-label">Varianta</label>
+          <label class="grid-label">Druh</label>
+          <label class="grid-label">Délka</label>
+          <label class="grid-label">Množství</label>
+        </div>
+        <div class="delete-spacer"></div>
+      </div>
+
+      <div id="kalkulace-items-container">
+        <div class="kalkulace-row">
+          <div class="kalkulace-grid-4">
+
+            <%# For dynamic JS arrays like varianta[], keeping standard <select> inside form_with is perfectly valid and easiest for JS cloning! %>
+            <div class="form-group">
+              <select name="varianta[]">
+                <% varianty.each do |v| %><option><%= v %></option><% end %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select name="druh[]">
+                <% druhy.each do |d| %><option><%= d %></option><% end %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select name="delka[]">
+                <% delky.each do |dl| %><option><%= dl %></option><% end %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <select name="mnozstvi[]">
+                <% mnozstvi.each do |m| %><option><%= m %></option><% end %>
+              </select>
+            </div>
+
+          </div>
+
+          <button type="button" class="delete-item-btn" aria-label="Smazat">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="add-item-wrapper">
+        <button type="button" id="add-kalkulace-row" class="add-item-btn" aria-label="Přidat položku">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
         </button>
       </div>
+
+      <h3 class="form-section-title no-border">Poznámky</h3>
+      <div class="form-group">
+        <%= form.text_area :poznamky, rows: 6 %>
+      </div>
+
+      <div class="form-consent">
+        <label class="custom-checkbox-label">
+          <%= form.check_box :souhlas, required: true %>
+          <span class="custom-checkbox"></span>
+          <span class="consent-text">Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky.</span>
+        </label>
+      </div>
+
+      <div class="form-submit-wrapper">
+        <%= form.submit "Odeslat ke kalkulaci", class: "btn-primary" %>
+      </div>
+    <% end %>
+
+  </section>
+  <section class="cenik-section" id="cenik">
+    <h2 class="cenik-main-title">Ceník sortimentu</h2>
+
+    <div class="cenik-group">
+      <div class="cenik-header"><h3>Stavební a Truhlářské řezivo</h3><span class="cenik-line"></span></div>
+      <table class="cenik-table">
+        <tbody>
+        <% @stavebni_data.each do |row| %>
+          <tr>
+            <td><%= row.item_name %></td>
+            <td><%= row.details %></td>
+            <td><%= row.price.html_safe %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
 
-    <div class="add-item-wrapper">
-      <button type="button" id="add-kalkulace-row" class="add-item-btn" aria-label="Přidat položku">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-      </button>
-    </div>
-
-    <h3 class="form-section-title no-border">Poznámky</h3>
-    <div class="form-group">
-      <textarea id="poznamky" name="poznamky" rows="6"></textarea>
-    </div>
-
-    <div class="form-consent">
-      <label class="custom-checkbox-label">
-        <input type="checkbox" name="souhlas" required>
-        <span class="custom-checkbox"></span>
-        <span class="consent-text">Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky.</span>
-      </label>
-    </div>
-
-    <div class="form-submit-wrapper">
-      <button type="submit" class="btn-primary">Odeslat ke kalkulaci</button>
-    </div>
-  </form>
-</section>
-<section class="cenik-section" id="cenik">
-  <h2 class="cenik-main-title">Ceník sortimentu</h2>
-
-  <%
-    stavebni_data = [
-      { name: "Fošny", dims: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" },
-      { name: "Prkna (24mm)", dims: "4m, 5m", price: "6 500 Kč – 7 000 Kč / m<sup>3</sup>" },
-      { name: "Střešní latě", dims: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" },
-      { name: "Trámy", dims: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" },
-    ]
-
-    palivove_volne = [
-      { title: "Jasan &nbsp;&nbsp;&nbsp; Dub", items: [["1m", "1 550 Kč"], ["50cm", "1 850 Kč"], ["33cm", "1 550 Kč"], ["25cm", "1 600 Kč"]] },
-      { title: "Buk &nbsp;&nbsp;&nbsp; Akát", items: [["1m", "1 700 Kč"], ["50cm", "2 000 Kč"], ["33cm", "1 700 Kč"], ["25cm", "1 800 Kč"]] },
-      { title: "Bříza &nbsp;&nbsp;&nbsp; Ostatní tvrdé", items: [["1m", "1 400 Kč"], ["50cm", "1 700 Kč"], ["33cm", "1 400 Kč"], ["25cm", "1 500 Kč"]] },
-      { title: "Smrk &nbsp;&nbsp;&nbsp; Borovice &nbsp;&nbsp;&nbsp; Modřín", items: [["1m", "1 100 Kč"], ["50cm", "1 300 Kč"], ["33cm", "1 000 Kč"], ["25cm", "1 100 Kč"]] }
-    ]
-
-    palivove_skladane = [
-      { title: "Jasan &nbsp;&nbsp;&nbsp; Dub", items: [["1m", "1 800 Kč"], ["50cm", "2 200 Kč"], ["33cm", "2 400 Kč"], ["25cm", "2 500 Kč"]] },
-      { title: "Buk &nbsp;&nbsp;&nbsp; Akát", items: [["1m", "2 200 Kč"], ["50cm", "2 400 Kč"], ["33cm", "2 700 Kč"], ["25cm", "2 800 Kč"]] }
-    ]
-
-    vyrobni_zbytky = [
-      ["Odkory na topení", "800 Kč – 1 400 Kč"],
-      ["Piliny", "450 Kč"],
-      ["Štěpka", "650 Kč"]
-    ]
-
-    sluzby = ["Doprava", "Impregnace", "Pořez / Prodej kulatiny", "Hoblování"]
-  %>
-
-  <div class="cenik-group">
-    <div class="cenik-header"><h3>Stavební a Truhlářské řezivo</h3><span class="cenik-line"></span></div>
-    <table class="cenik-table">
-      <tbody>
-      <% stavebni_data.each do |row| %>
-        <tr><td><%= row[:name] %></td><td><%= row[:dims] %></td><td><%= row[:price].html_safe %></td></tr>
+    <div class="cenik-group">
+      <div class="cenik-header"><h3>Palivové dřevo - volně ložené</h3><span class="cenik-line"></span></div>
+      <% @palivove_volne_groups.each do |subcategory_name, items| %>
+        <div class="cenik-subgroup">
+          <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
+          <table class="cenik-table two-cols">
+            <tbody>
+            <% items.each do |item| %>
+              <tr>
+                <td><%= item.item_name %></td>
+                <td><%= item.price %> / PRM</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
       <% end %>
-      </tbody>
-    </table>
-  </div>
+    </div>
 
-  <div class="cenik-group">
-    <div class="cenik-header"><h3>Palivové dřevo - volně ložené</h3><span class="cenik-line"></span></div>
-    <% palivove_volne.each do |group| %>
-      <div class="cenik-subgroup">
-        <h4 class="cenik-subtitle"><%= group[:title].html_safe %></h4>
-        <table class="cenik-table two-cols">
-          <tbody>
-          <% group[:items].each do |row| %>
-            <tr><td><%= row[0] %></td><td><%= row[1] %> / PRM</td></tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="cenik-group">
-    <div class="cenik-header"><h3>Palivové dřevo - Bedny skládané</h3><span class="cenik-line"></span></div>
-    <% palivove_skladane.each do |group| %>
-      <div class="cenik-subgroup">
-        <h4 class="cenik-subtitle"><%= group[:title].html_safe %></h4>
-        <table class="cenik-table two-cols">
-          <tbody>
-          <% group[:items].each do |row| %>
-            <tr><td><%= row[0] %></td><td><%= row[1] %> / PRM</td></tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="cenik-group">
-    <div class="cenik-header"><h3>Výrobní zbytky</h3><span class="cenik-line"></span></div>
-    <table class="cenik-table two-cols">
-      <tbody>
-      <% vyrobni_zbytky.each do |row| %>
-        <tr><td style="text-align: left"><%= row[0] %></td><td><%= row[1] %></td></tr>
+    <div class="cenik-group">
+      <div class="cenik-header"><h3>Palivové dřevo - Bedny skládané</h3><span class="cenik-line"></span></div>
+      <% @palivane_skladane_groups = @palivove_skladane_groups # pro jistotu přejmenování %>
+      <% @palivove_skladane_groups.each do |subcategory_name, items| %>
+        <div class="cenik-subgroup">
+          <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
+          <table class="cenik-table two-cols">
+            <tbody>
+            <% items.each do |item| %>
+              <tr>
+                <td><%= item.item_name %></td>
+                <td><%= item.price %> / PRM</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
       <% end %>
-      </tbody>
-    </table>
-  </div>
+    </div>
 
-  <div class="cenik-group">
-    <div class="cenik-header"><h3>Okrasné kamenivo</h3><span class="cenik-line"></span></div>
-    <table class="cenik-table"><tbody><tr><td style="text-align: right; padding-right: 30px;">1 – 30 Kč / 1 kg</td></tr></tbody></table>
-  </div>
+    <div class="cenik-group">
+      <div class="cenik-header"><h3>Výrobní zbytky</h3><span class="cenik-line"></span></div>
+      <table class="cenik-table two-cols">
+        <tbody>
+        <% @vyrobni_zbytky.each do |row| %>
+          <tr>
+            <td style="text-align: left"><%= row.item_name %></td>
+            <td><%= row.price %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
 
-  <h2 class="cenik-main-title" style="margin-top: 80px; margin-bottom: 20px;">Ceník služeb</h2>
-  <div class="cenik-sluzby-container">
-    <% sluzby.each do |sluzba| %>
-      <div class="cenik-sluzba-item">
-        <h4 class="cenik-sluzba-label"><%= sluzba %></h4>
-        <div class="cenik-sluzba-box">..... Kč</div>
-      </div>
-    <% end %>
-  </div>
-</section>
+    <div class="cenik-group">
+      <div class="cenik-header"><h3>Okrasné kamenivo</h3><span class="cenik-line"></span></div>
+      <table class="cenik-table">
+        <tbody>
+        <tr>
+          <td style="text-align: right; padding-right: 30px;">
+            <%= @kamenivo_item&.price || "1 – 30 Kč / 1 kg" %>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="cenik-main-title" style="margin-top: 80px; margin-bottom: 20px;">Ceník služeb</h2>
+    <div class="cenik-sluzby-container">
+      <% @sluzby_cenik.each do |sluzba| %>
+        <div class="cenik-sluzba-item">
+          <h4 class="cenik-sluzba-label"><%= sluzba.item_name %></h4>
+          <div class="cenik-sluzba-box"><%= sluzba.price %></div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</main>

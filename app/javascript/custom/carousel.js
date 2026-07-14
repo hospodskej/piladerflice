@@ -1,55 +1,58 @@
 document.addEventListener("turbo:load", function() {
-    const carousel = document.getElementById("zajimatCarousel");
+    // 1. Find ALL carousels on the current page (Homepage or Služby page)
+    const carousels = document.querySelectorAll("#zajimatCarousel, .sluzba-carousel-wrapper");
 
-    // If we aren't on a page with a carousel, stop running the script
-    if (!carousel) return;
+    // If there are no carousels on this page, stop.
+    if (carousels.length === 0) return;
 
-    const slides = carousel.querySelectorAll(".carousel-slide");
-    const nextBtn = document.getElementById("carouselNext");
-    const prevBtn = document.getElementById("carouselPrev");
+    // 2. Loop through each carousel and give it its own independent logic
+    carousels.forEach(function(carousel) {
 
-    let currentIndex = 0;
-    let timer;
-    const intervalTime = 15000; // 15 seconds in milliseconds
+        const slides = carousel.querySelectorAll(".carousel-slide");
 
-    // Function to switch slides
-    function goToSlide(index) {
-        // Remove active class from all slides
-        slides.forEach(slide => slide.classList.remove("active"));
+        // Find the buttons specifically INSIDE this current carousel
+        const nextBtn = carousel.querySelector(".next-btn") || carousel.querySelector("#carouselNext");
+        const prevBtn = carousel.querySelector(".prev-btn") || carousel.querySelector("#carouselPrev");
 
-        // Add active class to the target slide
-        slides[index].classList.add("active");
-    }
+        // Safety check: if this specific carousel is missing parts, skip it
+        if (slides.length === 0 || !nextBtn || !prevBtn) return;
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
+        let currentIndex = 0;
+        let timer;
+        const intervalTime = 15000;
+
+        function goToSlide(index) {
+            slides.forEach(slide => slide.classList.remove("active"));
+            slides[index].classList.add("active");
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            goToSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            goToSlide(currentIndex);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timer = setInterval(nextSlide, intervalTime);
+        }
+
+        nextBtn.addEventListener("click", () => {
+            nextSlide();
+            resetTimer();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            prevSlide();
+            resetTimer();
+        });
+
+        // Start this specific carousel
         goToSlide(currentIndex);
-    }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        goToSlide(currentIndex);
-    }
-
-    // The 15-second auto-rotate timer
-    function resetTimer() {
-        clearInterval(timer);
-        timer = setInterval(nextSlide, intervalTime);
-    }
-
-    // Event Listeners for the arrows
-    nextBtn.addEventListener("click", () => {
-        nextSlide();
-        resetTimer(); // Reset timer so it doesn't auto-skip immediately after clicking
-    });
-
-    prevBtn.addEventListener("click", () => {
-        prevSlide();
         resetTimer();
     });
-
-    goToSlide(currentIndex);
-
-    // Start the timer when the page loads
-    resetTimer();
 });

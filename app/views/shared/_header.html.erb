@@ -19,8 +19,8 @@
     <nav class="nav-links desktop-nav">
       <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
       <a href="#" class="nav-link">Eshop</a>
-      <a href="#" class="nav-link">Služby</a>
-      <a href="#" class="nav-link">Sortiment</a>
+      <%= link_to "Sortiment", sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
+      <%= link_to "Služby", sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
       <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
       <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>
@@ -59,8 +59,8 @@
     <nav class="sidebar-nav">
       <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
       <a href="#" class="nav-link">Eshop</a>
-      <a href="#" class="nav-link">Služby</a>
-      <a href="#" class="nav-link">Sortiment</a>
+      <%= link_to "Sortiment", sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
+      <%= link_to "Služby", sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
       <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
       <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>

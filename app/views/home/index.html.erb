@@ -55,24 +55,26 @@
     </div>
 
     <div class="right-part">
-      <div class="akcni-product-card">
-        <div class="badge">Akční nabídka</div>
-        <%= image_tag "akcni-nabidka-hero.png", alt: "Akční nabídka", class: "hero-image" %>
-        <div class="product-info">
-          <div class="product-subinfo">
-            <h2 class="product-title"> PALIVOVÉ DŘEVO – AKÁT 32 CM</h2>
-            <ul class="product-features">
-              <li>Vysoká výhřevnost</li>
-              <li>Skladem ihned</li>
-              <li>Rychlé dodání</li>
-            </ul>
-          </div>
-          <div class="akcni-product-price">
-            <span class="akcni-nabidka-price"> od 1500 / 1 PRMS</span>
-            <a href="#" class="akce-btn-eshop">Prohlédnout si</a>
+      <% if @hero_promo %>
+        <div class="akcni-product-card">
+          <div class="badge">Akční nabídka</div>
+          <%= image_tag @hero_promo.image, alt: "Akční nabídka", class: "hero-image" %>
+          <div class="product-info">
+            <div class="product-subinfo">
+              <h2 class="product-title"><%= @hero_promo.title %></h2>
+              <ul class="product-features">
+                <li><%= @hero_promo.feature_1 %></li>
+                <li><%= @hero_promo.feature_2 %></li>
+                <li><%= @hero_promo.feature_3 %></li>
+              </ul>
+            </div>
+            <div class="akcni-product-price">
+              <span class="akcni-nabidka-price"><%= @hero_promo.price %></span>
+              <%= link_to "Prohlédnout si", @hero_promo.link, class: "akce-btn-eshop" %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="top-categories-section">
         <h2 class="top-categories-title"><span class="brand-blue">TOP</span> Kategorie</h2>
@@ -174,19 +176,11 @@
       </div>
     </div>
 
-    <% sortiment = [
-      { name: "Palivové dřevo", img: "palivove-drevo.png", url: "#"},
-      { name: "Stavební řezivo", img: "stavebni-rezivo.png", url: "#"},
-      { name: "Truhlářské řezivo", img: "truhlarske-rezivo.png", url: "#"},
-      { name: "Výrobní zbytky", img: "vyrobni-zbytky.png", url: "#"},
-      { name: "Okrasné kamenivo", img: "okrasne-kamenivo.png", url: "#"}
-    ] %>
-
     <div class="nabidka-grid">
-      <% sortiment.each do |item| %>
+      <% @produkty.each do |item| %>
         <div class="nabidka-card">
-          <%= image_tag "sortiment/#{item[:img]}", alt: item[:name], class: "nabidka-image" %>
-          <%= link_to item[:name], item[:url], class: "nabidka-btn" %>
+          <%= image_tag item.image, alt: item.title, class: "nabidka-image" %>
+          <%= link_to item.title, item.link, class: "nabidka-btn" %>
         </div>
       <% end %>
     </div>
@@ -194,39 +188,11 @@
   <section class="sluzby-section">
     <h2>Jaké služby <span style="color: #2C8FFF">poskytujeme?</span></h2>
 
-    <% sluzby = [
-      {
-        title: "Cenová kalkulace",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-        button: nil
-      },
-      {
-        title: "Doprava",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-        button: nil
-      },
-      {
-        title: "Impregnace",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-        button: nil
-      },
-      {
-        title: "Hoblování",
-        content: "Nabízíme možnost ohoblování dřevěného materiálu přesně podle vašich požadavků. Disponujeme výkonnou hoblovačkou s hoblovacím průřezem až 80 cm, která si poradí i s rozměrnějšími kusy.<br><br>Hoblujeme nejčastěji fošny, prkna a hranoly libovolné délky. Zákazník si může určit, která strana bude pohledová, a hloubku úběru. Každý kus zpracováváme pečlivě, s důrazem na kvalitu povrchu a preciznost provedení.",
-        button: "Ceník"
-      },
-      {
-        title: "Pořez / Prodej kulatiny",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
-        button: nil
-      }
-    ] %>
-
     <div class="accordion">
-      <% sluzby.each do |sluzba| %>
+      <% @sluzby.each do |sluzba| %>
         <div class="accordion-item">
           <button class="accordion-header">
-            <span class="accordion-title"><%= sluzba[:title] %></span>
+            <span class="accordion-title"><%= sluzba.title %></span>
             <span class="accordion-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -237,9 +203,11 @@
           <div class="accordion-content-wrapper">
             <div class="accordion-content">
               <div class="accordion-body">
-                <p><%= sluzba[:content].html_safe %></p>
-                <% if sluzba[:button] %>
-                  <%= link_to sluzba[:button], "#", class: "btn-cenik" %>
+                <p><%= sluzba.content.html_safe %></p>
+
+                <%# Dynamically renders the button if text and path exist in the DB %>
+                <% if sluzba.button_text.present? && sluzba.button_path.present? %>
+                  <%= link_to sluzba.button_text, sluzba.button_path, class: "btn-cenik" %>
                 <% end %>
               </div>
             </div>
@@ -299,39 +267,21 @@
   <section class="co-by-vas-mohlo-zajimat">
     <h2>Co by Vás mohlo <span style="color: #2C8FFF">zajímat?</span></h2>
 
-    <% zajimavosti = [
-      {
-        title: "Kolik stojí doprava?",
-        text: "Cena dopravy se odvíjí od vzdálenosti a množství objednaného dřeva.<br>Po předání adresy a požadovaného množství vám vždy spočítáme přesnou cenu, aby byla pro vás co nejvýhodnější.",
-        image: "co-by-vas-mohlo-zajimat/nakladak.png"
-      },
-      {
-        title: "Jak správně skladovat dřevo?",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.<br>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.",
-        image: "co-by-vas-mohlo-zajimat/sklad.png"
-      },
-      {
-        title: "Kdy je nejlepší čas na nákup?",
-        text: "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus.<br>Aenean lacinia bibendum nulla sed consectetur.",
-        image: "co-by-vas-mohlo-zajimat/cas.png"
-      }
-    ] %>
-
     <div class="carousel-wrapper" id="zajimatCarousel">
       <button class="carousel-btn prev-btn" id="carouselPrev" aria-label="Předchozí">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       </button>
 
       <div class="carousel-container">
-        <% zajimavosti.each_with_index do |slide, index| %>
-          <div class="carousel-slide" <% 'active' if index == 0 %>>
-            <%= image_tag slide[:image], class: "carousel-bg-img", alt: slide[:title] %>
+        <% @zajimavosti.each_with_index do |slide, index| %>
+          <div class="carousel-slide <%= 'active' if index == 0 %>">
+            <%= image_tag slide.image, class: "carousel-bg-img", alt: slide.title %>
             <div class="carousel-overlay"></div>
 
             <div class="carousel-content">
-              <h3><%= slide[:title] %></h3>
+              <h3><%= slide.title %></h3>
               <div class="carousel-text">
-                <p><%= slide[:text].html_safe %></p>
+                <p><%= slide.content.html_safe %></p>
               </div>
             </div>
           </div>

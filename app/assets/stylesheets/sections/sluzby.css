@@ -1,0 +1,99 @@
+.sluzby-page-section {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    padding: 60px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sluzba-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.sluzba-row.reverse-layout {
+    flex-direction: row-reverse;
+}
+
+.sluzba-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.sluzba-carousel-wrapper {
+    flex: 1.2;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #d1d1d1;
+    aspect-ratio: 16/9;
+}
+
+.carousel-track-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #2C8FFF;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn.prev-btn { left: 10px; }
+.carousel-btn.next-btn { right: 10px; }
+
+@media (max-width: 900px) {
+    .sluzba-row,
+    .sluzba-row.reverse-layout {
+        flex-direction: column;
+    }
+}

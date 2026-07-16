@@ -97,7 +97,6 @@
 .carousel-btn {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     width: 44px;
     height: 44px;
     background-color: #2C8FFF;
@@ -117,11 +116,13 @@
 }
 
 .prev-btn {
-    left: -22px;
+    left: 0;
+    transform: translate(-50%, -50%);
 }
 
 .next-btn {
-    right: -22px;
+    right: 0;
+    transform: translate(-50%, -50%);
 }
 
 @media (max-width: 992px) {
@@ -134,13 +135,11 @@
     }
 
     .prev-btn {
-        left: 10px;
         width: 36px;
         height: 36px;
     }
 
     .next-btn {
-        right: 10px;
         width: 36px;
         height: 36px;
     }

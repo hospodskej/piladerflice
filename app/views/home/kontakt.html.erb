@@ -246,7 +246,7 @@
 
     <div class="cenik-group">
       <div class="cenik-header"><h3>Palivové dřevo - Bedny skládané</h3><span class="cenik-line"></span></div>
-      <% @palivane_skladane_groups = @palivove_skladane_groups # pro jistotu přejmenování %>
+      <% @palivane_skladane_groups = @palivove_skladane_groups %>
       <% @palivove_skladane_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
           <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
@@ -295,8 +295,8 @@
     <div class="cenik-sluzby-container">
       <% @sluzby_cenik.each do |sluzba| %>
         <div class="cenik-sluzba-item">
-          <h4 class="cenik-sluzba-label"><%= sluzba.item_name %></h4>
-          <div class="cenik-sluzba-box"><%= sluzba.price %></div>
+          <h4 class="cenik-sluzba-label"><%= sluzba.item_name.html_safe %></h4>
+          <div class="cenik-sluzba-box"><%= sluzba.price.html_safe %></div>
         </div>
       <% end %>
     </div>

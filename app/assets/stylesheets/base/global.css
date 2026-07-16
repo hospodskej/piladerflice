@@ -20,6 +20,36 @@ main {
     font-weight: 700;
 }
 
+.sluzba-carousel-wrapper,
+.carousel-wrapper,
+.product-hero-carousel {
+    position: relative;
+    overflow: visible !important;
+}
+
+.carousel-track-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+}
+
+.carousel-btn.prev-btn {
+    left: 0 !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.carousel-btn.next-btn {
+    right: 0 !important;
+    transform: translate(50%, -50%) !important;
+}
+
 @media (max-width: 992px) {
     main {
         padding: 20px;

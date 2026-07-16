@@ -55,6 +55,7 @@
 
 .accordion-body p {
     margin-bottom: 15px;
+    text-align: justify;
 }
 
 .accordion-item.active {

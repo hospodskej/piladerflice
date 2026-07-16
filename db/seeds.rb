@@ -28,70 +28,73 @@ puts "Creating new price list..."
 
 # 1. Stavební a truhlářské řezivo
 PricelistItem.create!([
-                        { category: "stavebni", item_name: "Fošny", details: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" },
-                        { category: "stavebni", item_name: "Prkna (24mm)", details: "4m, 5m", price: "6 500 Kč – 7 000 Kč / m<sup>3</sup>" },
-                        { category: "stavebni", item_name: "Střešní latě", details: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" },
-                        { category: "stavebni", item_name: "Trámy", details: "4m, 5m", price: "8 600 Kč / m<sup>3</sup>" }
+                        { category: "stavebni", item_name: "Fošny", details: "4m, 5m", price: "9 800 Kč / m<sup>3</sup>" },
+                        { category: "stavebni", item_name: "Prkna (24mm)", details: "4m, 5m", price: "7 000 Kč / m<sup>3</sup>" },
+                        { category: "stavebni", item_name: "Střešní latě", details: "4m, 5m", price: "9 800 Kč / m<sup>3</sup>" },
+                        { category: "stavebni", item_name: "Trámy", details: "4m, 5m", price: "9 800 Kč / m<sup>3</sup>" }
                       ])
 
 # 2. Palivové dřevo - volně ložené
 PricelistItem.create!([
                         # Jasan / Dub
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "1m", price: "1 550 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "50cm", price: "1 850 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "33cm", price: "1 550 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "25cm", price: "1 600 Kč" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "1m", price: "1 680 Kč" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "50cm", price: "1 980 Kč" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "33cm", price: "1 680 Kč" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "25cm", price: "1 780 Kč" },
 
                         # Buk / Akát
-                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "1m", price: "1 700 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "50cm", price: "2 000 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "33cm", price: "1 700 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "25cm", price: "1 800 Kč" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "1m", price: "1 850 Kč" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "50cm", price: "2 150 Kč" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "33cm", price: "1 850 Kč" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", item_name: "25cm", price: "1 950 Kč" },
 
                         # Bříza / Ostatní tvrdé
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "1m", price: "1 400 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "50cm", price: "1 700 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "33cm", price: "1 400 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "25cm", price: "1 500 Kč" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "1m", price: "1 500 Kč" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "50cm", price: "1 800 Kč" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "33cm", price: "1 500 Kč" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", item_name: "25cm", price: "1 600 Kč" },
 
                         # Smrk / Borovice / Modřín
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "1m", price: "1 100 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "50cm", price: "1 300 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "33cm", price: "1 000 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "25cm", price: "1 100 Kč" }
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "1m", price: "1 300 Kč" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "50cm", price: "1 450 Kč" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "33cm", price: "1 200 Kč" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "25cm", price: "1 300 Kč" }
                       ])
 
 # 3. Palivové dřevo - Bedny skládané
 PricelistItem.create!([
                         # Jasan / Dub
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "1m", price: "1 800 Kč" },
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "50cm", price: "2 200 Kč" },
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "33cm", price: "2 400 Kč" },
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "25cm", price: "2 500 Kč" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "50cm", price: "2 450 Kč" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "33cm", price: "2 450 Kč" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", item_name: "25cm", price: "2 550 Kč" },
 
                         # Buk / Akát
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "1m", price: "2 200 Kč" },
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "50cm", price: "2 400 Kč" },
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "33cm", price: "2 700 Kč" },
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "25cm", price: "2 800 Kč" }
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "50cm", price: "2 600 Kč" },
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "33cm", price: "2 600 Kč" },
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", item_name: "25cm", price: "2 700 Kč" },
+
+                        # Smrk
+                        { category: "palivove_skladane", subcategory: "Smrk", item_name: "50cm", price: "2 050 Kč" },
+                        { category: "palivove_skladane", subcategory: "Smrk", item_name: "33cm", price: "2 050 Kč" },
+                        { category: "palivove_skladane", subcategory: "Smrk", item_name: "25cm", price: "2 150 Kč" }
                       ])
 
 # 4. Výrobní zbytky
 PricelistItem.create!([
-                        { category: "zbytky", item_name: "Odkory na topení", price: "800 Kč – 1 400 Kč" },
+                        { category: "zbytky", item_name: "Odkory na topení", price: "1 000 Kč – 1 400 Kč" },
                         { category: "zbytky", item_name: "Piliny", price: "450 Kč" },
-                        { category: "zbytky", item_name: "Štěpka", price: "650 Kč" }
+                        { category: "zbytky", item_name: "Štěpka", price: "700 - 800 Kč" }
                       ])
 
 # 5. Okrasné kamenivo
-PricelistItem.create!(category: "kamenivo", item_name: "Kamenivo", price: "1 – 30 Kč / 1 kg")
+PricelistItem.create!(category: "kamenivo", item_name: "Kamenivo", price: "1 Kč / 1 kg")
 
 # 6. Služby
 PricelistItem.create!([
-                        { category: "sluzby", item_name: "Doprava", price: "..... Kč" },
-                        { category: "sluzby", item_name: "Impregnace", price: "..... Kč" },
-                        { category: "sluzby", item_name: "Pořez / Prodej kulatiny", price: "..... Kč" },
-                        { category: "sluzby", item_name: "Hoblování", price: "..... Kč" }
+                        { category: "sluzby", item_name: "Doprava", price: "35 Kč / km" },
+                        { category: "sluzby", item_name: "Impregnace", price: "500 Kč" },
+                        { category: "sluzby", item_name: "Pořez / Prodej kulatiny", price: "Po domluvě" },
+                        { category: "sluzby", item_name: "Hoblování", price: "1 strana = 750 Kč / m<sup>3</sup>" }
                       ])
 
 puts "Price list was successfully imported!"

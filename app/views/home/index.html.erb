@@ -205,7 +205,6 @@
               <div class="accordion-body">
                 <p><%= sluzba.content.html_safe %></p>
 
-                <%# Dynamically renders the button if text and path exist in the DB %>
                 <% if sluzba.button_text.present? && sluzba.button_path.present? %>
                   <%= link_to sluzba.button_text, sluzba.button_path, class: "btn-cenik" %>
                 <% end %>
@@ -231,38 +230,7 @@
     </div>
   </section>
   <section class="how-to-order-section">
-    <h2>Jak si u nás <span style="color: #2C8FFF">objednat?</span></h2>
-
-    <div class="how-to-order-grid">
-      <div class="how-to-order-card">
-        <h3 class="how-to-order-title">Nakoupit <span class="highlight-text">online</span></h3>
-
-        <ol class="how-to-order-steps">
-          <li>Vyber produkt v e-shopu</li>
-          <li>Přidejte do košíku</li>
-          <li>Zadejte kontaktní údaje a dopravu</li>
-          <li>Přejděte k dokončení objednávky</li>
-        </ol>
-        <%= image_tag "jak-objednat/drevo.png", alt: "Palivové dřevo", class: "how-to-order-image" %>
-
-        <%= link_to "Nakoupit online", "#", class: "btn-objednat" %>
-      </div>
-
-      <div class="how-to-order-card">
-        <h3 class="how-to-order-title">Zadat <span class="highlight-text">poptávku</span></h3>
-
-        <ol class="how-to-order-steps">
-          <li>Poptáte nám, co potřebujete</li>
-          <li>Připravíme přesnou kalkulaci a návrh</li>
-          <li>Na základě domluvy výrobek vyrobíme</li>
-          <li>Doručíme až k Vám nebo připravíme k osobnímu odběru</li>
-        </ol>
-        <%= image_tag "jak-objednat/pila.png", alt: "Zpracování dřeva", class: "how-to-order-image" %>
-
-        <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-objednat" %>
-      </div>
-
-    </div>
+    <%= render "shared/jak_objednat" %>
   </section>
   <section class="co-by-vas-mohlo-zajimat">
     <h2>Co by Vás mohlo <span style="color: #2C8FFF">zajímat?</span></h2>

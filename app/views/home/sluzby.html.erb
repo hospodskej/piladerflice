@@ -2,7 +2,6 @@
   <section class="sluzby-page-section">
     <% @sluzby_page_data.each_with_index do |sluzba, index| %>
 
-      <%# ID se vygeneruje dynamicky z názvu služby v databázi %>
       <div class="sluzba-row <%= 'reverse-layout' if index.odd? %>" id="<%= sluzba.title.parameterize %>">
 
         <div class="sluzba-content">

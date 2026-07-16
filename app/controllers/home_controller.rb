@@ -4,6 +4,18 @@ class HomeController < ApplicationController
     @sluzby = Service.all
     @zajimavosti = FaqItem.all
     @produkty = Product.all
+    @eshop_kroky = [
+      "Vyber produkt v e-shopu",
+      "Přidejte do košíku",
+      "Zadejte kontaktní údaje a dopravu",
+      "Přejděte k dokončení objednávky"
+    ]
+    @poptavka_kroky = [
+      "Poptáte nám, co potřebujete",
+      "Připravíme přesnou kalkulaci a návrh",
+      "Na základě domluvy výrobek vyrobíme",
+      "Doručíme až k Vám nebo připravíme k osobnímu odběru"
+    ]
   end
 
   def kontakt
@@ -34,6 +46,21 @@ class HomeController < ApplicationController
       " Připravíme přesnou kalkulaci a návrh",
       " Na základě domluvy výrobek vyrobíme",
       " Doručíme až k vám nebo připravíme k osobnímu odběru"
+    ]
+  end
+
+  def palivove_drevo
+    @eshop_kroky = [
+      "Vyber produkt v e-shopu",
+      "Přidejte do košíku",
+      "Zadejte kontaktní údaje a dopravu",
+      "Přejděte k dokončení objednávky"
+    ]
+    @poptavka_kroky = [
+      "Poptáte nám, co potřebujete",
+      "Připravíme přesnou kalkulaci a návrh",
+      "Na základě domluvy výrobek vyrobíme",
+      "Doručíme až k Vám nebo připravíme k osobnímu odběru"
     ]
   end
 end

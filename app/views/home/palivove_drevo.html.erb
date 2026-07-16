@@ -1,0 +1,91 @@
+<main class="main">
+  <section class="product-detail-hero">
+    <div class="product-hero-text">
+      <h1> Palivové dřevo </h1>
+      <p>Palivové dřevo běžně prodáváme nařezané na 25, 33 cm, 1 m, až 4 m a dál., naštípané a sypané volně v kontejneru, které dovezeme až na vámi zvolené místo. Prodejní jednotka je 1 PRM (prostorový metr).</p>
+      <p>Momentálně nabízíme dřevo z tvrdých listnatých stromů, které jsou buk, dub, habr, akát, jasan, bříza a z měkkých jehličnatých je v nabídce smrk, borovice, modřín.</p>
+
+      <div class="product-hero-buttons">
+        <%= link_to "Ceník", "/kontakt#cenik", class: "btn-primary" %>
+        <%= link_to "Přejít do eshopu", "#", class: "btn-outline-dark" %>
+        <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-outline-dark" %>
+      </div>
+    </div>
+
+    <div class="sluzba-carousel-wrapper product-hero-carousel">
+      <button class="carousel-btn prev-btn" aria-label="Předchozí">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+      </button>
+
+      <div class="carousel-track-container">
+        <ul class="carousel-track">
+          <li class="carousel-slide current-slide">
+            <%= image_tag "sluzby/placeholder-black.png", alt: "Palivové dřevo" %>
+          </li>
+          <li class="carousel-slide">
+            <%= image_tag "sluzby/placeholder-white.png", alt: "Palivové dřevo"  %>
+          </li>
+        </ul>
+      </div>
+
+      <button class="carousel-btn next-btn" aria-label="Další">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="wood-types-section">
+    <h2 class="wood-types-title">Dřeva v sortimentu <span style="color: #2C8FFF">podle tvrdosti a barevnosti</span></h2>
+    <div class="wood-types-layout">
+
+      <div class="wood-category-box">
+        <h3>Měkká</h3>
+        <div class="wood-items-grid">
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/smrk.png", class: "wood-texture", alt: "Smrk" %>
+            <span>Smrk</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/borovice.png", class: "wood-texture", alt: "Borovice" %>
+            <span>Borovice</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/modrin.png", class: "wood-texture", alt: "Modřín" %>
+            <span>Modřín</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wood-category-box">
+        <h3>Tvrdá</h3>
+        <div class="wood-items-grid">
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/buk.png", class: "wood-texture", alt: "Buk" %>
+            <span>Buk</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/habr.png", class: "wood-texture", alt: "Habr" %>
+            <span>Habr</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/dub.png", class: "wood-texture", alt: "Dub" %>
+            <span>Dub</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/akat.png", class: "wood-texture", alt: "Akát" %>
+            <span>Akát</span>
+          </div>
+          <div class="wood-item">
+            <%= image_tag "sortiment/palivove-drevo/jasan.png", class: "wood-texture", alt: "Jasan" %>
+            <span>Jasan</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="how-to-order-detail-wrapper" style="padding-top: 20px;">
+    <%= render "shared/jak_objednat" %>
+  </section>
+</main>

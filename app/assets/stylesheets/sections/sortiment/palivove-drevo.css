@@ -1,0 +1,131 @@
+.product-detail-hero {
+    margin: 60px auto;
+    padding: 0 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: stretch;
+}
+
+.product-hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.product-hero-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.product-hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.product-hero-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 24px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-weight: bold;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    margin: 0;
+}
+
+.btn-outline-dark {
+    background: transparent;
+    color: #000;
+    border: 1px solid #000 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    background: #000;
+    color: #fff;
+}
+
+.product-hero-carousel {
+    width: 100%;
+    margin-top: 60px;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+}
+
+.wood-types-section {
+    margin: 80px auto;
+    padding: 0 5%;
+}
+
+.wood-types-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+}
+
+.wood-types-layout {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.wood-category-box {
+    background: #F5F5F5;
+    border-radius: 12px;
+    padding: 20px 57px;
+}
+
+.wood-category-box h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    margin-top: 0;
+}
+
+.wood-items-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: nowrap;
+}
+
+.wood-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.wood-texture {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid #2C8FFF;
+    transition: transform 0.3s ease;
+}
+
+.wood-item:hover .wood-texture {
+    transform: translateY(-5px);
+}
+
+.wood-item span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .product-detail-hero {
+        grid-template-columns: 1fr;
+    }
+}

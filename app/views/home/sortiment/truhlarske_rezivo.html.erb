@@ -1,0 +1,23 @@
+<%
+  products = [
+               {
+                 title: "Fošny",
+                 descriptions: ["Truhlářské řezivo je základní surovinou pro výrobu spárovky, která se dále používá k výrobě nábytku z masivu, jako jsou např. skříně, stoly, židle, postele, dveře, okna, schody, hudební nástroje a tak dále."],
+                 images: ["sortiment/fosny3.png", "sortiment/fosny1.png"],
+                 eshop_link: "#"
+               }
+  ]
+%>
+
+<main class="main">
+  <% products.each_with_index do |product, index| %>
+    <%= render partial: "shared/product_row", locals: {
+      title: product[:title],
+      descriptions: product[:descriptions],
+      images: product[:images],
+      eshop_link: product[:eshop_link],
+      reverse: index.odd?
+    } %>
+  <% end %>
+  <%= render "shared/wood_types" %>
+<%= render "shared/jak_objednat" %>

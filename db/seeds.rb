@@ -130,28 +130,28 @@ Service.create!([
                   {
                     title: "Doprava",
                     content: "Na přání vám zpracované výrobky bezpečně doručíme až na místo určení. Rozvážíme palivové dřevo, kulatinu i řezivo – vše dopravíme ihned po výrobě, abyste měli materiál co nejdříve k dispozici. <br /><br />Doba výroby a následná doprava se odvíjí od rozsahu objednávky. O přesném termínu dodání vás vždy informujeme předem.",
-                    images: ["sluzby/placeholder-grey.png", "sluzby/placeholder-white.png", "sluzby/placeholder-black.png"],
+                    images: ["sluzby/doprava1.png", "sluzby/doprava2.png"],
                     button_text: "Více o dopravě",
                     button_path: "/sluzby#doprava"
                   },
                   {
                     title: "Impregnace",
                     content: "Nabízíme možnost profesionální impregnace vašich dřevěných výrobků, a to pomocí moderní technologie v naší impregnační vaně. Impregnace výrazně prodlužuje životnost dřeva a chrání ho proti vlhkosti, škůdcům i houbám. <br /><br />Na přání zákazníka impregnujeme jakýkoli náš výrobek. Vše provádíme pečlivě a s důrazem na kvalitu výsledné ochrany.",
-                    images: ["sluzby/placeholder-grey.png", "sluzby/placeholder-white.png", "sluzby/placeholder-black.png"],
+                    images: ["sluzby/impregnace1.png", "sluzby/impregnace2.png"],
                     button_text: "Více o impregnaci",
                     button_path: "/sluzby#impregnace"
                   },
                   {
                     title: "Hoblování",
                     content: "Nabízíme možnost ohoblování dřevěného materiálu přesně podle vašich požadavků. Disponujeme výkonnou hoblovačkou s hoblovacím průřezem až 80 cm, která si poradí i s rozměrnějšími kusy.<br><br>Hoblujeme nejčastěji fošny, prkna a hranoly libovolné délky. Zákazník si může určit, která strana bude pohledová, a hloubku úběru. Každý kus zpracováváme pečlivě, s důrazem na kvalitu povrchu a preciznost provedení.",
-                    images: ["sluzby/placeholder-grey.png", "sluzby/placeholder-white.png", "sluzby/placeholder-black.png"],
+                    images: ["sluzby/hoblovani1.png", "sluzby/hoblovani2.png"],
                     button_text: "Více o hoblování",
                     button_path: "/sluzby#hoblovani"
                   },
                   {
                     title: "Pořez / Prodej kulatiny",
                     content: "Na základě vaší žádosti nabízíme možnost pořezání vaší vlastní kulatiny na míru podle požadovaných rozměrů. Pokud nemáte zájem o další zpracování, je možné kulatinu také jednoduše prodat přímo nám. <br /><br /> Tato služba je ideální pro soukromé vlastníky lesa, malé firmy nebo kohokoli, kdo chce efektivně využít vlastní dřevo bez starostí s technickým vybavením.",
-                    images: ["sluzby/placeholder-grey.png", "sluzby/placeholder-white.png", "sluzby/placeholder-black.png"],
+                    images: ["sluzby/kulatina1.png", "sluzby/kulatina2.png"],
                     button_text: "Více o pořezu",
                     button_path: "/sluzby#porez-prodej-kulatiny"
                   }

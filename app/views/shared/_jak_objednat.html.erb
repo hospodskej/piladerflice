@@ -1,10 +1,26 @@
+<%
+  eshop_kroky = [
+    "Vyber produkt v e-shopu",
+    "Přidejte do košíku",
+    "Zadejte kontaktní údaje a dopravu",
+    "Přejděte k dokončení objednávky"
+  ]
+
+  poptavka_kroky = [
+    "Poptáte nám, co potřebujete",
+    "Připravíme přesnou kalkulaci a návrh",
+    "Na základě domluvy výrobek vyrobíme",
+    "Doručíme až k Vám nebo připravíme k osobnímu odběru"
+  ]
+%>
+
 <h2 class="section-main-title order-title" style="padding-bottom: 40px;">Jak si u nás <span style="color: #2C8FFF">objednat?</span></h2>
 <div class="order-split-grid">
 
   <div class="order-box">
     <h3>Nakoupit <span class="text-blue">online</span></h3>
     <ul class="order-steps-list">
-      <% @eshop_kroky.each_with_index do |krok, index| %>
+      <% eshop_kroky.each_with_index do |krok, index| %>
         <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
       <% end %>
     </ul>
@@ -15,7 +31,7 @@
   <div class="order-box">
     <h3>Zadat <span class="text-blue">poptávku</span></h3>
     <ul class="order-steps-list">
-      <% @poptavka_kroky.each_with_index do |krok, index| %>
+      <% poptavka_kroky.each_with_index do |krok, index| %>
         <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
       <% end %>
     </ul>

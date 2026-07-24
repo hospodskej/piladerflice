@@ -18,6 +18,20 @@
     gap: 30px;
 }
 
+.order-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.how-to-order-detail-wrapper {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 5%;
+}
+
 .how-to-order-card {
     display: flex;
     flex-direction: column;
@@ -93,6 +107,10 @@
 
 @media (max-width: 992px) {
     .how-to-order-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-split-grid {
         grid-template-columns: 1fr;
     }
 }

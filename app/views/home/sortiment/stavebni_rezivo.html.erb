@@ -1,0 +1,42 @@
+<%
+  products = [
+    {
+      title: "Trámy",
+      descriptions: ["Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru dle zákazníka.", "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice a modřínu."],
+      images: ["sortiment/tramy1.png", "sortiment/tramy2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Prkna",
+      descriptions: ["Stavební materiál používán k výrobě stropů, podlah, střech, obkladů stěn, pomocné stavební konstrukce a jiné.", "Prkna vyrábíme ze smrku, dubu borovice, modřínu atd. Maximální řezaná délka je 11m."],
+      images: ["sortiment/prkna1.png", "sortiment/prkna2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Latě",
+      descriptions: ["Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru podle zákazníka.", "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice, modřínu."],
+      images: ["sortiment/late1.png", "sortiment/late2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Fošny",
+      descriptions: ["Standardní stavební materiál, který je možno použít pro výrobu nosných konstrukcí (střešní konstrukce, pergoly, terasy apod.)", "Maximální řezaná délka je 11m. Stavební řezivo vyrábíme ze smrku, dubu, modřínu, borovice atd."],
+      images: ["sortiment/fosny1.png", "sortiment/fosny2.png"],
+      eshop_link: "#"
+    }
+  ]
+%>
+
+<main class="main">
+  <% products.each_with_index do |product, index| %>
+    <%= render partial: "shared/product_row", locals: {
+      title: product[:title],
+      descriptions: product[:descriptions],
+      images: product[:images],
+      eshop_link: product[:eshop_link],
+      reverse: index.odd?
+    } %>
+  <% end %>
+  <%= render "shared/wood_types" %>
+  <%= render "shared/jak_objednat" %>
+</main>

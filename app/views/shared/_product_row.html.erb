@@ -1,0 +1,35 @@
+<section class="product-detail-hero <%= 'reverse-layout' if local_assigns[:reverse] %>">
+  <div class="product-hero-text">
+    <h2><%= title %></h2>
+
+    <% descriptions.each do |paragraph| %>
+      <p><%= paragraph %></p>
+    <% end %>
+
+    <div class="product-hero-buttons">
+      <%= link_to "Ceník", "/kontakt#cenik", class: "btn-primary" %>
+      <%= link_to "Přejít do e-shopu", eshop_link, class: "btn-outline-dark" %>
+      <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-outline-dark" %>
+    </div>
+  </div>
+
+  <div class="sluzba-carousel-wrapper product-hero-carousel">
+    <button class="carousel-btn prev-btn" aria-label="Předchozí">
+      <svg viewBox="0 0 24 24" fill="white"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+    </button>
+
+    <div class="carousel-track-container">
+      <ul class="carousel-track">
+        <% images.each_with_index do |image_path, index| %>
+          <li class="carousel-slide <%= 'active' if index == 0 %>">
+            <%= image_tag image_path, alt: title %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <button class="carousel-btn next-btn" aria-label="Další">
+      <svg viewBox="0 0 24 24" fill="white"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+    </button>
+  </div>
+</section>

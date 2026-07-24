@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   get "sluzby", to: "home#sluzby", as: :sluzby
   get "sortiment", to: "home#sortiment", as: :sortiment
   get "sortiment/palivove-drevo", to: "home#palivove_drevo", as: :palivove_drevo
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  get 'sortiment/stavebni-rezivo', to: 'home#stavebni_rezivo', as: :stavebni_rezivo
+  get 'sortiment/truhlarske-rezivo', to: 'home#truhlarske_rezivo', as: :truhlarske_rezivo
+  get 'sortiment/okrasne-kamenivo', to: 'home#okrasne_kamenivo', as: :okrasne_kamenivo
+  get 'sortiment/vyrobni-zbytky', to: 'home#vyrobni_zbytky', as: :vyrobni_zbytky
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

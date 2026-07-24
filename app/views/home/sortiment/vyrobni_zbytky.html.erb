@@ -1,0 +1,48 @@
+<%
+  products = [
+    {
+      title: "Odřezky",
+      descriptions: ["Kvalitní dřevěné odřezky vznikající při výrobě, vhodné pro další dílenské využití, topení nebo drobné truhlářské práce. Každá šarže obsahuje směs různých rozměrů a tvarů."],
+      images: ["sortiment/odrezky1.png", "sortiment/odrezky2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Štěpka",
+      descriptions: ["Čistá dřevní štěpka bez příměsí, ideální pro energetické využití, mulčování nebo výrobu dřevotřískových materiálů. Vyznačuje se stabilní frakcí a rovnoměrnou strukturou."],
+      images: ["sortiment/stepka1.png", "sortiment/stepka2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Piliny",
+      descriptions: ["Jemné suché piliny vhodné pro pelety, brikety, stelivo nebo další průmyslové zpracování. Vznikají při řezání a broušení masivního dřeva a mají výbornou sypkost."],
+      images: ["sortiment/piliny1.png", "sortiment/piliny2.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Hobliny",
+      descriptions: ["Lehká a vzdušná dřevěná vlákna vznikající při hoblování, ideální jako stelivo, výplňový materiál i palivo. Bez chemických úprav a s přirozenou vůní dřeva."],
+      images: ["sortiment/hobliny1.png"],
+      eshop_link: "#"
+    },
+    {
+      title: "Prokladky",
+      descriptions: ["Odolné dřevěné prokladky určené pro bezpečné vrstvení, oddělování a stabilizaci materiálu při skladování či přepravě. Vhodné pro širokou škálu průmyslových i logistických použití."],
+      images: ["sortiment/prokladky1.png", "sortiment/prokladky2.png", "sortiment/prokladky3.png"],
+      eshop_link: "#"
+    }
+  ]
+%>
+
+<main class="main">
+  <% products.each_with_index do |product, index| %>
+    <%= render partial: "shared/product_row", locals: {
+      title: product[:title],
+      descriptions: product[:descriptions],
+      images: product[:images],
+      eshop_link: product[:eshop_link],
+      reverse: index.odd?
+    } %>
+  <% end %>
+  <%= render "shared/wood_types" %>
+  <%= render "shared/jak_objednat" %>
+</main>

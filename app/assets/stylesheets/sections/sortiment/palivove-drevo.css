@@ -1,28 +1,36 @@
 .product-detail-hero {
-    margin: 60px auto;
+    max-width: 1200px;
+    margin: 0 auto 100px auto;
     padding: 0 5%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    align-items: stretch;
+    align-items: center;
 }
 
-.product-hero-text h1 {
+.product-detail-hero:first-of-type {
+    margin-top: 60px;
+}
+
+.product-hero-text h1,
+.product-hero-text h2 {
     font-size: 2.5rem;
+    margin-top: 0;
     margin-bottom: 20px;
+    line-height: 1.2;
 }
 
 .product-hero-text p {
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     text-align: justify;
 }
 
 .product-hero-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-top: 30px;
     align-items: center;
@@ -33,7 +41,7 @@
     align-items: center;
     justify-content: center;
     height: 48px;
-    padding: 0 24px;
+    padding: 0 16px;
     box-sizing: border-box;
     white-space: nowrap;
     font-weight: bold;
@@ -41,6 +49,7 @@
     text-decoration: none;
     border: 1px solid transparent;
     margin: 0;
+    flex: 1;
 }
 
 .btn-outline-dark {
@@ -57,25 +66,29 @@
 
 .product-hero-carousel {
     width: 100%;
-    margin-top: 60px;
+    margin-top: 0px;
     aspect-ratio: 16 / 10;
     border-radius: 12px;
 }
 
 .wood-types-section {
+    max-width: 1200px;
     margin: 80px auto;
     padding: 0 5%;
+    display: block !important;
 }
 
 .wood-types-title {
     font-size: 1.8rem;
     margin-bottom: 40px;
+    width: 100%;
+    text-align: left;
 }
 
 .wood-types-layout {
     display: flex;
     gap: 40px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
 }
 
@@ -124,8 +137,26 @@
     font-weight: 600;
 }
 
+.product-detail-hero.reverse-layout .product-hero-text {
+    order: 2;
+}
+
+.product-detail-hero.reverse-layout .product-hero-carousel {
+    order: 1;
+
 @media (max-width: 900px) {
     .product-detail-hero {
         grid-template-columns: 1fr;
+    }
+
+    .wood-types-layout {
+        flex-wrap: wrap;
+    }
+
+    .product-detail-hero.reverse-layout .product-hero-text {
+        order: 2;
+    }
+    .product-detail-hero.reverse-layout .product-hero-carousel {
+        order: 1;
     }
 }

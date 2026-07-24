@@ -1,0 +1,34 @@
+<%
+  products = [
+    {
+      title: "Palivové dřevo",
+      descriptions: [
+        "Palivové dřevo běžně prodáváme nařezané na 25, 33 cm, 1 m, až 4 m a dál., naštípané a sypané volně v kontejneru, které dovezeme až na vámi zvolené místo. Prodejní jednotka je 1 PRM (prostorový metr).",
+        "Momentálně nabízíme dřevo z tvrdých listnatých stromů, které jsou buk, dub, habr, akát, jasan, bříza a z měkkých jehličnatých je v nabídce smrk, borovice, modřín."
+      ],
+      images: [
+        "sortiment/palivove-drevo1.png",
+        "sortiment/palivove-drevo2.png"
+      ],
+      eshop_link: "#"
+    }
+  ]
+%>
+
+<main class="main">
+  <% products.each_with_index do |product, index| %>
+    <%= render partial: "shared/product_row", locals: {
+      title: product[:title],
+      descriptions: product[:descriptions],
+      images: product[:images],
+      eshop_link: product[:eshop_link],
+      reverse: index.odd?
+    } %>
+  <% end %>
+
+  <%= render "shared/wood_types" %>
+
+  <section class="how-to-order-detail-wrapper">
+    <%= render "shared/jak_objednat" %>
+  </section>
+</main>

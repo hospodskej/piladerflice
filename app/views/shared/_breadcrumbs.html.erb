@@ -1,0 +1,39 @@
+<% 
+    segments = request.path.split('/').reject(&:blank?)
+    current_path = ""
+
+    name_map = {
+    "sortiment" => "Sortiment",
+    "palivove-drevo" => "Palivové dřevo",
+    "stavebni-rezivo" => "Stavební řezivo",
+    "truhlarske-rezivo" => "Truhlářské řezivo",
+    "okrasne-kamenivo" => "Okrasné kamenivo",
+    "vyrobni-zbytky" => "Výrobní zbytky",
+    "sluzby" => "Služby",
+    "kontakt" => "Kontakty",
+    "eshop" => "E-shop"
+  }
+%>
+
+<% if segments.any? %>
+  <nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <%= link_to root_path, class: "breadcrumb-home" do %>
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="#5890FF">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    <% end %>
+
+    <% segments.each do |segment| %>
+      <svg class="breadcrumb-separator" viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF">
+        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+      </svg>
+      
+      <% 
+        current_path += "/#{segment}"
+        display_name = name_map[segment] || segment.tr('-', ' ').capitalize
+      %>
+      
+      <%= link_to display_name, current_path, class: "breadcrumb-item" %>
+    <% end %>
+  </nav>
+<% end %>

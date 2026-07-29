@@ -1,0 +1,78 @@
+.custom-demand-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 40px 5%;
+}
+
+.custom-demand-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.custom-demand-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.custom-demand-banner-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+}
+
+.custom-demand-content {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.custom-demand-text {
+    flex: 1;
+}
+
+.custom-demand-text h3 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.custom-demand-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+}
+
+.icon-only-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 48px;
+    border-radius: 4px;
+    text-decoration: none;
+    flex-shrink: 0;
+    background-color: #2C8FFF;
+    transition: opacity 0.3s ease;
+}
+
+.icon-only-btn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .custom-demand-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px;
+    }
+    .icon-only-btn {
+        width: 100%;
+    }
+}

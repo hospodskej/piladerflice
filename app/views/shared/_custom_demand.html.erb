@@ -1,0 +1,27 @@
+<section class="custom-demand-section">
+  <h2 class="custom-demand-title">
+    Nenašli jste, co jste hledali?
+    <span class="text-blue">Poptejte se po výrobě na míru</span>
+  </h2>
+
+  <div class="custom-demand-card">
+    <div class="custom-demand-img-wrapper">
+      <%= image_tag "eshop/custom-production-banner.jpg", alt: "Zadat poptávku", class: "custom-demand-banner-img" %>
+    </div>
+
+    <div class="custom-demand-content">
+      <div class="custom-demand-text">
+        <h3>Zadat poptávku</h3>
+        <p>Potřebujete palivové dřevo <strong>na míru</strong>, profesionální služby spojené s jeho přípravou, nebo kvalitní řezivo? Napište nám, co přesně hledáte, a my vám připravíme <strong>individuální nabídku podle vašich potřeb</strong>. Rychle, spolehlivě a za férovou cenu.</p>
+      </div>
+
+      <div class="custom-demand-action">
+        <%= link_to "/kontakt#kalkulace", class: "icon-only-btn" do %>
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="white">
+            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

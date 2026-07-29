@@ -1,21 +1,27 @@
-<% 
-    segments = request.path.split('/').reject(&:blank?)
-    current_path = ""
+<%
+  items = @breadcrumb_items || begin
+                                 segments = request.path.split('/').reject(&:blank?)
+                                 current_path = ""
+                                 name_map = {
+                                   "sortiment" => "Sortiment",
+                                   "palivove-drevo" => "Palivové dřevo",
+                                   "stavebni-rezivo" => "Stavební řezivo",
+                                   "truhlarske-rezivo" => "Truhlářské řezivo",
+                                   "okrasne-kamenivo" => "Okrasné kamenivo",
+                                   "vyrobni-zbytky" => "Výrobní zbytky",
+                                   "sluzby" => "Služby",
+                                   "kontakt" => "Kontakty",
+                                   "eshop" => "E-shop"
+                                 }
 
-    name_map = {
-    "sortiment" => "Sortiment",
-    "palivove-drevo" => "Palivové dřevo",
-    "stavebni-rezivo" => "Stavební řezivo",
-    "truhlarske-rezivo" => "Truhlářské řezivo",
-    "okrasne-kamenivo" => "Okrasné kamenivo",
-    "vyrobni-zbytky" => "Výrobní zbytky",
-    "sluzby" => "Služby",
-    "kontakt" => "Kontakty",
-    "eshop" => "E-shop"
-  }
+                                 segments.map do |segment|
+                                   current_path += "/#{segment}"
+                                   [name_map[segment] || segment.tr('-', ' ').capitalize, current_path]
+                                 end
+                               end
 %>
 
-<% if segments.any? %>
+<% if items.any? %>
   <nav aria-label="breadcrumb" class="breadcrumb-nav">
     <%= link_to root_path, class: "breadcrumb-home" do %>
       <svg viewBox="0 0 24 24" width="24" height="24" fill="#5890FF">
@@ -23,17 +29,12 @@
       </svg>
     <% end %>
 
-    <% segments.each do |segment| %>
-      <svg class="breadcrumb-separator" viewBox="0 0 24 24" width="20" height="20" fill="#FFFFFF">
+    <% items.each_with_index do |(name, path), index| %>
+      <svg class="breadcrumb-separator" viewBox="0 0 24 24" width="20" height="20" fill="#000000">
         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
       </svg>
-      
-      <% 
-        current_path += "/#{segment}"
-        display_name = name_map[segment] || segment.tr('-', ' ').capitalize
-      %>
-      
-      <%= link_to display_name, current_path, class: "breadcrumb-item" %>
+
+      <%= link_to name, path, class: "breadcrumb-item #{'active' if index == items.size - 1}" %>
     <% end %>
   </nav>
 <% end %>

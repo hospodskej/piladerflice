@@ -1,0 +1,94 @@
+.recommendations-section {
+    max-width: 1100px;
+    margin: 60px auto 0 auto; /* Vycentrování a horní mezera */
+    padding-top: 40px;
+    border-top: 1px solid #D1D1D1;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-blue {
+    color: #3B82F6;
+}
+
+/* Sjednocení mřížky */
+.recommendations-section .eshop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Sjednocení výšky a okrajů karet */
+.recommendations-section .product-card {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px 10px 15px 10px; /* Odpovídá inventáři */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.recommendations-section .product-image-wrapper-eshop {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.recommendations-section .product-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Zarovnání textu a tlačítka uvnitř karty */
+.recommendations-section .product-info-eshop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.recommendations-section .product-title {
+    margin: 0 0 6px 0;
+    font-size: 1.1rem;
+}
+
+.recommendations-section .product-type {
+    margin: 0 0 6px 0;
+    font-size: 0.95rem;
+}
+
+.recommendations-section .product-stock {
+    color: #16A34A;
+    margin: 0 0 6px 0;
+    font-size: 0.95rem;
+}
+
+.recommendations-section .product-price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #3B82F6;
+    margin: auto 0 12px 0; /* 'auto' u horního okraje natlačí cenu a tlačítko na spodní hranu */
+}
+
+/* Sjednocení tlačítka */
+.recommendations-section .btn-detail {
+    width: 80%;
+    padding: 8px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
+}

@@ -68,4 +68,12 @@ class HomeController < ApplicationController
   def vyrobni_zbytky
     render "home/sortiment/vyrobni_zbytky"
   end
+
+  def eshop
+    render template: "home/eshop"
+  end
+
+  def habr
+    render "home/eshop/habr"
+  end
 end

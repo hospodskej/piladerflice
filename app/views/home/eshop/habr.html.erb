@@ -1,0 +1,71 @@
+<%
+  current_product = "Habr"
+
+  @breadcrumb_items = [
+    ["E-shop", "/eshop"],
+    ["Palivové dřevo", "/eshop?category=palivove"],
+    ["Habr", "#"]
+  ]
+
+  inventory_items = [
+    { variant: "Sypané", length: "100 cm", amount: "5 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "10 PRM", price: "17 863 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" },
+    { variant: "Sypané", length: "100 cm", amount: "15 PRM", price: "21 500 Kč", image: "eshop/container.png" }
+  ]
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/habr.png", alt: "Habr palivové dřevo" %>
+      </div>
+      <div class="product-intro-details">
+        <h1>Habr</h1>
+        <p class="subtitle">Tvrdé palivové dřevo</p>
+        <p class="description">
+          Habr patří mezi nejvýhřevnější dřeva, poskytuje dlouhotrvající a intenzivní teplo.
+          Výhřevnost cca 2300–2500 kWh/m³, hoří 3–4 hodiny.
+        </p>
+        <p class="drying-note">Doporučeno sušit 1–2 roky.</p>
+        <p class="stock-status">Skladem</p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+      <h2 class="section-title"><span class="text-blue">Produkty</span> na skladu</h2>
+      <div class="inventory-grid">
+        <% inventory_items.each do |item| %>
+          <div class="inventory-card">
+            <%= image_tag item[:image], alt: "Kontejner #{item[:amount]}", class: "inventory-img" %>
+            <div class="inventory-specs">
+              <div class="spec-labels">
+                <span>Varianta</span>
+                <span>Délka</span>
+                <span>Množství</span>
+              </div>
+              <div class="spec-values">
+                <span class="spec-value"><%= item[:variant] %></span>
+                <span class="spec-value"><%= item[:length] %></span>
+                <span class="spec-value"><%= item[:amount] %></span>
+              </div>
+            </div>
+            <p class="inventory-price"><%= item[:price] %></p>
+            <%= button_to "Do košíku", "#", class: "btn-primary btn-cart" %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <%= render "shared/recommendations", current_product: current_product %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

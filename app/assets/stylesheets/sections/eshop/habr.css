@@ -1,0 +1,166 @@
+.product-page-main {
+    padding-bottom: 80px;
+}
+
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.product-intro-section {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr; /* Obrázek bude o něco širší než text, jako ve Figmě */
+    gap: 30px; /* Zvětšená mezera pro odpovídající vzhled */
+    margin-top: 20px;
+    align-items: stretch; /* Přinutí obrázek kopírovat výšku textu */
+    margin-bottom: 60px;
+}
+
+.product-intro-image {
+    height: 100%;
+    position: relative;
+}
+
+.product-intro-image img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block;
+}
+
+.product-intro-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Odstraněno centrování, text se přirozeně seřadí odshora dolů */
+}
+
+.product-intro-details h1 {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+}
+
+.product-intro-details .subtitle {
+    font-size: 1.1rem;
+    margin: 0 0 20px 0;
+}
+
+.product-intro-details .description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    max-width: 90%;
+}
+
+.product-intro-details .drying-note {
+    font-weight: 500;
+    margin: 0 0 20px 0;
+}
+
+.product-intro-details .stock-status {
+    color: #16A34A;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Inventář */
+.inventory-section {
+    max-width: 1100px;
+    margin: 0 auto 60px auto;
+}
+
+.inventory-section .section-title {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.inventory-card {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px 10px 15px 10px; /* Sníženo spodní odsazení */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inventory-img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 12px; /* Sníženo z 20px */
+}
+
+.inventory-specs {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px; /* Sníženo z 20px */
+    font-size: 0.95rem;
+}
+
+.spec-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px; /* Sníženo z 10px */
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.spec-values {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px; /* Sníženo z 10px */
+    border: 1px solid #93C5FD;
+    border-radius: 4px;
+    padding: 4px 16px; /* Sníženo vertikální odsazení */
+}
+
+.spec-value {
+    font-weight: 700;
+    color: #000000;
+}
+
+.inventory-price {
+    color: #3B82F6;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 12px 0; /* Sníženo z 15px */
+}
+
+.inventory-card .button_to {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.btn-cart {
+    width: 80%; /* Zvětšeno pro zamezení ořezu textu */
+    padding: 8px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 4px;
+    background-color: #3B82F6; /* Vynucení barvy pozadí */
+    color: #FFFFFF; /* Vynucení barvy textu */
+    border: none; /* Odstranění výchozího šedého rámečku prohlížeče */
+    cursor: pointer;
+}

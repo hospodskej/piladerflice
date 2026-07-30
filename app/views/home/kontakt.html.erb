@@ -127,7 +127,6 @@
 
       <h3 class="form-section-title">Formulář</h3>
 
-      <%# --- FORM CONFIGURATION DATA --- %>
       <%
         varianty = ["Skládané", "Sypané"]
         druhy = ["Akát", "Dub", "Smrk", "Buk"]
@@ -149,7 +148,6 @@
         <div class="kalkulace-row">
           <div class="kalkulace-grid-4">
 
-            <%# For dynamic JS arrays like varianta[], keeping standard <select> inside form_with is perfectly valid and easiest for JS cloning! %>
             <div class="form-group">
               <select name="varianta[]">
                 <% varianty.each do |v| %><option><%= v %></option><% end %>
@@ -291,7 +289,7 @@
       </table>
     </div>
 
-    <h2 class="cenik-main-title" style="margin-top: 80px; margin-bottom: 20px;">Ceník služeb</h2>
+    <h2 class="cenik-main-title" id="cenik-sluzeb" style="margin-top: 80px; margin-bottom: 20px;">Ceník služeb</h2>
     <div class="cenik-sluzby-container">
       <% @sluzby_cenik.each do |sluzba| %>
         <div class="cenik-sluzba-item">

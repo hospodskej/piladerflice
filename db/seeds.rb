@@ -110,7 +110,7 @@ Promo.create!(
   feature_3: "Rychlé dodání",
   price: "od 1500 / 1 PRMS",
   image: "akcni-nabidka-hero.png",
-  link: "#"
+  link: "/eshop/akat"
 )
 
 puts "Promo successfully created!"

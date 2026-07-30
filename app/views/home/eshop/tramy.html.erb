@@ -1,0 +1,117 @@
+<%
+  current_product = "Trámy"
+
+  @breadcrumb_items = [
+    ["E-shop", "/eshop"],
+    ["Stavební řezivo", "/eshop?category=stavebni"],
+    ["Trámy", "#"]
+  ]
+
+  kontejner_lengths = ["3 000 mm", "4 000 mm", "5 000 mm"]
+
+  kontejner_rows = [
+    { label: "100/100", amount: "100/100 mm", color: "text-black", price: "8 500 Kč" },
+    { label: "100/120", amount: "100/120 mm", color: "text-black", price: "8 500 Kč" },
+    { label: "100/140", amount: "100/140 mm", color: "text-black", price: "8 500 Kč" },
+    { label: "100/160", amount: "100/160 mm", color: "text-black", price: "8 500 Kč" }
+  ]
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/tramy.png", alt: "Trámy" %>
+      </div>
+      <div class="product-intro-details">
+        <h1>Trámy</h1>
+        <p class="description">
+          Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností.
+        </p>
+        <p class="stock-status">Skladem</p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title"><span class="text-blue">Volně ložené</span> trámy</h2>
+
+        <div class="matrix-grid-3">
+          <div class="matrix-cell empty"></div>
+          <% kontejner_lengths.each do |len| %>
+            <div class="matrix-cell col-header"><%= len %></div>
+          <% end %>
+
+          <% kontejner_rows.each do |row| %>
+            <div class="matrix-cell row-header"><span><%= row[:label] %></span></div>
+            <% kontejner_lengths.each do |len| %>
+              <div class="matrix-cell">
+                <div class="inventory-card">
+                  <%= image_tag "eshop/container.png", alt: "Kontejner", class: "inventory-img" %>
+                  <div class="inventory-specs">
+                    <div class="spec-labels">
+                      <span>Varianta</span>
+                      <span>Délka</span>
+                      <span>Rozměr</span>
+                    </div>
+                    <div class="spec-values">
+                      <span class="spec-value">Sypané</span>
+                      <span class="spec-value"><%= len %></span>
+                      <span class="spec-value <%= row[:color] %>"><%= row[:amount] %></span>
+                    </div>
+                  </div>
+                  <p class="inventory-price"><%= row[:price] %></p>
+                  <%= button_to "Do košíku", "#", class: "btn-primary btn-cart" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const sectionKontejner = document.getElementById("section-kontejner");
+            const sectionBedny = document.getElementById("section-bedny");
+            const midSeparator = document.querySelector(".mid-separator");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const target = btn.dataset.target;
+
+                    if (target === "all") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "block";
+                    } else if (target === "kontejner") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "none";
+                        midSeparator.style.display = "none";
+                    } else if (target === "bedny") {
+                        sectionKontejner.style.display = "none";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+    <%= render "shared/recommendations", current_product: current_product %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

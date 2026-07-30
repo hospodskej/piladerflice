@@ -1,10 +1,10 @@
 <%
   all_recommendations = [
-    { title: "Jasan", type: "Tvrdé palivové dřevo", price: "od 1 740 Kč", image: "eshop/jasan.png" },
-    { title: "Bříza", type: "Tvrdé palivové dřevo", price: "---", image: "eshop/briza.png" },
-    { title: "Habr", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/habr.png" },
-    { title: "Odkory na topení", type: "Tvrdé / Měkké", price: "od 800 Kč", image: "eshop/odkory.png" },
-    { title: "Buk", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/buk.png" },
+    { title: "Jasan", type: "Tvrdé palivové dřevo", price: "od 1 740 Kč", image: "eshop/jasan.png", url: "eshop/jasan" },
+    { title: "Bříza", type: "Tvrdé palivové dřevo", price: "---", image: "eshop/briza.png", url: "eshop/briza" },
+    { title: "Habr", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/habr.png", url: "eshop/habr" },
+    { title: "Odkory na topení", type: "Tvrdé / Měkké", price: "od 800 Kč", image: "eshop/odkory.png", url: "eshop/odkory" },
+    { title: "Buk", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/buk.png", url: "eshop/buk" },
   ]
 
   recommendations = all_recommendations.reject { |p| p[:title] == local_assigns[:current_product] }.take(4)

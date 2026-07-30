@@ -12,7 +12,7 @@
           </div>
 
           <% if sluzba.button_text.present? %>
-            <%= link_to sluzba.button_text, sluzba.button_path, class: "btn-primary" %>
+            <%= link_to sluzba.button_text, kontakt_path(anchor: "cenik-sluzeb"), class: "btn-primary" %>
           <% end %>
         </div>
 

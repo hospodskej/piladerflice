@@ -1,0 +1,77 @@
+<%
+  current_product = "Piliny"
+
+  @breadcrumb_items = [
+    ["E-shop", "/eshop"],
+    ["Výrobní zbytky", "/eshop?category=zbytky"],
+    ["Piliny", "#"]
+  ]
+
+  piliny_items = [
+    { variant: "Volně ložené", price: "450 Kč", stock: "Skladem", stock_color: "text-green", in_stock: true },
+    { variant: "Balené", price: "450 Kč", stock: "Skladem", stock_color: "text-green", in_stock: true }
+  ]
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/piliny.png", alt: "Piliny" %>
+      </div>
+      <div class="product-intro-details">
+        <h1>Piliny</h1>
+        <p class="description">
+          Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Nabízíme volně ložené nebo balené varianty.
+        </p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title"><span class="text-blue">Dostupné</span> varianty</h2>
+
+        <div class="simple-grid-2">
+          <% piliny_items.each do |item| %>
+            <div class="inventory-card">
+              <%= image_tag "eshop/container.png", alt: "Kontejner piliny", class: "inventory-img" %>
+
+              <div class="inventory-specs">
+                <div class="spec-labels">
+                  <span>Popis</span>
+                  <span>Varianta</span>
+                </div>
+                <div class="spec-values">
+                  <span class="spec-value">Piliny</span>
+                  <span class="spec-value"><%= item[:variant] %></span>
+                </div>
+              </div>
+
+              <p class="inventory-price"><%= item[:price] %></p>
+
+              <p class="spec-value <%= item[:stock_color] %>" style="margin-bottom: 12px; font-size: 0.95rem;">
+                <%= item[:stock] %>
+              </p>
+
+              <% if item[:in_stock] %>
+                <%= button_to "Do košíku", "#", class: "btn-primary btn-cart" %>
+              <% else %>
+                <%= button_to "Není skladem", "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <%= render "shared/recommendations", current_product: current_product %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

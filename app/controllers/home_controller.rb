@@ -61,8 +61,12 @@ class HomeController < ApplicationController
     render "home/sortiment/truhlarske_rezivo"
   end
 
-  def okrasne_kamenivo
+  def sortiment_okrasne_kamenivo
     render "home/sortiment/okrasne_kamenivo"
+  end
+
+  def piliny
+    render "home/eshop/piliny"
   end
 
   def vyrobni_zbytky
@@ -99,6 +103,34 @@ class HomeController < ApplicationController
 
   def smrk
     render "home/eshop/smrk"
+  end
+
+  def late
+    render "home/eshop/late"
+  end
+
+  def tramy
+    render "home/eshop/tramy"
+  end
+
+  def fosny
+    render "home/eshop/fosny"
+  end
+
+  def prkna
+    render "home/eshop/prkna"
+  end
+
+  def stepka
+    render "home/eshop/stepka"
+  end
+
+  def odkory
+    render "home/eshop/odkory"
+  end
+
+  def eshop_okrasne_kamenivo
+    render "home/eshop/okrasne_kamenivo"
   end
 
 end

@@ -228,6 +228,34 @@
     margin-bottom: 40px;
 }
 
+.matrix-grid-3 {
+    display: grid;
+    grid-template-columns: 70px repeat(3, 1fr); /* 70px pro štítek + 3 sloupce pro karty */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.matrix-grid-2 {
+    display: grid;
+    grid-template-columns: 70px repeat(2, 1fr); /* 70px pro štítek + 2 sloupce pro karty */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.simple-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Pokud bys chtěl karty širší, změň na repeat(2, 1fr) */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.simple-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
 .matrix-grid-bedny {
     display: grid;
     grid-template-columns: 70px repeat(3, 1fr);

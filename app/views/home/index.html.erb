@@ -6,7 +6,7 @@
         <p>Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku.</p>
       </div>
       <div class="domu-buttons">
-        <%= link_to "DO ESHOPU", "#", class: "btn-eshop" %>
+        <%= link_to "DO ESHOPU", "/eshop/", class: "btn-eshop" %>
         <%= link_to "VÝROBA NA MÍRU", "/kontakt#kalkulace", class: "btn-vyroba" %>
       </div>
 
@@ -80,9 +80,9 @@
         <h2 class="top-categories-title"><span class="brand-blue">TOP</span> Kategorie</h2>
 
         <% categories = [
-          { name: "Palivové dřevo", img: "top-palivove-drevo.png", url: "#" },
-          { name: "Stavební dřevo", img: "top-stavebni-drevo.png", url: "#" },
-          { name: "Výrobní zbytky", img: "top-vyrobni-zbytky.png", url: "#" },
+          { name: "Palivové dřevo", img: "top-palivove-drevo.png", url: "/sortiment/palivove-drevo" },
+          { name: "Stavební dřevo", img: "top-stavebni-drevo.png", url: "/sortiment/stavebni-rezivo" },
+          { name: "Výrobní zbytky", img: "top-vyrobni-zbytky.png", url: "/sortiment/vyrobni-zbytky" },
         ] %>
 
         <div class="top-categories-grid">
@@ -134,20 +134,23 @@
           stock: "skladem",
           price: "1800 KČ / 1 PRMS",
           img: "akat.png",
+          path: eshop_akat_path
         },
         {
           title: "Trámy, 1. výrobní jakkost",
           desc: "Smrk",
           stock: "skladem",
           price: "1800 KČ / 1 PRMS",
-          img: "smrk.png"
+          img: "tramy.png",
+          path: eshop_tramy_path
         },
         {
           title: "Tvrdé palivové dřevo",
-          desc: "Akát, 33cm",
+          desc: "Dub, 33cm",
           stock: "skladem",
           price: "1800 KČ / 1 PRMS",
-          img: "akat2.png"
+          img: "akat2.png",
+          path: eshop_dub_path
         }
       ] %>
 
@@ -160,7 +163,8 @@
             <span class="nejprodavanejsi-produkty-desc"><strong><%= product[:desc] %></strong></span>
             <span class="nejprodavanejsi-produkty-stock"><%= product[:stock] %></span>
             <span class="nejprodavanejsi-produkty-price"><strong><%= product[:price] %></strong></span>
-            <%= link_to "PROHLÉDNOUT", "#", class:"btn-prohlednout" %>
+
+            <%= link_to "PROHLÉDNOUT", product[:path], class:"btn-prohlednout" %>
           </div>
         </div>
       <% end %>

@@ -76,4 +76,29 @@ class HomeController < ApplicationController
   def habr
     render "home/eshop/habr"
   end
+
+  def briza
+    render "home/eshop/briza"
+  end
+
+  def jasan
+    render "home/eshop/jasan"
+  end
+
+  def akat
+    render "home/eshop/akat"
+  end
+
+  def buk
+    render "home/eshop/buk"
+  end
+
+  def dub
+    render "home/eshop/dub"
+  end
+
+  def smrk
+    render "home/eshop/smrk"
+  end
+
 end

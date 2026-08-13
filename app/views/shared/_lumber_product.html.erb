@@ -1,0 +1,114 @@
+<%
+  # Shared template for the "simple" stavební-řezivo detail pages that only
+  # have a single loose/container matrix (tramy, late, fosny, prkna) - as
+  # opposed to firewood pages, which also have a stacked/bedny section.
+  # `key` is the canonical, language-independent product identifier used to
+  # look up text in config/locales/*.yml under eshop.products.<key> and
+  # eshop.<key>.
+  title = t("eshop.#{key}.title", default: t("eshop.products.#{key}.title"))
+
+  @breadcrumb_items = [
+    [t("breadcrumbs.eshop"), "/eshop"],
+    [t("eshop.#{key}.breadcrumb_category"), "/eshop?category=rezivo"],
+    [title, "#"]
+  ]
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/#{key}.png", alt: title %>
+      </div>
+      <div class="product-intro-details">
+        <h1><%= title %></h1>
+        <p class="description">
+          <%= t("eshop.#{key}.description") %>
+        </p>
+        <p class="stock-status"><%= t("eshop.#{key}.stock_status") %></p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title"><%= t("eshop.#{key}.loose_heading_html") %></h2>
+
+        <div class="<%= grid_class %>">
+          <div class="matrix-cell empty"></div>
+          <% lengths.each do |len| %>
+            <div class="matrix-cell col-header"><%= len %></div>
+          <% end %>
+
+          <% rows.each do |row| %>
+            <div class="matrix-cell row-header"><span><%= row[:label] %></span></div>
+            <% lengths.each do |len| %>
+              <div class="matrix-cell">
+                <div class="inventory-card">
+                  <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+                  <div class="inventory-specs">
+                    <div class="spec-labels">
+                      <span><%= t(spec_labels[0]) %></span>
+                      <span><%= t("common.spec_length") %></span>
+                      <span><%= t(spec_labels[2]) %></span>
+                    </div>
+                    <div class="spec-values">
+                      <span class="spec-value"><%= first_value %></span>
+                      <span class="spec-value"><%= len %></span>
+                      <span class="spec-value <%= row[:color] %>"><%= row[:value] %></span>
+                    </div>
+                  </div>
+                  <p class="inventory-price"><%= row[:price] %></p>
+                  <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const sectionKontejner = document.getElementById("section-kontejner");
+            const sectionBedny = document.getElementById("section-bedny");
+            const midSeparator = document.querySelector(".mid-separator");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const target = btn.dataset.target;
+
+                    if (target === "all") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "block";
+                    } else if (target === "kontejner") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "none";
+                        midSeparator.style.display = "none";
+                    } else if (target === "bedny") {
+                        sectionKontejner.style.display = "none";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+    <%= render "shared/recommendations", current_product: key %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

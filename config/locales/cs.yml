@@ -1,0 +1,472 @@
+cs:
+  site:
+    name: "Pila Derflice"
+
+  nav:
+    domu: "Domů"
+    eshop: "Eshop"
+    sortiment: "Sortiment"
+    sluzby: "Služby"
+    cenik: "Ceník"
+    kontakt: "Kontakt"
+    open_menu: "Otevřít menu"
+    close_menu: "Zavřít menu"
+
+  common:
+    previous: "Předchozí"
+    next: "Další"
+    detail: "Detail"
+    stock: "skladem"
+    in_stock: "Skladem"
+    out_of_stock: "Není skladem"
+    add_to_cart: "Do košíku"
+    delete: "Smazat"
+    add_item: "Přidat položku"
+    cenik: "Ceník"
+    to_eshop: "Přejít do e-shopu"
+    request_quote: "Zadat poptávku"
+    buy_online: "Nakoupit online"
+    price_from: "od"
+    loose_type_label: "Typ ložení"
+    all: "Vše"
+    container: "Kontejner"
+    crate: "Bedny"
+    available_variants_html: "<span class=\"text-blue\">Dostupné</span> varianty"
+    loose_variant: "Sypané"
+    stacked_variant: "Skládané"
+    volne_lozene: "Volně ložené"
+    balene: "Balené"
+    spec_variant: "Varianta"
+    spec_length: "Délka"
+    spec_amount: "Množství"
+    spec_dimension: "Rozměr"
+    spec_quality: "Jakost"
+    spec_thickness: "Tloušťka"
+    spec_wood: "Dřevo"
+    spec_description: "Popis"
+    spec_fraction: "Frakce"
+    per_m3: "PRM"
+
+  breadcrumbs:
+    home_aria: "breadcrumb"
+    sortiment: "Sortiment"
+    palivove_drevo: "Palivové dřevo"
+    stavebni_rezivo: "Stavební řezivo"
+    truhlarske_rezivo: "Truhlářské řezivo"
+    okrasne_kamenivo: "Okrasné kamenivo"
+    vyrobni_zbytky: "Výrobní zbytky"
+    sluzby: "Služby"
+    kontakt: "Kontakty"
+    eshop: "E-shop"
+
+  footer:
+    brand_name: "Štěpán Merta"
+    brand_sub: "Pila Derflice"
+    kontakt_title: "Kontakt"
+    address: "Derflice 66, 671 28 Znojmo"
+    hours: "Pondělí - Pátek : 7:00 - 15:30"
+    sluzby_title: "Služby"
+    sluzby_links:
+      zakazkova_vyroba: "Zakázková výroba"
+      hoblovani: "Hoblování"
+      doprava: "Doprava"
+      impregnace: "Impregnace"
+      porez: "Pořez / Prodej kulatiny"
+    sortiment_title: "Sortiment"
+    sortiment_links:
+      palivove_drevo: "Palivové dřevo"
+      stavebni_rezivo: "Stavební řezivo"
+      truhlarske_rezivo: "Truhlářské řezivo"
+      vyrobni_zbytky: "Výrobní zbytky"
+      okrasne_kamenivo: "Okrasné kamenivo"
+
+  home:
+    index:
+      hero_title_accent: "KVALITNÍ DŘEVO"
+      hero_title_rest: "PRO DOMOV, DÍLNU I STAVBU"
+      hero_text: "Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku."
+      btn_eshop: "DO ESHOPU"
+      btn_vyroba: "VÝROBA NA MÍRU"
+      reviews_count: "(11+ recenzí)"
+      features:
+        doprava: "Vlastní<br>doprava"
+        vyroba: "Výroba<br>na míru"
+        sortiment: "Široký<br>sortiment"
+        vyrobce: "Lokální<br>výrobce"
+        garance: "Záruka<br>kvality"
+        ceny: "Férové<br>ceny"
+      promo_badge: "Akční nabídka"
+      promo_alt: "Akční nabídka"
+      promo_cta: "Prohlédnout si"
+      top_categories_title_accent: "TOP"
+      top_categories_title_rest: "Kategorie"
+      categories:
+        palivove_drevo: "Palivové dřevo"
+        stavebni_drevo: "Stavební dřevo"
+        vyrobni_zbytky: "Výrobní zbytky"
+      zkusenosti_banner: "Již přes 30 let zkušeností"
+      akcni_nabidka_title_accent: "NABÍDKA"
+      akcni_nabidka_title_rest: "AKČNÍ"
+      akcni_nabidka_lead_html: "<b>Kvalitní palivové dřevo, které zahřeje víc než jen cenou.</b>"
+      akcni_nabidka_text_html: "Suché, štípané a ihned připravené k topení.<br>Doprava až k vám domů – rychle, spolehlivě a bez starostí."
+      akcni_badge: "AKCE"
+      akcni_image_alt: "Akční nabídka - palivové dřevo"
+      nejprodavanejsi_title_accent: "Nejprodávanější"
+      nejprodavanejsi_title_rest: "produkty?"
+      bestsellers:
+        akat:
+          title: "Tvrdé palivové dřevo"
+          desc: "Akát, 33cm"
+          price: "1800 KČ / 1 PRMS"
+        tramy:
+          title: "Trámy, 1. výrobní jakkost"
+          desc: "Smrk"
+          price: "1800 KČ / 1 PRMS"
+        dub:
+          title: "Tvrdé palivové dřevo"
+          desc: "Dub, 33cm"
+          price: "1800 KČ / 1 PRMS"
+      btn_prohlednout: "PROHLÉDNOUT"
+      nabidka_title_accent: "nabídnout?"
+      nabidka_title_rest: "Co vám můžeme"
+      nabidka_text_1_html: "Pokud topíte dřevem a sháníte kvalitní otop do krbu či na zátop? Potřebujete stavební dřevo k rekonstrukci či stavbě altánů, plotů či dřevostaveb? Vyrábíte nábytek z <strong>kvalitního řeziva</strong>, pak se na nás nebojte obrátit."
+      nabidka_text_2_html: "Za tu dobu nabízíme <strong>široký sortiment</strong> dřevěných materiálů, včetně prken, latí, trámů a fošen. Pro zahradní úpravy máme okrasné kamenivo, a pro další využití také piliny, hobliny a štěpku."
+      sluzby_title_accent: "poskytujeme?"
+      sluzby_title_rest: "Jaké služby"
+      dorucujeme_title_accent: "doručujeme?"
+      dorucujeme_title_rest: "Kam všude"
+      dorucujeme_text_1: "Palivové dřevo rozvážíme po celé jižní Moravě i severním Rakousku, a to včetně hraničních oblastí mezi Vysočinou a středním Rakouskem. Patří sem například města a obce jako Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, na rakouské straně pak například Drosendorf, Raabs an der Thaya, Hardegg či Thaya."
+      dorucujeme_text_2: "Cena dopravy se vždy odvíjí od vzdálenosti a množství objednaného dřeva, aby byla co nejvýhodnější pro každého zákazníka."
+      dorucujeme_map_alt: "Mapa doručení po jížní Moravě a Rakousku"
+      zajimat_title_accent: "zajímat?"
+      zajimat_title_rest: "Co by Vás mohlo"
+      o_sobe_title_accent: "o sobě řekli?"
+      o_sobe_title_rest: "Co bychom"
+      o_sobe_image_alt: "Nakládání dřeva v lese"
+      o_sobe_p1_html: "Naše pila, vedená panem Štěpánem Mertou, působí v oboru zpracování dřeva již <strong>přes 30 let.</strong>"
+      o_sobe_p2_html: "Díky dlouholeté praxi a zkušenostem jsme schopni <strong>vyhovět specifickým požadavkům</strong> našich zákazníků."
+      o_sobe_p3_html: "Disponujeme <strong>moderním vybavením</strong>, včetně automatické štípačky, pásové pily, hoblovačky, impregnační vany apod."
+      o_sobe_p4: "Zajišťujeme dopravu výrobků přímo k vám domů."
+      o_sobe_p5_html: "I přes menší tým čítající přibližně 10 zaměstnanců si zakládáme na <strong>dodržování termínů</strong> a <strong>poskytování vysoké kvality služeb.</strong>"
+      o_sobe_cta: "Poptávka"
+
+  kontakt:
+    page_title: "Informační formuláře"
+    image_alt: "Palivové dřevo"
+    brand_name: "Štěpán Merta"
+    brand_sub: "Pila Derflice"
+    kontakt_title: "Kontakt"
+    address: "Derflice 66, 671 28 Znojmo"
+    hours_title: "Otevírací doba"
+    hours_text_html: "Pondělí až pátek 7:00 - 15:30<br>mimo pracovní dobu dle dohody"
+    info_title: "Informace"
+    info_responsible: "Odpovědná osoba: Štěpán Merta"
+    info_ico: "IČ: 45665451 | DIČ: CZ6909094742"
+    info_billing: "Fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice"
+    info_legal: "Fyzická osoba podnikající dle živnostenského zákona nezapsaná v obchodním rejstříku."
+    kalkulace_title_html: "Poptejte se na naše výroby <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
+    toggle_palivove: "Palivové dřevo"
+    toggle_stavebni: "Stavební řezivo"
+    form_section_kontakt: "Kontakt"
+    form_jmeno: "Jméno"
+    form_prijmeni: "Příjmení"
+    form_telefon: "Telefon"
+    form_email: "E-mail"
+    form_ulice: "Ulice"
+    form_cislo_popisne: "Číslo popisné"
+    form_mesto: "Město"
+    form_psc: "PSČ"
+    form_section_formular: "Formulář"
+    grid_varianta: "Varianta"
+    grid_druh: "Druh"
+    grid_delka: "Délka"
+    grid_mnozstvi: "Množství"
+    varianty:
+      skladane: "Skládané"
+      sypane: "Sypané"
+    druhy:
+      akat: "Akát"
+      dub: "Dub"
+      smrk: "Smrk"
+      buk: "Buk"
+    delky:
+      - "33 cm"
+      - "50 cm"
+      - "1 m"
+    mnozstvi:
+      - "5 PRM"
+      - "10 PRM"
+      - "15 PRM"
+    delete_item_aria: "Smazat"
+    add_item_aria: "Přidat položku"
+    form_section_poznamky: "Poznámky"
+    consent_text: "Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky."
+    submit_button: "Odeslat ke kalkulaci"
+    cenik_main_title: "Ceník sortimentu"
+    cenik_stavebni_title: "Stavební a Truhlářské řezivo"
+    cenik_palivove_volne_title: "Palivové dřevo - volně ložené"
+    cenik_palivove_skladane_title: "Palivové dřevo - Bedny skládané"
+    cenik_zbytky_title: "Výrobní zbytky"
+    cenik_kamenivo_title: "Okrasné kamenivo"
+    cenik_kamenivo_default: "1 – 30 Kč / 1 kg"
+    cenik_sluzeb_title: "Ceník služeb"
+
+  sortiment:
+    index:
+      title: "Sortiment"
+    palivove_drevo:
+      title: "Palivové dřevo"
+      desc_1: "Palivové dřevo běžně prodáváme nařezané na 25, 33 cm, 1 m, až 4 m a dál., naštípané a sypané volně v kontejneru, které dovezeme až na vámi zvolené místo. Prodejní jednotka je 1 PRM (prostorový metr)."
+      desc_2: "Momentálně nabízíme dřevo z tvrdých listnatých stromů, které jsou buk, dub, habr, akát, jasan, bříza a z měkkých jehličnatých je v nabídce smrk, borovice, modřín."
+    stavebni_rezivo:
+      tramy:
+        title: "Trámy"
+        desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru dle zákazníka."
+        desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice a modřínu."
+      prkna:
+        title: "Prkna"
+        desc_1: "Stavební materiál používán k výrobě stropů, podlah, střech, obkladů stěn, pomocné stavební konstrukce a jiné."
+        desc_2: "Prkna vyrábíme ze smrku, dubu borovice, modřínu atd. Maximální řezaná délka je 11m."
+      late:
+        title: "Latě"
+        desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru podle zákazníka."
+        desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice, modřínu."
+      fosny:
+        title: "Fošny"
+        desc_1: "Standardní stavební materiál, který je možno použít pro výrobu nosných konstrukcí (střešní konstrukce, pergoly, terasy apod.)"
+        desc_2: "Maximální řezaná délka je 11m. Stavební řezivo vyrábíme ze smrku, dubu, modřínu, borovice atd."
+    truhlarske_rezivo:
+      fosny:
+        title: "Fošny"
+        desc_1: "Truhlářské řezivo je základní surovinou pro výrobu spárovky, která se dále používá k výrobě nábytku z masivu, jako jsou např. skříně, stoly, židle, postele, dveře, okna, schody, hudební nástroje a tak dále."
+    okrasne_kamenivo:
+      title: "Valouny a oblázky"
+      desc_1: "Dekorativní kamenivo ideální pro zahrady, chodníky, jezírka a okrasné záhony"
+      desc_2: "K dispozici v různých frakcích a barevných variantách, vhodné pro designové úpravy i praktické využití"
+      desc_3: "Nabízíme balení v pytlích nebo volně ložené dle požadavků zákazníka."
+      desc_4: "Cena od 1kč za 1kg."
+    vyrobni_zbytky:
+      odkory:
+        title: "Odkory"
+        desc_1: "Kvalitní dřevěné odkory vznikající při výrobě, vhodné pro další dílenské využití, topení nebo drobné truhlářské práce. Každá šarže obsahuje směs různých rozměrů a tvarů."
+      stepka:
+        title: "Štěpka"
+        desc_1: "Čistá dřevní štěpka bez příměsí, ideální pro energetické využití, mulčování nebo výrobu dřevotřískových materiálů. Vyznačuje se stabilní frakcí a rovnoměrnou strukturou."
+      piliny:
+        title: "Piliny"
+        desc_1: "Jemné suché piliny vhodné pro pelety, brikety, stelivo nebo další průmyslové zpracování. Vznikají při řezání a broušení masivního dřeva a mají výbornou sypkost."
+
+  eshop:
+    index:
+      filters_title: "Kategorie produktů"
+      cat_palivove: "Palivové dřevo"
+      cat_rezivo: "Stavební řezivo"
+      cat_zbytky: "Výrobní zbytky"
+      cat_kamenivo: "Okrasné kamenivo"
+      wood_type_title: "Typ dřeva"
+      wood_all: "Vše"
+      wood_hard: "Tvrdé"
+      wood_soft: "Měkké"
+      sort_recommended: "Doporučujeme"
+      sort_bestsellers: "Nejprodávanější"
+    products:
+      smrk:
+        title: "Smrk"
+        type: "Měkké palivové dřevo"
+        price: "od 1 260 Kč"
+      dub:
+        title: "Dub"
+        type: "Tvrdé palivové dřevo"
+        price: "od 1 740 Kč"
+      buk:
+        title: "Buk"
+        type: "Tvrdé palivové dřevo"
+        price: "od 1 900 Kč"
+      akat:
+        title: "Akát"
+        type: "Tvrdé palivové dřevo"
+        price: "od 1 900 Kč"
+      jasan:
+        title: "Jasan"
+        type: "Tvrdé palivové dřevo"
+        price: "od 1 740 Kč"
+      briza:
+        title: "Bříza"
+        type: "Tvrdé palivové dřevo"
+        price: "---"
+      habr:
+        title: "Habr"
+        type: "Tvrdé palivové dřevo"
+        price: "od 1 900 Kč"
+      late:
+        title: "Střešní latě"
+        type: "Stavební řezivo"
+        price: "od 8 500 Kč"
+      tramy:
+        title: "Trámy"
+        type: "Stavební řezivo"
+        price: "od 8 500 Kč"
+      fosny:
+        title: "Fošny"
+        type: "Stavební řezivo"
+        price: "od 8 500 Kč"
+      prkna:
+        title: "Prkna 24 mm"
+        type: "Stavební řezivo"
+        price: "od 5 000 Kč"
+      stepka:
+        title: "Štěpka"
+        type: "Výrobní zbytky"
+        price: "od 700 Kč"
+      odkory:
+        title: "Odkory na topení"
+        type: "Výrobní zbytky"
+        price: "od 800 Kč"
+      piliny:
+        title: "Piliny"
+        type: "Výrobní zbytky"
+        price: "od 450 Kč"
+      okrasne_kamenivo:
+        title: "Okrasné kamenivo"
+        type: "Okrasné kamenivo"
+        price: "od 1 Kč"
+
+    firewood:
+      # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
+      breadcrumb_category: "Palivové dřevo"
+      stock_status: "Skladem"
+      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> palivové dřevo"
+      stacked_heading_html: "<span class=\"text-blue\">Skládané</span> palivové dřevo v bednách"
+      species:
+        smrk:
+          subtitle: "Měkké palivové dřevo"
+          description: "Lehké smrkové dřevo ideální pro rychlé vytopení krbů a kamen, snadno chytá plamen. Výhřevnost cca 1500–1700 kWh/m³, hoří 1–2 hodiny."
+          image_alt: "Smrkj palivové dřevo"
+          drying_note: "Doporučeno sušit 6–12 měsíců na suchém, větraném místě."
+        dub:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Dubové dřevo s vysokou výhřevností a dlouhou dobou hoření, ideální pro krby a kamna. Výhřevnost cca 2100–2300 kWh/m³, hoří 3–4 hodiny."
+          image_alt: "Dub palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky na dobře větraném místě."
+        buk:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Bukové dřevo s vysokou výhřevností a rovnoměrným hořením, ideální pro dlouhodobé vytápění. Výhřevnost cca 2100–2200 kWh/m³, hoří 2–3 hodiny."
+          image_alt: "Buk palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky."
+        akat:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 2200–2500 kWh/m³, hoří 3–4 hodiny."
+          image_alt: "Akát palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky."
+        jasan:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Jasanové dřevo poskytuje stabilní hoření a intenzivní teplo, vhodné pro krby i kamna. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
+          image_alt: "Jasan palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky."
+        briza:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
+          image_alt: "Bříza palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky."
+        habr:
+          subtitle: "Tvrdé palivové dřevo"
+          description: "Habr patří mezi nejvýhřevnější dřeva, poskytuje dlouhotrvající a intenzivní teplo. Výhřevnost cca 2300–2500 kWh/m³, hoří 3–4 hodiny."
+          image_alt: "Habr palivové dřevo"
+          drying_note: "Doporučeno sušit 1–2 roky."
+
+    tramy:
+      breadcrumb_category: "Stavební řezivo"
+      description: "Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností."
+      stock_status: "Skladem"
+      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> trámy"
+    late:
+      breadcrumb_category: "Stavební řezivo"
+      description: "Stavební latě vhodné pro střešní konstrukce, rošty a další stavební aplikace. Vyrobené z kvalitního dřeva, dostupné v různých délkách a průřezech. Ideální pro přesné a spolehlivé konstrukce."
+      stock_status: "Skladem"
+      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> střešní latě"
+    fosny:
+      breadcrumb_category: "Stavební řezivo"
+      description: "Robustní fošny ideální pro výrobu podlah, bednění nebo konstrukční prvky. Dostupné v široké škále rozměrů a tlouštěk. Kvalitní dřevo zajišťuje pevnost a odolnost."
+      stock_status: "Skladem"
+      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> fošny"
+    prkna:
+      breadcrumb_category: "Stavební řezivo"
+      title: "Prkna, 24 mm"
+      description: "Kvalitní stavební prkna vhodná pro bednění, podlahy a další stavební využití."
+      stock_status: "Skladem"
+      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> prkna"
+      quality_grades:
+        netridene_1: "I. netříděné"
+        tridene_1: "I. tříděné"
+        tridene_2: "II. tříděné"
+
+    odkory:
+      breadcrumb_category: "Výrobní zbytky"
+      description: "Levné a efektivní palivo z odkorněných kusů dřeva. Vhodné pro kamna, krby a kotle. Poskytuje vysokou výhřevnost při minimálních nákladech. Nabízíme volně ložené nebo balené dle potřeb zákazníka."
+      item_label: "Odkory"
+    piliny:
+      breadcrumb_category: "Výrobní zbytky"
+      description: "Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Nabízíme volně ložené nebo balené varianty."
+      item_label: "Piliny"
+    stepka:
+      breadcrumb_category: "Výrobní zbytky"
+      description: "Dřevní štěpka ideální jako ekologické palivo nebo mulčovací materiál pro zahrady. Vyrobená z kvalitního dřeva, nízká vlhkost zajišťuje vysokou výhřevnost. Dostupná ve volně ložené či balené podobě."
+      item_label: "Štěpka"
+    okrasne_kamenivo_detail:
+      breadcrumb_category: "Okrasné kamenivo"
+      description: "Přírodní okrasné kamenivo pro úpravu zahrad, obsypy ploch a dekorativní účely. Dostupné ve třech frakcích."
+      item_label: "Kamenivo"
+
+  shared:
+    custom_demand:
+      title_line1: "Nenašli jste, co jste hledali?"
+      title_line2: "Poptejte se po výrobě na míru"
+      banner_alt: "Zadat poptávku"
+      card_title: "Zadat poptávku"
+      text_html: "Potřebujete palivové dřevo <strong>na míru</strong>, profesionální služby spojené s jeho přípravou, nebo kvalitní řezivo? Napište nám, co přesně hledáte, a my vám připravíme <strong>individuální nabídku podle vašich potřeb</strong>. Rychle, spolehlivě a za férovou cenu."
+    jak_objednat:
+      title_html: "Jak si u nás <span style=\"color: #2C8FFF\">objednat?</span>"
+      online_title_accent: "online"
+      online_title_rest: "Nakoupit"
+      online_steps:
+        - "Vyber produkt v e-shopu"
+        - "Přidejte do košíku"
+        - "Zadejte kontaktní údaje a dopravu"
+        - "Přejděte k dokončení objednávky"
+      online_img_alt: "Dřevo"
+      online_button: "Nakoupit online"
+      poptavka_title_accent: "poptávku"
+      poptavka_title_rest: "Zadat"
+      poptavka_steps:
+        - "Poptáte nám, co potřebujete"
+        - "Připravíme přesnou kalkulaci a návrh"
+        - "Na základě domluvy výrobek vyrobíme"
+        - "Doručíme až k Vám nebo připravíme k osobnímu odběru"
+      poptavka_img_alt: "Pila"
+      poptavka_button: "Zadat poptávku"
+    product_row:
+      cenik: "Ceník"
+      to_eshop: "Přejít do e-shopu"
+      request_quote: "Zadat poptávku"
+    recommendations:
+      title_html: "Mohlo by vás také <span class=\"text-blue\">zajímat:</span>"
+      items:
+        - jasan
+        - briza
+        - habr
+        - odkory
+        - buk
+    wood_types:
+      title_html: "Dřeva v sortimentu <span class=\"text-blue\">podle tvrdosti a barevnosti</span>"
+      soft_title: "Měkká"
+      hard_title: "Tvrdá"
+      soft_items:
+        smrk: "Smrk"
+        borovice: "Borovice"
+        modrin: "Modřín"
+      hard_items:
+        buk: "Buk"
+        habr: "Habr"
+        dub: "Dub"
+        akat: "Akát"
+        jasan: "Jasan"

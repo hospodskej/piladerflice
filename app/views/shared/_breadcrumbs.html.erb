@@ -3,15 +3,15 @@
                                  segments = request.path.split('/').reject(&:blank?)
                                  current_path = ""
                                  name_map = {
-                                   "sortiment" => "Sortiment",
-                                   "palivove-drevo" => "Palivové dřevo",
-                                   "stavebni-rezivo" => "Stavební řezivo",
-                                   "truhlarske-rezivo" => "Truhlářské řezivo",
-                                   "okrasne-kamenivo" => "Okrasné kamenivo",
-                                   "vyrobni-zbytky" => "Výrobní zbytky",
-                                   "sluzby" => "Služby",
-                                   "kontakt" => "Kontakty",
-                                   "eshop" => "E-shop"
+                                   "sortiment" => t("breadcrumbs.sortiment"),
+                                   "palivove-drevo" => t("breadcrumbs.palivove_drevo"),
+                                   "stavebni-rezivo" => t("breadcrumbs.stavebni_rezivo"),
+                                   "truhlarske-rezivo" => t("breadcrumbs.truhlarske_rezivo"),
+                                   "okrasne-kamenivo" => t("breadcrumbs.okrasne_kamenivo"),
+                                   "vyrobni-zbytky" => t("breadcrumbs.vyrobni_zbytky"),
+                                   "sluzby" => t("breadcrumbs.sluzby"),
+                                   "kontakt" => t("breadcrumbs.kontakt"),
+                                   "eshop" => t("breadcrumbs.eshop")
                                  }
 
                                  segments.map do |segment|
@@ -22,7 +22,7 @@
 %>
 
 <% if items.any? %>
-  <nav aria-label="breadcrumb" class="breadcrumb-nav">
+  <nav aria-label="<%= t('breadcrumbs.home_aria') %>" class="breadcrumb-nav">
     <%= link_to root_path, class: "breadcrumb-home" do %>
       <svg viewBox="0 0 24 24" width="24" height="24" fill="#5890FF">
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>

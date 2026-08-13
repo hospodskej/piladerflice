@@ -1,0 +1,170 @@
+<%
+  # Shared template for all firewood species detail pages (smrk, dub, buk,
+  # akat, jasan, briza, habr). Species-specific text (title, subtitle,
+  # description, drying note) all lives in config/locales/*.yml under
+  # eshop.firewood.species.<species_key>, keyed by this language-independent
+  # `species_key` local - so translating the site never touches this file,
+  # only the locale files. The dummy inventory pricing matrix is identical
+  # across every species in the current design.
+  title = t("eshop.products.#{species_key}.title")
+
+  @breadcrumb_items = [
+    [t("breadcrumbs.eshop"), "/eshop"],
+    [t("eshop.firewood.breadcrumb_category"), "/eshop?category=palivove"],
+    [title, "#"]
+  ]
+
+  kontejner_lengths = ["100 cm", "50 cm", "33 cm", "25 cm"]
+  kontejner_rows = [
+    { label: "5 m3", amount: "5 PRM", color: "text-red", price: "21 500 Kč" },
+    { label: "10 m3", amount: "10 PRM", color: "text-green", price: "17 863 Kč" },
+    { label: "15 m3", amount: "15 PRM", color: "text-yellow", price: "21 500 Kč" }
+  ]
+
+  bedny_items = [
+    { length: "50 cm", amount: "1 PRM", price: "21 500 Kč", color: "text-pink" },
+    { length: "33 cm", amount: "1 PRM", price: "17 863 Kč", color: "text-pink" },
+    { length: "25 cm", amount: "1 PRM", price: "21 500 Kč", color: "text-pink" }
+  ]
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/#{species_key}.png", alt: t("eshop.firewood.species.#{species_key}.image_alt") %>
+      </div>
+      <div class="product-intro-details">
+        <h1><%= title %></h1>
+        <p class="subtitle"><%= t("eshop.firewood.species.#{species_key}.subtitle") %></p>
+        <p class="description">
+          <%= t("eshop.firewood.species.#{species_key}.description") %>
+        </p>
+        <p class="drying-note"><%= t("eshop.firewood.species.#{species_key}.drying_note") %></p>
+        <p class="stock-status"><%= t("eshop.firewood.stock_status") %></p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+
+      <div class="inventory-filter">
+        <span class="filter-label"><%= t("common.loose_type_label") %></span>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-target="all"><%= t("common.all") %></button>
+          <button class="filter-btn" data-target="kontejner"><%= t("common.container") %></button>
+          <button class="filter-btn" data-target="bedny"><%= t("common.crate") %></button>
+        </div>
+      </div>
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title"><%= t("eshop.firewood.loose_heading_html") %></h2>
+
+        <div class="matrix-grid">
+          <div class="matrix-cell empty"></div>
+          <% kontejner_lengths.each do |len| %>
+            <div class="matrix-cell col-header"><%= len %></div>
+          <% end %>
+
+          <% kontejner_rows.each do |row| %>
+            <div class="matrix-cell row-header"><span><%= row[:label] %></span></div>
+            <% kontejner_lengths.each do |len| %>
+              <div class="matrix-cell">
+                <div class="inventory-card">
+                  <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+                  <div class="inventory-specs">
+                    <div class="spec-labels">
+                      <span><%= t("common.spec_variant") %></span>
+                      <span><%= t("common.spec_length") %></span>
+                      <span><%= t("common.spec_amount") %></span>
+                    </div>
+                    <div class="spec-values">
+                      <span class="spec-value"><%= t("common.loose_variant") %></span>
+                      <span class="spec-value"><%= len %></span>
+                      <span class="spec-value <%= row[:color] %>"><%= row[:amount] %></span>
+                    </div>
+                  </div>
+                  <p class="inventory-price"><%= row[:price] %></p>
+                  <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <hr class="inventory-separator mid-separator">
+
+      <div id="section-bedny" class="inventory-group">
+        <h2 class="section-title"><%= t("eshop.firewood.stacked_heading_html") %></h2>
+
+        <div class="matrix-grid-bedny">
+          <div class="matrix-cell empty"></div>
+          <% bedny_items.each do |item| %>
+            <div class="matrix-cell">
+              <div class="inventory-card">
+                <%= image_tag "eshop/bedna.png", alt: t("common.crate"), class: "inventory-img" %>
+                <div class="inventory-specs">
+                  <div class="spec-labels">
+                    <span><%= t("common.spec_variant") %></span>
+                    <span><%= t("common.spec_length") %></span>
+                    <span><%= t("common.spec_amount") %></span>
+                  </div>
+                  <div class="spec-values">
+                    <span class="spec-value"><%= t("common.stacked_variant") %></span>
+                    <span class="spec-value"><%= item[:length] %></span>
+                    <span class="spec-value <%= item[:color] %>"><%= item[:amount] %></span>
+                  </div>
+                </div>
+                <p class="inventory-price"><%= item[:price] %></p>
+                <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const sectionKontejner = document.getElementById("section-kontejner");
+            const sectionBedny = document.getElementById("section-bedny");
+            const midSeparator = document.querySelector(".mid-separator");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const target = btn.dataset.target;
+
+                    if (target === "all") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "block";
+                    } else if (target === "kontejner") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "none";
+                        midSeparator.style.display = "none";
+                    } else if (target === "bedny") {
+                        sectionKontejner.style.display = "none";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+    <%= render "shared/recommendations", current_product: species_key %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

@@ -1,20 +1,20 @@
 <main class="main">
   <section class="kontakt-page-section">
-    <h1 class="kontakt-main-title">Informační formuláře</h1>
+    <h1 class="kontakt-main-title"><%= t("kontakt.page_title") %></h1>
     <div class="kontakt-layout-grid">
 
       <div class="kontakt-image-wrapper">
-        <%= image_tag "kontakt/drevo.png", alt: "Palivové dřevo", class: "kontakt-image" %>
+        <%= image_tag "kontakt/drevo.png", alt: t("kontakt.image_alt"), class: "kontakt-image" %>
       </div>
 
       <div class="kontakt-details-wrapper">
         <div class="kontakt-titles">
-          <h2>Štěpán Merta</h2>
-          <h3 style="color: #2C8FFF">Pila Derflice</h3>
+          <h2><%= t("kontakt.brand_name") %></h2>
+          <h3 style="color: #2C8FFF"><%= t("kontakt.brand_sub") %></h3>
         </div>
 
         <div class="kontakt-info-group">
-          <h4>Kontakt</h4>
+          <h4><%= t("kontakt.kontakt_title") %></h4>
           <ul class="kontakt-list-items">
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
@@ -30,39 +30,39 @@
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-              <span>Derflice 66, 671 28 Znojmo</span>
+              <span><%= t("kontakt.address") %></span>
             </li>
           </ul>
         </div>
 
         <div class="kontakt-info-group">
-          <h4>Otevírací doba</h4>
+          <h4><%= t("kontakt.hours_title") %></h4>
           <ul class="kontakt-list-items">
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-              <span>Pondělí až pátek 7:00 - 15:30<br>mimo pracovní dobu dle dohody</span>
+              <span><%= t("kontakt.hours_text_html") %></span>
             </li>
           </ul>
         </div>
 
         <div class="kontakt-info-group">
-          <h4>Informace</h4>
+          <h4><%= t("kontakt.info_title") %></h4>
           <ul class="kontakt-list-items">
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-              <span>Odpovědná osoba: Štěpán Merta</span>
+              <span><%= t("kontakt.info_responsible") %></span>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-              <span>IČ: 45665451 | DIČ: CZ6909094742</span>
+              <span><%= t("kontakt.info_ico") %></span>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-              <span>Fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice</span>
+              <span><%= t("kontakt.info_billing") %></span>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-              <span>Fyzická osoba podnikající dle živnostenského zákona nezapsaná v obchodním rejstříku.</span>
+              <span><%= t("kontakt.info_legal") %></span>
             </li>
           </ul>
         </div>
@@ -71,75 +71,75 @@
   </section>
   <section class="kalkulace" id="kalkulace">
     <div class="kalkulace-header">
-      <h2>Poptejte se na naše výroby <span style="color: #2C8FFF">a my Vám připravíme nezávaznou kalkulaci</span></h2>
+      <h2><%= t("kontakt.kalkulace_title_html") %></h2>
     </div>
 
     <div class="kalkulace-toggles">
-      <button type="button" class="toggle-btn active">Palivové dřevo</button>
-      <button type="button" class="toggle-btn">Stavební řezivo</button>
+      <button type="button" class="toggle-btn active"><%= t("kontakt.toggle_palivove") %></button>
+      <button type="button" class="toggle-btn"><%= t("kontakt.toggle_stavebni") %></button>
     </div>
 
     <%= form_with url: "#", class: "kalkulace-form", id: "kalkulace-form" do |form| %>
-      <h3 class="form-section-title">Kontakt</h3>
+      <h3 class="form-section-title"><%= t("kontakt.form_section_kontakt") %></h3>
       <div class="kalkulace-grid-2">
 
         <div class="form-group">
-          <%= form.label :jmeno, "Jméno" %>
+          <%= form.label :jmeno, t("kontakt.form_jmeno") %>
           <%= form.text_field :jmeno, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :ulice, "Ulice" %>
+          <%= form.label :ulice, t("kontakt.form_ulice") %>
           <%= form.text_field :ulice, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :prijmeni, "Příjmení" %>
+          <%= form.label :prijmeni, t("kontakt.form_prijmeni") %>
           <%= form.text_field :prijmeni, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :cislo_popisne, "Číslo popisné" %>
+          <%= form.label :cislo_popisne, t("kontakt.form_cislo_popisne") %>
           <%= form.text_field :cislo_popisne, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :telefon, "Telefon" %>
+          <%= form.label :telefon, t("kontakt.form_telefon") %>
           <%= form.telephone_field :telefon, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :mesto, "Město" %>
+          <%= form.label :mesto, t("kontakt.form_mesto") %>
           <%= form.text_field :mesto, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :email, "E-mail" %>
+          <%= form.label :email, t("kontakt.form_email") %>
           <%= form.email_field :email, required: true %>
         </div>
 
         <div class="form-group">
-          <%= form.label :psc, "PSČ" %>
+          <%= form.label :psc, t("kontakt.form_psc") %>
           <%= form.text_field :psc, required: true %>
         </div>
 
       </div>
 
-      <h3 class="form-section-title">Formulář</h3>
+      <h3 class="form-section-title"><%= t("kontakt.form_section_formular") %></h3>
 
       <%
-        varianty = ["Skládané", "Sypané"]
-        druhy = ["Akát", "Dub", "Smrk", "Buk"]
-        delky = ["33 cm", "50 cm", "1 m"]
-        mnozstvi = ["5 PRM", "10 PRM", "15 PRM"]
+        varianty = t("kontakt.varianty").values
+        druhy = t("kontakt.druhy").values
+        delky = t("kontakt.delky")
+        mnozstvi = t("kontakt.mnozstvi")
       %>
 
       <div class="kalkulace-labels-row">
         <div class="kalkulace-grid-4">
-          <label class="grid-label">Varianta</label>
-          <label class="grid-label">Druh</label>
-          <label class="grid-label">Délka</label>
-          <label class="grid-label">Množství</label>
+          <label class="grid-label"><%= t("kontakt.grid_varianta") %></label>
+          <label class="grid-label"><%= t("kontakt.grid_druh") %></label>
+          <label class="grid-label"><%= t("kontakt.grid_delka") %></label>
+          <label class="grid-label"><%= t("kontakt.grid_mnozstvi") %></label>
         </div>
         <div class="delete-spacer"></div>
       </div>
@@ -174,19 +174,19 @@
 
           </div>
 
-          <button type="button" class="delete-item-btn" aria-label="Smazat">
+          <button type="button" class="delete-item-btn" aria-label="<%= t('kontakt.delete_item_aria') %>">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
           </button>
         </div>
       </div>
 
       <div class="add-item-wrapper">
-        <button type="button" id="add-kalkulace-row" class="add-item-btn" aria-label="Přidat položku">
+        <button type="button" id="add-kalkulace-row" class="add-item-btn" aria-label="<%= t('kontakt.add_item_aria') %>">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
         </button>
       </div>
 
-      <h3 class="form-section-title no-border">Poznámky</h3>
+      <h3 class="form-section-title no-border"><%= t("kontakt.form_section_poznamky") %></h3>
       <div class="form-group">
         <%= form.text_area :poznamky, rows: 6 %>
       </div>
@@ -195,28 +195,28 @@
         <label class="custom-checkbox-label">
           <%= form.check_box :souhlas, required: true %>
           <span class="custom-checkbox"></span>
-          <span class="consent-text">Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky.</span>
+          <span class="consent-text"><%= t("kontakt.consent_text") %></span>
         </label>
       </div>
 
       <div class="form-submit-wrapper">
-        <%= form.submit "Odeslat ke kalkulaci", class: "btn-primary" %>
+        <%= form.submit t("kontakt.submit_button"), class: "btn-primary" %>
       </div>
     <% end %>
 
   </section>
   <section class="cenik-section" id="cenik">
-    <h2 class="cenik-main-title">Ceník sortimentu</h2>
+    <h2 class="cenik-main-title"><%= t("kontakt.cenik_main_title") %></h2>
 
     <div class="cenik-group">
-      <div class="cenik-header"><h3>Stavební a Truhlářské řezivo</h3><span class="cenik-line"></span></div>
+      <div class="cenik-header"><h3><%= t("kontakt.cenik_stavebni_title") %></h3><span class="cenik-line"></span></div>
       <table class="cenik-table">
         <tbody>
         <% @stavebni_data.each do |row| %>
           <tr>
-            <td><%= row.item_name %></td>
-            <td><%= row.details %></td>
-            <td><%= row.price.html_safe %></td>
+            <td><%= row.item_name_i18n %></td>
+            <td><%= row.details_i18n %></td>
+            <td><%= row.price_i18n.html_safe %></td>
           </tr>
         <% end %>
         </tbody>
@@ -224,7 +224,7 @@
     </div>
 
     <div class="cenik-group">
-      <div class="cenik-header"><h3>Palivové dřevo - volně ložené</h3><span class="cenik-line"></span></div>
+      <div class="cenik-header"><h3><%= t("kontakt.cenik_palivove_volne_title") %></h3><span class="cenik-line"></span></div>
       <% @palivove_volne_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
           <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
@@ -232,8 +232,8 @@
             <tbody>
             <% items.each do |item| %>
               <tr>
-                <td><%= item.item_name %></td>
-                <td><%= item.price %> / PRM</td>
+                <td><%= item.item_name_i18n %></td>
+                <td><%= item.price_i18n %> / <%= t("common.per_m3") %></td>
               </tr>
             <% end %>
             </tbody>
@@ -243,7 +243,7 @@
     </div>
 
     <div class="cenik-group">
-      <div class="cenik-header"><h3>Palivové dřevo - Bedny skládané</h3><span class="cenik-line"></span></div>
+      <div class="cenik-header"><h3><%= t("kontakt.cenik_palivove_skladane_title") %></h3><span class="cenik-line"></span></div>
       <% @palivane_skladane_groups = @palivove_skladane_groups %>
       <% @palivove_skladane_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
@@ -252,8 +252,8 @@
             <tbody>
             <% items.each do |item| %>
               <tr>
-                <td><%= item.item_name %></td>
-                <td><%= item.price %> / PRM</td>
+                <td><%= item.item_name_i18n %></td>
+                <td><%= item.price_i18n %> / <%= t("common.per_m3") %></td>
               </tr>
             <% end %>
             </tbody>
@@ -263,13 +263,13 @@
     </div>
 
     <div class="cenik-group">
-      <div class="cenik-header"><h3>Výrobní zbytky</h3><span class="cenik-line"></span></div>
+      <div class="cenik-header"><h3><%= t("kontakt.cenik_zbytky_title") %></h3><span class="cenik-line"></span></div>
       <table class="cenik-table two-cols">
         <tbody>
         <% @vyrobni_zbytky.each do |row| %>
           <tr>
-            <td style="text-align: left"><%= row.item_name %></td>
-            <td><%= row.price %></td>
+            <td style="text-align: left"><%= row.item_name_i18n %></td>
+            <td><%= row.price_i18n %></td>
           </tr>
         <% end %>
         </tbody>
@@ -277,24 +277,24 @@
     </div>
 
     <div class="cenik-group">
-      <div class="cenik-header"><h3>Okrasné kamenivo</h3><span class="cenik-line"></span></div>
+      <div class="cenik-header"><h3><%= t("kontakt.cenik_kamenivo_title") %></h3><span class="cenik-line"></span></div>
       <table class="cenik-table">
         <tbody>
         <tr>
           <td style="text-align: right; padding-right: 30px;">
-            <%= @kamenivo_item&.price || "1 – 30 Kč / 1 kg" %>
+            <%= @kamenivo_item&.price_i18n || t("kontakt.cenik_kamenivo_default") %>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
 
-    <h2 class="cenik-main-title" id="cenik-sluzeb" style="margin-top: 80px; margin-bottom: 20px;">Ceník služeb</h2>
+    <h2 class="cenik-main-title" id="cenik-sluzeb" style="margin-top: 80px; margin-bottom: 20px;"><%= t("kontakt.cenik_sluzeb_title") %></h2>
     <div class="cenik-sluzby-container">
       <% @sluzby_cenik.each do |sluzba| %>
         <div class="cenik-sluzba-item">
-          <h4 class="cenik-sluzba-label"><%= sluzba.item_name.html_safe %></h4>
-          <div class="cenik-sluzba-box"><%= sluzba.price.html_safe %></div>
+          <h4 class="cenik-sluzba-label"><%= sluzba.item_name_i18n.html_safe %></h4>
+          <div class="cenik-sluzba-box"><%= sluzba.price_i18n.html_safe %></div>
         </div>
       <% end %>
     </div>

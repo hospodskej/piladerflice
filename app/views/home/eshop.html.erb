@@ -1,29 +1,34 @@
 <%
+  # `key` is the canonical (language-independent) product identifier used to
+  # look up the translated title/type/price in the locale files, and
+  # `hardness` is used for the wood-type filter below - neither depends on
+  # the display language, so switching to German never breaks filtering,
+  # sorting, or badge numbering.
   firewood_products = [
-    { title: "Smrk", type: "Měkké palivové dřevo", price_display: "od 1 260 Kč", image: "eshop/smrk.png", url: "eshop/smrk" },
-    { title: "Dub", type: "Tvrdé palivové dřevo", price_display: "od 1 740 Kč", image: "eshop/dub.png", url: "eshop/dub" },
-    { title: "Buk", type: "Tvrdé palivové dřevo", price_display: "od 1 900 Kč", image: "eshop/buk.png", url: "eshop/buk" },
-    { title: "Akát", type: "Tvrdé palivové dřevo", price_display: "od 1 900 Kč", image: "eshop/akat.png", url: "eshop/akat" },
-    { title: "Jasan", type: "Tvrdé palivové dřevo", price_display: "od 1 740 Kč", image: "eshop/jasan.png", url: "/eshop/jasan" },
-    { title: "Bříza", type: "Tvrdé palivové dřevo", price_display: "---", image: "eshop/briza.png", url: "/eshop/briza" },
-    { title: "Habr", type: "Tvrdé palivové dřevo", price_display: "od 1 900 Kč", image: "eshop/habr.png", url: "/eshop/habr" }
+    { key: "smrk", hardness: "soft", image: "eshop/smrk.png", url: "eshop/smrk" },
+    { key: "dub", hardness: "hard", image: "eshop/dub.png", url: "eshop/dub" },
+    { key: "buk", hardness: "hard", image: "eshop/buk.png", url: "eshop/buk" },
+    { key: "akat", hardness: "hard", image: "eshop/akat.png", url: "eshop/akat" },
+    { key: "jasan", hardness: "hard", image: "eshop/jasan.png", url: "/eshop/jasan" },
+    { key: "briza", hardness: "hard", image: "eshop/briza.png", url: "/eshop/briza" },
+    { key: "habr", hardness: "hard", image: "eshop/habr.png", url: "/eshop/habr" }
   ]
 
   lumber_products = [
-    { title: "Střešní latě", type: "Stavební řezivo", price_display: "od 8 500 Kč", image: "eshop/late.png", url: "/eshop/late" },
-    { title: "Trámy", type: "Stavební řezivo", price_display: "od 8 500 Kč", image: "eshop/tramy.png", url: "/eshop/tramy" },
-    { title: "Fošny", type: "Stavební řezivo", price_display: "od 8 500 Kč", image: "eshop/fosny.png", url: "/eshop/fosny" },
-    { title: "Prkna 24 mm", type: "Stavební řezivo", price_display: "od 5 000 Kč", image: "eshop/prkna.png", url: "/eshop/prkna" },
+    { key: "late", image: "eshop/late.png", url: "/eshop/late" },
+    { key: "tramy", image: "eshop/tramy.png", url: "/eshop/tramy" },
+    { key: "fosny", image: "eshop/fosny.png", url: "/eshop/fosny" },
+    { key: "prkna", image: "eshop/prkna.png", url: "/eshop/prkna" },
   ]
 
   residuals_products = [
-    { title: "Štěpka", type: "Výrobní zbytky", price_display: "od 700 Kč", image: "eshop/stepka.png", url: "/eshop/stepka" },
-    { title: "Odkory na topení", type: "Výrobní zbytky", price_display: "od 800 Kč", image: "eshop/odkory.png", url: "/eshop/odkory" },
-    { title: "Piliny", type: "Výrobní zbytky", price_display: "od 450 Kč", image: "eshop/piliny.png", url: "/eshop/piliny" },
+    { key: "stepka", image: "eshop/stepka.png", url: "/eshop/stepka" },
+    { key: "odkory", image: "eshop/odkory.png", url: "/eshop/odkory" },
+    { key: "piliny", image: "eshop/piliny.png", url: "/eshop/piliny" },
   ]
 
   gravel_products = [
-    { title: "Okrasné kamenivo", type: "Okrasné kamenivo", price_display: "od 1 Kč", image: "eshop/kamenivo.png", url: "/eshop/okrasne_kamenivo" },
+    { key: "okrasne_kamenivo", image: "eshop/kamenivo.png", url: "/eshop/okrasne_kamenivo" },
   ]
 
   if params[:category] == "rezivo"
@@ -37,20 +42,20 @@
   end
 
   if params[:wood] == "tvrde"
-    products = base_products.select { |p| p[:type].include?("Tvrdé") }
+    products = base_products.select { |p| p[:hardness] == "hard" }
   elsif params[:wood] == "mekke"
-    products = base_products.select { |p| p[:type].include?("Měkké") }
+    products = base_products.select { |p| p[:hardness] == "soft" }
   else
     products = base_products.dup
   end
 
   if params[:sort] == "nejprodavanejsi"
-    sort_order = ["Buk", "Dub", "Smrk", "Trámy", "Fošny", "Střešní latě", "Piliny", "Odkory na topení", "Štěpka", "Okrasné kamenivo"]
+    sort_order = ["buk", "dub", "smrk", "tramy", "fosny", "late", "piliny", "odkory", "stepka", "okrasne_kamenivo"]
   else
-    sort_order = ["Smrk", "Dub", "Buk", "Střešní latě", "Trámy", "Fošny", "Štěpka", "Odkory na topení", "Piliny", "Okrasné kamenivo"]
+    sort_order = ["smrk", "dub", "buk", "late", "tramy", "fosny", "stepka", "odkory", "piliny", "okrasne_kamenivo"]
   end
 
-  products.sort_by! { |p| sort_order.index(p[:title]) || 999 }
+  products.sort_by! { |p| sort_order.index(p[:key]) || 999 }
 %>
 
 <main class="eshop-main">
@@ -58,48 +63,49 @@
     <div class="eshop-container">
 
       <section class="eshop-filters">
-        <h3>Kategorie produktů</h3>
+        <h3><%= t("eshop.index.filters_title") %></h3>
         <div class="filter-group">
-          <%= link_to "Palivové dřevo", "/eshop?category=palivove&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category].blank? || params[:category] == 'palivove'}" %>
-          <%= link_to "Stavební řezivo", "/eshop?category=rezivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'rezivo'}" %>
-          <%= link_to "Výrobní zbytky", "/eshop?category=zbytky&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'zbytky'}" %>
-          <%= link_to "Okrasné kamenivo", "/eshop?category=kamenivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'kamenivo'}" %>
+          <%= link_to t("eshop.index.cat_palivove"), "/eshop?category=palivove&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category].blank? || params[:category] == 'palivove'}" %>
+          <%= link_to t("eshop.index.cat_rezivo"), "/eshop?category=rezivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'rezivo'}" %>
+          <%= link_to t("eshop.index.cat_zbytky"), "/eshop?category=zbytky&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'zbytky'}" %>
+          <%= link_to t("eshop.index.cat_kamenivo"), "/eshop?category=kamenivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'kamenivo'}" %>
         </div>
 
         <% if params[:category].blank? || params[:category] == 'palivove' %>
-          <h3 class="mt-40">Typ dřeva</h3>
+          <h3 class="mt-40"><%= t("eshop.index.wood_type_title") %></h3>
           <div class="filter-group">
-            <%= link_to "Vše", "/eshop?category=#{params[:category]}&wood=vse&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood].blank? || params[:wood] == 'vse'}" %>
-            <%= link_to "Tvrdé", "/eshop?category=#{params[:category]}&wood=tvrde&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'tvrde'}" %>
-            <%= link_to "Měkké", "/eshop?category=#{params[:category]}&wood=mekke&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'mekke'}" %>
+            <%= link_to t("eshop.index.wood_all"), "/eshop?category=#{params[:category]}&wood=vse&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood].blank? || params[:wood] == 'vse'}" %>
+            <%= link_to t("eshop.index.wood_hard"), "/eshop?category=#{params[:category]}&wood=tvrde&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'tvrde'}" %>
+            <%= link_to t("eshop.index.wood_soft"), "/eshop?category=#{params[:category]}&wood=mekke&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'mekke'}" %>
           </div>
         <% end %>
       </section>
 
       <section class="eshop-sorting">
         <div class="sorting-tabs">
-          <%= link_to "Doporučujeme", "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=doporucujeme", class: "btn-sort #{'active' if params[:sort].blank? || params[:sort] == 'doporucujeme'}" %>
-          <%= link_to "Nejprodávanější", "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=nejprodavanejsi", class: "btn-sort #{'active' if params[:sort] == 'nejprodavanejsi'}" %>
+          <%= link_to t("eshop.index.sort_recommended"), "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=doporucujeme", class: "btn-sort #{'active' if params[:sort].blank? || params[:sort] == 'doporucujeme'}" %>
+          <%= link_to t("eshop.index.sort_bestsellers"), "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=nejprodavanejsi", class: "btn-sort #{'active' if params[:sort] == 'nejprodavanejsi'}" %>
         </div>
         <hr class="sorting-divider">
       </section>
 
       <section class="eshop-grid">
         <% products.each_with_index do |product, index| %>
+          <% title = t("eshop.products.#{product[:key]}.title") %>
           <div class="product-card">
             <div class="product-image-wrapper-eshop">
               <% if index < 3 %>
                 <span class="product-badge"><%= index + 1 %>.</span>
               <% end %>
-              <%= image_tag product[:image], alt: product[:title], class: "product-img" %>
+              <%= image_tag product[:image], alt: title, class: "product-img" %>
             </div>
 
             <div class="product-info-eshop">
-              <h4 class="product-title"><%= product[:title] %></h4>
-              <p class="product-type"><%= product[:type] %></p>
-              <p class="product-stock">skladem</p>
-              <p class="product-price"><%= product[:price_display] %></p>
-              <%= link_to "Detail", product[:url] || "#", class: "btn-primary btn-detail", data: { turbo: false } %>
+              <h4 class="product-title"><%= title %></h4>
+              <p class="product-type"><%= t("eshop.products.#{product[:key]}.type") %></p>
+              <p class="product-stock"><%= t("common.stock") %></p>
+              <p class="product-price"><%= t("eshop.products.#{product[:key]}.price") %></p>
+              <%= link_to t("common.detail"), product[:url] || "#", class: "btn-primary btn-detail", data: { turbo: false } %>
             </div>
           </div>
         <% end %>

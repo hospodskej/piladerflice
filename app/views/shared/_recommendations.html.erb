@@ -1,29 +1,33 @@
 <%
+  # `key` is the canonical (language-independent) product identifier used to
+  # look up the translated title/type/price/image in the locale files, so
+  # switching to German doesn't depend on matching Czech text anywhere.
   all_recommendations = [
-    { title: "Jasan", type: "Tvrdé palivové dřevo", price: "od 1 740 Kč", image: "eshop/jasan.png", url: "eshop/jasan" },
-    { title: "Bříza", type: "Tvrdé palivové dřevo", price: "---", image: "eshop/briza.png", url: "eshop/briza" },
-    { title: "Habr", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/habr.png", url: "eshop/habr" },
-    { title: "Odkory na topení", type: "Tvrdé / Měkké", price: "od 800 Kč", image: "eshop/odkory.png", url: "eshop/odkory" },
-    { title: "Buk", type: "Tvrdé palivové dřevo", price: "od 1 900 Kč", image: "eshop/buk.png", url: "eshop/buk" },
+    { key: "jasan", image: "eshop/jasan.png", url: "eshop/jasan" },
+    { key: "briza", image: "eshop/briza.png", url: "eshop/briza" },
+    { key: "habr", image: "eshop/habr.png", url: "eshop/habr" },
+    { key: "odkory", image: "eshop/odkory.png", url: "eshop/odkory" },
+    { key: "buk", image: "eshop/buk.png", url: "eshop/buk" },
   ]
 
-  recommendations = all_recommendations.reject { |p| p[:title] == local_assigns[:current_product] }.take(4)
+  recommendations = all_recommendations.reject { |p| p[:key] == local_assigns[:current_product] }.take(4)
 %>
 
 <section class="recommendations-section">
-  <h2 class="section-title text-center">Mohlo by vás také <span class="text-blue">zajímat:</span></h2>
+  <h2 class="section-title text-center"><%= t("shared.recommendations.title_html") %></h2>
   <div class="eshop-grid">
     <% recommendations.each do |product| %>
+      <% title = t("eshop.products.#{product[:key]}.title") %>
       <div class="product-card">
         <div class="product-image-wrapper-eshop">
-          <%= image_tag product[:image], alt: product[:title], class: "product-img" %>
+          <%= image_tag product[:image], alt: title, class: "product-img" %>
         </div>
         <div class="product-info-eshop">
-          <h4 class="product-title"><%= product[:title] %></h4>
-          <p class="product-type"><%= product[:type] %></p>
-          <p class="product-stock">skladem</p>
-          <p class="product-price"><%= product[:price] %></p>
-          <%= link_to "Detail", "#", class: "btn-primary btn-detail" %>
+          <h4 class="product-title"><%= title %></h4>
+          <p class="product-type"><%= t("eshop.products.#{product[:key]}.type") %></p>
+          <p class="product-stock"><%= t("common.stock") %></p>
+          <p class="product-price"><%= t("eshop.products.#{product[:key]}.price") %></p>
+          <%= link_to t("common.detail"), "#", class: "btn-primary btn-detail" %>
         </div>
       </div>
     <% end %>

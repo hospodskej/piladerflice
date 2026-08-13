@@ -1,0 +1,80 @@
+<%
+  # Shared template for the "simple variant grid" detail pages (odkory,
+  # piliny, stepka, okrasne_kamenivo) - a title/description intro followed
+  # by a flat grid of purchasable variants (no length/container matrix).
+  # `key` is the canonical product identifier (eshop.products.<key>),
+  # `i18n_key` points at the matching eshop.<i18n_key> block that holds this
+  # page's breadcrumb/description/item_label text.
+  title = t("eshop.products.#{key}.title")
+
+  @breadcrumb_items = [
+    [t("breadcrumbs.eshop"), "/eshop"],
+    [t("eshop.#{i18n_key}.breadcrumb_category"), "/eshop?category=#{category_param}"],
+    [title, "#"]
+  ]
+
+  item_label = t("eshop.#{i18n_key}.item_label")
+%>
+
+<main class="product-page-main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag "eshop/#{key}.png", alt: title %>
+      </div>
+      <div class="product-intro-details">
+        <h1><%= title %></h1>
+        <p class="description">
+          <%= t("eshop.#{i18n_key}.description") %>
+        </p>
+      </div>
+    </section>
+
+    <section class="inventory-section">
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title"><%= t("common.available_variants_html") %></h2>
+
+        <div class="<%= grid_class %>">
+          <% items.each do |item| %>
+            <div class="inventory-card">
+              <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+
+              <div class="inventory-specs">
+                <div class="spec-labels">
+                  <span><%= t("common.spec_description") %></span>
+                  <span><%= t(spec2_label_key) %></span>
+                </div>
+                <div class="spec-values">
+                  <span class="spec-value"><%= item_label %></span>
+                  <span class="spec-value"><%= item[:spec2_value] %></span>
+                </div>
+              </div>
+
+              <p class="inventory-price"><%= item[:price] %></p>
+
+              <p class="spec-value <%= item[:in_stock] ? 'text-green' : 'text-red' %>" style="margin-bottom: 12px; font-size: 0.95rem;">
+                <%= item[:in_stock] ? t("common.in_stock") : t("common.out_of_stock") %>
+              </p>
+
+              <% if item[:in_stock] %>
+                <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+              <% else %>
+                <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <%= render "shared/recommendations", current_product: key %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

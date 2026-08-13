@@ -1,80 +1,14 @@
 <%
-  current_product = "Štěpka"
-
-  @breadcrumb_items = [
-    ["E-shop", "/eshop"],
-    ["Výrobní zbytky", "/eshop?category=zbytky"],
-    ["Štěpka", "#"]
-  ]
-
-  stepka_items = [
-    { wood: "Smrk", price: "700 Kč", stock: "Skladem", stock_color: "text-green", in_stock: true },
-    { wood: "Dub", price: "800 Kč", stock: "Skladem", stock_color: "text-green", in_stock: true },
-    { wood: "Buk", price: "800 Kč", stock: "Není skladem", stock_color: "text-red", in_stock: false }
+  items = [
+    { spec2_value: t("eshop.products.smrk.title"), price: "700 Kč", in_stock: true },
+    { spec2_value: t("eshop.products.dub.title"), price: "800 Kč", in_stock: true },
+    { spec2_value: t("eshop.products.buk.title"), price: "800 Kč", in_stock: false }
   ]
 %>
-
-<main class="product-page-main">
-  <div class="product-container">
-
-    <section class="product-intro-section">
-      <div class="product-intro-image">
-        <%= image_tag "eshop/stepka.png", alt: "Dřevní štěpka" %>
-      </div>
-      <div class="product-intro-details">
-        <h1>Štěpka</h1>
-        <p class="description">
-          Dřevní štěpka ideální jako ekologické palivo nebo mulčovací materiál pro zahrady.
-          Vyrobená z kvalitního dřeva, nízká vlhkost zajišťuje vysokou výhřevnost.
-          Dostupná ve volně ložené či balené podobě.
-        </p>
-      </div>
-    </section>
-
-    <section class="inventory-section">
-
-      <hr class="inventory-separator main-separator">
-
-      <div id="section-kontejner" class="inventory-group">
-        <h2 class="section-title"><span class="text-blue">Dostupné</span> varianty</h2>
-
-        <div class="simple-grid-3">
-          <% stepka_items.each do |item| %>
-            <div class="inventory-card">
-              <%= image_tag "eshop/container.png", alt: "Kontejner štěpky", class: "inventory-img" %>
-
-              <div class="inventory-specs">
-                <div class="spec-labels">
-                  <span>Popis</span>
-                  <span>Dřevo</span>
-                </div>
-                <div class="spec-values">
-                  <span class="spec-value">Štěpka</span>
-                  <span class="spec-value"><%= item[:wood] %></span>
-                </div>
-              </div>
-
-              <p class="inventory-price"><%= item[:price] %></p>
-
-              <p class="spec-value <%= item[:stock_color] %>" style="margin-bottom: 12px; font-size: 0.95rem;">
-                <%= item[:stock] %>
-              </p>
-
-              <% if item[:in_stock] %>
-                <%= button_to "Do košíku", "#", class: "btn-primary btn-cart" %>
-              <% else %>
-                <%= button_to "Není skladem", "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-    </section>
-
-    <%= render "shared/recommendations", current_product: current_product %>
-
-  </div>
-
-  <%= render "shared/custom_demand" %>
-</main>
+<%= render "shared/simple_variant_product",
+    key: "stepka",
+    i18n_key: "stepka",
+    category_param: "zbytky",
+    grid_class: "simple-grid-3",
+    items: items,
+    spec2_label_key: "common.spec_wood" %>

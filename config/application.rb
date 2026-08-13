@@ -38,5 +38,11 @@ module PilaDerflice
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # I18n: Czech is the primary language, German is the secondary language
+    # (switchable via the flag dropdown in the header).
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.yml")]
+    config.i18n.available_locales = [:cs, :de]
+    config.i18n.default_locale = :cs
   end
 end

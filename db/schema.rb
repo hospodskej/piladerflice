@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_133304) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_120000) do
   create_table "faq_items", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
     t.string "image"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "content_de"
   end
 
   create_table "pricelist_items", force: :cascade do |t|
@@ -27,6 +29,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_133304) do
     t.string "price"
     t.string "subcategory"
     t.datetime "updated_at", null: false
+    t.string "item_name_de"
+    t.string "details_de"
+    t.string "price_de"
+    t.string "subcategory_de"
   end
 
   create_table "products", force: :cascade do |t|
@@ -36,6 +42,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_133304) do
     t.text "text"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "text_de"
   end
 
   create_table "promos", force: :cascade do |t|
@@ -48,6 +56,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_133304) do
     t.string "price"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.string "feature_1_de"
+    t.string "feature_2_de"
+    t.string "feature_3_de"
+    t.string "price_de"
   end
 
   create_table "services", force: :cascade do |t|
@@ -58,5 +71,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_133304) do
     t.text "images"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "content_de"
+    t.string "button_text_de"
   end
 end

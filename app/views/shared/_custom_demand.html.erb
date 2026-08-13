@@ -1,18 +1,18 @@
 <section class="custom-demand-section">
   <h2 class="custom-demand-title">
-    Nenašli jste, co jste hledali?
-    <span class="text-blue">Poptejte se po výrobě na míru</span>
+    <%= t("shared.custom_demand.title_line1") %>
+    <span class="text-blue"><%= t("shared.custom_demand.title_line2") %></span>
   </h2>
 
   <div class="custom-demand-card">
     <div class="custom-demand-img-wrapper">
-      <%= image_tag "eshop/custom-production-banner.jpg", alt: "Zadat poptávku", class: "custom-demand-banner-img" %>
+      <%= image_tag "eshop/custom-production-banner.jpg", alt: t("shared.custom_demand.banner_alt"), class: "custom-demand-banner-img" %>
     </div>
 
     <div class="custom-demand-content">
       <div class="custom-demand-text">
-        <h3>Zadat poptávku</h3>
-        <p>Potřebujete palivové dřevo <strong>na míru</strong>, profesionální služby spojené s jeho přípravou, nebo kvalitní řezivo? Napište nám, co přesně hledáte, a my vám připravíme <strong>individuální nabídku podle vašich potřeb</strong>. Rychle, spolehlivě a za férovou cenu.</p>
+        <h3><%= t("shared.custom_demand.card_title") %></h3>
+        <p><%= t("shared.custom_demand.text_html") %></p>
       </div>
 
       <div class="custom-demand-action">

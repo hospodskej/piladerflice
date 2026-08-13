@@ -3,13 +3,13 @@
     <div class="footer-top">
 
       <div class="footer-col brand-col">
-        <%= image_tag "logo-dm.png", alt: "Pila Derflice", class: "footer-logo" %>
-        <h2>Štěpán Merta</h2>
-        <span class="brand-blue">Pila Derflice</span>
+        <%= image_tag "logo-dm.png", alt: t("site.name"), class: "footer-logo" %>
+        <h2><%= t("footer.brand_name") %></h2>
+        <span class="brand-blue"><%= t("footer.brand_sub") %></span>
       </div>
 
       <div class="footer-col">
-        <h3>Kontakt</h3>
+        <h3><%= t("footer.kontakt_title") %></h3>
         <ul class="contact-list">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -28,34 +28,34 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            Derflice 66, 671 28 Znojmo
+            <%= t("footer.address") %>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            Pondělí - Pátek : 7:00 - 15:30
+            <%= t("footer.hours") %>
           </li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Služby</h3>
+        <h3><%= t("footer.sluzby_title") %></h3>
         <ul class="link-list">
-          <li><%= link_to "Zakázková výroba", "/kontakt#kalkulace" %></li>
-          <li><%= link_to "Hoblování", "/sluzby#hoblovani" %></li>
-          <li><%= link_to "Doprava", "/sluzby#doprava" %></li>
-          <li><%= link_to "Impregnace", "/sluzby#impregnace" %></li>
-          <li><%= link_to "Pořez / Prodej kulatiny", "/sluzby#porez-prodej-kulatiny" %></li>
+          <li><%= link_to t("footer.sluzby_links.zakazkova_vyroba"), "/kontakt#kalkulace" %></li>
+          <li><%= link_to t("footer.sluzby_links.hoblovani"), "/sluzby#hoblovani" %></li>
+          <li><%= link_to t("footer.sluzby_links.doprava"), "/sluzby#doprava" %></li>
+          <li><%= link_to t("footer.sluzby_links.impregnace"), "/sluzby#impregnace" %></li>
+          <li><%= link_to t("footer.sluzby_links.porez"), "/sluzby#porez-prodej-kulatiny" %></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Sortiment</h3>
+        <h3><%= t("footer.sortiment_title") %></h3>
         <ul class="link-list">
-          <li><%= link_to "Palivové dřevo", "/sortiment/palivove-drevo" %></li>
-          <li><%= link_to "Stavební řezivo", "/sortiment/stavebni-rezivo" %></li>
-          <li><%= link_to "Truhlářské řezivo", "/sortiment/truhlarske-rezivo" %></li>
-          <li><%= link_to "Výrobní zbytky", "/sortiment/vyrobni-zbytky" %></li>
-          <li><%= link_to "Okrasné kamenivo", "/sortiment/okrasne-kamenivo" %></li>
+          <li><%= link_to t("footer.sortiment_links.palivove_drevo"), "/sortiment/palivove-drevo" %></li>
+          <li><%= link_to t("footer.sortiment_links.stavebni_rezivo"), "/sortiment/stavebni-rezivo" %></li>
+          <li><%= link_to t("footer.sortiment_links.truhlarske_rezivo"), "/sortiment/truhlarske-rezivo" %></li>
+          <li><%= link_to t("footer.sortiment_links.vyrobni_zbytky"), "/sortiment/vyrobni-zbytky" %></li>
+          <li><%= link_to t("footer.sortiment_links.okrasne_kamenivo"), "/sortiment/okrasne-kamenivo" %></li>
         </ul>
       </div>
 

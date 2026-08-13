@@ -7,14 +7,14 @@
     <% end %>
 
     <div class="product-hero-buttons">
-      <%= link_to "Ceník", "/kontakt#cenik", class: "btn-primary" %>
-      <%= link_to "Přejít do e-shopu", eshop_link, class: "btn-outline-dark" %>
-      <%= link_to "Zadat poptávku", "/kontakt#kalkulace", class: "btn-outline-dark" %>
+      <%= link_to t("shared.product_row.cenik"), "/kontakt#cenik", class: "btn-primary" %>
+      <%= link_to t("shared.product_row.to_eshop"), eshop_link, class: "btn-outline-dark" %>
+      <%= link_to t("shared.product_row.request_quote"), "/kontakt#kalkulace", class: "btn-outline-dark" %>
     </div>
   </div>
 
   <div class="sluzba-carousel-wrapper product-hero-carousel">
-    <button class="carousel-btn prev-btn" aria-label="Předchozí">
+    <button class="carousel-btn prev-btn" aria-label="<%= t('common.previous') %>">
       <svg viewBox="0 0 24 24" fill="white"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
     </button>
 
@@ -28,7 +28,7 @@
       </ul>
     </div>
 
-    <button class="carousel-btn next-btn" aria-label="Další">
+    <button class="carousel-btn next-btn" aria-label="<%= t('common.next') %>">
       <svg viewBox="0 0 24 24" fill="white"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
     </button>
   </div>

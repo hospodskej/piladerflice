@@ -1,17 +1,17 @@
 <main class="main">
   <section class="sortiment-page-section">
-    <h2 class="section-main-title">Sortiment</h2>
+    <h2 class="section-main-title"><%= t("sortiment.index.title") %></h2>
 
     <div class="sortiment-grid-5">
       <% @kategorie.each do |kat| %>
         <%= link_to kat.link, class: "sortiment-card" do %>
 
           <div class="sortiment-card-img">
-            <%= image_tag kat.image, alt: kat.title %>
+            <%= image_tag kat.image, alt: kat.title_i18n %>
           </div>
           <div class="sortiment-card-text">
-            <h3><%= kat.title %></h3>
-            <p><%= kat.text %></p>
+            <h3><%= kat.title_i18n %></h3>
+            <p><%= kat.text_i18n %></p>
           </div>
 
         <% end %>

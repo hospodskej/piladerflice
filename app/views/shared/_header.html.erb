@@ -10,59 +10,59 @@
     </div>
   </div>
   <div class="main-nav">
-    <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu">
+    <button class="menu-toggle" id="menuToggle" aria-label="<%= t('nav.open_menu') %>">
       <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
     </button>
     <div class="logo">
-      <%= image_tag "logo-wm.png", alt: "Pila Derflice", class: "logo" %>
+      <%= image_tag "logo-wm.png", alt: t("site.name"), class: "logo" %>
     </div>
     <nav class="nav-links desktop-nav">
-      <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
-      <%= link_to "Eshop", eshop_path, class: "nav-link #{'active' if current_page?(eshop_path)}" %>
-      <%= link_to "Sortiment", sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
-      <%= link_to "Služby", sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
-      <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
-      <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
+      <%= link_to t("nav.domu"), root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
+      <%= link_to t("nav.eshop"), eshop_path, class: "nav-link #{'active' if current_page?(eshop_path)}" %>
+      <%= link_to t("nav.sortiment"), sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
+      <%= link_to t("nav.sluzby"), sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
+      <%= link_to t("nav.cenik"), "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
+      <%= link_to t("nav.kontakt"), kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>
-    <div class="lang-dropdown">
-      <button class="btn-pill lang-btn">
+    <%
+      cs_flag = capture do %>
         <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
           <rect width="600" height="400" fill="#d7141a"/>
           <rect width="600" height="200" fill="#fff"/>
           <polygon points="0,0 0,400 300,200" fill="#11457e"/>
         </svg>
+      <% end
+      de_flag = capture do %>
+        <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
+          <rect width="600" height="400" fill="#ed2939"/>
+          <rect width="600" height="133.33" y="133.33" fill="#fff"/>
+        </svg>
+      <% end
+    %>
+    <div class="lang-dropdown">
+      <button class="btn-pill lang-btn">
+        <%= I18n.locale == :de ? de_flag : cs_flag %>
         <span class="chevron">▼</span>
       </button>
       <div class="lang-dropdown-content">
-        <a href="#" class="lang-option">
-          <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
-            <rect width="600" height="400" fill="#d7141a"/>
-            <rect width="600" height="200" fill="#fff"/>
-            <polygon points="0,0 0,400 300,200" fill="#11457e"/>
-          </svg>
-        </a>
-        <a href="#" class="lang-option">
-          <svg width="20" height="15" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #ccc; border-radius: 2px;">
-            <rect width="600" height="400" fill="#ed2939"/>
-            <rect width="600" height="133.33" y="133.33" fill="#fff"/>
-          </svg>
-        </a>
+        <%= link_to cs_flag, locale_switch_path("cs"), class: "lang-option #{'active' if I18n.locale == :cs}", data: { turbo: false } %>
+        <%= link_to de_flag, locale_switch_path("de"), class: "lang-option #{'active' if I18n.locale == :de}", data: { turbo: false } %>
       </div>
     </div>
   </div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <aside class="mobile-sidebar" id="mobileSidebar">
     <div class="sidebar-header">
-      <%= image_tag "logo-wm.png", alt: "Pila Derflice", class: "sidebar-logo" %>
-      <button class="close-sidebar" id="closeSidebar">✕</button>
+      <%= image_tag "logo-wm.png", alt: t("site.name"), class: "sidebar-logo" %>
+      <button class="close-sidebar" id="closeSidebar" aria-label="<%= t('nav.close_menu') %>">✕</button>
     </div>
     <nav class="sidebar-nav">
-      <%= link_to "Domů", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
-      <%= link_to "Eshop", eshop_path, class: "nav-link #{'active' if current_page?(eshop_path)}" %>
-      <%= link_to "Sortiment", sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
-      <%= link_to "Služby", sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
-      <%= link_to "Ceník", "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
-      <%= link_to "Kontakt", kontakt_path, class: "nav-link", id: "nav-kontakt" %>
+      <%= link_to t("nav.domu"), root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
+      <%= link_to t("nav.eshop"), eshop_path, class: "nav-link #{'active' if current_page?(eshop_path)}" %>
+      <%= link_to t("nav.sortiment"), sortiment_path, class: "nav-link #{'active' if current_page?(sortiment_path)}" %>
+      <%= link_to t("nav.sluzby"), sluzby_path, class: "nav-link #{'active' if current_page?(sluzby_path)}" %>
+      <%= link_to t("nav.cenik"), "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
+      <%= link_to t("nav.kontakt"), kontakt_path, class: "nav-link", id: "nav-kontakt" %>
     </nav>
     <div class="sidebar-contact">
       <div class="contact-item">

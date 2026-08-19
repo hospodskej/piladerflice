@@ -103,6 +103,17 @@
     color: #111;
 }
 
+.lang-currency {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #555;
+}
+
+.lang-option .lang-currency {
+    color: #333;
+}
+
 .lang-dropdown-content {
     display: none;
     position: absolute;

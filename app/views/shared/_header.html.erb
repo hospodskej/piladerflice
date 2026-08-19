@@ -42,11 +42,16 @@
     <div class="lang-dropdown">
       <button class="btn-pill lang-btn">
         <%= I18n.locale == :de ? de_flag : cs_flag %>
+        <span class="lang-currency"><%= I18n.locale == :de ? "EUR" : "CZK" %></span>
         <span class="chevron">▼</span>
       </button>
       <div class="lang-dropdown-content">
-        <%= link_to cs_flag, locale_switch_path("cs"), class: "lang-option #{'active' if I18n.locale == :cs}", data: { turbo: false } %>
-        <%= link_to de_flag, locale_switch_path("de"), class: "lang-option #{'active' if I18n.locale == :de}", data: { turbo: false } %>
+        <%= link_to locale_switch_path("cs"), class: "lang-option #{'active' if I18n.locale == :cs}", data: { turbo: false } do %>
+          <%= cs_flag %><span class="lang-currency">CZK</span>
+        <% end %>
+        <%= link_to locale_switch_path("de"), class: "lang-option #{'active' if I18n.locale == :de}", data: { turbo: false } do %>
+          <%= de_flag %><span class="lang-currency">EUR</span>
+        <% end %>
       </div>
     </div>
   </div>

@@ -233,7 +233,7 @@
             <% items.each do |item| %>
               <tr>
                 <td><%= item.item_name_i18n %></td>
-                <td><%= item.price_i18n %> / <%= t("common.per_m3") %></td>
+                <td><%= item.price_i18n %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
               </tr>
             <% end %>
             </tbody>
@@ -244,7 +244,6 @@
 
     <div class="cenik-group">
       <div class="cenik-header"><h3><%= t("kontakt.cenik_palivove_skladane_title") %></h3><span class="cenik-line"></span></div>
-      <% @palivane_skladane_groups = @palivove_skladane_groups %>
       <% @palivove_skladane_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
           <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
@@ -253,7 +252,7 @@
             <% items.each do |item| %>
               <tr>
                 <td><%= item.item_name_i18n %></td>
-                <td><%= item.price_i18n %> / <%= t("common.per_m3") %></td>
+                <td><%= item.price_i18n %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
               </tr>
             <% end %>
             </tbody>

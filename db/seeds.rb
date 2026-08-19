@@ -41,55 +41,63 @@ PricelistItem.create!([
                       ])
 
 # 2. Palivové dřevo - volně ložené
+# Prices below are entered directly from the business's official printed
+# price sheets (CZK sheet valid from 20.07.2026, matching EUR sheet valid
+# from the same date) - both currencies are fixed values here, not
+# calculated, unlike every other category (see PricelistItem#price_i18n).
+# Subcategories mirror the original grouping (species priced identically
+# share one row); "Smrk" on the new sheet applies to the whole
+# "Smrk / Borovice / Modřín" group, and "Bříza / Ostatní tvrdé" isn't on
+# the new sheet at all, so it shows "---".
 PricelistItem.create!([
                         # Jasan / Dub
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "1m", price: "1 680 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "1 980 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "1 680 Kč" },
-                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "1 780 Kč" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "1m", price: "1 740 Kč", price_de: "67 €" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "2 030 Kč", price_de: "78 €" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "1 740 Kč", price_de: "67 €" },
+                        { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "1 840 Kč", price_de: "69 €" },
 
                         # Buk / Akát
-                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "1m", price: "1 850 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 150 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "1 850 Kč" },
-                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "1 950 Kč" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "1m", price: "1 900 Kč", price_de: "74 €" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 200 Kč", price_de: "84 €" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "1 900 Kč", price_de: "74 €" },
+                        { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "2 000 Kč", price_de: "72 €" },
 
-                        # Bříza / Ostatní tvrdé
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "1m", price: "1 500 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "50cm", price: "1 800 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "33cm", price: "1 500 Kč" },
-                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "25cm", price: "1 600 Kč" },
+                        # Bříza / Ostatní tvrdé - not on the current price sheet
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "1m", price: "---", price_de: "---" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "50cm", price: "---", price_de: "---" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "33cm", price: "---", price_de: "---" },
+                        { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "25cm", price: "---", price_de: "---" },
 
                         # Smrk / Borovice / Modřín
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "1m", price: "1 300 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "50cm", price: "1 450 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "33cm", price: "1 200 Kč" },
-                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "25cm", price: "1 300 Kč" }
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "1m", price: "1 320 Kč", price_de: "54 €" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "50cm", price: "1 510 Kč", price_de: "58 €" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "33cm", price: "1 260 Kč", price_de: "54 €" },
+                        { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "25cm", price: "1 370 Kč", price_de: "54 €" }
                       ])
 
 # 3. Palivové dřevo - Bedny skládané
 PricelistItem.create!([
                         # Jasan / Dub
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "2 450 Kč" },
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "2 450 Kč" },
-                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "2 550 Kč" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "2 525 Kč", price_de: "97,30 €" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "2 525 Kč", price_de: "97,30 €" },
+                        { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "2 625 Kč", price_de: "102,20 €" },
 
                         # Buk / Akát
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 600 Kč" },
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "2 600 Kč" },
-                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "2 700 Kč" },
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 675 Kč", price_de: "103,00 €" },
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "2 675 Kč", price_de: "103,00 €" },
+                        { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "2 775 Kč", price_de: "107,00 €" },
 
                         # Smrk
-                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "50cm", price: "2 050 Kč" },
-                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "33cm", price: "2 050 Kč" },
-                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "25cm", price: "2 150 Kč" }
+                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "50cm", price: "2 125 Kč", price_de: "81,00 €" },
+                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "33cm", price: "2 125 Kč", price_de: "81,00 €" },
+                        { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "25cm", price: "2 225 Kč", price_de: "85,60 €" }
                       ])
 
 # 4. Výrobní zbytky
 PricelistItem.create!([
                         { category: "zbytky", item_name: "Odkory na topení", price: "1 000 Kč – 1 400 Kč", item_name_de: "Rindenreste zum Heizen" },
                         { category: "zbytky", item_name: "Piliny", price: "450 Kč", item_name_de: "Sägemehl" },
-                        { category: "zbytky", item_name: "Štěpka", price: "700 - 800 Kč", item_name_de: "Hackschnitzel" }
+                        { category: "zbytky", item_name: "Štěpka", price: "700 Kč – 800 Kč", item_name_de: "Hackschnitzel" }
                       ])
 
 # 5. Okrasné kamenivo

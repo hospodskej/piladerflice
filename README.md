@@ -7,6 +7,7 @@
 
 ----------------------------------
 
+Patch 0.6.2: Added currency converter
 Patch 0.6.1: Added README.md updates  
 Patch 0.6.0: Added translation for Austrian customers  
 Patch 0.5.0: Prepared for translation  

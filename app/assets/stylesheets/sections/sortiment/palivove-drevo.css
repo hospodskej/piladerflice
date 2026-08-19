@@ -143,6 +143,7 @@
 
 .product-detail-hero.reverse-layout .product-hero-carousel {
     order: 1;
+}
 
 @media (max-width: 900px) {
     .product-detail-hero {

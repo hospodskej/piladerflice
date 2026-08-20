@@ -14,7 +14,7 @@
       <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
     </button>
     <div class="logo">
-      <%= link_to root_path do %>
+      <%= link_to root_path, "aria-label": t("nav.domu") do %>
         <%= image_tag "logo-wm.png", alt: t("site.name"), class: "logo" %>
       <% end %>
     </div>
@@ -56,11 +56,12 @@
         <% end %>
       </div>
     </div>
+    <%= render "shared/cart_widget" %>
   </div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <aside class="mobile-sidebar" id="mobileSidebar">
     <div class="sidebar-header">
-      <%= link_to root_path do %>
+      <%= link_to root_path, "aria-label": t("nav.domu") do %>
         <%= image_tag "logo-wm.png", alt: t("site.name"), class: "sidebar-logo" %>
       <% end %>
       <button class="close-sidebar" id="closeSidebar" aria-label="<%= t('nav.close_menu') %>">✕</button>

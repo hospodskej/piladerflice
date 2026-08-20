@@ -5,6 +5,11 @@
   # `key` is the canonical product identifier (eshop.products.<key>),
   # `i18n_key` points at the matching eshop.<i18n_key> block that holds this
   # page's breadcrumb/description/item_label text.
+  #
+  # Each item's `spec2_spec` follows the same { "type" => "key"|"raw",
+  # "value" => ... } shape used for cart specs (see
+  # shared/_add_to_cart_form), so the wood-species/variant/fraction text
+  # stays language-neutral all the way into the cart.
   title = t("eshop.products.#{key}.title")
 
   @breadcrumb_items = [
@@ -13,7 +18,9 @@
     [title, "#"]
   ]
 
-  item_label = t("eshop.#{i18n_key}.item_label")
+  item_label_key = "eshop.#{i18n_key}.item_label"
+  item_label = t(item_label_key)
+  resolve_spec = ->(spec) { spec["type"] == "key" ? t(spec["value"]) : spec["value"] }
 %>
 
 <main class="product-page-main">
@@ -40,6 +47,7 @@
 
         <div class="<%= grid_class %>">
           <% items.each do |item| %>
+            <% unit_price_czk = item[:price].gsub(/\D/, "").to_i %>
             <div class="inventory-card">
               <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
 
@@ -50,18 +58,25 @@
                 </div>
                 <div class="spec-values">
                   <span class="spec-value"><%= item_label %></span>
-                  <span class="spec-value"><%= item[:spec2_value] %></span>
+                  <span class="spec-value"><%= resolve_spec.call(item[:spec2_spec]) %></span>
                 </div>
               </div>
 
-              <p class="inventory-price"><%= item[:price] %></p>
+              <p class="inventory-price"><%= ExchangeRateService.display_amount(unit_price_czk) %></p>
 
               <p class="spec-value <%= item[:in_stock] ? 'text-green' : 'text-red' %>" style="margin-bottom: 12px; font-size: 0.95rem;">
                 <%= item[:in_stock] ? t("common.in_stock") : t("common.out_of_stock") %>
               </p>
 
               <% if item[:in_stock] %>
-                <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+                <%= render "shared/add_to_cart_form",
+                    product_key: key,
+                    image: "eshop/#{key}.png",
+                    unit_price_czk: unit_price_czk,
+                    specs: [
+                      { "type" => "key", "value" => item_label_key },
+                      item[:spec2_spec]
+                    ] %>
               <% else %>
                 <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
               <% end %>

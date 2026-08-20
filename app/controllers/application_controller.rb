@@ -32,4 +32,12 @@ class ApplicationController < ActionController::Base
     "#{request.path}?#{query.to_query}"
   end
   helper_method :locale_switch_path
+
+  # The guest shopping cart for this visitor (see app/models/cart.rb).
+  # Memoized per-request since several places on a page can end up reading
+  # it (header widget, "added to cart" confirmation, etc).
+  def current_cart
+    @current_cart ||= Cart.new(session)
+  end
+  helper_method :current_cart
 end

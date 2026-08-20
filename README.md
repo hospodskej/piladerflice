@@ -7,6 +7,7 @@
 
 ----------------------------------
 
+Patch 0.7.0: Added Cart and Eshop currency
 Patch 0.6.3: UI/UX fixes, clickable icon  
 Patch 0.6.2: Added currency converter  
 Patch 0.6.1: Added README.md updates  

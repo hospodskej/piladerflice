@@ -51,6 +51,19 @@ class ExchangeRateService
       end
     end
 
+    # Formats a plain numeric CZK amount (e.g. from the cart, which stores
+    # prices as integers rather than "<amount> Kč" strings) for display in
+    # +locale+: as Czech crowns as-is, or live-converted to a "≈"-prefixed
+    # EUR estimate for German.
+    def display_amount(czk_amount, locale: I18n.locale)
+      if locale.to_sym == :de
+        "≈ #{format_eur(czk_amount / czk_per_eur)}"
+      else
+        formatted = ActiveSupport::NumberHelper.number_to_delimited(czk_amount.to_i, delimiter: " ")
+        "#{formatted} Kč"
+      end
+    end
+
     private
 
     def format_eur(amount)

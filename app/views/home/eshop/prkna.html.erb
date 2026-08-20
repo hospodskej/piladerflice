@@ -1,9 +1,9 @@
 <%
   lengths = ["3 000 mm", "4 000 mm", "5 000 mm"]
   rows = [
-    { label: t("eshop.prkna.quality_grades.netridene_1"), value: t("eshop.prkna.quality_grades.netridene_1"), color: "text-black", price: "6 500 Kč" },
-    { label: t("eshop.prkna.quality_grades.tridene_1"), value: t("eshop.prkna.quality_grades.tridene_1"), color: "text-black", price: "7 000 Kč" },
-    { label: t("eshop.prkna.quality_grades.tridene_2"), value: t("eshop.prkna.quality_grades.tridene_2"), color: "text-black", price: "5 000 Kč" }
+    { label_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.netridene_1" }, value_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.netridene_1" }, color: "text-black", price: "6 500 Kč" },
+    { label_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.tridene_1" }, value_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.tridene_1" }, color: "text-black", price: "7 000 Kč" },
+    { label_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.tridene_2" }, value_spec: { "type" => "key", "value" => "eshop.prkna.quality_grades.tridene_2" }, color: "text-black", price: "5 000 Kč" }
   ]
 %>
 <%= render "shared/lumber_product",
@@ -12,4 +12,4 @@
     lengths: lengths,
     rows: rows,
     spec_labels: ["common.spec_thickness", "common.spec_length", "common.spec_quality"],
-    first_value: "24 mm" %>
+    first_value_spec: { "type" => "raw", "value" => "24 mm" } %>

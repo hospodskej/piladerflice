@@ -1,7 +1,7 @@
 <%
   items = [
-    { spec2_value: t("eshop.products.smrk.title"), price: "800 Kč", in_stock: true },
-    { spec2_value: t("eshop.products.dub.title"), price: "1 400 Kč", in_stock: true }
+    { spec2_spec: { "type" => "key", "value" => "eshop.products.smrk.title" }, price: "800 Kč", in_stock: true },
+    { spec2_spec: { "type" => "key", "value" => "eshop.products.dub.title" }, price: "1 400 Kč", in_stock: true }
   ]
 %>
 <%= render "shared/simple_variant_product",

@@ -1,0 +1,44 @@
+<%#
+  The header's cart icon, item-count badge, and hover dropdown (mirrors the
+  existing .lang-dropdown hover pattern in header.css). Wrapped in
+  id="cart-widget" so CartItemsController#create can refresh just this
+  piece of the header via a Turbo Stream after adding an item, without a
+  full page reload.
+%>
+<div id="cart-widget" class="cart-dropdown">
+  <button type="button" class="btn-pill cart-btn" aria-label="<%= t('cart.aria_label') %>">
+    <%= image_tag "cart.png", alt: "Košík", width: 22, height: 22 %>
+    <% if current_cart.total_quantity > 0 %>
+      <span class="cart-badge"><%= current_cart.total_quantity %></span>
+    <% end %>
+  </button>
+
+  <div class="cart-dropdown-content">
+    <% if current_cart.empty? %>
+      <p class="cart-empty"><%= t("cart.empty") %></p>
+    <% else %>
+      <ul class="cart-items-list">
+        <% current_cart.items.each do |item| %>
+          <li class="cart-item">
+            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+            <div class="cart-item-details">
+              <span class="cart-item-desc"><%= cart_line_description(item) %></span>
+            </div>
+            <span class="cart-item-price"><%= cart_price(item.line_total_czk) %></span>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="cart-totals">
+        <div class="cart-total-row">
+          <span><%= t("cart.total_due") %></span>
+          <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+        </div>
+        <div class="cart-total-row cart-total-excl-vat">
+          <span><%= t("cart.without_vat") %></span>
+          <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

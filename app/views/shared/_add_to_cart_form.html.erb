@@ -1,0 +1,27 @@
+<%#
+  Renders one "Do košíku" button as a small Turbo-submitted form that adds
+  a single product/variant to the cart without navigating away from the
+  page (see CartItemsController#create, which responds with a Turbo Stream
+  that updates the header cart widget and shows the confirmation modal).
+
+  Locals:
+    product_key    - canonical product identifier, e.g. "habr" (used to
+                      look up the translated product name at display time)
+    image           - asset path for the cart thumbnail
+    unit_price_czk  - price in CZK for one unit, as an Integer
+    specs           - ordered array of hashes describing the variant, each
+                       one of:
+                         { "type" => "key", "value" => "common.loose_variant" }
+                         { "type" => "raw", "value" => "100 cm" }
+                         { "type" => "amount", "value" => 15, "unit_key" => "common.per_m3" }
+                       stored language-neutral so the cart displays
+                       correctly however the description is later
+                       translated (see CartHelper#cart_line_description).
+%>
+<%= form_with url: cart_items_path, method: :post, class: "add-to-cart-form" do %>
+  <%= hidden_field_tag :product_key, product_key %>
+  <%= hidden_field_tag :image, image %>
+  <%= hidden_field_tag :unit_price_czk, unit_price_czk %>
+  <%= hidden_field_tag :specs, specs.to_json %>
+  <%= submit_tag t("common.add_to_cart"), class: "btn-primary btn-cart" %>
+<% end %>

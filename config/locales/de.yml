@@ -46,6 +46,19 @@ de:
     spec_description: "Beschreibung"
     spec_fraction: "Körnung"
     per_m3: "Rm"
+    close: "Schließen"
+
+  cart:
+    aria_label: "Warenkorb"
+    page_title: "Warenkorb"
+    empty: "Ihr Warenkorb ist leer"
+    total_due: "Gesamtbetrag"
+    without_vat: "zzgl. MwSt."
+    view_cart: "Warenkorb ansehen"
+    added_title: "Artikel wurde hinzugefügt oder die Menge wurde angepasst"
+    continue_shopping: "Weiter einkaufen"
+    to_checkout: "Zur Kasse"
+    remove_aria: "Entfernen"
 
   breadcrumbs:
     home_aria: "Brotkrümelnavigation"

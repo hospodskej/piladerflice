@@ -13,26 +13,26 @@
 ActiveRecord::Schema[8.1].define(version: 2026_08_12_120000) do
   create_table "faq_items", force: :cascade do |t|
     t.text "content"
-    t.text "content_de"
     t.datetime "created_at", null: false
     t.string "image"
     t.string "title"
-    t.string "title_de"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "content_de"
   end
 
   create_table "pricelist_items", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", null: false
     t.string "details"
-    t.string "details_de"
     t.string "item_name"
-    t.string "item_name_de"
     t.string "price"
-    t.string "price_de"
     t.string "subcategory"
-    t.string "subcategory_de"
     t.datetime "updated_at", null: false
+    t.string "item_name_de"
+    t.string "details_de"
+    t.string "price_de"
+    t.string "subcategory_de"
   end
 
   create_table "products", force: :cascade do |t|
@@ -40,39 +40,39 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_120000) do
     t.string "image"
     t.string "link"
     t.text "text"
-    t.text "text_de"
     t.string "title"
-    t.string "title_de"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "text_de"
   end
 
   create_table "promos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "feature_1"
-    t.string "feature_1_de"
     t.string "feature_2"
-    t.string "feature_2_de"
     t.string "feature_3"
-    t.string "feature_3_de"
     t.string "image"
     t.string "link"
     t.string "price"
-    t.string "price_de"
     t.string "title"
-    t.string "title_de"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.string "feature_1_de"
+    t.string "feature_2_de"
+    t.string "feature_3_de"
+    t.string "price_de"
   end
 
   create_table "services", force: :cascade do |t|
     t.string "button_path"
     t.string "button_text"
-    t.string "button_text_de"
     t.text "content"
-    t.text "content_de"
     t.datetime "created_at", null: false
     t.text "images"
     t.string "title"
-    t.string "title_de"
     t.datetime "updated_at", null: false
+    t.string "title_de"
+    t.text "content_de"
+    t.string "button_text_de"
   end
 end

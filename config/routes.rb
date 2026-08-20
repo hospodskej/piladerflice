@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   get '/eshop/odkory', to: 'home#odkory', as: :eshop_odkory
   get '/eshop/piliny', to: 'home#piliny', as: :eshop_piliny
   get '/eshop/okrasne_kamenivo', to: 'home#eshop_okrasne_kamenivo', as: :eshop_okrasne_kamenivo
+
+  resources :cart_items, only: [:create]
+  get '/kosik', to: 'carts#show', as: :cart
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

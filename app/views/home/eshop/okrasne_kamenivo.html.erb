@@ -1,8 +1,8 @@
 <%
   items = [
-    { spec2_value: "32/64 mm", price: "20 Kč", in_stock: true },
-    { spec2_value: "64/120 mm", price: "30 Kč", in_stock: true },
-    { spec2_value: "16/32 mm", price: "1 Kč", in_stock: true }
+    { spec2_spec: { "type" => "raw", "value" => "32/64 mm" }, price: "20 Kč", in_stock: true },
+    { spec2_spec: { "type" => "raw", "value" => "64/120 mm" }, price: "30 Kč", in_stock: true },
+    { spec2_spec: { "type" => "raw", "value" => "16/32 mm" }, price: "1 Kč", in_stock: true }
   ]
 %>
 <%= render "shared/simple_variant_product",

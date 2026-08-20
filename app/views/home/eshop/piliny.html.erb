@@ -1,7 +1,7 @@
 <%
   items = [
-    { spec2_value: t("common.volne_lozene"), price: "450 Kč", in_stock: true },
-    { spec2_value: t("common.balene"), price: "450 Kč", in_stock: true }
+    { spec2_spec: { "type" => "key", "value" => "common.volne_lozene" }, price: "450 Kč", in_stock: true },
+    { spec2_spec: { "type" => "key", "value" => "common.balene" }, price: "450 Kč", in_stock: true }
   ]
 %>
 <%= render "shared/simple_variant_product",

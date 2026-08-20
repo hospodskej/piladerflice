@@ -5,6 +5,13 @@
   # `key` is the canonical, language-independent product identifier used to
   # look up text in config/locales/*.yml under eshop.products.<key> and
   # eshop.<key>.
+  #
+  # `first_value_spec` and each row's `label`/`value` (or `label_key`/
+  # `value_key`) follow the same { "type" => "key"|"raw", "value" => ... }
+  # shape used for cart specs (see shared/_add_to_cart_form), so whichever
+  # text needs translating stays language-neutral all the way from the
+  # caller into the cart, instead of being baked into one locale at the
+  # point the caller builds the row data.
   title = t("eshop.#{key}.title", default: t("eshop.products.#{key}.title"))
 
   @breadcrumb_items = [
@@ -12,6 +19,9 @@
     [t("eshop.#{key}.breadcrumb_category"), "/eshop?category=rezivo"],
     [title, "#"]
   ]
+
+  resolve_spec = ->(spec) { spec["type"] == "key" ? t(spec["value"]) : spec["value"] }
+  first_value_text = resolve_spec.call(first_value_spec)
 %>
 
 <main class="product-page-main">
@@ -44,8 +54,10 @@
           <% end %>
 
           <% rows.each do |row| %>
-            <div class="matrix-cell row-header"><span><%= row[:label] %></span></div>
+            <% row_value_spec = row[:value_spec] || { "type" => "raw", "value" => row[:value] } %>
+            <div class="matrix-cell row-header"><span><%= resolve_spec.call(row[:label_spec] || { "type" => "raw", "value" => row[:label] }) %></span></div>
             <% lengths.each do |len| %>
+              <% unit_price_czk = row[:price].gsub(/\D/, "").to_i %>
               <div class="matrix-cell">
                 <div class="inventory-card">
                   <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
@@ -56,13 +68,21 @@
                       <span><%= t(spec_labels[2]) %></span>
                     </div>
                     <div class="spec-values">
-                      <span class="spec-value"><%= first_value %></span>
+                      <span class="spec-value"><%= first_value_text %></span>
                       <span class="spec-value"><%= len %></span>
-                      <span class="spec-value <%= row[:color] %>"><%= row[:value] %></span>
+                      <span class="spec-value <%= row[:color] %>"><%= resolve_spec.call(row_value_spec) %></span>
                     </div>
                   </div>
-                  <p class="inventory-price"><%= row[:price] %></p>
-                  <%= button_to t("common.add_to_cart"), "#", class: "btn-primary btn-cart" %>
+                  <p class="inventory-price"><%= ExchangeRateService.display_amount(unit_price_czk) %></p>
+                  <%= render "shared/add_to_cart_form",
+                      product_key: key,
+                      image: "eshop/#{key}.png",
+                      unit_price_czk: unit_price_czk,
+                      specs: [
+                        first_value_spec,
+                        { "type" => "raw", "value" => len },
+                        row_value_spec
+                      ] %>
                 </div>
               </div>
             <% end %>

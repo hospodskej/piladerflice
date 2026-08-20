@@ -1,0 +1,31 @@
+<%#
+  Locals: item (a CartLineItem)
+  Rendered into the persistent #cart-added-modal container in the layout
+  by CartItemsController#create's Turbo Stream response. Dismissed by the
+  cart-modal Stimulus controller (backdrop click, close, or "continue
+  shopping"); "to checkout" navigates to the cart page.
+%>
+<div class="cart-modal-backdrop" data-controller="cart-modal" data-action="click->cart-modal#backdropClick keydown@window->cart-modal#keydown">
+  <div class="cart-modal" role="dialog" aria-modal="true" data-cart-modal-target="dialog">
+    <button type="button" class="cart-modal-close" aria-label="<%= t('common.close') %>" data-action="cart-modal#close">✕</button>
+
+    <h3 class="cart-modal-title"><%= t("cart.added_title") %></h3>
+    <hr class="cart-modal-divider">
+
+    <div class="cart-modal-item">
+      <%= image_tag item.image, alt: cart_line_description(item), class: "cart-modal-item-img" %>
+      <div class="cart-modal-item-details">
+        <span class="cart-modal-item-desc"><%= cart_line_description(item) %></span>
+        <span class="cart-modal-item-price"><%= cart_price(item.line_total_czk) %></span>
+      </div>
+    </div>
+
+    <div class="cart-modal-actions">
+      <button type="button" class="btn-outline-dark" data-action="cart-modal#close"><%= t("cart.continue_shopping") %></button>
+      <%= link_to cart_path, class: "btn-primary cart-modal-checkout" do %>
+        <%= t("cart.to_checkout") %>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      <% end %>
+    </div>
+  </div>
+</div>

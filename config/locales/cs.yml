@@ -46,6 +46,19 @@ cs:
     spec_description: "Popis"
     spec_fraction: "Frakce"
     per_m3: "PRM"
+    close: "Zavřít"
+
+  cart:
+    aria_label: "Košík"
+    page_title: "Košík"
+    empty: "Váš košík je prázdný"
+    total_due: "Celkem k úhradě"
+    without_vat: "bez DPH"
+    view_cart: "Zobrazit košík"
+    added_title: "Zboží bylo přidáno nebo bylo upraveno množství v košíku"
+    continue_shopping: "Pokračovat v nákupu"
+    to_checkout: "K pokladně"
+    remove_aria: "Odebrat"
 
   breadcrumbs:
     home_aria: "breadcrumb"

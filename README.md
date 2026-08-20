@@ -1,12 +1,13 @@
 # README for Pila Derflice
 
 - Install Ruby on Rails
-- ``rails db:migrate``
-- ``rails db:seed``
-- ``rails server``
+- `rails db:migrate`
+- `rails db:seed`
+- `rails server`
 
-----------------------------------
+---
 
+Patch 0.7.1: Cart UI fixes
 Patch 0.7.0: Added Cart and Eshop currency
 Patch 0.6.3: UI/UX fixes, clickable icon  
 Patch 0.6.2: Added currency converter  
@@ -20,4 +21,4 @@ Patch 0.2.3: UI/UX fixes
 Patch 0.2.2: UI/UX fixes  
 Patch 0.2.1: Finished Main, Kontakty & Ceník pages  
 Patch 0.2.0: Set up Main page  
-Patch 0.1.0: Migrated from Static website into Ruby on Rails  
+Patch 0.1.0: Migrated from Static website into Ruby on Rails

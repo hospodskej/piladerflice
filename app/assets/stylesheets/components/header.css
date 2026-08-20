@@ -29,6 +29,12 @@
     justify-content: space-between;
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo {
     height: 60px;
     width: auto;

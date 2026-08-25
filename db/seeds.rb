@@ -17,7 +17,7 @@ Product.create([
                    title_de: "Brennholz", text_de: "Größe und Holzart nach Kundenwunsch" },
                  { title: "Stavební řezivo", text: "Hranoly, fošny, střešní latě, prkna", image: "sortiment/stavebni-rezivo.png", link: "/sortiment/stavebni-rezivo",
                    title_de: "Bauschnittholz", text_de: "Kanthölzer, Bohlen, Dachlatten, Bretter" },
-                 { title: "Truhlářské řezivo", text: "Prkna, fošny", image: "sortiment/truhlarske-rezivo.png", link: "/sortiment/truhlarske-rezivo",
+                 { title: "Truhlářské řezivo", text: "Prkna, fošny", image: "sortiment/fosny1.png", link: "/sortiment/truhlarske-rezivo",
                    title_de: "Tischlerholz", text_de: "Bretter, Bohlen" },
                  { title: "Výrobní zbytky", text: "Piliny, hobliny, odřezky, štěpka, prokladky", image: "sortiment/vyrobni-zbytky.png", link: "/sortiment/vyrobni-zbytky",
                    title_de: "Produktionsreste", text_de: "Sägemehl, Hobelspäne, Abschnitte, Hackschnitzel, Zwischenlagen" },

@@ -136,6 +136,12 @@
     color: #777;
 }
 
+.cart-dropdown-view-cart {
+    margin-top: 14px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+}
+
 /* ===== Cart page (minimal placeholder for now) ===== */
 .cart-page-list {
     max-height: none;

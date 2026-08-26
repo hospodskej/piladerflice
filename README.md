@@ -7,7 +7,8 @@
 
 ---
 
-Patch 0.7.3: Cart button
+Patch 0.7.4: Fixed cart button + eshop routing
+Patch 0.7.3: Cart button  
 Patch 0.7.2: Cart UI fixes 2  
 Patch 0.7.1: Cart UI fixes  
 Patch 0.7.0: Added Cart and Eshop currency  

@@ -1,0 +1,77 @@
+<h1 style="font-size:20px; margin:0 0 4px 0;">Nová objednávka #<%= @order.id %></h1>
+<p style="color:#666; margin:0 0 24px 0; font-size:13px;">
+  Přijato <%= l(@order.created_at, format: :long) rescue @order.created_at.strftime("%d.%m.%Y %H:%M") %>
+</p>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Zákazník</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+  <tr><td style="padding:2px 0; color:#666; width:140px;">Jméno</td><td style="padding:2px 0;"><%= @order.full_name %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">E-mail</td><td style="padding:2px 0;"><a href="mailto:<%= @order.email %>"><%= @order.email %></a></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Telefon</td><td style="padding:2px 0;"><%= @order.phone %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Newsletter</td><td style="padding:2px 0;"><%= @order.newsletter_opt_in? ? "Ano" : "Ne" %></td></tr>
+</table>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Fakturační adresa</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+  <tr><td style="padding:2px 0; color:#666; width:140px;">Ulice a č.p.</td><td style="padding:2px 0;"><%= @order.billing_street %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Město</td><td style="padding:2px 0;"><%= @order.billing_city %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">PSČ</td><td style="padding:2px 0;"><%= @order.billing_zip %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Stát</td><td style="padding:2px 0;"><%= @order.billing_country_name(locale: :cs) %></td></tr>
+</table>
+
+<% if @order.company_purchase? %>
+  <h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Firemní údaje</h2>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+    <tr><td style="padding:2px 0; color:#666; width:140px;">Název firmy</td><td style="padding:2px 0;"><%= @order.company_name %></td></tr>
+    <tr><td style="padding:2px 0; color:#666;">IČO</td><td style="padding:2px 0;"><%= @order.company_ico %></td></tr>
+    <tr><td style="padding:2px 0; color:#666;">DIČ</td><td style="padding:2px 0;"><%= @order.company_dic %></td></tr>
+  </table>
+<% end %>
+
+<% if @order.delivery_address_different? %>
+  <h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Doručovací adresa</h2>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+    <tr><td style="padding:2px 0; color:#666; width:140px;">Ulice a č.p.</td><td style="padding:2px 0;"><%= @order.delivery_street %></td></tr>
+    <tr><td style="padding:2px 0; color:#666;">Město</td><td style="padding:2px 0;"><%= @order.delivery_city %></td></tr>
+    <tr><td style="padding:2px 0; color:#666;">PSČ</td><td style="padding:2px 0;"><%= @order.delivery_zip %></td></tr>
+    <tr><td style="padding:2px 0; color:#666;">Stát</td><td style="padding:2px 0;"><%= @order.delivery_country_name(locale: :cs) %></td></tr>
+  </table>
+<% end %>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Doprava a platba</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+  <tr>
+    <td style="padding:2px 0; color:#666; width:140px;">Způsob dopravy</td>
+    <td style="padding:2px 0;"><%= @order.shipping_method == "pickup" ? "Osobní odběr na adrese skladu" : "Doručení na adresu (cena kalkulována individuálně)" %></td>
+  </tr>
+  <tr>
+    <td style="padding:2px 0; color:#666;">Způsob platby</td>
+    <td style="padding:2px 0;"><%= @order.payment_method == "cash" ? "Hotově při vyzvednutí" : "Bankovním převodem - proforma" %></td>
+  </tr>
+</table>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Obsah objednávky</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px; border-collapse:collapse;">
+  <tr style="border-bottom:1px solid #ddd;">
+    <td style="padding:6px 0; color:#666; font-size:12px;">Položka</td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:center;">Množství</td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:right;">Jedn. cena</td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:right;">Celkem</td>
+  </tr>
+  <% @lines.each do |line| %>
+    <tr style="border-bottom:1px solid #f0f0f0;">
+      <td style="padding:8px 0;"><%= line[:description] %></td>
+      <td style="padding:8px 0; text-align:center;"><%= line[:quantity] %></td>
+      <td style="padding:8px 0; text-align:right; white-space:nowrap;"><%= line[:unit_price] %></td>
+      <td style="padding:8px 0; text-align:right; white-space:nowrap;"><%= line[:line_total] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:10px;">
+  <tr><td style="padding:2px 0; color:#666;">Celková cena bez DPH</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Celkem DPH</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></td></tr>
+  <tr><td style="padding:6px 0; font-weight:bold; font-size:16px;">Celkem k úhradě (včetně DPH)</td><td style="padding:6px 0; text-align:right; font-weight:bold; font-size:16px;"><%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></td></tr>
+</table>
+
+<p style="color:#999; font-size:12px; margin-top:24px;">Objednávka byla odeslána přes web piladerflice.cz. Jazyk zákazníka při objednávce: <%= @order.locale == "de" ? "němčina" : "čeština" %>.</p>

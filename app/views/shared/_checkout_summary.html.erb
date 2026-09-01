@@ -1,0 +1,26 @@
+<aside class="checkout-summary-box">
+  <h3 class="checkout-summary-title"><%= t("checkout.order_contents") %></h3>
+  <ul class="checkout-summary-items">
+    <% current_cart.items.each do |item| %>
+      <li class="checkout-summary-item">
+        <%= image_tag item.image, alt: cart_line_description(item), class: "checkout-summary-item-img" %>
+        <span class="checkout-summary-item-desc"><%= cart_line_description(item) %></span>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="cart-totals checkout-summary-totals">
+    <div class="cart-total-row">
+      <span><%= t("cart.total_due") %></span>
+      <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+    </div>
+    <div class="cart-total-row cart-total-excl-vat">
+      <span><%= t("cart.total_vat") %></span>
+      <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
+    </div>
+    <div class="cart-total-row cart-total-excl-vat">
+      <span><%= t("cart.without_vat") %></span>
+      <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,68 @@
+<main class="main">
+  <section class="checkout-section">
+    <%= render "shared/checkout_stepper", current_step: 2 %>
+
+    <div class="checkout-layout">
+      <%= form_with url: checkout_shipping_path, method: :patch, class: "checkout-main-col" do %>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.delivery_country_label") %></h3>
+          <div class="checkout-box-body">
+            <label for="country"><%= t("checkout.country_field") %></label>
+            <select name="country" id="country">
+              <option value="cz" <%= "selected" if current_checkout["country"].blank? || current_checkout["country"] == "cz" %>><%= t("checkout.country_cz") %></option>
+              <option value="at" <%= "selected" if current_checkout["country"] == "at" %>><%= t("checkout.country_at") %></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.shipping_method_label") %></h3>
+          <div class="checkout-box-body checkout-radio-list">
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="shipping_method" value="address" <%= "checked" if current_checkout["shipping_method"] == "address" %>>
+                <%= t("checkout.shipping_address") %>
+              </span>
+              <span class="checkout-radio-note"><%= t("checkout.shipping_address_note") %></span>
+            </label>
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="shipping_method" value="pickup" <%= "checked" if current_checkout["shipping_method"] != "address" %>>
+                <%= t("checkout.shipping_pickup") %>
+              </span>
+              <span class="checkout-radio-note"><%= t("checkout.free") %></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.payment_method_label") %></h3>
+          <div class="checkout-box-body checkout-radio-list">
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="payment_method" value="cash" <%= "checked" if current_checkout["payment_method"] != "bank_transfer" %>>
+                <%= t("checkout.payment_cash") %>
+              </span>
+              <span class="checkout-radio-note"><%= t("checkout.free") %></span>
+            </label>
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="payment_method" value="bank_transfer" <%= "checked" if current_checkout["payment_method"] == "bank_transfer" %>>
+                <%= t("checkout.payment_bank_transfer") %>
+              </span>
+              <span class="checkout-radio-note"><%= t("checkout.free") %></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-nav">
+          <%= link_to t("checkout.back"), cart_path, class: "btn-outline-dark", data: { turbo: false } %>
+          <%= submit_tag t("checkout.continue"), class: "btn-primary" %>
+        </div>
+      <% end %>
+
+      <%= render "shared/checkout_summary" %>
+    </div>
+  </section>
+</main>

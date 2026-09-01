@@ -40,4 +40,11 @@ class ApplicationController < ActionController::Base
     @current_cart ||= Cart.new(session)
   end
   helper_method :current_cart
+
+  # The visitor's in-progress checkout wizard state (see
+  # app/models/checkout_state.rb).
+  def current_checkout
+    @current_checkout ||= CheckoutState.new(session)
+  end
+  helper_method :current_checkout
 end

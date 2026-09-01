@@ -21,3 +21,7 @@ gem "importmap-rails", "~> 2.2"
 
 gem "turbo-rails", "~> 2.0"
 gem "stimulus-rails", "~> 1.3"
+
+# Needed by ActionMailer's SMTP delivery method (net/smtp is no longer part
+# of Ruby's default gems as of Ruby 3.1+).
+gem "net-smtp", require: false

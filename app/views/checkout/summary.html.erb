@@ -1,0 +1,110 @@
+<main class="main">
+  <section class="checkout-section">
+    <%= render "shared/checkout_stepper", current_step: 4 %>
+
+    <% if @order.errors.any? %>
+      <div class="form-error">
+        <p><%= t("checkout.submit_error") %></p>
+        <ul>
+          <% @order.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="checkout-layout">
+      <%= form_with url: checkout_confirm_path, method: :post, class: "checkout-main-col" do %>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.order_contents") %></h3>
+          <div class="checkout-box-body">
+            <ul class="checkout-summary-full-items">
+              <% current_cart.items.each do |item| %>
+                <li class="checkout-summary-full-item">
+                  <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+                  <span class="cart-item-desc"><%= cart_line_description(item) %></span>
+                  <div class="checkout-summary-full-item-prices">
+                    <div class="cart-total-row cart-total-excl-vat">
+                      <span><%= t("cart.table_price_excl_vat") %></span>
+                      <span><%= cart_price((item.line_total_czk / (1 + Cart::VAT_RATE)).round) %></span>
+                    </div>
+                    <div class="cart-total-row">
+                      <span><%= t("cart.table_price_incl_vat") %></span>
+                      <strong><%= cart_price(item.line_total_czk) %></strong>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+        <div class="checkout-box checkout-method-summary">
+          <div class="checkout-box-body checkout-radio-list">
+            <div class="checkout-radio-option checkout-radio-option-readonly">
+              <span><span class="checkout-radio-dot"></span> <%= @order.shipping_method == "address" ? t("checkout.shipping_address") : t("checkout.shipping_pickup") %></span>
+              <span class="checkout-radio-note"><%= @order.shipping_method == "address" ? t("checkout.shipping_address_note") : t("checkout.free") %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-box checkout-method-summary">
+          <div class="checkout-box-body checkout-radio-list">
+            <div class="checkout-radio-option checkout-radio-option-readonly">
+              <span><span class="checkout-radio-dot"></span> <%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %></span>
+              <span class="checkout-radio-note"><%= t("checkout.free") %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-totals checkout-summary-totals checkout-box">
+          <div class="cart-total-row">
+            <span><%= t("cart.total_due") %></span>
+            <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+          </div>
+          <div class="cart-total-row cart-total-excl-vat">
+            <span><%= t("cart.total_vat") %></span>
+            <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
+          </div>
+          <div class="cart-total-row cart-total-excl-vat">
+            <span><%= t("cart.without_vat") %></span>
+            <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+          </div>
+        </div>
+
+        <label class="custom-checkbox-label checkout-checkbox">
+          <input type="checkbox" name="terms_agreement" value="1" required>
+          <span class="custom-checkbox"></span>
+          <span><%= t("checkout.terms_agreement") %></span>
+        </label>
+
+        <div class="checkout-nav">
+          <%= link_to t("checkout.back"), checkout_details_path, class: "btn-outline-dark", data: { turbo: false } %>
+          <%= submit_tag t("checkout.continue"), class: "btn-primary" %>
+        </div>
+      <% end %>
+
+      <aside class="checkout-summary-box">
+        <h3 class="checkout-summary-title"><%= t("checkout.billing_details") %></h3>
+        <p class="checkout-billing-summary">
+          <%= @order.full_name %><br>
+          <%= mail_to @order.email %><br>
+          <%= t("kontakt.form_telefon") %>: <%= @order.phone %>
+        </p>
+        <p class="checkout-billing-summary">
+          <%= @order.billing_street %><br>
+          <%= @order.billing_zip %> <%= @order.billing_city %><br>
+          <%= @order.billing_country_name %>
+        </p>
+        <% if @order.company_purchase? %>
+          <p class="checkout-billing-summary">
+            <%= @order.company_name %><br>
+            <%= t("checkout.company_ico") %>: <%= @order.company_ico %><br>
+            <%= t("checkout.company_dic") %>: <%= @order.company_dic %>
+          </p>
+        <% end %>
+      </aside>
+    </div>
+  </section>
+</main>

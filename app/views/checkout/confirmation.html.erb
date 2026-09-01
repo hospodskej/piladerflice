@@ -1,0 +1,15 @@
+<main class="main">
+  <section class="checkout-section checkout-confirmation">
+    <div class="checkout-confirmation-box">
+      <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#2C8FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="8 12 11 15 16 9"></polyline>
+      </svg>
+
+      <h1><%= t("checkout.confirmation_title") %></h1>
+      <p><%= t("checkout.confirmation_text", order_number: @order.id) %></p>
+
+      <%= link_to t("checkout.back_to_homepage"), root_path, class: "btn-primary" %>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,39 @@
+NOVÁ OBJEDNÁVKA #<%= @order.id %>
+<%= @order.created_at.strftime("%d.%m.%Y %H:%M") %>
+
+ZÁKAZNÍK
+Jméno: <%= @order.full_name %>
+E-mail: <%= @order.email %>
+Telefon: <%= @order.phone %>
+Newsletter: <%= @order.newsletter_opt_in? ? "Ano" : "Ne" %>
+
+FAKTURAČNÍ ADRESA
+<%= @order.billing_street %>
+<%= @order.billing_city %>, <%= @order.billing_zip %>
+<%= @order.billing_country_name(locale: :cs) %>
+<% if @order.company_purchase? %>
+FIREMNÍ ÚDAJE
+Název firmy: <%= @order.company_name %>
+IČO: <%= @order.company_ico %>
+DIČ: <%= @order.company_dic %>
+<% end %>
+<% if @order.delivery_address_different? %>
+DORUČOVACÍ ADRESA
+<%= @order.delivery_street %>
+<%= @order.delivery_city %>, <%= @order.delivery_zip %>
+<%= @order.delivery_country_name(locale: :cs) %>
+<% end %>
+DOPRAVA A PLATBA
+Způsob dopravy: <%= @order.shipping_method == "pickup" ? "Osobní odběr na adrese skladu" : "Doručení na adresu (cena kalkulována individuálně)" %>
+Způsob platby: <%= @order.payment_method == "cash" ? "Hotově při vyzvednutí" : "Bankovním převodem - proforma" %>
+
+OBSAH OBJEDNÁVKY
+<% @lines.each do |line| %>
+- <%= line[:description] %> | <%= line[:quantity] %>x | <%= line[:unit_price] %> / ks | celkem <%= line[:line_total] %>
+<% end %>
+
+Celková cena bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %>
+Celkem DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %>
+CELKEM K ÚHRADĚ (včetně DPH): <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %>
+
+Jazyk zákazníka při objednávce: <%= @order.locale == "de" ? "němčina" : "čeština" %>

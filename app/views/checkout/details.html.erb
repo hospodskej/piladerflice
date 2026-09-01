@@ -1,0 +1,139 @@
+<main class="main">
+  <section class="checkout-section">
+    <%= render "shared/checkout_stepper", current_step: 3 %>
+
+    <div class="checkout-layout">
+      <%= form_with url: checkout_details_path, method: :patch, class: "checkout-main-col" do %>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.personal_details") %></h3>
+          <div class="checkout-box-body">
+            <button type="button" class="btn-outline-dark checkout-login-btn" disabled title="<%= t('checkout.login_not_available') %>">
+              <%= t("checkout.login_existing_user") %>
+            </button>
+
+            <div class="checkout-form-grid">
+              <div class="form-group">
+                <label for="first_name"><%= t("kontakt.form_jmeno") %></label>
+                <input type="text" name="first_name" id="first_name" value="<%= current_checkout["first_name"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="last_name"><%= t("kontakt.form_prijmeni") %></label>
+                <input type="text" name="last_name" id="last_name" value="<%= current_checkout["last_name"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="email"><%= t("kontakt.form_email") %></label>
+                <input type="email" name="email" id="email" value="<%= current_checkout["email"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="phone"><%= t("kontakt.form_telefon") %></label>
+                <input type="tel" name="phone" id="phone" value="<%= current_checkout["phone"] %>" required>
+              </div>
+            </div>
+
+            <label class="custom-checkbox-label checkout-checkbox">
+              <input type="hidden" name="newsletter_opt_in" value="0">
+              <input type="checkbox" name="newsletter_opt_in" value="1" <%= "checked" if current_checkout.newsletter_opt_in? %>>
+              <span class="custom-checkbox"></span>
+              <span><%= t("checkout.newsletter_opt_in") %></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title"><%= t("checkout.billing_details") %></h3>
+          <div class="checkout-box-body">
+            <div class="checkout-form-grid">
+              <div class="form-group form-group-wide">
+                <label for="billing_street"><%= t("checkout.street_and_number") %></label>
+                <input type="text" name="billing_street" id="billing_street" value="<%= current_checkout["billing_street"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="billing_city"><%= t("kontakt.form_mesto") %></label>
+                <input type="text" name="billing_city" id="billing_city" value="<%= current_checkout["billing_city"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="billing_zip"><%= t("kontakt.form_psc") %></label>
+                <input type="text" name="billing_zip" id="billing_zip" value="<%= current_checkout["billing_zip"] %>" required>
+              </div>
+              <div class="form-group">
+                <label for="billing_country"><%= t("checkout.country_field") %></label>
+                <% default_country = current_checkout["billing_country"].presence || current_checkout["country"].presence || "cz" %>
+                <select name="billing_country" id="billing_country">
+                  <option value="cz" <%= "selected" if default_country == "cz" %>><%= t("checkout.country_cz") %></option>
+                  <option value="at" <%= "selected" if default_country == "at" %>><%= t("checkout.country_at") %></option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="checkout-box checkout-collapsible" <%= "open" if current_checkout.company_purchase? %>>
+          <summary class="checkout-box-title"><%= t("checkout.company_purchase") %></summary>
+          <div class="checkout-box-body">
+            <label class="custom-checkbox-label checkout-checkbox">
+              <input type="hidden" name="company_purchase" value="0">
+              <input type="checkbox" name="company_purchase" value="1" <%= "checked" if current_checkout.company_purchase? %>>
+              <span class="custom-checkbox"></span>
+              <span><%= t("checkout.company_purchase") %></span>
+            </label>
+            <div class="checkout-form-grid">
+              <div class="form-group form-group-wide">
+                <label for="company_name"><%= t("checkout.company_name") %></label>
+                <input type="text" name="company_name" id="company_name" value="<%= current_checkout["company_name"] %>">
+              </div>
+              <div class="form-group">
+                <label for="company_ico"><%= t("checkout.company_ico") %></label>
+                <input type="text" name="company_ico" id="company_ico" value="<%= current_checkout["company_ico"] %>">
+              </div>
+              <div class="form-group">
+                <label for="company_dic"><%= t("checkout.company_dic") %></label>
+                <input type="text" name="company_dic" id="company_dic" value="<%= current_checkout["company_dic"] %>">
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="checkout-box checkout-collapsible" <%= "open" if current_checkout.delivery_address_different? %>>
+          <summary class="checkout-box-title"><%= t("checkout.delivery_address_different") %></summary>
+          <div class="checkout-box-body">
+            <label class="custom-checkbox-label checkout-checkbox">
+              <input type="hidden" name="delivery_address_different" value="0">
+              <input type="checkbox" name="delivery_address_different" value="1" <%= "checked" if current_checkout.delivery_address_different? %>>
+              <span class="custom-checkbox"></span>
+              <span><%= t("checkout.delivery_address_different") %></span>
+            </label>
+            <div class="checkout-form-grid">
+              <div class="form-group form-group-wide">
+                <label for="delivery_street"><%= t("checkout.street_and_number") %></label>
+                <input type="text" name="delivery_street" id="delivery_street" value="<%= current_checkout["delivery_street"] %>">
+              </div>
+              <div class="form-group">
+                <label for="delivery_city"><%= t("kontakt.form_mesto") %></label>
+                <input type="text" name="delivery_city" id="delivery_city" value="<%= current_checkout["delivery_city"] %>">
+              </div>
+              <div class="form-group">
+                <label for="delivery_zip"><%= t("kontakt.form_psc") %></label>
+                <input type="text" name="delivery_zip" id="delivery_zip" value="<%= current_checkout["delivery_zip"] %>">
+              </div>
+              <div class="form-group">
+                <label for="delivery_country"><%= t("checkout.country_field") %></label>
+                <select name="delivery_country" id="delivery_country">
+                  <option value="cz" <%= "selected" if current_checkout["delivery_country"].blank? || current_checkout["delivery_country"] == "cz" %>><%= t("checkout.country_cz") %></option>
+                  <option value="at" <%= "selected" if current_checkout["delivery_country"] == "at" %>><%= t("checkout.country_at") %></option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <div class="checkout-nav">
+          <%= link_to t("checkout.back"), checkout_shipping_path, class: "btn-outline-dark", data: { turbo: false } %>
+          <%= submit_tag t("checkout.continue"), class: "btn-primary" %>
+        </div>
+      <% end %>
+
+      <%= render "shared/checkout_summary" %>
+    </div>
+  </section>
+</main>

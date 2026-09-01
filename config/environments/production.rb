@@ -64,4 +64,34 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Order confirmation emails (see OrderMailer). Set these environment
+  # variables on the server for this to actually send mail - for example,
+  # with Gmail SMTP (an app password is required, not the regular account
+  # password: https://myaccount.google.com/apppasswords):
+  #   SMTP_ADDRESS=smtp.gmail.com
+  #   SMTP_PORT=587
+  #   SMTP_DOMAIN=gmail.com
+  #   SMTP_USERNAME=youraccount@gmail.com
+  #   SMTP_PASSWORD=<16-character app password>
+  #   APP_HOST=piladerflice.cz (or whatever the real production domain is)
+  # Any SMTP provider works the same way (SendGrid, Postmark, etc.) - just
+  # point these at its settings instead.
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost") }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+    port: ENV.fetch("SMTP_PORT", 587).to_i,
+    domain: ENV.fetch("SMTP_DOMAIN", nil),
+    user_name: ENV.fetch("SMTP_USERNAME", nil),
+    password: ENV.fetch("SMTP_PASSWORD", nil),
+    authentication: "plain",
+    enable_starttls_auto: true
+  }
+  config.action_mailer.perform_deliveries = true
+  # An order is still saved to the database even if the email fails to send
+  # (see Checkout::ConfirmationService), so a temporary SMTP outage doesn't
+  # block a customer from completing checkout - it just means the email
+  # notification didn't go out for that order. Errors are logged either way.
+  config.action_mailer.raise_delivery_errors = false
 end

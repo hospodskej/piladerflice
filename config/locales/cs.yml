@@ -59,6 +59,55 @@ cs:
     continue_shopping: "Pokračovat v nákupu"
     to_checkout: "K pokladně"
     remove_aria: "Odebrat"
+    table_contents: "Obsah košíku"
+    table_quantity: "Množství"
+    table_availability: "Dostupnost"
+    table_unit_price: "Jednotková cena"
+    table_price_excl_vat: "Cena bez DPH"
+    table_price_incl_vat: "Cena s DPH"
+    total_vat: "Celkem DPH"
+    back_to_shopping: "Zpět k nákupu"
+    discount_code_label: "Slevový kód"
+    discount_code_verify: "Ověřit slevový kód"
+
+  checkout:
+    step_cart: "Váš nákupní košík"
+    step_shipping: "Doprava a platba"
+    step_details: "Dodací údaje"
+    step_summary: "Souhrn"
+    continue: "Pokračovat v objednávce"
+    back: "Zpět"
+    order_contents: "Obsah objednávky"
+    delivery_country_label: "Země doručení"
+    country_field: "Stát"
+    country_cz: "Česká republika"
+    country_at: "Rakousko"
+    shipping_method_label: "Způsob dopravy"
+    shipping_address: "Doručení na adresu"
+    shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
+    shipping_pickup: "Osobní odběr na adrese skladu"
+    free: "Zdarma"
+    payment_method_label: "Způsob platby"
+    payment_cash: "Hotově při vyzvednutí"
+    payment_bank_transfer: "Bankovním převodem - proforma"
+    personal_details: "Osobní údaje"
+    login_existing_user: "Přihlásit se jako stávající uživatel"
+    login_not_available: "Přihlášení zatím není k dispozici"
+    newsletter_opt_in: "Souhlasím se zasíláním Newsletterů"
+    billing_details: "Fakturační údaje"
+    street_and_number: "Ulice a č.p."
+    company_purchase: "Nakupuji na firmu"
+    company_name: "Název firmy"
+    company_ico: "IČO"
+    company_dic: "DIČ"
+    delivery_address_different: "Doručovací adresa (pokud je rozdílná od fakturační)"
+    summary_title: "Souhrn"
+    terms_agreement: "Odesláním objednávky souhlasím s obchodními podmínkami e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky."
+    terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
+    submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
+    confirmation_title: "Děkujeme za vaši objednávku!"
+    confirmation_text: "Vaše objednávka č. %{order_number} byla úspěšně přijata. Brzy vás budeme kontaktovat s dalšími informacemi."
+    back_to_homepage: "Zpět na hlavní stránku"
 
   breadcrumbs:
     home_aria: "breadcrumb"
@@ -483,3 +532,19 @@ cs:
         dub: "Dub"
         akat: "Akát"
         jasan: "Jasan"
+
+  activerecord:
+    errors:
+      models:
+        order:
+          attributes:
+            company_name:
+              blank: "Při nákupu na firmu je potřeba vyplnit název firmy"
+            delivery_street:
+              blank: "Při odlišné doručovací adrese je potřeba vyplnit ulici a č.p."
+            delivery_city:
+              blank: "Při odlišné doručovací adrese je potřeba vyplnit město"
+            delivery_zip:
+              blank: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
+            delivery_country:
+              blank: "Při odlišné doručovací adrese je potřeba vyplnit stát"

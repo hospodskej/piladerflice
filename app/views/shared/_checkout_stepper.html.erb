@@ -1,0 +1,22 @@
+<%#
+  Locals: current_step (Integer, 1-4)
+%>
+<%
+  steps = [
+    { number: 1, label: t("checkout.step_cart"), path: cart_path },
+    { number: 2, label: t("checkout.step_shipping"), path: checkout_shipping_path },
+    { number: 3, label: t("checkout.step_details"), path: checkout_details_path },
+    { number: 4, label: t("checkout.step_summary"), path: checkout_summary_path }
+  ]
+%>
+<nav class="checkout-stepper" aria-label="<%= t('checkout.step_summary') %>">
+  <% steps.each do |step| %>
+    <div class="checkout-step <%= 'current' if step[:number] == current_step %> <%= 'done' if step[:number] < current_step %>">
+      <span class="checkout-step-number"><%= step[:number] < current_step ? "✓" : step[:number] %></span>
+      <span class="checkout-step-label"><%= step[:label] %></span>
+    </div>
+    <% unless step[:number] == steps.size %>
+      <span class="checkout-step-arrow">›</span>
+    <% end %>
+  <% end %>
+</nav>

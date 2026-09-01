@@ -69,6 +69,23 @@ class Cart
     attrs && CartLineItem.new(id, attrs)
   end
 
+  # Sets a line's quantity directly (from the quantity stepper on the cart
+  # page). A quantity of zero or less removes the line entirely, same as
+  # clicking its remove button.
+  def update_quantity(id, quantity)
+    quantity = quantity.to_i
+
+    if quantity <= 0
+      remove(id)
+    elsif @session[SESSION_KEY][id]
+      @session[SESSION_KEY][id]["quantity"] = quantity
+    end
+  end
+
+  def remove(id)
+    @session[SESSION_KEY].delete(id)
+  end
+
   def empty?
     @session[SESSION_KEY].empty?
   end
@@ -83,6 +100,13 @@ class Cart
 
   def subtotal_excl_vat_czk
     (subtotal_czk / (1 + VAT_RATE)).round
+  end
+
+  # Empties the cart - called after a successful order (see
+  # CheckoutController#confirm), since the order's own items_snapshot is
+  # now the durable record of what was purchased.
+  def clear
+    @session[SESSION_KEY] = {}
   end
 
   private

@@ -1,0 +1,75 @@
+<div id="cart-page-contents">
+  <% if current_cart.empty? %>
+    <p class="cart-empty"><%= t("cart.empty") %></p>
+    <%= link_to t("nav.eshop"), eshop_path, class: "btn-primary" %>
+  <% else %>
+    <div class="checkout-cart-table">
+      <div class="checkout-cart-row checkout-cart-header">
+        <span class="col-item"><%= t("cart.table_contents") %></span>
+        <span class="col-qty"><%= t("cart.table_quantity") %></span>
+        <span class="col-avail"><%= t("cart.table_availability") %></span>
+        <span class="col-unit-price"><%= t("cart.table_unit_price") %></span>
+        <span class="col-price-excl"><%= t("cart.table_price_excl_vat") %></span>
+        <span class="col-price-incl"><%= t("cart.table_price_incl_vat") %></span>
+        <span class="col-remove"></span>
+      </div>
+
+      <% current_cart.items.each do |item| %>
+        <% line_excl_vat = (item.line_total_czk / (1 + Cart::VAT_RATE)).round %>
+        <div class="checkout-cart-row">
+          <div class="col-item">
+            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+            <span class="cart-item-desc"><%= cart_line_description(item) %></span>
+          </div>
+
+          <div class="col-qty">
+            <%= form_with url: cart_item_path(item.id), method: :patch, data: { controller: "auto-submit" } do %>
+              <input type="number" name="quantity" value="<%= item.quantity %>" min="1" step="1"
+                     class="qty-input" data-action="change->auto-submit#submit"
+                     aria-label="<%= t('cart.table_quantity') %>">
+            <% end %>
+          </div>
+
+          <div class="col-avail"><span class="text-green"><%= t("common.in_stock") %></span></div>
+          <div class="col-unit-price"><%= cart_price(item.unit_price_czk) %></div>
+          <div class="col-price-excl"><%= cart_price(line_excl_vat) %></div>
+          <div class="col-price-incl"><strong><%= cart_price(item.line_total_czk) %></strong></div>
+
+          <div class="col-remove">
+            <%= button_to "×", cart_item_path(item.id), method: :delete, class: "cart-remove-btn", aria: { label: t("cart.remove_aria") } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="checkout-cart-footer">
+      <div class="discount-code-box">
+        <label for="discount-code"><%= t("cart.discount_code_label") %></label>
+        <div class="discount-code-row">
+          <input type="text" id="discount-code" name="discount-code" disabled>
+          <button type="button" class="btn-primary" disabled><%= t("cart.discount_code_verify") %></button>
+        </div>
+      </div>
+
+      <div class="cart-totals checkout-cart-totals">
+        <div class="cart-total-row">
+          <span><%= t("cart.total_due") %></span>
+          <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+        </div>
+        <div class="cart-total-row cart-total-excl-vat">
+          <span><%= t("cart.total_vat") %></span>
+          <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
+        </div>
+        <div class="cart-total-row cart-total-excl-vat">
+          <span><%= t("cart.without_vat") %></span>
+          <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-nav">
+      <%= link_to t("cart.back_to_shopping"), eshop_path, class: "btn-outline-dark", data: { turbo: false } %>
+      <%= link_to t("checkout.continue"), checkout_shipping_path, class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

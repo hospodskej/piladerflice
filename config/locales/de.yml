@@ -59,6 +59,55 @@ de:
     continue_shopping: "Weiter einkaufen"
     to_checkout: "Zur Kasse"
     remove_aria: "Entfernen"
+    table_contents: "Warenkorbinhalt"
+    table_quantity: "Menge"
+    table_availability: "Verfügbarkeit"
+    table_unit_price: "Einzelpreis"
+    table_price_excl_vat: "Preis exkl. MwSt."
+    table_price_incl_vat: "Preis inkl. MwSt."
+    total_vat: "MwSt. gesamt"
+    back_to_shopping: "Zurück zum Einkauf"
+    discount_code_label: "Rabattcode"
+    discount_code_verify: "Rabattcode prüfen"
+
+  checkout:
+    step_cart: "Ihr Warenkorb"
+    step_shipping: "Versand und Zahlung"
+    step_details: "Lieferdaten"
+    step_summary: "Zusammenfassung"
+    continue: "Bestellung fortsetzen"
+    back: "Zurück"
+    order_contents: "Bestellinhalt"
+    delivery_country_label: "Lieferland"
+    country_field: "Land"
+    country_cz: "Tschechien"
+    country_at: "Österreich"
+    shipping_method_label: "Versandart"
+    shipping_address: "Lieferung an Adresse"
+    shipping_address_note: "Versandkosten werden individuell berechnet"
+    shipping_pickup: "Persönliche Abholung am Lagerstandort"
+    free: "Kostenlos"
+    payment_method_label: "Zahlungsart"
+    payment_cash: "Bar bei Abholung"
+    payment_bank_transfer: "Banküberweisung - Proforma"
+    personal_details: "Persönliche Daten"
+    login_existing_user: "Als bestehender Kunde anmelden"
+    login_not_available: "Anmeldung ist noch nicht verfügbar"
+    newsletter_opt_in: "Ich stimme dem Newsletter-Versand zu"
+    billing_details: "Rechnungsdaten"
+    street_and_number: "Straße und Hausnummer"
+    company_purchase: "Ich kaufe als Firma"
+    company_name: "Firmenname"
+    company_ico: "USt-IdNr. (IČO)"
+    company_dic: "Steuernummer (DIČ)"
+    delivery_address_different: "Lieferadresse (falls abweichend von der Rechnungsadresse)"
+    summary_title: "Zusammenfassung"
+    terms_agreement: "Mit dem Absenden der Bestellung stimme ich den Geschäftsbedingungen des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung zur Kenntnis."
+    terms_required: "Zum Abschluss der Bestellung müssen Sie den Bedingungen zustimmen."
+    submit_error: "Die Bestellung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Angaben."
+    confirmation_title: "Vielen Dank für Ihre Bestellung!"
+    confirmation_text: "Ihre Bestellung Nr. %{order_number} wurde erfolgreich entgegengenommen. Wir melden uns in Kürze mit weiteren Informationen bei Ihnen."
+    back_to_homepage: "Zurück zur Startseite"
 
   breadcrumbs:
     home_aria: "Brotkrümelnavigation"
@@ -482,3 +531,19 @@ de:
         dub: "Eiche"
         akat: "Akazie"
         jasan: "Esche"
+
+  activerecord:
+    errors:
+      models:
+        order:
+          attributes:
+            company_name:
+              blank: "Beim Kauf als Firma muss der Firmenname angegeben werden"
+            delivery_street:
+              blank: "Bei abweichender Lieferadresse muss Straße und Hausnummer angegeben werden"
+            delivery_city:
+              blank: "Bei abweichender Lieferadresse muss die Stadt angegeben werden"
+            delivery_zip:
+              blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
+            delivery_country:
+              blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"

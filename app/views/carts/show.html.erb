@@ -1,34 +1,6 @@
 <main class="main">
-  <section class="cenik-section">
-    <h1 class="cenik-main-title"><%= t("cart.page_title") %></h1>
-
-    <% if current_cart.empty? %>
-      <p class="cart-empty"><%= t("cart.empty") %></p>
-      <%= link_to t("nav.eshop"), eshop_path, class: "btn-primary" %>
-    <% else %>
-      <ul class="cart-items-list cart-page-list">
-        <% current_cart.items.each do |item| %>
-          <li class="cart-item">
-            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
-            <div class="cart-item-details">
-              <span class="cart-item-desc"><%= cart_line_description(item) %></span>
-              <span class="cart-item-qty"><%= t("common.spec_amount") %>: <%= item.quantity %></span>
-            </div>
-            <span class="cart-item-price"><%= cart_price(item.line_total_czk) %></span>
-          </li>
-        <% end %>
-      </ul>
-
-      <div class="cart-totals cart-page-totals">
-        <div class="cart-total-row">
-          <span><%= t("cart.total_due") %></span>
-          <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
-        </div>
-        <div class="cart-total-row cart-total-excl-vat">
-          <span><%= t("cart.without_vat") %></span>
-          <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
-        </div>
-      </div>
-    <% end %>
+  <section class="checkout-section">
+    <%= render "shared/checkout_stepper", current_step: 1 %>
+    <%= render "cart_contents" %>
   </section>
 </main>

@@ -7,8 +7,9 @@
 
 ---
 
-Patch 0.7.5: Fixed "do košíku" buttons on eshop
-Patch 0.7.4: Fixed cart button + eshop routing
+Patch 0.7.6: Added checkout page
+Patch 0.7.5: Fixed "do košíku" buttons on eshop  
+Patch 0.7.4: Fixed cart button + eshop routing  
 Patch 0.7.3: Cart button  
 Patch 0.7.2: Cart UI fixes 2  
 Patch 0.7.1: Cart UI fixes  

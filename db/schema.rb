@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_120000) do
   create_table "faq_items", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", null: false
@@ -19,6 +19,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_120000) do
     t.datetime "updated_at", null: false
     t.string "title_de"
     t.text "content_de"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone"
+    t.boolean "newsletter_opt_in", default: false, null: false
+    t.string "billing_street"
+    t.string "billing_city"
+    t.string "billing_zip"
+    t.string "billing_country"
+    t.boolean "company_purchase", default: false, null: false
+    t.string "company_name"
+    t.string "company_ico"
+    t.string "company_dic"
+    t.boolean "delivery_address_different", default: false, null: false
+    t.string "delivery_street"
+    t.string "delivery_city"
+    t.string "delivery_zip"
+    t.string "delivery_country"
+    t.string "shipping_method"
+    t.string "payment_method"
+    t.text "items_snapshot", null: false
+    t.integer "subtotal_czk", null: false
+    t.integer "vat_czk", null: false
+    t.integer "total_czk", null: false
+    t.string "locale", default: "cs", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pricelist_items", force: :cascade do |t|

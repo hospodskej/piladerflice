@@ -22,6 +22,27 @@ class CartItemsController < ApplicationController
     end
   end
 
+  # Updates a line's quantity (the stepper on the cart contents page).
+  # Renders a Turbo Stream that refreshes both the cart page's item list
+  # and totals, and the header's cart widget, so the displayed price
+  # always matches what's actually in the cart.
+  def update
+    current_cart.update_quantity(params[:id], params.require(:quantity))
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to cart_path }
+    end
+  end
+
+  # Removes a line entirely (the "×" button on the cart contents page).
+  def destroy
+    current_cart.remove(params[:id])
+    respond_to do |format|
+      format.turbo_stream { render :update }
+      format.html { redirect_to cart_path }
+    end
+  end
+
   private
 
   # `specs` arrives as a JSON-encoded string (see shared/_add_to_cart_form)

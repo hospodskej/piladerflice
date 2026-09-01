@@ -142,17 +142,6 @@
     font-size: 0.95rem;
 }
 
-/* ===== Cart page (minimal placeholder for now) ===== */
-.cart-page-list {
-    max-height: none;
-    margin-top: 20px;
-}
-
-.cart-page-totals {
-    max-width: 400px;
-    margin-left: auto;
-}
-
 /* ===== Added-to-cart confirmation modal ===== */
 .cart-modal-backdrop {
     position: fixed;

@@ -54,4 +54,14 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Order confirmation emails (see OrderMailer) - in development, emails are
+  # just written to the Rails log rather than actually sent, so this works
+  # out of the box without any SMTP credentials configured. See
+  # config/environments/production.rb for real delivery setup.
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.delivery_method = :test
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_caching = false
 end

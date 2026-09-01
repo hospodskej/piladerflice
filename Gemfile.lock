@@ -223,6 +223,7 @@ PLATFORMS
 DEPENDENCIES
   debug
   importmap-rails (~> 2.2)
+  net-smtp
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)

@@ -15,6 +15,11 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # Loads environment variables (SMTP credentials, etc.) from a local .env
+  # file that's never committed to git (already covered by .gitignore's
+  # `/.env*` rule) - see .env.example for what's needed.
+  gem "dotenv-rails"
 end
 
 gem "importmap-rails", "~> 2.2"

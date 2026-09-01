@@ -7,7 +7,8 @@
 
 ---
 
-Patch 0.7.6: Added checkout page
+Patch 0.7.7: Preparation for SMTP  
+Patch 0.7.6: Added checkout page  
 Patch 0.7.5: Fixed "do košíku" buttons on eshop  
 Patch 0.7.4: Fixed cart button + eshop routing  
 Patch 0.7.3: Cart button  

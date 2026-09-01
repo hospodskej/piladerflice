@@ -59,8 +59,29 @@ Rails.application.configure do
   # just written to the Rails log rather than actually sent, so this works
   # out of the box without any SMTP credentials configured. See
   # config/environments/production.rb for real delivery setup.
+  #
+  # If SMTP_USERNAME is set (via a local .env file - see .env.example),
+  # this switches to actually sending real emails through that account
+  # instead of just logging them, so you can confirm an order email really
+  # lands in your inbox while testing locally. Leave .env unset and
+  # nothing changes - emails still just get logged as before.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-  config.action_mailer.delivery_method = :test
+
+  if ENV["SMTP_USERNAME"].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+      port: ENV.fetch("SMTP_PORT", 587).to_i,
+      domain: ENV.fetch("SMTP_DOMAIN", nil),
+      user_name: ENV.fetch("SMTP_USERNAME", nil),
+      password: ENV.fetch("SMTP_PASSWORD", nil),
+      authentication: "plain",
+      enable_starttls_auto: true
+    }
+  else
+    config.action_mailer.delivery_method = :test
+  end
+
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false

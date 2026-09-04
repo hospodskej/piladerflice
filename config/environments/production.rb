@@ -79,14 +79,20 @@ Rails.application.configure do
   # point these at its settings instead.
   config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost") }
   config.action_mailer.delivery_method = :smtp
+  smtp_port = ENV.fetch("SMTP_PORT", 587).to_i
   config.action_mailer.smtp_settings = {
     address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
-    port: ENV.fetch("SMTP_PORT", 587).to_i,
+    port: smtp_port,
     domain: ENV.fetch("SMTP_DOMAIN", nil),
     user_name: ENV.fetch("SMTP_USERNAME", nil),
     password: ENV.fetch("SMTP_PASSWORD", nil),
     authentication: "plain",
-    enable_starttls_auto: true
+    # Port 465 (used by Seznam.cz, among others) expects an already-encrypted
+    # connection from the start; port 587 (Gmail's default) expects a plain
+    # connection that gets upgraded via STARTTLS - see the matching comment
+    # in config/environments/development.rb.
+    tls: smtp_port == 465,
+    enable_starttls_auto: smtp_port != 465
   }
   config.action_mailer.perform_deliveries = true
   # An order is still saved to the database even if the email fails to send

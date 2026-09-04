@@ -76,7 +76,7 @@
         <label class="custom-checkbox-label checkout-checkbox">
           <input type="checkbox" name="terms_agreement" value="1" required>
           <span class="custom-checkbox"></span>
-          <span><%= t("checkout.terms_agreement") %></span>
+          <span><%= t("checkout.terms_agreement_html", terms_link: link_to(t("checkout.terms_link_text"), terms_path, target: "_blank", rel: "noopener")) %></span>
         </label>
 
         <div class="checkout-nav">

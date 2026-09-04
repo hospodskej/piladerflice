@@ -20,8 +20,8 @@ class Cart
   # Every price captured into the cart comes from data already marked
   # "vč. DPH" (VAT included) on the site's price sheets, so the "bez DPH"
   # (excl. VAT) figure shown in the cart dropdown is derived by dividing
-  # back out the standard Czech VAT rate. Adjust here if this ever differs
-  # per product category.
+  # back out the VAT rate - confirmed at 21% (standard Czech rate) by the
+  # business owner. Adjust here if this ever differs per product category.
   VAT_RATE = 0.21
 
   def initialize(session)

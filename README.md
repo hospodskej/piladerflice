@@ -7,6 +7,7 @@
 
 ---
 
+Patch 0.7.8: SMTP Ready  
 Patch 0.7.7: Preparation for SMTP  
 Patch 0.7.6: Added checkout page  
 Patch 0.7.5: Fixed "do košíku" buttons on eshop  

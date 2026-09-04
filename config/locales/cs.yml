@@ -102,7 +102,8 @@ cs:
     company_dic: "DIČ"
     delivery_address_different: "Doručovací adresa (pokud je rozdílná od fakturační)"
     summary_title: "Souhrn"
-    terms_agreement: "Odesláním objednávky souhlasím s obchodními podmínkami e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky."
+    terms_agreement_html: "Odesláním objednávky souhlasím s %{terms_link} e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky."
+    terms_link_text: "obchodními podmínkami"
     terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
     submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
     confirmation_title: "Děkujeme za vaši objednávku!"
@@ -548,3 +549,22 @@ cs:
               blank: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
             delivery_country:
               blank: "Při odlišné doručovací adrese je potřeba vyplnit stát"
+
+  order_mailer:
+    greeting: "Dobrý den, %{name},"
+    thank_you: "děkujeme za Vaši objednávku. Zde je její shrnutí:"
+    order_number: "Číslo objednávky"
+    item: "Položka"
+    quantity: "Množství"
+    unit_price: "Jednotková cena"
+    total: "Celkem"
+    shipping_method: "Způsob dopravy"
+    payment_method: "Způsob platby"
+    total_due: "Celkem k úhradě"
+    questions_text: "V případě jakýchkoliv dotazů nás neváhejte kontaktovat na telefonu +420 602 446 339 nebo e-mailu stepan.merta@seznam.cz."
+    sign_off: "S pozdravem,"
+    signature: "Štěpán Merta, Pila Derflice"
+
+  legal:
+    terms_title: "Obchodní podmínky"
+    terms_placeholder: "Obchodní podmínky budou brzy doplněny."

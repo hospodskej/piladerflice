@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :cart_items, only: [:create, :update, :destroy]
   get '/kosik', to: 'carts#show', as: :cart
+  get '/obchodni-podminky', to: 'pages#terms', as: :terms
 
   get '/kosik/doprava', to: 'checkout#shipping', as: :checkout_shipping
   patch '/kosik/doprava', to: 'checkout#update_shipping'

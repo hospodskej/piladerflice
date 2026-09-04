@@ -38,6 +38,7 @@ class CheckoutController < ApplicationController
 
     if @order.save
       deliver_order_notification(@order)
+      deliver_customer_confirmation(@order)
       current_cart.clear
       current_checkout.clear
       session[:last_order_id] = @order.id
@@ -137,6 +138,15 @@ class CheckoutController < ApplicationController
   def deliver_order_notification(order)
     I18n.with_locale(:cs) { OrderMailer.new_order(order).deliver_now }
   rescue StandardError => e
-    Rails.logger.error("[OrderMailer] failed to send notification for order ##{order.id}: #{e.class}: #{e.message}")
+    Rails.logger.error("[OrderMailer] failed to send business notification for order ##{order.id}: #{e.class}: #{e.message}")
+  end
+
+  # Independent from deliver_order_notification - if this one fails, the
+  # business still got their copy and the order still exists, so a
+  # customer-side delivery hiccup doesn't lose the order either way.
+  def deliver_customer_confirmation(order)
+    I18n.with_locale(order.locale) { OrderMailer.customer_confirmation(order).deliver_now }
+  rescue StandardError => e
+    Rails.logger.error("[OrderMailer] failed to send customer confirmation for order ##{order.id}: #{e.class}: #{e.message}")
   end
 end

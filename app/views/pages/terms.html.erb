@@ -1,0 +1,26 @@
+<main class="main">
+  <section class="legal-page">
+    <h1><%= t("legal.terms_title") %></h1>
+
+    <%#
+      PASTE YOUR REAL TERMS BELOW.
+
+      There are two sections further down - one for Czech (the "else"
+      branch), one for German (the "if" branch). Replace the placeholder
+      paragraph in each with your real text. Plain HTML works fine:
+      headings, paragraphs, lists, bold text - the surrounding
+      .legal-content CSS class already styles all of it, so no extra
+      styling needed on your end.
+
+      Until a German translation exists, just leave that section's
+      placeholder as-is - it shows a short "coming soon" note instead.
+    %>
+    <div class="legal-content">
+      <% if I18n.locale == :de %>
+        <p><em><%= t("legal.terms_placeholder") %></em></p>
+      <% else %>
+        <p><em><%= t("legal.terms_placeholder") %></em></p>
+      <% end %>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,19 @@
+<%= t("order_mailer.greeting", name: @order.first_name) %>
+
+<%= t("order_mailer.thank_you") %>
+
+<%= t("order_mailer.order_number") %>: #<%= @order.id %>
+
+<% @lines.each do |line| %>
+- <%= line[:description] %> | <%= line[:quantity] %>x | <%= line[:unit_price] %> | <%= line[:line_total] %>
+<% end %>
+
+<%= t("order_mailer.shipping_method") %>: <%= @order.shipping_method == "pickup" ? t("checkout.shipping_pickup") : t("checkout.shipping_address") %>
+<%= t("order_mailer.payment_method") %>: <%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %>
+
+<%= t("order_mailer.total_due") %>: <%= ExchangeRateService.display_amount(@order.total_czk, locale: @locale) %>
+
+<%= t("order_mailer.questions_text") %>
+
+<%= t("order_mailer.sign_off") %>
+<%= t("order_mailer.signature") %>

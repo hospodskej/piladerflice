@@ -69,14 +69,21 @@ Rails.application.configure do
 
   if ENV["SMTP_USERNAME"].present?
     config.action_mailer.delivery_method = :smtp
+    smtp_port = ENV.fetch("SMTP_PORT", 587).to_i
     config.action_mailer.smtp_settings = {
       address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
-      port: ENV.fetch("SMTP_PORT", 587).to_i,
+      port: smtp_port,
       domain: ENV.fetch("SMTP_DOMAIN", nil),
       user_name: ENV.fetch("SMTP_USERNAME", nil),
       password: ENV.fetch("SMTP_PASSWORD", nil),
       authentication: "plain",
-      enable_starttls_auto: true
+      # Port 465 (used by Seznam.cz, among others) expects an already-encrypted
+      # connection from the start; port 587 (Gmail's default) expects a plain
+      # connection that gets upgraded via STARTTLS. Picking the right one
+      # based on the port means SMTP_PORT alone decides this correctly,
+      # without a separate setting to get wrong.
+      tls: smtp_port == 465,
+      enable_starttls_auto: smtp_port != 465
     }
   else
     config.action_mailer.delivery_method = :test

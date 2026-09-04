@@ -1,0 +1,45 @@
+<h1 style="font-size:20px; margin:0 0 16px 0;"><%= t("order_mailer.greeting", name: @order.first_name) %></h1>
+<p style="margin:0 0 20px 0;"><%= t("order_mailer.thank_you") %></p>
+
+<p style="margin:0 0 20px 0; font-size:14px; color:#666;">
+  <%= t("order_mailer.order_number") %>: <strong>#<%= @order.id %></strong>
+</p>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px; border-collapse:collapse;">
+  <tr style="border-bottom:1px solid #ddd;">
+    <td style="padding:6px 0; color:#666; font-size:12px;"><%= t("order_mailer.item") %></td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:center;"><%= t("order_mailer.quantity") %></td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:right;"><%= t("order_mailer.unit_price") %></td>
+    <td style="padding:6px 0; color:#666; font-size:12px; text-align:right;"><%= t("order_mailer.total") %></td>
+  </tr>
+  <% @lines.each do |line| %>
+    <tr style="border-bottom:1px solid #f0f0f0;">
+      <td style="padding:8px 0;"><%= line[:description] %></td>
+      <td style="padding:8px 0; text-align:center;"><%= line[:quantity] %></td>
+      <td style="padding:8px 0; text-align:right; white-space:nowrap;"><%= line[:unit_price] %></td>
+      <td style="padding:8px 0; text-align:right; white-space:nowrap;"><%= line[:line_total] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+  <tr>
+    <td style="padding:2px 0; color:#666; width:160px;"><%= t("order_mailer.shipping_method") %></td>
+    <td style="padding:2px 0;"><%= @order.shipping_method == "pickup" ? t("checkout.shipping_pickup") : t("checkout.shipping_address") %></td>
+  </tr>
+  <tr>
+    <td style="padding:2px 0; color:#666;"><%= t("order_mailer.payment_method") %></td>
+    <td style="padding:2px 0;"><%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %></td>
+  </tr>
+  <tr>
+    <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= t("order_mailer.total_due") %></td>
+    <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= ExchangeRateService.display_amount(@order.total_czk, locale: @locale) %></td>
+  </tr>
+</table>
+
+<p style="margin:24px 0 0 0; color:#444; font-size:14px;"><%= t("order_mailer.questions_text") %></p>
+
+<p style="margin:20px 0 0 0; font-size:14px;">
+  <%= t("order_mailer.sign_off") %><br>
+  <%= t("order_mailer.signature") %>
+</p>

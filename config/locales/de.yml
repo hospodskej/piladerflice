@@ -102,7 +102,8 @@ de:
     company_dic: "Steuernummer (DIČ)"
     delivery_address_different: "Lieferadresse (falls abweichend von der Rechnungsadresse)"
     summary_title: "Zusammenfassung"
-    terms_agreement: "Mit dem Absenden der Bestellung stimme ich den Geschäftsbedingungen des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung zur Kenntnis."
+    terms_agreement_html: "Mit dem Absenden der Bestellung stimme ich den %{terms_link} des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung zur Kenntnis."
+    terms_link_text: "Geschäftsbedingungen"
     terms_required: "Zum Abschluss der Bestellung müssen Sie den Bedingungen zustimmen."
     submit_error: "Die Bestellung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Angaben."
     confirmation_title: "Vielen Dank für Ihre Bestellung!"
@@ -547,3 +548,22 @@ de:
               blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
             delivery_country:
               blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"
+
+  order_mailer:
+    greeting: "Guten Tag %{name},"
+    thank_you: "vielen Dank für Ihre Bestellung. Hier ist eine Zusammenfassung:"
+    order_number: "Bestellnummer"
+    item: "Artikel"
+    quantity: "Menge"
+    unit_price: "Einzelpreis"
+    total: "Gesamt"
+    shipping_method: "Versandart"
+    payment_method: "Zahlungsart"
+    total_due: "Gesamtbetrag"
+    questions_text: "Bei Fragen kontaktieren Sie uns gerne telefonisch unter +420 602 446 339 oder per E-Mail an stepan.merta@seznam.cz."
+    sign_off: "Mit freundlichen Grüßen,"
+    signature: "Štěpán Merta, Pila Derflice"
+
+  legal:
+    terms_title: "Allgemeine Geschäftsbedingungen"
+    terms_placeholder: "Die Allgemeinen Geschäftsbedingungen werden in Kürze veröffentlicht."

@@ -2,6 +2,11 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3"
+
+# Ruby 4.0+ no longer bundles fiddle by default, but reline (used by irb /
+# `rails console`) needs it on Windows specifically - without this,
+# `rails console` crashes immediately on startup.
+gem "fiddle"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record

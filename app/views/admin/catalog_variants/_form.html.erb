@@ -1,0 +1,71 @@
+<%= form_with model: [:admin, catalog_product, catalog_variant], class: "admin-form" do |f| %>
+  <% if catalog_variant.errors.any? %>
+    <div class="admin-flash admin-flash-alert">
+      <strong><%= pluralize(catalog_variant.errors.count, "chyba") %> brání uložení:</strong>
+      <ul>
+        <% catalog_variant.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <label for="catalog_variant_key">Klíč (interní identifikátor)</label>
+      <%= f.text_field :key %>
+      <p class="admin-form-hint">Bez diakritiky a mezer, jen pro rozlišení mezi variantami tohoto produktu, např. "100cm-15prm".</p>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_variant_price_czk">Cena (Kč)</label>
+      <%= f.number_field :price_czk %>
+      <p class="admin-form-hint">Cena v eurech se dopočítává automaticky podle aktuálního kurzu.</p>
+    </div>
+
+    <% if catalog_product.template == "firewood" %>
+      <div class="form-group">
+        <label for="catalog_variant_variant_group">Typ uložení</label>
+        <%= f.select :variant_group, [["Sypané (kontejner)", "kontejner"], ["Skládané (bedny)", "bedny"]], include_blank: false %>
+      </div>
+      <div class="form-group">
+        <label for="catalog_variant_amount_value">Množství (PRM)</label>
+        <%= f.number_field :amount_value %>
+      </div>
+    <% end %>
+
+    <% if %w[firewood lumber].include?(catalog_product.template) %>
+      <div class="form-group">
+        <label for="catalog_variant_length_label">Délka</label>
+        <%= f.text_field :length_label, placeholder: "100 cm nebo 3000 mm" %>
+      </div>
+    <% end %>
+
+    <div class="form-group form-group-wide">
+      <label for="catalog_variant_variant_label">Popis varianty (CZ)</label>
+      <%= f.text_field :variant_label, placeholder: catalog_product.template == "lumber" ? "např. 100/100 mm nebo I. tříděné" : "např. Smrk, Volně ložené, 32/64 mm" %>
+    </div>
+
+    <div class="form-group form-group-wide">
+      <label for="catalog_variant_variant_label_de">Popis varianty (DE)</label>
+      <%= f.text_field :variant_label_de %>
+      <p class="admin-form-hint">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_variant_position">Pořadí</label>
+      <%= f.number_field :position %>
+    </div>
+  </div>
+
+  <label class="custom-checkbox-label checkout-checkbox">
+    <%= f.check_box :in_stock %>
+    <span class="custom-checkbox"></span>
+    <span>Skladem</span>
+  </label>
+
+  <div class="admin-form-actions">
+    <%= f.submit "Uložit variantu", class: "btn-primary" %>
+    <%= link_to "Zpět na produkt", edit_admin_catalog_product_path(catalog_product), class: "btn-outline-dark" %>
+  </div>
+<% end %>

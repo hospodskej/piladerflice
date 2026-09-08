@@ -1,0 +1,114 @@
+<%= form_with model: [:admin, catalog_product], class: "admin-form" do |f| %>
+  <% if catalog_product.errors.any? %>
+    <div class="admin-flash admin-flash-alert">
+      <strong><%= pluralize(catalog_product.errors.count, "chyba") %> brání uložení:</strong>
+      <ul>
+        <% catalog_product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <label for="catalog_product_key">Klíč (interní identifikátor)</label>
+      <%= f.text_field :key %>
+      <p class="admin-form-hint">Bez diakritiky a mezer, např. "smrk", "tramy". Používá se v adrese produktu (/eshop/klic) - po vytvoření produktu ho už neměňte.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_product_template">Šablona zobrazení</label>
+      <%= f.select :template, [["Palivové dřevo (kontejner + bedny)", "firewood"], ["Řezivo (jedna matice rozměr × délka)", "lumber"], ["Jednoduché varianty (bez matice)", "simple_variant"]], include_blank: false %>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_product_category">Kategorie filtru</label>
+      <%= f.select :category, [["Palivové dřevo", "palivove"], ["Stavební řezivo", "rezivo"], ["Výrobní zbytky", "zbytky"], ["Okrasné kamenivo", "kamenivo"]], include_blank: false %>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_product_hardness">Tvrdost dřeva (jen pro palivové dřevo)</label>
+      <%= f.select :hardness, [["— nepoužito —", nil], ["Tvrdé", "hard"], ["Měkké", "soft"]] %>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_product_image">Obrázek (cesta v app/assets/images)</label>
+      <%= f.text_field :image, placeholder: "eshop/smrk.png" %>
+    </div>
+
+    <div class="form-group">
+      <label for="catalog_product_position">Pořadí v katalogu</label>
+      <%= f.number_field :position %>
+    </div>
+  </div>
+
+  <label class="custom-checkbox-label checkout-checkbox">
+    <%= f.check_box :active %>
+    <span class="custom-checkbox"></span>
+    <span>Aktivní (zobrazuje se v e-shopu)</span>
+  </label>
+
+  <h2 class="admin-section-title">Český obsah</h2>
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <label for="catalog_product_title">Název</label>
+      <%= f.text_field :title %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_type_label">Popisek (typ dřeva / konstantní popis)</label>
+      <%= f.text_field :type_label %>
+      <p class="admin-form-hint">Pro palivové dřevo: "Tvrdé palivové dřevo" apod. Pro řezivo/zbytky: krátký popis zobrazený u každé varianty.</p>
+    </div>
+    <div class="form-group form-group-wide">
+      <label for="catalog_product_subtitle">Podtitulek (jen palivové dřevo)</label>
+      <%= f.text_field :subtitle %>
+    </div>
+    <div class="form-group form-group-wide">
+      <label for="catalog_product_description">Popis</label>
+      <%= f.text_area :description %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_drying_note">Poznámka k sušení (jen palivové dřevo)</label>
+      <%= f.text_field :drying_note %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_image_alt">Popisek obrázku (alt text)</label>
+      <%= f.text_field :image_alt %>
+    </div>
+  </div>
+
+  <h2 class="admin-section-title">Německý obsah</h2>
+  <p class="admin-form-hint" style="margin-bottom: 14px;">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <label for="catalog_product_title_de">Název (DE)</label>
+      <%= f.text_field :title_de %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_type_label_de">Popisek (DE)</label>
+      <%= f.text_field :type_label_de %>
+    </div>
+    <div class="form-group form-group-wide">
+      <label for="catalog_product_subtitle_de">Podtitulek (DE)</label>
+      <%= f.text_field :subtitle_de %>
+    </div>
+    <div class="form-group form-group-wide">
+      <label for="catalog_product_description_de">Popis (DE)</label>
+      <%= f.text_area :description_de %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_drying_note_de">Poznámka k sušení (DE)</label>
+      <%= f.text_field :drying_note_de %>
+    </div>
+    <div class="form-group">
+      <label for="catalog_product_image_alt_de">Popisek obrázku (DE)</label>
+      <%= f.text_field :image_alt_de %>
+    </div>
+  </div>
+
+  <div class="admin-form-actions">
+    <%= f.submit "Uložit produkt", class: "btn-primary" %>
+    <%= link_to "Zpět na katalog", admin_catalog_products_path, class: "btn-outline-dark" %>
+  </div>
+<% end %>

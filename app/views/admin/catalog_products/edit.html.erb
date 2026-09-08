@@ -1,0 +1,48 @@
+<%= link_to "← Zpět na katalog", admin_catalog_products_path, class: "admin-back-link" %>
+<h1 class="admin-page-title">Upravit produkt: <%= @catalog_product.title %></h1>
+
+<%= render "form", catalog_product: @catalog_product %>
+
+<h2 class="admin-section-title">Varianty a ceny</h2>
+
+<div class="admin-toolbar">
+  <p class="admin-form-hint" style="margin: 0;">Každá varianta je jedna konkrétní kombinace, kterou si zákazník může koupit (rozměr, délka, množství...) se svojí vlastní cenou.</p>
+  <%= link_to "+ Nová varianta", new_admin_catalog_product_catalog_variant_path(@catalog_product), class: "btn-primary" %>
+</div>
+
+<% if @catalog_product.catalog_variants.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Popis</th>
+        <th>Délka</th>
+        <th>Množství</th>
+        <th>Cena (Kč)</th>
+        <th>Skladem</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @catalog_product.catalog_variants.each do |variant| %>
+        <tr>
+          <td>
+            <%= variant.variant_label %>
+            <% if variant.variant_group.present? %>
+              <br><span style="color:#999; font-size:0.8rem;"><%= variant.variant_group == "bedny" ? "Skládané (bedny)" : "Sypané (kontejner)" %></span>
+            <% end %>
+          </td>
+          <td><%= variant.length_label %></td>
+          <td><%= variant.amount_value %></td>
+          <td><%= number_with_delimiter(variant.price_czk, delimiter: " ") %> Kč</td>
+          <td><%= variant.in_stock? ? "Ano" : "Ne" %></td>
+          <td>
+            <%= link_to "Upravit", edit_admin_catalog_product_catalog_variant_path(@catalog_product, variant) %>
+            <%= button_to "Smazat", admin_catalog_product_catalog_variant_path(@catalog_product, variant), method: :delete, class: "admin-danger-btn", style: "margin-left: 8px;", form: { data: { turbo_confirm: "Opravdu smazat tuto variantu?" } } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="admin-empty-state">Tento produkt zatím nemá žádné varianty - bez alespoň jedné varianty se nedá koupit.</div>
+<% end %>

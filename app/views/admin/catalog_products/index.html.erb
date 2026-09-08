@@ -1,0 +1,41 @@
+<div class="admin-toolbar">
+  <h1 class="admin-page-title">Katalog a ceny</h1>
+  <%= link_to "+ Nový produkt", new_admin_catalog_product_path, class: "btn-primary" %>
+</div>
+
+<% if @catalog_products.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Produkt</th>
+        <th>Šablona</th>
+        <th>Kategorie</th>
+        <th>Varianty</th>
+        <th>Od ceny</th>
+        <th>Aktivní</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @catalog_products.each do |product| %>
+        <tr>
+          <td><strong><%= product.title %></strong><br><span style="color:#999; font-size:0.8rem;"><%= product.key %></span></td>
+          <td><%= product.template %></td>
+          <td><%= product.category %></td>
+          <td><%= product.catalog_variants.size %></td>
+          <td>
+            <% if product.starting_price_czk %>
+              <%= ExchangeRateService.display_amount(product.starting_price_czk, locale: :cs) %>
+            <% else %>
+              <span style="color:#D33;">bez ceny</span>
+            <% end %>
+          </td>
+          <td><%= product.active? ? "Ano" : "Ne" %></td>
+          <td><%= link_to "Upravit", edit_admin_catalog_product_path(product) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="admin-empty-state">Zatím žádné produkty v katalogu.</div>
+<% end %>

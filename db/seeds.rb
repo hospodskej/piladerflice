@@ -222,3 +222,5 @@ FaqItem.create!([
                 ])
 
 puts "Successfully created #{FaqItem.count} FAQ!"
+
+load Rails.root.join("db/seeds_catalog.rb")

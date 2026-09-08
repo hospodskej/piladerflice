@@ -1,13 +1,1 @@
-<%
-  items = [
-    { spec2_spec: { "type" => "key", "value" => "eshop.products.smrk.title" }, price: "800 Kč", in_stock: true },
-    { spec2_spec: { "type" => "key", "value" => "eshop.products.dub.title" }, price: "1 400 Kč", in_stock: true }
-  ]
-%>
-<%= render "shared/simple_variant_product",
-    key: "odkory",
-    i18n_key: "odkory",
-    category_param: "zbytky",
-    grid_class: "simple-grid-2",
-    items: items,
-    spec2_label_key: "common.spec_wood" %>
+<%= render "shared/simple_variant_product", key: "odkory", i18n_key: "odkory", category_param: "zbytky", grid_class: "simple-grid-2" %>

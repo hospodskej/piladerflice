@@ -10,7 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_120000) do
+  create_table "catalog_products", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.text "description_de"
+    t.string "drying_note"
+    t.string "drying_note_de"
+    t.string "hardness"
+    t.string "image"
+    t.string "image_alt"
+    t.string "image_alt_de"
+    t.string "key", null: false
+    t.integer "position", default: 0, null: false
+    t.string "subtitle"
+    t.string "subtitle_de"
+    t.string "template", null: false
+    t.string "title", null: false
+    t.string "title_de"
+    t.string "type_label"
+    t.string "type_label_de"
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_catalog_products_on_key", unique: true
+  end
+
+  create_table "catalog_variants", force: :cascade do |t|
+    t.integer "amount_value"
+    t.integer "catalog_product_id", null: false
+    t.datetime "created_at", null: false
+    t.boolean "in_stock", default: true, null: false
+    t.string "key", null: false
+    t.string "length_label"
+    t.integer "position", default: 0, null: false
+    t.integer "price_czk", null: false
+    t.datetime "updated_at", null: false
+    t.string "variant_group"
+    t.string "variant_label"
+    t.string "variant_label_de"
+    t.index ["catalog_product_id", "key"], name: "index_catalog_variants_on_catalog_product_id_and_key", unique: true
+    t.index ["catalog_product_id"], name: "index_catalog_variants_on_catalog_product_id"
+  end
+
   create_table "faq_items", force: :cascade do |t|
     t.text "content"
     t.text "content_de"
@@ -105,4 +147,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_120000) do
     t.string "title_de"
     t.datetime "updated_at", null: false
   end
+
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.string "role", default: "admin", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
+  add_foreign_key "catalog_variants", "catalog_products"
+  add_foreign_key "sessions", "users"
 end

@@ -1,0 +1,3 @@
+<%= link_to "← Zpět na produkt", edit_admin_catalog_product_path(@catalog_product), class: "admin-back-link" %>
+<h1 class="admin-page-title">Nová varianta: <%= @catalog_product.title %></h1>
+<%= render "form", catalog_product: @catalog_product, catalog_variant: @catalog_variant %>

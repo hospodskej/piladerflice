@@ -1,19 +1,19 @@
 class CartItemsController < ApplicationController
-  # Adds one unit of a product/variant to the cart (or increments quantity
-  # if that exact configuration is already in the cart - see Cart#add).
+  # Adds one unit of a catalog variant to the cart (or increments quantity
+  # if it's already in the cart - see Cart#add). The only thing trusted
+  # from the request is which variant was chosen (its id) - price, image,
+  # and description all come from the CatalogVariant record itself, never
+  # from client-submitted form data, so there's nothing here for someone
+  # to tamper with to change what they're charged.
+  #
   # Renders a Turbo Stream that refreshes the header's cart widget and
   # shows the "added to cart" confirmation modal, so the page never
   # actually navigates away from wherever the "Do košíku" button was
   # clicked.
   def create
-    specs = parsed_specs
+    variant = CatalogVariant.joins(:catalog_product).where(catalog_products: { active: true }).find(params.require(:catalog_variant_id))
 
-    @added_line_id = current_cart.add(
-      product_key: params.require(:product_key),
-      image: params.require(:image),
-      unit_price_czk: params.require(:unit_price_czk).to_i,
-      specs: specs
-    )
+    @added_line_id = current_cart.add(variant)
     @added_item = current_cart.find(@added_line_id)
 
     respond_to do |format|
@@ -41,20 +41,5 @@ class CartItemsController < ApplicationController
       format.turbo_stream { render :update }
       format.html { redirect_to cart_path }
     end
-  end
-
-  private
-
-  # `specs` arrives as a JSON-encoded string (see shared/_add_to_cart_form)
-  # since it's an ordered array of small hashes describing the variant -
-  # awkward to express as flat form fields, easy as one JSON blob.
-  def parsed_specs
-    raw = params.require(:specs)
-    parsed = JSON.parse(raw)
-    raise ActionController::BadRequest, "specs must be an array" unless parsed.is_a?(Array)
-
-    parsed
-  rescue JSON::ParserError
-    raise ActionController::BadRequest, "specs must be valid JSON"
   end
 end

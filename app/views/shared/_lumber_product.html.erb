@@ -2,17 +2,16 @@
   # Shared template for the "simple" stavební-řezivo detail pages that only
   # have a single loose/container matrix (tramy, late, fosny, prkna) - as
   # opposed to firewood pages, which also have a stacked/bedny section.
-  # `key` is the canonical, language-independent product identifier used to
-  # look up text in config/locales/*.yml under eshop.products.<key> and
-  # eshop.<key>.
+  # Product text and pricing now come from the database (CatalogProduct/
+  # CatalogVariant) so an admin can edit them without a developer.
   #
-  # `first_value_spec` and each row's `label`/`value` (or `label_key`/
-  # `value_key`) follow the same { "type" => "key"|"raw", "value" => ... }
-  # shape used for cart specs (see shared/_add_to_cart_form), so whichever
-  # text needs translating stays language-neutral all the way from the
-  # caller into the cart, instead of being baked into one locale at the
-  # point the caller builds the row data.
-  title = t("eshop.#{key}.title", default: t("eshop.products.#{key}.title"))
+  # `key` is the canonical, language-independent product identifier.
+  # `product.type_label_i18n` doubles as "the constant first spec shown on
+  # every cell" for this template - e.g. "Sypané" for most lumber products,
+  # or "24 mm" for prkna's fixed board thickness - since that value never
+  # varies across a lumber product's own variants, only between products.
+  product = CatalogProduct.find_by!(key: key)
+  title = product.title_i18n
 
   @breadcrumb_items = [
     [t("breadcrumbs.eshop"), "/eshop"],
@@ -20,8 +19,9 @@
     [title, "#"]
   ]
 
-  resolve_spec = ->(spec) { spec["type"] == "key" ? t(spec["value"]) : spec["value"] }
-  first_value_text = resolve_spec.call(first_value_spec)
+  variants = product.catalog_variants.to_a
+  lengths = variants.map(&:length_label).uniq
+  dimensions = variants.map(&:variant_label).uniq
 %>
 
 <main class="product-page-main">
@@ -29,14 +29,14 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag "eshop/#{key}.png", alt: title %>
+        <%= image_tag product.image, alt: title %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>
         <p class="description">
-          <%= t("eshop.#{key}.description") %>
+          <%= product.description_i18n %>
         </p>
-        <p class="stock-status"><%= t("eshop.#{key}.stock_status") %></p>
+        <p class="stock-status"><%= t("common.in_stock") %></p>
       </div>
     </section>
 
@@ -47,43 +47,41 @@
       <div id="section-kontejner" class="inventory-group">
         <h2 class="section-title"><%= t("eshop.#{key}.loose_heading_html") %></h2>
 
-        <div class="<%= grid_class %>">
+        <div class="matrix-grid-3">
           <div class="matrix-cell empty"></div>
           <% lengths.each do |len| %>
             <div class="matrix-cell col-header"><%= len %></div>
           <% end %>
 
-          <% rows.each do |row| %>
-            <% row_value_spec = row[:value_spec] || { "type" => "raw", "value" => row[:value] } %>
-            <div class="matrix-cell row-header"><span><%= resolve_spec.call(row[:label_spec] || { "type" => "raw", "value" => row[:label] }) %></span></div>
+          <% dimensions.each do |dim| %>
+            <% dim_variant = variants.find { |v| v.variant_label == dim } %>
+            <div class="matrix-cell row-header"><span><%= dim_variant.variant_label_i18n %></span></div>
             <% lengths.each do |len| %>
-              <% unit_price_czk = row[:price].gsub(/\D/, "").to_i %>
+              <% variant = variants.find { |v| v.variant_label == dim && v.length_label == len } %>
               <div class="matrix-cell">
-                <div class="inventory-card">
-                  <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
-                  <div class="inventory-specs">
-                    <div class="spec-labels">
-                      <span><%= t(spec_labels[0]) %></span>
-                      <span><%= t("common.spec_length") %></span>
-                      <span><%= t(spec_labels[2]) %></span>
+                <% if variant %>
+                  <div class="inventory-card">
+                    <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+                    <div class="inventory-specs">
+                      <div class="spec-labels">
+                        <span><%= t("common.spec_variant") %></span>
+                        <span><%= t("common.spec_length") %></span>
+                        <span><%= t("common.spec_dimension") %></span>
+                      </div>
+                      <div class="spec-values">
+                        <span class="spec-value"><%= product.type_label_i18n %></span>
+                        <span class="spec-value"><%= len %></span>
+                        <span class="spec-value"><%= variant.variant_label_i18n %></span>
+                      </div>
                     </div>
-                    <div class="spec-values">
-                      <span class="spec-value"><%= first_value_text %></span>
-                      <span class="spec-value"><%= len %></span>
-                      <span class="spec-value <%= row[:color] %>"><%= resolve_spec.call(row_value_spec) %></span>
-                    </div>
+                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
+                    <% if variant.in_stock? %>
+                      <%= render "shared/add_to_cart_form", catalog_variant: variant %>
+                    <% else %>
+                      <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
+                    <% end %>
                   </div>
-                  <p class="inventory-price"><%= ExchangeRateService.display_amount(unit_price_czk) %></p>
-                  <%= render "shared/add_to_cart_form",
-                      product_key: key,
-                      image: "eshop/#{key}.png",
-                      unit_price_czk: unit_price_czk,
-                      specs: [
-                        first_value_spec,
-                        { "type" => "raw", "value" => len },
-                        row_value_spec
-                      ] %>
-                </div>
+                <% end %>
               </div>
             <% end %>
           <% end %>
@@ -91,40 +89,6 @@
       </div>
 
     </section>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const buttons = document.querySelectorAll(".filter-btn");
-            const sectionKontejner = document.getElementById("section-kontejner");
-            const sectionBedny = document.getElementById("section-bedny");
-            const midSeparator = document.querySelector(".mid-separator");
-
-            buttons.forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    e.preventDefault();
-
-                    buttons.forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-
-                    const target = btn.dataset.target;
-
-                    if (target === "all") {
-                        sectionKontejner.style.display = "block";
-                        sectionBedny.style.display = "block";
-                        midSeparator.style.display = "block";
-                    } else if (target === "kontejner") {
-                        sectionKontejner.style.display = "block";
-                        sectionBedny.style.display = "none";
-                        midSeparator.style.display = "none";
-                    } else if (target === "bedny") {
-                        sectionKontejner.style.display = "none";
-                        sectionBedny.style.display = "block";
-                        midSeparator.style.display = "none";
-                    }
-                });
-            });
-        });
-    </script>
 
     <%= render "shared/recommendations", current_product: key %>
 

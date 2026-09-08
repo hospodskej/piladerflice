@@ -30,6 +30,15 @@ Rails.application.routes.draw do
   get '/kosik', to: 'carts#show', as: :cart
   get '/obchodni-podminky', to: 'pages#terms', as: :terms
 
+  namespace :admin do
+    root to: "dashboard#index"
+    resource :session, only: [:new, :create, :destroy]
+    resources :orders, only: [:index, :show]
+    resources :catalog_products, except: [:show] do
+      resources :catalog_variants, only: [:new, :create, :edit, :update, :destroy]
+    end
+  end
+
   get '/kosik/doprava', to: 'checkout#shipping', as: :checkout_shipping
   patch '/kosik/doprava', to: 'checkout#update_shipping'
   get '/kosik/udaje', to: 'checkout#details', as: :checkout_details

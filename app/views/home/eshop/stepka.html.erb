@@ -1,14 +1,1 @@
-<%
-  items = [
-    { spec2_spec: { "type" => "key", "value" => "eshop.products.smrk.title" }, price: "700 Kč", in_stock: true },
-    { spec2_spec: { "type" => "key", "value" => "eshop.products.dub.title" }, price: "800 Kč", in_stock: true },
-    { spec2_spec: { "type" => "key", "value" => "eshop.products.buk.title" }, price: "800 Kč", in_stock: false }
-  ]
-%>
-<%= render "shared/simple_variant_product",
-    key: "stepka",
-    i18n_key: "stepka",
-    category_param: "zbytky",
-    grid_class: "simple-grid-3",
-    items: items,
-    spec2_label_key: "common.spec_wood" %>
+<%= render "shared/simple_variant_product", key: "stepka", i18n_key: "stepka", category_param: "zbytky", grid_class: "simple-grid-3" %>

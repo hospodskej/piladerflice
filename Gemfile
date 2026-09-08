@@ -30,3 +30,6 @@ gem "stimulus-rails", "~> 1.3"
 # Needed by ActionMailer's SMTP delivery method (net/smtp is no longer part
 # of Ruby's default gems as of Ruby 3.1+).
 gem "net-smtp", require: false
+
+# Password hashing for admin login (has_secure_password) - see app/models/user.rb.
+gem "bcrypt", "~> 3.1.7"

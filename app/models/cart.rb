@@ -1,5 +1,3 @@
-require "digest/sha1"
-
 # A guest shopping cart backed by the Rails session (no login system exists
 # in this app, so there's no user to attach a persistent cart to). Wraps
 # session[:cart], a Hash of line_id => line item attributes.
@@ -29,30 +27,26 @@ class Cart
     @session[SESSION_KEY] ||= {}
   end
 
-  # Adds one unit of the given product/variant to the cart, or increments
-  # the quantity if that exact configuration is already present.
-  #
-  # product_key   - canonical product identifier, e.g. "habr", "tramy"
-  # image         - asset path used for the cart thumbnail
-  # unit_price_czk - price in CZK (whole crowns) for one unit, as an Integer
-  # specs         - ordered array of spec hashes describing the variant,
-  #                 e.g. [{ "type" => "key", "value" => "common.loose_variant" },
-  #                       { "type" => "raw", "value" => "100 cm" },
-  #                       { "type" => "amount", "value" => 15, "unit_key" => "common.per_m3" }]
+  # Adds one unit of the given catalog variant to the cart, or increments
+  # the quantity if it's already present. Price, image, and specs are all
+  # read from the variant record itself - never trusted from the request -
+  # so nothing about what ends up in the cart can be influenced by
+  # tampering with submitted form data.
   #
   # Returns the line_id of the (new or updated) line.
-  def add(product_key:, image:, unit_price_czk:, specs:)
-    id = line_id(product_key, specs)
+  def add(catalog_variant)
+    id = catalog_variant.id.to_s
     line = @session[SESSION_KEY][id]
 
     if line
       line["quantity"] += 1
     else
       @session[SESSION_KEY][id] = {
-        "product_key" => product_key,
-        "image" => image,
-        "unit_price_czk" => unit_price_czk,
-        "specs" => specs,
+        "catalog_variant_id" => catalog_variant.id,
+        "product_key" => catalog_variant.catalog_product.key,
+        "image" => catalog_variant.catalog_product.image,
+        "unit_price_czk" => catalog_variant.price_czk,
+        "specs" => catalog_variant.to_cart_specs,
         "quantity" => 1
       }
     end
@@ -107,15 +101,5 @@ class Cart
   # now the durable record of what was purchased.
   def clear
     @session[SESSION_KEY] = {}
-  end
-
-  private
-
-  # A stable id for a given product+variant combination, so re-adding the
-  # same configuration finds the existing line instead of creating a new
-  # one. Specs are language-neutral already (see class comment), so this
-  # is stable across locales too.
-  def line_id(product_key, specs)
-    Digest::SHA1.hexdigest([product_key, specs.to_json].join("|"))
   end
 end

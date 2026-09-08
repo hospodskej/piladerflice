@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <title>Administrace | Pila Derflice</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body class="admin-body">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-brand">Pila Derflice<span>Administrace</span></div>
+      <nav class="admin-nav">
+        <%= link_to "Přehled", admin_root_path, class: "admin-nav-link #{'active' if current_page?(admin_root_path)}" %>
+        <%= link_to "Katalog a ceny", admin_catalog_products_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/catalog_products')}" %>
+        <%= link_to "Objednávky", admin_orders_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/orders')}" %>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <span class="admin-current-user"><%= current_user&.email_address %></span>
+        <%= button_to "Odhlásit se", admin_session_path, method: :delete, class: "admin-logout-btn" %>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <% if notice %>
+        <div class="admin-flash admin-flash-notice"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="admin-flash admin-flash-alert"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </div>
+</body>
+</html>

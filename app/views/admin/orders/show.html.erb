@@ -1,0 +1,78 @@
+<%= link_to "← Zpět na objednávky", admin_orders_path %>
+
+<h1 class="admin-page-title">Objednávka #<%= @order.id %></h1>
+<p class="admin-page-subtitle"><%= @order.created_at.strftime("%d.%m.%Y %H:%M") %></p>
+
+<div class="admin-detail-grid">
+  <div class="admin-box">
+    <h2>Zákazník</h2>
+    <p><%= @order.full_name %><br>
+      <%= mail_to @order.email %><br>
+      <%= @order.phone %></p>
+    <p>Newsletter: <%= @order.newsletter_opt_in? ? "Ano" : "Ne" %></p>
+  </div>
+
+  <div class="admin-box">
+    <h2>Fakturační adresa</h2>
+    <p>
+      <%= @order.billing_street %><br>
+      <%= @order.billing_zip %> <%= @order.billing_city %><br>
+      <%= @order.billing_country_name(locale: :cs) %>
+    </p>
+    <% if @order.company_purchase? %>
+      <p><strong><%= @order.company_name %></strong><br>
+        IČO: <%= @order.company_ico %><br>
+        DIČ: <%= @order.company_dic %></p>
+    <% end %>
+  </div>
+
+  <% if @order.delivery_address_different? %>
+    <div class="admin-box">
+      <h2>Doručovací adresa</h2>
+      <p>
+        <%= @order.delivery_street %><br>
+        <%= @order.delivery_zip %> <%= @order.delivery_city %><br>
+        <%= @order.delivery_country_name(locale: :cs) %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="admin-box">
+    <h2>Doprava a platba</h2>
+    <p>
+      <%= @order.shipping_method == "pickup" ? "Osobní odběr na adrese skladu" : "Doručení na adresu" %><br>
+      <%= @order.payment_method == "bank_transfer" ? "Bankovním převodem - proforma" : "Hotově při vyzvednutí" %>
+    </p>
+    <p>Jazyk zákazníka: <%= @order.locale == "de" ? "němčina" : "čeština" %></p>
+  </div>
+</div>
+
+<div class="admin-box">
+  <h2>Obsah objednávky</h2>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Položka</th>
+        <th>Množství</th>
+        <th>Jedn. cena</th>
+        <th>Celkem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= cart_line_description(item) %></td>
+          <td><%= item.quantity %></td>
+          <td><%= ExchangeRateService.display_amount(item.unit_price_czk, locale: :cs) %></td>
+          <td><%= ExchangeRateService.display_amount(item.line_total_czk, locale: :cs) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="admin-order-totals">
+    <p>Bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></p>
+    <p>DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></p>
+    <p><strong>Celkem k úhradě: <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></strong></p>
+  </div>
+</div>

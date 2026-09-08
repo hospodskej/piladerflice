@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.0: Admin migration  
 Patch 0.7.8: SMTP Ready  
 Patch 0.7.7: Preparation for SMTP  
 Patch 0.7.6: Added checkout page  

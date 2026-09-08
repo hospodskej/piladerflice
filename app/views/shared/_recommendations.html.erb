@@ -1,33 +1,34 @@
 <%
-  # `key` is the canonical (language-independent) product identifier used to
-  # look up the translated title/type/price/image in the locale files, so
-  # switching to German doesn't depend on matching Czech text anywhere.
-  all_recommendations = [
-    { key: "jasan", image: "eshop/jasan.png", url: "eshop/jasan" },
-    { key: "briza", image: "eshop/briza.png", url: "eshop/briza" },
-    { key: "habr", image: "eshop/habr.png", url: "eshop/habr" },
-    { key: "odkory", image: "eshop/odkory.png", url: "eshop/odkory" },
-    { key: "buk", image: "eshop/buk.png", url: "eshop/buk" },
-  ]
-
-  recommendations = all_recommendations.reject { |p| p[:key] == local_assigns[:current_product] }.take(4)
+  # `key` is the canonical (language-independent) product identifier -
+  # product data itself now comes from the database (CatalogProduct/
+  # CatalogVariant), so switching to German doesn't depend on matching
+  # Czech text anywhere, and an admin can add/remove/reprice products
+  # without a developer touching this list.
+  recommendation_keys = %w[jasan briza habr odkory buk]
+  products = CatalogProduct.active.where(key: recommendation_keys - [local_assigns[:current_product]]).index_by(&:key)
+  recommendations = recommendation_keys.filter_map { |key| products[key] }.take(4)
 %>
 
 <section class="recommendations-section">
   <h2 class="section-title text-center"><%= t("shared.recommendations.title_html") %></h2>
   <div class="eshop-grid">
     <% recommendations.each do |product| %>
-      <% title = t("eshop.products.#{product[:key]}.title") %>
       <div class="product-card">
         <div class="product-image-wrapper-eshop">
-          <%= image_tag product[:image], alt: title, class: "product-img" %>
+          <%= image_tag product.image, alt: product.title_i18n, class: "product-img" %>
         </div>
         <div class="product-info-eshop">
-          <h4 class="product-title"><%= title %></h4>
-          <p class="product-type"><%= t("eshop.products.#{product[:key]}.type") %></p>
+          <h4 class="product-title"><%= product.title_i18n %></h4>
+          <p class="product-type"><%= product.type_label_i18n %></p>
           <p class="product-stock"><%= t("common.stock") %></p>
-          <p class="product-price"><%= eshop_catalog_price(product[:key]) %></p>
-          <%= link_to t("common.detail"), "#", class: "btn-primary btn-detail" %>
+          <p class="product-price">
+            <% if product.starting_price_czk %>
+              <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.starting_price_czk) %>
+            <% else %>
+              ---
+            <% end %>
+          </p>
+          <%= link_to t("common.detail"), "/eshop/#{product.key}", class: "btn-primary btn-detail", data: { turbo: false } %>
         </div>
       </div>
     <% end %>

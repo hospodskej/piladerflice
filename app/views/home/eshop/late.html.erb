@@ -1,15 +1,1 @@
-<%
-  lengths = ["3 000 mm", "4 000 mm", "5 000 mm"]
-  rows = [
-    { label: "40/50", value: "40/50 mm", color: "text-black", price: "8 500 Kč" },
-    { label: "50/30", value: "50/30 mm", color: "text-black", price: "8 500 Kč" },
-    { label: "60/40", value: "60/40 mm", color: "text-black", price: "8 500 Kč" }
-  ]
-%>
-<%= render "shared/lumber_product",
-    key: "late",
-    grid_class: "matrix-grid-3",
-    lengths: lengths,
-    rows: rows,
-    spec_labels: ["common.spec_variant", "common.spec_length", "common.spec_amount"],
-    first_value_spec: { "type" => "key", "value" => "common.loose_variant" } %>
+<%= render "shared/lumber_product", key: "late", grid_class: "matrix-grid-3" %>

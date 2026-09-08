@@ -1,0 +1,40 @@
+<h1 class="admin-page-title">Přehled</h1>
+
+<div class="admin-dashboard-cards">
+  <%= link_to admin_catalog_products_path, class: "admin-dashboard-card" do %>
+    <span class="admin-dashboard-card-number"><%= @catalog_product_count %></span>
+    <span class="admin-dashboard-card-label">produktů v katalogu</span>
+  <% end %>
+  <%= link_to admin_orders_path, class: "admin-dashboard-card" do %>
+    <span class="admin-dashboard-card-number"><%= Order.count %></span>
+    <span class="admin-dashboard-card-label">objednávek celkem</span>
+  <% end %>
+</div>
+
+<h2 class="admin-section-title">Poslední objednávky</h2>
+
+<% if @recent_orders.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Č.</th>
+        <th>Zákazník</th>
+        <th>Celkem</th>
+        <th>Datum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recent_orders.each do |order| %>
+        <tr>
+          <td><%= link_to "##{order.id}", admin_order_path(order) %></td>
+          <td><%= order.full_name %></td>
+          <td><%= ExchangeRateService.display_amount(order.total_czk, locale: :cs) %></td>
+          <td><%= order.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "Zobrazit všechny objednávky →", admin_orders_path %>
+<% else %>
+  <p>Zatím žádné objednávky.</p>
+<% end %>

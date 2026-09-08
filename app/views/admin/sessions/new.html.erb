@@ -1,0 +1,22 @@
+<div class="admin-login-wrapper">
+  <div class="admin-login-box">
+    <h1>Administrace</h1>
+    <p class="admin-login-subtitle">Pila Derflice</p>
+
+    <% if alert %>
+      <div class="admin-flash admin-flash-alert"><%= alert %></div>
+    <% end %>
+
+    <%= form_with url: admin_session_path, method: :post, class: "admin-login-form" do %>
+      <div class="form-group">
+        <label for="email_address">E-mail</label>
+        <input type="email" name="email_address" id="email_address" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="password">Heslo</label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <%= submit_tag "Přihlásit se", class: "btn-primary admin-login-submit" %>
+    <% end %>
+  </div>
+</div>

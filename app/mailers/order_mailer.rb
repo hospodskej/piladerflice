@@ -50,9 +50,23 @@ class OrderMailer < ApplicationMailer
   end
 
   def line_description(item, locale:)
-    parts = [I18n.t("eshop.products.#{item.product_key}.title", locale: locale)]
+    parts = [catalog_product_title(item.product_key, locale: locale)]
     parts.concat(item.specs.map { |spec| spec_text(spec, locale: locale) })
     parts.join(", ")
+  end
+
+  # Prefers the admin-managed CatalogProduct record; falls back to the
+  # older locale-file-driven title if no matching DB record exists (a
+  # safety net during the transition to admin-managed products, and for
+  # any product a future admin might delete while it's still referenced
+  # by an old order).
+  def catalog_product_title(product_key, locale:)
+    product = CatalogProduct.find_by(key: product_key)
+    if product
+      locale.to_sym == :de ? (product.title_de.presence || product.title) : product.title
+    else
+      I18n.t("eshop.products.#{product_key}.title", locale: locale)
+    end
   end
 
   def spec_text(spec, locale:)
@@ -61,6 +75,8 @@ class OrderMailer < ApplicationMailer
       I18n.t(spec["value"], locale: locale)
     when "amount"
       "#{spec["value"]} #{I18n.t(spec["unit_key"], locale: locale)}"
+    when "bilingual"
+      locale.to_sym == :de ? (spec["value_de"].presence || spec["value"]) : spec["value"]
     else
       spec["value"].to_s
     end

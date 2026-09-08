@@ -1,6 +1,7 @@
 # README for Pila Derflice
 
 - Install Ruby on Rails
+- `bundle install`
 - `rails db:migrate`
 - `rails db:seed`
 - `rails server`

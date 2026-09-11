@@ -58,18 +58,20 @@
           </div>
         </div>
 
-        <div class="cart-totals checkout-summary-totals checkout-box">
-          <div class="cart-total-row">
-            <span><%= t("cart.total_due") %></span>
-            <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
-          </div>
-          <div class="cart-total-row cart-total-excl-vat">
-            <span><%= t("cart.total_vat") %></span>
-            <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
-          </div>
-          <div class="cart-total-row cart-total-excl-vat">
-            <span><%= t("cart.without_vat") %></span>
-            <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+        <div class="checkout-box">
+          <div class="checkout-box-body">
+            <div class="cart-total-row">
+              <span><%= t("cart.total_due") %></span>
+              <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+            </div>
+            <div class="cart-total-row cart-total-excl-vat">
+              <span><%= t("cart.total_vat") %></span>
+              <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
+            </div>
+            <div class="cart-total-row cart-total-excl-vat">
+              <span><%= t("cart.without_vat") %></span>
+              <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+            </div>
           </div>
         </div>
 

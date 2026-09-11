@@ -1,6 +1,6 @@
 <main class="main">
   <section class="hero-section">
-    <div class="left-part">
+    <div class="hero-intro-block">
       <div>
         <h1><span class="text-accent"><%= t("home.index.hero_title_accent") %></span><br><%= t("home.index.hero_title_rest") %></h1>
         <p><%= t("home.index.hero_text") %></p>
@@ -9,7 +9,32 @@
         <%= link_to t("home.index.btn_eshop"), "/eshop/", class: "btn-eshop" %>
         <%= link_to t("home.index.btn_vyroba"), "/kontakt#kalkulace", class: "btn-vyroba" %>
       </div>
+    </div>
 
+    <div class="hero-promo-block">
+      <% if @hero_promo %>
+        <div class="akcni-product-card">
+          <div class="badge"><%= t("home.index.promo_badge") %></div>
+          <%= image_tag @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
+          <div class="product-info">
+            <div class="product-subinfo">
+              <h2 class="product-title"><%= @hero_promo.title_i18n %></h2>
+              <ul class="product-features">
+                <li><%= @hero_promo.feature_1_i18n %></li>
+                <li><%= @hero_promo.feature_2_i18n %></li>
+                <li><%= @hero_promo.feature_3_i18n %></li>
+              </ul>
+            </div>
+            <div class="akcni-product-price">
+              <span class="akcni-nabidka-price"><%= @hero_promo.price_i18n %></span>
+              <%= link_to t("home.index.promo_cta"), @hero_promo.link, class: "akce-btn-eshop" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="hero-trust-block">
       <div class="reviews">
         <%= image_tag "google-review.png", alt: "Google recenze", class: "google-logo", width: "48", height: "48" %>
 
@@ -51,31 +76,9 @@
           </div>
         <% end %>
       </div>
-
     </div>
 
-    <div class="right-part">
-      <% if @hero_promo %>
-        <div class="akcni-product-card">
-          <div class="badge"><%= t("home.index.promo_badge") %></div>
-          <%= image_tag @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
-          <div class="product-info">
-            <div class="product-subinfo">
-              <h2 class="product-title"><%= @hero_promo.title_i18n %></h2>
-              <ul class="product-features">
-                <li><%= @hero_promo.feature_1_i18n %></li>
-                <li><%= @hero_promo.feature_2_i18n %></li>
-                <li><%= @hero_promo.feature_3_i18n %></li>
-              </ul>
-            </div>
-            <div class="akcni-product-price">
-              <span class="akcni-nabidka-price"><%= @hero_promo.price_i18n %></span>
-              <%= link_to t("home.index.promo_cta"), @hero_promo.link, class: "akce-btn-eshop" %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-
+    <div class="hero-categories-block">
       <div class="top-categories-section">
         <h2 class="top-categories-title"><span class="brand-blue"><%= t("home.index.top_categories_title_accent") %></span> <%= t("home.index.top_categories_title_rest") %></h2>
 

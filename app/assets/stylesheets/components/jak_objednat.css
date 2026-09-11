@@ -1,0 +1,81 @@
+/*
+  Styles for the shared "Jak si u nás objednat?" partial
+  (app/views/shared/_jak_objednat.html.erb), rendered on the sortiment
+  index page, sortiment subpages, and the homepage.
+
+  This used to be ".order-split-grid" / ".order-box" / etc, defined
+  independently (and inconsistently) in both sections/sortiment.css and
+  sections/how_to_order.css - same class names, different rules, so
+  whichever file happened to load later in the stylesheet bundle silently
+  won, and a future edit to the "wrong" file would have no visible effect.
+  Renamed to "jak-objednat-*" and consolidated here as the one source of
+  truth for this partial's own styling, so there's nothing left to collide
+  with.
+*/
+
+.jak-objednat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.jak-objednat-box {
+    border-radius: 8px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    background: white;
+    color: black;
+    transition: all 0.3s ease;
+}
+
+.jak-objednat-box:hover {
+    background: #2C8FFF;
+    color: white;
+    border-color: #2C8FFF;
+}
+
+.jak-objednat-box:hover h3 {
+    color: white !important;
+}
+
+.jak-objednat-box:hover .text-blue {
+    color: #000 !important;
+}
+
+.jak-objednat-box:hover .btn-primary {
+    background: white;
+    color: #2C8FFF;
+}
+
+.jak-objednat-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.jak-objednat-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.jak-objednat-box-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: auto;
+    margin-bottom: 20px;
+    background: #d1d1d1;
+}
+
+@media (max-width: 768px) {
+    .jak-objednat-grid {
+        grid-template-columns: 1fr;
+    }
+}

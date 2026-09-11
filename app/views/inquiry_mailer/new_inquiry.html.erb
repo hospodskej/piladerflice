@@ -1,0 +1,39 @@
+<h1 style="font-size:20px; margin:0 0 4px 0;">Nová poptávka #<%= @inquiry.id %></h1>
+<p style="color:#666; margin:0 0 24px 0; font-size:13px;">
+  Přijato <%= @inquiry.created_at.strftime("%d.%m.%Y %H:%M") %> (jazyk formuláře: <%= @inquiry.locale == "de" ? "němčina" : "čeština" %>)
+</p>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Kontakt</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px;">
+  <tr><td style="padding:2px 0; color:#666; width:140px;">Jméno</td><td style="padding:2px 0;"><%= @inquiry.full_name %></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">E-mail</td><td style="padding:2px 0;"><a href="mailto:<%= @inquiry.email %>"><%= @inquiry.email %></a></td></tr>
+  <tr><td style="padding:2px 0; color:#666;">Telefon</td><td style="padding:2px 0;"><%= @inquiry.phone %></td></tr>
+  <% if @inquiry.full_address.present? %>
+    <tr><td style="padding:2px 0; color:#666;">Adresa</td><td style="padding:2px 0;"><%= @inquiry.full_address %></td></tr>
+  <% end %>
+</table>
+
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Požadované položky</h2>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px; border-collapse:collapse;">
+  <tr style="border-bottom:1px solid #ddd;">
+    <td style="padding:6px 0; color:#666; font-size:12px;">Varianta</td>
+    <td style="padding:6px 0; color:#666; font-size:12px;">Druh</td>
+    <td style="padding:6px 0; color:#666; font-size:12px;">Délka</td>
+    <td style="padding:6px 0; color:#666; font-size:12px;">Množství</td>
+  </tr>
+  <% @inquiry.items.each do |item| %>
+    <tr style="border-bottom:1px solid #f0f0f0;">
+      <td style="padding:8px 0;"><%= item["varianta"] %></td>
+      <td style="padding:8px 0;"><%= item["druh"] %></td>
+      <td style="padding:8px 0;"><%= item["delka"] %></td>
+      <td style="padding:8px 0;"><%= item["mnozstvi"] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if @inquiry.notes.present? %>
+  <h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Poznámka</h2>
+  <p style="font-size:14px; white-space:pre-wrap;"><%= @inquiry.notes %></p>
+<% end %>
+
+<p style="color:#999; font-size:12px; margin-top:24px;">Poptávka byla odeslána přes formulář na piladerflice.cz/kontakt.</p>

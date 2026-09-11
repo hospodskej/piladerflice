@@ -23,6 +23,12 @@
 <body>
 <%= render "shared/header" %>
 <%= render "shared/breadcrumbs" %>
+<% if notice %>
+  <div class="page-flash page-flash-notice"><%= notice %></div>
+<% end %>
+<% if alert %>
+  <div class="page-flash page-flash-alert"><%= alert %></div>
+<% end %>
 <%= yield %>
 <%= render "shared/footer" %>
 <div id="cart-added-modal"></div>

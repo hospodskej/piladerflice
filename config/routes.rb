@@ -28,12 +28,14 @@ Rails.application.routes.draw do
 
   resources :cart_items, only: [:create, :update, :destroy]
   get '/kosik', to: 'carts#show', as: :cart
+  resources :inquiries, only: [:create]
   get '/obchodni-podminky', to: 'pages#terms', as: :terms
 
   namespace :admin do
     root to: "dashboard#index"
     resource :session, only: [:new, :create, :destroy]
     resources :orders, only: [:index, :show]
+    resources :inquiries, only: [:index, :show]
     resources :catalog_products, except: [:show] do
       resources :catalog_variants, only: [:new, :create, :edit, :update, :destroy]
     end

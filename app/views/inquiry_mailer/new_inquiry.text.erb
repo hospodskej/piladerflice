@@ -1,0 +1,20 @@
+NOVÁ POPTÁVKA #<%= @inquiry.id %>
+<%= @inquiry.created_at.strftime("%d.%m.%Y %H:%M") %> (jazyk formuláře: <%= @inquiry.locale == "de" ? "němčina" : "čeština" %>)
+
+KONTAKT
+Jméno: <%= @inquiry.full_name %>
+E-mail: <%= @inquiry.email %>
+Telefon: <%= @inquiry.phone %>
+<% if @inquiry.full_address.present? %>
+Adresa: <%= @inquiry.full_address %>
+<% end %>
+
+POŽADOVANÉ POLOŽKY
+<% @inquiry.items.each do |item| %>
+- <%= item["varianta"] %> | <%= item["druh"] %> | <%= item["delka"] %> | <%= item["mnozstvi"] %>
+<% end %>
+<% if @inquiry.notes.present? %>
+
+POZNÁMKA
+<%= @inquiry.notes %>
+<% end %>

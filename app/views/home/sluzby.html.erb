@@ -26,7 +26,7 @@
             <div class="carousel-track-container">
               <ul class="carousel-track">
                 <% sluzba.images.each_with_index do |img, img_index| %>
-                  <li class="carousel-slide <%= 'current-slide' if img_index == 0 %>">
+                  <li class="carousel-slide <%= 'active' if img_index == 0 %>">
                     <%= image_tag img, alt: sluzba.title_i18n %>
                   </li>
                 <% end %>

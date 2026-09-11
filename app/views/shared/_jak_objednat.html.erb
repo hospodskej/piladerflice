@@ -1,25 +1,25 @@
-<h2 class="section-main-title order-title" style="padding-bottom: 40px;"><%= t("shared.jak_objednat.title_html") %></h2>
-<div class="order-split-grid">
+<h2 class="section-main-title jak-objednat-title" style="padding-bottom: 40px;"><%= t("shared.jak_objednat.title_html") %></h2>
+<div class="jak-objednat-grid">
 
-  <div class="order-box">
+  <div class="jak-objednat-box">
     <h3><%= t("shared.jak_objednat.online_title_rest") %> <span class="text-blue"><%= t("shared.jak_objednat.online_title_accent") %></span></h3>
-    <ul class="order-steps-list">
+    <ul class="jak-objednat-steps">
       <% t("shared.jak_objednat.online_steps").each_with_index do |krok, index| %>
         <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
       <% end %>
     </ul>
-    <%= image_tag "jak-objednat/drevo.png", class: "order-box-img", alt: t("shared.jak_objednat.online_img_alt") %>
+    <%= image_tag "jak-objednat/drevo.png", class: "jak-objednat-box-img", alt: t("shared.jak_objednat.online_img_alt") %>
     <%= link_to t("shared.jak_objednat.online_button"), "/eshop", class: "btn-primary full-width" %>
   </div>
 
-  <div class="order-box">
+  <div class="jak-objednat-box">
     <h3><%= t("shared.jak_objednat.poptavka_title_rest") %> <span class="text-blue"><%= t("shared.jak_objednat.poptavka_title_accent") %></span></h3>
-    <ul class="order-steps-list">
+    <ul class="jak-objednat-steps">
       <% t("shared.jak_objednat.poptavka_steps").each_with_index do |krok, index| %>
         <li><strong><%= index + 1 %>.</strong> <%= krok %></li>
       <% end %>
     </ul>
-    <%= image_tag "jak-objednat/pila.png", class: "order-box-img", alt: t("shared.jak_objednat.poptavka_img_alt") %>
+    <%= image_tag "jak-objednat/pila.png", class: "jak-objednat-box-img", alt: t("shared.jak_objednat.poptavka_img_alt") %>
     <%= link_to t("shared.jak_objednat.poptavka_button"), "/kontakt#kalkulace", class: "btn-primary full-width" %>
   </div>
 

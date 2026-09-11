@@ -161,7 +161,9 @@
 .akcni-product-card {
     position: relative;
     width: 100%;
+    height: 100%;
     border-radius: 12px;
+    overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0, 0.05);
 }
 
@@ -180,7 +182,7 @@
 
 .hero-image {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: 100%;
     object-fit: cover;
     display: block;
     border-top-left-radius: 12px;
@@ -312,9 +314,12 @@
     .akcni-product-card {
         display: flex;
         flex-direction: column;
+        height: auto;
     }
 
     .hero-image {
+        height: auto;
+        aspect-ratio: 16/9;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }

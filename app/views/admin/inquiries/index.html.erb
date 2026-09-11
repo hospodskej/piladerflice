@@ -1,0 +1,30 @@
+<h1 class="admin-page-title">Poptávky</h1>
+
+<% if @inquiries.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Č.</th>
+        <th>Jméno</th>
+        <th>E-mail</th>
+        <th>Telefon</th>
+        <th>Položek</th>
+        <th>Datum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @inquiries.each do |inquiry| %>
+        <tr>
+          <td><%= link_to "##{inquiry.id}", admin_inquiry_path(inquiry) %></td>
+          <td><%= inquiry.full_name %></td>
+          <td><%= inquiry.email %></td>
+          <td><%= inquiry.phone %></td>
+          <td><%= inquiry.items.size %></td>
+          <td><%= inquiry.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="admin-empty-state">Zatím žádné poptávky.</div>
+<% end %>

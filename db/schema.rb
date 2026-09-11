@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_04_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_120000) do
   create_table "catalog_products", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.string "category", null: false
@@ -61,6 +61,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_120000) do
     t.string "title"
     t.string "title_de"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "inquiries", force: :cascade do |t|
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "first_name"
+    t.string "house_number"
+    t.text "items_snapshot", null: false
+    t.string "last_name"
+    t.string "locale", default: "cs", null: false
+    t.text "notes"
+    t.string "phone"
+    t.string "street"
+    t.datetime "updated_at", null: false
+    t.string "zip"
   end
 
   create_table "orders", force: :cascade do |t|

@@ -143,51 +143,51 @@ Service.create!([
                     title: "Cenová kalkulace",
                     content: "Nabízíme nezávaznou cenovou kalkulaci našich výrobků a služeb, která vám pomůže lépe se rozhodnout před nákupem. <br /><br /> Díky přesné ceně předem víte, co vás čeká – bez závazků a bez překvapení.",
                     images: [],
-                    button_text: "Nezávazná kalkulace",
+                    button_text: "Ceník kalkulace",
                     button_path: "/kontakt#kalkulace",
                     title_de: "Preiskalkulation",
                     content_de: "Wir bieten eine unverbindliche Preiskalkulation unserer Produkte und Dienstleistungen an, die Ihnen die Kaufentscheidung erleichtert. <br /><br /> Dank des genauen Preises im Voraus wissen Sie, was Sie erwartet – ohne Verpflichtungen und ohne Überraschungen.",
-                    button_text_de: "Unverbindliche Kalkulation"
+                    button_text_de: "Preisliste Kalkulation"
                   },
                   {
                     title: "Doprava",
                     content: "Na přání vám zpracované výrobky bezpečně doručíme až na místo určení. Rozvážíme palivové dřevo, kulatinu i řezivo – vše dopravíme ihned po výrobě, abyste měli materiál co nejdříve k dispozici. <br /><br />Doba výroby a následná doprava se odvíjí od rozsahu objednávky. O přesném termínu dodání vás vždy informujeme předem.",
                     images: ["sluzby/doprava1.png", "sluzby/doprava2.png"],
-                    button_text: "Více o dopravě",
+                    button_text: "Ceník dopravy",
                     button_path: "/sluzby#doprava",
                     title_de: "Lieferung",
                     content_de: "Auf Wunsch liefern wir die fertigen Produkte sicher direkt an Ihren Bestimmungsort. Wir liefern Brennholz, Rundholz und Schnittholz – alles wird sofort nach der Fertigung transportiert, damit Sie das Material so schnell wie möglich erhalten. <br /><br />Die Fertigungs- und anschließende Lieferzeit richtet sich nach dem Umfang der Bestellung. Über den genauen Liefertermin informieren wir Sie stets im Voraus.",
-                    button_text_de: "Mehr über Lieferung"
+                    button_text_de: "Preisliste Lieferung"
                   },
                   {
                     title: "Impregnace",
                     content: "Nabízíme možnost profesionální impregnace vašich dřevěných výrobků, a to pomocí moderní technologie v naší impregnační vaně. Impregnace výrazně prodlužuje životnost dřeva a chrání ho proti vlhkosti, škůdcům i houbám. <br /><br />Na přání zákazníka impregnujeme jakýkoli náš výrobek. Vše provádíme pečlivě a s důrazem na kvalitu výsledné ochrany.",
                     images: ["sluzby/impregnace1.png", "sluzby/impregnace2.png"],
-                    button_text: "Více o impregnaci",
+                    button_text: "Ceník impregnace",
                     button_path: "/sluzby#impregnace",
                     title_de: "Imprägnierung",
                     content_de: "Wir bieten die professionelle Imprägnierung Ihrer Holzprodukte mittels moderner Technologie in unserer Imprägnierwanne an. Die Imprägnierung verlängert die Lebensdauer des Holzes erheblich und schützt es vor Feuchtigkeit, Schädlingen und Pilzen. <br /><br />Auf Kundenwunsch imprägnieren wir jedes unserer Produkte. Wir arbeiten stets sorgfältig und mit Fokus auf die Qualität des Schutzes.",
-                    button_text_de: "Mehr über Imprägnierung"
+                    button_text_de: "Preisliste Imprägnierung"
                   },
                   {
                     title: "Hoblování",
                     content: "Nabízíme možnost ohoblování dřevěného materiálu přesně podle vašich požadavků. Disponujeme výkonnou hoblovačkou s hoblovacím průřezem až 80 cm, která si poradí i s rozměrnějšími kusy.<br><br>Hoblujeme nejčastěji fošny, prkna a hranoly libovolné délky. Zákazník si může určit, která strana bude pohledová, a hloubku úběru. Každý kus zpracováváme pečlivě, s důrazem na kvalitu povrchu a preciznost provedení.",
                     images: ["sluzby/hoblovani1.png", "sluzby/hoblovani2.png"],
-                    button_text: "Více o hoblování",
+                    button_text: "Ceník hoblování",
                     button_path: "/sluzby#hoblovani",
                     title_de: "Hobeln",
                     content_de: "Wir bieten das Hobeln von Holzmaterial genau nach Ihren Vorgaben an. Wir verfügen über eine leistungsstarke Hobelmaschine mit einem Hobelquerschnitt bis 80 cm, die auch größere Werkstücke bewältigt.<br><br>Am häufigsten hobeln wir Bohlen, Bretter und Kanthölzer beliebiger Länge. Der Kunde kann bestimmen, welche Seite die Sichtseite sein soll, sowie die Abtragstiefe. Jedes Stück bearbeiten wir sorgfältig, mit Fokus auf Oberflächenqualität und Präzision.",
-                    button_text_de: "Mehr über Hobeln"
+                    button_text_de: "Preisliste Hobeln"
                   },
                   {
                     title: "Pořez / Prodej kulatiny",
                     content: "Na základě vaší žádosti nabízíme možnost pořezání vaší vlastní kulatiny na míru podle požadovaných rozměrů. Pokud nemáte zájem o další zpracování, je možné kulatinu také jednoduše prodat přímo nám. <br /><br /> Tato služba je ideální pro soukromé vlastníky lesa, malé firmy nebo kohokoli, kdo chce efektivně využít vlastní dřevo bez starostí s technickým vybavením.",
                     images: ["sluzby/kulatina1.png", "sluzby/kulatina2.png"],
-                    button_text: "Více o pořezu",
+                    button_text: "Ceník pořezu",
                     button_path: "/sluzby#porez-prodej-kulatiny",
                     title_de: "Sägen / Verkauf von Rundholz",
                     content_de: "Auf Ihren Wunsch bieten wir das Sägen Ihres eigenen Rundholzes nach Maß gemäß den gewünschten Abmessungen an. Wenn Sie an einer weiteren Verarbeitung nicht interessiert sind, können Sie das Rundholz auch einfach direkt an uns verkaufen. <br /><br /> Dieser Service ist ideal für private Waldbesitzer, kleine Unternehmen oder jeden, der sein eigenes Holz effizient nutzen möchte, ohne sich um technische Ausrüstung kümmern zu müssen.",
-                    button_text_de: "Mehr über das Sägen"
+                    button_text_de: "Preisliste Sägen"
                   }
                 ])
 

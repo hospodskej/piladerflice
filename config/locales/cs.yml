@@ -252,6 +252,9 @@ cs:
       dub: "Dub"
       smrk: "Smrk"
       buk: "Buk"
+      jasan: "Jasan"
+      habr: "Habr"
+      briza: "Bříza"
     delky:
       - "33 cm"
       - "50 cm"

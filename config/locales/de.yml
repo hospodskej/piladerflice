@@ -252,6 +252,9 @@ de:
       dub: "Eiche"
       smrk: "Fichte"
       buk: "Buche"
+      jasan: "Esche"
+      habr: "Hainbuche"
+      briza: "Birke"
     delky:
       - "33 cm"
       - "50 cm"

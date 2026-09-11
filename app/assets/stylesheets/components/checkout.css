@@ -504,6 +504,27 @@
     padding: 0;
 }
 
+/* ===== Site-wide flash messages (e.g. after submitting the kontakt form) ===== */
+.page-flash {
+    max-width: 1200px;
+    margin: 20px auto 0 auto;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.page-flash-notice {
+    background-color: #E6F4EA;
+    color: #1E7B34;
+    border: 1px solid #B7E1C1;
+}
+
+.page-flash-alert {
+    background-color: #FDECEC;
+    color: #A33;
+    border: 1px solid #E88;
+}
+
 /* ===== Confirmation ("thank you") page ===== */
 .checkout-confirmation {
     display: flex;

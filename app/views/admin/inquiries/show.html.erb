@@ -1,0 +1,47 @@
+<%= link_to "← Zpět na poptávky", admin_inquiries_path, class: "admin-back-link" %>
+
+<h1 class="admin-page-title">Poptávka #<%= @inquiry.id %></h1>
+<p class="admin-page-subtitle">
+  <%= @inquiry.created_at.strftime("%d.%m.%Y %H:%M") %> · jazyk formuláře: <%= @inquiry.locale == "de" ? "němčina" : "čeština" %>
+</p>
+
+<div class="admin-detail-grid">
+  <div class="admin-box">
+    <h2>Kontakt</h2>
+    <p><%= @inquiry.full_name %><br>
+      <%= mail_to @inquiry.email %><br>
+      <%= @inquiry.phone %></p>
+    <% if @inquiry.full_address.present? %>
+      <p><%= @inquiry.full_address %></p>
+    <% end %>
+  </div>
+</div>
+
+<div class="admin-box">
+  <h2>Požadované položky</h2>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Varianta</th>
+        <th>Druh</th>
+        <th>Délka</th>
+        <th>Množství</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @inquiry.items.each do |item| %>
+        <tr>
+          <td><%= item["varianta"] %></td>
+          <td><%= item["druh"] %></td>
+          <td><%= item["delka"] %></td>
+          <td><%= item["mnozstvi"] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if @inquiry.notes.present? %>
+    <h2 style="margin-top: 20px;">Poznámka</h2>
+    <p style="white-space: pre-wrap;"><%= @inquiry.notes %></p>
+  <% end %>
+</div>

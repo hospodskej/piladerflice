@@ -69,8 +69,6 @@
       </div>
     </div>
   </section>
-
-  <%# TODO: Connect kalkulace to the notification system %>
   <section class="kalkulace" id="kalkulace">
     <div class="kalkulace-header">
       <h2><%= t("kontakt.kalkulace_title_html") %></h2>
@@ -81,7 +79,7 @@
       <button type="button" class="toggle-btn"><%= t("kontakt.toggle_stavebni") %></button>
     </div>
 
-    <%= form_with url: "#", class: "kalkulace-form", id: "kalkulace-form" do |form| %>
+    <%= form_with url: inquiries_path, method: :post, class: "kalkulace-form", id: "kalkulace-form" do |form| %>
       <h3 class="form-section-title"><%= t("kontakt.form_section_kontakt") %></h3>
       <div class="kalkulace-grid-2">
 

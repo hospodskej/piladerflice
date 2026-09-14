@@ -92,10 +92,6 @@
     line-height: 1.5;
 }
 
-.kontakt-list-items li.align-start {
-    align-items: flex-start;
-}
-
 .kontakt-icon {
     width: 22px;
     height: 22px;

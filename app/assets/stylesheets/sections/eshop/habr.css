@@ -129,12 +129,6 @@
     margin-bottom: 30px;
 }
 
-.inventory-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
 .inventory-card {
     background: #FFFFFF;
     border: 1px solid #000000;
@@ -166,13 +160,6 @@
     flex-direction: column;
     justify-content: center;
     gap: 6px; /* Sníženo z 10px */
-}
-
-.spec-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
 }
 
 .spec-values {
@@ -298,8 +285,6 @@
 /* Barvy textu pro konkrétní hodnoty PRM */
 .spec-value.text-red { color: #EF4444; }
 .spec-value.text-green { color: #16A34A; }
-.spec-value.text-yellow { color: #EAB308; }
-.spec-value.text-pink { color: #EC4899; }
 
 .btn-cart {
     width: auto;

@@ -1,7 +1,12 @@
 <%= link_to "← Zpět na objednávky", admin_orders_path %>
 
-<h1 class="admin-page-title">Objednávka #<%= @order.id %></h1>
-<p class="admin-page-subtitle"><%= @order.created_at.strftime("%d.%m.%Y %H:%M") %></p>
+<div class="admin-toolbar">
+  <div>
+    <h1 class="admin-page-title">Objednávka #<%= @order.id %></h1>
+    <p class="admin-page-subtitle"><%= @order.created_at.strftime("%d.%m.%Y %H:%M") %></p>
+  </div>
+  <%= button_to "Smazat objednávku", admin_order_path(@order), method: :delete, class: "admin-danger-btn", form: { data: { turbo_confirm: "Opravdu smazat tuto objednávku?" } } %>
+</div>
 
 <div class="admin-detail-grid">
   <div class="admin-box">

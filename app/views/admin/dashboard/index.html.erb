@@ -6,8 +6,16 @@
     <span class="admin-dashboard-card-label">produktů v katalogu</span>
   <% end %>
   <%= link_to admin_orders_path, class: "admin-dashboard-card" do %>
-    <span class="admin-dashboard-card-number"><%= Order.count %></span>
+    <span class="admin-dashboard-card-number"><%= @order_count %></span>
     <span class="admin-dashboard-card-label">objednávek celkem</span>
+  <% end %>
+  <%= link_to admin_orders_path, class: "admin-dashboard-card" do %>
+    <span class="admin-dashboard-card-number"><%= @orders_this_month %></span>
+    <span class="admin-dashboard-card-label">objednávky tento měsíc</span>
+  <% end %>
+  <%= link_to admin_orders_path, class: "admin-dashboard-card" do %>
+    <span class="admin-dashboard-card-number"><%= @orders_last_month %></span>
+    <span class="admin-dashboard-card-label">objednávky minulý měsíc</span>
   <% end %>
 </div>
 

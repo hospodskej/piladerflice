@@ -1,0 +1,71 @@
+this_month:
+  first_name: Jana
+  last_name: Nováková
+  email: jana@example.com
+  phone: "123456789"
+  billing_street: Hlavní 1
+  billing_city: Brno
+  billing_zip: "60200"
+  billing_country: cz
+  shipping_method: pickup
+  payment_method: cash
+  items_snapshot: "[]"
+  subtotal_czk: 1000
+  vat_czk: 174
+  total_czk: 1000
+  locale: cs
+  created_at: <%= Time.current %>
+
+last_month_one:
+  first_name: Petr
+  last_name: Svoboda
+  email: petr@example.com
+  phone: "987654321"
+  billing_street: Vedlejší 5
+  billing_city: Praha
+  billing_zip: "11000"
+  billing_country: cz
+  shipping_method: address
+  payment_method: bank_transfer
+  items_snapshot: "[]"
+  subtotal_czk: 2000
+  vat_czk: 347
+  total_czk: 2000
+  locale: cs
+  created_at: <%= 1.month.ago %>
+
+last_month_two:
+  first_name: Eva
+  last_name: Dvořáková
+  email: eva@example.com
+  phone: "111222333"
+  billing_street: Krátká 3
+  billing_city: Znojmo
+  billing_zip: "67128"
+  billing_country: cz
+  shipping_method: pickup
+  payment_method: cash
+  items_snapshot: "[]"
+  subtotal_czk: 1500
+  vat_czk: 260
+  total_czk: 1500
+  locale: cs
+  created_at: <%= 1.month.ago %>
+
+two_months_ago:
+  first_name: Old
+  last_name: Order
+  email: old@example.com
+  phone: "555666777"
+  billing_street: Stará 9
+  billing_city: Brno
+  billing_zip: "60200"
+  billing_country: cz
+  shipping_method: pickup
+  payment_method: cash
+  items_snapshot: "[]"
+  subtotal_czk: 500
+  vat_czk: 87
+  total_czk: 500
+  locale: cs
+  created_at: <%= 2.months.ago %>

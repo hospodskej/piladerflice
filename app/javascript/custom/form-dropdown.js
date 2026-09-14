@@ -1,3 +1,8 @@
+function extractUnit(text) {
+    const match = text.trim().match(/^\d+(?:[.,]\d+)?\s*(.*)$/);
+    return match ? match[1].trim() : '';
+}
+
 function handleCustomOption(select, optionValue) {
     const customInput = select.closest('.form-group')?.querySelector('.custom-value-input');
     if (!customInput) return;
@@ -75,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             customInput.addEventListener('blur', () => {
-                const value = customInput.value.trim();
+                let value = customInput.value.trim();
 
                 if (!value) {
                     const restoreIndex = parseInt(originalSelect.dataset.restoreIndex ?? '0', 10);
@@ -85,6 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
+                if (/^\d+(?:[.,]\d+)?$/.test(value)) {
+                    const referenceIndex = parseInt(originalSelect.dataset.restoreIndex ?? '0', 10);
+                    const unit = extractUnit(originalSelect.options[referenceIndex].text);
+                    if (unit) value = `${value} ${unit}`;
+                }
+
+                customInput.value = value;
                 customInput.style.display = 'none';
                 display.innerHTML = formatText(value);
             });

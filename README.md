@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.13: Custom kalkulace values now keep the field's unit (e.g. "111 cm"), matching the presets  
 Patch 0.8.12: Kalkulace custom values now merge back into the dropdown on blur/Enter, still editable  
 Patch 0.8.11: Palivové dřevo kalkulace form now only offers a custom value on Množství  
 Patch 0.8.10: Fixed misaligned Hodnota (DE) column on the kalkulace options admin page  

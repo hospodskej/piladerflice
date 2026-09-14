@@ -8,6 +8,10 @@ function handleCustomOption(select, optionValue) {
     if (!customInput) return;
 
     if (optionValue === '__custom__') {
+        if (select.dataset.numericField === 'true') {
+            const match = customInput.value.match(/^\s*(\d+(?:[.,]\d+)?)/);
+            customInput.value = match ? match[1] : '';
+        }
         customInput.style.display = 'block';
         customInput.name = select.name;
         customInput.required = true;
@@ -72,6 +76,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const customInput = originalSelect.closest('.form-group')?.querySelector('.custom-value-input');
         if (customInput) {
+            const presetOptions = Array.from(originalSelect.options).filter(o => o.value !== '__custom__');
+            const isNumericField = presetOptions.length > 0 && presetOptions.every(o => extractUnit(o.text) !== '');
+            if (isNumericField) {
+                originalSelect.dataset.numericField = 'true';
+                customInput.inputMode = 'decimal';
+                customInput.addEventListener('input', () => {
+                    const sanitized = customInput.value.replace(/[^0-9.,]/g, '');
+                    if (sanitized !== customInput.value) customInput.value = sanitized;
+                });
+            }
+
             customInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();

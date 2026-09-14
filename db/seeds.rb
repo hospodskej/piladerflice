@@ -1,13 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# NOTE ON TRANSLATIONS: every text column here has a matching "<column>_de"
-# German counterpart (see the AddGermanTranslations migration and the
-# Translatable concern in app/models/concerns/translatable.rb). Purely
-# numeric/currency values (prices, dimensions) are left without a German
-# override since there's nothing to translate - the *_i18n accessors will
-# fall back to the Czech column automatically when *_de is blank.
 puts "Clearing old records..."
 Product.destroy_all
 
@@ -32,7 +22,6 @@ PricelistItem.destroy_all
 
 puts "Creating new price list..."
 
-# 1. Stavební a truhlářské řezivo
 PricelistItem.create!([
                         { category: "stavebni", item_name: "Fošny", details: "4m, 5m", price: "9 800 Kč / m<sup>3</sup>", item_name_de: "Bohlen" },
                         { category: "stavebni", item_name: "Prkna (24mm)", details: "4m, 5m", price: "7 000 Kč / m<sup>3</sup>", item_name_de: "Bretter (24mm)" },
@@ -40,70 +29,50 @@ PricelistItem.create!([
                         { category: "stavebni", item_name: "Trámy", details: "4m, 5m", price: "9 800 Kč / m<sup>3</sup>", item_name_de: "Balken" }
                       ])
 
-# 2. Palivové dřevo - volně ložené
-# Prices below are entered directly from the business's official printed
-# price sheets (CZK sheet valid from 20.07.2026, matching EUR sheet valid
-# from the same date) - both currencies are fixed values here, not
-# calculated, unlike every other category (see PricelistItem#price_i18n).
-# Subcategories mirror the original grouping (species priced identically
-# share one row); "Smrk" on the new sheet applies to the whole
-# "Smrk / Borovice / Modřín" group, and "Bříza / Ostatní tvrdé" isn't on
-# the new sheet at all, so it shows "---".
 PricelistItem.create!([
-                        # Jasan / Dub
                         { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "1m", price: "1 740 Kč", price_de: "67 €" },
                         { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "2 030 Kč", price_de: "78 €" },
                         { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "1 740 Kč", price_de: "67 €" },
                         { category: "palivove_volne", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "1 840 Kč", price_de: "69 €" },
 
-                        # Buk / Akát
                         { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "1m", price: "1 900 Kč", price_de: "74 €" },
                         { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 200 Kč", price_de: "84 €" },
                         { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "1 900 Kč", price_de: "74 €" },
                         { category: "palivove_volne", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "2 000 Kč", price_de: "72 €" },
 
-                        # Bříza / Ostatní tvrdé - not on the current price sheet
                         { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "1m", price: "---", price_de: "---" },
                         { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "50cm", price: "---", price_de: "---" },
                         { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "33cm", price: "---", price_de: "---" },
                         { category: "palivove_volne", subcategory: "Bříza / Ostatní tvrdé", subcategory_de: "Birke / Sonstiges Hartholz", item_name: "25cm", price: "---", price_de: "---" },
 
-                        # Smrk / Borovice / Modřín
                         { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "1m", price: "1 320 Kč", price_de: "54 €" },
                         { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "50cm", price: "1 510 Kč", price_de: "58 €" },
                         { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "33cm", price: "1 260 Kč", price_de: "54 €" },
                         { category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", subcategory_de: "Fichte / Kiefer / Lärche", item_name: "25cm", price: "1 370 Kč", price_de: "54 €" }
                       ])
 
-# 3. Palivové dřevo - Bedny skládané
 PricelistItem.create!([
-                        # Jasan / Dub
                         { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "50cm", price: "2 525 Kč", price_de: "97,30 €" },
                         { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "33cm", price: "2 525 Kč", price_de: "97,30 €" },
                         { category: "palivove_skladane", subcategory: "Jasan / Dub", subcategory_de: "Esche / Eiche", item_name: "25cm", price: "2 625 Kč", price_de: "102,20 €" },
 
-                        # Buk / Akát
                         { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "50cm", price: "2 675 Kč", price_de: "103,00 €" },
                         { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "33cm", price: "2 675 Kč", price_de: "103,00 €" },
                         { category: "palivove_skladane", subcategory: "Buk / Akát", subcategory_de: "Buche / Akazie", item_name: "25cm", price: "2 775 Kč", price_de: "107,00 €" },
 
-                        # Smrk
                         { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "50cm", price: "2 125 Kč", price_de: "81,00 €" },
                         { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "33cm", price: "2 125 Kč", price_de: "81,00 €" },
                         { category: "palivove_skladane", subcategory: "Smrk", subcategory_de: "Fichte", item_name: "25cm", price: "2 225 Kč", price_de: "85,60 €" }
                       ])
 
-# 4. Výrobní zbytky
 PricelistItem.create!([
                         { category: "zbytky", item_name: "Odkory na topení", price: "1 000 Kč – 1 400 Kč", item_name_de: "Rindenreste zum Heizen" },
                         { category: "zbytky", item_name: "Piliny", price: "450 Kč", item_name_de: "Sägemehl" },
                         { category: "zbytky", item_name: "Štěpka", price: "700 Kč – 800 Kč", item_name_de: "Hackschnitzel" }
                       ])
 
-# 5. Okrasné kamenivo
 PricelistItem.create!(category: "kamenivo", item_name: "Kamenivo", price: "1 Kč / 1 kg", item_name_de: "Ziersteine")
 
-# 6. Služby
 PricelistItem.create!([
                         { category: "sluzby", item_name: "Doprava", price: "35 Kč / km", item_name_de: "Lieferung" },
                         { category: "sluzby", item_name: "Impregnace", price: "500 Kč", item_name_de: "Imprägnierung" },

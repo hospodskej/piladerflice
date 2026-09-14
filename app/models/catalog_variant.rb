@@ -11,18 +11,6 @@ class CatalogVariant < ApplicationRecord
 
   scope :ordered, -> { order(:position, :id) }
 
-  # Converts this variant into the same language-neutral spec array shape
-  # the cart system already expects (see app/models/cart.rb and
-  # app/helpers/cart_helper.rb), so nothing about how the cart stores or
-  # displays line items had to change to support admin-managed products.
-  #
-  # variant_label/variant_label_de are admin-entered content, not static
-  # site vocabulary, so they can't be represented as a "key" spec pointing
-  # at the locale YAML files the way built-in labels like "Sypané" are -
-  # this uses the "bilingual" spec type instead, which carries both
-  # language versions directly (see CartHelper#cart_spec_text), so
-  # switching languages after adding to cart still shows the right text
-  # either way.
   def to_cart_specs
     specs = []
 

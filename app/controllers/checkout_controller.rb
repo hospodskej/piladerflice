@@ -3,7 +3,6 @@ class CheckoutController < ApplicationController
   before_action :redirect_unless_shipping_selected, only: [:details, :update_details, :summary, :confirm]
   before_action :redirect_unless_details_complete, only: [:summary, :confirm]
 
-  # GET /kosik/doprava - shipping method & payment method
   def shipping
   end
 
@@ -12,7 +11,6 @@ class CheckoutController < ApplicationController
     redirect_to checkout_details_path
   end
 
-  # GET /kosik/udaje - personal + billing (+ optional company / delivery) details
   def details
   end
 
@@ -21,12 +19,10 @@ class CheckoutController < ApplicationController
     redirect_to checkout_summary_path
   end
 
-  # GET /kosik/souhrn - final review before submitting
   def summary
     @order = Order.new(order_attributes)
   end
 
-  # POST /kosik/souhrn - creates the order, emails it, empties the cart
   def confirm
     @order = Order.new(order_attributes)
 
@@ -48,7 +44,6 @@ class CheckoutController < ApplicationController
     end
   end
 
-  # GET /kosik/dekujeme
   def confirmation
     @order = Order.find_by(id: session[:last_order_id])
 
@@ -85,9 +80,6 @@ class CheckoutController < ApplicationController
     )
   end
 
-  # Builds an (unsaved) Order from everything gathered across the wizard so
-  # far - used both to show the review on the summary page and, again, to
-  # actually persist on final confirmation.
   def order_attributes
     {
       first_name: current_checkout["first_name"],
@@ -130,20 +122,12 @@ class CheckoutController < ApplicationController
     end.to_json
   end
 
-  # Emailing is best-effort: the order is already safely saved in the
-  # database by this point (see #confirm), so a temporary SMTP problem
-  # shouldn't stop the customer from reaching the confirmation page - it
-  # just means the instant email notification didn't go out for this one
-  # order. Logged loudly either way so it isn't silently missed.
   def deliver_order_notification(order)
     I18n.with_locale(:cs) { OrderMailer.new_order(order).deliver_now }
   rescue StandardError => e
     Rails.logger.error("[OrderMailer] failed to send business notification for order ##{order.id}: #{e.class}: #{e.message}")
   end
 
-  # Independent from deliver_order_notification - if this one fails, the
-  # business still got their copy and the order still exists, so a
-  # customer-side delivery hiccup doesn't lose the order either way.
   def deliver_customer_confirmation(order)
     I18n.with_locale(order.locale) { OrderMailer.customer_confirmation(order).deliver_now }
   rescue StandardError => e

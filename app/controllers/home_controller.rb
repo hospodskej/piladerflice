@@ -16,10 +16,6 @@ class HomeController < ApplicationController
   end
 
   def sluzby
-    # Every "sluzby" detail row links back to the price list via a
-    # "/sluzby#..." anchor; the price-calculator card is the only Service
-    # record that doesn't (it points to "/kontakt#kalkulace"), so we key off
-    # that instead of the (now-translatable) title.
     @sluzby_page_data = Service.where("button_path LIKE ?", "/sluzby%")
   end
 

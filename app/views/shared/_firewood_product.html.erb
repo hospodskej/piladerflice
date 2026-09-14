@@ -1,10 +1,4 @@
 <%
-  # Shared template for all firewood species detail pages (smrk, dub, buk,
-  # akat, jasan, briza, habr). Product text and pricing now come from the
-  # database (CatalogProduct/CatalogVariant) so an admin can edit them
-  # without a developer - see db/seeds_catalog.rb for how these get
-  # populated. `species_key` is the language-independent lookup key, same
-  # as before this became admin-managed.
   product = CatalogProduct.find_by!(key: species_key)
   title = product.title_i18n
 

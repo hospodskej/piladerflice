@@ -1,11 +1,9 @@
-/* ===== Checkout section wrapper ===== */
 .checkout-section {
     max-width: 1200px;
     margin: 40px auto 80px auto;
     padding: 0 5%;
 }
 
-/* ===== Stepper ===== */
 .checkout-stepper {
     display: flex;
     align-items: center;
@@ -66,7 +64,6 @@
     font-size: 1.2rem;
 }
 
-/* ===== Two-column layout (main content + summary sidebar) ===== */
 .checkout-layout {
     display: grid;
     grid-template-columns: 1fr 340px;
@@ -80,7 +77,6 @@
     gap: 20px;
 }
 
-/* ===== Section box (gray header bar + white body, matches the mockups) ===== */
 .checkout-box {
     border: 1.5px solid #2C8FFF;
     border-radius: 10px;
@@ -122,7 +118,6 @@
     box-sizing: border-box;
 }
 
-/* Collapsible "+"-style sections (Nakupuji na firmu / Doručovací adresa) */
 .checkout-collapsible > summary.checkout-box-title {
     cursor: pointer;
     list-style: none;
@@ -146,7 +141,6 @@
     content: "−";
 }
 
-/* ===== Radio option rows (shipping / payment method) ===== */
 .checkout-radio-list {
     display: flex;
     flex-direction: column;
@@ -195,7 +189,6 @@
     padding: 6px 20px;
 }
 
-/* ===== Form field grid ===== */
 .checkout-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -235,7 +228,6 @@
     margin-top: 6px;
 }
 
-/* ===== Cart contents table (step 1) ===== */
 .checkout-cart-table {
     border: 1.5px solid #2C8FFF;
     border-radius: 10px;
@@ -311,7 +303,6 @@
     color: #d33;
 }
 
-/* ===== Discount code + totals footer (step 1) ===== */
 .checkout-cart-footer {
     display: grid;
     grid-template-columns: 1fr 320px;
@@ -365,7 +356,6 @@
     margin-top: 0;
 }
 
-/* ===== Back / continue navigation row ===== */
 .checkout-nav {
     display: flex;
     justify-content: space-between;
@@ -399,7 +389,6 @@
     color: #fff;
 }
 
-/* ===== Summary sidebar (steps 2-4) ===== */
 .checkout-summary-box {
     border: 1.5px solid #2C8FFF;
     border-radius: 10px;
@@ -461,7 +450,6 @@
     color: #333;
 }
 
-/* ===== Full item list with per-line prices (step 4) ===== */
 .checkout-summary-full-items {
     list-style: none;
     margin: 0;
@@ -488,7 +476,6 @@
     min-width: 160px;
 }
 
-/* ===== Validation error box ===== */
 .form-error {
     background-color: #FDECEC;
     border: 1px solid #E88;
@@ -504,7 +491,6 @@
     padding: 0;
 }
 
-/* ===== Site-wide flash messages (e.g. after submitting the kontakt form) ===== */
 .page-flash {
     max-width: 1200px;
     margin: 20px auto 0 auto;
@@ -525,7 +511,6 @@
     border: 1px solid #E88;
 }
 
-/* ===== Confirmation ("thank you") page ===== */
 .checkout-confirmation {
     display: flex;
     justify-content: center;
@@ -548,7 +533,6 @@
     line-height: 1.5;
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 900px) {
     .checkout-layout {
         grid-template-columns: 1fr;

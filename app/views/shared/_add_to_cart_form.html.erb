@@ -1,16 +1,3 @@
-<%#
-  Renders one "Do košíku" button as a small Turbo-submitted form that adds
-  a single catalog variant to the cart without navigating away from the
-  page (see CartItemsController#create, which responds with a Turbo Stream
-  that updates the header cart widget and shows the confirmation modal).
-
-  The only thing submitted is which variant was chosen - price, image, and
-  description are all looked up server-side from the CatalogVariant record
-  itself, never trusted from the request.
-
-  Locals:
-    catalog_variant - a CatalogVariant record
-%>
 <%= form_with url: cart_items_path, method: :post, class: "add-to-cart-form" do %>
   <%= hidden_field_tag :catalog_variant_id, catalog_variant.id %>
   <%= submit_tag t("common.add_to_cart"), class: "btn-primary btn-cart" %>

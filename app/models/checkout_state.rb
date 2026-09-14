@@ -1,10 +1,3 @@
-# Carries the visitor's in-progress checkout answers (shipping/payment
-# method, personal and billing details) across the multi-step checkout
-# wizard (see CheckoutController) via the session, the same way Cart
-# carries cart contents. Nothing here touches the database - a real Order
-# record is only created once the final step is confirmed (see
-# CheckoutController#confirm), so an abandoned checkout never leaves a
-# half-finished order behind.
 class CheckoutState
   SESSION_KEY = :checkout
 
@@ -31,12 +24,6 @@ class CheckoutState
     @session[SESSION_KEY][key.to_s]
   end
 
-  # Bulk-assigns from permitted form params. Boolean attributes (checkboxes)
-  # are cast explicitly, since an unchecked HTML checkbox simply isn't
-  # present in the submitted params at all, rather than arriving as
-  # "false" - callers pass the full permitted hash including Rails'
-  # `hidden_field` fallback (0/1) for checkboxes so unchecking one actually
-  # sticks instead of silently keeping its old value.
   def update(attrs)
     attrs.to_h.each do |key, value|
       key = key.to_s

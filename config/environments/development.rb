@@ -55,16 +55,6 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 
-  # Order confirmation emails (see OrderMailer) - in development, emails are
-  # just written to the Rails log rather than actually sent, so this works
-  # out of the box without any SMTP credentials configured. See
-  # config/environments/production.rb for real delivery setup.
-  #
-  # If SMTP_USERNAME is set (via a local .env file - see .env.example),
-  # this switches to actually sending real emails through that account
-  # instead of just logging them, so you can confirm an order email really
-  # lands in your inbox while testing locally. Leave .env unset and
-  # nothing changes - emails still just get logged as before.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   if ENV["SMTP_USERNAME"].present?
@@ -77,11 +67,6 @@ Rails.application.configure do
       user_name: ENV.fetch("SMTP_USERNAME", nil),
       password: ENV.fetch("SMTP_PASSWORD", nil),
       authentication: "plain",
-      # Port 465 (used by Seznam.cz, among others) expects an already-encrypted
-      # connection from the start; port 587 (Gmail's default) expects a plain
-      # connection that gets upgraded via STARTTLS. Picking the right one
-      # based on the port means SMTP_PORT alone decides this correctly,
-      # without a separate setting to get wrong.
       tls: smtp_port == 465,
       enable_starttls_auto: smtp_port != 465
     }

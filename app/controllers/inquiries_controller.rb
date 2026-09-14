@@ -28,9 +28,6 @@ class InquiriesController < ApplicationController
     }
   end
 
-  # The form's dynamic rows submit as parallel arrays (varianta[], druh[],
-  # delka[], mnozstvi[]) since rows are cloned client-side - zips them back
-  # into one hash per row.
   def items_snapshot
     varianta = Array(params[:varianta])
     druh = Array(params[:druh])

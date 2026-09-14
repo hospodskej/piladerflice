@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.26: Fixed Akční nabídka's shadow overflowing past the section's right edge on desktop (reserved room for its peek-out instead)  
 Patch 0.8.25: Fixed Akční nabídka image/shadow being fixed-width and overflowing their column, squeezing the text next to it  
 Patch 0.8.24: Aligned all homepage sections to a single 1200px content width, removing redundant per-section max-widths/padding  
 Patch 0.8.23: FAQ CTA button now vertically centered; equal-height FAQ boxes so a 2-line question doesn't dwarf its neighbor  

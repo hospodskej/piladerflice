@@ -13,20 +13,18 @@
   <% end %>
 </table>
 
-<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Požadované položky</h2>
+<h2 style="font-size:15px; margin:0 0 8px 0; border-bottom:1px solid #eee; padding-bottom:6px;">Požadované položky (<%= InquiryFormOption::CATEGORY_LABELS[@inquiry.category] || @inquiry.category %>)</h2>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:20px; border-collapse:collapse;">
   <tr style="border-bottom:1px solid #ddd;">
-    <td style="padding:6px 0; color:#666; font-size:12px;">Varianta</td>
-    <td style="padding:6px 0; color:#666; font-size:12px;">Druh</td>
-    <td style="padding:6px 0; color:#666; font-size:12px;">Délka</td>
-    <td style="padding:6px 0; color:#666; font-size:12px;">Množství</td>
+    <% @inquiry.fields.each do |field| %>
+      <td style="padding:6px 0; color:#666; font-size:12px;"><%= InquiryFormOption::FIELD_LABELS[field] %></td>
+    <% end %>
   </tr>
   <% @inquiry.items.each do |item| %>
     <tr style="border-bottom:1px solid #f0f0f0;">
-      <td style="padding:8px 0;"><%= item["varianta"] %></td>
-      <td style="padding:8px 0;"><%= item["druh"] %></td>
-      <td style="padding:8px 0;"><%= item["delka"] %></td>
-      <td style="padding:8px 0;"><%= item["mnozstvi"] %></td>
+      <% @inquiry.fields.each do |field| %>
+        <td style="padding:8px 0;"><%= item[field] %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>

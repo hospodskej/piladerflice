@@ -23,19 +23,23 @@ class InquiriesController < ApplicationController
       city: params[:mesto],
       zip: params[:psc],
       notes: params[:poznamky],
+      category: category,
       items_snapshot: items_snapshot,
       locale: I18n.locale.to_s
     }
   end
 
-  def items_snapshot
-    varianta = Array(params[:varianta])
-    druh = Array(params[:druh])
-    delka = Array(params[:delka])
-    mnozstvi = Array(params[:mnozstvi])
+  def category
+    InquiryFormOption::CATEGORIES.include?(params[:kalkulace_category]) ? params[:kalkulace_category] : InquiryFormOption::CATEGORIES.first
+  end
 
-    varianta.each_index.map do |i|
-      { "varianta" => varianta[i], "druh" => druh[i], "delka" => delka[i], "mnozstvi" => mnozstvi[i] }
+  def items_snapshot
+    fields = InquiryFormOption::ROW_FIELDS.fetch(category, [])
+    columns = fields.index_with { |field| Array(params[field]) }
+    row_count = columns.values.map(&:size).max.to_i
+
+    (0...row_count).map do |i|
+      fields.index_with { |field| columns[field][i] }
     end.to_json
   end
 

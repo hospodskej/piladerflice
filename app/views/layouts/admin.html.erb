@@ -18,6 +18,7 @@
         <%= link_to "Katalog a ceny", admin_catalog_products_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/catalog_products')}" %>
         <%= link_to "Objednávky", admin_orders_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/orders')}" %>
         <%= link_to "Poptávky", admin_inquiries_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/inquiries')}" %>
+        <%= link_to "Formulář poptávky", admin_inquiry_form_options_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/inquiry_form_options')}" %>
       </nav>
       <div class="admin-sidebar-footer">
         <span class="admin-current-user"><%= current_user&.email_address %></span>

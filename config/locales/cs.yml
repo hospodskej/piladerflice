@@ -244,25 +244,12 @@ cs:
     grid_druh: "Druh"
     grid_delka: "Délka"
     grid_mnozstvi: "Množství"
-    varianty:
-      skladane: "Skládané"
-      sypane: "Sypané"
-    druhy:
-      akat: "Akát"
-      dub: "Dub"
-      smrk: "Smrk"
-      buk: "Buk"
-      jasan: "Jasan"
-      habr: "Habr"
-      briza: "Bříza"
-    delky:
-      - "33 cm"
-      - "50 cm"
-      - "1 m"
-    mnozstvi:
-      - "5 PRM"
-      - "10 PRM"
-      - "15 PRM"
+    grid_polozka: "Položka"
+    grid_vyska: "Výška"
+    grid_sirka: "Šířka"
+    kalkulace_custom_option: "Vlastní"
+    kalkulace_custom_placeholder: "Zadejte vlastní hodnotu"
+    kalkulace_mnozstvi_placeholder: "ks"
     delete_item_aria: "Smazat"
     add_item_aria: "Přidat položku"
     form_section_poznamky: "Poznámky"
@@ -552,6 +539,10 @@ cs:
               blank: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
             delivery_country:
               blank: "Při odlišné doručovací adrese je potřeba vyplnit stát"
+        inquiry_form_option:
+          attributes:
+            field:
+              invalid_for_category: "neodpovídá zvolené kategorii"
 
   order_mailer:
     greeting: "Dobrý den, %{name},"

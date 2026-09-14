@@ -8,6 +8,7 @@
         <th>Jméno</th>
         <th>E-mail</th>
         <th>Telefon</th>
+        <th>Kategorie</th>
         <th>Položek</th>
         <th>Datum</th>
       </tr>
@@ -19,6 +20,7 @@
           <td><%= inquiry.full_name %></td>
           <td><%= inquiry.email %></td>
           <td><%= inquiry.phone %></td>
+          <td><%= InquiryFormOption::CATEGORY_LABELS[inquiry.category] || inquiry.category %></td>
           <td><%= inquiry.items.size %></td>
           <td><%= inquiry.created_at.strftime("%d.%m.%Y %H:%M") %></td>
         </tr>

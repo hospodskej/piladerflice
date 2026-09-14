@@ -394,6 +394,48 @@
     font-size: 0.9rem;
 }
 
+.admin-option-group {
+    margin-bottom: 16px;
+}
+
+.admin-option-move {
+    white-space: nowrap;
+}
+
+.admin-move-btn {
+    background: none;
+    border: 1px solid #ccc;
+    color: #444;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.admin-move-btn:hover {
+    background-color: #F4F5F7;
+}
+
+.admin-option-form {
+    display: flex;
+    gap: 6px;
+}
+
+.admin-option-form input[type="text"] {
+    width: 140px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.admin-option-form .btn-outline-dark,
+.admin-option-form .btn-primary {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    margin-top: 0;
+}
+
 .admin-danger-btn {
     background: none;
     border: 1px solid #D33;

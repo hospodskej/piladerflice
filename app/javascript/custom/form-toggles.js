@@ -1,14 +1,29 @@
 const initFormLogic = () => {
     const toggleBtns = document.querySelectorAll(".toggle-btn");
+    const categoryInput = document.getElementById('kalkulace-category-input');
+
     toggleBtns.forEach(btn => {
         btn.onclick = function() {
             toggleBtns.forEach(b => b.classList.remove("active"));
             this.classList.add("active");
+
+            const target = this.dataset.target;
+            if (categoryInput) categoryInput.value = target;
+
+            document.querySelectorAll('.kalkulace-fields-section').forEach(section => {
+                const isTarget = section.dataset.category === target;
+                section.hidden = !isTarget;
+                section.disabled = !isTarget;
+            });
         };
     });
 
-    const container = document.getElementById('kalkulace-items-container');
-    const addBtn = document.getElementById('add-kalkulace-row');
+    document.querySelectorAll('.kalkulace-fields-section').forEach(section => initFieldsSection(section));
+};
+
+function initFieldsSection(section) {
+    const container = section.querySelector('.kalkulace-items-container');
+    const addBtn = section.querySelector('.add-kalkulace-row');
 
     if (!container || !addBtn) return;
 
@@ -31,13 +46,21 @@ const initFormLogic = () => {
         newRow.querySelectorAll('select').forEach(s => {
             s.selectedIndex = 0;
             s.style.display = 'block';
+            s.disabled = false;
+        });
+
+        newRow.querySelectorAll('.custom-value-input').forEach(input => {
+            input.value = '';
+            input.name = '';
+            input.required = false;
+            input.style.display = 'none';
         });
 
         container.appendChild(newRow);
 
         initializeRow(newRow);
     };
-};
+}
 
 function initializeRow(row) {
     row.querySelectorAll('select').forEach(select => {
@@ -52,6 +75,24 @@ function initializeRow(row) {
             e.preventDefault();
             row.remove();
         };
+    }
+}
+
+function handleCustomOption(select, optionValue) {
+    const customInput = select.closest('.form-group')?.querySelector('.custom-value-input');
+    if (!customInput) return;
+
+    if (optionValue === '__custom__') {
+        customInput.style.display = 'block';
+        customInput.name = select.name;
+        customInput.required = true;
+        select.disabled = true;
+        customInput.focus();
+    } else {
+        customInput.style.display = 'none';
+        customInput.name = '';
+        customInput.required = false;
+        select.disabled = false;
     }
 }
 
@@ -90,6 +131,7 @@ function createCustomDropdown(select) {
             display.innerHTML = formatText(opt.text);
             menu.classList.remove('open');
             display.classList.remove('open');
+            handleCustomOption(select, opt.value);
         };
         menu.appendChild(item);
     });

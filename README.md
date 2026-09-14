@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.17: All carousels site-wide now get a brand blue border on hover  
 Patch 0.8.16: Stavební řezivo's Výška/Šířka options converted from cm to mm, numbers scaled ×10  
 Patch 0.8.15: "Jaké služby poskytujeme?" accordion items turn brand blue (border + text) on hover  
 Patch 0.8.14: Custom values on unit-based kalkulace fields now only accept numbers, preventing duplicate units  

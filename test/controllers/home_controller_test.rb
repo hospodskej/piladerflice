@@ -37,4 +37,19 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "select[name='varianta[]'] option", text: inquiry_form_options(:palivove_varianta_skladane).value
     assert_select "select[name='polozka[]'] option", text: inquiry_form_options(:stavebni_polozka_tram).value
   end
+
+  test "kontakt only offers the custom option on palivove's mnozstvi field" do
+    get kontakt_url
+    assert_response :success
+
+    assert_select "select[name='varianta[]'] option[value='__custom__']", count: 0
+    assert_select "select[name='druh[]'] option[value='__custom__']", count: 0
+    assert_select "fieldset[data-category='palivove'] select[name='delka[]'] option[value='__custom__']", count: 0
+    assert_select "select[name='mnozstvi[]'] option[value='__custom__']", count: 1
+
+    assert_select "select[name='polozka[]'] option[value='__custom__']", count: 1
+    assert_select "fieldset[data-category='stavebni'] select[name='delka[]'] option[value='__custom__']", count: 1
+    assert_select "select[name='vyska[]'] option[value='__custom__']", count: 1
+    assert_select "select[name='sirka[]'] option[value='__custom__']", count: 1
+  end
 end

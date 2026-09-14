@@ -280,6 +280,11 @@
       </button>
     </div>
 
+    <div class="carousel-dots">
+      <% @zajimavosti.each_with_index do |slide, index| %>
+        <button class="carousel-dot <%= 'active' if index == 0 %>" aria-label="<%= "#{t('common.slide')} #{index + 1}" %>"></button>
+      <% end %>
+    </div>
 
   </section>
   <section class="faq-section">

@@ -15,6 +15,7 @@ cs:
   common:
     previous: "Předchozí"
     next: "Další"
+    slide: "Snímek"
     detail: "Detail"
     stock: "skladem"
     in_stock: "Skladem"

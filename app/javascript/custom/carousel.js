@@ -9,6 +9,8 @@ document.addEventListener("turbo:load", function() {
 
         const nextBtn = carousel.querySelector(".next-btn") || carousel.querySelector("#carouselNext");
         const prevBtn = carousel.querySelector(".prev-btn") || carousel.querySelector("#carouselPrev");
+        const dotsContainer = carousel.parentElement?.querySelector(".carousel-dots");
+        const dots = dotsContainer ? dotsContainer.querySelectorAll(".carousel-dot") : [];
 
         if (slides.length === 0 || !nextBtn || !prevBtn) return;
 
@@ -19,6 +21,9 @@ document.addEventListener("turbo:load", function() {
         function goToSlide(index) {
             slides.forEach(slide => slide.classList.remove("active"));
             slides[index].classList.add("active");
+            dots.forEach(dot => dot.classList.remove("active"));
+            if (dots[index]) dots[index].classList.add("active");
+            currentIndex = index;
         }
 
         function nextSlide() {
@@ -44,6 +49,13 @@ document.addEventListener("turbo:load", function() {
         prevBtn.addEventListener("click", () => {
             prevSlide();
             resetTimer();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                goToSlide(index);
+                resetTimer();
+            });
         });
 
         goToSlide(currentIndex);

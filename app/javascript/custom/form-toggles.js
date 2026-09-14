@@ -127,6 +127,9 @@ function createCustomDropdown(select) {
         item.innerHTML = formatText(opt.text);
         item.onclick = (e) => {
             e.stopPropagation();
+            if (opt.value === '__custom__' && select.value !== '__custom__') {
+                select.dataset.restoreIndex = select.selectedIndex;
+            }
             select.selectedIndex = index;
             display.innerHTML = formatText(opt.text);
             menu.classList.remove('open');
@@ -137,6 +140,32 @@ function createCustomDropdown(select) {
     });
 
     display.innerHTML = formatText(select.options[select.selectedIndex].text);
+
+    const customInput = select.closest('.form-group')?.querySelector('.custom-value-input');
+    if (customInput) {
+        customInput.onkeydown = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                customInput.blur();
+            }
+        };
+
+        customInput.onblur = () => {
+            const value = customInput.value.trim();
+
+            if (!value) {
+                const restoreIndex = parseInt(select.dataset.restoreIndex ?? '0', 10);
+                select.selectedIndex = restoreIndex;
+                display.innerHTML = formatText(select.options[restoreIndex].text);
+                handleCustomOption(select, select.options[restoreIndex].value);
+                return;
+            }
+
+            customInput.style.display = 'none';
+            display.innerHTML = formatText(value);
+        };
+    }
+
     display.onclick = (e) => {
         e.stopPropagation();
         document.querySelectorAll('.custom-select-menu').forEach(m => {

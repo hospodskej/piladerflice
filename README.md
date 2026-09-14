@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.12: Kalkulace custom values now merge back into the dropdown on blur/Enter, still editable  
 Patch 0.8.11: Palivové dřevo kalkulace form now only offers a custom value on Množství  
 Patch 0.8.10: Fixed misaligned Hodnota (DE) column on the kalkulace options admin page  
 Patch 0.8.9: Dashboard order stats by month, delete objednávky from admin  

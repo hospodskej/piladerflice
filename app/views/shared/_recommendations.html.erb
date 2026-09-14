@@ -4,9 +4,15 @@
   # CatalogVariant), so switching to German doesn't depend on matching
   # Czech text anywhere, and an admin can add/remove/reprice products
   # without a developer touching this list.
-  recommendation_keys = %w[jasan briza habr odkory buk]
-  products = CatalogProduct.active.where(key: recommendation_keys - [local_assigns[:current_product]]).index_by(&:key)
-  recommendations = recommendation_keys.filter_map { |key| products[key] }.take(4)
+  #
+  # Picked at random from everything currently for sale, rather than a
+  # fixed list of species - once customer accounts/order history exist,
+  # this is the natural place to swap in recommendations based on a
+  # customer's own past orders instead.
+  recommendations = CatalogProduct.active
+    .where.not(key: local_assigns[:current_product])
+    .order(Arel.sql("RANDOM()"))
+    .limit(4)
 %>
 
 <section class="recommendations-section">

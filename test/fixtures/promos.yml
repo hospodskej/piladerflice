@@ -1,19 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  feature_1: MyString
-  feature_2: MyString
-  feature_3: MyString
-  price: MyString
-  image: MyString
-  link: MyString
-
-two:
-  title: MyString
-  feature_1: MyString
-  feature_2: MyString
-  feature_3: MyString
-  price: MyString
-  image: MyString
-  link: MyString
+  title: Palivové dřevo - akát 32 cm
+  feature_1: Vysoká výhřevnost
+  feature_2: Skladem ihned
+  feature_3: Rychlé dodání
+  price: "od 1500 / 1 PRMS"
+  image: akcni-nabidka-hero.png
+  link: /eshop/akat

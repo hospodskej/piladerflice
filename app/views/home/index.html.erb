@@ -234,6 +234,20 @@
       <%= image_tag "mapa-doruceni.png", alt: t("home.index.dorucujeme_map_alt") %>
     </div>
   </section>
+  <section class="co-je-noveho-section">
+    <div class="co-je-noveho-gallery">
+      <%= image_tag "co-je-noveho-pic1.png", alt: t("home.index.co_je_noveho_pic1_alt"), class: "co-je-noveho-img co-je-noveho-img-main" %>
+      <%= image_tag "co-je-noveho-pic2.png", alt: t("home.index.co_je_noveho_pic2_alt"), class: "co-je-noveho-img" %>
+      <%= image_tag "co-je-noveho-pic3.png", alt: t("home.index.co_je_noveho_pic3_alt"), class: "co-je-noveho-img" %>
+    </div>
+
+    <div class="co-je-noveho-text">
+      <h2><%= t("home.index.co_je_noveho_title_rest") %> <span style="color: #2C8FFF"><%= t("home.index.co_je_noveho_title_accent") %></span></h2>
+      <h3><%= t("home.index.co_je_noveho_subtitle") %></h3>
+      <p><%= t("home.index.co_je_noveho_text") %></p>
+      <%= link_to t("common.cenik"), "/kontakt#cenik", class: "btn-primary" %>
+    </div>
+  </section>
   <section class="how-to-order-section">
     <%= render "shared/jak_objednat" %>
   </section>

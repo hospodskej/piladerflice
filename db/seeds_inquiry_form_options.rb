@@ -43,14 +43,14 @@ stavebni = {
     { value: "5 m", value_de: "5 m" }
   ],
   "vyska" => [
-    { value: "33 cm", value_de: "33 cm" },
-    { value: "50 cm", value_de: "50 cm" },
-    { value: "100 cm", value_de: "100 cm" }
+    { value: "330 mm", value_de: "330 mm" },
+    { value: "500 mm", value_de: "500 mm" },
+    { value: "1000 mm", value_de: "1000 mm" }
   ],
   "sirka" => [
-    { value: "33 cm", value_de: "33 cm" },
-    { value: "50 cm", value_de: "50 cm" },
-    { value: "100 cm", value_de: "100 cm" }
+    { value: "330 mm", value_de: "330 mm" },
+    { value: "500 mm", value_de: "500 mm" },
+    { value: "1000 mm", value_de: "1000 mm" }
   ]
 }
 

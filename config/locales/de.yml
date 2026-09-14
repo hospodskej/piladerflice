@@ -251,6 +251,13 @@ de:
       o_sobe_p4: "Wir sorgen für die Lieferung der Produkte direkt zu Ihnen nach Hause."
       o_sobe_p5_html: "Trotz eines kleineren Teams von etwa 10 Mitarbeitern legen wir großen Wert auf <strong>die Einhaltung von Terminen</strong> und <strong>hohe Servicequalität.</strong>"
       o_sobe_cta: "Anfrage senden"
+      google_reviews_title_rest: "Was sagen"
+      google_reviews_title_accent: "unsere Kunden?"
+      google_reviews_count: "Basierend auf 11+ Rezensionen"
+      google_reviews_verified_title: "Von Google-Kunden verifiziert"
+      google_reviews_verified_sub: "Echte Bewertungen unserer Kunden"
+      google_review_source: "Rezension von Google"
+      google_review_like: "Gefällt mir"
 
   kontakt:
     page_title: "Informationsformulare"

@@ -4,6 +4,7 @@ class HomeController < ApplicationController
     @sluzby = Service.all
     @zajimavosti = FaqItem.all
     @produkty = Product.all
+    @google_reviews = Review.ordered
   end
 
   def kontakt

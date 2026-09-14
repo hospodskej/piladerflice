@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.16: Stavební řezivo's Výška/Šířka options converted from cm to mm, numbers scaled ×10  
 Patch 0.8.15: "Jaké služby poskytujeme?" accordion items turn brand blue (border + text) on hover  
 Patch 0.8.14: Custom values on unit-based kalkulace fields now only accept numbers, preventing duplicate units  
 Patch 0.8.13: Custom kalkulace values now keep the field's unit (e.g. "111 cm"), matching the presets  

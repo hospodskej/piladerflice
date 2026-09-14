@@ -8,16 +8,16 @@
 
 ---
 
-Patch 0.8.27: "Co by vás mohlo zajímat?" carousel: replaced 2 lorem-ipsum slides with vehicle fleet info, added slide indicator dots  
+Patch 0.8.27: "Co by vás mohlo zajímat?" carousel: replaced slides with vehicle fleet info, added indicator dots  
 Patch 0.8.26: Fixed Akční nabídka's shadow overflowing past the section's right edge on desktop  
 Patch 0.8.25: Fixed Akční nabídka image/shadow being fixed-width and overflowing their column, squeezing the text next to it  
-Patch 0.8.24: Aligned all homepage sections to a single 1200px content width, removing redundant per-section max-widths/padding  
+Patch 0.8.24: Aligned all homepage sections to a single 1200px content width  
 Patch 0.8.23: FAQ CTA button now vertically centered; equal-height FAQ boxes so a 2-line question doesn't dwarf its neighbor  
 Patch 0.8.22: Added homepage FAQ section with 3 categories and a contact CTA  
 Patch 0.8.21: "Co je nového?" gallery block now wider than the text column  
 Patch 0.8.20: "Co je nového?" main image made wider than the two stacked images  
 Patch 0.8.19: Added "Co je nového?" section between the delivery map and "Jak si u nás objednat?"  
-Patch 0.8.18: Reverted carousel hover borders; removed "Co vám můžeme nabídnout?" image border/hover, kept images clickable  
+Patch 0.8.18: Reverted carousel hover borders; removed some stuff  
 Patch 0.8.17: All carousels site-wide now get a brand blue border on hover  
 Patch 0.8.16: Stavební řezivo's Výška/Šířka options converted from cm to mm, numbers scaled ×10  
 Patch 0.8.15: "Jaké služby poskytujeme?" accordion items turn brand blue (border + text) on hover  

@@ -51,13 +51,6 @@
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
-    border: 1px solid #000;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-.nabidka-image-link:hover .nabidka-image {
-    border-color: #2C8FFF;
 }
 
 .nabidka-btn {

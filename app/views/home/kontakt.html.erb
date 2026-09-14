@@ -148,13 +148,18 @@
                     <% if field == "mnozstvi" && category == "stavebni" %>
                       <%= number_field_tag "mnozstvi[]", nil, min: 1, step: 1, placeholder: t("kontakt.kalkulace_mnozstvi_placeholder") %>
                     <% else %>
+                      <% show_custom = category == "stavebni" || field == "mnozstvi" %>
                       <select name="<%= field %>[]">
                         <% (@kalkulace_options.dig(category, field) || []).each do |option| %>
                           <option value="<%= option.value_i18n %>"><%= option.value_i18n %></option>
                         <% end %>
-                        <option value="__custom__"><%= t("kontakt.kalkulace_custom_option") %></option>
+                        <% if show_custom %>
+                          <option value="__custom__"><%= t("kontakt.kalkulace_custom_option") %></option>
+                        <% end %>
                       </select>
-                      <input type="text" class="custom-value-input" style="display:none" placeholder="<%= t('kontakt.kalkulace_custom_placeholder') %>">
+                      <% if show_custom %>
+                        <input type="text" class="custom-value-input" style="display:none" placeholder="<%= t('kontakt.kalkulace_custom_placeholder') %>">
+                      <% end %>
                     <% end %>
                   </div>
                 <% end %>

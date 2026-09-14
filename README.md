@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.20: "Co je nového?" main image made wider than the two stacked images  
 Patch 0.8.19: Added "Co je nového?" section (image gallery + text) between the delivery map and "Jak si u nás objednat?"  
 Patch 0.8.18: Reverted carousel hover borders (0.8.17); removed "Co vám můžeme nabídnout?" image border/hover (0.8.6), kept images clickable  
 Patch 0.8.17: All carousels site-wide now get a brand blue border on hover  

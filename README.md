@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.22: Added homepage FAQ section ("Vámi nejčastěji kladené dotazy") with 3 categories and a contact CTA  
 Patch 0.8.21: "Co je nového?" gallery block now wider than the text column (0.8.20 only resized within a fixed-width box)  
 Patch 0.8.20: "Co je nového?" main image made wider than the two stacked images  
 Patch 0.8.19: Added "Co je nového?" section (image gallery + text) between the delivery map and "Jak si u nás objednat?"  

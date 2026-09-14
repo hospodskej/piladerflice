@@ -282,6 +282,46 @@
 
 
   </section>
+  <section class="faq-section">
+    <h2 class="faq-main-title"><%= t("home.index.faq_title_rest") %> <span style="color: #2C8FFF"><%= t("home.index.faq_title_accent") %></span></h2>
+
+    <% [
+         { key: "palivove", count: 4 },
+         { key: "stavebni", count: 4 },
+         { key: "doprava", count: 4 }
+       ].each do |category| %>
+      <h3 class="faq-category-title"><%= t("home.index.faq_cat_#{category[:key]}") %></h3>
+
+      <div class="faq-grid">
+        <% (1..category[:count]).each do |i| %>
+          <div class="accordion-item faq-item">
+            <button class="accordion-header">
+              <span class="accordion-title"><%= t("home.index.faq_#{category[:key]}_q#{i}") %></span>
+              <span class="faq-icon"></span>
+            </button>
+
+            <div class="accordion-content-wrapper">
+              <div class="accordion-content">
+                <div class="accordion-body">
+                  <p><%= t("home.index.faq_#{category[:key]}_a#{i}") %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="faq-cta">
+      <div class="faq-cta-left">
+        <span class="faq-cta-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1.02 1.02 0 0 0-1.02.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
+        </span>
+        <span><%= t("home.index.faq_cta_text") %></span>
+      </div>
+      <%= link_to t("home.index.faq_cta_button"), "/kontakt", class: "btn-primary" %>
+    </div>
+  </section>
   <section class="o-sobe-section">
     <div class="o-sobe-card">
       <div class="o-sobe-image-wrapper">

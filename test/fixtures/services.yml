@@ -1,15 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  content: MyText
-  images: MyText
-  button_text: MyString
-  button_path: MyString
-
-two:
-  title: MyString
-  content: MyText
-  images: MyText
-  button_text: MyString
-  button_path: MyString
+  title: Doprava
+  title_de: Lieferung
+  content: Na přání vám zpracované výrobky bezpečně doručíme.
+  content_de: Auf Wunsch liefern wir die fertigen Produkte sicher.
+  images: '["sluzby/doprava1.png", "sluzby/doprava2.png"]'
+  button_text: Ceník dopravy
+  button_path: /sluzby#doprava

@@ -1,0 +1,57 @@
+smrk_kontejner_100cm:
+  catalog_product: smrk
+  key: kontejner-100cm-15prm
+  variant_group: kontejner
+  length_label: "100 cm"
+  amount_value: 15
+  price_czk: 1500
+  in_stock: true
+  position: 0
+
+smrk_kontejner_50cm_out_of_stock:
+  catalog_product: smrk
+  key: kontejner-50cm-15prm
+  variant_group: kontejner
+  length_label: "50 cm"
+  amount_value: 15
+  price_czk: 1300
+  in_stock: false
+  position: 1
+
+smrk_bedny:
+  catalog_product: smrk
+  key: bedny-50cm-1prm
+  variant_group: bedny
+  length_label: "50 cm"
+  amount_value: 1
+  price_czk: 900
+  in_stock: true
+  position: 2
+
+tramy_variant:
+  catalog_product: tramy
+  key: "100-100-3000"
+  variant_label: "100/100 mm"
+  length_label: "3 000 mm"
+  price_czk: 8500
+  in_stock: true
+  position: 0
+
+odkory_smrk:
+  catalog_product: odkory
+  key: smrk
+  variant_label: Smrk
+  variant_label_de: Fichte
+  price_czk: 800
+  in_stock: true
+  position: 0
+
+inactive_variant:
+  catalog_product: inactive_product
+  key: default
+  variant_group: kontejner
+  length_label: "100 cm"
+  amount_value: 15
+  price_czk: 1000
+  in_stock: true
+  position: 0

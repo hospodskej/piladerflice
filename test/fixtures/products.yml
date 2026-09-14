@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  text: MyText
-  image: MyString
-  link: MyString
+  title: Palivové dřevo
+  text: Velikosti a druh podle volby zákazníka
+  image: sortiment/palivove-drevo.png
+  link: /sortiment/palivove-drevo
 
 two:
-  title: MyString
-  text: MyText
-  image: MyString
-  link: MyString
+  title: Stavební řezivo
+  text: Hranoly, fošny, střešní latě, prkna
+  image: sortiment/stavebni-rezivo.png
+  link: /sortiment/stavebni-rezivo

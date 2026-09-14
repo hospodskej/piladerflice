@@ -8,6 +8,8 @@
 
 ---
 
+Patch 0.8.7: Added a real test suite; fixed 2 bugs it caught (cheapest-price sorting, test-env mail/session config)  
+Patch 0.8.6: Homepage "Co vám můžeme nabídnout?" images now clickable, blue hover border  
 Patch 0.8.5: Removed old code comments & made eshop product images clickable  
 Patch 0.8.4: Randomized eshop product recommendations  
 Patch 0.8.3: Fixed product image cropping on eshop/sortiment  

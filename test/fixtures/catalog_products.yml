@@ -1,0 +1,46 @@
+smrk:
+  key: smrk
+  template: firewood
+  category: palivove
+  hardness: soft
+  active: true
+  position: 0
+  image: eshop/smrk.png
+  title: Smrk
+  title_de: Fichte
+  type_label: Měkké palivové dřevo
+  type_label_de: Weiches Brennholz
+
+tramy:
+  key: tramy
+  template: lumber
+  category: rezivo
+  active: true
+  position: 0
+  image: eshop/tramy.png
+  title: Trámy
+  title_de: Balken
+  type_label: Sypané
+  type_label_de: Lose
+
+odkory:
+  key: odkory
+  template: simple_variant
+  category: zbytky
+  active: true
+  position: 0
+  image: eshop/odkory.png
+  title: Odkory na topení
+  title_de: Rindenreste zum Heizen
+  type_label: Odkory
+  type_label_de: Rindenreste
+
+inactive_product:
+  key: inactive_test
+  template: firewood
+  category: palivove
+  hardness: hard
+  active: false
+  position: 99
+  image: eshop/smrk.png
+  title: Neaktivní produkt

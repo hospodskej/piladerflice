@@ -1,15 +1,22 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  category: MyString
-  subcategory: MyString
-  item_name: MyString
-  details: MyString
-  price: MyString
+fosny:
+  category: stavebni
+  item_name: Fošny
+  item_name_de: Bohlen
+  details: 4m, 5m
+  price: "9 800 Kč / m<sup>3</sup>"
 
-two:
-  category: MyString
-  subcategory: MyString
-  item_name: MyString
-  details: MyString
-  price: MyString
+palivove_jasan:
+  category: palivove_volne
+  subcategory: Jasan / Dub
+  subcategory_de: Esche / Eiche
+  item_name: 1m
+  price: "1 740 Kč"
+  price_de: "67 €"
+
+kamenivo:
+  category: kamenivo
+  item_name: Kamenivo
+  item_name_de: Ziersteine
+  price: "1 Kč / 1 kg"

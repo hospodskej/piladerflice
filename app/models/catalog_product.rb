@@ -18,6 +18,6 @@ class CatalogProduct < ApplicationRecord
   scope :ordered, -> { order(:position, :id) }
 
   def starting_price_czk
-    (catalog_variants.where(in_stock: true).order(:price_czk).first || catalog_variants.order(:price_czk).first)&.price_czk
+    (catalog_variants.where(in_stock: true).reorder(:price_czk).first || catalog_variants.reorder(:price_czk).first)&.price_czk
   end
 end

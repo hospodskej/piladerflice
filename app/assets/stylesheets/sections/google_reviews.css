@@ -76,22 +76,18 @@
     position: relative;
 }
 
+.google-reviews-viewport {
+    overflow: hidden;
+}
+
 .google-reviews-grid {
     display: flex;
     gap: 20px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-}
-
-.google-reviews-grid::-webkit-scrollbar {
-    display: none;
+    transition: transform 0.4s ease;
 }
 
 .google-review-card {
     flex: 0 0 calc(25% - 15px);
-    scroll-snap-align: start;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 20px;

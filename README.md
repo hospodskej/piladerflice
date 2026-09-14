@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.3: Fixed product image cropping on eshop/sortiment
 Patch 0.8.2: Removed unused CSS, images & JS
 Patch 0.8.1: UI fixes
 Patch 0.8.0: Admin migration  

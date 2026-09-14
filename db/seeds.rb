@@ -120,12 +120,12 @@ Service.create!([
                   },
                   {
                     title: "Doprava",
-                    content: "Na přání vám zpracované výrobky bezpečně doručíme až na místo určení. Rozvážíme palivové dřevo, kulatinu i řezivo – vše dopravíme ihned po výrobě, abyste měli materiál co nejdříve k dispozici. <br /><br />Doba výroby a následná doprava se odvíjí od rozsahu objednávky. O přesném termínu dodání vás vždy informujeme předem.",
+                    content: "Na přání vám zpracované výrobky bezpečně doručíme až na místo určení. Rozvážíme palivové dřevo, kulatinu i řezivo – vše dopravíme ihned po výrobě, abyste měli materiál co nejdříve k dispozici. <br /><br />Doba výroby a následná doprava se odvíjí od rozsahu objednávky. O přesném termínu dodání vás vždy informujeme předem. <br /><br />Rozvoz zajišťujeme vlastním vozovým parkem – nákladním vozem MAN TGM 15.250 a soupravou Scania G450 s hydraulickou rukou pro přepravu kulatiny přímo z lesa.",
                     images: ["sluzby/doprava1.png", "sluzby/doprava2.png"],
                     button_text: "Ceník dopravy",
                     button_path: "/sluzby#doprava",
                     title_de: "Lieferung",
-                    content_de: "Auf Wunsch liefern wir die fertigen Produkte sicher direkt an Ihren Bestimmungsort. Wir liefern Brennholz, Rundholz und Schnittholz – alles wird sofort nach der Fertigung transportiert, damit Sie das Material so schnell wie möglich erhalten. <br /><br />Die Fertigungs- und anschließende Lieferzeit richtet sich nach dem Umfang der Bestellung. Über den genauen Liefertermin informieren wir Sie stets im Voraus.",
+                    content_de: "Auf Wunsch liefern wir die fertigen Produkte sicher direkt an Ihren Bestimmungsort. Wir liefern Brennholz, Rundholz und Schnittholz – alles wird sofort nach der Fertigung transportiert, damit Sie das Material so schnell wie möglich erhalten. <br /><br />Die Fertigungs- und anschließende Lieferzeit richtet sich nach dem Umfang der Bestellung. Über den genauen Liefertermin informieren wir Sie stets im Voraus. <br /><br />Die Auslieferung erfolgt mit unserem eigenen Fuhrpark – dem LKW MAN TGM 15.250 und dem Scania G450 mit Hydraulikarm für den Transport von Rundholz direkt aus dem Wald.",
                     button_text_de: "Preisliste Lieferung"
                   },
                   {
@@ -176,17 +176,17 @@ FaqItem.create!([
                   },
                   {
                     title: "Scania G450 + HR",
-                    content: "1. Výkonná Scania G450 s hydraulickou rukou určená pro profesionální přepravu kulatiny a manipulaci se dřevem přímo v lese i na skladech.<br>2. Hydraulický jeřáb umožňuje samostatnou nakládku i vykládku bez potřeby další manipulační techniky, což výrazně urychluje celý proces.<br>3. Velkokapacitní lesnický návěs je navržen pro bezpečnou přepravu dlouhých kmenů a vysokou nosnost i v náročném terénu.<br>4. Spolehlivá souprava pro lesní hospodářství, která zajišťuje efektivní svoz dřeva z lesa na pilu, sklad nebo k dalšímu zpracování s důrazem na výkon, bezpečnost a produktivitu.",
+                    content: "1. Výkonná Scania G450 s hydraulickou rukou určená pro profesionální přepravu kulatiny a manipulaci se dřevem přímo v lese i na skladech.<br>2. Hydraulický jeřáb umožňuje samostatnou nakládku i vykládku bez potřeby další manipulační techniky, což výrazně urychluje celý proces.",
                     image: "co-by-vas-mohlo-zajimat/scania.png",
                     title_de: "Scania G450 + HR",
-                    content_de: "1. Die leistungsstarke Scania G450 mit Hydraulikarm ist für den professionellen Transport von Rundholz und die Handhabung von Holz direkt im Wald und auf Lagerplätzen bestimmt.<br>2. Der Hydraulikkran ermöglicht selbstständiges Be- und Entladen ohne zusätzliche Umschlagtechnik, was den gesamten Prozess deutlich beschleunigt.<br>3. Der großvolumige Forstauflieger ist für den sicheren Transport langer Stämme und hohe Tragfähigkeit auch in anspruchsvollem Gelände ausgelegt.<br>4. Ein zuverlässiges Gespann für die Forstwirtschaft, das einen effizienten Holztransport vom Wald zum Sägewerk, Lager oder zur Weiterverarbeitung gewährleistet – mit Fokus auf Leistung, Sicherheit und Produktivität."
+                    content_de: "1. Die leistungsstarke Scania G450 mit Hydraulikarm ist für den professionellen Transport von Rundholz und die Handhabung von Holz direkt im Wald und auf Lagerplätzen bestimmt.<br>2. Der Hydraulikkran ermöglicht selbstständiges Be- und Entladen ohne zusätzliche Umschlagtechnik, was den gesamten Prozess deutlich beschleunigt."
                   },
                   {
                     title: "MAN TGM 15.250",
-                    content: "1. Moderní nákladní vůz MAN určený pro efektivní rozvoz palivového dřeva zákazníkům po celé České republice.<br>2. Přeprava 1 až 2 kontejnerů najednou o objemu 5 až 25 m³, což umožňuje rozvoz více objednávek během jedné jízdy.<br>3. Hydraulický kontejnerový nosič zajišťuje rychlou a bezpečnou nakládku i vykládku kontejnerů přímo u zákazníka.<br>4. Spolehlivý a výkonný vůz navržený pro každodenní provoz, který zvládá jak úzké příjezdové cesty, tak delší přepravní trasy s maximální efektivitou.",
+                    content: "1. Moderní nákladní vůz MAN určený pro efektivní rozvoz palivového dřeva zákazníkům po celé České republice.<br>2. Přeprava 1 až 2 kontejnerů najednou o objemu 5 až 25 m³, což umožňuje rozvoz více objednávek během jedné jízdy.",
                     image: "co-by-vas-mohlo-zajimat/man-tgm.png",
                     title_de: "MAN TGM 15.250",
-                    content_de: "1. Moderner MAN-Lastwagen für die effiziente Auslieferung von Brennholz an Kunden in der ganzen Tschechischen Republik.<br>2. Transport von 1 bis 2 Containern gleichzeitig mit einem Volumen von 5 bis 25 m³, was die Auslieferung mehrerer Bestellungen in einer Fahrt ermöglicht.<br>3. Der Hydraulik-Containerträger sorgt für schnelles und sicheres Be- und Entladen der Container direkt beim Kunden.<br>4. Ein zuverlässiges und leistungsstarkes Fahrzeug für den täglichen Einsatz, das sowohl enge Zufahrten als auch längere Transportstrecken mit maximaler Effizienz bewältigt."
+                    content_de: "1. Moderner MAN-Lastwagen für die effiziente Auslieferung von Brennholz an Kunden in der ganzen Tschechischen Republik.<br>2. Transport von 1 bis 2 Containern gleichzeitig mit einem Volumen von 5 bis 25 m³, was die Auslieferung mehrerer Bestellungen in einer Fahrt ermöglicht."
                   }
                 ])
 

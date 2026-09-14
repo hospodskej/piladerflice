@@ -42,8 +42,9 @@
 .product-image-wrapper::before {
     content: '';
     position: absolute;
-    width: 663px;
-    height: 331px;
+    width: 100%;
+    max-width: 663px;
+    aspect-ratio: 16 / 9;
     background-color: #2C8FFF;
     border-radius: 12px;
     top: 16px;
@@ -69,9 +70,9 @@
 }
 
 .akcni-nabidka-image {
-    width: 663px;
-    height: 331px;
-    aspect-ratio: 16/9;
+    width: 100%;
+    max-width: 663px;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     border-radius: 10px;
     position: relative;

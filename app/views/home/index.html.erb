@@ -374,7 +374,8 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       </button>
 
-      <div class="google-reviews-grid" id="googleReviewsTrack">
+      <div class="google-reviews-viewport">
+        <div class="google-reviews-grid" id="googleReviewsTrack">
         <% @google_reviews.each do |review| %>
           <div class="google-review-card">
             <div class="google-review-card-header">
@@ -398,6 +399,7 @@
             </div>
           </div>
         <% end %>
+        </div>
       </div>
 
       <button class="carousel-btn next-btn" id="googleReviewsNext" aria-label="<%= t('common.next') %>">

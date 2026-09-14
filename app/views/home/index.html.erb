@@ -379,7 +379,11 @@
         <% @google_reviews.each do |review| %>
           <div class="google-review-card">
             <div class="google-review-card-header">
-              <div class="google-review-avatar" style="background-color: <%= review.avatar_color %>;"><%= review.initial %></div>
+              <% if review.avatar.present? %>
+                <%= image_tag review.avatar, alt: review.name, class: "google-review-avatar-img" %>
+              <% else %>
+                <div class="google-review-avatar" style="background-color: <%= review.avatar_color %>;"><%= review.initial %></div>
+              <% end %>
               <div>
                 <div class="google-review-name"><%= review.name %></div>
                 <div class="google-review-source">

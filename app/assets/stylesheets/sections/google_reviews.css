@@ -12,8 +12,6 @@
     display: flex;
     align-items: center;
     gap: 30px;
-    background-color: #ffffff;
-    border-radius: 10px;
     padding: 20px 30px;
     margin-bottom: 30px;
 }
@@ -78,6 +76,7 @@
 
 .google-reviews-viewport {
     overflow: hidden;
+    padding: 0 60px;
 }
 
 .google-reviews-grid {
@@ -88,9 +87,12 @@
 
 .google-review-card {
     flex: 0 0 calc(25% - 15px);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 24px 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
@@ -111,6 +113,14 @@
     justify-content: center;
     color: #ffffff;
     font-weight: 700;
+}
+
+.google-review-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
 }
 
 .google-review-name {
@@ -162,9 +172,14 @@
     gap: 8px;
     color: #666666;
     font-size: 0.85rem;
+    margin-top: auto;
 }
 
 @media (max-width: 992px) {
+    .google-reviews-viewport {
+        padding: 0 45px;
+    }
+
     .google-review-card {
         flex-basis: calc(50% - 10px);
     }
@@ -182,7 +197,12 @@
 }
 
 @media (max-width: 576px) {
+    .google-reviews-viewport {
+        padding: 0 35px;
+    }
+
     .google-review-card {
         flex-basis: 100%;
+        min-height: 260px;
     }
 }

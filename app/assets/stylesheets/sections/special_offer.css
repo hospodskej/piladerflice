@@ -83,7 +83,7 @@
     .product-image-wrapper::before {
         width: 100%;
         max-width: 500px;
-        height: 100%;
+        aspect-ratio: 16 / 9;
         top: 10px;
         left: 10px;
     }
@@ -95,7 +95,6 @@
     .akcni-nabidka-image {
         width: 100%;
         max-width: 500px;
-        height: auto;
     }
 
     .akcni-badge {

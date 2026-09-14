@@ -7,8 +7,16 @@
   <h2 class="admin-section-title"><%= InquiryFormOption::CATEGORY_LABELS[category] %></h2>
 
   <% InquiryFormOption::DROPDOWN_FIELDS[category].each do |field| %>
+    <% options = @options.dig(category, field) || [] %>
+    <% new_option_form_id = "new-option-#{category}-#{field}-form" %>
+
     <div class="admin-box admin-option-group" id="<%= category %>-<%= field %>">
       <h2><%= InquiryFormOption::FIELD_LABELS[field] %></h2>
+
+      <% options.each do |option| %>
+        <%= form_with model: option, url: admin_inquiry_form_option_path(option), method: :patch, id: "option-#{option.id}-form" %></form>
+      <% end %>
+      <%= form_with model: InquiryFormOption.new, url: admin_inquiry_form_options_path, id: new_option_form_id %></form>
 
       <table class="admin-table">
         <thead>
@@ -20,34 +28,30 @@
           </tr>
         </thead>
         <tbody>
-          <% (@options.dig(category, field) || []).each do |option| %>
+          <% options.each do |option| %>
+            <% option_form_id = "option-#{option.id}-form" %>
             <tr>
               <td class="admin-option-move">
                 <%= button_to "↑", move_up_admin_inquiry_form_option_path(option), method: :patch, class: "admin-move-btn" %>
                 <%= button_to "↓", move_down_admin_inquiry_form_option_path(option), method: :patch, class: "admin-move-btn" %>
               </td>
-              <td colspan="2">
-                <%= form_with model: option, url: admin_inquiry_form_option_path(option), method: :patch, class: "admin-option-form" do |f| %>
-                  <%= f.text_field :value, value: option.value %>
-                  <%= f.text_field :value_de, value: option.value_de %>
-                  <%= f.submit "Uložit", class: "btn-outline-dark" %>
-                <% end %>
-              </td>
-              <td>
+              <td><%= text_field_tag "inquiry_form_option[value]", option.value, form: option_form_id, id: nil %></td>
+              <td><%= text_field_tag "inquiry_form_option[value_de]", option.value_de, form: option_form_id, id: nil %></td>
+              <td class="admin-option-actions">
+                <%= submit_tag "Uložit", form: option_form_id, class: "btn-outline-dark" %>
                 <%= button_to "Smazat", admin_inquiry_form_option_path(option), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat tuto možnost?" } %>
               </td>
             </tr>
           <% end %>
           <tr>
-            <td colspan="4">
-              <%= form_with model: InquiryFormOption.new, url: admin_inquiry_form_options_path, class: "admin-option-form" do |f| %>
-                <%= f.hidden_field :category, value: category %>
-                <%= f.hidden_field :field, value: field %>
-                <%= f.text_field :value, placeholder: "Nová možnost (CZ)" %>
-                <%= f.text_field :value_de, placeholder: "Nová možnost (DE)" %>
-                <%= f.submit "+ Přidat možnost", class: "btn-primary" %>
-              <% end %>
+            <td></td>
+            <td>
+              <%= hidden_field_tag "inquiry_form_option[category]", category, form: new_option_form_id, id: nil %>
+              <%= hidden_field_tag "inquiry_form_option[field]", field, form: new_option_form_id, id: nil %>
+              <%= text_field_tag "inquiry_form_option[value]", nil, placeholder: "Nová možnost (CZ)", form: new_option_form_id, id: nil %>
             </td>
+            <td><%= text_field_tag "inquiry_form_option[value_de]", nil, placeholder: "Nová možnost (DE)", form: new_option_form_id, id: nil %></td>
+            <td><%= submit_tag "+ Přidat možnost", form: new_option_form_id, class: "btn-primary" %></td>
           </tr>
         </tbody>
       </table>

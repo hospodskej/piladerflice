@@ -10,14 +10,13 @@
 
 .product-intro-section {
     display: grid;
-    grid-template-columns: 0.8fr 1fr; /* Obrázek bude o něco širší než text, jako ve Figmě */
-    gap: 30px; /* Zvětšená mezera pro odpovídající vzhled */
+    grid-template-columns: 0.8fr 1fr;
+    gap: 30px;
     margin-top: 20px;
-    align-items: stretch; /* Přinutí obrázek kopírovat výšku textu */
+    align-items: stretch;
     margin-bottom: 60px;
 }
 
-/* Filtr inventáře */
 .inventory-filter {
     display: flex;
     flex-direction: column;
@@ -86,7 +85,7 @@
 .product-intro-details {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Odstraněno centrování, text se přirozeně seřadí odshora dolů */
+    justify-content: flex-start;
 }
 
 .product-intro-details h1 {
@@ -118,7 +117,6 @@
     margin: 0;
 }
 
-/* Inventář */
 .inventory-section {
     max-width: 1100px;
     margin: 0 auto 60px auto;
@@ -133,7 +131,7 @@
     background: #FFFFFF;
     border: 1px solid #000000;
     border-radius: 8px;
-    padding: 10px 10px 15px 10px; /* Sníženo spodní odsazení */
+    padding: 10px 10px 15px 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -144,14 +142,14 @@
     width: 100%;
     height: auto;
     border-radius: 4px;
-    margin-bottom: 12px; /* Sníženo z 20px */
+    margin-bottom: 12px;
 }
 
 .inventory-specs {
     width: 85%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px; /* Sníženo z 20px */
+    margin-bottom: 12px;
     font-size: 0.95rem;
 }
 
@@ -159,17 +157,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 6px; /* Sníženo z 10px */
+    gap: 6px;
 }
 
 .spec-values {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* Sníženo z 10px */
+    gap: 6px;
     border: 1px solid #93C5FD;
     border-radius: 4px;
-    padding: 4px 16px; /* Sníženo vertikální odsazení */
+    padding: 4px 16px;
 }
 
 .spec-value {
@@ -181,7 +179,7 @@
     color: #3B82F6;
     font-size: 1.1rem;
     font-weight: 700;
-    margin: 0 0 12px 0; /* Sníženo z 15px */
+    margin: 0 0 12px 0;
 }
 
 .inventory-card .button_to {
@@ -191,7 +189,6 @@
     margin: 0;
 }
 
-/* Oprava tlačítek filtru pro element <button> */
 .filter-btn {
     display: flex;
     justify-content: center;
@@ -207,31 +204,30 @@
     font-family: inherit;
 }
 
-/* Maticové rozložení pro Kontejner */
 .matrix-grid {
     display: grid;
-    grid-template-columns: 70px repeat(4, 1fr); /* 70px pro levý štítek, zbytek rovnoměrně pro 4 karty */
+    grid-template-columns: 70px repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 40px;
 }
 
 .matrix-grid-3 {
     display: grid;
-    grid-template-columns: 70px repeat(3, 1fr); /* 70px pro štítek + 3 sloupce pro karty */
+    grid-template-columns: 70px repeat(3, 1fr);
     gap: 20px;
     margin-bottom: 40px;
 }
 
 .matrix-grid-2 {
     display: grid;
-    grid-template-columns: 70px repeat(2, 1fr); /* 70px pro štítek + 2 sloupce pro karty */
+    grid-template-columns: 70px repeat(2, 1fr);
     gap: 20px;
     margin-bottom: 40px;
 }
 
 .simple-grid-2 {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Pokud bys chtěl karty širší, změň na repeat(2, 1fr) */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -262,10 +258,9 @@
     text-align: center;
     font-weight: 700;
     padding: 4px 0;
-    margin-bottom: -5px; /* Přitáhne karty blíže k hlavičce */
+    margin-bottom: -5px;
 }
 
-/* Hlavičky řádků (Množství v m3) */
 .row-header {
     display: flex;
     align-items: center;
@@ -282,7 +277,6 @@
     white-space: nowrap;
 }
 
-/* Barvy textu pro konkrétní hodnoty PRM */
 .spec-value.text-red { color: #EF4444; }
 .spec-value.text-green { color: #16A34A; }
 
@@ -293,8 +287,8 @@
     font-weight: 600;
     white-space: nowrap;
     border-radius: 4px;
-    background-color: #3B82F6; 
-    color: #FFFFFF; 
-    border: none; 
+    background-color: #3B82F6;
+    color: #FFFFFF;
+    border: none;
     cursor: pointer;
 }

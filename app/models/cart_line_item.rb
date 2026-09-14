@@ -1,8 +1,3 @@
-# A single line in the Cart, wrapping the raw session-stored attributes for
-# a given product+variant. Deliberately has no knowledge of view helpers or
-# I18n - see CartHelper for turning its language-neutral `specs` into
-# translated display text, and ExchangeRateService for turning
-# `unit_price_czk` into display text in the current currency.
 class CartLineItem
   attr_reader :id, :product_key, :image, :unit_price_czk, :specs, :quantity
 

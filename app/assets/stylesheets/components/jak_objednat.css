@@ -1,18 +1,3 @@
-/*
-  Styles for the shared "Jak si u nás objednat?" partial
-  (app/views/shared/_jak_objednat.html.erb), rendered on the sortiment
-  index page, sortiment subpages, and the homepage.
-
-  This used to be ".order-split-grid" / ".order-box" / etc, defined
-  independently (and inconsistently) in both sections/sortiment.css and
-  sections/how_to_order.css - same class names, different rules, so
-  whichever file happened to load later in the stylesheet bundle silently
-  won, and a future edit to the "wrong" file would have no visible effect.
-  Renamed to "jak-objednat-*" and consolidated here as the one source of
-  truth for this partial's own styling, so there's nothing left to collide
-  with.
-*/
-
 .jak-objednat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -1,14 +1,4 @@
 <%
-  # `key` is the canonical (language-independent) product identifier -
-  # product data itself now comes from the database (CatalogProduct/
-  # CatalogVariant), so switching to German doesn't depend on matching
-  # Czech text anywhere, and an admin can add/remove/reprice products
-  # without a developer touching this list.
-  #
-  # Picked at random from everything currently for sale, rather than a
-  # fixed list of species - once customer accounts/order history exist,
-  # this is the natural place to swap in recommendations based on a
-  # customer's own past orders instead.
   recommendations = CatalogProduct.active
     .where.not(key: local_assigns[:current_product])
     .order(Arel.sql("RANDOM()"))

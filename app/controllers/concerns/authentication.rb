@@ -1,13 +1,3 @@
-# Cookie/session-backed login, scoped entirely to the admin area - see
-# Admin::BaseController. Nothing in the public storefront (home, eshop,
-# cart, checkout, etc.) includes this, so none of it requires being
-# logged in; this only ever gates controllers under Admin::.
-#
-# Follows Rails' own standard authentication generator pattern, so this
-# should look familiar to any Rails developer who picks up this project
-# later, and is also the natural foundation to build customer-facing
-# login on top of when that's wanted (a second "customer" role already
-# exists on User - see app/models/user.rb).
 module Authentication
   extend ActiveSupport::Concern
 

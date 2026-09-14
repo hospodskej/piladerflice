@@ -109,14 +109,12 @@
     aspect-ratio: 4 / 3;
     padding: 10px;
     box-sizing: border-box;
-    /* Flex items default to min-height: auto, which lets their content's
-       own intrinsic size (here, the <img>) override aspect-ratio and
-       stretch the box taller whenever a product photo isn't already
-       shot at a 4:3 ratio (see the "Prkna 24 mm" listing, whose source
-       photo happens to be square). overflow: hidden resets the flex
-       item's automatic minimum size to 0 per spec, so aspect-ratio
-       always wins regardless of the photo's own proportions. */
     overflow: hidden;
+}
+
+a.product-image-wrapper-eshop {
+    display: block;
+    cursor: pointer;
 }
 
 .product-img {

@@ -1,17 +1,3 @@
-# Populates the admin-editable product catalog (CatalogProduct /
-# CatalogVariant) from the content that used to be hardcoded directly in
-# the eshop view templates. Run via `bin/rails db:seed` (loaded by
-# db/seeds.rb) or standalone via `bin/rails runner db/seeds_catalog.rb`.
-#
-# IMPORTANT PRICING NOTE: every price below is carried over unchanged from
-# what was already in the templates - and almost all of it was already
-# placeholder/example data before this migration (the firewood
-# container/crate prices in particular were a repeating dummy pattern:
-# 21 500 / 17 863 / 21 500 Kč for literally every species and size). This
-# script does not fix that - it only moves the exact same numbers into the
-# database so an admin can edit them going forward. Real prices still need
-# to be entered by hand through the admin panel.
-
 puts "Clearing old catalog data..."
 CatalogVariant.destroy_all
 CatalogProduct.destroy_all

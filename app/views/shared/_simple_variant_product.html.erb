@@ -1,14 +1,4 @@
 <%
-  # Shared template for the "simple variant grid" detail pages (odkory,
-  # piliny, stepka, okrasne_kamenivo) - a title/description intro followed
-  # by a flat grid of purchasable variants (no length/container matrix).
-  # Product text and pricing now come from the database (CatalogProduct/
-  # CatalogVariant) so an admin can edit them without a developer.
-  #
-  # `key` is the canonical product identifier. `product.type_label_i18n`
-  # is the constant "what this is" label shown next to every variant (e.g.
-  # "Odkory", "Kamenivo") - the same field used by the lumber template for
-  # its own constant first spec value.
   product = CatalogProduct.find_by!(key: key)
   title = product.title_i18n
 

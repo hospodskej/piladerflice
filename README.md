@@ -8,6 +8,8 @@
 
 ---
 
+Patch 0.8.6: Made eshop product images clickable  
+Patch 0.8.5: Removed custom code comments (kept Rails defaults & TODOs)  
 Patch 0.8.4: Randomized eshop product recommendations  
 Patch 0.8.3: Fixed product image cropping on eshop/sortiment  
 Patch 0.8.2: Removed unused CSS, images & JS  

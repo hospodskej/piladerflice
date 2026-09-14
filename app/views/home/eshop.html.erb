@@ -1,9 +1,4 @@
 <%
-  # Product data now comes from the database (CatalogProduct/
-  # CatalogVariant) so an admin can edit it without a developer. Filtering
-  # and sorting still operate on `key` (language-independent) and
-  # `hardness`, so switching to German never breaks any of this - only
-  # the *displayed* text changes.
   valid_categories = %w[palivove rezivo zbytky kamenivo]
   category = valid_categories.include?(params[:category]) ? params[:category] : "palivove"
 
@@ -60,12 +55,12 @@
       <section class="eshop-grid">
         <% products.each_with_index do |product, index| %>
           <div class="product-card">
-            <div class="product-image-wrapper-eshop">
+            <%= link_to "/eshop/#{product.key}", class: "product-image-wrapper-eshop", data: { turbo: false } do %>
               <% if index < 3 %>
                 <span class="product-badge"><%= index + 1 %>.</span>
               <% end %>
               <%= image_tag product.image, alt: product.title_i18n, class: "product-img" %>
-            </div>
+            <% end %>
 
             <div class="product-info-eshop">
               <h4 class="product-title"><%= product.title_i18n %></h4>

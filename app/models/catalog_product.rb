@@ -17,10 +17,6 @@ class CatalogProduct < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :ordered, -> { order(:position, :id) }
 
-  # The eshop catalog listing's "od X Kč" price - the cheapest in-stock
-  # variant (falling back to the cheapest variant at all if nothing is in
-  # stock, rather than showing no price at all), or "---" if this product
-  # has no variants yet (e.g. a new product an admin hasn't priced yet).
   def starting_price_czk
     (catalog_variants.where(in_stock: true).order(:price_czk).first || catalog_variants.order(:price_czk).first)&.price_czk
   end

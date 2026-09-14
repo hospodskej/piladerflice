@@ -1,15 +1,4 @@
 <%
-  # Shared template for the "simple" stavební-řezivo detail pages that only
-  # have a single loose/container matrix (tramy, late, fosny, prkna) - as
-  # opposed to firewood pages, which also have a stacked/bedny section.
-  # Product text and pricing now come from the database (CatalogProduct/
-  # CatalogVariant) so an admin can edit them without a developer.
-  #
-  # `key` is the canonical, language-independent product identifier.
-  # `product.type_label_i18n` doubles as "the constant first spec shown on
-  # every cell" for this template - e.g. "Sypané" for most lumber products,
-  # or "24 mm" for prkna's fixed board thickness - since that value never
-  # varies across a lumber product's own variants, only between products.
   product = CatalogProduct.find_by!(key: key)
   title = product.title_i18n
 

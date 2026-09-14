@@ -1,17 +1,3 @@
-# Two emails come out of a completed checkout - both built here since
-# there's no payment gateway or admin order-management screen in this app,
-# so these emails (together with the Order record they're built from) are
-# the entire notification mechanism a new order relies on:
-#
-#   - #new_order: to the business, always in Czech/CZK regardless of which
-#     language the customer shopped in, since it's for fulfillment.
-#   - #customer_confirmation: to the customer, in whichever language/
-#     currency they actually used at checkout (order.locale).
-#
-# Both build fully-rendered description/price strings directly in this
-# class rather than relying on view helpers, so the correct wording and
-# currency are guaranteed regardless of whatever locale happens to be
-# ambient when a mailer job runs.
 class OrderMailer < ApplicationMailer
   NOTIFICATION_RECIPIENT = ENV.fetch("ORDER_NOTIFICATION_EMAIL", "pavelpatockaa@gmail.com")
 
@@ -55,11 +41,6 @@ class OrderMailer < ApplicationMailer
     parts.join(", ")
   end
 
-  # Prefers the admin-managed CatalogProduct record; falls back to the
-  # older locale-file-driven title if no matching DB record exists (a
-  # safety net during the transition to admin-managed products, and for
-  # any product a future admin might delete while it's still referenced
-  # by an old order).
   def catalog_product_title(product_key, locale:)
     product = CatalogProduct.find_by(key: product_key)
     if product

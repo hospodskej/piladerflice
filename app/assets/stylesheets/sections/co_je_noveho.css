@@ -11,7 +11,7 @@
 }
 
 .co-je-noveho-gallery {
-    flex: 1;
+    flex: 1.4;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     grid-template-rows: 1fr 1fr;

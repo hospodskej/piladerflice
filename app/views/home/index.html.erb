@@ -182,7 +182,9 @@
     <div class="nabidka-grid">
       <% @produkty.each do |item| %>
         <div class="nabidka-card">
-          <%= image_tag item.image, alt: item.title_i18n, class: "nabidka-image" %>
+          <%= link_to item.link, class: "nabidka-image-link" do %>
+            <%= image_tag item.image, alt: item.title_i18n, class: "nabidka-image" %>
+          <% end %>
           <%= link_to item.title_i18n, item.link, class: "nabidka-btn" %>
         </div>
       <% end %>

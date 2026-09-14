@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.30: Akční nabídka text now vertically centered to match the image  
 Patch 0.8.29: Added truck fleet info to Doprava service; trimmed carousel vehicle descriptions for more white space  
 Patch 0.8.28: Extended the homepage's 1200px alignment  
 Patch 0.8.27: "Co by vás mohlo zajímat?" carousel: replaced slides with vehicle fleet info, added indicator dots  

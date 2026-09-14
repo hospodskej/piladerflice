@@ -4,6 +4,12 @@
     margin-top: 100px;
 }
 
+.akcni-nabidka-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .akcni-nabidka h4 {
     font-weight: 400;
     text-align: justify;

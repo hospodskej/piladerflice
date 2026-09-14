@@ -34,16 +34,16 @@
 .product-image-wrapper {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     position: relative;
 }
 
 .product-image-wrapper::before {
     content: '';
     position: absolute;
-    width: 100%;
-    max-width: 663px;
+    width: calc(100% - 16px);
+    max-width: 647px;
     aspect-ratio: 16 / 9;
     background-color: #2C8FFF;
     border-radius: 12px;
@@ -70,8 +70,8 @@
 }
 
 .akcni-nabidka-image {
-    width: 100%;
-    max-width: 663px;
+    width: calc(100% - 16px);
+    max-width: 647px;
     aspect-ratio: 16 / 9;
     object-fit: cover;
     border-radius: 10px;
@@ -83,7 +83,7 @@
     .product-image-wrapper::before {
         width: 100%;
         max-width: 500px;
-        aspect-ratio: 16 / 9;
+        height: 100%;
         top: 10px;
         left: 10px;
     }
@@ -95,6 +95,7 @@
     .akcni-nabidka-image {
         width: 100%;
         max-width: 500px;
+        height: auto;
     }
 
     .akcni-badge {

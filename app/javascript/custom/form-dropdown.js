@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
+                if (opt.value === '__custom__' && originalSelect.value !== '__custom__') {
+                    originalSelect.dataset.restoreIndex = originalSelect.selectedIndex;
+                }
                 originalSelect.selectedIndex = index;
                 display.innerHTML = formatText(opt.text);
                 menu.classList.remove('open');
@@ -61,6 +64,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         display.innerHTML = formatText(originalSelect.options[originalSelect.selectedIndex].text);
+
+        const customInput = originalSelect.closest('.form-group')?.querySelector('.custom-value-input');
+        if (customInput) {
+            customInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    customInput.blur();
+                }
+            });
+
+            customInput.addEventListener('blur', () => {
+                const value = customInput.value.trim();
+
+                if (!value) {
+                    const restoreIndex = parseInt(originalSelect.dataset.restoreIndex ?? '0', 10);
+                    originalSelect.selectedIndex = restoreIndex;
+                    display.innerHTML = formatText(originalSelect.options[restoreIndex].text);
+                    handleCustomOption(originalSelect, originalSelect.options[restoreIndex].value);
+                    return;
+                }
+
+                customInput.style.display = 'none';
+                display.innerHTML = formatText(value);
+            });
+        }
 
         display.addEventListener('click', (e) => {
             e.stopPropagation();

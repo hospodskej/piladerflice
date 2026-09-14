@@ -1,7 +1,7 @@
 .top-categories-section {
+    grid-area: categories;
     width: 100%;
     max-width: 650px;
-    margin-top: 40px;
 }
 
 .top-categories-title {

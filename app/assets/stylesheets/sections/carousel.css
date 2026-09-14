@@ -24,6 +24,11 @@
     border: 2px solid #2C8FFF;
     border-radius: 6px;
     overflow: hidden;
+    transition: border-color 0.3s ease;
+}
+
+.carousel-container:hover {
+    border-color: #2C8FFF;
 }
 
 .carousel-slide {

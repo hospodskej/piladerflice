@@ -416,21 +416,23 @@
     background-color: #F4F5F7;
 }
 
-.admin-option-form {
-    display: flex;
-    gap: 6px;
-}
-
-.admin-option-form input[type="text"] {
-    width: 140px;
+.admin-option-group .admin-table input[type="text"] {
+    width: 100%;
     padding: 6px 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 0.85rem;
+    box-sizing: border-box;
 }
 
-.admin-option-form .btn-outline-dark,
-.admin-option-form .btn-primary {
+.admin-option-actions {
+    display: flex;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.admin-option-group .admin-table .btn-outline-dark,
+.admin-option-group .admin-table .btn-primary {
     padding: 6px 12px;
     font-size: 0.85rem;
     margin-top: 0;

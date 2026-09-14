@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.10: Fixed misaligned Hodnota (DE) column on the kalkulace options admin page  
 Patch 0.8.9: Dashboard order stats by month, delete objednávky from admin  
 Patch 0.8.8: Admin-editable kalkulace form options, new stavební řezivo form, custom/vlastní values  
 Patch 0.8.7: Added a real test suite; fixed 2 bugs it caught (cheapest-price sorting, test-env mail/session config)  

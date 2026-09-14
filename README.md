@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.33: Google review cards resized to clear the arrows, added optional reviewer photos, transparent reviews header  
 Patch 0.8.32: Google reviews carousel now truly loops — cards rotate instead of just resetting position  
 Patch 0.8.31: Added a Google reviews section above the footer, DB-backed with an infinite-loop scroll carousel  
 Patch 0.8.30: Akční nabídka text now vertically centered to match the image  

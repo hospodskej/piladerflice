@@ -30,6 +30,7 @@
     font-size: 1.1rem;
     font-weight: bold;
     color: #000;
+    transition: color 0.3s ease;
 }
 
 .accordion-icon {
@@ -56,6 +57,14 @@
 .accordion-body p {
     margin-bottom: 15px;
     text-align: justify;
+}
+
+.accordion-item:not(.active):hover {
+    border-color: #2C8FFF;
+}
+
+.accordion-item:not(.active):hover .accordion-header {
+    color: #2C8FFF;
 }
 
 .accordion-item.active {

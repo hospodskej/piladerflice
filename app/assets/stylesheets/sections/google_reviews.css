@@ -11,6 +11,7 @@
 .google-reviews-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 30px;
     padding: 20px 30px;
     margin-bottom: 30px;
@@ -83,16 +84,18 @@
     display: flex;
     gap: 20px;
     transition: transform 0.4s ease;
+    will-change: transform;
 }
 
 .google-review-card {
+    box-sizing: border-box;
     flex: 0 0 calc(25% - 15px);
-    min-height: 320px;
+    min-height: 210px;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 24px 20px;
+    padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
@@ -203,6 +206,6 @@
 
     .google-review-card {
         flex-basis: 100%;
-        min-height: 260px;
+        min-height: 190px;
     }
 }

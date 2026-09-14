@@ -37,6 +37,14 @@
 .sortiment-card-img {
     aspect-ratio: 1/1;
     background: #d1d1d1;
+    /* .sortiment-card is a flex column, and this is one of its items -
+       without overflow: hidden, a flex item's default automatic minimum
+       size is based on its content's own intrinsic size, so a photo
+       that isn't already cropped to 1:1 forces this box taller than
+       its aspect-ratio (see the matching comment in eshop-main.css for
+       the full explanation). This is what previously required manually
+       resizing the source photo to a square to look right here. */
+    overflow: hidden;
 }
 
 .sortiment-card-img img {

@@ -251,6 +251,13 @@ cs:
       o_sobe_p4: "Zajišťujeme dopravu výrobků přímo k vám domů."
       o_sobe_p5_html: "I přes menší tým čítající přibližně 10 zaměstnanců si zakládáme na <strong>dodržování termínů</strong> a <strong>poskytování vysoké kvality služeb.</strong>"
       o_sobe_cta: "Poptávka"
+      google_reviews_title_rest: "Co říkají"
+      google_reviews_title_accent: "naši zákazníci?"
+      google_reviews_count: "Na základě 11+ recenzí"
+      google_reviews_verified_title: "Ověřeno zákazníky Google"
+      google_reviews_verified_sub: "Skutečné recenze od našich zákazníků"
+      google_review_source: "Recenze z Google"
+      google_review_like: "Líbí se"
 
   kontakt:
     page_title: "Informační formuláře"

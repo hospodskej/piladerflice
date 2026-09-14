@@ -3,9 +3,7 @@
 }
 
 .product-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5%;
+    width: 100%;
 }
 
 .product-intro-section {
@@ -118,8 +116,7 @@
 }
 
 .inventory-section {
-    max-width: 1100px;
-    margin: 0 auto 60px auto;
+    margin: 0 0 60px 0;
 }
 
 .inventory-section .section-title {

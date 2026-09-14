@@ -1,9 +1,7 @@
 .sluzby-page-section {
     display: flex;
     flex-direction: column;
-    padding: 60px 5%;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 60px 0;
 }
 
 .sluzba-row {

@@ -1,7 +1,5 @@
 .checkout-section {
-    max-width: 1200px;
-    margin: 40px auto 80px auto;
-    padding: 0 5%;
+    margin: 40px 0 80px 0;
 }
 
 .checkout-stepper {

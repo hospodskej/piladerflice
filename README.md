@@ -5,9 +5,9 @@
 - `rails db:migrate`
 - `rails db:seed`
 - `rails server`
-
 ---
 
+Patch 0.8.28: Extended the homepage's 1200px alignment  
 Patch 0.8.27: "Co by vás mohlo zajímat?" carousel: replaced slides with vehicle fleet info, added indicator dots  
 Patch 0.8.26: Fixed Akční nabídka's shadow overflowing past the section's right edge on desktop  
 Patch 0.8.25: Fixed Akční nabídka image/shadow being fixed-width and overflowing their column  

@@ -1,9 +1,14 @@
 class Inquiry < ApplicationRecord
   validates :first_name, :last_name, :email, :phone, presence: true
   validates :items_snapshot, presence: true
+  validates :category, inclusion: { in: InquiryFormOption::CATEGORIES }
 
   def items
     JSON.parse(items_snapshot)
+  end
+
+  def fields
+    InquiryFormOption::ROW_FIELDS.fetch(category, [])
   end
 
   def full_name

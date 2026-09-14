@@ -29,4 +29,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h4.product-title", text: catalog_products(:smrk).title
   end
+
+  test "kontakt renders the kalkulace form with both category field sets" do
+    get kontakt_url
+    assert_response :success
+    assert_select "fieldset.kalkulace-fields-section", count: InquiryFormOption::CATEGORIES.size
+    assert_select "select[name='varianta[]'] option", text: inquiry_form_options(:palivove_varianta_skladane).value
+    assert_select "select[name='polozka[]'] option", text: inquiry_form_options(:stavebni_polozka_tram).value
+  end
 end

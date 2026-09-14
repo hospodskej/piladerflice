@@ -13,6 +13,7 @@ class HomeController < ApplicationController
     @vyrobni_zbytky = PricelistItem.where(category: "zbytky")
     @kamenivo_item = PricelistItem.find_by(category: "kamenivo")
     @sluzby_cenik = PricelistItem.where(category: "sluzby")
+    @kalkulace_options = InquiryFormOption.ordered.group_by(&:category).transform_values { |options| options.group_by(&:field) }
   end
 
   def sluzby

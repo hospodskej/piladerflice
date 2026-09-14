@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_14_120001) do
   create_table "catalog_products", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.string "category", null: false
@@ -64,6 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_120000) do
   end
 
   create_table "inquiries", force: :cascade do |t|
+    t.string "category", default: "palivove", null: false
     t.string "city"
     t.datetime "created_at", null: false
     t.string "email"
@@ -77,6 +78,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_120000) do
     t.string "street"
     t.datetime "updated_at", null: false
     t.string "zip"
+  end
+
+  create_table "inquiry_form_options", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.string "field", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.string "value", null: false
+    t.string "value_de"
+    t.index ["category", "field", "position"], name: "index_inquiry_form_options_on_category_and_field_and_position"
   end
 
   create_table "orders", force: :cascade do |t|

@@ -18,23 +18,21 @@
 </div>
 
 <div class="admin-box">
-  <h2>Požadované položky</h2>
+  <h2>Požadované položky (<%= InquiryFormOption::CATEGORY_LABELS[@inquiry.category] || @inquiry.category %>)</h2>
   <table class="admin-table">
     <thead>
       <tr>
-        <th>Varianta</th>
-        <th>Druh</th>
-        <th>Délka</th>
-        <th>Množství</th>
+        <% @inquiry.fields.each do |field| %>
+          <th><%= InquiryFormOption::FIELD_LABELS[field] %></th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
       <% @inquiry.items.each do |item| %>
         <tr>
-          <td><%= item["varianta"] %></td>
-          <td><%= item["druh"] %></td>
-          <td><%= item["delka"] %></td>
-          <td><%= item["mnozstvi"] %></td>
+          <% @inquiry.fields.each do |field| %>
+            <td><%= item[field] %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

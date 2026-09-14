@@ -40,4 +40,19 @@ class InquiryTest < ActiveSupport::TestCase
   test "full_address is blank when nothing was provided" do
     assert_equal "", Inquiry.new(valid_attributes).full_address
   end
+
+  test "defaults to the palivove category" do
+    assert_equal "palivove", Inquiry.new(valid_attributes).category
+  end
+
+  test "requires a known category" do
+    inquiry = Inquiry.new(valid_attributes.merge(category: "bogus"))
+    assert_not inquiry.valid?
+    assert inquiry.errors.of_kind?(:category, :inclusion)
+  end
+
+  test "fields returns the row fields for the inquiry's category" do
+    inquiry = Inquiry.new(valid_attributes.merge(category: "stavebni"))
+    assert_equal InquiryFormOption::ROW_FIELDS["stavebni"], inquiry.fields
+  end
 end

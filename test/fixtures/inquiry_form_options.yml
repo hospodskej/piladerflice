@@ -1,0 +1,27 @@
+palivove_varianta_skladane:
+  category: palivove
+  field: varianta
+  value: Skládané
+  value_de: Gestapelt
+  position: 0
+
+palivove_varianta_sypane:
+  category: palivove
+  field: varianta
+  value: Sypané
+  value_de: Lose
+  position: 1
+
+stavebni_polozka_tram:
+  category: stavebni
+  field: polozka
+  value: Trám
+  value_de: Balken
+  position: 0
+
+stavebni_polozka_prkno:
+  category: stavebni
+  field: polozka
+  value: Prkno
+  value_de: Brett
+  position: 1

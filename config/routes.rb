@@ -39,6 +39,12 @@ Rails.application.routes.draw do
     resources :catalog_products, except: [:show] do
       resources :catalog_variants, only: [:new, :create, :edit, :update, :destroy]
     end
+    resources :inquiry_form_options, only: [:index, :create, :update, :destroy] do
+      member do
+        patch :move_up
+        patch :move_down
+      end
+    end
   end
 
   get '/kosik/doprava', to: 'checkout#shipping', as: :checkout_shipping

@@ -75,11 +75,12 @@
     </div>
 
     <div class="kalkulace-toggles">
-      <button type="button" class="toggle-btn active"><%= t("kontakt.toggle_palivove") %></button>
-      <button type="button" class="toggle-btn"><%= t("kontakt.toggle_stavebni") %></button>
+      <button type="button" class="toggle-btn active" data-target="palivove"><%= t("kontakt.toggle_palivove") %></button>
+      <button type="button" class="toggle-btn" data-target="stavebni"><%= t("kontakt.toggle_stavebni") %></button>
     </div>
 
     <%= form_with url: inquiries_path, method: :post, class: "kalkulace-form", id: "kalkulace-form" do |form| %>
+      <%= hidden_field_tag :kalkulace_category, "palivove", id: "kalkulace-category-input" %>
       <h3 class="form-section-title"><%= t("kontakt.form_section_kontakt") %></h3>
       <div class="kalkulace-grid-2">
 
@@ -127,64 +128,51 @@
 
       <h3 class="form-section-title"><%= t("kontakt.form_section_formular") %></h3>
 
-      <%
-        varianty = t("kontakt.varianty").values
-        druhy = t("kontakt.druhy").values
-        delky = t("kontakt.delky")
-        mnozstvi = t("kontakt.mnozstvi")
-      %>
-
-      <div class="kalkulace-labels-row">
-        <div class="kalkulace-grid-4">
-          <label class="grid-label"><%= t("kontakt.grid_varianta") %></label>
-          <label class="grid-label"><%= t("kontakt.grid_druh") %></label>
-          <label class="grid-label"><%= t("kontakt.grid_delka") %></label>
-          <label class="grid-label"><%= t("kontakt.grid_mnozstvi") %></label>
-        </div>
-        <div class="delete-spacer"></div>
-      </div>
-
-      <div id="kalkulace-items-container">
-        <div class="kalkulace-row">
-          <div class="kalkulace-grid-4">
-
-            <div class="form-group">
-              <select name="varianta[]">
-                <% varianty.each do |v| %><option><%= v %></option><% end %>
-              </select>
+      <% InquiryFormOption::CATEGORIES.each do |category| %>
+        <% fields = InquiryFormOption::ROW_FIELDS[category] %>
+        <fieldset class="kalkulace-fields-section" data-category="<%= category %>" <%= "hidden disabled" unless category == "palivove" %>>
+          <div class="kalkulace-labels-row">
+            <div class="kalkulace-grid-<%= fields.size %>">
+              <% fields.each do |field| %>
+                <label class="grid-label"><%= t("kontakt.grid_#{field}") %></label>
+              <% end %>
             </div>
-
-            <div class="form-group">
-              <select name="druh[]">
-                <% druhy.each do |d| %><option><%= d %></option><% end %>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <select name="delka[]">
-                <% delky.each do |dl| %><option><%= dl %></option><% end %>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <select name="mnozstvi[]">
-                <% mnozstvi.each do |m| %><option><%= m %></option><% end %>
-              </select>
-            </div>
-
+            <div class="delete-spacer"></div>
           </div>
 
-          <button type="button" class="delete-item-btn" aria-label="<%= t('kontakt.delete_item_aria') %>">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
-          </button>
-        </div>
-      </div>
+          <div class="kalkulace-items-container">
+            <div class="kalkulace-row">
+              <div class="kalkulace-grid-<%= fields.size %>">
+                <% fields.each do |field| %>
+                  <div class="form-group">
+                    <% if field == "mnozstvi" && category == "stavebni" %>
+                      <%= number_field_tag "mnozstvi[]", nil, min: 1, step: 1, placeholder: t("kontakt.kalkulace_mnozstvi_placeholder") %>
+                    <% else %>
+                      <select name="<%= field %>[]">
+                        <% (@kalkulace_options.dig(category, field) || []).each do |option| %>
+                          <option value="<%= option.value_i18n %>"><%= option.value_i18n %></option>
+                        <% end %>
+                        <option value="__custom__"><%= t("kontakt.kalkulace_custom_option") %></option>
+                      </select>
+                      <input type="text" class="custom-value-input" style="display:none" placeholder="<%= t('kontakt.kalkulace_custom_placeholder') %>">
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
 
-      <div class="add-item-wrapper">
-        <button type="button" id="add-kalkulace-row" class="add-item-btn" aria-label="<%= t('kontakt.add_item_aria') %>">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-        </button>
-      </div>
+              <button type="button" class="delete-item-btn" aria-label="<%= t('kontakt.delete_item_aria') %>">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="add-item-wrapper">
+            <button type="button" class="add-kalkulace-row add-item-btn" aria-label="<%= t('kontakt.add_item_aria') %>">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            </button>
+          </div>
+        </fieldset>
+      <% end %>
 
       <h3 class="form-section-title no-border"><%= t("kontakt.form_section_poznamky") %></h3>
       <div class="form-group">

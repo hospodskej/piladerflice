@@ -4,58 +4,78 @@ document.addEventListener("turbo:load", function() {
     const nextBtn = document.getElementById("googleReviewsNext");
 
     if (!track || !prevBtn || !nextBtn) return;
-    if (track.children.length < 2) return;
+
+    const realCards = Array.from(track.children);
+    if (realCards.length < 2) return;
 
     let animating = false;
 
     function cardStep() {
-        const card = track.firstElementChild;
         const gap = parseFloat(getComputedStyle(track).columnGap || 0);
-        return card.getBoundingClientRect().width + gap;
+        return realCards[0].getBoundingClientRect().width + gap;
     }
 
-    function nextFrame(fn) {
-        requestAnimationFrame(() => requestAnimationFrame(fn));
+    // Keeps one cloned "preview" card past each edge, already fully rendered,
+    // so the incoming card slides into view instead of popping in after the fact.
+    function syncClones() {
+        track.querySelectorAll("[data-clone]").forEach((el) => el.remove());
+
+        const firstClone = realCards[0].cloneNode(true);
+        firstClone.setAttribute("data-clone", "");
+        firstClone.setAttribute("aria-hidden", "true");
+
+        const lastClone = realCards[realCards.length - 1].cloneNode(true);
+        lastClone.setAttribute("data-clone", "");
+        lastClone.setAttribute("aria-hidden", "true");
+
+        track.insertBefore(lastClone, track.firstChild);
+        track.appendChild(firstClone);
     }
 
-    function onTransitionEnd(handler) {
-        track.addEventListener("transitionend", handler, { once: true });
+    function settleAtRest() {
+        track.style.transition = "none";
+        track.style.transform = `translateX(-${cardStep()}px)`;
+        track.getBoundingClientRect();
+        track.style.transition = "";
     }
+
+    function rebuildTrack(newOrder) {
+        track.querySelectorAll("[data-clone]").forEach((el) => el.remove());
+        newOrder.forEach((card) => track.appendChild(card));
+        syncClones();
+        settleAtRest();
+    }
+
+    syncClones();
+    settleAtRest();
 
     nextBtn.addEventListener("click", () => {
         if (animating) return;
         animating = true;
 
         track.style.transition = "transform 0.4s ease";
-        track.style.transform = `translateX(-${cardStep()}px)`;
+        track.style.transform = `translateX(-${2 * cardStep()}px)`;
 
-        onTransitionEnd(() => {
-            track.style.transition = "none";
-            track.appendChild(track.firstElementChild);
-            track.style.transform = "translateX(0)";
-
-            nextFrame(() => {
-                track.style.transition = "";
-                animating = false;
-            });
-        });
+        track.addEventListener("transitionend", function handler() {
+            track.removeEventListener("transitionend", handler);
+            realCards.push(realCards.shift());
+            rebuildTrack(realCards);
+            animating = false;
+        }, { once: true });
     });
 
     prevBtn.addEventListener("click", () => {
         if (animating) return;
         animating = true;
 
-        track.style.transition = "none";
-        track.insertBefore(track.lastElementChild, track.firstElementChild);
-        track.style.transform = `translateX(-${cardStep()}px)`;
+        track.style.transition = "transform 0.4s ease";
+        track.style.transform = "translateX(0)";
 
-        nextFrame(() => {
-            track.style.transition = "transform 0.4s ease";
-            track.style.transform = "translateX(0)";
-        });
-
-        onTransitionEnd(() => {
+        track.addEventListener("transitionend", function handler() {
+            track.removeEventListener("transitionend", handler);
+            realCards.unshift(realCards.pop());
+            rebuildTrack(realCards);
             animating = false;
-        });
+        }, { once: true });
     });
 });

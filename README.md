@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.35: Reviews carousel now pre-renders the next/previous card so it slides in instead of popping in  
 Patch 0.8.34: Fixed a box-sizing bug causing right-arrow overlap, shorter cards, centered header, smoother rotation  
 Patch 0.8.33: Google review cards resized to clear the arrows, added optional reviewer photos, transparent reviews header  
 Patch 0.8.32: Google reviews carousel now truly loops — cards rotate instead of just resetting position  

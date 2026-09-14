@@ -14,11 +14,8 @@ document.addEventListener("turbo:load", function() {
         return card.getBoundingClientRect().width + gap;
     }
 
-    function withoutTransition(fn) {
-        track.style.transition = "none";
-        fn();
-        track.getBoundingClientRect();
-        track.style.transition = "";
+    function nextFrame(fn) {
+        requestAnimationFrame(() => requestAnimationFrame(fn));
     }
 
     function onTransitionEnd(handler) {
@@ -29,13 +26,18 @@ document.addEventListener("turbo:load", function() {
         if (animating) return;
         animating = true;
 
+        track.style.transition = "transform 0.4s ease";
         track.style.transform = `translateX(-${cardStep()}px)`;
+
         onTransitionEnd(() => {
-            withoutTransition(() => {
-                track.appendChild(track.firstElementChild);
-                track.style.transform = "translateX(0)";
+            track.style.transition = "none";
+            track.appendChild(track.firstElementChild);
+            track.style.transform = "translateX(0)";
+
+            nextFrame(() => {
+                track.style.transition = "";
+                animating = false;
             });
-            animating = false;
         });
     });
 
@@ -43,12 +45,12 @@ document.addEventListener("turbo:load", function() {
         if (animating) return;
         animating = true;
 
-        withoutTransition(() => {
-            track.insertBefore(track.lastElementChild, track.firstElementChild);
-            track.style.transform = `translateX(-${cardStep()}px)`;
-        });
+        track.style.transition = "none";
+        track.insertBefore(track.lastElementChild, track.firstElementChild);
+        track.style.transform = `translateX(-${cardStep()}px)`;
 
-        requestAnimationFrame(() => {
+        nextFrame(() => {
+            track.style.transition = "transform 0.4s ease";
             track.style.transform = "translateX(0)";
         });
 

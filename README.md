@@ -8,6 +8,7 @@
 
 ---
 
+Patch 0.8.27: "Co by vás mohlo zajímat?" carousel: replaced 2 lorem-ipsum slides with vehicle fleet info, added slide indicator dots; fixed 2-line FAQ titles rendering off-center due to a browser default on <button>  
 Patch 0.8.26: Fixed Akční nabídka's shadow overflowing past the section's right edge on desktop (reserved room for its peek-out instead)  
 Patch 0.8.25: Fixed Akční nabídka image/shadow being fixed-width and overflowing their column, squeezing the text next to it  
 Patch 0.8.24: Aligned all homepage sections to a single 1200px content width, removing redundant per-section max-widths/padding  

@@ -15,6 +15,7 @@ de:
   common:
     previous: "Zurück"
     next: "Weiter"
+    slide: "Folie"
     detail: "Details"
     stock: "auf Lager"
     in_stock: "Auf Lager"

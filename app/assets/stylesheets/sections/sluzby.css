@@ -28,6 +28,10 @@
     max-width: 500px;
 }
 
+.sluzba-content h2 {
+    font-size: 2.5rem;
+}
+
 .sluzba-carousel-wrapper {
     position: relative;
     border-radius: 8px;

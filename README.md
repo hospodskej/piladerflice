@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.45: Fixed Akční nabídka hero card's cropped badge and wrapping title/button  
 Patch 0.8.44: Added a dimension/grade filter to stavební řezivo product pages  
 Patch 0.8.43: Fixed eshop product cards overflowing at laptop widths, smaller cards and better alignment  
 Patch 0.8.42: Redesigned stavební řezivo cards with grade/dimensions and a quantity stepper, admin updated to match  

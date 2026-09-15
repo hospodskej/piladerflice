@@ -206,19 +206,27 @@
     background-color: rgba(0, 132, 255, 0.9);
     color: #fff;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 24px;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 20px;
     box-sizing: border-box;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 }
 
+.product-subinfo {
+    flex: 1;
+    min-width: 0;
+}
+
 .product-title {
-    margin: 0 0 12px 0;
-    font-size: 1.25rem;
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-features {
@@ -244,16 +252,16 @@
 
 .akcni-nabidka-price {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 
 .akcni-product-price {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .akce-btn-eshop {
@@ -261,9 +269,10 @@
     color: #2C8FFF;
     text-decoration: none;
     font-weight: 700;
-    padding: 10px 24px;
+    padding: 9px 20px;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
     transition: background-color 0.2s ease;
 }
 
@@ -309,6 +318,16 @@
 
     .product-info {
         position: relative;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .akcni-product-price {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
     }
 
     .akcni-media {

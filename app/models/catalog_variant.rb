@@ -12,6 +12,16 @@ class CatalogVariant < ApplicationRecord
 
   scope :ordered, -> { order(:position, :id) }
 
+  def dimension_filter_key
+    return nil unless width_mm.present? && height_mm.present?
+
+    "#{width_mm}x#{height_mm}"
+  end
+
+  def grade_filter_key
+    grade.presence && grade.parameterize
+  end
+
   def to_cart_specs
     specs = []
 

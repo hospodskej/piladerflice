@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.47: Sleeker Akční nabídka overlay — price moved above the button, shorter blue area  
 Patch 0.8.46: Fixed FAQ accordion items stretching their row neighbor when opened  
 Patch 0.8.45: Fixed Akční nabídka hero card's cropped badge and wrapping title/button  
 Patch 0.8.44: Added a dimension/grade filter to stavební řezivo product pages  

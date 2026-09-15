@@ -8,9 +8,7 @@
     [title, "#"]
   ]
 
-  variants = product.catalog_variants.to_a
-  lengths = variants.map(&:length_label).uniq
-  dimensions = variants.map(&:variant_label).uniq
+  variants = product.catalog_variants.ordered.to_a
 %>
 
 <main class="product-page-main main">
@@ -33,48 +31,34 @@
 
       <hr class="inventory-separator main-separator">
 
-      <div id="section-kontejner" class="inventory-group">
-        <h2 class="section-title"><%= t("eshop.#{key}.loose_heading_html") %></h2>
+      <h2 class="section-title"><%= t("eshop.#{key}.loose_heading_html") %></h2>
 
-        <div class="matrix-grid-3">
-          <div class="matrix-cell empty"></div>
-          <% lengths.each do |len| %>
-            <div class="matrix-cell col-header"><%= len %></div>
-          <% end %>
-
-          <% dimensions.each do |dim| %>
-            <% dim_variant = variants.find { |v| v.variant_label == dim } %>
-            <div class="matrix-cell row-header"><span><%= dim_variant.variant_label_i18n %></span></div>
-            <% lengths.each do |len| %>
-              <% variant = variants.find { |v| v.variant_label == dim && v.length_label == len } %>
-              <div class="matrix-cell">
-                <% if variant %>
-                  <div class="inventory-card">
-                    <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
-                    <div class="inventory-specs">
-                      <div class="spec-labels">
-                        <span><%= t("common.spec_variant") %></span>
-                        <span><%= t("common.spec_length") %></span>
-                        <span><%= t("common.spec_dimension") %></span>
-                      </div>
-                      <div class="spec-values">
-                        <span class="spec-value"><%= product.type_label_i18n %></span>
-                        <span class="spec-value"><%= len %></span>
-                        <span class="spec-value"><%= variant.variant_label_i18n %></span>
-                      </div>
-                    </div>
-                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
-                    <% if variant.in_stock? %>
-                      <%= render "shared/add_to_cart_form", catalog_variant: variant %>
-                    <% else %>
-                      <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
-                    <% end %>
-                  </div>
-                <% end %>
+      <div class="simple-grid-3">
+        <% variants.each do |variant| %>
+          <div class="inventory-card">
+            <%= image_tag product.image, alt: title, class: "inventory-img" %>
+            <div class="inventory-specs">
+              <div class="spec-labels">
+                <% if variant.grade.present? %><span><%= t("common.spec_grade") %></span><% end %>
+                <span><%= t("common.spec_length") %></span>
+                <% if variant.width_mm.present? %><span><%= t("common.spec_width") %></span><% end %>
+                <% if variant.height_mm.present? %><span><%= t("common.spec_height") %></span><% end %>
               </div>
+              <div class="spec-values">
+                <% if variant.grade.present? %><span class="spec-value"><%= variant.grade_i18n %></span><% end %>
+                <span class="spec-value"><%= variant.length_label %></span>
+                <% if variant.width_mm.present? %><span class="spec-value"><%= variant.width_mm %> mm</span><% end %>
+                <% if variant.height_mm.present? %><span class="spec-value"><%= variant.height_mm %> mm</span><% end %>
+              </div>
+            </div>
+            <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %> <%= t("common.price_per_m3_html") %></p>
+            <% if variant.in_stock? %>
+              <%= render "shared/add_to_cart_form", catalog_variant: variant %>
+            <% else %>
+              <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
             <% end %>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       </div>
 
     </section>

@@ -46,7 +46,8 @@ module Admin
     def catalog_variant_params
       params.require(:catalog_variant).permit(
         :key, :variant_group, :length_label, :variant_label, :variant_label_de,
-        :amount_value, :price_czk, :in_stock, :position
+        :amount_value, :price_czk, :in_stock, :position,
+        :grade, :grade_de, :width_mm, :height_mm
       )
     end
   end

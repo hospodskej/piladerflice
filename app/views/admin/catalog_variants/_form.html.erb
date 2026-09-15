@@ -41,16 +41,42 @@
       </div>
     <% end %>
 
-    <div class="form-group form-group-wide">
-      <label for="catalog_variant_variant_label">Popis varianty (CZ)</label>
-      <%= f.text_field :variant_label, placeholder: catalog_product.template == "lumber" ? "např. 100/100 mm nebo I. tříděné" : "např. Smrk, Volně ložené, 32/64 mm" %>
-    </div>
+    <% if catalog_product.template == "lumber" %>
+      <div class="form-group">
+        <label for="catalog_variant_width_mm">Šířka (mm)</label>
+        <%= f.number_field :width_mm %>
+        <p class="admin-form-hint">Nechte prázdné, pokud produkt šířku nerozlišuje (např. prkna).</p>
+      </div>
 
-    <div class="form-group form-group-wide">
-      <label for="catalog_variant_variant_label_de">Popis varianty (DE)</label>
-      <%= f.text_field :variant_label_de %>
-      <p class="admin-form-hint">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
-    </div>
+      <div class="form-group">
+        <label for="catalog_variant_height_mm">Výška (mm)</label>
+        <%= f.number_field :height_mm %>
+        <p class="admin-form-hint">Nechte prázdné, pokud produkt výšku nerozlišuje.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="catalog_variant_grade">Třída (CZ)</label>
+        <%= f.text_field :grade %>
+        <p class="admin-form-hint">Nechte prázdné, pokud produkt třídu nerozlišuje.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="catalog_variant_grade_de">Třída (DE)</label>
+        <%= f.text_field :grade_de %>
+        <p class="admin-form-hint">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
+      </div>
+    <% else %>
+      <div class="form-group form-group-wide">
+        <label for="catalog_variant_variant_label">Popis varianty (CZ)</label>
+        <%= f.text_field :variant_label %>
+      </div>
+
+      <div class="form-group form-group-wide">
+        <label for="catalog_variant_variant_label_de">Popis varianty (DE)</label>
+        <%= f.text_field :variant_label_de %>
+        <p class="admin-form-hint">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
+      </div>
+    <% end %>
 
     <div class="form-group">
       <label for="catalog_variant_position">Pořadí</label>

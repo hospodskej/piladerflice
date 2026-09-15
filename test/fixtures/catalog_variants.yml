@@ -31,7 +31,8 @@ smrk_bedny:
 tramy_variant:
   catalog_product: tramy
   key: "100-100-3000"
-  variant_label: "100/100 mm"
+  width_mm: 100
+  height_mm: 100
   length_label: "3 000 mm"
   price_czk: 8500
   in_stock: true

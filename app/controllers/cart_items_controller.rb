@@ -2,7 +2,7 @@ class CartItemsController < ApplicationController
   def create
     variant = CatalogVariant.joins(:catalog_product).where(catalog_products: { active: true }).find(params.require(:catalog_variant_id))
 
-    @added_line_id = current_cart.add(variant)
+    @added_line_id = current_cart.add(variant, params[:quantity])
     @added_item = current_cart.find(@added_line_id)
 
     respond_to do |format|

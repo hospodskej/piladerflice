@@ -77,7 +77,7 @@
                     </div>
                     <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
                     <% if variant.in_stock? %>
-                      <%= render "shared/add_to_cart_form", catalog_variant: variant %>
+                      <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
                     <% else %>
                       <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
                     <% end %>
@@ -114,7 +114,7 @@
                 </div>
                 <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
                 <% if variant.in_stock? %>
-                  <%= render "shared/add_to_cart_form", catalog_variant: variant %>
+                  <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
                 <% else %>
                   <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
                 <% end %>

@@ -105,7 +105,8 @@ tramy = CatalogProduct.create!(
  ["100/120", "3 000 mm"], ["100/120", "4 000 mm"], ["100/120", "5 000 mm"],
  ["100/140", "3 000 mm"], ["100/140", "4 000 mm"], ["100/140", "5 000 mm"],
  ["100/160", "3 000 mm"], ["100/160", "4 000 mm"], ["100/160", "5 000 mm"]].each_with_index do |(dim, len), i|
-  tramy.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", variant_label: "#{dim} mm", length_label: len, price_czk: 8_500, position: i)
+  width, height = dim.split("/").map(&:to_i)
+  tramy.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i)
 end
 
 late = CatalogProduct.create!(
@@ -117,7 +118,8 @@ late = CatalogProduct.create!(
 [["40/50", "3 000 mm"], ["40/50", "4 000 mm"], ["40/50", "5 000 mm"],
  ["50/30", "3 000 mm"], ["50/30", "4 000 mm"], ["50/30", "5 000 mm"],
  ["60/40", "3 000 mm"], ["60/40", "4 000 mm"], ["60/40", "5 000 mm"]].each_with_index do |(dim, len), i|
-  late.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", variant_label: "#{dim} mm", length_label: len, price_czk: 8_500, position: i)
+  width, height = dim.split("/").map(&:to_i)
+  late.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i)
 end
 
 fosny = CatalogProduct.create!(
@@ -129,8 +131,9 @@ fosny = CatalogProduct.create!(
 dims = %w[120x40 140x40 180x40 200x40 220x40 120x50 140x50 180x50 200x50 220x50 240x50 120x60 140x60 180x60 200x60 220x60 240x60]
 i = 0
 dims.each do |dim|
+  width, height = dim.split("x").map(&:to_i)
   ["4 000 mm", "5 000 mm"].each do |len|
-    fosny.catalog_variants.create!(key: "#{dim}-#{len.parameterize}", variant_label: "#{dim} mm", length_label: len, price_czk: 8_500, position: (i += 1))
+    fosny.catalog_variants.create!(key: "#{dim}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: (i += 1))
   end
 end
 
@@ -142,7 +145,7 @@ prkna = CatalogProduct.create!(
 )
 [["I. netříděné", "I. unsortiert", 6_500], ["I. tříděné", "I. sortiert", 7_000], ["II. tříděné", "II. sortiert", 5_000]].each_with_index do |(cs, de, price), row|
   ["3 000 mm", "4 000 mm", "5 000 mm"].each_with_index do |len, col|
-    prkna.catalog_variants.create!(key: "#{cs.parameterize}-#{len.parameterize}", variant_label: cs, variant_label_de: de, length_label: len, price_czk: price, position: row * 3 + col)
+    prkna.catalog_variants.create!(key: "#{cs.parameterize}-#{len.parameterize}", grade: cs, grade_de: de, length_label: len, price_czk: price, position: row * 3 + col)
   end
 end
 

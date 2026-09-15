@@ -4,6 +4,7 @@ class CatalogVariant < ApplicationRecord
   belongs_to :catalog_product
 
   translates :variant_label
+  translates :grade
 
   validates :key, presence: true, uniqueness: { scope: :catalog_product_id }
   validates :price_czk, numericality: { greater_than: 0 }
@@ -21,8 +22,9 @@ class CatalogVariant < ApplicationRecord
       specs << { "type" => "raw", "value" => length_label } if length_label.present?
       specs << { "type" => "amount", "value" => amount_value, "unit_key" => "common.per_m3" } if amount_value.present?
     when "lumber"
-      specs << { "type" => "bilingual", "value" => variant_label, "value_de" => variant_label_de }
+      specs << { "type" => "bilingual", "value" => grade, "value_de" => grade_de } if grade.present?
       specs << { "type" => "raw", "value" => length_label } if length_label.present?
+      specs << { "type" => "raw", "value" => "#{width_mm}×#{height_mm} mm" } if width_mm.present? && height_mm.present?
     when "simple_variant"
       specs << { "type" => "bilingual", "value" => variant_label, "value_de" => variant_label_de }
     end

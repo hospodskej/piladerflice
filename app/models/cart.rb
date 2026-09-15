@@ -8,12 +8,15 @@ class Cart
     @session[SESSION_KEY] ||= {}
   end
 
-  def add(catalog_variant)
+  def add(catalog_variant, quantity = 1)
+    quantity = quantity.to_i
+    quantity = 1 if quantity < 1
+
     id = catalog_variant.id.to_s
     line = @session[SESSION_KEY][id]
 
     if line
-      line["quantity"] += 1
+      line["quantity"] += quantity
     else
       @session[SESSION_KEY][id] = {
         "catalog_variant_id" => catalog_variant.id,
@@ -21,7 +24,7 @@ class Cart
         "image" => catalog_variant.catalog_product.image,
         "unit_price_czk" => catalog_variant.price_czk,
         "specs" => catalog_variant.to_cart_specs,
-        "quantity" => 1
+        "quantity" => quantity
       }
     end
 

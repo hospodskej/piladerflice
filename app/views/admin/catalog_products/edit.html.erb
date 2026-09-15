@@ -26,7 +26,11 @@
       <% @catalog_product.catalog_variants.each do |variant| %>
         <tr>
           <td>
-            <%= variant.variant_label %>
+            <% if @catalog_product.template == "lumber" %>
+              <%= [variant.grade, [variant.width_mm, variant.height_mm].all?(&:present?) ? "#{variant.width_mm}×#{variant.height_mm} mm" : nil].compact.join(" / ") %>
+            <% else %>
+              <%= variant.variant_label %>
+            <% end %>
             <% if variant.variant_group.present? %>
               <br><span style="color:#999; font-size:0.8rem;"><%= variant.variant_group == "bedny" ? "Skládané (bedny)" : "Sypané (kontejner)" %></span>
             <% end %>

@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.42: Redesigned stavební řezivo cards with grade/dimensions and a quantity stepper, admin updated to match  
 Patch 0.8.41: Checkout now shows a clear Czech error when you try to submit without accepting terms  
 Patch 0.8.40: Added real obchodní podmínky (CZ + DE) matching the actual checkout flow  
 Patch 0.8.39: Site-wide mobile overhaul — fixed overflow bugs across eshop, sortiment, cart and checkout  

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_14_120003) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_120000) do
   create_table "catalog_products", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.string "category", null: false
@@ -40,6 +40,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_120003) do
     t.integer "amount_value"
     t.integer "catalog_product_id", null: false
     t.datetime "created_at", null: false
+    t.string "grade"
+    t.string "grade_de"
+    t.integer "height_mm"
     t.boolean "in_stock", default: true, null: false
     t.string "key", null: false
     t.string "length_label"
@@ -49,6 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_120003) do
     t.string "variant_group"
     t.string "variant_label"
     t.string "variant_label_de"
+    t.integer "width_mm"
     t.index ["catalog_product_id", "key"], name: "index_catalog_variants_on_catalog_product_id_and_key", unique: true
     t.index ["catalog_product_id"], name: "index_catalog_variants_on_catalog_product_id"
   end

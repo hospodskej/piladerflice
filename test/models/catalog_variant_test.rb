@@ -21,8 +21,20 @@ class CatalogVariantTest < ActiveSupport::TestCase
     variant = catalog_variants(:tramy_variant)
 
     assert_equal [
-      { "type" => "bilingual", "value" => "100/100 mm", "value_de" => nil },
-      { "type" => "raw", "value" => "3 000 mm" }
+      { "type" => "raw", "value" => "3 000 mm" },
+      { "type" => "raw", "value" => "100×100 mm" }
+    ], variant.to_cart_specs
+  end
+
+  test "to_cart_specs for a lumber variant with a grade" do
+    variant = catalog_variants(:tramy_variant)
+    variant.grade = "I. tříděné"
+    variant.grade_de = "I. sortiert"
+
+    assert_equal [
+      { "type" => "bilingual", "value" => "I. tříděné", "value_de" => "I. sortiert" },
+      { "type" => "raw", "value" => "3 000 mm" },
+      { "type" => "raw", "value" => "100×100 mm" }
     ], variant.to_cart_specs
   end
 

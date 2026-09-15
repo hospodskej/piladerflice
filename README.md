@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.49: Removed the quantity stepper on palivové dřevo product cards  
 Patch 0.8.48: Hero title now wraps to 2 lines, unified all main section headers to one size  
 Patch 0.8.47: Sleeker Akční nabídka overlay — price moved above the button, shorter blue area  
 Patch 0.8.46: Fixed FAQ accordion items stretching their row neighbor when opened  

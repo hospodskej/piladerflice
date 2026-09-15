@@ -1,11 +1,16 @@
+<% show_qty = local_assigns.fetch(:show_qty, true) %>
 <%= form_with url: cart_items_path, method: :post, class: "add-to-cart-form" do %>
   <%= hidden_field_tag :catalog_variant_id, catalog_variant.id %>
   <div class="qty-cart-row">
-    <div class="qty-stepper">
-      <button type="button" class="qty-btn qty-minus" aria-label="<%= t('common.qty_decrease') %>">&minus;</button>
-      <%= number_field_tag :quantity, 1, min: 1, class: "qty-value", readonly: true %>
-      <button type="button" class="qty-btn qty-plus" aria-label="<%= t('common.qty_increase') %>">+</button>
-    </div>
+    <% if show_qty %>
+      <div class="qty-stepper">
+        <button type="button" class="qty-btn qty-minus" aria-label="<%= t('common.qty_decrease') %>">&minus;</button>
+        <%= number_field_tag :quantity, 1, min: 1, class: "qty-value", readonly: true %>
+        <button type="button" class="qty-btn qty-plus" aria-label="<%= t('common.qty_increase') %>">+</button>
+      </div>
+    <% else %>
+      <%= hidden_field_tag :quantity, 1 %>
+    <% end %>
     <%= submit_tag t("common.add_to_cart"), class: "btn-primary btn-cart" %>
   </div>
 <% end %>

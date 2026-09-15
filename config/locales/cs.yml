@@ -608,3 +608,63 @@ cs:
   legal:
     terms_title: "Obchodní podmínky"
     terms_placeholder: "Obchodní podmínky budou brzy doplněny."
+    terms_content_html: |
+      <h2>1. Úvodní ustanovení</h2>
+      <p>Tyto obchodní podmínky (dále jen „obchodní podmínky") upravují vzájemná práva a povinnosti smluvních stran vzniklé v souvislosti nebo na základě kupní smlouvy uzavírané mezi:</p>
+      <p><strong>Štěpán Merta</strong><br>
+      Pila Derflice<br>
+      Místo podnikání: Derflice 66, 671 28 Znojmo<br>
+      Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
+      IČ: 45665451<br>
+      DIČ: CZ6909094742<br>
+      Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku.<br>
+      E-mail: stepan.merta@seznam.cz<br>
+      Telefon: +420 602 446 339, +420 515 235 527<br>
+      Provozní doba: pondělí – pátek, 7:00 – 15:30</p>
+      <p>(dále jen „prodávající") a kupujícím, který prostřednictvím e-shopu na adrese piladerflice.cz učiní objednávku zboží (dále jen „kupující").</p>
+      <p>Znění obchodních podmínek může prodávající měnit či doplňovat. Tímto ustanovením nejsou dotčena práva a povinnosti vzniklá po dobu účinnosti předchozího znění obchodních podmínek.</p>
+
+      <h2>2. Uzavření kupní smlouvy</h2>
+      <p>Objednávku zboží kupující odešle prostřednictvím objednávkového formuláře na e-shopu. Odesláním objednávky kupující stvrzuje, že se seznámil s těmito obchodními podmínkami a že s nimi souhlasí.</p>
+      <p>Kupní smlouva mezi prodávajícím a kupujícím vzniká okamžikem doručení potvrzení objednávky ze strany prodávajícího na e-mailovou adresu kupujícího.</p>
+
+      <h2>3. Cena zboží a platební podmínky</h2>
+      <p>Ceny zboží uvedené na e-shopu jsou platné v okamžiku odeslání objednávky a jsou uváděny včetně DPH.</p>
+      <p>Platbu za zboží lze provést jedním z následujících způsobů:</p>
+      <ul>
+        <li><strong>Hotově při osobním odběru</strong> – na adrese provozovny Derflice 66, 671 28 Znojmo.</li>
+        <li><strong>Bankovním převodem</strong> – na základě zálohové (proforma) faktury zaslané kupujícímu po přijetí objednávky; zboží je expedováno po připsání platby na účet prodávajícího.</li>
+      </ul>
+      <p>Prodávající v současné době nenabízí platbu prostřednictvím platební karty online.</p>
+
+      <h2>4. Dodací podmínky</h2>
+      <p>Kupující si může zvolit jeden z následujících způsobů dodání:</p>
+      <ul>
+        <li><strong>Osobní odběr</strong> – zdarma, na adrese provozovny Derflice 66, 671 28 Znojmo, po předchozí domluvě.</li>
+        <li><strong>Doprava na adresu</strong> – cena dopravy se odvíjí od vzdálenosti a množství objednaného zboží (aktuálně 35 Kč/km) a je kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
+      </ul>
+      <p>Termín dodání či předání zboží k osobnímu odběru je dohodnut individuálně s ohledem na dostupnost zboží a kapacitu prodávajícího; není-li dohodnuto jinak, dodá prodávající zboží v přiměřené lhůtě.</p>
+
+      <h2>5. Odstoupení od smlouvy</h2>
+      <p>V souladu s § 1829 občanského zákoníku má kupující, je-li spotřebitelem, právo odstoupit od kupní smlouvy uzavřené distančním způsobem bez udání důvodu ve lhůtě 14 dnů ode dne převzetí zboží, a to zasláním písemného odstoupení na e-mail nebo poštovní adresu prodávajícího.</p>
+      <p>V souladu s § 1837 písm. d) občanského zákoníku nelze odstoupit od smlouvy v případě zboží, které bylo upraveno podle přání kupujícího nebo pro jeho osobu (např. řezivo, trámy či fošny vyrobené na míru dle individuálně zadaných rozměrů).</p>
+      <p>Zboží je kupující povinen vrátit prodávajícímu nepoškozené a bez známek užívání, je-li to s ohledem na jeho povahu možné, a to do 14 dnů od odstoupení od smlouvy. Náklady spojené s vrácením zboží nese kupující.</p>
+
+      <h2>6. Práva z vadného plnění a reklamace</h2>
+      <p>Práva a povinnosti smluvních stran ohledně práv z vadného plnění se řídí příslušnými obecně závaznými právními předpisy, zejména § 2099 a násl. a § 2158 a násl. občanského zákoníku.</p>
+      <p>Je-li kupující spotřebitelem, odpovídá prodávající za to, že zboží při převzetí nemá vady, a to po dobu 24 měsíců od převzetí zboží.</p>
+      <p>Reklamaci lze uplatnit e-mailem na adrese stepan.merta@seznam.cz nebo osobně na adrese provozovny. Prodávající rozhodne o reklamaci a vyřídí ji nejpozději do 30 dnů ode dne jejího uplatnění, nedohodne-li se s kupujícím na delší lhůtě.</p>
+      <p>Vzhledem k povaze zboží (přírodní materiál – dřevo) se za vadu nepovažují drobné rozdíly v kresbě, barvě nebo mírné rozdíly v rozměrech způsobené přirozenými vlastnostmi dřeva, pokud nebrání obvyklému užití zboží.</p>
+
+      <h2>7. Ochrana osobních údajů</h2>
+      <p>Prodávající zpracovává osobní údaje kupujícího (jméno, příjmení, adresa, telefon, e-mail, popř. IČ/DIČ při nákupu na firmu) výhradně za účelem vyřízení objednávky, plnění kupní smlouvy a plnění zákonných povinností (např. účetních). Správcem osobních údajů je Štěpán Merta, IČ: 45665451.</p>
+      <p>Osobní údaje nejsou předávány třetím osobám s výjimkou subjektů nezbytných pro doručení zboží (dopravce) a subjektů vyžadovaných zákonem (např. finanční správa).</p>
+      <p>Kupující má právo na přístup ke svým osobním údajům, jejich opravu či výmaz, popřípadě omezení zpracování, a právo vznést námitku proti zpracování, jakož i právo podat stížnost u Úřadu pro ochranu osobních údajů.</p>
+
+      <h2>8. Mimosoudní řešení sporů</h2>
+      <p>V případě, že mezi prodávajícím a kupujícím spotřebitelem dojde ke vzniku spotřebitelského sporu, má kupující právo na jeho mimosoudní řešení. Subjektem mimosoudního řešení spotřebitelských sporů je Česká obchodní inspekce, Ústřední inspektorát – oddělení ADR, se sídlem Štěpánská 567/15, 120 00 Praha 2, internetová adresa: <a href="https://adr.coi.cz" target="_blank" rel="noopener">adr.coi.cz</a>.</p>
+
+      <h2>9. Závěrečná ustanovení</h2>
+      <p>Tyto obchodní podmínky se řídí právním řádem České republiky, zejména zákonem č. 89/2012 Sb., občanský zákoník, a zákonem č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů.</p>
+      <p>Je-li některé ustanovení obchodních podmínek neplatné nebo neúčinné, nebo se takovým stane, namísto neplatných ustanovení nastoupí ustanovení, jehož smysl se neplatnému ustanovení co nejvíce přibližuje. Neplatností nebo neúčinností jednoho ustanovení není dotčena platnost ostatních ustanovení.</p>
+      <p>Tyto obchodní podmínky nabývají účinnosti dnem jejich zveřejnění.</p>

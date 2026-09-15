@@ -227,6 +227,18 @@
     margin-top: 6px;
 }
 
+.checkout-terms-error {
+    color: #A33;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 8px 0 0 39px;
+}
+
+.checkout-checkbox-invalid .custom-checkbox {
+    outline: 2px solid #A33;
+    outline-offset: 2px;
+}
+
 .checkout-cart-table {
     border: 1.5px solid #2C8FFF;
     border-radius: 10px;

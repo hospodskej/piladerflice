@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.39: Site-wide mobile overhaul — fixed overflow bugs across eshop, sortiment, cart and checkout  
 Patch 0.8.38: Google rating + features row now vertically centered against TOP Kategorie  
 Patch 0.8.37: Hero section realigned so the CTA buttons' bottom matches the Akční nabídka card's bottom  
 Patch 0.8.36: Wired up real reviewer photos in the seed data  

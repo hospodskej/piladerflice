@@ -141,6 +141,12 @@
     order: 1;
 }
 
+@media (max-width: 992px) {
+    .wood-category-box {
+        padding: 20px 30px;
+    }
+}
+
 @media (max-width: 900px) {
     .product-detail-hero {
         grid-template-columns: 1fr;
@@ -155,5 +161,27 @@
     }
     .product-detail-hero.reverse-layout .product-hero-carousel {
         order: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .wood-category-box {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .wood-items-grid {
+        flex-wrap: wrap;
+        gap: 20px 15px;
+    }
+
+    .wood-texture {
+        width: 60px;
+        height: 60px;
+    }
+
+    .wood-item span {
+        font-size: 0.9rem;
     }
 }

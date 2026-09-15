@@ -1,6 +1,7 @@
 .breadcrumb-nav {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
     padding: 15px 5% 0;
     max-width: 1200px;
@@ -35,4 +36,37 @@
 
 .breadcrumb-item:hover {
     background-color: #7A7A7A;
+}
+
+@media (max-width: 576px) {
+    .breadcrumb-nav {
+        gap: 4px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+    }
+
+    .breadcrumb-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .breadcrumb-home svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .breadcrumb-separator {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+    }
+
+    .breadcrumb-item {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
 }

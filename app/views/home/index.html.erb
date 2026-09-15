@@ -14,19 +14,21 @@
     <% if @hero_promo %>
       <div class="akcni-product-card">
         <div class="badge"><%= t("home.index.promo_badge") %></div>
-        <%= image_tag @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
-        <div class="product-info">
-          <div class="product-subinfo">
-            <h2 class="product-title"><%= @hero_promo.title_i18n %></h2>
-            <ul class="product-features">
-              <li><%= @hero_promo.feature_1_i18n %></li>
-              <li><%= @hero_promo.feature_2_i18n %></li>
-              <li><%= @hero_promo.feature_3_i18n %></li>
-            </ul>
-          </div>
-          <div class="akcni-product-price">
-            <span class="akcni-nabidka-price"><%= @hero_promo.price_i18n %></span>
-            <%= link_to t("home.index.promo_cta"), @hero_promo.link, class: "akce-btn-eshop" %>
+        <div class="akcni-media">
+          <%= image_tag @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
+          <div class="product-info">
+            <div class="product-subinfo">
+              <h2 class="product-title"><%= @hero_promo.title_i18n %></h2>
+              <ul class="product-features">
+                <li><%= @hero_promo.feature_1_i18n %></li>
+                <li><%= @hero_promo.feature_2_i18n %></li>
+                <li><%= @hero_promo.feature_3_i18n %></li>
+              </ul>
+            </div>
+            <div class="akcni-product-price">
+              <span class="akcni-nabidka-price"><%= @hero_promo.price_i18n %></span>
+              <%= link_to t("home.index.promo_cta"), @hero_promo.link, class: "akce-btn-eshop" %>
+            </div>
           </div>
         </div>
       </div>

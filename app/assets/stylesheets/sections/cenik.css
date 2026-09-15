@@ -123,4 +123,12 @@
         padding: 10px;
         font-size: 0.85rem;
     }
+
+    .cenik-header h3 {
+        white-space: normal;
+    }
+
+    .cenik-line {
+        min-width: 20px;
+    }
 }

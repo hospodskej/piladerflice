@@ -1,12 +1,11 @@
 <%
   product = CatalogProduct.find_by!(key: key)
   title = product.title_i18n
+  breadcrumb_category = t("eshop.#{i18n_key}.breadcrumb_category")
 
-  @breadcrumb_items = [
-    [t("breadcrumbs.eshop"), "/eshop"],
-    [t("eshop.#{i18n_key}.breadcrumb_category"), "/eshop?category=#{category_param}"],
-    [title, "#"]
-  ]
+  @breadcrumb_items = [[t("breadcrumbs.eshop"), "/eshop"]]
+  @breadcrumb_items << [breadcrumb_category, "/eshop?category=#{category_param}"] unless breadcrumb_category == title
+  @breadcrumb_items << [title, "#"]
 %>
 
 <main class="product-page-main main">

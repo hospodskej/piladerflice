@@ -289,3 +289,62 @@
     border: none;
     cursor: pointer;
 }
+
+@media (max-width: 900px) {
+    .product-intro-section {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .filter-btn {
+        width: auto;
+        padding: 0 18px;
+    }
+
+    .matrix-grid,
+    .matrix-grid-2,
+    .matrix-grid-3,
+    .matrix-grid-bedny,
+    .simple-grid-2,
+    .simple-grid-3 {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        margin: 0 -20px 40px -20px;
+        padding: 0 20px 12px 20px;
+        scrollbar-width: none;
+    }
+
+    .matrix-grid::-webkit-scrollbar,
+    .matrix-grid-2::-webkit-scrollbar,
+    .matrix-grid-3::-webkit-scrollbar,
+    .matrix-grid-bedny::-webkit-scrollbar,
+    .simple-grid-2::-webkit-scrollbar,
+    .simple-grid-3::-webkit-scrollbar {
+        display: none;
+    }
+
+    .matrix-grid .matrix-cell:not(:has(.inventory-card)),
+    .matrix-grid-2 .matrix-cell:not(:has(.inventory-card)),
+    .matrix-grid-3 .matrix-cell:not(:has(.inventory-card)),
+    .matrix-grid-bedny .matrix-cell:not(:has(.inventory-card)) {
+        display: none;
+    }
+
+    .matrix-grid .matrix-cell,
+    .matrix-grid-2 .matrix-cell,
+    .matrix-grid-3 .matrix-cell,
+    .matrix-grid-bedny .matrix-cell,
+    .simple-grid-2 .inventory-card,
+    .simple-grid-3 .inventory-card {
+        flex: 0 0 220px;
+        scroll-snap-align: start;
+    }
+}

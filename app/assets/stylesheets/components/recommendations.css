@@ -91,3 +91,25 @@
     display: inline-block;
     box-sizing: border-box;
 }
+
+@media (max-width: 700px) {
+    .recommendations-section .eshop-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        margin: 0 -20px;
+        padding: 0 20px 12px 20px;
+        scrollbar-width: none;
+    }
+
+    .recommendations-section .eshop-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .recommendations-section .product-card {
+        flex: 0 0 160px;
+        scroll-snap-align: start;
+    }
+}

@@ -14,14 +14,26 @@
     <%= link_to t("nav.cenik"), "/kontakt#cenik", class: "nav-link", id: "nav-cenik" %>
     <%= link_to t("nav.kontakt"), kontakt_path, class: "nav-link", id: "nav-kontakt" %>
   </nav>
-  <div class="sidebar-contact">
-    <div class="contact-item">
-      <svg width="18" height="18" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-      +420 602 446 339
+  <div class="sidebar-bottom">
+    <div class="sidebar-theme-toggle">
+      <span><%= t("nav.dark_mode_label") %></span>
+      <button type="button" class="theme-toggle" id="themeToggleMobile" aria-label="<%= t('nav.toggle_theme') %>">
+        <span class="theme-toggle-track">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span class="theme-toggle-thumb"></span>
+        </span>
+      </button>
     </div>
-    <div class="contact-item">
-      <svg width="14" height="14" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-      stepan.merta@seznam.cz
+    <div class="sidebar-contact">
+      <div class="contact-item">
+        <svg width="18" height="18" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        +420 602 446 339
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        stepan.merta@seznam.cz
+      </div>
     </div>
   </div>
 </aside>

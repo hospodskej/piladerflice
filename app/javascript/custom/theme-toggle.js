@@ -6,7 +6,7 @@ function applyTheme(theme) {
 }
 
 document.addEventListener("click", (event) => {
-  if (!event.target.closest("#themeToggle")) return;
+  if (!event.target.closest(".theme-toggle")) return;
 
   const isDark = document.documentElement.classList.contains("dark-mode");
   applyTheme(isDark ? "light" : "dark");

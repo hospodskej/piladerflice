@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.54: Centered header nav, moved mobile dark mode toggle into sidebar, added Google Analytics  
 Patch 0.8.53: Added dark mode with a sun/moon toggle in the header  
 Patch 0.8.52: Added a cookie consent banner (accept all/necessary only/decline) and cookie policy page  
 Patch 0.8.51: Polished eshop product cards — matched button heights, tightened spec spacing, smaller cards  

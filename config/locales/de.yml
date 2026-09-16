@@ -12,6 +12,7 @@ de:
     open_menu: "Menü öffnen"
     close_menu: "Menü schließen"
     toggle_theme: "Dunklen/hellen Modus umschalten"
+    dark_mode_label: "Dunkler Modus"
 
   common:
     previous: "Zurück"
@@ -678,8 +679,9 @@ de:
       <h2>1. Notwendige Cookies</h2>
       <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, gespeicherte Sprache und Währung, Anmeldung im Verwaltungsbereich) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
 
-      <h2>2. Analyse- und Marketing-Cookies</h2>
-      <p>Derzeit verwendet diese Website keine Analyse- oder Marketing-Cookies. Sollten wir diese künftig einsetzen (z. B. zur Besuchermessung), werden wir Sie erneut um Ihre Zustimmung bitten.</p>
+      <h2>2. Analyse-Cookies</h2>
+      <p>Zur Besuchermessung verwenden wir Google Analytics (Google Ireland Limited). Diese Cookies werden nur gesetzt, wenn Sie dem über „Alle akzeptieren" zustimmen. Sie helfen uns zu verstehen, wie Besucher die Website nutzen, um sie entsprechend zu verbessern.</p>
+      <p>Derzeit verwenden wir keine Marketing- oder Werbe-Cookies.</p>
 
       <h2>3. Verwaltung der Zustimmung</h2>
       <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>

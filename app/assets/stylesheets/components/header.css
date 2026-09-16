@@ -32,7 +32,13 @@
 .header-controls {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 10px;
+    flex: 1;
+}
+
+.main-nav > .logo {
+    flex: 1;
 }
 
 .logo {
@@ -165,6 +171,10 @@
         display: none;
     }
 
+    .header-controls .theme-toggle {
+        display: none;
+    }
+
     .site-header {
         padding: 15px 20px;
     }
@@ -248,8 +258,23 @@
         font-size: 18px;
     }
 
-    .sidebar-contact {
+    .sidebar-bottom {
         margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sidebar-theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 15px;
+        font-weight: 500;
+        color: #111;
+    }
+
+    .sidebar-contact {
         border-top: 1px solid #ccc;
         padding-top: 20px;
         display: flex;

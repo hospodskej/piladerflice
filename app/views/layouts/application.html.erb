@@ -19,6 +19,25 @@
     })();
   </script>
 
+  <% ga_measurement_id = "G-CMJ46E7F3G" %>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    var storedConsent = (document.cookie.match(/(?:^|; )cookie_consent=([^;]*)/) || [])[1];
+    gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: storedConsent === "all" ? "granted" : "denied"
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_measurement_id %>"></script>
+  <script>
+    gtag("js", new Date());
+    gtag("config", "<%= ga_measurement_id %>");
+  </script>
+
   <%= yield :head %>
 
   <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>

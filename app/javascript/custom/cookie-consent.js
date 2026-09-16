@@ -28,8 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("click", (event) => {
   const choiceBtn = event.target.closest("[data-cookie-consent]");
   if (choiceBtn) {
-    setConsentCookie(choiceBtn.dataset.cookieConsent);
+    const choice = choiceBtn.dataset.cookieConsent;
+    setConsentCookie(choice);
     hideBanner();
+
+    if (typeof window.gtag === "function") {
+      window.gtag("consent", "update", {
+        analytics_storage: choice === "all" ? "granted" : "denied"
+      });
+    }
     return;
   }
 

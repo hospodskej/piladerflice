@@ -27,8 +27,8 @@
       <% @catalog_product.catalog_variants.each do |variant| %>
         <tr>
           <td>
-            <% if variant.image.attached? %>
-              <%= image_tag variant.image, class: "admin-table-thumb" %>
+            <% if (thumb = image_tag_if_attached(variant.image, class: "admin-table-thumb")) %>
+              <%= thumb %>
             <% else %>
               <span style="color:#999; font-size:0.8rem;">produkt</span>
             <% end %>

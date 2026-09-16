@@ -10,6 +10,8 @@ class CatalogProduct < ApplicationRecord
 
   translates :title, :type_label, :subtitle, :description, :drying_note, :image_alt
 
+  normalizes :hardness, with: ->(hardness) { hardness.presence }
+
   validates :key, presence: true, uniqueness: true
   validates :template, inclusion: { in: TEMPLATES }
   validates :category, inclusion: { in: CATEGORIES }

@@ -13,9 +13,7 @@
   <div class="admin-form-grid">
     <div class="form-group">
       <label for="promo_image">Obrázek</label>
-      <% if promo.image.attached? %>
-        <%= image_tag promo.image, class: "admin-image-preview" %>
-      <% end %>
+      <%= image_tag_if_attached promo.image, class: "admin-image-preview" %>
       <%= f.file_field :image, accept: "image/*" %>
       <p class="admin-form-hint">Nahrajte novou fotku pro nahrazení aktuální. Necháte-li prázdné, zůstane aktuální obrázek.</p>
     </div>

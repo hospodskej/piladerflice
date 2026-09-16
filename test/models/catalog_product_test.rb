@@ -53,4 +53,12 @@ class CatalogProductTest < ActiveSupport::TestCase
     product.hardness = "bogus"
     assert_not product.valid?
   end
+
+  test "hardness normalizes a blank string (from the admin form's blank option) to nil" do
+    product = catalog_products(:tramy)
+    product.hardness = ""
+
+    assert product.valid?
+    assert_nil product.hardness
+  end
 end

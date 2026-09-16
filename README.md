@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.56: Added Google Search Console site verification meta tag  
 Patch 0.8.55: Added GA4 purchase conversion tracking on the order confirmation page  
 Patch 0.8.54: Centered header nav, moved mobile dark mode toggle into sidebar, added Google Analytics  
 Patch 0.8.53: Added dark mode with a sun/moon toggle in the header  

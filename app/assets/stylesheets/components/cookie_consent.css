@@ -1,0 +1,111 @@
+.cookie-consent-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: #ffffff;
+    border-top: 1px solid #000000;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px 5%;
+    box-sizing: border-box;
+}
+
+.cookie-consent-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.cookie-consent-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #222222;
+    flex: 1;
+    min-width: 240px;
+}
+
+.cookie-consent-link {
+    color: #2C8FFF;
+    font-weight: 700;
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+.cookie-consent-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-cookie {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cookie-decline {
+    background-color: transparent;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.btn-cookie-decline:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-cookie-necessary {
+    background-color: transparent;
+    color: #2C8FFF;
+    border: 1px solid #2C8FFF;
+}
+
+.btn-cookie-necessary:hover {
+    background-color: #EAF3FF;
+}
+
+.btn-cookie-accept {
+    background-color: #2C8FFF;
+    color: #ffffff;
+    border: 1px solid #2C8FFF;
+}
+
+.btn-cookie-accept:hover {
+    background-color: #1A6FCC;
+}
+
+.footer-cookie-settings {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .cookie-consent-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .cookie-consent-actions {
+        justify-content: stretch;
+    }
+
+    .btn-cookie {
+        flex: 1;
+    }
+}

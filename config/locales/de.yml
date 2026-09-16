@@ -669,3 +669,24 @@ de:
       <p>Diese AGB unterliegen dem Recht der Tschechischen Republik, insbesondere dem Gesetz Nr. 89/2012 Slg., Bürgerliches Gesetzbuch, sowie dem Gesetz Nr. 634/1992 Slg., über den Verbraucherschutz, in der jeweils geltenden Fassung.</p>
       <p>Sollte eine Bestimmung dieser AGB unwirksam sein oder werden, tritt an ihre Stelle eine Regelung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt. Die Unwirksamkeit einer Bestimmung berührt nicht die Gültigkeit der übrigen Bestimmungen.</p>
       <p>Diese AGB treten mit dem Datum ihrer Veröffentlichung in Kraft.</p>
+
+    cookies_title: "Cookie-Richtlinie"
+    cookies_content_html: |
+      <p>Diese Website verwendet Cookies – kleine Textdateien, die in Ihrem Browser gespeichert werden und uns helfen, ihre korrekte Funktion sicherzustellen.</p>
+
+      <h2>1. Notwendige Cookies</h2>
+      <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, gespeicherte Sprache und Währung, Anmeldung im Verwaltungsbereich) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
+
+      <h2>2. Analyse- und Marketing-Cookies</h2>
+      <p>Derzeit verwendet diese Website keine Analyse- oder Marketing-Cookies. Sollten wir diese künftig einsetzen (z. B. zur Besuchermessung), werden wir Sie erneut um Ihre Zustimmung bitten.</p>
+
+      <h2>3. Verwaltung der Zustimmung</h2>
+      <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>
+
+  cookies:
+    banner_text: "Wir verwenden Cookies, um die bestmögliche Funktion dieser Website sicherzustellen. Notwendige Cookies sind immer aktiv."
+    accept_all: "Alle akzeptieren"
+    necessary_only: "Nur notwendige"
+    decline: "Ablehnen"
+    learn_more: "Mehr erfahren"
+    settings_link: "Cookie-Einstellungen"

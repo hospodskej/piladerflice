@@ -59,7 +59,7 @@
               <% if index < 3 %>
                 <span class="product-badge"><%= index + 1 %>.</span>
               <% end %>
-              <%= image_tag product.image, alt: product.title_i18n, class: "product-img" %>
+              <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "product-img" %>
             <% end %>
 
             <div class="product-info-eshop">

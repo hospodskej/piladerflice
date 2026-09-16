@@ -13,14 +13,27 @@ class CartTest < ActiveSupport::TestCase
   end
 
   test "add stores price, image, and specs from the variant, not the caller" do
+    product = @variant.catalog_product
+    product.image.attach(
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
+      filename: "tramy.png"
+    )
+
     line_id = @cart.add(@variant)
     item = @cart.find(line_id)
 
-    assert_equal @variant.catalog_product.key, item.product_key
-    assert_equal @variant.catalog_product.image, item.image
+    assert_equal product.key, item.product_key
+    assert_equal Rails.application.routes.url_helpers.rails_blob_path(product.image, only_path: true), item.image
     assert_equal @variant.price_czk, item.unit_price_czk
     assert_equal @variant.to_cart_specs, item.specs
     assert_equal 1, item.quantity
+  end
+
+  test "add stores a nil image when the product has no image attached" do
+    line_id = @cart.add(@variant)
+    item = @cart.find(line_id)
+
+    assert_nil item.image
   end
 
   test "adding the same variant twice increments quantity instead of duplicating the line" do

@@ -1,4 +1,6 @@
 class Cart
+  include Rails.application.routes.url_helpers
+
   SESSION_KEY = :cart
 
   VAT_RATE = 0.21
@@ -21,7 +23,7 @@ class Cart
       @session[SESSION_KEY][id] = {
         "catalog_variant_id" => catalog_variant.id,
         "product_key" => catalog_variant.catalog_product.key,
-        "image" => catalog_variant.catalog_product.image,
+        "image" => image_url_for(catalog_variant.catalog_product),
         "unit_price_czk" => catalog_variant.price_czk,
         "specs" => catalog_variant.to_cart_specs,
         "quantity" => quantity
@@ -72,5 +74,13 @@ class Cart
 
   def clear
     @session[SESSION_KEY] = {}
+  end
+
+  private
+
+  def image_url_for(catalog_product)
+    return nil unless catalog_product.image.attached?
+
+    rails_blob_path(catalog_product.image, only_path: true)
   end
 end

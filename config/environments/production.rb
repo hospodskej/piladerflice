@@ -6,6 +6,13 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
+  # Store uploaded files (product/promo images) on local disk by default.
+  # This only works if the server has a persistent disk. If you deploy to a
+  # platform with an ephemeral filesystem (e.g. Heroku, most container
+  # platforms), switch this to a cloud service (S3, Cloudflare R2, etc.)
+  # configured in config/storage.yml, or uploads will disappear on restart.
+  config.active_storage.service = :local
+
   # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
 

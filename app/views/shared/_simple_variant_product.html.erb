@@ -13,7 +13,7 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag product.image, alt: title %>
+        <%= image_tag_if_attached product.image, alt: title %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>

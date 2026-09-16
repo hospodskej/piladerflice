@@ -22,7 +22,7 @@
             <ul class="checkout-summary-full-items">
               <% current_cart.items.each do |item| %>
                 <li class="checkout-summary-full-item">
-                  <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+                  <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" if item.image %>
                   <span class="cart-item-desc"><%= cart_line_description(item) %></span>
                   <div class="checkout-summary-full-item-prices">
                     <div class="cart-total-row cart-total-excl-vat">

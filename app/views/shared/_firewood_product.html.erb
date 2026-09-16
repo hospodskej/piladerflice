@@ -20,7 +20,7 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag product.image, alt: product.image_alt_i18n %>
+        <%= image_tag_if_attached product.image, alt: product.image_alt_i18n %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>

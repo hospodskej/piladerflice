@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         patch :move_down
       end
     end
+    resources :promos, except: [:show]
   end
 
   get '/kosik/doprava', to: 'checkout#shipping', as: :checkout_shipping

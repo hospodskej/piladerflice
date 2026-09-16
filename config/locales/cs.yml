@@ -11,6 +11,7 @@ cs:
     kontakt: "Kontakt"
     open_menu: "Otevřít menu"
     close_menu: "Zavřít menu"
+    toggle_theme: "Přepnout tmavý/světlý režim"
 
   common:
     previous: "Předchozí"

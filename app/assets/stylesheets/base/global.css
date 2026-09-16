@@ -4,6 +4,11 @@ body {
     background-color: #E6E6E6;
 }
 
+.page-wrapper {
+    background-color: #E6E6E6;
+    min-height: 100vh;
+}
+
 .main {
     max-width: 1200px;
     margin: 0 auto;

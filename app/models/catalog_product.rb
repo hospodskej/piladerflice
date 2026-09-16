@@ -6,6 +6,7 @@ class CatalogProduct < ApplicationRecord
   HARDNESS_VALUES = %w[hard soft].freeze
 
   has_many :catalog_variants, -> { order(:position, :id) }, dependent: :destroy
+  has_one_attached :image
 
   translates :title, :type_label, :subtitle, :description, :drying_note, :image_alt
 

@@ -85,14 +85,18 @@ puts "Price list was successfully imported!"
 puts "Clearing old promos..."
 Promo.destroy_all
 
+def attach_seed_image!(record, relative_path)
+  full_path = Rails.root.join("app/assets/images", relative_path)
+  record.image.attach(io: File.open(full_path), filename: File.basename(full_path))
+end
+
 puts "Creating Hero Promos..."
-Promo.create!(
+promo1 = Promo.create!(
   title: "PALIVOVÉ DŘEVO – AKÁT 32 CM",
   feature_1: "Vysoká výhřevnost",
   feature_2: "Skladem ihned",
   feature_3: "Rychlé dodání",
   price: "od 1500 / 1 PRMS",
-  image: "akcni-nabidka-hero.png",
   link: "/eshop/akat",
   title_de: "BRENNHOLZ – AKAZIE 32 CM",
   feature_1_de: "Hoher Heizwert",
@@ -100,14 +104,14 @@ Promo.create!(
   feature_3_de: "Schnelle Lieferung",
   price_de: "ab 1500 / 1 Rm"
 )
+attach_seed_image!(promo1, "akcni-nabidka-hero.png")
 
-Promo.create!(
+promo2 = Promo.create!(
   title: "STAVEBNÍ TRÁMY NA MÍRU",
   feature_1: "Přesné rozměry",
   feature_2: "Kvalitní sušené dřevo",
   feature_3: "Výroba na zakázku",
   price: "od 8500 Kč / m³",
-  image: "eshop/tramy.png",
   link: "/eshop/tramy",
   title_de: "BAUBALKEN NACH MASS",
   feature_1_de: "Präzise Maße",
@@ -115,14 +119,14 @@ Promo.create!(
   feature_3_de: "Sonderanfertigung",
   price_de: "ab 8500 CZK / m³"
 )
+attach_seed_image!(promo2, "eshop/tramy.png")
 
-Promo.create!(
+promo3 = Promo.create!(
   title: "STŘEŠNÍ LATĚ SKLADEM",
   feature_1: "Různé rozměry",
   feature_2: "Ihned k odběru",
   feature_3: "Doprava po celé Moravě",
   price: "od 8500 Kč / m³",
-  image: "eshop/late.png",
   link: "/eshop/late",
   title_de: "DACHLATTEN AUF LAGER",
   feature_1_de: "Verschiedene Maße",
@@ -130,6 +134,7 @@ Promo.create!(
   feature_3_de: "Lieferung in ganz Mähren",
   price_de: "ab 8500 CZK / m³"
 )
+attach_seed_image!(promo3, "eshop/late.png")
 
 puts "Promos successfully created!"
 

@@ -15,7 +15,7 @@
       <div class="akcni-product-card">
         <div class="badge"><%= t("home.index.promo_badge") %></div>
         <div class="akcni-media">
-          <%= image_tag @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
+          <%= image_tag_if_attached @hero_promo.image, alt: t("home.index.promo_alt"), class: "hero-image" %>
           <div class="product-info">
             <div class="product-subinfo">
               <h2 class="product-title"><%= @hero_promo.title_i18n %></h2>

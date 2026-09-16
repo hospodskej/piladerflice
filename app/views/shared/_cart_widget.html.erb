@@ -14,7 +14,7 @@
       <ul class="cart-items-list">
         <% current_cart.items.each do |item| %>
           <li class="cart-item">
-            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" if item.image %>
             <div class="cart-item-details">
               <span class="cart-item-desc"><%= cart_line_description(item) %></span>
             </div>

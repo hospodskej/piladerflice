@@ -18,7 +18,7 @@
         <% line_excl_vat = (item.line_total_czk / (1 + Cart::VAT_RATE)).round %>
         <div class="checkout-cart-row">
           <div class="col-item">
-            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" %>
+            <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" if item.image %>
             <span class="cart-item-desc"><%= cart_line_description(item) %></span>
           </div>
 

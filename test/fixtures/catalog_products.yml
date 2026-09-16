@@ -5,7 +5,6 @@ smrk:
   hardness: soft
   active: true
   position: 0
-  image: eshop/smrk.png
   title: Smrk
   title_de: Fichte
   type_label: Měkké palivové dřevo
@@ -17,7 +16,6 @@ tramy:
   category: rezivo
   active: true
   position: 0
-  image: eshop/tramy.png
   title: Trámy
   title_de: Balken
   type_label: Sypané
@@ -29,7 +27,6 @@ odkory:
   category: zbytky
   active: true
   position: 0
-  image: eshop/odkory.png
   title: Odkory na topení
   title_de: Rindenreste zum Heizen
   type_label: Odkory
@@ -42,5 +39,4 @@ inactive_product:
   hardness: hard
   active: false
   position: 99
-  image: eshop/smrk.png
   title: Neaktivní produkt

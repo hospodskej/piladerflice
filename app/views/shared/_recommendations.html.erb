@@ -11,7 +11,7 @@
     <% recommendations.each do |product| %>
       <div class="product-card">
         <div class="product-image-wrapper-eshop">
-          <%= image_tag product.image, alt: product.title_i18n, class: "product-img" %>
+          <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "product-img" %>
         </div>
         <div class="product-info-eshop">
           <h4 class="product-title"><%= product.title_i18n %></h4>

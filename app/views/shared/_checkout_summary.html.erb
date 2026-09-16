@@ -3,7 +3,7 @@
   <ul class="checkout-summary-items">
     <% current_cart.items.each do |item| %>
       <li class="checkout-summary-item">
-        <%= image_tag item.image, alt: cart_line_description(item), class: "checkout-summary-item-img" %>
+        <%= image_tag item.image, alt: cart_line_description(item), class: "checkout-summary-item-img" if item.image %>
         <span class="checkout-summary-item-desc"><%= cart_line_description(item) %></span>
       </li>
     <% end %>

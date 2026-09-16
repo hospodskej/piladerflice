@@ -20,7 +20,7 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag product.image, alt: product.image_alt_i18n %>
+        <%= image_tag_if_attached product.image, alt: product.image_alt_i18n %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>
@@ -62,7 +62,7 @@
               <div class="matrix-cell">
                 <% if variant %>
                   <div class="inventory-card">
-                    <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+                    <%= image_tag_with_fallback variant.image, "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
                     <div class="inventory-specs">
                       <div class="spec-labels">
                         <span><%= t("common.spec_variant") %></span>
@@ -99,7 +99,7 @@
           <% bedny_variants.each do |variant| %>
             <div class="matrix-cell">
               <div class="inventory-card">
-                <%= image_tag "eshop/bedna.png", alt: t("common.crate"), class: "inventory-img" %>
+                <%= image_tag_with_fallback variant.image, "eshop/bedna.png", alt: t("common.crate"), class: "inventory-img" %>
                 <div class="inventory-specs">
                   <div class="spec-labels">
                     <span><%= t("common.spec_variant") %></span>

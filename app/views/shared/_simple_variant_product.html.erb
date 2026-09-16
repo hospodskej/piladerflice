@@ -13,7 +13,7 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag product.image, alt: title %>
+        <%= image_tag_if_attached product.image, alt: title %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>
@@ -33,7 +33,7 @@
         <div class="<%= grid_class %>">
           <% product.catalog_variants.each do |variant| %>
             <div class="inventory-card">
-              <%= image_tag "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
+              <%= image_tag_with_fallback variant.image, "eshop/container.png", alt: t("common.container"), class: "inventory-img" %>
 
               <div class="inventory-specs">
                 <div class="spec-labels">

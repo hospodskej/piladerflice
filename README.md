@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.52: Added a cookie consent banner (accept all/necessary only/decline) and cookie policy page  
 Patch 0.8.51: Polished eshop product cards — matched button heights, tightened spec spacing, smaller cards  
 Patch 0.8.50: Reverted the header-size unification from 0.8.48, kept the hero 2-line fix  
 Patch 0.8.49: Removed the quantity stepper on palivové dřevo product cards  

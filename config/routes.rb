@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   get '/kosik', to: 'carts#show', as: :cart
   resources :inquiries, only: [:create]
   get '/obchodni-podminky', to: 'pages#terms', as: :terms
+  get '/zasady-cookies', to: 'pages#cookies', as: :cookies_policy
 
   namespace :admin do
     root to: "dashboard#index"

@@ -674,3 +674,24 @@ cs:
       <p>Tyto obchodní podmínky se řídí právním řádem České republiky, zejména zákonem č. 89/2012 Sb., občanský zákoník, a zákonem č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů.</p>
       <p>Je-li některé ustanovení obchodních podmínek neplatné nebo neúčinné, nebo se takovým stane, namísto neplatných ustanovení nastoupí ustanovení, jehož smysl se neplatnému ustanovení co nejvíce přibližuje. Neplatností nebo neúčinností jednoho ustanovení není dotčena platnost ostatních ustanovení.</p>
       <p>Tyto obchodní podmínky nabývají účinnosti dnem jejich zveřejnění.</p>
+
+    cookies_title: "Zásady používání cookies"
+    cookies_content_html: |
+      <p>Tyto webové stránky používají soubory cookies – malé textové soubory ukládané ve vašem prohlížeči, které nám pomáhají zajistit jejich správné fungování.</p>
+
+      <h2>1. Nezbytné cookies</h2>
+      <p>Tyto cookies jsou nutné pro základní fungování stránek (např. obsah košíku, uložení jazyka a měny, přihlášení do administrace) a nelze je vypnout. Bez nich by stránky nefungovaly správně.</p>
+
+      <h2>2. Analytické a marketingové cookies</h2>
+      <p>V současné době tyto stránky žádné analytické ani marketingové cookies nepoužívají. Pokud je v budoucnu nasadíme (např. pro měření návštěvnosti), vyžádáme si od vás nový souhlas.</p>
+
+      <h2>3. Správa souhlasu</h2>
+      <p>Svou volbu můžete kdykoliv změnit pomocí odkazu „Nastavení cookies" v patičce stránek.</p>
+
+  cookies:
+    banner_text: "Používáme cookies, abychom vám zajistili co nejlepší fungování těchto stránek. Nezbytné cookies jsou vždy aktivní."
+    accept_all: "Přijmout vše"
+    necessary_only: "Pouze nezbytné"
+    decline: "Odmítnout"
+    learn_more: "Zjistit více"
+    settings_link: "Nastavení cookies"

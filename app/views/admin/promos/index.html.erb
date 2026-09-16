@@ -1,0 +1,38 @@
+<div class="admin-toolbar">
+  <h1 class="admin-page-title">Akční nabídka (hero)</h1>
+  <%= link_to "+ Nová akční nabídka", new_admin_promo_path, class: "btn-primary" %>
+</div>
+
+<p class="admin-form-hint">
+  Nabídka na hlavní stránce se automaticky střídá každý týden mezi všemi níže uvedenými záznamy (podle pořadí vytvoření). Pro rotaci stačí mít alespoň 2 záznamy.
+</p>
+
+<% if @promos.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Název</th>
+        <th>Cena</th>
+        <th>Odkaz</th>
+        <th>Tento týden</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @promos.each do |promo| %>
+        <tr>
+          <td><strong><%= promo.title %></strong></td>
+          <td><%= promo.price %></td>
+          <td><%= promo.link %></td>
+          <td><%= promo == @current_weekly_pick ? "✓ Aktivní" : "" %></td>
+          <td>
+            <%= link_to "Upravit", edit_admin_promo_path(promo) %>
+            <%= button_to "Smazat", admin_promo_path(promo), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat tuto akční nabídku?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="admin-empty-state">Zatím žádné akční nabídky. Bez záznamu se na hlavní stránce nezobrazí žádná akční nabídka.</div>
+<% end %>

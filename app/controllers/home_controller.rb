@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @hero_promo = Promo.first
+    @hero_promo = Promo.weekly_pick
     @sluzby = Service.all
     @zajimavosti = FaqItem.all
     @produkty = Product.all

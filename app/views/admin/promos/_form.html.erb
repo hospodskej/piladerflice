@@ -1,0 +1,78 @@
+<%= form_with model: [:admin, promo], class: "admin-form" do |f| %>
+  <% if promo.errors.any? %>
+    <div class="admin-flash admin-flash-alert">
+      <strong><%= pluralize(promo.errors.count, "chyba") %> brání uložení:</strong>
+      <ul>
+        <% promo.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <label for="promo_image">Obrázek (cesta v app/assets/images)</label>
+      <%= f.text_field :image, placeholder: "eshop/tramy.png" %>
+    </div>
+
+    <div class="form-group">
+      <label for="promo_link">Odkaz tlačítka</label>
+      <%= f.text_field :link, placeholder: "/eshop/akat" %>
+    </div>
+  </div>
+
+  <h2 class="admin-section-title">Český obsah</h2>
+  <div class="admin-form-grid">
+    <div class="form-group form-group-wide">
+      <label for="promo_title">Název</label>
+      <%= f.text_field :title %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_1">Vlastnost 1</label>
+      <%= f.text_field :feature_1 %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_2">Vlastnost 2</label>
+      <%= f.text_field :feature_2 %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_3">Vlastnost 3</label>
+      <%= f.text_field :feature_3 %>
+    </div>
+    <div class="form-group">
+      <label for="promo_price">Cena</label>
+      <%= f.text_field :price, placeholder: "od 1500 / 1 PRMS" %>
+    </div>
+  </div>
+
+  <h2 class="admin-section-title">Německý obsah</h2>
+  <p class="admin-form-hint" style="margin-bottom: 14px;">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
+  <div class="admin-form-grid">
+    <div class="form-group form-group-wide">
+      <label for="promo_title_de">Název (DE)</label>
+      <%= f.text_field :title_de %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_1_de">Vlastnost 1 (DE)</label>
+      <%= f.text_field :feature_1_de %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_2_de">Vlastnost 2 (DE)</label>
+      <%= f.text_field :feature_2_de %>
+    </div>
+    <div class="form-group">
+      <label for="promo_feature_3_de">Vlastnost 3 (DE)</label>
+      <%= f.text_field :feature_3_de %>
+    </div>
+    <div class="form-group">
+      <label for="promo_price_de">Cena (DE)</label>
+      <%= f.text_field :price_de, placeholder: "ab 1500 / 1 Rm" %>
+    </div>
+  </div>
+
+  <div class="admin-form-actions">
+    <%= f.submit "Uložit akční nabídku", class: "btn-primary" %>
+    <%= link_to "Zpět na přehled", admin_promos_path, class: "btn-outline-dark" %>
+  </div>
+<% end %>

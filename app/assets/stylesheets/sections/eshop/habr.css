@@ -151,7 +151,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 .spec-labels {

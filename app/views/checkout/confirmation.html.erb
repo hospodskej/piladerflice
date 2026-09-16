@@ -12,4 +12,23 @@
       <%= link_to t("checkout.back_to_homepage"), root_path, class: "btn-primary" %>
     </div>
   </section>
+
+  <script>
+    (function () {
+      var dedupeKey = "ga_purchase_fired_<%= @order.id %>";
+      try {
+        if (sessionStorage.getItem(dedupeKey)) return;
+        sessionStorage.setItem(dedupeKey, "1");
+      } catch (e) {}
+
+      if (typeof gtag === "function") {
+        gtag("event", "purchase", {
+          transaction_id: "<%= @order.id %>",
+          value: <%= @order.total_czk.to_f %>,
+          currency: "CZK",
+          items: <%= raw @order.ga_purchase_items.to_json %>
+        });
+      }
+    })();
+  </script>
 </main>

@@ -21,6 +21,18 @@ class Order < ApplicationRecord
     JSON.parse(items_snapshot)
   end
 
+  def ga_purchase_items
+    items.map do |item|
+      product = CatalogProduct.find_by(key: item["product_key"])
+      {
+        item_id: item["product_key"],
+        item_name: product&.title_i18n || item["product_key"],
+        price: item["unit_price_czk"].to_f,
+        quantity: item["quantity"]
+      }
+    end
+  end
+
   def full_name
     "#{first_name} #{last_name}".strip
   end

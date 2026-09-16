@@ -36,6 +36,23 @@ class CartTest < ActiveSupport::TestCase
     assert_nil item.image
   end
 
+  test "add prefers the variant's own image over the product's image" do
+    product = @variant.catalog_product
+    product.image.attach(
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
+      filename: "tramy.png"
+    )
+    @variant.image.attach(
+      io: File.open(Rails.root.join("app/assets/images/eshop/fosny.png")),
+      filename: "fosny.png"
+    )
+
+    line_id = @cart.add(@variant)
+    item = @cart.find(line_id)
+
+    assert_equal Rails.application.routes.url_helpers.rails_blob_path(@variant.image, only_path: true), item.image
+  end
+
   test "adding the same variant twice increments quantity instead of duplicating the line" do
     first_id = @cart.add(@variant)
     second_id = @cart.add(@variant)

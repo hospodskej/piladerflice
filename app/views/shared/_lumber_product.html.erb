@@ -61,7 +61,7 @@
         <% variants.each do |variant| %>
           <% filter_value = has_dimensions ? variant.dimension_filter_key : variant.grade_filter_key %>
           <div class="inventory-card" data-filter-value="<%= filter_value %>">
-            <%= image_tag_if_attached product.image, alt: title, class: "inventory-img" %>
+            <%= image_tag_with_fallback variant.image, product.image, alt: title, class: "inventory-img" %>
             <div class="inventory-specs">
               <div class="spec-labels">
                 <% if variant.grade.present? %><span><%= t("common.spec_grade") %></span><% end %>

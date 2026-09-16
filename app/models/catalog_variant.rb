@@ -2,6 +2,7 @@ class CatalogVariant < ApplicationRecord
   include Translatable
 
   belongs_to :catalog_product
+  has_one_attached :image
 
   translates :variant_label
   translates :grade

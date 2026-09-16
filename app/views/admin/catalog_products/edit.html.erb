@@ -14,6 +14,7 @@
   <table class="admin-table">
     <thead>
       <tr>
+        <th>Obrázek</th>
         <th>Popis</th>
         <th>Délka</th>
         <th>Množství</th>
@@ -25,6 +26,13 @@
     <tbody>
       <% @catalog_product.catalog_variants.each do |variant| %>
         <tr>
+          <td>
+            <% if variant.image.attached? %>
+              <%= image_tag variant.image, class: "admin-table-thumb" %>
+            <% else %>
+              <span style="color:#999; font-size:0.8rem;">produkt</span>
+            <% end %>
+          </td>
           <td>
             <% if @catalog_product.template == "lumber" %>
               <%= [variant.grade, [variant.width_mm, variant.height_mm].all?(&:present?) ? "#{variant.width_mm}×#{variant.height_mm} mm" : nil].compact.join(" / ") %>

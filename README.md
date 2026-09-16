@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.60: Fixed a crash when saving a product/promo/variant edit with a new image and a blank dropdown field  
 Patch 0.8.59: Admins can now upload a separate image per product variant (e.g. a different photo per firewood amount), falling back to the product's default image  
 Patch 0.8.58: Admins can now upload real image files for products and promos instead of typing a filename  
 Patch 0.8.57: Akční nabídka now rotates weekly, with a new admin page to manage the pool  

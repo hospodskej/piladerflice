@@ -13,9 +13,7 @@
   <div class="admin-form-grid">
     <div class="form-group">
       <label for="catalog_variant_image">Obrázek varianty</label>
-      <% if catalog_variant.image.attached? %>
-        <%= image_tag catalog_variant.image, class: "admin-image-preview" %>
-      <% end %>
+      <%= image_tag_if_attached catalog_variant.image, class: "admin-image-preview" %>
       <%= f.file_field :image, accept: "image/*" %>
       <p class="admin-form-hint">Volitelné. Nahrajte obrázek pro tuto konkrétní variantu (např. jiné množství nebo rozměr), pokud se má lišit od výchozího obrázku produktu. Necháte-li prázdné, zobrazí se obrázek produktu.</p>
     </div>

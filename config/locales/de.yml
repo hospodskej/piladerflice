@@ -11,6 +11,7 @@ de:
     kontakt: "Kontakt"
     open_menu: "Menü öffnen"
     close_menu: "Menü schließen"
+    toggle_theme: "Dunklen/hellen Modus umschalten"
 
   common:
     previous: "Zurück"

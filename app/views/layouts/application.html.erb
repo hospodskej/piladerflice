@@ -9,6 +9,16 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark-mode");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <%= yield :head %>
 
   <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
@@ -21,16 +31,19 @@
   <%= javascript_importmap_tags %>
 </head>
 <body>
-<%= render "shared/header" %>
-<%= render "shared/breadcrumbs" %>
-<% if notice %>
-  <div class="page-flash page-flash-notice"><%= notice %></div>
-<% end %>
-<% if alert %>
-  <div class="page-flash page-flash-alert"><%= alert %></div>
-<% end %>
-<%= yield %>
-<%= render "shared/footer" %>
+<div class="page-wrapper">
+  <%= render "shared/header" %>
+  <%= render "shared/breadcrumbs" %>
+  <% if notice %>
+    <div class="page-flash page-flash-notice"><%= notice %></div>
+  <% end %>
+  <% if alert %>
+    <div class="page-flash page-flash-alert"><%= alert %></div>
+  <% end %>
+  <%= yield %>
+  <%= render "shared/footer" %>
+</div>
+<%= render "shared/mobile_sidebar" %>
 <%= render "shared/cookie_consent" %>
 <div id="cart-added-modal"></div>
 </body>

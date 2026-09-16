@@ -1,0 +1,74 @@
+.theme-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.theme-toggle-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 52px;
+    height: 28px;
+    padding: 0 6px;
+    background-color: #E6E6E6;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.theme-icon {
+    position: relative;
+    z-index: 1;
+    color: #000000;
+    pointer-events: none;
+}
+
+.theme-toggle-thumb {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 24px;
+    height: 24px;
+    background-color: #2C8FFF;
+    border-radius: 50%;
+    transition: transform 0.25s ease;
+    z-index: 0;
+}
+
+html.dark-mode .theme-toggle-thumb {
+    transform: translateX(24px);
+}
+
+/* Filter-invert dark mode: flips the whole page's colors, then flips
+   photographic content (product photos, embeds) back so it stays true-color. */
+html.dark-mode .page-wrapper,
+html.dark-mode .mobile-sidebar,
+html.dark-mode .sidebar-overlay,
+html.dark-mode .cookie-consent-banner,
+html.dark-mode .cart-modal-backdrop {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html.dark-mode .page-wrapper img:not(.logo):not(.sidebar-logo):not(.footer-logo),
+html.dark-mode .page-wrapper video,
+html.dark-mode .mobile-sidebar img:not(.logo):not(.sidebar-logo):not(.footer-logo),
+html.dark-mode .cookie-consent-banner img,
+html.dark-mode .cart-modal-backdrop img {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* The footer is already dark-styled regardless of theme, so cancel the
+   page-wrapper inversion for it instead of letting it flip to light. */
+html.dark-mode .page-wrapper .site-footer {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html.dark-mode {
+    background-color: #1a1a1a;
+}

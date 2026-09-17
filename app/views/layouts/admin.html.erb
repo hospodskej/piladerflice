@@ -16,7 +16,7 @@
       <nav class="admin-nav">
         <%= link_to "Přehled", admin_root_path, class: "admin-nav-link #{'active' if current_page?(admin_root_path)}" %>
         <%= link_to "Katalog a ceny", admin_catalog_products_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/catalog_products')}" %>
-        <%= link_to "Akční nabídka", admin_promos_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/promos')}" %>
+        <%= link_to "Doporučujeme", admin_promos_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/promos')}" %>
         <%= link_to "Objednávky", admin_orders_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/orders')}" %>
         <%= link_to "Poptávky", admin_inquiries_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/inquiries')}" %>
         <%= link_to "Formulář poptávky", admin_inquiry_form_options_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/inquiry_form_options')}" %>

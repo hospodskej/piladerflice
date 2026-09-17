@@ -185,19 +185,6 @@ de:
       akcni_image_alt: "Aktionsangebot - Brennholz"
       nejprodavanejsi_title_accent: "Meistverkaufte"
       nejprodavanejsi_title_rest: "Produkte?"
-      bestsellers:
-        akat:
-          title: "Hartes Brennholz"
-          desc: "Akazie, 33cm"
-          price: "1800 CZK / 1 Rm"
-        tramy:
-          title: "Balken, 1. Güteklasse"
-          desc: "Fichte"
-          price: "1800 CZK / 1 Rm"
-        dub:
-          title: "Hartes Brennholz"
-          desc: "Eiche, 33cm"
-          price: "1800 CZK / 1 Rm"
       btn_prohlednout: "ANSEHEN"
       nabidka_title_accent: "anbieten?"
       nabidka_title_rest: "Was können wir Ihnen"

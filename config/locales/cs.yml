@@ -185,19 +185,6 @@ cs:
       akcni_image_alt: "Akční nabídka - palivové dřevo"
       nejprodavanejsi_title_accent: "Nejprodávanější"
       nejprodavanejsi_title_rest: "produkty?"
-      bestsellers:
-        akat:
-          title: "Tvrdé palivové dřevo"
-          desc: "Akát, 33cm"
-          price: "1800 KČ / 1 PRMS"
-        tramy:
-          title: "Trámy, 1. výrobní jakkost"
-          desc: "Smrk"
-          price: "1800 KČ / 1 PRMS"
-        dub:
-          title: "Tvrdé palivové dřevo"
-          desc: "Dub, 33cm"
-          price: "1800 KČ / 1 PRMS"
       btn_prohlednout: "PROHLÉDNOUT"
       nabidka_title_accent: "nabídnout?"
       nabidka_title_rest: "Co vám můžeme"

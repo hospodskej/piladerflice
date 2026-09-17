@@ -127,43 +127,25 @@
   <section class="nejprodavanejsi-produkty-section">
     <h1><span style="color: #2C8FFF"><%= t("home.index.nejprodavanejsi_title_accent") %></span>    <%= t("home.index.nejprodavanejsi_title_rest") %></h1>
     <div class="nejprodavanejsi-produkty-grid">
-      <%
-        nejprodavanejsi = [
-          {
-            title: t("home.index.bestsellers.akat.title"),
-            desc: t("home.index.bestsellers.akat.desc"),
-            price: t("home.index.bestsellers.akat.price"),
-            img: "akat.png",
-            path: eshop_akat_path
-          },
-          {
-            title: t("home.index.bestsellers.tramy.title"),
-            desc: t("home.index.bestsellers.tramy.desc"),
-            price: t("home.index.bestsellers.tramy.price"),
-            img: "tramy.png",
-            path: eshop_tramy_path
-          },
-          {
-            title: t("home.index.bestsellers.dub.title"),
-            desc: t("home.index.bestsellers.dub.desc"),
-            price: t("home.index.bestsellers.dub.price"),
-            img: "akat2.png",
-            path: eshop_dub_path
-          }
-        ]
-      %>
-
-      <% nejprodavanejsi.each do |product| %>
+      <% @bestseller_products.each do |product| %>
         <div class="nejprodavanejsi-produkty-card">
-          <%= image_tag "nejprodavanejsi-produkty/#{product[:img]}", alt: product[:title], class: "nejprodavanejsi-produkty-image" %>
+          <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "nejprodavanejsi-produkty-image" %>
 
           <div class="nejprodavanejsi-produkty-details">
-            <span class="nejprodavanejsi-produkty-title"><%= product[:title] %></span>
-            <span class="nejprodavanejsi-produkty-desc"><strong><%= product[:desc] %></strong></span>
+            <span class="nejprodavanejsi-produkty-title"><%= product.type_label_i18n %></span>
+            <span class="nejprodavanejsi-produkty-desc"><strong><%= product.title_i18n %></strong></span>
             <span class="nejprodavanejsi-produkty-stock"><%= t("common.stock") %></span>
-            <span class="nejprodavanejsi-produkty-price"><strong><%= product[:price] %></strong></span>
+            <span class="nejprodavanejsi-produkty-price">
+              <strong>
+                <% if product.starting_price_czk %>
+                  <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.starting_price_czk) %>
+                <% else %>
+                  ---
+                <% end %>
+              </strong>
+            </span>
 
-            <%= link_to t("home.index.btn_prohlednout"), product[:path], class:"btn-prohlednout" %>
+            <%= link_to t("home.index.btn_prohlednout"), "/eshop/#{product.key}", class: "btn-prohlednout", data: { turbo: false } %>
           </div>
         </div>
       <% end %>

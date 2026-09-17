@@ -1,10 +1,13 @@
 class HomeController < ApplicationController
+  BESTSELLER_KEYS = %w[akat tramy dub].freeze
+
   def index
     @hero_promo = Promo.weekly_pick
     @sluzby = Service.all
     @zajimavosti = FaqItem.all
     @produkty = Product.all
     @google_reviews = Review.ordered
+    @bestseller_products = CatalogProduct.active.where(key: BESTSELLER_KEYS).index_by(&:key).values_at(*BESTSELLER_KEYS).compact
   end
 
   def kontakt

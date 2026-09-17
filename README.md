@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.62: Renamed the hero card's top-left badge from "Akční nabídka" to "Doporučujeme"  
 Patch 0.8.61: "Nejprodávanější produkty" on the homepage now pulls live title/price/photo from the matching eshop product instead of separate hardcoded content  
 Patch 0.8.60: Fixed a crash when saving a product/promo/variant edit with a new image and a blank dropdown field  
 Patch 0.8.59: Admins can now upload a separate image per product variant (e.g. a different photo per firewood amount), falling back to the product's default image  

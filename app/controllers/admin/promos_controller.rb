@@ -15,7 +15,7 @@ module Admin
       @promo = Promo.new(promo_params)
 
       if @promo.save
-        redirect_to admin_promos_path, notice: "Akční nabídka byla vytvořena."
+        redirect_to admin_promos_path, notice: "Doporučení bylo vytvořeno."
       else
         render :new, status: :unprocessable_entity
       end
@@ -26,7 +26,7 @@ module Admin
 
     def update
       if @promo.update(promo_params)
-        redirect_to admin_promos_path, notice: "Akční nabídka byla uložena."
+        redirect_to admin_promos_path, notice: "Doporučení bylo uloženo."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -34,7 +34,7 @@ module Admin
 
     def destroy
       @promo.destroy
-      redirect_to admin_promos_path, notice: "Akční nabídka byla smazána."
+      redirect_to admin_promos_path, notice: "Doporučení bylo smazáno."
     end
 
     private

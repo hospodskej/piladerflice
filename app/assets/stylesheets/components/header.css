@@ -286,3 +286,43 @@
         font-size: 15px;
     }
 }
+
+/* Desktop-only: once the full header scrolls out of view, a slim bar with
+   just the centered logo takes its place, so there's always a quick way
+   back to the homepage without the full header taking up scroll space. */
+.sticky-logo-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #E6E6E6;
+    border-bottom: 1px solid #ddd;
+    z-index: 60;
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.sticky-logo-bar.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.sticky-logo-img {
+    height: 48px;
+    width: auto;
+}
+
+@media (max-width: 992px) {
+    .sticky-logo-bar {
+        display: none;
+    }
+}

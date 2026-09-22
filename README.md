@@ -7,6 +7,8 @@
 - `rails server`
 ---
 
+Patch 0.8.65: Desktop header logo now sticks to the top, centered, once you scroll past the full header  
+Patch 0.8.64: Dark mode background/header/buttons are now a softer dark gray instead of near-black, and the flag icons show true bright colors again  
 Patch 0.8.63: Renamed the "Akční nabídka" admin section (sidebar, titles, messages) to match the new "Doporučujeme" naming  
 Patch 0.8.62: Renamed the hero card's top-left badge from "Akční nabídka" to "Doporučujeme"  
 Patch 0.8.61: "Nejprodávanější produkty" on the homepage now pulls live title/price/photo from the matching eshop product instead of separate hardcoded content  

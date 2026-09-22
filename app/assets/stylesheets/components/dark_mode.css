@@ -51,7 +51,8 @@ html.dark-mode .page-wrapper,
 html.dark-mode .mobile-sidebar,
 html.dark-mode .sidebar-overlay,
 html.dark-mode .cookie-consent-banner,
-html.dark-mode .cart-modal-backdrop {
+html.dark-mode .cart-modal-backdrop,
+html.dark-mode .sticky-logo-bar {
     filter: invert(1) hue-rotate(180deg);
 }
 
@@ -59,8 +60,20 @@ html.dark-mode .page-wrapper img:not(.logo):not(.sidebar-logo):not(.footer-logo)
 html.dark-mode .page-wrapper video,
 html.dark-mode .mobile-sidebar img:not(.logo):not(.sidebar-logo):not(.footer-logo),
 html.dark-mode .cookie-consent-banner img,
-html.dark-mode .cart-modal-backdrop img {
+html.dark-mode .cart-modal-backdrop img,
+html.dark-mode .flag-icon rect:not(.flag-red),
+html.dark-mode .flag-icon polygon {
     filter: invert(1) hue-rotate(180deg);
+}
+
+/* The flag icons' red fill is saturated enough that inverting it produces an
+   out-of-range color the browser has to clip, so a plain double-invert
+   (like the rule above, used for the white/blue shapes in the same flag)
+   comes back muted/brownish instead of bright red. Filtering this shape on
+   its own (not the whole <svg>, which would stack a second pass on top of
+   this one) with an added saturate() compensates for that clipping. */
+html.dark-mode .flag-red {
+    filter: invert(1) hue-rotate(180deg) saturate(3);
 }
 
 /* The footer is already dark-styled regardless of theme, so cancel the
@@ -69,6 +82,30 @@ html.dark-mode .page-wrapper .site-footer {
     filter: invert(1) hue-rotate(180deg);
 }
 
+/* The base surface gray (#E6E6E6, used for body/page-wrapper) inverts to a
+   near-black #191919. Overriding it to a slightly darker gray before
+   inversion makes the visible dark-mode background land on a proper dark
+   gray (#d5d5d5 inverts to #2a2a2a) instead, without touching the invert
+   filter itself - so every other element (cards, photos, footer) keeps
+   rendering exactly as before. */
+html.dark-mode body,
+html.dark-mode .page-wrapper {
+    background-color: #d5d5d5;
+}
+
+/* Same idea, a shade darker: the header, the hero's white CTA button, and
+   the language/currency pill were all inverting from white/near-white to
+   pure or near-pure black (#000000/#191919), standing out harshly against
+   the #2a2a2a page background above. #dbdbdb inverts to #242424, a tiny bit
+   darker than the page background instead of pure black. */
+html.dark-mode .site-header,
+html.dark-mode .sticky-logo-bar,
+html.dark-mode .akce-btn-eshop,
+html.dark-mode .lang-btn,
+html.dark-mode .lang-dropdown-content {
+    background-color: #dbdbdb;
+}
+
 html.dark-mode {
-    background-color: #1a1a1a;
+    background-color: #2a2a2a;
 }

@@ -76,6 +76,15 @@ html.dark-mode .flag-red {
     filter: invert(1) hue-rotate(180deg) saturate(3);
 }
 
+/* Same clipping problem as the flag red: gold (#FBBC04) inverts to a muddy
+   brown with a plain double-invert, since it's saturated enough to get
+   clipped out of range partway through. saturate(1.1) brightness(1.45)
+   compensates, landing close to true gold instead. */
+html.dark-mode .google-reviews-stars,
+html.dark-mode .google-review-stars {
+    filter: invert(1) hue-rotate(180deg) saturate(1.1) brightness(1.45);
+}
+
 /* The footer is already dark-styled regardless of theme, so cancel the
    page-wrapper inversion for it instead of letting it flip to light. */
 html.dark-mode .page-wrapper .site-footer {

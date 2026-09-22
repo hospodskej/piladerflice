@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.66: Google review stars are now gold instead of brown in dark mode, in both the hero and the reviews section  
 Patch 0.8.65: Desktop header logo now sticks to the top, centered, once you scroll past the full header  
 Patch 0.8.64: Dark mode background/header/buttons are now a softer dark gray instead of near-black, and the flag icons show true bright colors again  
 Patch 0.8.63: Renamed the "Akční nabídka" admin section (sidebar, titles, messages) to match the new "Doporučujeme" naming  

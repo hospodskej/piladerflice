@@ -23,6 +23,7 @@
       </nav>
       <div class="admin-sidebar-footer">
         <span class="admin-current-user"><%= current_user&.email_address %></span>
+        <%= link_to "← Zpět na web", root_path, class: "admin-back-link" %>
         <%= button_to "Odhlásit se", admin_session_path, method: :delete, class: "admin-logout-btn" %>
       </div>
     </aside>

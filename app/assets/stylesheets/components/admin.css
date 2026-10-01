@@ -144,7 +144,28 @@
     word-break: break-all;
 }
 
+.admin-back-link {
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+    background: none;
+    border: 1px solid #4B5563;
+    color: #D1D5DB;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.admin-back-link:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
 .admin-logout-btn {
+    box-sizing: border-box;
     background: none;
     border: 1px solid #4B5563;
     color: #D1D5DB;

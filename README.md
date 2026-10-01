@@ -7,6 +7,8 @@
 - `rails server`
 ---
 
+Patch 0.8.69: Fixed registration form showing a raw "translation missing" error instead of a real message for short/blank passwords, taken e-mails, and mismatched password confirmation  
+Patch 0.8.68: Added a "Zpět na web" link in the admin sidebar to go back to the main site  
 Patch 0.8.67: Added customer registration/login (/registrace, /prihlaseni, /muj-ucet); admins can now also log in through this same form and reach the admin panel from their account page  
 Patch 0.8.66: Google review stars are now gold instead of brown in dark mode, in both the hero and the reviews section  
 Patch 0.8.65: Desktop header logo now sticks to the top, centered, once you scroll past the full header  

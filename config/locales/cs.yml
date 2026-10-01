@@ -600,6 +600,21 @@ cs:
           attributes:
             field:
               invalid_for_category: "neodpovídá zvolené kategorii"
+        user:
+          attributes:
+            email_address:
+              blank: "musí být vyplněn"
+              taken: "je již zaregistrován"
+            password:
+              blank: "musí být vyplněno"
+              too_short: "je příliš krátké (nejméně %{count} znaků)"
+            password_confirmation:
+              confirmation: "se neshoduje s heslem"
+    attributes:
+      user:
+        email_address: "E-mail"
+        password: "Heslo"
+        password_confirmation: "Heslo znovu"
 
   order_mailer:
     greeting: "Dobrý den, %{name},"

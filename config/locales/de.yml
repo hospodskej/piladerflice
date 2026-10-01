@@ -595,6 +595,21 @@ de:
               blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
             delivery_country:
               blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"
+        user:
+          attributes:
+            email_address:
+              blank: "darf nicht leer sein"
+              taken: "ist bereits registriert"
+            password:
+              blank: "darf nicht leer sein"
+              too_short: "ist zu kurz (mindestens %{count} Zeichen)"
+            password_confirmation:
+              confirmation: "stimmt nicht mit dem Passwort überein"
+    attributes:
+      user:
+        email_address: "E-Mail"
+        password: "Passwort"
+        password_confirmation: "Passwort-Bestätigung"
 
   order_mailer:
     greeting: "Guten Tag %{name},"

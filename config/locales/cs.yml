@@ -24,6 +24,10 @@ cs:
     reorder_success: "Položky byly přidány do košíku."
     reorder_partial: "%{count} položek z této objednávky už není dostupných, zbytek byl přidán do košíku."
     reorder_failed: "Žádná z položek této objednávky už bohužel není dostupná."
+    admin_badge: "Admin"
+    customer_since: "Zákazníkem od %{date}"
+    order_item_count_one: "1 položka"
+    order_item_count_other: "%{count} položek"
 
   nav:
     domu: "Domů"

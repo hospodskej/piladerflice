@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.71: Redesigned the "Můj účet" page as a proper account dashboard; fixed the cart table's header/column misalignment and the header nav touching the dark-mode toggle at mid-size viewports  
 Patch 0.8.70: Customer accounts now remember order history with a "Objednat znovu" (reorder) button, and checkout details/billing/delivery address are saved to the account and auto-filled next time; added a "log in" shortcut on checkout for returning customers  
 Patch 0.8.69: Fixed registration form showing a raw "translation missing" error instead of a real message for short/blank passwords, taken e-mails, and mismatched password confirmation  
 Patch 0.8.68: Added a "Zpět na web" link in the admin sidebar to go back to the main site  

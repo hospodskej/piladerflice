@@ -255,6 +255,10 @@
     border-bottom: 1px solid #EEE;
 }
 
+.checkout-cart-row > * {
+    min-width: 0;
+}
+
 .checkout-cart-row:last-child {
     border-bottom: none;
 }
@@ -271,6 +275,12 @@
 .checkout-cart-header .col-price-incl {
     font-weight: 700;
     color: #111;
+}
+
+.checkout-cart-header .col-unit-price,
+.checkout-cart-header .col-price-excl,
+.checkout-cart-header .col-price-incl {
+    white-space: normal;
 }
 
 .col-item {

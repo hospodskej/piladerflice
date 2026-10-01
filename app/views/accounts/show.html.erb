@@ -1,40 +1,60 @@
 <main class="main">
-  <section class="auth-section">
-    <div class="account-page">
-      <div class="auth-box">
-        <h1 class="auth-box-title"><%= t("auth.account_title") %></h1>
-        <div class="auth-box-body">
-          <p class="account-email"><%= current_user.email_address %></p>
+  <section class="account-dashboard">
+    <header class="account-profile-card">
+      <div class="account-avatar"><%= current_user.email_address.first.upcase %></div>
 
+      <div class="account-profile-info">
+        <h1 class="account-profile-title">
+          <%= t("auth.account_title") %>
           <% if current_user.admin? %>
-            <%= link_to t("auth.go_to_admin"), admin_root_path, class: "btn-primary auth-submit" %>
+            <span class="account-admin-badge"><%= t("auth.admin_badge") %></span>
           <% end %>
-
-          <%= button_to t("auth.logout"), logout_path, method: :delete, class: "btn-outline-dark auth-logout-btn" %>
-        </div>
+        </h1>
+        <p class="account-profile-email"><%= current_user.email_address %></p>
+        <p class="account-profile-since"><%= t("auth.customer_since", date: current_user.created_at.strftime("%d.%m.%Y")) %></p>
       </div>
 
-      <div class="auth-box">
-        <h2 class="auth-box-title"><%= t("auth.order_history_title") %></h2>
-        <div class="auth-box-body">
-          <% if @orders.any? %>
-            <ul class="order-history-list">
-              <% @orders.each do |order| %>
-                <li class="order-history-item">
-                  <div class="order-history-info">
-                    <span class="order-history-number"><%= t("auth.order_number") %> <%= order.id %></span>
-                    <span class="order-history-date"><%= order.created_at.strftime("%d.%m.%Y") %></span>
-                    <span class="order-history-total"><%= t("auth.order_total") %>: <%= cart_price(order.total_czk) %></span>
-                  </div>
-                  <%= button_to t("auth.reorder_button"), reorder_order_path(order), method: :post, class: "btn-outline-dark order-history-reorder-btn" %>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="order-history-empty"><%= t("auth.no_orders") %></p>
+      <div class="account-profile-actions">
+        <% if current_user.admin? %>
+          <%= link_to t("auth.go_to_admin"), admin_root_path, class: "btn-primary account-action-btn" %>
+        <% end %>
+        <%= button_to t("auth.logout"), logout_path, method: :delete, class: "btn-outline-dark account-action-btn" %>
+      </div>
+    </header>
+
+    <section class="account-orders-section">
+      <div class="account-orders-heading">
+        <h2><%= t("auth.order_history_title") %></h2>
+        <% if @orders.any? %>
+          <span class="account-orders-count"><%= @orders.size %></span>
+        <% end %>
+      </div>
+
+      <% if @orders.any? %>
+        <div class="order-card-list">
+          <% @orders.each do |order| %>
+            <div class="order-card">
+              <div class="order-card-main">
+                <span class="order-card-number"><%= t("auth.order_number") %> <%= order.id %></span>
+                <span class="order-card-meta">
+                  <%= order.created_at.strftime("%d.%m.%Y") %>
+                  &middot;
+                  <%= order.items.size == 1 ? t("auth.order_item_count_one") : t("auth.order_item_count_other", count: order.items.size) %>
+                </span>
+              </div>
+
+              <span class="order-card-total"><%= cart_price(order.total_czk) %></span>
+
+              <%= button_to t("auth.reorder_button"), reorder_order_path(order), method: :post, class: "btn-outline-dark order-card-reorder-btn" %>
+            </div>
           <% end %>
         </div>
-      </div>
-    </div>
+      <% else %>
+        <div class="account-orders-empty">
+          <p><%= t("auth.no_orders") %></p>
+          <%= link_to t("nav.eshop"), eshop_path, class: "btn-primary" %>
+        </div>
+      <% end %>
+    </section>
   </section>
 </main>

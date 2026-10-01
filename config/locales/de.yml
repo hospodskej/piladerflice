@@ -24,6 +24,10 @@ de:
     reorder_success: "Die Artikel wurden in den Warenkorb gelegt."
     reorder_partial: "%{count} Artikel aus dieser Bestellung sind nicht mehr verfügbar, der Rest wurde in den Warenkorb gelegt."
     reorder_failed: "Leider ist keiner der Artikel dieser Bestellung mehr verfügbar."
+    admin_badge: "Admin"
+    customer_since: "Kunde seit %{date}"
+    order_item_count_one: "1 Artikel"
+    order_item_count_other: "%{count} Artikel"
 
   nav:
     domu: "Startseite"

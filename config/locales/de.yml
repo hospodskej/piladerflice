@@ -2,6 +2,21 @@ de:
   site:
     name: "Pila Derflice"
 
+  auth:
+    login_title: "Anmeldung"
+    password: "Passwort"
+    password_confirmation: "Passwort wiederholen"
+    login_submit: "Anmelden"
+    no_account: "Noch kein Konto?"
+    register_link: "Registrieren"
+    register_title: "Registrierung"
+    register_submit: "Konto erstellen"
+    have_account: "Schon ein Konto?"
+    login_link: "Anmelden"
+    account_title: "Mein Konto"
+    go_to_admin: "Zur Verwaltung"
+    logout: "Abmelden"
+
   nav:
     domu: "Startseite"
     eshop: "Onlineshop"
@@ -13,6 +28,7 @@ de:
     close_menu: "Menü schließen"
     toggle_theme: "Dunklen/hellen Modus umschalten"
     dark_mode_label: "Dunkler Modus"
+    account: "Mein Konto"
 
   common:
     previous: "Zurück"

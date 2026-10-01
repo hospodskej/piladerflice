@@ -1,0 +1,39 @@
+<main class="main">
+  <section class="auth-section">
+    <div class="auth-box">
+      <h1 class="auth-box-title"><%= t("auth.register_title") %></h1>
+      <div class="auth-box-body">
+        <% if @user.errors.any? %>
+          <div class="page-flash page-flash-alert">
+            <strong><%= pluralize(@user.errors.count, "chyba") %> brání vytvoření účtu:</strong>
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_with url: registrations_path, method: :post, class: "auth-form" do %>
+          <div class="form-group">
+            <label for="user_email_address"><%= t("kontakt.form_email") %></label>
+            <input type="email" name="user[email_address]" id="user_email_address" value="<%= @user.email_address %>" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="user_password"><%= t("auth.password") %></label>
+            <input type="password" name="user[password]" id="user_password" required>
+          </div>
+          <div class="form-group">
+            <label for="user_password_confirmation"><%= t("auth.password_confirmation") %></label>
+            <input type="password" name="user[password_confirmation]" id="user_password_confirmation" required>
+          </div>
+          <%= submit_tag t("auth.register_submit"), class: "btn-primary auth-submit" %>
+        <% end %>
+
+        <p class="auth-switch">
+          <%= t("auth.have_account") %> <%= link_to t("auth.login_link"), login_path %>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>

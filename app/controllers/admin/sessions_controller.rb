@@ -2,6 +2,7 @@ module Admin
   class SessionsController < BaseController
     layout "admin_login"
     allow_unauthenticated_access only: %i[new create]
+    skip_before_action :require_admin, only: %i[new create]
 
     def new
     end
@@ -9,7 +10,7 @@ module Admin
     def create
       user = User.find_by(email_address: params[:email_address].to_s.strip.downcase)
 
-      if user&.authenticate(params[:password])
+      if user&.authenticate(params[:password]) && user.admin?
         start_new_session_for(user)
         redirect_to after_authentication_url
       else

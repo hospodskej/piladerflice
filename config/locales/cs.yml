@@ -2,6 +2,21 @@ cs:
   site:
     name: "Pila Derflice"
 
+  auth:
+    login_title: "Přihlášení"
+    password: "Heslo"
+    password_confirmation: "Heslo znovu"
+    login_submit: "Přihlásit se"
+    no_account: "Nemáte účet?"
+    register_link: "Zaregistrujte se"
+    register_title: "Registrace"
+    register_submit: "Vytvořit účet"
+    have_account: "Už máte účet?"
+    login_link: "Přihlaste se"
+    account_title: "Můj účet"
+    go_to_admin: "Přejít do administrace"
+    logout: "Odhlásit se"
+
   nav:
     domu: "Domů"
     eshop: "Eshop"
@@ -13,6 +28,7 @@ cs:
     close_menu: "Zavřít menu"
     toggle_theme: "Přepnout tmavý/světlý režim"
     dark_mode_label: "Tmavý režim"
+    account: "Můj účet"
 
   common:
     previous: "Předchozí"

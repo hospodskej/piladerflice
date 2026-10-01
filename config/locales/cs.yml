@@ -28,6 +28,11 @@ cs:
     customer_since: "Zákazníkem od %{date}"
     order_item_count_one: "1 položka"
     order_item_count_other: "%{count} položek"
+    edit_profile_link: "Upravit údaje"
+    edit_profile_title: "Upravit údaje"
+    back_to_account: "Zpět na účet"
+    save_profile: "Uložit změny"
+    profile_updated: "Vaše údaje byly uloženy."
 
   nav:
     domu: "Domů"

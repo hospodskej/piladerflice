@@ -18,6 +18,7 @@
         <% if current_user.admin? %>
           <%= link_to t("auth.go_to_admin"), admin_root_path, class: "btn-primary account-action-btn" %>
         <% end %>
+        <%= link_to t("auth.edit_profile_link"), edit_account_path, class: "btn-outline-dark account-action-btn" %>
         <%= button_to t("auth.logout"), logout_path, method: :delete, class: "btn-outline-dark account-action-btn" %>
       </div>
     </header>

@@ -52,6 +52,19 @@
     padding: 60px 20px;
 }
 
+.account-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.account-form-header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
 .account-profile-card {
     display: flex;
     align-items: center;

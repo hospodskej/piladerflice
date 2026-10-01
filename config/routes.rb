@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get "registrace", to: "registrations#new", as: :new_registration
   post "registrace", to: "registrations#create", as: :registrations
   get "muj-ucet", to: "accounts#show", as: :account
+  get "muj-ucet/upravit", to: "accounts#edit", as: :edit_account
+  patch "muj-ucet/upravit", to: "accounts#update", as: :update_account
   post "muj-ucet/objednavky/:id/znovu-objednat", to: "accounts#reorder", as: :reorder_order
 
   resources :cart_items, only: [:create, :update, :destroy]
@@ -42,7 +44,6 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
-    resource :session, only: [:new, :create, :destroy]
     resources :orders, only: [:index, :show, :destroy]
     resources :inquiries, only: [:index, :show]
     resources :catalog_products, except: [:show] do

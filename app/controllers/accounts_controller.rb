@@ -48,7 +48,11 @@ class AccountsController < ApplicationController
   private
 
   def profile_params
-    params.require(:user).permit(*User::PROFILE_ATTRIBUTES)
+    permitted = params.require(:user).permit(*(User::PROFILE_ATTRIBUTES - ["phone"]), :phone_prefix, :phone_number)
+    phone_prefix = permitted.delete(:phone_prefix).presence_in(User::PHONE_PREFIXES) || User::PHONE_PREFIXES.first
+    phone_number = permitted.delete(:phone_number).to_s.strip
+    permitted[:phone] = phone_number.present? ? "#{phone_prefix} #{phone_number}" : nil
+    permitted
   end
 
   def require_login

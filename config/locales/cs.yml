@@ -33,6 +33,7 @@ cs:
     back_to_account: "Zpět na účet"
     save_profile: "Uložit změny"
     profile_updated: "Vaše údaje byly uloženy."
+    phone_prefix_label: "Předvolba"
 
   nav:
     domu: "Domů"

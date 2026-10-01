@@ -33,6 +33,7 @@ de:
     back_to_account: "Zurück zum Konto"
     save_profile: "Änderungen speichern"
     profile_updated: "Ihre Daten wurden gespeichert."
+    phone_prefix_label: "Vorwahl"
 
   nav:
     domu: "Startseite"

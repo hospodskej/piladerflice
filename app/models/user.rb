@@ -8,6 +8,8 @@ class User < ApplicationRecord
     delivery_address_different delivery_street delivery_city delivery_zip delivery_country
   ].freeze
 
+  PHONE_PREFIXES = %w[+420 +43].freeze
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :orders, dependent: :nullify
@@ -20,5 +22,13 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
+  end
+
+  def phone_prefix
+    PHONE_PREFIXES.find { |prefix| phone.to_s.start_with?(prefix) } || PHONE_PREFIXES.first
+  end
+
+  def phone_number
+    phone.to_s.delete_prefix(phone_prefix).strip
   end
 end

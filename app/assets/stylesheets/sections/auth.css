@@ -265,3 +265,17 @@
         flex: 1;
     }
 }
+
+.phone-field {
+    display: flex;
+    gap: 8px;
+}
+
+.phone-prefix-select {
+    flex: 0 0 150px;
+}
+
+.phone-field input {
+    flex: 1;
+    min-width: 0;
+}

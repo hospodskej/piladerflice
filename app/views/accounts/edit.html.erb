@@ -30,8 +30,14 @@
               <input type="text" name="user[last_name]" id="user_last_name" value="<%= @user.last_name %>">
             </div>
             <div class="form-group">
-              <label for="user_phone"><%= t("kontakt.form_telefon") %></label>
-              <input type="tel" name="user[phone]" id="user_phone" value="<%= @user.phone %>">
+              <label for="user_phone_number"><%= t("kontakt.form_telefon") %></label>
+              <div class="phone-field">
+                <select name="user[phone_prefix]" id="user_phone_prefix" class="phone-prefix-select" aria-label="<%= t('auth.phone_prefix_label') %>">
+                  <option value="+420" <%= "selected" if @user.phone_prefix == "+420" %>>🇨🇿 +420</option>
+                  <option value="+43" <%= "selected" if @user.phone_prefix == "+43" %>>🇦🇹 +43</option>
+                </select>
+                <input type="tel" name="user[phone_number]" id="user_phone_number" value="<%= @user.phone_number %>">
+              </div>
             </div>
           </div>
         </div>

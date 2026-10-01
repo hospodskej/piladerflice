@@ -42,4 +42,24 @@ class UserTest < ActiveSupport::TestCase
     assert admin.admin?
     assert_not customer.admin?
   end
+
+  test "phone_prefix and phone_number split a stored phone number" do
+    user = User.new(phone: "+43 6601234567")
+    assert_equal "+43", user.phone_prefix
+    assert_equal "6601234567", user.phone_number
+
+    user = User.new(phone: "+420 777888999")
+    assert_equal "+420", user.phone_prefix
+    assert_equal "777888999", user.phone_number
+  end
+
+  test "phone_prefix falls back to the Czech prefix when the number has none" do
+    user = User.new(phone: "777888999")
+    assert_equal "+420", user.phone_prefix
+    assert_equal "777888999", user.phone_number
+
+    user = User.new(phone: nil)
+    assert_equal "+420", user.phone_prefix
+    assert_equal "", user.phone_number
+  end
 end

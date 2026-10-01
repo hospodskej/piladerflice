@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.73: Added a phone prefix dropdown (🇨🇿 +420 / 🇦🇹 +43) to "Upravit údaje"; fixed every "Zpět"-style outline button site-wide showing an underline when it's a link instead of a button  
 Patch 0.8.72: Added an "Upravit údaje" page for editing saved contact/address/company info; removed the old admin-only login page now that the unified login handles both  
 Patch 0.8.71: Redesigned the "Můj účet" page as a proper account dashboard; fixed the cart table's header/column misalignment and the header nav touching the dark-mode toggle at mid-size viewports  
 Patch 0.8.70: Customer accounts now remember order history with a "Objednat znovu" (reorder) button, and checkout details/billing/delivery address are saved to the account and auto-filled next time; added a "log in" shortcut on checkout for returning customers  

@@ -94,6 +94,79 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert session[:cart].blank? || session[:cart].empty?
   end
 
+  test "edit redirects to login when not authenticated" do
+    get edit_account_path
+    assert_redirected_to login_path
+  end
+
+  test "edit renders the profile form pre-filled with saved details" do
+    customer = User.create!(
+      email_address: "edit1@example.com", password: "supersecret", role: "customer",
+      first_name: "Eva", billing_city: "Znojmo"
+    )
+    post session_path, params: { email_address: "edit1@example.com", password: "supersecret" }
+
+    get edit_account_path
+    assert_response :success
+    assert_match 'value="Eva"', response.body
+    assert_match 'value="Znojmo"', response.body
+  end
+
+  test "update saves the submitted profile details and redirects to the account page" do
+    User.create!(email_address: "edit2@example.com", password: "supersecret", role: "customer")
+    post session_path, params: { email_address: "edit2@example.com", password: "supersecret" }
+
+    patch update_account_path, params: {
+      user: {
+        first_name: "Petr", last_name: "Svoboda", phone_prefix: "+420", phone_number: "123456789",
+        billing_street: "Hlavní 1", billing_city: "Brno", billing_zip: "60200", billing_country: "cz",
+        company_purchase: "0", delivery_address_different: "0"
+      }
+    }
+
+    assert_redirected_to account_path
+    customer = User.find_by(email_address: "edit2@example.com")
+    assert_equal "Petr", customer.first_name
+    assert_equal "Svoboda", customer.last_name
+    assert_equal "Brno", customer.billing_city
+    assert_equal "+420 123456789", customer.phone
+  end
+
+  test "update combines the Austrian prefix with the entered number" do
+    User.create!(email_address: "edit2b@example.com", password: "supersecret", role: "customer")
+    post session_path, params: { email_address: "edit2b@example.com", password: "supersecret" }
+
+    patch update_account_path, params: { user: { phone_prefix: "+43", phone_number: "6601234567" } }
+
+    customer = User.find_by(email_address: "edit2b@example.com")
+    assert_equal "+43 6601234567", customer.phone
+    assert_equal "+43", customer.phone_prefix
+    assert_equal "6601234567", customer.phone_number
+  end
+
+  test "update ignores a tampered phone_prefix outside the allowed list" do
+    User.create!(email_address: "edit2c@example.com", password: "supersecret", role: "customer")
+    post session_path, params: { email_address: "edit2c@example.com", password: "supersecret" }
+
+    patch update_account_path, params: { user: { phone_prefix: "+1", phone_number: "5551234" } }
+
+    customer = User.find_by(email_address: "edit2c@example.com")
+    assert_equal "+420 5551234", customer.phone
+  end
+
+  test "update cannot assign role or email_address through the profile form" do
+    customer = User.create!(email_address: "edit3@example.com", password: "supersecret", role: "customer")
+    post session_path, params: { email_address: "edit3@example.com", password: "supersecret" }
+
+    patch update_account_path, params: {
+      user: { first_name: "Petr", role: "admin", email_address: "hacked@example.com" }
+    }
+
+    customer.reload
+    assert_equal "customer", customer.role
+    assert_equal "edit3@example.com", customer.email_address
+  end
+
   test "reorder cannot reach another user's order" do
     customer = User.create!(email_address: "reorder4@example.com", password: "supersecret", role: "customer")
     other = User.create!(email_address: "reorder5@example.com", password: "supersecret", role: "customer")

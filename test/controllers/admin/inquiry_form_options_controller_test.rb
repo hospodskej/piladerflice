@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::InquiryFormOptionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    post admin_session_path, params: { email_address: "admin@piladerflice.cz", password: "correct-horse-battery" }
+    post session_path, params: { email_address: "admin@piladerflice.cz", password: "correct-horse-battery" }
   end
 
   test "index lists options grouped by category and field" do
@@ -74,8 +74,8 @@ class Admin::InquiryFormOptionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "requires admin authentication" do
-    delete admin_session_path
+    delete logout_path
     get admin_inquiry_form_options_path
-    assert_redirected_to new_admin_session_path
+    assert_redirected_to login_path
   end
 end

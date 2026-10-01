@@ -5,6 +5,19 @@ class AccountsController < ApplicationController
     @orders = current_user.orders.order(created_at: :desc).limit(10)
   end
 
+  def edit
+    @user = current_user
+  end
+
+  def update
+    if current_user.update(profile_params)
+      redirect_to account_path, notice: t("auth.profile_updated")
+    else
+      @user = current_user
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def reorder
     order = current_user.orders.find(params[:id])
     added = 0
@@ -33,6 +46,14 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  def profile_params
+    permitted = params.require(:user).permit(*(User::PROFILE_ATTRIBUTES - ["phone"]), :phone_prefix, :phone_number)
+    phone_prefix = permitted.delete(:phone_prefix).presence_in(User::PHONE_PREFIXES) || User::PHONE_PREFIXES.first
+    phone_number = permitted.delete(:phone_number).to_s.strip
+    permitted[:phone] = phone_number.present? ? "#{phone_prefix} #{phone_number}" : nil
+    permitted
+  end
 
   def require_login
     return if current_user

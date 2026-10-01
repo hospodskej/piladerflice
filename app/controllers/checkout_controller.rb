@@ -1,10 +1,5 @@
 class CheckoutController < ApplicationController
-  PROFILE_ATTRIBUTES = %w[
-    first_name last_name phone
-    billing_street billing_city billing_zip billing_country
-    company_purchase company_name company_ico company_dic
-    delivery_address_different delivery_street delivery_city delivery_zip delivery_country
-  ].freeze
+  PROFILE_ATTRIBUTES = User::PROFILE_ATTRIBUTES
 
   before_action :redirect_if_cart_empty, except: [:confirmation]
   before_action :redirect_unless_shipping_selected, only: [:details, :update_details, :summary, :confirm]

@@ -1,0 +1,150 @@
+<main class="main">
+  <section class="account-dashboard">
+    <div class="account-form-header">
+      <h1><%= t("auth.edit_profile_title") %></h1>
+      <%= link_to t("auth.back_to_account"), account_path, class: "btn-outline-dark", data: { turbo: false } %>
+    </div>
+
+    <% if @user.errors.any? %>
+      <div class="page-flash page-flash-alert">
+        <strong><%= pluralize(@user.errors.count, "chyba") %> brání uložení údajů:</strong>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with url: update_account_path, method: :patch, scope: :user, class: "checkout-main-col" do %>
+      <div class="checkout-box">
+        <h3 class="checkout-box-title"><%= t("checkout.personal_details") %></h3>
+        <div class="checkout-box-body">
+          <div class="checkout-form-grid">
+            <div class="form-group">
+              <label for="user_first_name"><%= t("kontakt.form_jmeno") %></label>
+              <input type="text" name="user[first_name]" id="user_first_name" value="<%= @user.first_name %>">
+            </div>
+            <div class="form-group">
+              <label for="user_last_name"><%= t("kontakt.form_prijmeni") %></label>
+              <input type="text" name="user[last_name]" id="user_last_name" value="<%= @user.last_name %>">
+            </div>
+            <div class="form-group">
+              <label for="user_phone_number"><%= t("kontakt.form_telefon") %></label>
+              <div class="phone-field">
+                <div class="phone-prefix-dropdown" data-controller="phone-prefix" data-action="click@window->phone-prefix#closeIfOutside">
+                  <button type="button" class="phone-prefix-btn" data-phone-prefix-target="button" data-action="click->phone-prefix#toggle" aria-label="<%= t('auth.phone_prefix_label') %>">
+                    <span data-phone-prefix-target="flag"><%= @user.phone_prefix == "+43" ? render("shared/flag_at") : render("shared/flag_cz") %></span>
+                    <span data-phone-prefix-target="label"><%= @user.phone_prefix %></span>
+                    <span class="chevron">▼</span>
+                  </button>
+                  <input type="hidden" name="user[phone_prefix]" data-phone-prefix-target="input" value="<%= @user.phone_prefix %>">
+                  <div class="phone-prefix-menu" data-phone-prefix-target="menu">
+                    <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+420">
+                      <%= render "shared/flag_cz" %><span>+420</span>
+                    </div>
+                    <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+43">
+                      <%= render "shared/flag_at" %><span>+43</span>
+                    </div>
+                  </div>
+                </div>
+                <input type="tel" name="user[phone_number]" id="user_phone_number" value="<%= @user.phone_number %>">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-box">
+        <h3 class="checkout-box-title"><%= t("checkout.billing_details") %></h3>
+        <div class="checkout-box-body">
+          <div class="checkout-form-grid">
+            <div class="form-group form-group-wide">
+              <label for="user_billing_street"><%= t("checkout.street_and_number") %></label>
+              <input type="text" name="user[billing_street]" id="user_billing_street" value="<%= @user.billing_street %>">
+            </div>
+            <div class="form-group">
+              <label for="user_billing_city"><%= t("kontakt.form_mesto") %></label>
+              <input type="text" name="user[billing_city]" id="user_billing_city" value="<%= @user.billing_city %>">
+            </div>
+            <div class="form-group">
+              <label for="user_billing_zip"><%= t("kontakt.form_psc") %></label>
+              <input type="text" name="user[billing_zip]" id="user_billing_zip" value="<%= @user.billing_zip %>">
+            </div>
+            <div class="form-group">
+              <label for="user_billing_country"><%= t("checkout.country_field") %></label>
+              <select name="user[billing_country]" id="user_billing_country">
+                <option value="cz" <%= "selected" if @user.billing_country.blank? || @user.billing_country == "cz" %>><%= t("checkout.country_cz") %></option>
+                <option value="at" <%= "selected" if @user.billing_country == "at" %>><%= t("checkout.country_at") %></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <details class="checkout-box checkout-collapsible" <%= "open" if @user.company_purchase? %>>
+        <summary class="checkout-box-title"><%= t("checkout.company_purchase") %></summary>
+        <div class="checkout-box-body">
+          <label class="custom-checkbox-label checkout-checkbox">
+            <input type="hidden" name="user[company_purchase]" value="0">
+            <input type="checkbox" name="user[company_purchase]" value="1" <%= "checked" if @user.company_purchase? %>>
+            <span class="custom-checkbox"></span>
+            <span><%= t("checkout.company_purchase") %></span>
+          </label>
+          <div class="checkout-form-grid">
+            <div class="form-group form-group-wide">
+              <label for="user_company_name"><%= t("checkout.company_name") %></label>
+              <input type="text" name="user[company_name]" id="user_company_name" value="<%= @user.company_name %>">
+            </div>
+            <div class="form-group">
+              <label for="user_company_ico"><%= t("checkout.company_ico") %></label>
+              <input type="text" name="user[company_ico]" id="user_company_ico" value="<%= @user.company_ico %>">
+            </div>
+            <div class="form-group">
+              <label for="user_company_dic"><%= t("checkout.company_dic") %></label>
+              <input type="text" name="user[company_dic]" id="user_company_dic" value="<%= @user.company_dic %>">
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="checkout-box checkout-collapsible" <%= "open" if @user.delivery_address_different? %>>
+        <summary class="checkout-box-title"><%= t("checkout.delivery_address_different") %></summary>
+        <div class="checkout-box-body">
+          <label class="custom-checkbox-label checkout-checkbox">
+            <input type="hidden" name="user[delivery_address_different]" value="0">
+            <input type="checkbox" name="user[delivery_address_different]" value="1" <%= "checked" if @user.delivery_address_different? %>>
+            <span class="custom-checkbox"></span>
+            <span><%= t("checkout.delivery_address_different") %></span>
+          </label>
+          <div class="checkout-form-grid">
+            <div class="form-group form-group-wide">
+              <label for="user_delivery_street"><%= t("checkout.street_and_number") %></label>
+              <input type="text" name="user[delivery_street]" id="user_delivery_street" value="<%= @user.delivery_street %>">
+            </div>
+            <div class="form-group">
+              <label for="user_delivery_city"><%= t("kontakt.form_mesto") %></label>
+              <input type="text" name="user[delivery_city]" id="user_delivery_city" value="<%= @user.delivery_city %>">
+            </div>
+            <div class="form-group">
+              <label for="user_delivery_zip"><%= t("kontakt.form_psc") %></label>
+              <input type="text" name="user[delivery_zip]" id="user_delivery_zip" value="<%= @user.delivery_zip %>">
+            </div>
+            <div class="form-group">
+              <label for="user_delivery_country"><%= t("checkout.country_field") %></label>
+              <select name="user[delivery_country]" id="user_delivery_country">
+                <option value="cz" <%= "selected" if @user.delivery_country.blank? || @user.delivery_country == "cz" %>><%= t("checkout.country_cz") %></option>
+                <option value="at" <%= "selected" if @user.delivery_country == "at" %>><%= t("checkout.country_at") %></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="checkout-nav">
+        <%= link_to t("checkout.back"), account_path, class: "btn-outline-dark", data: { turbo: false } %>
+        <%= submit_tag t("auth.save_profile"), class: "btn-primary" %>
+      </div>
+    <% end %>
+  </section>
+</main>

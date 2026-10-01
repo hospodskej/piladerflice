@@ -2,7 +2,7 @@ require "test_helper"
 
 class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    post admin_session_path, params: { email_address: "admin@piladerflice.cz", password: "correct-horse-battery" }
+    post session_path, params: { email_address: "admin@piladerflice.cz", password: "correct-horse-battery" }
   end
 
   test "index lists all orders with a delete button" do
@@ -30,13 +30,13 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "requires admin authentication" do
-    delete admin_session_path
+    delete logout_path
 
     get admin_orders_path
-    assert_redirected_to new_admin_session_path
+    assert_redirected_to login_path
 
     delete admin_order_path(orders(:this_month))
-    assert_redirected_to new_admin_session_path
+    assert_redirected_to login_path
     assert Order.exists?(orders(:this_month).id)
   end
 end

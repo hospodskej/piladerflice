@@ -28,6 +28,12 @@ de:
     customer_since: "Kunde seit %{date}"
     order_item_count_one: "1 Artikel"
     order_item_count_other: "%{count} Artikel"
+    edit_profile_link: "Daten bearbeiten"
+    edit_profile_title: "Daten bearbeiten"
+    back_to_account: "Zurück zum Konto"
+    save_profile: "Änderungen speichern"
+    profile_updated: "Ihre Daten wurden gespeichert."
+    phone_prefix_label: "Vorwahl"
 
   nav:
     domu: "Startseite"

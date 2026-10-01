@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include CurrentSession
+
   allow_browser versions: :modern
 
   before_action :set_locale

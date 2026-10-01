@@ -26,6 +26,13 @@ Rails.application.routes.draw do
   get '/eshop/piliny', to: 'home#piliny', as: :eshop_piliny
   get '/eshop/okrasne_kamenivo', to: 'home#eshop_okrasne_kamenivo', as: :eshop_okrasne_kamenivo
 
+  get "prihlaseni", to: "sessions#new", as: :login
+  post "prihlaseni", to: "sessions#create", as: :session
+  delete "odhlaseni", to: "sessions#destroy", as: :logout
+  get "registrace", to: "registrations#new", as: :new_registration
+  post "registrace", to: "registrations#create", as: :registrations
+  get "muj-ucet", to: "accounts#show", as: :account
+
   resources :cart_items, only: [:create, :update, :destroy]
   get '/kosik', to: 'carts#show', as: :cart
   resources :inquiries, only: [:create]

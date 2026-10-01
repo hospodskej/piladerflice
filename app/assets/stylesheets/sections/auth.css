@@ -1,0 +1,58 @@
+.auth-section {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    border: 1.5px solid #2C8FFF;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.auth-box-title {
+    background-color: #E5E5E5;
+    color: #2C8FFF;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 16px 24px;
+}
+
+.auth-box-body {
+    padding: 24px;
+}
+
+.auth-form .form-group {
+    margin-bottom: 16px;
+}
+
+.auth-submit {
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.auth-switch {
+    margin: 20px 0 0;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.account-email {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 20px;
+}
+
+.auth-logout-btn {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 12px;
+}

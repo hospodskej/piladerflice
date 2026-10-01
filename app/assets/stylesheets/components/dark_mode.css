@@ -111,7 +111,9 @@ html.dark-mode .site-header,
 html.dark-mode .sticky-logo-bar,
 html.dark-mode .akce-btn-eshop,
 html.dark-mode .lang-btn,
-html.dark-mode .lang-dropdown-content {
+html.dark-mode .lang-dropdown-content,
+html.dark-mode .auth-box,
+html.dark-mode .auth-box-title {
     background-color: #dbdbdb;
 }
 

@@ -1,0 +1,24 @@
+<main class="main">
+  <section class="auth-section">
+    <div class="auth-box">
+      <h1 class="auth-box-title"><%= t("auth.login_title") %></h1>
+      <div class="auth-box-body">
+        <%= form_with url: session_path, method: :post, class: "auth-form" do %>
+          <div class="form-group">
+            <label for="email_address"><%= t("kontakt.form_email") %></label>
+            <input type="email" name="email_address" id="email_address" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="password"><%= t("auth.password") %></label>
+            <input type="password" name="password" id="password" required>
+          </div>
+          <%= submit_tag t("auth.login_submit"), class: "btn-primary auth-submit" %>
+        <% end %>
+
+        <p class="auth-switch">
+          <%= t("auth.no_account") %> <%= link_to t("auth.register_link"), new_registration_path %>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>

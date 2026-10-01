@@ -8,9 +8,11 @@
         <div class="checkout-box">
           <h3 class="checkout-box-title"><%= t("checkout.personal_details") %></h3>
           <div class="checkout-box-body">
-            <button type="button" class="btn-outline-dark checkout-login-btn" disabled title="<%= t('checkout.login_not_available') %>">
-              <%= t("checkout.login_existing_user") %>
-            </button>
+            <% if current_user %>
+              <p class="checkout-logged-in-as"><%= t("checkout.logged_in_as", email: current_user.email_address) %></p>
+            <% else %>
+              <%= link_to t("checkout.login_existing_user"), login_path(return_to: checkout_details_path), class: "btn-outline-dark checkout-login-btn" %>
+            <% end %>
 
             <div class="checkout-form-grid">
               <div class="form-group">

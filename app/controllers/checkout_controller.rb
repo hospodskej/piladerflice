@@ -1,4 +1,11 @@
 class CheckoutController < ApplicationController
+  PROFILE_ATTRIBUTES = %w[
+    first_name last_name phone
+    billing_street billing_city billing_zip billing_country
+    company_purchase company_name company_ico company_dic
+    delivery_address_different delivery_street delivery_city delivery_zip delivery_country
+  ].freeze
+
   before_action :redirect_if_cart_empty, except: [:confirmation]
   before_action :redirect_unless_shipping_selected, only: [:details, :update_details, :summary, :confirm]
   before_action :redirect_unless_details_complete, only: [:summary, :confirm]
@@ -12,6 +19,7 @@ class CheckoutController < ApplicationController
   end
 
   def details
+    prefill_from_account if current_user
   end
 
   def update_details
@@ -33,6 +41,7 @@ class CheckoutController < ApplicationController
     end
 
     if @order.save
+      save_to_account if current_user
       deliver_order_notification(@order)
       deliver_customer_confirmation(@order)
       current_cart.clear
@@ -82,6 +91,7 @@ class CheckoutController < ApplicationController
 
   def order_attributes
     {
+      user_id: current_user&.id,
       first_name: current_checkout["first_name"],
       last_name: current_checkout["last_name"],
       email: current_checkout["email"],
@@ -113,6 +123,7 @@ class CheckoutController < ApplicationController
   def cart_items_snapshot
     current_cart.items.map do |item|
       {
+        catalog_variant_id: item.id,
         product_key: item.product_key,
         image: item.image,
         unit_price_czk: item.unit_price_czk,
@@ -120,6 +131,20 @@ class CheckoutController < ApplicationController
         quantity: item.quantity
       }
     end.to_json
+  end
+
+  def prefill_from_account
+    return if current_checkout["first_name"].present?
+
+    current_checkout.update(
+      current_user.attributes.slice(*PROFILE_ATTRIBUTES).merge(
+        email: current_user.email_address
+      )
+    )
+  end
+
+  def save_to_account
+    current_user.update(current_checkout.to_h.slice(*PROFILE_ATTRIBUTES))
   end
 
   def deliver_order_notification(order)

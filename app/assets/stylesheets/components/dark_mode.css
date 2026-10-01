@@ -113,7 +113,8 @@ html.dark-mode .akce-btn-eshop,
 html.dark-mode .lang-btn,
 html.dark-mode .lang-dropdown-content,
 html.dark-mode .auth-box,
-html.dark-mode .auth-box-title {
+html.dark-mode .auth-box-title,
+html.dark-mode .checkout-logged-in-as {
     background-color: #dbdbdb;
 }
 

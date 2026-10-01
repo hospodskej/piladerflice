@@ -4,6 +4,14 @@
     padding: 60px 20px;
 }
 
+.account-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 420px;
+}
+
 .auth-box {
     width: 100%;
     max-width: 420px;
@@ -59,4 +67,56 @@
     text-align: center;
     cursor: pointer;
     margin-top: 12px;
+}
+
+.order-history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.order-history-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.order-history-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.order-history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.9rem;
+}
+
+.order-history-number {
+    font-weight: 700;
+}
+
+.order-history-date,
+.order-history-total {
+    color: #555;
+}
+
+.order-history-reorder-btn {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 8px 14px;
+}
+
+.order-history-empty {
+    margin: 0;
+    color: #555;
 }

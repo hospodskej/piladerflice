@@ -16,6 +16,14 @@ cs:
     account_title: "Můj účet"
     go_to_admin: "Přejít do administrace"
     logout: "Odhlásit se"
+    order_history_title: "Moje objednávky"
+    order_number: "Objednávka č."
+    order_total: "Celkem"
+    reorder_button: "Objednat znovu"
+    no_orders: "Zatím nemáte žádné objednávky."
+    reorder_success: "Položky byly přidány do košíku."
+    reorder_partial: "%{count} položek z této objednávky už není dostupných, zbytek byl přidán do košíku."
+    reorder_failed: "Žádná z položek této objednávky už bohužel není dostupná."
 
   nav:
     domu: "Domů"
@@ -118,6 +126,7 @@ cs:
     personal_details: "Osobní údaje"
     login_existing_user: "Přihlásit se jako stávající uživatel"
     login_not_available: "Přihlášení zatím není k dispozici"
+    logged_in_as: "Přihlášen/a jako %{email} – vaše údaje se předvyplní automaticky."
     newsletter_opt_in: "Souhlasím se zasíláním Newsletterů"
     billing_details: "Fakturační údaje"
     street_and_number: "Ulice a č.p."

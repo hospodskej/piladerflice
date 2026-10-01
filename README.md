@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.70: Customer accounts now remember order history with a "Objednat znovu" (reorder) button, and checkout details/billing/delivery address are saved to the account and auto-filled next time; added a "log in" shortcut on checkout for returning customers  
 Patch 0.8.69: Fixed registration form showing a raw "translation missing" error instead of a real message for short/blank passwords, taken e-mails, and mismatched password confirmation  
 Patch 0.8.68: Added a "Zpět na web" link in the admin sidebar to go back to the main site  
 Patch 0.8.67: Added customer registration/login (/registrace, /prihlaseni, /muj-ucet); admins can now also log in through this same form and reach the admin panel from their account page  

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_114140) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_01_121800) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -149,7 +149,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_114140) do
     t.integer "subtotal_czk", null: false
     t.integer "total_czk", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.integer "vat_czk", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "pricelist_items", force: :cascade do |t|
@@ -228,9 +230,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_114140) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "billing_city"
+    t.string "billing_country"
+    t.string "billing_street"
+    t.string "billing_zip"
+    t.string "company_dic"
+    t.string "company_ico"
+    t.string "company_name"
+    t.boolean "company_purchase", default: false, null: false
     t.datetime "created_at", null: false
+    t.boolean "delivery_address_different", default: false, null: false
+    t.string "delivery_city"
+    t.string "delivery_country"
+    t.string "delivery_street"
+    t.string "delivery_zip"
     t.string "email_address", null: false
+    t.string "first_name"
+    t.string "last_name"
     t.string "password_digest", null: false
+    t.string "phone"
     t.string "role", default: "customer", null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
@@ -239,5 +257,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_114140) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "catalog_variants", "catalog_products"
+  add_foreign_key "orders", "users"
   add_foreign_key "sessions", "users"
 end

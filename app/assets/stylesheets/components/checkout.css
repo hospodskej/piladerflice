@@ -211,15 +211,15 @@
     color: #000;
     border: 1px solid #000;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.checkout-login-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.checkout-login-btn:disabled:hover {
-    background: transparent;
+.checkout-logged-in-as {
+    margin: 0 0 20px;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #E5E5E5;
     color: #000;
 }
 

@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  belongs_to :user, optional: true
+
   SHIPPING_METHODS = %w[address pickup].freeze
   PAYMENT_METHODS = %w[cash bank_transfer].freeze
 

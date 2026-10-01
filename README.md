@@ -7,6 +7,7 @@
 - `rails server`
 ---
 
+Patch 0.8.74: Replaced the phone prefix dropdown's emoji flags with the site's real SVG flags (crisp rectangles, not a wavy emoji rendering), and fixed the dropdown panel getting clipped by its container  
 Patch 0.8.73: Added a phone prefix dropdown (🇨🇿 +420 / 🇦🇹 +43) to "Upravit údaje"; fixed every "Zpět"-style outline button site-wide showing an underline when it's a link instead of a button  
 Patch 0.8.72: Added an "Upravit údaje" page for editing saved contact/address/company info; removed the old admin-only login page now that the unified login handles both  
 Patch 0.8.71: Redesigned the "Můj účet" page as a proper account dashboard; fixed the cart table's header/column misalignment and the header nav touching the dark-mode toggle at mid-size viewports  

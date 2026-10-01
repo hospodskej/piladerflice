@@ -32,10 +32,22 @@
             <div class="form-group">
               <label for="user_phone_number"><%= t("kontakt.form_telefon") %></label>
               <div class="phone-field">
-                <select name="user[phone_prefix]" id="user_phone_prefix" class="phone-prefix-select" aria-label="<%= t('auth.phone_prefix_label') %>">
-                  <option value="+420" <%= "selected" if @user.phone_prefix == "+420" %>>🇨🇿 +420</option>
-                  <option value="+43" <%= "selected" if @user.phone_prefix == "+43" %>>🇦🇹 +43</option>
-                </select>
+                <div class="phone-prefix-dropdown" data-controller="phone-prefix" data-action="click@window->phone-prefix#closeIfOutside">
+                  <button type="button" class="phone-prefix-btn" data-phone-prefix-target="button" data-action="click->phone-prefix#toggle" aria-label="<%= t('auth.phone_prefix_label') %>">
+                    <span data-phone-prefix-target="flag"><%= @user.phone_prefix == "+43" ? render("shared/flag_at") : render("shared/flag_cz") %></span>
+                    <span data-phone-prefix-target="label"><%= @user.phone_prefix %></span>
+                    <span class="chevron">▼</span>
+                  </button>
+                  <input type="hidden" name="user[phone_prefix]" data-phone-prefix-target="input" value="<%= @user.phone_prefix %>">
+                  <div class="phone-prefix-menu" data-phone-prefix-target="menu">
+                    <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+420">
+                      <%= render "shared/flag_cz" %><span>+420</span>
+                    </div>
+                    <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+43">
+                      <%= render "shared/flag_at" %><span>+43</span>
+                    </div>
+                  </div>
+                </div>
                 <input type="tel" name="user[phone_number]" id="user_phone_number" value="<%= @user.phone_number %>">
               </div>
             </div>

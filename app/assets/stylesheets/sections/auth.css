@@ -31,6 +31,7 @@
 }
 
 .auth-submit {
+    box-sizing: border-box;
     width: 100%;
     text-align: center;
     border: none;
@@ -48,9 +49,12 @@
     font-weight: 700;
     font-size: 1.1rem;
     margin: 0 0 20px;
+    overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 .auth-logout-btn {
+    box-sizing: border-box;
     width: 100%;
     text-align: center;
     cursor: pointer;

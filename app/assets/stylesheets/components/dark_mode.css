@@ -113,7 +113,11 @@ html.dark-mode .akce-btn-eshop,
 html.dark-mode .lang-btn,
 html.dark-mode .lang-dropdown-content,
 html.dark-mode .auth-box,
-html.dark-mode .auth-box-title {
+html.dark-mode .auth-box-title,
+html.dark-mode .checkout-logged-in-as,
+html.dark-mode .account-profile-card,
+html.dark-mode .order-card,
+html.dark-mode .account-orders-empty {
     background-color: #dbdbdb;
 }
 

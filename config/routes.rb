@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get "registrace", to: "registrations#new", as: :new_registration
   post "registrace", to: "registrations#create", as: :registrations
   get "muj-ucet", to: "accounts#show", as: :account
+  post "muj-ucet/objednavky/:id/znovu-objednat", to: "accounts#reorder", as: :reorder_order
 
   resources :cart_items, only: [:create, :update, :destroy]
   get '/kosik', to: 'carts#show', as: :cart

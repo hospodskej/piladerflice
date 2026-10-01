@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
   def new
+    return_to = params[:return_to].to_s
+    session[:return_to_after_authenticating] = return_to if return_to.start_with?("/") && !return_to.start_with?("//")
   end
 
   def create

@@ -46,4 +46,25 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     get account_path
     assert_redirected_to login_path
   end
+
+  test "new stores a safe return_to path and create redirects there after login" do
+    get login_path, params: { return_to: "/kosik/udaje" }
+    post session_path, params: { email_address: "zakaznik@example.com", password: "supersecret" }
+
+    assert_redirected_to "/kosik/udaje"
+  end
+
+  test "new ignores a protocol-relative return_to to avoid an open redirect" do
+    get login_path, params: { return_to: "//evil.example.com" }
+    post session_path, params: { email_address: "zakaznik@example.com", password: "supersecret" }
+
+    assert_redirected_to account_path
+  end
+
+  test "new ignores a return_to that isn't a path at all" do
+    get login_path, params: { return_to: "https://evil.example.com" }
+    post session_path, params: { email_address: "zakaznik@example.com", password: "supersecret" }
+
+    assert_redirected_to account_path
+  end
 end

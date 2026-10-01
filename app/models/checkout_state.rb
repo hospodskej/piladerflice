@@ -55,6 +55,10 @@ class CheckoutState
     end
   end
 
+  def to_h
+    @session[SESSION_KEY]
+  end
+
   def clear
     @session[SESSION_KEY] = {}
   end

@@ -15,8 +15,8 @@ class CartTest < ActiveSupport::TestCase
   test "add stores price, image, and specs from the variant, not the caller" do
     product = @variant.catalog_product
     product.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
-      filename: "tramy.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.webp")),
+      filename: "tramy.webp"
     )
 
     line_id = @cart.add(@variant)
@@ -39,12 +39,12 @@ class CartTest < ActiveSupport::TestCase
   test "add prefers the variant's own image over the product's image" do
     product = @variant.catalog_product
     product.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
-      filename: "tramy.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.webp")),
+      filename: "tramy.webp"
     )
     @variant.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/fosny.png")),
-      filename: "fosny.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/fosny.webp")),
+      filename: "fosny.webp"
     )
 
     line_id = @cart.add(@variant)

@@ -5,6 +5,6 @@ one:
   title_de: Lieferung
   content: Na přání vám zpracované výrobky bezpečně doručíme.
   content_de: Auf Wunsch liefern wir die fertigen Produkte sicher.
-  images: '["sluzby/doprava1.png", "sluzby/doprava2.png"]'
+  images: '["sluzby/doprava1.webp", "sluzby/doprava2.webp"]'
   button_text: Ceník dopravy
   button_path: /sluzby#doprava

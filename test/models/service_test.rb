@@ -7,6 +7,6 @@ class ServiceTest < ActiveSupport::TestCase
   end
 
   test "images deserializes as an array of paths" do
-    assert_equal [ "sluzby/doprava1.png", "sluzby/doprava2.png" ], services(:one).images
+    assert_equal [ "sluzby/doprava1.webp", "sluzby/doprava2.webp" ], services(:one).images
   end
 end

@@ -29,3 +29,7 @@ gem "stimulus-rails", "~> 1.3"
 gem "net-smtp", require: false
 
 gem "bcrypt", "~> 3.1.7"
+
+# Optimize admin-uploaded PNG/JPG images on upload (precompiled binaries, no system packages)
+gem "image_optim", "~> 0.32"
+gem "image_optim_pack", "~> 0.13"

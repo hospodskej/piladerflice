@@ -20,3 +20,30 @@ A chatbot for the site, most likely answering product/order questions for custom
 - Leaning toward Python (Django) rather than Ruby, since it's a better fit for the AI/ML tooling a chatbot needs
 - Would run as its own separate app, not bolted onto this Rails app
 - Scope (what it can answer, whether it can place orders, etc.) still undecided
+
+## Order status tracking
+
+Customers can see their order history now but not whether it's been processed, dispatched, or delivered - they currently have to call to ask.
+
+- Add a status field to orders (e.g. processing / dispatched / delivered) with an admin UI to update it
+- Show the status on the account page's order history
+- Natural extension of the order history/reorder work already built
+
+## On-site customer reviews
+
+A `Review` model already exists, currently just holding imported Google reviews. Letting actual buyers leave their own review (tied to their account/order) would build more trust than imported reviews alone.
+
+- Needs light moderation before a review goes public
+- Likely gated to customers who actually have an order for that product
+
+## Low-stock alerts for admin
+
+This is a physical sawmill with real inventory - right now nobody gets notified when a product variant's `in_stock` flips to false; it just has to be noticed manually.
+
+- Notify admin (email or an admin-panel flag) when a variant goes out of stock
+
+## Site search
+
+The catalog is growing (species, dimensions, grades) and currently has no search, only category browsing.
+
+- A search bar across products/variants once the catalog outgrows simple category pages

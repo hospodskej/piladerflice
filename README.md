@@ -64,6 +64,30 @@ An illustrated mascot for the brand - could double as the face of the 404 page, 
 
 A real photo of Štěpán Merta / the team for the "O nás" section, replacing the current stock/illustration imagery.
 
+### Meta descriptions
+
+No page sets one, so Google just auto-grabs random text from the page for the search result snippet instead of something written to get clicks.
+
+### Unique page titles
+
+Only one view sets a custom `<title>` - every other page (eshop, every product page, cart, checkout, account, etc.) shows the generic "Pila Derflice" title.
+
+### Clickable phone/email
+
+The phone number and email in the header and footer are plain text, not `tel:`/`mailto:` links (kontakt page has a working mailto, but it's the only one).
+
+### Social share image
+
+No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
+
+### Privacy policy page
+
+There's a terms page and a cookies policy, but no separate privacy policy - relevant now that the site collects accounts and checkout data.
+
+### Local business schema
+
+No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google Maps visibility.
+
 ---
 
 Patch 0.8.74: SVG flags for phone dropdown  

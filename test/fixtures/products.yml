@@ -3,11 +3,11 @@
 one:
   title: Palivové dřevo
   text: Velikosti a druh podle volby zákazníka
-  image: sortiment/palivove-drevo.png
+  image: sortiment/palivove-drevo.webp
   link: /sortiment/palivove-drevo
 
 two:
   title: Stavební řezivo
   text: Hranoly, fošny, střešní latě, prkna
-  image: sortiment/stavebni-rezivo.png
+  image: sortiment/stavebni-rezivo.webp
   link: /sortiment/stavebni-rezivo

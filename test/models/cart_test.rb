@@ -15,15 +15,15 @@ class CartTest < ActiveSupport::TestCase
   test "add stores price, image, and specs from the variant, not the caller" do
     product = @variant.catalog_product
     product.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
-      filename: "tramy.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.webp")),
+      filename: "tramy.webp"
     )
 
     line_id = @cart.add(@variant)
     item = @cart.find(line_id)
 
     assert_equal product.key, item.product_key
-    assert_equal Rails.application.routes.url_helpers.rails_blob_path(product.image, only_path: true), item.image
+    assert_equal Rails.application.routes.url_helpers.rails_representation_path(product.image.variant(format: :webp), only_path: true), item.image
     assert_equal @variant.price_czk, item.unit_price_czk
     assert_equal @variant.to_cart_specs, item.specs
     assert_equal 1, item.quantity
@@ -39,18 +39,18 @@ class CartTest < ActiveSupport::TestCase
   test "add prefers the variant's own image over the product's image" do
     product = @variant.catalog_product
     product.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.png")),
-      filename: "tramy.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/tramy.webp")),
+      filename: "tramy.webp"
     )
     @variant.image.attach(
-      io: File.open(Rails.root.join("app/assets/images/eshop/fosny.png")),
-      filename: "fosny.png"
+      io: File.open(Rails.root.join("app/assets/images/eshop/fosny.webp")),
+      filename: "fosny.webp"
     )
 
     line_id = @cart.add(@variant)
     item = @cart.find(line_id)
 
-    assert_equal Rails.application.routes.url_helpers.rails_blob_path(@variant.image, only_path: true), item.image
+    assert_equal Rails.application.routes.url_helpers.rails_representation_path(@variant.image.variant(format: :webp), only_path: true), item.image
   end
 
   test "adding the same variant twice increments quantity instead of duplicating the line" do

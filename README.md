@@ -90,6 +90,7 @@ No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google 
 
 ---
 
+Patch 0.8.75: Converted every image site-wide to WebP (168MB -> 29MB of static assets); uploaded product/promo images now served as WebP on the fly too  
 Patch 0.8.74: SVG flags for phone dropdown  
 Patch 0.8.73: Phone prefix dropdown  
 Patch 0.8.72: Edit profile page, removed old admin login  

@@ -36,7 +36,7 @@
 
     <div class="hero-trust">
       <div class="reviews">
-        <%= image_tag "google-review.png", alt: "Google recenze", class: "google-logo", width: "48", height: "48" %>
+        <%= image_tag "google-review.webp", alt: "Google recenze", class: "google-logo", width: "48", height: "48" %>
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 48" width="280" height="48">
           <defs>
@@ -59,12 +59,12 @@
 
       <div class="features">
         <% features = [
-          { name: t("home.index.features.doprava"), img: "doprava.png" },
-          { name: t("home.index.features.vyroba"), img: "vyroba.png"},
-          { name: t("home.index.features.sortiment"), img: "sortiment.png"},
-          { name: t("home.index.features.vyrobce"), img: "vyrobce.png"},
-          { name: t("home.index.features.garance"), img: "garance.png"},
-          { name: t("home.index.features.ceny"), img: "wallet.png"}
+          { name: t("home.index.features.doprava"), img: "doprava.webp" },
+          { name: t("home.index.features.vyroba"), img: "vyroba.webp"},
+          { name: t("home.index.features.sortiment"), img: "sortiment.webp"},
+          { name: t("home.index.features.vyrobce"), img: "vyrobce.webp"},
+          { name: t("home.index.features.garance"), img: "garance.webp"},
+          { name: t("home.index.features.ceny"), img: "wallet.webp"}
         ] %>
 
         <% features.each do |feature| %>
@@ -82,9 +82,9 @@
       <h2 class="top-categories-title"><span class="brand-blue"><%= t("home.index.top_categories_title_accent") %></span> <%= t("home.index.top_categories_title_rest") %></h2>
 
       <% categories = [
-        { name: t("home.index.categories.palivove_drevo"), img: "top-palivove-drevo.png", url: "/sortiment/palivove-drevo" },
-        { name: t("home.index.categories.stavebni_drevo"), img: "top-stavebni-drevo.png", url: "/sortiment/stavebni-rezivo" },
-        { name: t("home.index.categories.vyrobni_zbytky"), img: "top-vyrobni-zbytky.png", url: "/sortiment/vyrobni-zbytky" },
+        { name: t("home.index.categories.palivove_drevo"), img: "top-palivove-drevo.webp", url: "/sortiment/palivove-drevo" },
+        { name: t("home.index.categories.stavebni_drevo"), img: "top-stavebni-drevo.webp", url: "/sortiment/stavebni-rezivo" },
+        { name: t("home.index.categories.vyrobni_zbytky"), img: "top-vyrobni-zbytky.webp", url: "/sortiment/vyrobni-zbytky" },
       ] %>
 
       <div class="top-categories-grid">
@@ -119,7 +119,7 @@
       <div class="akcni-nabidka-decoration">
         <div class="product-image-wrapper">
           <div class="akcni-badge"><%= t("home.index.akcni_badge") %></div>
-          <%= image_tag "akcni-nabidka.png", alt: t("home.index.akcni_image_alt"), class: "akcni-nabidka-image" %>
+          <%= image_tag "akcni-nabidka.webp", alt: t("home.index.akcni_image_alt"), class: "akcni-nabidka-image" %>
         </div>
       </div>
     </div>
@@ -213,14 +213,14 @@
     </div>
 
     <div class="dorucujeme-map">
-      <%= image_tag "mapa-doruceni.png", alt: t("home.index.dorucujeme_map_alt") %>
+      <%= image_tag "mapa-doruceni.webp", alt: t("home.index.dorucujeme_map_alt") %>
     </div>
   </section>
   <section class="co-je-noveho-section">
     <div class="co-je-noveho-gallery">
-      <%= image_tag "co-je-noveho-pic1.png", alt: t("home.index.co_je_noveho_pic1_alt"), class: "co-je-noveho-img co-je-noveho-img-main" %>
-      <%= image_tag "co-je-noveho-pic2.png", alt: t("home.index.co_je_noveho_pic2_alt"), class: "co-je-noveho-img" %>
-      <%= image_tag "co-je-noveho-pic3.png", alt: t("home.index.co_je_noveho_pic3_alt"), class: "co-je-noveho-img" %>
+      <%= image_tag "co-je-noveho-pic1.webp", alt: t("home.index.co_je_noveho_pic1_alt"), class: "co-je-noveho-img co-je-noveho-img-main" %>
+      <%= image_tag "co-je-noveho-pic2.webp", alt: t("home.index.co_je_noveho_pic2_alt"), class: "co-je-noveho-img" %>
+      <%= image_tag "co-je-noveho-pic3.webp", alt: t("home.index.co_je_noveho_pic3_alt"), class: "co-je-noveho-img" %>
     </div>
 
     <div class="co-je-noveho-text">
@@ -312,7 +312,7 @@
   <section class="o-sobe-section">
     <div class="o-sobe-card">
       <div class="o-sobe-image-wrapper">
-        <%= image_tag "o-sobe/nakladak.png", alt: t("home.index.o_sobe_image_alt"), class: "o-sobe-image" %>
+        <%= image_tag "o-sobe/nakladak.webp", alt: t("home.index.o_sobe_image_alt"), class: "o-sobe-image" %>
       </div>
 
       <div class="o-sobe-text">
@@ -331,7 +331,7 @@
 
     <div class="google-reviews-header">
       <div class="google-reviews-rating">
-        <%= image_tag "google-review.png", alt: "Google", class: "google-reviews-logo" %>
+        <%= image_tag "google-review.webp", alt: "Google", class: "google-reviews-logo" %>
         <div>
           <div class="google-reviews-score">4.6 <span class="google-reviews-stars">★★★★★</span></div>
           <div class="google-reviews-count"><%= t("home.index.google_reviews_count") %></div>
@@ -369,7 +369,7 @@
               <div>
                 <div class="google-review-name"><%= review.name %></div>
                 <div class="google-review-source">
-                  <%= image_tag "google-review.png", alt: "Google", class: "google-review-source-icon" %>
+                  <%= image_tag "google-review.webp", alt: "Google", class: "google-review-source-icon" %>
                   <%= t("home.index.google_review_source") %>
                 </div>
               </div>

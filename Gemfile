@@ -11,6 +11,10 @@ gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
+# Serve ActiveStorage image variants (used to generate WebP versions on the fly)
+gem "image_processing", "~> 1.2"
+gem "ruby-vips", "~> 2.2"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

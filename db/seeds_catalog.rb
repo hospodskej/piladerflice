@@ -95,7 +95,7 @@ firewood.each_with_index do |data, i|
     drying_note: data[:drying_note], drying_note_de: data[:drying_note_de],
     image_alt: data[:image_alt], image_alt_de: data[:image_alt_de]
   )
-  attach_seed_image!(product, "eshop/#{data[:key]}.png")
+  attach_seed_image!(product, "eshop/#{data[:key]}.webp")
   add_firewood_variants(product, kontejner_price: 21_500, bedny_price: 21_500)
 end
 
@@ -107,7 +107,7 @@ tramy = CatalogProduct.create!(
   description: "Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností.",
   description_de: "Massive Holzbalken für Dachstühle, Decken und tragende Bauteile. Aus hochwertigem Holz mit langer Lebensdauer gefertigt."
 )
-attach_seed_image!(tramy, "eshop/tramy.png")
+attach_seed_image!(tramy, "eshop/tramy.webp")
 [["100/100", "3 000 mm"], ["100/100", "4 000 mm"], ["100/100", "5 000 mm"],
  ["100/120", "3 000 mm"], ["100/120", "4 000 mm"], ["100/120", "5 000 mm"],
  ["100/140", "3 000 mm"], ["100/140", "4 000 mm"], ["100/140", "5 000 mm"],
@@ -122,7 +122,7 @@ late = CatalogProduct.create!(
   description: "Stavební latě vhodné pro střešní konstrukce, rošty a další stavební aplikace. Vyrobené z kvalitního dřeva, dostupné v různých délkách a průřezech. Ideální pro přesné a spolehlivé konstrukce.",
   description_de: "Bauholzlatten geeignet für Dachkonstruktionen, Roste und weitere Bauanwendungen. Aus hochwertigem Holz, erhältlich in verschiedenen Längen und Querschnitten. Ideal für präzise und zuverlässige Konstruktionen."
 )
-attach_seed_image!(late, "eshop/late.png")
+attach_seed_image!(late, "eshop/late.webp")
 [["40/50", "3 000 mm"], ["40/50", "4 000 mm"], ["40/50", "5 000 mm"],
  ["50/30", "3 000 mm"], ["50/30", "4 000 mm"], ["50/30", "5 000 mm"],
  ["60/40", "3 000 mm"], ["60/40", "4 000 mm"], ["60/40", "5 000 mm"]].each_with_index do |(dim, len), i|
@@ -136,7 +136,7 @@ fosny = CatalogProduct.create!(
   description: "Robustní fošny ideální pro výrobu podlah, bednění nebo konstrukční prvky. Dostupné v široké škále rozměrů a tlouštěk. Kvalitní dřevo zajišťuje pevnost a odolnost.",
   description_de: "Robuste Bohlen ideal für die Herstellung von Böden, Schalungen oder Konstruktionselementen. Erhältlich in einer großen Auswahl an Maßen und Stärken. Hochwertiges Holz sorgt für Festigkeit und Beständigkeit."
 )
-attach_seed_image!(fosny, "eshop/fosny.png")
+attach_seed_image!(fosny, "eshop/fosny.webp")
 dims = %w[120x40 140x40 180x40 200x40 220x40 120x50 140x50 180x50 200x50 220x50 240x50 120x60 140x60 180x60 200x60 220x60 240x60]
 i = 0
 dims.each do |dim|
@@ -152,7 +152,7 @@ prkna = CatalogProduct.create!(
   description: "Kvalitní stavební prkna vhodná pro bednění, podlahy a další stavební využití.",
   description_de: "Hochwertige Bauschnittbretter geeignet für Schalungen, Böden und weitere Bauanwendungen."
 )
-attach_seed_image!(prkna, "eshop/prkna.png")
+attach_seed_image!(prkna, "eshop/prkna.webp")
 [["I. netříděné", "I. unsortiert", 6_500], ["I. tříděné", "I. sortiert", 7_000], ["II. tříděné", "II. sortiert", 5_000]].each_with_index do |(cs, de, price), row|
   ["3 000 mm", "4 000 mm", "5 000 mm"].each_with_index do |len, col|
     prkna.catalog_variants.create!(key: "#{cs.parameterize}-#{len.parameterize}", grade: cs, grade_de: de, length_label: len, price_czk: price, position: row * 3 + col)
@@ -167,7 +167,7 @@ odkory = CatalogProduct.create!(
   description: "Levné a efektivní palivo z odkorněných kusů dřeva. Vhodné pro kamna, krby a kotle. Poskytuje vysokou výhřevnost při minimálních nákladech. Nabízíme volně ložené nebo balené dle potřeb zákazníka.",
   description_de: "Günstiger und effizienter Brennstoff aus entrindeten Holzstücken. Geeignet für Öfen, Kamine und Heizkessel. Bietet hohen Heizwert bei minimalen Kosten. Erhältlich lose oder verpackt nach Kundenwunsch."
 )
-attach_seed_image!(odkory, "eshop/odkory.png")
+attach_seed_image!(odkory, "eshop/odkory.webp")
 odkory.catalog_variants.create!(key: "smrk", variant_label: "Smrk", variant_label_de: "Fichte", price_czk: 800, position: 0)
 odkory.catalog_variants.create!(key: "dub", variant_label: "Dub", variant_label_de: "Eiche", price_czk: 1_400, position: 1)
 
@@ -177,7 +177,7 @@ piliny = CatalogProduct.create!(
   description: "Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Nabízíme volně ložené nebo balené varianty.",
   description_de: "Hochwertiges Sägemehl geeignet als Einstreu, zum Mulchen oder zum Pressen von Briketts. Niedrige Feuchtigkeit und feine Struktur sorgen für einfache Handhabung. Erhältlich lose oder verpackt."
 )
-attach_seed_image!(piliny, "eshop/piliny.png")
+attach_seed_image!(piliny, "eshop/piliny.webp")
 piliny.catalog_variants.create!(key: "volne-lozene", variant_label: "Volně ložené", variant_label_de: "Lose geschüttet", price_czk: 450, position: 0)
 piliny.catalog_variants.create!(key: "balene", variant_label: "Balené", variant_label_de: "Verpackt", price_czk: 450, position: 1)
 
@@ -187,7 +187,7 @@ stepka = CatalogProduct.create!(
   description: "Dřevní štěpka ideální jako ekologické palivo nebo mulčovací materiál pro zahrady. Vyrobená z kvalitního dřeva, nízká vlhkost zajišťuje vysokou výhřevnost. Dostupná ve volně ložené či balené podobě.",
   description_de: "Holzhackschnitzel, ideal als umweltfreundlicher Brennstoff oder Mulchmaterial für den Garten. Aus hochwertigem Holz hergestellt, niedrige Feuchtigkeit sorgt für hohen Heizwert. Erhältlich lose oder verpackt."
 )
-attach_seed_image!(stepka, "eshop/stepka.png")
+attach_seed_image!(stepka, "eshop/stepka.webp")
 stepka.catalog_variants.create!(key: "smrk", variant_label: "Smrk", variant_label_de: "Fichte", price_czk: 700, in_stock: true, position: 0)
 stepka.catalog_variants.create!(key: "dub", variant_label: "Dub", variant_label_de: "Eiche", price_czk: 800, in_stock: true, position: 1)
 stepka.catalog_variants.create!(key: "buk", variant_label: "Buk", variant_label_de: "Buche", price_czk: 800, in_stock: false, position: 2)
@@ -198,7 +198,7 @@ kamenivo = CatalogProduct.create!(
   description: "Přírodní okrasné kamenivo pro úpravu zahrad, obsypy ploch a dekorativní účely. Dostupné ve třech frakcích.",
   description_de: "Natürliche Ziersteine für die Gartengestaltung, Flächenschüttungen und dekorative Zwecke. Erhältlich in drei Körnungen."
 )
-attach_seed_image!(kamenivo, "eshop/kamenivo.png")
+attach_seed_image!(kamenivo, "eshop/kamenivo.webp")
 kamenivo.catalog_variants.create!(key: "32-64", variant_label: "32/64 mm", price_czk: 20, position: 0)
 kamenivo.catalog_variants.create!(key: "64-120", variant_label: "64/120 mm", price_czk: 30, position: 1)
 kamenivo.catalog_variants.create!(key: "16-32", variant_label: "16/32 mm", price_czk: 1, position: 2)

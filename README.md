@@ -90,6 +90,7 @@ No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google 
 
 ---
 
+Patch 0.8.77: Admin-uploaded images get losslessly shrunk on upload (gems only, no server dependency)  
 Patch 0.8.76: Converted every static site image to WebP ahead of time (168MB -> 29MB), no server dependency needed  
 Patch 0.8.74: SVG flags for phone dropdown  
 Patch 0.8.73: Phone prefix dropdown  

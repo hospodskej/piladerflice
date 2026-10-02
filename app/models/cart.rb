@@ -81,8 +81,7 @@ class Cart
   def image_url_for(catalog_variant)
     attachment = catalog_variant.image.attached? ? catalog_variant.image : catalog_variant.catalog_product.image
     return nil unless attachment.attached?
-    return rails_blob_path(attachment, only_path: true) if attachment.blob.content_type == "image/svg+xml"
 
-    rails_representation_path(attachment.variant(format: :webp), only_path: true)
+    rails_blob_path(attachment, only_path: true)
   end
 end

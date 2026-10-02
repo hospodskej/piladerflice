@@ -23,7 +23,7 @@ class CartTest < ActiveSupport::TestCase
     item = @cart.find(line_id)
 
     assert_equal product.key, item.product_key
-    assert_equal Rails.application.routes.url_helpers.rails_representation_path(product.image.variant(format: :webp), only_path: true), item.image
+    assert_equal Rails.application.routes.url_helpers.rails_blob_path(product.image, only_path: true), item.image
     assert_equal @variant.price_czk, item.unit_price_czk
     assert_equal @variant.to_cart_specs, item.specs
     assert_equal 1, item.quantity
@@ -50,7 +50,7 @@ class CartTest < ActiveSupport::TestCase
     line_id = @cart.add(@variant)
     item = @cart.find(line_id)
 
-    assert_equal Rails.application.routes.url_helpers.rails_representation_path(@variant.image.variant(format: :webp), only_path: true), item.image
+    assert_equal Rails.application.routes.url_helpers.rails_blob_path(@variant.image, only_path: true), item.image
   end
 
   test "adding the same variant twice increments quantity instead of duplicating the line" do

@@ -47,3 +47,19 @@ This is a physical sawmill with real inventory - right now nobody gets notified 
 The catalog is growing (species, dimensions, grades) and currently has no search, only category browsing.
 
 - A search bar across products/variants once the catalog outgrows simple category pages
+
+## Custom 404 page
+
+`public/404.html` is still the generic Rails default (plain English, not styled to match the site) rather than something branded and in Czech.
+
+## robots.txt
+
+`public/robots.txt` is still just the default Rails placeholder comment, with no real rules in it.
+
+## Team mascot
+
+An illustrated mascot for the brand - could double as the face of the 404 page, loading states, etc.
+
+## Team photo
+
+A real photo of Štěpán Merta / the team for the "O nás" section, replacing the current stock/illustration imagery.

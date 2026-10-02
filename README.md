@@ -5,6 +5,8 @@
 - `rails db:migrate`
 - `rails db:seed`
 - `rails server`
+
+See TODO.md for the roadmap.
 ---
 
 Patch 0.8.74: SVG flags for phone dropdown  

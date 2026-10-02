@@ -42,12 +42,6 @@ A `Review` model already exists, currently just holding imported Google reviews.
 - Needs light moderation before a review goes public
 - Likely gated to customers who actually have an order for that product
 
-### Low-stock alerts for admin
-
-This is a physical sawmill with real inventory - right now nobody gets notified when a product variant's `in_stock` flips to false; it just has to be noticed manually.
-
-- Notify admin (email or an admin-panel flag) when a variant goes out of stock
-
 ### Site search
 
 The catalog is growing (species, dimensions, grades) and currently has no search, only category browsing.

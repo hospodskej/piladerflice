@@ -102,16 +102,12 @@ html.dark-mode .page-wrapper {
     background-color: #d5d5d5;
 }
 
-/* Same idea, a shade darker: the header, the hero's white CTA button, and
-   the language/currency pill were all inverting from white/near-white to
-   pure or near-pure black (#000000/#191919), standing out harshly against
-   the #2a2a2a page background above. #dbdbdb inverts to #242424, a tiny bit
-   darker than the page background instead of pure black. */
-html.dark-mode .site-header,
+/* Same idea, a shade darker: the sticky logo bar and account/order cards
+   were inverting from white/near-white to pure or near-pure black
+   (#000000/#191919), standing out harshly against the #2a2a2a page
+   background above. #dbdbdb inverts to #242424, a tiny bit darker than the
+   page background instead of pure black. */
 html.dark-mode .sticky-logo-bar,
-html.dark-mode .akce-btn-eshop,
-html.dark-mode .lang-btn,
-html.dark-mode .lang-dropdown-content,
 html.dark-mode .auth-box,
 html.dark-mode .auth-box-title,
 html.dark-mode .checkout-logged-in-as,
@@ -125,12 +121,108 @@ html.dark-mode {
     background-color: #2a2a2a;
 }
 
-/* White text on a colored (non-gray) fill inverts to black, since hue-rotate
-   can't act on a hue-less color - only the fill roughly survives. Pre-
-   compensating to #000 here (the exact inverse of the transform used for
-   backgrounds above) makes it land back on white after filtering. */
-html.dark-mode .badge,
-html.dark-mode .product-info,
-html.dark-mode .product-features li::before {
-    color: #000000;
+/* --- Header + hero: hand-tuned palette instead of the filter trick ---
+   These two sections cancel the .page-wrapper inversion above (applying
+   the same filter a second time undoes it - same double-invert idea the
+   footer and photos already use) and get real dark colors instead of
+   colors pre-compensated to survive inversion. That's worth it here
+   because both sections lean hard on the brand blue as a solid fill, which
+   the filter approach can't give a dark-mode-appropriate (desaturated)
+   tone - it can only preserve or break the light-mode blue. */
+html.dark-mode .site-header,
+html.dark-mode .hero-section {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Cancelling the parent filter above means photos in these two sections no
+   longer need the general photo counter-invert rule further up this file -
+   without this, they'd get a third invert and come out flipped again. */
+html.dark-mode .hero-section img {
+    filter: none !important;
+}
+
+/* The logo is excluded from the general photo counter-invert rule so the
+   outer .page-wrapper filter alone turns its black lines white. Since the
+   header no longer carries that outer filter, invert it directly instead. */
+html.dark-mode .site-header .logo {
+    filter: invert(1);
+}
+
+html.dark-mode .site-header {
+    background-color: #1f2226;
+    border-bottom-color: #2b2f35;
+}
+
+html.dark-mode .contact-header {
+    color: #a8adb5;
+}
+
+html.dark-mode .nav-link,
+html.dark-mode .theme-icon,
+html.dark-mode .account-btn,
+html.dark-mode .cart-btn,
+html.dark-mode .lang-btn,
+html.dark-mode .lang-option {
+    color: #e8eaed;
+}
+
+html.dark-mode .theme-toggle-track {
+    background-color: #2b2f35;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .lang-btn {
+    background-color: #2b2f35;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .lang-btn:hover {
+    background-color: #343a42;
+}
+
+html.dark-mode .chevron,
+html.dark-mode .lang-btn .chevron,
+html.dark-mode .lang-currency,
+html.dark-mode .lang-option .lang-currency {
+    color: #a8adb5;
+}
+
+html.dark-mode .lang-dropdown-content {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .lang-option:hover {
+    background-color: #343a42;
+}
+
+html.dark-mode .hero-intro h1,
+html.dark-mode .review-text strong {
+    color: #f2f3f5;
+}
+
+html.dark-mode .hero-intro p,
+html.dark-mode .feature-text {
+    color: #a8adb5;
+}
+
+html.dark-mode .btn-vyroba {
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .btn-vyroba:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+html.dark-mode .akce-btn-eshop {
+    background-color: #1f2226;
+}
+
+html.dark-mode .top-categories-title {
+    color: #f2f3f5;
+}
+
+html.dark-mode .top-categories-button {
+    color: #e8eaed;
+    border-color: #3a3f46;
 }

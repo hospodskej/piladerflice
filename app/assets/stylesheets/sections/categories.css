@@ -40,6 +40,11 @@
     transform: scale(0.98);
 }
 
+.top-categories-image-link {
+    display: block;
+    cursor: pointer;
+}
+
 .top-categories-image {
     width: 100%;
     aspect-ratio: 4 / 3;

@@ -90,6 +90,8 @@ No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google 
 
 ---
 
+Patch 0.8.80: Real dark mode palette (was a color-invert filter), fixed 500 on terms/cookie-policy pages  
+Patch 0.8.79: Made bestseller, TOP kategorie, and recommendation images clickable  
 Patch 0.8.77: Admin-uploaded images get losslessly shrunk on upload (gems only, no server dependency)  
 Patch 0.8.76: Converted every static site image to WebP ahead of time (168MB -> 29MB), no server dependency needed  
 Patch 0.8.74: SVG flags for phone dropdown  

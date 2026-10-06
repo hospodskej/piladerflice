@@ -90,7 +90,9 @@
       <div class="top-categories-grid">
         <% categories.each do |category| %>
           <div class="top-categories-item">
-            <%= image_tag "top-kategorie/#{category[:img]}", alt: category[:name], class: "top-categories-image" %>
+            <%= link_to category[:url], class: "top-categories-image-link" do %>
+              <%= image_tag "top-kategorie/#{category[:img]}", alt: category[:name], class: "top-categories-image" %>
+            <% end %>
             <%= link_to category[:name], category[:url], class: "top-categories-button" %>
           </div>
         <% end %>
@@ -129,7 +131,9 @@
     <div class="nejprodavanejsi-produkty-grid">
       <% @bestseller_products.each do |product| %>
         <div class="nejprodavanejsi-produkty-card">
-          <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "nejprodavanejsi-produkty-image" %>
+          <%= link_to "/eshop/#{product.key}", class: "nejprodavanejsi-produkty-image-link", data: { turbo: false } do %>
+            <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "nejprodavanejsi-produkty-image" %>
+          <% end %>
 
           <div class="nejprodavanejsi-produkty-details">
             <span class="nejprodavanejsi-produkty-title"><%= product.type_label_i18n %></span>

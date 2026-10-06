@@ -10,9 +10,9 @@
   <div class="eshop-grid">
     <% recommendations.each do |product| %>
       <div class="product-card">
-        <div class="product-image-wrapper-eshop">
+        <%= link_to "/eshop/#{product.key}", class: "product-image-wrapper-eshop", data: { turbo: false } do %>
           <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "product-img" %>
-        </div>
+        <% end %>
         <div class="product-info-eshop">
           <h4 class="product-title"><%= product.title_i18n %></h4>
           <p class="product-type"><%= product.type_label_i18n %></p>

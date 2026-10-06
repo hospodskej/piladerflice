@@ -16,6 +16,11 @@
     margin-top: 20px;
 }
 
+.nejprodavanejsi-produkty-image-link {
+    display: block;
+    cursor: pointer;
+}
+
 .nejprodavanejsi-produkty-image {
     width: 100%;
     height: 250px;

@@ -39,20 +39,27 @@
     color: #ffffff;
 }
 
+/* Vertically centered via top:50%/translateY(-50%) rather than a fixed
+   top:1px - a fixed offset doesn't scale with the track's border-box
+   under non-100% browser zoom (110%, 90%, etc.), so it rounds to a
+   different pixel value than the matching bottom gap and the thumb
+   visibly drifts off-center. Percentage-based centering scales with the
+   same box both browsers round consistently either way. */
 .theme-toggle-thumb {
     position: absolute;
-    top: 1px;
+    top: 50%;
     left: 1px;
     width: 24px;
     height: 24px;
     background-color: #2C8FFF;
     border-radius: 50%;
+    transform: translateY(-50%);
     transition: transform 0.25s ease;
     z-index: 0;
 }
 
 html.dark-mode .theme-toggle-thumb {
-    transform: translateX(24px);
+    transform: translateY(-50%) translateX(24px);
 }
 
 /* Filter-invert dark mode: flips the whole page's colors, then flips

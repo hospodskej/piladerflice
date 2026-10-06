@@ -96,9 +96,13 @@ html.dark-mode main {
 
 /* The logo is excluded from the old photo counter-invert rule so the outer
    .page-wrapper filter alone turned its black lines white. Header and main
-   no longer carry that outer filter, so invert their logos directly. */
-html.dark-mode .site-header .logo,
-html.dark-mode main .logo,
+   no longer carry that outer filter, so invert their logos directly.
+   Targeting img.logo specifically (not bare .logo) matters: the header
+   markup has a wrapping <div class="logo"> around the <img class="logo">,
+   so a bare .logo selector matches both and the filter gets applied twice -
+   once on the div, once on the img - which cancels itself back to black. */
+html.dark-mode .site-header img.logo,
+html.dark-mode main img.logo,
 html.dark-mode main .sidebar-logo {
     filter: invert(1);
 }

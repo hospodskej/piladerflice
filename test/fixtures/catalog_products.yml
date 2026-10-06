@@ -18,8 +18,8 @@ tramy:
   position: 0
   title: Trámy
   title_de: Balken
-  type_label: Sypané
-  type_label_de: Lose
+  type_label: I. jakostní třída
+  type_label_de: Güteklasse I
 
 odkory:
   key: odkory

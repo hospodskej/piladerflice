@@ -84,7 +84,7 @@ de:
     spec_wood: "Holzart"
     spec_description: "Beschreibung"
     spec_fraction: "Körnung"
-    spec_grade: "Güteklasse"
+    spec_grade: "Klasse"
     spec_width: "Breite"
     spec_height: "Höhe"
     price_per_m3_html: "/ m<sup>3</sup>"
@@ -442,7 +442,7 @@ de:
         type: "Bauschnittholz"
         price: "ab 8.500 Kč"
       prkna:
-        title: "Bretter 24 mm"
+        title: "Bretter"
         type: "Bauschnittholz"
         price: "ab 5.000 Kč"
       stepka:
@@ -504,31 +504,24 @@ de:
           image_alt: "Hainbuche Brennholz"
           drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
 
+    lumber:
+      variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
     tramy:
       breadcrumb_category: "Bauschnittholz"
       description: "Massive Holzbalken für Dachstühle, Decken und tragende Bauteile. Aus hochwertigem Holz mit langer Lebensdauer gefertigt."
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttete</span> Balken"
     late:
       breadcrumb_category: "Bauschnittholz"
       description: "Bauholzlatten geeignet für Dachkonstruktionen, Roste und weitere Bauanwendungen. Aus hochwertigem Holz, erhältlich in verschiedenen Längen und Querschnitten. Ideal für präzise und zuverlässige Konstruktionen."
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttete</span> Dachlatten"
     fosny:
       breadcrumb_category: "Bauschnittholz"
       description: "Robuste Bohlen ideal für die Herstellung von Böden, Schalungen oder Konstruktionselementen. Erhältlich in einer großen Auswahl an Maßen und Stärken. Hochwertiges Holz sorgt für Festigkeit und Beständigkeit."
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttete</span> Bohlen"
     prkna:
       breadcrumb_category: "Bauschnittholz"
-      title: "Bretter, 24 mm"
       description: "Hochwertige Bauschnittbretter geeignet für Schalungen, Böden und weitere Bauanwendungen."
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttete</span> Bretter"
-      quality_grades:
-        netridene_1: "I. unsortiert"
-        tridene_1: "I. sortiert"
-        tridene_2: "II. sortiert"
 
     odkory:
       breadcrumb_category: "Produktionsreste"

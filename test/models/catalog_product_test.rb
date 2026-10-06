@@ -61,4 +61,22 @@ class CatalogProductTest < ActiveSupport::TestCase
     assert product.valid?
     assert_nil product.hardness
   end
+
+  test "optimizes a PNG image attached through the admin upload form" do
+    product = catalog_products(:tramy)
+    source = Rails.root.join("test/fixtures/files/sample.png")
+    original_size = File.size(source)
+
+    tempfile = Tempfile.new([ "sample", ".png" ], binmode: true)
+    tempfile.write(File.binread(source))
+    tempfile.rewind
+    upload = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "sample.png", type: "image/png")
+
+    product.image = upload
+    product.save!
+
+    assert product.image.blob.byte_size < original_size
+  ensure
+    tempfile&.close!
+  end
 end

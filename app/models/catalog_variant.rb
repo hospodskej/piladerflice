@@ -3,6 +3,7 @@ class CatalogVariant < ApplicationRecord
 
   belongs_to :catalog_product
   has_one_attached :image
+  include OptimizesUploadedImage
 
   translates :variant_label
   translates :grade

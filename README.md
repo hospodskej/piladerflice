@@ -90,6 +90,8 @@ No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google 
 
 ---
 
+Patch 0.8.77: Admin-uploaded images get losslessly shrunk on upload (gems only, no server dependency)  
+Patch 0.8.76: Converted every static site image to WebP ahead of time (168MB -> 29MB), no server dependency needed  
 Patch 0.8.74: SVG flags for phone dropdown  
 Patch 0.8.73: Phone prefix dropdown  
 Patch 0.8.72: Edit profile page, removed old admin login  
@@ -163,7 +165,7 @@ Patch 0.8.5: Clickable eshop product images
 Patch 0.8.4: Randomized eshop product recommendations  
 Patch 0.8.3: Fixed product image cropping on eshop/sortiment  
 Patch 0.8.2: Removed unused CSS, images & JS  
-Patch 0.8.1: UI fixes  
+Patch 0.8.1: Kalkulace form now saves inquiries and shows them in admin  
 Patch 0.8.0: Admin migration  
 Patch 0.7.8: SMTP Ready  
 Patch 0.7.7: Preparation for SMTP  

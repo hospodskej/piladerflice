@@ -46,7 +46,11 @@ html.dark-mode .theme-toggle-thumb {
 }
 
 /* Filter-invert dark mode: flips the whole page's colors, then flips
-   photographic content (product photos, embeds) back so it stays true-color. */
+   photographic content (product photos, embeds) back so it stays true-color.
+   What's left relying on this: the mobile sidebar, cookie banner, and cart
+   modal - everything else (header, main, footer) now cancels this and uses
+   real dark colors instead, since the filter can't give a real "theme", it
+   can only preserve or mangle whatever the light-mode color already was. */
 html.dark-mode .page-wrapper,
 html.dark-mode .mobile-sidebar,
 html.dark-mode .sidebar-overlay,
@@ -56,39 +60,47 @@ html.dark-mode .sticky-logo-bar {
     filter: invert(1) hue-rotate(180deg);
 }
 
-html.dark-mode .page-wrapper img:not(.logo):not(.sidebar-logo):not(.footer-logo),
-html.dark-mode .page-wrapper video,
 html.dark-mode .mobile-sidebar img:not(.logo):not(.sidebar-logo):not(.footer-logo),
 html.dark-mode .cookie-consent-banner img,
-html.dark-mode .cart-modal-backdrop img,
-html.dark-mode .flag-icon rect:not(.flag-red),
-html.dark-mode .flag-icon polygon {
+html.dark-mode .cart-modal-backdrop img {
     filter: invert(1) hue-rotate(180deg);
-}
-
-/* The flag icons' red fill is saturated enough that inverting it produces an
-   out-of-range color the browser has to clip, so a plain double-invert
-   (like the rule above, used for the white/blue shapes in the same flag)
-   comes back muted/brownish instead of bright red. Filtering this shape on
-   its own (not the whole <svg>, which would stack a second pass on top of
-   this one) with an added saturate() compensates for that clipping. */
-html.dark-mode .flag-red {
-    filter: invert(1) hue-rotate(180deg) saturate(3);
-}
-
-/* Same clipping problem as the flag red: gold (#FBBC04) inverts to a muddy
-   brown with a plain double-invert, since it's saturated enough to get
-   clipped out of range partway through. saturate(1.1) brightness(1.45)
-   compensates, landing close to true gold instead. */
-html.dark-mode .google-reviews-stars,
-html.dark-mode .google-review-stars {
-    filter: invert(1) hue-rotate(180deg) saturate(1.1) brightness(1.45);
 }
 
 /* The footer is already dark-styled regardless of theme, so cancel the
    page-wrapper inversion for it instead of letting it flip to light. */
 html.dark-mode .page-wrapper .site-footer {
     filter: invert(1) hue-rotate(180deg);
+}
+
+/* Every page's actual content lives in <main> (confirmed across every view),
+   so cancelling the page-wrapper inversion here in one place - the same
+   double-invert idea used for the footer and header - covers the whole site
+   instead of needing a per-section opt-out. Real content photos, the flag
+   icons, and the Google review stars all render in their true colors again
+   with zero extra rules now, since there's no residual inversion left to
+   compensate for (the flag-red/star-gold saturate hacks this used to need
+   are gone along with it). */
+html.dark-mode .site-header,
+html.dark-mode main {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Most text in this codebase has no explicit color - it relies on the
+   browser's default black plus (previously) the page-wide invert filter.
+   Cancelling that filter means plain text needs a real default to inherit;
+   specific selectors throughout this file override it where a lighter/
+   muted/accent tone is needed. */
+html.dark-mode main {
+    color: #e8eaed;
+}
+
+/* The logo is excluded from the old photo counter-invert rule so the outer
+   .page-wrapper filter alone turned its black lines white. Header and main
+   no longer carry that outer filter, so invert their logos directly. */
+html.dark-mode .site-header .logo,
+html.dark-mode main .logo,
+html.dark-mode main .sidebar-logo {
+    filter: invert(1);
 }
 
 /* The base surface gray (#E6E6E6, used for body/page-wrapper) inverts to a
@@ -102,25 +114,605 @@ html.dark-mode .page-wrapper {
     background-color: #d5d5d5;
 }
 
-/* Same idea, a shade darker: the header, the hero's white CTA button, and
-   the language/currency pill were all inverting from white/near-white to
-   pure or near-pure black (#000000/#191919), standing out harshly against
-   the #2a2a2a page background above. #dbdbdb inverts to #242424, a tiny bit
-   darker than the page background instead of pure black. */
-html.dark-mode .site-header,
-html.dark-mode .sticky-logo-bar,
-html.dark-mode .akce-btn-eshop,
-html.dark-mode .lang-btn,
-html.dark-mode .lang-dropdown-content,
-html.dark-mode .auth-box,
-html.dark-mode .auth-box-title,
-html.dark-mode .checkout-logged-in-as,
-html.dark-mode .account-profile-card,
-html.dark-mode .order-card,
-html.dark-mode .account-orders-empty {
+/* The sticky logo bar is the one remaining thing still on the raw filter
+   (it's outside .page-wrapper entirely, rendered after it in the layout) -
+   #dbdbdb inverts to #242424, a tiny bit darker than the page background
+   instead of pure black. */
+html.dark-mode .sticky-logo-bar {
     background-color: #dbdbdb;
 }
 
 html.dark-mode {
     background-color: #2a2a2a;
+}
+
+/* === Real dark palette for everything under <main> and the header === */
+
+html.dark-mode .site-header {
+    background-color: #1f2226;
+    border-bottom-color: #2b2f35;
+}
+
+html.dark-mode .contact-header {
+    color: #a8adb5;
+}
+
+/* Scoped to .site-header specifically (not a bare .nav-link/.theme-icon
+   selector) because the mobile sidebar reuses these same class names while
+   staying on the raw filter system - an unscoped override here would get
+   inverted a second time there and come out nearly invisible. */
+html.dark-mode .site-header .nav-link,
+html.dark-mode .site-header .theme-icon,
+html.dark-mode .site-header .account-btn,
+html.dark-mode .site-header .cart-btn,
+html.dark-mode .site-header .lang-btn,
+html.dark-mode .site-header .lang-option {
+    color: #e8eaed;
+}
+
+html.dark-mode .site-header .theme-toggle-track {
+    background-color: #2b2f35;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .site-header .lang-btn {
+    background-color: #2b2f35;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .site-header .lang-btn:hover {
+    background-color: #343a42;
+}
+
+html.dark-mode .site-header .chevron,
+html.dark-mode .site-header .lang-btn .chevron,
+html.dark-mode .site-header .lang-currency,
+html.dark-mode .site-header .lang-option .lang-currency {
+    color: #a8adb5;
+}
+
+html.dark-mode .site-header .lang-dropdown-content {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .site-header .lang-option:hover {
+    background-color: #343a42;
+}
+
+html.dark-mode .hero-intro h1,
+html.dark-mode .review-text strong {
+    color: #f2f3f5;
+}
+
+html.dark-mode .hero-intro p,
+html.dark-mode .feature-text {
+    color: #a8adb5;
+}
+
+html.dark-mode .btn-vyroba {
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .btn-vyroba:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+html.dark-mode .akce-btn-eshop {
+    background-color: #1f2226;
+}
+
+html.dark-mode .top-categories-title {
+    color: #f2f3f5;
+}
+
+html.dark-mode .top-categories-button {
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+/* Account / auth / checkout surfaces - these used to be pre-compensated to
+   survive the raw filter (#dbdbdb); now that they're inside the exempted
+   <main>, they need real literal colors instead. */
+html.dark-mode .auth-box,
+html.dark-mode .checkout-logged-in-as,
+html.dark-mode .account-profile-card,
+html.dark-mode .order-card,
+html.dark-mode .account-orders-empty {
+    background-color: #1f2226;
+    border-color: #2b2f35;
+}
+
+html.dark-mode .auth-box-title {
+    background-color: #1f2226;
+}
+
+/* === Bestsellers === */
+html.dark-mode .nejprodavanejsi-produkty-section {
+    color: #f2f3f5;
+}
+
+html.dark-mode .nejprodavanejsi-produkty-card {
+    background-color: #1f2226;
+    color: #f2f3f5;
+    border-color: #2b2f35;
+}
+
+/* === Carousel ("Co by vás mohlo zajímat") === */
+html.dark-mode .carousel-overlay {
+    background-color: rgba(23, 25, 28, 0.85);
+}
+
+html.dark-mode .carousel-content h3 {
+    color: #f2f3f5;
+}
+
+html.dark-mode .carousel-text p {
+    color: #c7cad0;
+}
+
+/* === Sortiment grid === */
+html.dark-mode .sortiment-card {
+    background: #1f2226;
+    color: #f2f3f5;
+    border-color: #2b2f35;
+}
+
+html.dark-mode .sortiment-card p {
+    color: #a8adb5;
+}
+
+html.dark-mode .sortiment-card-img {
+    background: #2b2f35;
+}
+
+/* === Product category hero (palivove-drevo template) === */
+html.dark-mode .product-hero-text p {
+    color: #a8adb5;
+}
+
+html.dark-mode .btn-outline-dark {
+    color: #e8eaed;
+    border-color: #3a3f46 !important;
+}
+
+html.dark-mode .btn-outline-dark:hover {
+    background: #e8eaed;
+    color: #17191c;
+}
+
+html.dark-mode .wood-category-box {
+    background: #1f2226;
+}
+
+/* === Eshop listing (filters, sorting, product cards) === */
+html.dark-mode .btn-filter,
+html.dark-mode .btn-sort {
+    background: #1f2226;
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .product-card {
+    background: #1f2226;
+    color: #f2f3f5;
+    border-color: #2b2f35;
+}
+
+html.dark-mode .product-type {
+    color: #a8adb5;
+}
+
+/* === Product detail page (habr template + variants) === */
+html.dark-mode .filter-label,
+html.dark-mode .spec-value {
+    color: #f2f3f5;
+}
+
+html.dark-mode .filter-btn:not(.active) {
+    background-color: #1f2226;
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .inventory-separator {
+    border-top-color: #2b2f35;
+}
+
+html.dark-mode .inventory-card {
+    background: #1f2226;
+    border-color: #2b2f35;
+}
+
+html.dark-mode .qty-stepper {
+    border-color: #3a3f46;
+}
+
+html.dark-mode .qty-btn {
+    background-color: #1f2226;
+    color: #e8eaed;
+}
+
+html.dark-mode .qty-btn:hover {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .qty-value {
+    background-color: #16243a;
+    border-left-color: #3a3f46;
+    border-right-color: #3a3f46;
+}
+
+html.dark-mode .col-header,
+html.dark-mode .row-header span {
+    background-color: #1f2226;
+    border-color: #2b2f35;
+}
+
+/* === Offer grid ("Co vám můžeme nabídnout") === */
+html.dark-mode .nabidka-text {
+    color: #a8adb5;
+}
+
+html.dark-mode .nabidka-btn {
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+/* Form controls don't reliably inherit page text/background colors across
+   browsers, so every text-entry field in the exempted zone needs an
+   explicit dark style rather than relying on inheritance. Scoped to actual
+   text-entry types - a bare "input" selector would also catch submit/radio/
+   checkbox inputs and, since this selector's specificity beats a plain
+   class like .btn-primary, silently strip the button styling off any
+   <input type="submit" class="btn-primary">. */
+html.dark-mode main input[type="text"],
+html.dark-mode main input[type="email"],
+html.dark-mode main input[type="tel"],
+html.dark-mode main input[type="password"],
+html.dark-mode main input[type="number"],
+html.dark-mode main input[type="search"],
+html.dark-mode main input:not([type]),
+html.dark-mode main select,
+html.dark-mode main textarea {
+    background-color: #1f2226;
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+/* === Cart dropdown (in the header) === */
+html.dark-mode .cart-btn {
+    color: #e8eaed;
+}
+
+html.dark-mode .cart-dropdown-content,
+html.dark-mode .cart-dropdown-content::before {
+    background-color: #1f2226;
+}
+
+html.dark-mode .cart-empty {
+    color: #a8adb5;
+}
+
+html.dark-mode .cart-item {
+    border-bottom-color: #2b2f35;
+}
+
+html.dark-mode .cart-item-desc,
+html.dark-mode .cart-item-price,
+html.dark-mode .cart-modal-item-desc,
+html.dark-mode .cart-modal-title {
+    color: #f2f3f5;
+}
+
+html.dark-mode .cart-totals,
+html.dark-mode .cart-modal-divider {
+    border-color: #2b2f35;
+}
+
+html.dark-mode .cart-total-excl-vat {
+    color: #a8adb5;
+}
+
+/* === Checkout === */
+html.dark-mode .checkout-stepper {
+    border-bottom-color: #2b2f35;
+}
+
+html.dark-mode .checkout-step {
+    color: #a8adb5;
+}
+
+html.dark-mode .checkout-step-number {
+    background-color: #2b2f35;
+    color: #e8eaed;
+}
+
+html.dark-mode .checkout-step.done {
+    color: #e8eaed;
+}
+
+html.dark-mode .checkout-box,
+html.dark-mode .checkout-cart-table,
+html.dark-mode .checkout-summary-box {
+    background-color: #1f2226;
+}
+
+html.dark-mode .checkout-box-title,
+html.dark-mode .checkout-cart-header {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .checkout-cart-header {
+    color: #c7cad0;
+}
+
+html.dark-mode .checkout-cart-header .col-price-incl {
+    color: #f2f3f5;
+}
+
+html.dark-mode .checkout-radio-option,
+html.dark-mode .checkout-cart-row,
+html.dark-mode .checkout-summary-item,
+html.dark-mode .checkout-summary-full-item {
+    border-bottom-color: #2b2f35;
+}
+
+html.dark-mode .checkout-radio-note,
+html.dark-mode .checkout-billing-summary,
+html.dark-mode .checkout-confirmation-box p {
+    color: #a8adb5;
+}
+
+html.dark-mode .checkout-login-btn,
+html.dark-mode .checkout-nav .btn-outline-dark {
+    color: #e8eaed;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .checkout-nav .btn-outline-dark:hover {
+    background: #e8eaed;
+    color: #17191c;
+}
+
+html.dark-mode .checkout-logged-in-as {
+    color: #f2f3f5;
+}
+
+html.dark-mode .checkout-summary-totals,
+html.dark-mode .cart-modal-divider {
+    border-top-color: #2b2f35;
+}
+
+html.dark-mode .form-error,
+html.dark-mode .page-flash-alert {
+    background-color: #3a1f1f;
+    border-color: #6b3030;
+    color: #ff9b9b;
+}
+
+html.dark-mode .page-flash-notice {
+    background-color: #16291c;
+    border-color: #2d5c3d;
+    color: #5fd98a;
+}
+
+/* === Auth / account === */
+html.dark-mode .account-profile-email,
+html.dark-mode .order-card-meta,
+html.dark-mode .account-orders-empty p {
+    color: #a8adb5;
+}
+
+html.dark-mode .account-profile-since {
+    color: #6b7078;
+}
+
+html.dark-mode .account-orders-count {
+    background-color: #2b2f35;
+    color: #c7cad0;
+}
+
+html.dark-mode .phone-prefix-btn {
+    background-color: #1f2226;
+    border-color: #3a3f46;
+}
+
+html.dark-mode .phone-prefix-btn .chevron {
+    color: #a8adb5;
+}
+
+html.dark-mode .phone-prefix-menu {
+    background-color: #1f2226;
+}
+
+html.dark-mode .phone-prefix-option {
+    color: #e8eaed;
+}
+
+html.dark-mode .phone-prefix-option:hover {
+    background-color: #2b2f35;
+}
+
+/* === Kontakt page + kalkulace form === */
+html.dark-mode .kontakt-main-title,
+html.dark-mode .kontakt-titles h2,
+html.dark-mode .kontakt-info-group h4,
+html.dark-mode .kalkulace-header h2,
+html.dark-mode .form-section-title,
+html.dark-mode .form-group label,
+html.dark-mode .consent-text,
+html.dark-mode .grid-label {
+    color: #f2f3f5;
+}
+
+html.dark-mode .kontakt-list-items li,
+html.dark-mode .kontakt-list-items a {
+    color: #c7cad0;
+}
+
+html.dark-mode .kalkulace {
+    background-color: #1f2226;
+}
+
+html.dark-mode .toggle-btn {
+    background-color: #2b2f35;
+    border-color: #3a3f46;
+    color: #e8eaed;
+}
+
+html.dark-mode .form-group input,
+html.dark-mode .form-group select,
+html.dark-mode .custom-select-display,
+html.dark-mode .custom-select-menu {
+    background-color: #1f2226;
+    border-color: #3a3f46;
+    color: #e8eaed;
+}
+
+html.dark-mode .form-group select,
+html.dark-mode .custom-select-display {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e8eaed'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+}
+
+html.dark-mode .form-group select option,
+html.dark-mode .custom-select-item {
+    color: #e8eaed;
+    background-color: #1f2226;
+}
+
+html.dark-mode .custom-select-item:hover {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .custom-checkbox {
+    background-color: #2b2f35;
+    border: 1px solid #3a3f46;
+}
+
+/* === FAQ / accordion (services page + home FAQ) === */
+html.dark-mode .accordion-item {
+    background-color: #1f2226;
+    border-color: #2b2f35;
+}
+
+html.dark-mode .accordion-header {
+    color: #f2f3f5;
+}
+
+html.dark-mode .btn-cenik {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .faq-cta {
+    background-color: #16243a;
+}
+
+/* === About us === */
+html.dark-mode .o-sobe-card {
+    background-color: #1f2226;
+}
+
+html.dark-mode .o-sobe-text p {
+    color: #a8adb5;
+}
+
+html.dark-mode .o-sobe-text strong {
+    color: #f2f3f5;
+}
+
+/* === Google reviews === */
+html.dark-mode .google-reviews-score,
+html.dark-mode .google-reviews-verified-title,
+html.dark-mode .google-review-name {
+    color: #f2f3f5;
+}
+
+html.dark-mode .google-reviews-count,
+html.dark-mode .google-reviews-verified-sub,
+html.dark-mode .google-review-source,
+html.dark-mode .google-review-time,
+html.dark-mode .google-review-like {
+    color: #a8adb5;
+}
+
+html.dark-mode .google-reviews-divider {
+    background-color: #2b2f35;
+}
+
+html.dark-mode .google-review-card {
+    background-color: #1f2226;
+}
+
+html.dark-mode .google-review-text {
+    color: #c7cad0;
+}
+
+/* === Ceník (pricing table) === */
+html.dark-mode .cenik-section {
+    color: #f2f3f5;
+}
+
+html.dark-mode .cenik-subtitle {
+    color: #a8adb5;
+}
+
+html.dark-mode .cenik-table,
+html.dark-mode .cenik-table td,
+html.dark-mode .cenik-sluzba-box {
+    border-color: #3a3f46;
+}
+
+html.dark-mode .cenik-table tr:nth-child(odd) {
+    background-color: #1f2226;
+}
+
+html.dark-mode .cenik-table tr:nth-child(even) {
+    background-color: #181a1d;
+}
+
+html.dark-mode .cenik-sluzba-label {
+    color: #f2f3f5;
+}
+
+html.dark-mode .cenik-sluzba-box {
+    background-color: #1f2226;
+}
+
+/* === Misc content sections (co je nového, delivery, legal, custom-demand) === */
+html.dark-mode .co-je-noveho-text p,
+html.dark-mode .dorucujeme-text p,
+html.dark-mode .legal-content,
+html.dark-mode .custom-demand-text p {
+    color: #a8adb5;
+}
+
+html.dark-mode .legal-content strong {
+    color: #f2f3f5;
+}
+
+html.dark-mode .custom-demand-card {
+    background-color: #1f2226;
+}
+
+/* === Jak si u nás objednat === */
+html.dark-mode .jak-objednat-box {
+    background: #1f2226;
+    color: #f2f3f5;
+    border-color: #2b2f35;
+}
+
+/* === Recommendations (upsell grid on product pages) === */
+html.dark-mode .recommendations-section {
+    border-top-color: #2b2f35;
+}
+
+html.dark-mode .recommendations-section .product-card {
+    background: #1f2226;
+    border-color: #2b2f35;
+}
+
+/* === Breadcrumbs === */
+html.dark-mode .breadcrumb-separator {
+    fill: #e8eaed;
 }

@@ -2,6 +2,6 @@ class PagesController < ApplicationController
   def terms
   end
 
-  def cookies
+  def cookies_policy
   end
 end

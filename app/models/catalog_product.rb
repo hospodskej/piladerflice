@@ -7,6 +7,7 @@ class CatalogProduct < ApplicationRecord
 
   has_many :catalog_variants, -> { order(:position, :id) }, dependent: :destroy
   has_one_attached :image
+  include OptimizesUploadedImage
 
   translates :title, :type_label, :subtitle, :description, :drying_note, :image_alt
 

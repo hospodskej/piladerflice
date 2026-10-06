@@ -3,15 +3,15 @@ Product.destroy_all
 
 puts "Creating Sortiment Products..."
 Product.create([
-                 { title: "Palivové dřevo", text: "Velikosti a druh podle volby zákazníka", image: "sortiment/palivove-drevo.png", link: "/sortiment/palivove-drevo",
+                 { title: "Palivové dřevo", text: "Velikosti a druh podle volby zákazníka", image: "sortiment/palivove-drevo.webp", link: "/sortiment/palivove-drevo",
                    title_de: "Brennholz", text_de: "Größe und Holzart nach Kundenwunsch" },
-                 { title: "Stavební řezivo", text: "Hranoly, fošny, střešní latě, prkna", image: "sortiment/stavebni-rezivo.png", link: "/sortiment/stavebni-rezivo",
+                 { title: "Stavební řezivo", text: "Hranoly, fošny, střešní latě, prkna", image: "sortiment/stavebni-rezivo.webp", link: "/sortiment/stavebni-rezivo",
                    title_de: "Bauschnittholz", text_de: "Kanthölzer, Bohlen, Dachlatten, Bretter" },
-                 { title: "Truhlářské řezivo", text: "Prkna, fošny", image: "sortiment/fosny1.png", link: "/sortiment/truhlarske-rezivo",
+                 { title: "Truhlářské řezivo", text: "Prkna, fošny", image: "sortiment/fosny1.webp", link: "/sortiment/truhlarske-rezivo",
                    title_de: "Tischlerholz", text_de: "Bretter, Bohlen" },
-                 { title: "Výrobní zbytky", text: "Piliny, hobliny, odřezky, štěpka, prokladky", image: "sortiment/vyrobni-zbytky.png", link: "/sortiment/vyrobni-zbytky",
+                 { title: "Výrobní zbytky", text: "Piliny, hobliny, odřezky, štěpka, prokladky", image: "sortiment/vyrobni-zbytky.webp", link: "/sortiment/vyrobni-zbytky",
                    title_de: "Produktionsreste", text_de: "Sägemehl, Hobelspäne, Abschnitte, Hackschnitzel, Zwischenlagen" },
-                 { title: "Okrasné kamenivo", text: "Kamenivo stavební frakce", image: "sortiment/okrasne-kamenivo.png", link: "/sortiment/okrasne-kamenivo",
+                 { title: "Okrasné kamenivo", text: "Kamenivo stavební frakce", image: "sortiment/okrasne-kamenivo.webp", link: "/sortiment/okrasne-kamenivo",
                    title_de: "Ziersteine", text_de: "Bauschotter-Körnung" }
                ])
 
@@ -104,7 +104,7 @@ promo1 = Promo.create!(
   feature_3_de: "Schnelle Lieferung",
   price_de: "ab 1500 / 1 Rm"
 )
-attach_seed_image!(promo1, "akcni-nabidka-hero.png")
+attach_seed_image!(promo1, "akcni-nabidka-hero.webp")
 
 promo2 = Promo.create!(
   title: "STAVEBNÍ TRÁMY NA MÍRU",
@@ -119,7 +119,7 @@ promo2 = Promo.create!(
   feature_3_de: "Sonderanfertigung",
   price_de: "ab 8500 CZK / m³"
 )
-attach_seed_image!(promo2, "eshop/tramy.png")
+attach_seed_image!(promo2, "eshop/tramy.webp")
 
 promo3 = Promo.create!(
   title: "STŘEŠNÍ LATĚ SKLADEM",
@@ -134,7 +134,7 @@ promo3 = Promo.create!(
   feature_3_de: "Lieferung in ganz Mähren",
   price_de: "ab 8500 CZK / m³"
 )
-attach_seed_image!(promo3, "eshop/late.png")
+attach_seed_image!(promo3, "eshop/late.webp")
 
 puts "Promos successfully created!"
 
@@ -156,7 +156,7 @@ Service.create!([
                   {
                     title: "Doprava",
                     content: "Na přání vám zpracované výrobky bezpečně doručíme až na místo určení. Rozvážíme palivové dřevo, kulatinu i řezivo – vše dopravíme ihned po výrobě, abyste měli materiál co nejdříve k dispozici. <br /><br />Doba výroby a následná doprava se odvíjí od rozsahu objednávky. O přesném termínu dodání vás vždy informujeme předem. <br /><br />Rozvoz zajišťujeme vlastním vozovým parkem – nákladním vozem MAN TGM 15.250 a soupravou Scania G450 s hydraulickou rukou pro přepravu kulatiny přímo z lesa.",
-                    images: ["sluzby/doprava1.png", "sluzby/doprava2.png"],
+                    images: ["sluzby/doprava1.webp", "sluzby/doprava2.webp"],
                     button_text: "Ceník dopravy",
                     button_path: "/sluzby#doprava",
                     title_de: "Lieferung",
@@ -166,7 +166,7 @@ Service.create!([
                   {
                     title: "Impregnace",
                     content: "Nabízíme možnost profesionální impregnace vašich dřevěných výrobků, a to pomocí moderní technologie v naší impregnační vaně. Impregnace výrazně prodlužuje životnost dřeva a chrání ho proti vlhkosti, škůdcům i houbám. <br /><br />Na přání zákazníka impregnujeme jakýkoli náš výrobek. Vše provádíme pečlivě a s důrazem na kvalitu výsledné ochrany.",
-                    images: ["sluzby/impregnace1.png", "sluzby/impregnace2.png"],
+                    images: ["sluzby/impregnace1.webp", "sluzby/impregnace2.webp"],
                     button_text: "Ceník impregnace",
                     button_path: "/sluzby#impregnace",
                     title_de: "Imprägnierung",
@@ -176,7 +176,7 @@ Service.create!([
                   {
                     title: "Hoblování",
                     content: "Nabízíme možnost ohoblování dřevěného materiálu přesně podle vašich požadavků. Disponujeme výkonnou hoblovačkou s hoblovacím průřezem až 80 cm, která si poradí i s rozměrnějšími kusy.<br><br>Hoblujeme nejčastěji fošny, prkna a hranoly libovolné délky. Zákazník si může určit, která strana bude pohledová, a hloubku úběru. Každý kus zpracováváme pečlivě, s důrazem na kvalitu povrchu a preciznost provedení.",
-                    images: ["sluzby/hoblovani1.png", "sluzby/hoblovani2.png"],
+                    images: ["sluzby/hoblovani1.webp", "sluzby/hoblovani2.webp"],
                     button_text: "Ceník hoblování",
                     button_path: "/sluzby#hoblovani",
                     title_de: "Hobeln",
@@ -186,7 +186,7 @@ Service.create!([
                   {
                     title: "Pořez / Prodej kulatiny",
                     content: "Na základě vaší žádosti nabízíme možnost pořezání vaší vlastní kulatiny na míru podle požadovaných rozměrů. Pokud nemáte zájem o další zpracování, je možné kulatinu také jednoduše prodat přímo nám. <br /><br /> Tato služba je ideální pro soukromé vlastníky lesa, malé firmy nebo kohokoli, kdo chce efektivně využít vlastní dřevo bez starostí s technickým vybavením.",
-                    images: ["sluzby/kulatina1.png", "sluzby/kulatina2.png"],
+                    images: ["sluzby/kulatina1.webp", "sluzby/kulatina2.webp"],
                     button_text: "Ceník pořezu",
                     button_path: "/sluzby#porez-prodej-kulatiny",
                     title_de: "Sägen / Verkauf von Rundholz",
@@ -205,21 +205,21 @@ FaqItem.create!([
                   {
                     title: "Kolik stojí doprava?",
                     content: "Cena dopravy se odvíjí od vzdálenosti a množství objednaného dřeva.<br>Po předání adresy a požadovaného množství vám vždy spočítáme přesnou cenu, aby byla pro vás co nejvýhodnější.",
-                    image: "co-by-vas-mohlo-zajimat/nakladak.png",
+                    image: "co-by-vas-mohlo-zajimat/nakladak.webp",
                     title_de: "Was kostet die Lieferung?",
                     content_de: "Der Lieferpreis richtet sich nach Entfernung und bestellter Holzmenge.<br>Nach Angabe der Adresse und der gewünschten Menge berechnen wir Ihnen stets den genauen Preis, damit er für Sie möglichst günstig ist."
                   },
                   {
                     title: "Scania G450 + HR",
                     content: "1. Výkonná Scania G450 s hydraulickou rukou určená pro profesionální přepravu kulatiny a manipulaci se dřevem přímo v lese i na skladech.<br>2. Hydraulický jeřáb umožňuje samostatnou nakládku i vykládku bez potřeby další manipulační techniky, což výrazně urychluje celý proces.",
-                    image: "co-by-vas-mohlo-zajimat/scania.png",
+                    image: "co-by-vas-mohlo-zajimat/scania.webp",
                     title_de: "Scania G450 + HR",
                     content_de: "1. Die leistungsstarke Scania G450 mit Hydraulikarm ist für den professionellen Transport von Rundholz und die Handhabung von Holz direkt im Wald und auf Lagerplätzen bestimmt.<br>2. Der Hydraulikkran ermöglicht selbstständiges Be- und Entladen ohne zusätzliche Umschlagtechnik, was den gesamten Prozess deutlich beschleunigt."
                   },
                   {
                     title: "MAN TGM 15.250",
                     content: "1. Moderní nákladní vůz MAN určený pro efektivní rozvoz palivového dřeva zákazníkům po celé České republice.<br>2. Přeprava 1 až 2 kontejnerů najednou o objemu 5 až 25 m³, což umožňuje rozvoz více objednávek během jedné jízdy.",
-                    image: "co-by-vas-mohlo-zajimat/man-tgm.png",
+                    image: "co-by-vas-mohlo-zajimat/man-tgm.webp",
                     title_de: "MAN TGM 15.250",
                     content_de: "1. Moderner MAN-Lastwagen für die effiziente Auslieferung von Brennholz an Kunden in der ganzen Tschechischen Republik.<br>2. Transport von 1 bis 2 Containern gleichzeitig mit einem Volumen von 5 bis 25 m³, was die Auslieferung mehrerer Bestellungen in einer Fahrt ermöglicht."
                   }

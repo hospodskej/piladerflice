@@ -29,6 +29,16 @@
     pointer-events: none;
 }
 
+/* The thumb sits under the sun in light mode (its default, untransformed
+   position), so a black icon on that same blue circle reads as a dim,
+   low-contrast smudge next to the crisp black moon-on-light-track beside
+   it. White matches the moon's contrast once dark mode's blanket
+   .theme-icon override (#e8eaed) takes over and the thumb has moved under
+   the moon instead. */
+.theme-icon-sun {
+    color: #ffffff;
+}
+
 .theme-toggle-thumb {
     position: absolute;
     top: 1px;

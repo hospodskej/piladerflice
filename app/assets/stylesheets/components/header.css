@@ -48,10 +48,21 @@
    Pulling it up compensates without touching any horizontal flex sizing
    (verified: nav-links/header-controls x-positions are unaffected) -
    desktop-only because below 992px .contact-header is hidden entirely,
-   so .main-nav is the only row and the logo is already centered in it. */
+   so .main-nav is the only row and the logo is already centered in it.
+
+   -30px, not the naively-measured -15px: margin-top on a flex item also
+   shrinks its own outer height, which shrinks .main-nav's row height
+   (since the logo was the tallest item), which shrinks the header's
+   total height - moving the "center" target by the same pull that's
+   supposed to reach it. -15px undershoots since it was measured against
+   the header's original (pre-shrink) height. -30px is the fixed point
+   where that feedback settles (verified empirically): past -20px,
+   .header-controls (40px) overtakes the shrinking logo as the row's
+   tallest item, so the header's height - and thus the target center -
+   stops moving, landing exactly on 0px offset at -30px. */
 @media (min-width: 993px) {
     .main-nav > .logo {
-        margin-top: -15px;
+        margin-top: -30px;
     }
 }
 

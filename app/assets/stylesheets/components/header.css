@@ -1,4 +1,14 @@
+/* position+z-index (not just the dropdown's own z-index) matters here:
+   dark mode puts a `filter` on both .site-header and <main> (components/
+   dark_mode.css) to invert each back to real colors, and `filter` creates
+   a stacking context on whatever it's applied to. That traps the lang
+   dropdown's z-index inside .site-header's own context - without this,
+   .site-header and main become two stacking contexts at the same "auto"
+   level, ordered by DOM position, so main (which comes after the header)
+   paints over the header's dropdown regardless of the dropdown's z-index. */
 .site-header {
+    position: relative;
+    z-index: 20;
     background-color: #E6E6E6;
     padding: 10px 40px;
     border-bottom: 1px solid #ddd;

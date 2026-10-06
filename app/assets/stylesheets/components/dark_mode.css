@@ -15,11 +15,19 @@
     justify-content: space-between;
     width: 52px;
     height: 28px;
-    padding: 0 6px;
+    padding: 0 7px;
     background-color: #E6E6E6;
-    border: 1px solid #000000;
     border-radius: 20px;
     box-sizing: border-box;
+}
+
+.theme-toggle-track::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid #000000;
+    border-radius: inherit;
+    pointer-events: none;
 }
 
 .theme-icon {
@@ -39,20 +47,28 @@
     color: #ffffff;
 }
 
+/* The track's outline lives on ::before rather than the track itself, and
+   the thumb moves via `left` rather than a transform, so the thumb's
+   geometry never depends on the outline. At fractional display scaling
+   (e.g. Windows 150%) browsers snap a 1px border to a whole device pixel
+   and lay out with that thinner width, which shifted a thumb positioned
+   from the track's padding edge ~1 device pixel toward the top/left. With
+   whole-px offsets inside a border-less box, the thumb and track snap the
+   same way, so every gap stays equal. */
 .theme-toggle-thumb {
     position: absolute;
-    top: 1px;
-    left: 1px;
+    top: 2px;
+    left: 2px;
     width: 24px;
     height: 24px;
     background-color: #2C8FFF;
     border-radius: 50%;
-    transition: transform 0.25s ease;
+    transition: left 0.25s ease;
     z-index: 0;
 }
 
 html.dark-mode .theme-toggle-thumb {
-    transform: translateX(24px);
+    left: 26px;
 }
 
 /* Filter-invert dark mode: flips the whole page's colors, then flips
@@ -167,6 +183,9 @@ html.dark-mode .site-header .menu-toggle {
 
 html.dark-mode .site-header .theme-toggle-track {
     background-color: #2b2f35;
+}
+
+html.dark-mode .site-header .theme-toggle-track::before {
     border-color: #3a3f46;
 }
 

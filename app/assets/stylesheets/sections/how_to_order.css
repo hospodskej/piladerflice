@@ -2,9 +2,12 @@
     margin-top: 100px;
 }
 
+/* Overrides the shared .section-main-title size (2.5rem) just on the
+   homepage, to match the other homepage section headers - the same
+   partial reused on /sortiment keeps the shared 2.5rem size there. */
 .how-to-order-section h2 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 40px;
 }
 

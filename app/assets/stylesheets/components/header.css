@@ -42,6 +42,19 @@
     flex: 1;
 }
 
+/* On desktop, .contact-header sits in its own row above .main-nav, so
+   align-items: center on .main-nav alone only centers the logo against
+   that lower row's own height, not the full header (both rows combined).
+   Pulling it up compensates without touching any horizontal flex sizing
+   (verified: nav-links/header-controls x-positions are unaffected) -
+   desktop-only because below 992px .contact-header is hidden entirely,
+   so .main-nav is the only row and the logo is already centered in it. */
+@media (min-width: 993px) {
+    .main-nav > .logo {
+        margin-top: -15px;
+    }
+}
+
 .logo {
     height: 60px;
     width: auto;

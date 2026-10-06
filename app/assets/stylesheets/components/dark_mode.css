@@ -150,7 +150,8 @@ html.dark-mode .site-header .theme-icon,
 html.dark-mode .site-header .account-btn,
 html.dark-mode .site-header .cart-btn,
 html.dark-mode .site-header .lang-btn,
-html.dark-mode .site-header .lang-option {
+html.dark-mode .site-header .lang-option,
+html.dark-mode .site-header .menu-toggle {
     color: #e8eaed;
 }
 

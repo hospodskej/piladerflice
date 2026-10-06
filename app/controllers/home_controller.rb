@@ -44,10 +44,6 @@ class HomeController < ApplicationController
     render "home/sortiment/okrasne_kamenivo"
   end
 
-  def piliny
-    render "home/eshop/piliny"
-  end
-
   def vyrobni_zbytky
     render "home/sortiment/vyrobni_zbytky"
   end
@@ -56,60 +52,7 @@ class HomeController < ApplicationController
     render template: "home/eshop"
   end
 
-  def habr
-    render "home/eshop/habr"
+  def product
+    @product = CatalogProduct.active.find_by!(key: params[:key])
   end
-
-  def briza
-    render "home/eshop/briza"
-  end
-
-  def jasan
-    render "home/eshop/jasan"
-  end
-
-  def akat
-    render "home/eshop/akat"
-  end
-
-  def buk
-    render "home/eshop/buk"
-  end
-
-  def dub
-    render "home/eshop/dub"
-  end
-
-  def smrk
-    render "home/eshop/smrk"
-  end
-
-  def late
-    render "home/eshop/late"
-  end
-
-  def tramy
-    render "home/eshop/tramy"
-  end
-
-  def fosny
-    render "home/eshop/fosny"
-  end
-
-  def prkna
-    render "home/eshop/prkna"
-  end
-
-  def stepka
-    render "home/eshop/stepka"
-  end
-
-  def odkory
-    render "home/eshop/odkory"
-  end
-
-  def eshop_okrasne_kamenivo
-    render "home/eshop/okrasne_kamenivo"
-  end
-
 end

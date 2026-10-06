@@ -464,7 +464,6 @@ cs:
 
     firewood:
       # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
-      breadcrumb_category: "Palivové dřevo"
       stock_status: "Skladem"
       loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> palivové dřevo"
       stacked_heading_html: "<span class=\"text-blue\">Skládané</span> palivové dřevo v bednách"
@@ -507,39 +506,6 @@ cs:
 
     lumber:
       variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
-    tramy:
-      breadcrumb_category: "Stavební řezivo"
-      description: "Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností."
-      stock_status: "Skladem"
-    late:
-      breadcrumb_category: "Stavební řezivo"
-      description: "Stavební latě vhodné pro střešní konstrukce, rošty a další stavební aplikace. Vyrobené z kvalitního dřeva, dostupné v různých délkách a průřezech. Ideální pro přesné a spolehlivé konstrukce."
-      stock_status: "Skladem"
-    fosny:
-      breadcrumb_category: "Stavební řezivo"
-      description: "Robustní fošny ideální pro výrobu podlah, bednění nebo konstrukční prvky. Dostupné v široké škále rozměrů a tlouštěk. Kvalitní dřevo zajišťuje pevnost a odolnost."
-      stock_status: "Skladem"
-    prkna:
-      breadcrumb_category: "Stavební řezivo"
-      description: "Kvalitní stavební prkna vhodná pro bednění, podlahy a další stavební využití."
-      stock_status: "Skladem"
-
-    odkory:
-      breadcrumb_category: "Výrobní zbytky"
-      description: "Levné a efektivní palivo z odkorněných kusů dřeva. Vhodné pro kamna, krby a kotle. Poskytuje vysokou výhřevnost při minimálních nákladech. Nabízíme volně ložené nebo balené dle potřeb zákazníka."
-      item_label: "Odkory"
-    piliny:
-      breadcrumb_category: "Výrobní zbytky"
-      description: "Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Nabízíme volně ložené nebo balené varianty."
-      item_label: "Piliny"
-    stepka:
-      breadcrumb_category: "Výrobní zbytky"
-      description: "Dřevní štěpka ideální jako ekologické palivo nebo mulčovací materiál pro zahrady. Vyrobená z kvalitního dřeva, nízká vlhkost zajišťuje vysokou výhřevnost. Dostupná ve volně ložené či balené podobě."
-      item_label: "Štěpka"
-    okrasne_kamenivo_detail:
-      breadcrumb_category: "Okrasné kamenivo"
-      description: "Přírodní okrasné kamenivo pro úpravu zahrad, obsypy ploch a dekorativní účely. Dostupné ve třech frakcích."
-      item_label: "Kamenivo"
 
   shared:
     custom_demand:

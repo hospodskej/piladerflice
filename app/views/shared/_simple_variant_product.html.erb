@@ -1,11 +1,7 @@
 <%
-  product = CatalogProduct.find_by!(key: key)
   title = product.title_i18n
-  breadcrumb_category = t("eshop.#{i18n_key}.breadcrumb_category")
-
-  @breadcrumb_items = [[t("breadcrumbs.eshop"), "/eshop"]]
-  @breadcrumb_items << [breadcrumb_category, "/eshop?category=#{category_param}"] unless breadcrumb_category == title
-  @breadcrumb_items << [title, "#"]
+  @breadcrumb_items = product_breadcrumb_items(product)
+  grid_class = product.catalog_variants.size <= 2 ? "simple-grid-2" : "simple-grid-3"
 %>
 
 <main class="product-page-main main">
@@ -64,7 +60,7 @@
 
     </section>
 
-    <%= render "shared/recommendations", current_product: key %>
+    <%= render "shared/recommendations", current_product: product.key %>
 
   </div>
 

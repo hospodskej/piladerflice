@@ -1,12 +1,6 @@
 <%
-  product = CatalogProduct.find_by!(key: species_key)
   title = product.title_i18n
-
-  @breadcrumb_items = [
-    [t("breadcrumbs.eshop"), "/eshop"],
-    [t("eshop.firewood.breadcrumb_category"), "/eshop?category=palivove"],
-    [title, "#"]
-  ]
+  @breadcrumb_items = product_breadcrumb_items(product)
 
   kontejner_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "kontejner" }
   bedny_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "bedny" }
@@ -160,7 +154,7 @@
         });
     </script>
 
-    <%= render "shared/recommendations", current_product: species_key %>
+    <%= render "shared/recommendations", current_product: product.key %>
 
   </div>
 

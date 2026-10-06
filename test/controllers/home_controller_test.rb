@@ -30,6 +30,38 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4.product-title", text: catalog_products(:smrk).title
   end
 
+  test "product pages render every display template" do
+    %i[smrk tramy odkory].each do |name|
+      product = catalog_products(name)
+      get eshop_product_url(product.key)
+      assert_response :success
+      assert_select "h1", text: product.title
+    end
+  end
+
+  test "product page breadcrumb links to the product's e-shop category" do
+    get eshop_product_url(catalog_products(:tramy).key)
+    assert_select "a.breadcrumb-item[href='/eshop?category=rezivo']", text: "Stavební řezivo"
+  end
+
+  test "product created in the admin gets a detail page without code changes" do
+    product = CatalogProduct.create!(key: "prkna-iii", template: "lumber", category: "rezivo", title: "Prkna III")
+    product.catalog_variants.create!(key: "iii-3000", grade: "III. jakostní třída", length_label: "3 000 mm", price_czk: 4_000)
+
+    get eshop_product_url(product.key)
+    assert_response :success
+    assert_select "h1", text: "Prkna III"
+    assert_select ".spec-value", text: "III. jakostní třída"
+  end
+
+  test "inactive and unknown products are not found" do
+    get eshop_product_url(catalog_products(:inactive_product).key)
+    assert_response :not_found
+
+    get eshop_product_url("neexistuje")
+    assert_response :not_found
+  end
+
   test "kontakt renders the kalkulace form with both category field sets" do
     get kontakt_url
     assert_response :success

@@ -442,7 +442,7 @@ cs:
         type: "Stavební řezivo"
         price: "od 8 500 Kč"
       prkna:
-        title: "Prkna 24 mm"
+        title: "Prkna"
         type: "Stavební řezivo"
         price: "od 5 000 Kč"
       stepka:
@@ -505,31 +505,24 @@ cs:
           image_alt: "Habr palivové dřevo"
           drying_note: "Doporučeno sušit 1–2 roky."
 
+    lumber:
+      variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
     tramy:
       breadcrumb_category: "Stavební řezivo"
       description: "Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností."
       stock_status: "Skladem"
-      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> trámy"
     late:
       breadcrumb_category: "Stavební řezivo"
       description: "Stavební latě vhodné pro střešní konstrukce, rošty a další stavební aplikace. Vyrobené z kvalitního dřeva, dostupné v různých délkách a průřezech. Ideální pro přesné a spolehlivé konstrukce."
       stock_status: "Skladem"
-      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> střešní latě"
     fosny:
       breadcrumb_category: "Stavební řezivo"
       description: "Robustní fošny ideální pro výrobu podlah, bednění nebo konstrukční prvky. Dostupné v široké škále rozměrů a tlouštěk. Kvalitní dřevo zajišťuje pevnost a odolnost."
       stock_status: "Skladem"
-      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> fošny"
     prkna:
       breadcrumb_category: "Stavební řezivo"
-      title: "Prkna, 24 mm"
       description: "Kvalitní stavební prkna vhodná pro bednění, podlahy a další stavební využití."
       stock_status: "Skladem"
-      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> prkna"
-      quality_grades:
-        netridene_1: "I. netříděné"
-        tridene_1: "I. tříděné"
-        tridene_2: "II. tříděné"
 
     odkory:
       breadcrumb_category: "Výrobní zbytky"

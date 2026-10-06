@@ -101,9 +101,12 @@ end
 
 puts "Creating lumber products (tramy, late, fosny, prkna)..."
 
+class_i = { grade: "I. jakostní třída", grade_de: "Güteklasse I" }
+class_ii = { grade: "II. jakostní třída", grade_de: "Güteklasse II" }
+
 tramy = CatalogProduct.create!(
   key: "tramy", template: "lumber", category: "rezivo", position: 0,
-  title: "Trámy", title_de: "Balken", type_label: "Sypané", type_label_de: "Lose",
+  title: "Trámy", title_de: "Balken", type_label: class_i[:grade], type_label_de: class_i[:grade_de],
   description: "Masivní dřevěné trámy určené pro konstrukce krovů, stropů a nosných částí staveb. Vyrobené z kvalitního dřeva s dlouhou životností.",
   description_de: "Massive Holzbalken für Dachstühle, Decken und tragende Bauteile. Aus hochwertigem Holz mit langer Lebensdauer gefertigt."
 )
@@ -113,12 +116,12 @@ attach_seed_image!(tramy, "eshop/tramy.webp")
  ["100/140", "3 000 mm"], ["100/140", "4 000 mm"], ["100/140", "5 000 mm"],
  ["100/160", "3 000 mm"], ["100/160", "4 000 mm"], ["100/160", "5 000 mm"]].each_with_index do |(dim, len), i|
   width, height = dim.split("/").map(&:to_i)
-  tramy.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i)
+  tramy.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i, **class_i)
 end
 
 late = CatalogProduct.create!(
   key: "late", template: "lumber", category: "rezivo", position: 1,
-  title: "Střešní latě", title_de: "Dachlatten", type_label: "Sypané", type_label_de: "Lose",
+  title: "Střešní latě", title_de: "Dachlatten", type_label: class_i[:grade], type_label_de: class_i[:grade_de],
   description: "Stavební latě vhodné pro střešní konstrukce, rošty a další stavební aplikace. Vyrobené z kvalitního dřeva, dostupné v různých délkách a průřezech. Ideální pro přesné a spolehlivé konstrukce.",
   description_de: "Bauholzlatten geeignet für Dachkonstruktionen, Roste und weitere Bauanwendungen. Aus hochwertigem Holz, erhältlich in verschiedenen Längen und Querschnitten. Ideal für präzise und zuverlässige Konstruktionen."
 )
@@ -127,12 +130,12 @@ attach_seed_image!(late, "eshop/late.webp")
  ["50/30", "3 000 mm"], ["50/30", "4 000 mm"], ["50/30", "5 000 mm"],
  ["60/40", "3 000 mm"], ["60/40", "4 000 mm"], ["60/40", "5 000 mm"]].each_with_index do |(dim, len), i|
   width, height = dim.split("/").map(&:to_i)
-  late.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i)
+  late.catalog_variants.create!(key: "#{dim.parameterize}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: i, **class_i)
 end
 
 fosny = CatalogProduct.create!(
   key: "fosny", template: "lumber", category: "rezivo", position: 2,
-  title: "Fošny", title_de: "Bohlen", type_label: "Sypané", type_label_de: "Lose",
+  title: "Fošny", title_de: "Bohlen", type_label: class_i[:grade], type_label_de: class_i[:grade_de],
   description: "Robustní fošny ideální pro výrobu podlah, bednění nebo konstrukční prvky. Dostupné v široké škále rozměrů a tlouštěk. Kvalitní dřevo zajišťuje pevnost a odolnost.",
   description_de: "Robuste Bohlen ideal für die Herstellung von Böden, Schalungen oder Konstruktionselementen. Erhältlich in einer großen Auswahl an Maßen und Stärken. Hochwertiges Holz sorgt für Festigkeit und Beständigkeit."
 )
@@ -142,20 +145,20 @@ i = 0
 dims.each do |dim|
   width, height = dim.split("x").map(&:to_i)
   ["4 000 mm", "5 000 mm"].each do |len|
-    fosny.catalog_variants.create!(key: "#{dim}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: (i += 1))
+    fosny.catalog_variants.create!(key: "#{dim}-#{len.parameterize}", width_mm: width, height_mm: height, length_label: len, price_czk: 8_500, position: (i += 1), **class_i)
   end
 end
 
 prkna = CatalogProduct.create!(
   key: "prkna", template: "lumber", category: "rezivo", position: 3,
-  title: "Prkna 24 mm", title_de: "Bretter 24 mm", type_label: "24 mm", type_label_de: "24 mm",
+  title: "Prkna", title_de: "Bretter", type_label: "I. a II. jakostní třída", type_label_de: "Güteklasse I und II",
   description: "Kvalitní stavební prkna vhodná pro bednění, podlahy a další stavební využití.",
   description_de: "Hochwertige Bauschnittbretter geeignet für Schalungen, Böden und weitere Bauanwendungen."
 )
 attach_seed_image!(prkna, "eshop/prkna.webp")
-[["I. netříděné", "I. unsortiert", 6_500], ["I. tříděné", "I. sortiert", 7_000], ["II. tříděné", "II. sortiert", 5_000]].each_with_index do |(cs, de, price), row|
+[[class_i, 7_000], [class_ii, 5_000]].each_with_index do |(grade_class, price), row|
   ["3 000 mm", "4 000 mm", "5 000 mm"].each_with_index do |len, col|
-    prkna.catalog_variants.create!(key: "#{cs.parameterize}-#{len.parameterize}", grade: cs, grade_de: de, length_label: len, price_czk: price, position: row * 3 + col)
+    prkna.catalog_variants.create!(key: "#{grade_class[:grade].parameterize}-#{len.parameterize}", length_label: len, price_czk: price, position: row * 3 + col, **grade_class)
   end
 end
 

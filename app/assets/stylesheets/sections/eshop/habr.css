@@ -40,7 +40,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 140px;
+    min-width: 140px;
+    padding: 0 18px;
+    white-space: nowrap;
     height: 40px;
     font-size: 0.95rem;
     font-weight: 700;
@@ -264,7 +266,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 140px;
+    min-width: 140px;
+    padding: 0 18px;
+    white-space: nowrap;
     height: 40px;
     font-size: 0.95rem;
     font-weight: 700;

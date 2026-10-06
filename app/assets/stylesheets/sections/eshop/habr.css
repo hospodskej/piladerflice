@@ -238,6 +238,7 @@
     background-color: #EAF2FF;
     color: #3B82F6;
     -moz-appearance: textfield;
+    appearance: textfield;
     padding: 0;
 }
 

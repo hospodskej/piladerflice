@@ -232,6 +232,8 @@ de:
       dorucujeme_text_1: "Wir liefern Brennholz in ganz Südmähren und Nordösterreich, einschließlich der Grenzregionen zwischen der Region Vysočina und Mittelösterreich. Dazu zählen zum Beispiel Städte und Gemeinden wie Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, auf österreichischer Seite etwa Drosendorf, Raabs an der Thaya, Hardegg oder Thaya."
       dorucujeme_text_2: "Der Lieferpreis richtet sich immer nach Entfernung und bestellter Holzmenge, damit er für jeden Kunden möglichst günstig ist."
       dorucujeme_map_alt: "Liefergebiet in Südmähren und Österreich"
+      dorucujeme_pin_label: "Pila Derflice"
+      dorucujeme_pin_address: "Derflice 66, 671 28 Znojmo"
       co_je_noveho_title_accent: "neu?"
       co_je_noveho_title_rest: "Was ist"
       co_je_noveho_subtitle: "Brennholz in Kisten"

@@ -34,6 +34,100 @@
     display: block;
 }
 
+/* inline-block so this wrapper hugs the image's own rendered box (the
+   map img is scaled down by max-width/flex, not 1:1 with .dorucujeme-map),
+   which lets the pin below be positioned with percentages that line up
+   with the image regardless of viewport width. */
+.dorucujeme-map-inner {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* Percentages correspond to Pila Derflice's location within the source
+   map image (app/assets/images/mapa-doruceni.webp), near Znojmo. */
+.dorucujeme-pin {
+    position: absolute;
+    left: 70.4%;
+    top: 48.7%;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -100%);
+    cursor: pointer;
+}
+
+.dorucujeme-pin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #2C8FFF;
+    border: 3px solid #ffffff;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease;
+}
+
+.dorucujeme-pin::after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.dorucujeme-pin:hover::before,
+.dorucujeme-pin:focus-visible::before {
+    transform: rotate(-45deg) scale(1.15);
+}
+
+.dorucujeme-pin-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    white-space: nowrap;
+    background-color: #ffffff;
+    color: #111111;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    padding: 8px 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+.dorucujeme-pin-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #ffffff;
+}
+
+.dorucujeme-pin-tooltip strong {
+    color: #2C8FFF;
+    font-size: 0.9rem;
+}
+
+.dorucujeme-pin:hover .dorucujeme-pin-tooltip,
+.dorucujeme-pin:focus-visible .dorucujeme-pin-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
 @media (max-width: 992px) {
     .dorucujeme-section {
         flex-direction: column;

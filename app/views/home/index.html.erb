@@ -217,7 +217,15 @@
     </div>
 
     <div class="dorucujeme-map">
-      <%= image_tag "mapa-doruceni.webp", alt: t("home.index.dorucujeme_map_alt") %>
+      <div class="dorucujeme-map-inner">
+        <%= image_tag "mapa-doruceni.webp", alt: t("home.index.dorucujeme_map_alt") %>
+        <div class="dorucujeme-pin" tabindex="0" aria-label="<%= t('home.index.dorucujeme_pin_label') %>: <%= t('home.index.dorucujeme_pin_address') %>">
+          <span class="dorucujeme-pin-tooltip">
+            <strong><%= t("home.index.dorucujeme_pin_label") %></strong>
+            <%= t("home.index.dorucujeme_pin_address") %>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
   <section class="co-je-noveho-section">

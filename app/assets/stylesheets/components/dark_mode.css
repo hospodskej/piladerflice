@@ -124,3 +124,13 @@ html.dark-mode .account-orders-empty {
 html.dark-mode {
     background-color: #2a2a2a;
 }
+
+/* White text on a colored (non-gray) fill inverts to black, since hue-rotate
+   can't act on a hue-less color - only the fill roughly survives. Pre-
+   compensating to #000 here (the exact inverse of the transform used for
+   backgrounds above) makes it land back on white after filtering. */
+html.dark-mode .badge,
+html.dark-mode .product-info,
+html.dark-mode .product-features li::before {
+    color: #000000;
+}

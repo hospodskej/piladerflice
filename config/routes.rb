@@ -10,21 +10,7 @@ Rails.application.routes.draw do
   get 'sortiment/okrasne-kamenivo', to: 'home#sortiment_okrasne_kamenivo', as: :okrasne_kamenivo
   get 'sortiment/vyrobni-zbytky', to: 'home#vyrobni_zbytky', as: :vyrobni_zbytky
   get 'eshop', to: "home#eshop", as: :eshop
-  get '/eshop/habr', to: 'home#habr', as: :eshop_habr
-  get '/eshop/briza', to: 'home#briza', as: :eshop_briza
-  get '/eshop/jasan', to: 'home#jasan', as: :eshop_jasan
-  get '/eshop/akat', to: 'home#akat', as: :eshop_akat
-  get '/eshop/buk', to: 'home#buk', as: :eshop_buk
-  get '/eshop/dub', to: 'home#dub', as: :eshop_dub
-  get '/eshop/smrk', to: 'home#smrk', as: :eshop_smrk
-  get '/eshop/late', to: 'home#late', as: :eshop_late
-  get '/eshop/tramy', to: 'home#tramy', as: :eshop_tramy
-  get '/eshop/fosny', to: 'home#fosny', as: :eshop_fosny
-  get '/eshop/prkna', to: 'home#prkna', as: :eshop_prkna
-  get '/eshop/stepka', to: 'home#stepka', as: :eshop_stepka
-  get '/eshop/odkory', to: 'home#odkory', as: :eshop_odkory
-  get '/eshop/piliny', to: 'home#piliny', as: :eshop_piliny
-  get '/eshop/okrasne_kamenivo', to: 'home#eshop_okrasne_kamenivo', as: :eshop_okrasne_kamenivo
+  get "eshop/:key", to: "home#product", as: :eshop_product
 
   get "prihlaseni", to: "sessions#new", as: :login
   post "prihlaseni", to: "sessions#create", as: :session

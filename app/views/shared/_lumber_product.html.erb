@@ -1,12 +1,6 @@
 <%
-  product = CatalogProduct.find_by!(key: key)
   title = product.title_i18n
-
-  @breadcrumb_items = [
-    [t("breadcrumbs.eshop"), "/eshop"],
-    [t("eshop.#{key}.breadcrumb_category"), "/eshop?category=rezivo"],
-    [title, "#"]
-  ]
+  @breadcrumb_items = product_breadcrumb_items(product)
 
   variants = product.catalog_variants.ordered.to_a
 
@@ -88,7 +82,7 @@
 
     </section>
 
-    <%= render "shared/recommendations", current_product: key %>
+    <%= render "shared/recommendations", current_product: product.key %>
 
   </div>
 

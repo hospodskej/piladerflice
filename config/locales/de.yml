@@ -463,7 +463,6 @@ de:
         price: "ab 1 Kč"
 
     firewood:
-      breadcrumb_category: "Brennholz"
       stock_status: "Auf Lager"
       loose_heading_html: "<span class=\"text-blue\">Lose geschüttetes</span> Brennholz"
       stacked_heading_html: "<span class=\"text-blue\">Gestapeltes</span> Brennholz in Kisten"
@@ -506,39 +505,6 @@ de:
 
     lumber:
       variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
-    tramy:
-      breadcrumb_category: "Bauschnittholz"
-      description: "Massive Holzbalken für Dachstühle, Decken und tragende Bauteile. Aus hochwertigem Holz mit langer Lebensdauer gefertigt."
-      stock_status: "Auf Lager"
-    late:
-      breadcrumb_category: "Bauschnittholz"
-      description: "Bauholzlatten geeignet für Dachkonstruktionen, Roste und weitere Bauanwendungen. Aus hochwertigem Holz, erhältlich in verschiedenen Längen und Querschnitten. Ideal für präzise und zuverlässige Konstruktionen."
-      stock_status: "Auf Lager"
-    fosny:
-      breadcrumb_category: "Bauschnittholz"
-      description: "Robuste Bohlen ideal für die Herstellung von Böden, Schalungen oder Konstruktionselementen. Erhältlich in einer großen Auswahl an Maßen und Stärken. Hochwertiges Holz sorgt für Festigkeit und Beständigkeit."
-      stock_status: "Auf Lager"
-    prkna:
-      breadcrumb_category: "Bauschnittholz"
-      description: "Hochwertige Bauschnittbretter geeignet für Schalungen, Böden und weitere Bauanwendungen."
-      stock_status: "Auf Lager"
-
-    odkory:
-      breadcrumb_category: "Produktionsreste"
-      description: "Günstiger und effizienter Brennstoff aus entrindeten Holzstücken. Geeignet für Öfen, Kamine und Heizkessel. Bietet hohen Heizwert bei minimalen Kosten. Erhältlich lose oder verpackt nach Kundenwunsch."
-      item_label: "Rindenreste"
-    piliny:
-      breadcrumb_category: "Produktionsreste"
-      description: "Hochwertiges Sägemehl geeignet als Einstreu, zum Mulchen oder zum Pressen von Briketts. Niedrige Feuchtigkeit und feine Struktur sorgen für einfache Handhabung. Erhältlich lose oder verpackt."
-      item_label: "Sägemehl"
-    stepka:
-      breadcrumb_category: "Produktionsreste"
-      description: "Holzhackschnitzel, ideal als umweltfreundlicher Brennstoff oder Mulchmaterial für den Garten. Aus hochwertigem Holz hergestellt, niedrige Feuchtigkeit sorgt für hohen Heizwert. Erhältlich lose oder verpackt."
-      item_label: "Hackschnitzel"
-    okrasne_kamenivo_detail:
-      breadcrumb_category: "Ziersteine"
-      description: "Natürliche Ziersteine für die Gartengestaltung, Flächenschüttungen und dekorative Zwecke. Erhältlich in drei Körnungen."
-      item_label: "Kies"
 
   shared:
     custom_demand:

@@ -202,6 +202,12 @@
     width: 100%;
 }
 
+.qty-cart-row .btn-cart {
+    min-width: 48px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .qty-stepper {
     display: flex;
     align-items: center;

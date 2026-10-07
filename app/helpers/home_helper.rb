@@ -6,6 +6,12 @@ module HomeHelper
     "kamenivo" => "breadcrumbs.okrasne_kamenivo"
   }.freeze
 
+  # Ceník values are typed in the admin and may contain formatting like
+  # m<sup>3</sup>; allow only such tags, never scripts or attributes.
+  def pricelist_html(text)
+    sanitize(text, tags: %w[sup sub br strong em], attributes: [])
+  end
+
   def product_breadcrumb_items(product)
     title = product.title_i18n
     category = t(CATEGORY_BREADCRUMB_KEYS.fetch(product.category))

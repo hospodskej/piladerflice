@@ -67,6 +67,15 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "kontakt ceník follows the admin order and only keeps formatting tags" do
+    pricelist_items(:tramy).update!(position: -1, price: "9 800 Kč / m<sup>3</sup><script>alert(1)</script>")
+
+    get kontakt_url
+    assert_select "#cenik .cenik-group:first-of-type tr:first-child td:first-child", text: "Trámy"
+    assert_select "#cenik sup", minimum: 1
+    assert_select "#cenik script", count: 0
+  end
+
   test "kontakt renders the kalkulace form with both category field sets" do
     get kontakt_url
     assert_response :success

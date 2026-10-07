@@ -1,0 +1,98 @@
+<%
+  section_titles = {
+    "stavebni" => "kontakt.cenik_stavebni_title",
+    "palivove_volne" => "kontakt.cenik_palivove_volne_title",
+    "palivove_skladane" => "kontakt.cenik_palivove_skladane_title",
+    "zbytky" => "kontakt.cenik_zbytky_title",
+    "kamenivo" => "kontakt.cenik_kamenivo_title",
+    "sluzby" => "kontakt.cenik_sluzeb_title"
+  }
+  firewood_labels = { "subcategory" => "Dřevina", "item_name" => "Délka", "price" => "Cena za m³" }
+  field_labels = {
+    "stavebni" => { "item_name" => "Položka", "details" => "Délky", "price" => "Cena" },
+    "palivove_volne" => firewood_labels,
+    "palivove_skladane" => firewood_labels,
+    "zbytky" => { "item_name" => "Položka", "price" => "Cena" },
+    "kamenivo" => { "price" => "Cena" },
+    "sluzby" => { "item_name" => "Služba", "price" => "Cena" }
+  }
+  converted_price_hint = "Německou cenu můžete nechat prázdnou – německá verze pak českou cenu automaticky přepočítá na eura podle aktuálního kurzu. Krychlový metr napište jako m³."
+  hints = {
+    "stavebni" => converted_price_hint,
+    "palivove_volne" => "„/ m³“ se k ceně doplní automaticky. Německá cena se zobrazí přesně tak, jak ji zadáte (v eurech, bez přepočtu). Pro „není k dispozici“ zadejte ---. Položky se stejnou dřevinou se zobrazí v jedné tabulce.",
+    "zbytky" => converted_price_hint,
+    "kamenivo" => "Zobrazuje se jedna cena. " + converted_price_hint,
+    "sluzby" => converted_price_hint
+  }
+  hints["palivove_skladane"] = hints["palivove_volne"]
+%>
+
+<div class="admin-toolbar">
+  <h1 class="admin-page-title">Ceník</h1>
+  <%= link_to "Zobrazit ceník na webu ↗", kontakt_path(anchor: "cenik"), target: "_blank", rel: "noopener", class: "btn-outline-dark" %>
+</div>
+<p class="admin-page-subtitle">Ceník sortimentu a služeb na stránce Kontakt. Změny se na webu projeví ihned po uložení.</p>
+
+<% PricelistItem::CATEGORIES.each do |category| %>
+  <% items = @items[category] || [] %>
+  <% fields = PricelistItem::CATEGORY_FIELDS[category] %>
+  <% labels = field_labels[category] %>
+  <% new_item_form_id = "new-pricelist-item-#{category}-form" %>
+  <% can_add = PricelistItem::SINGLE_ITEM_CATEGORIES.exclude?(category) || items.empty? %>
+
+  <div class="admin-box admin-option-group" id="<%= category %>">
+    <h2><%= t(section_titles[category], locale: :cs) %></h2>
+    <p class="admin-form-hint"><%= hints[category] %></p>
+
+    <% items.each do |item| %>
+      <%= form_with model: item, url: admin_pricelist_item_path(item), method: :patch, id: "pricelist-item-#{item.id}-form" %></form>
+    <% end %>
+    <% if can_add %>
+      <%= form_with model: PricelistItem.new, url: admin_pricelist_items_path, id: new_item_form_id %></form>
+    <% end %>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Pořadí</th>
+          <% fields.each do |field| %>
+            <th><%= labels[field] %> (CZ)</th>
+            <th><%= labels[field] %> (DE)</th>
+          <% end %>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.each do |item| %>
+          <% item_form_id = "pricelist-item-#{item.id}-form" %>
+          <tr>
+            <td class="admin-option-move">
+              <% if PricelistItem::SINGLE_ITEM_CATEGORIES.exclude?(category) %>
+                <%= button_to "↑", move_up_admin_pricelist_item_path(item), method: :patch, class: "admin-move-btn", "aria-label": "Posunout nahoru" %>
+                <%= button_to "↓", move_down_admin_pricelist_item_path(item), method: :patch, class: "admin-move-btn", "aria-label": "Posunout dolů" %>
+              <% end %>
+            </td>
+            <% fields.each do |field| %>
+              <td><%= text_field_tag "pricelist_item[#{field}]", item.public_send(field), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (CZ)" %></td>
+              <td><%= text_field_tag "pricelist_item[#{field}_de]", item.public_send("#{field}_de"), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (DE)" %></td>
+            <% end %>
+            <td class="admin-option-actions">
+              <%= submit_tag "Uložit", form: item_form_id, class: "btn-outline-dark" %>
+              <%= button_to "Smazat", admin_pricelist_item_path(item), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat tuto položku ceníku?" } %>
+            </td>
+          </tr>
+        <% end %>
+        <% if can_add %>
+          <tr>
+            <td><%= hidden_field_tag "pricelist_item[category]", category, form: new_item_form_id, id: nil %></td>
+            <% fields.each do |field| %>
+              <td><%= text_field_tag "pricelist_item[#{field}]", nil, placeholder: "#{labels[field]} (CZ)", form: new_item_form_id, id: nil, "aria-label": "Nová položka: #{labels[field]} (CZ)" %></td>
+              <td><%= text_field_tag "pricelist_item[#{field}_de]", nil, placeholder: "#{labels[field]} (DE)", form: new_item_form_id, id: nil, "aria-label": "Nová položka: #{labels[field]} (DE)" %></td>
+            <% end %>
+            <td><%= submit_tag "+ Přidat", form: new_item_form_id, class: "btn-primary" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

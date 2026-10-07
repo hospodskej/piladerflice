@@ -758,3 +758,7 @@ html.dark-mode .recommendations-section .product-card {
 html.dark-mode .breadcrumb-separator {
     fill: #e8eaed;
 }
+
+html.dark-mode .auth-privacy-note {
+    color: #aaaaaa;
+}

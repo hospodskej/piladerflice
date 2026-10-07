@@ -12,7 +12,8 @@ class SitemapsController < ApplicationController
   # default, no parameter) and German (?locale=de) and links the two together.
   def static_entries
     [root_path, kontakt_path, sluzby_path, sortiment_path, palivove_drevo_path, stavebni_rezivo_path,
-     truhlarske_rezivo_path, okrasne_kamenivo_path, vyrobni_zbytky_path, terms_path, cookies_policy_path]
+     truhlarske_rezivo_path, okrasne_kamenivo_path, vyrobni_zbytky_path, terms_path, cookies_policy_path,
+     privacy_policy_path]
       .map { |path| { path: path } }
   end
 

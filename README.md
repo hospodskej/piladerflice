@@ -54,6 +54,10 @@ Not set up yet - nobody has done it since the site isn't live. The old verificat
 - Under Sitemaps, submit `sitemap.xml` (the site generates it automatically; `robots.txt` already points to it)
 - Later, check the Pages report for pages Google couldn't index
 
+### Update privacy policy after launch
+
+The privacy policy (`legal.privacy_content_html` in `config/locales/cs.yml` and `de.yml`) was drafted before the server was live. Once the server is up and running, update it with the real hosting and e-mail providers, confirm the retention periods and the Google Analytics retention setting, and have it reviewed (ideally by a lawyer).
+
 ### Team mascot
 
 An illustrated mascot for the brand - could double as the face of the 404 page, loading states, etc.
@@ -77,10 +81,6 @@ The phone number and email in the header and footer are plain text, not `tel:`/`
 ### Social share image
 
 No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
-
-### Privacy policy page
-
-There's a terms page and a cookies policy, but no separate privacy policy - relevant now that the site collects accounts and checkout data.
 
 ### Local business schema
 

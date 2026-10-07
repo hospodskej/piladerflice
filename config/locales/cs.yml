@@ -11,6 +11,8 @@ cs:
     register_link: "Zaregistrujte se"
     register_title: "Registrace"
     register_submit: "Vytvořit účet"
+    register_privacy_html: "Vytvořením účtu bereme na vědomí zpracování Vašich údajů dle %{privacy_link}."
+    privacy_link_text: "zásad ochrany osobních údajů"
     have_account: "Už máte účet?"
     login_link: "Přihlaste se"
     account_title: "Můj účet"
@@ -146,8 +148,9 @@ cs:
     company_dic: "DIČ"
     delivery_address_different: "Doručovací adresa (pokud je rozdílná od fakturační)"
     summary_title: "Souhrn"
-    terms_agreement_html: "Odesláním objednávky souhlasím s %{terms_link} e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky."
+    terms_agreement_html: "Odesláním objednávky souhlasím s %{terms_link} e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky dle %{privacy_link}."
     terms_link_text: "obchodními podmínkami"
+    privacy_link_text: "zásad ochrany osobních údajů"
     terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
     submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
     confirmation_title: "Děkujeme za vaši objednávku!"
@@ -331,7 +334,8 @@ cs:
     delete_item_aria: "Smazat"
     add_item_aria: "Přidat položku"
     form_section_poznamky: "Poznámky"
-    consent_text: "Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky."
+    consent_text_html: "Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky. Více v %{privacy_link}."
+    privacy_link_text: "zásadách ochrany osobních údajů"
     submit_button: "Odeslat ke kalkulaci"
     cenik_main_title: "Ceník sortimentu"
     cenik_stavebni_title: "Stavební a Truhlářské řezivo"
@@ -703,6 +707,114 @@ cs:
 
       <h2>3. Správa souhlasu</h2>
       <p>Svou volbu můžete kdykoliv změnit pomocí odkazu „Nastavení cookies" v patičce stránek.</p>
+
+    privacy_title: "Zásady ochrany osobních údajů"
+    privacy_content_html: |
+      <p>Tyto zásady vysvětlují, jaké osobní údaje při provozu webu piladerflice.cz zpracováváme, proč je zpracováváme, na jakém právním základě, komu je předáváme a jaká máte práva. Údaje zpracováváme v souladu s nařízením (EU) 2016/679 (GDPR) a zákonem č. 110/2019 Sb., o zpracování osobních údajů.</p>
+      <p>Poslední aktualizace: 7. 10. 2026.</p>
+
+      <h2>1. Kdo je správcem vašich údajů</h2>
+      <p><strong>Štěpán Merta</strong><br>
+      Pila Derflice<br>
+      Místo podnikání: Derflice 66, 671 28 Znojmo<br>
+      Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
+      IČ: 45665451<br>
+      DIČ: CZ6909094742<br>
+      E-mail: stepan.merta@seznam.cz<br>
+      Telefon: +420 602 446 339</p>
+      <p>Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku (dále jen „my"). Se všemi dotazy ke zpracování osobních údajů se na nás můžete obrátit na uvedené e-mailové adrese.</p>
+
+      <h2>2. Jaké údaje zpracováváme a proč</h2>
+
+      <h3>2.1 Objednávky v e-shopu</h3>
+      <ul>
+        <li><strong>Údaje:</strong> jméno a příjmení, e-mail, telefon, fakturační adresa, doručovací adresa (je-li jiná), při nákupu na firmu název firmy, IČ a DIČ, dále obsah objednávky, zvolený způsob dopravy a platby a jazyk, ve kterém objednávku odesíláte.</li>
+        <li><strong>Účel:</strong> vyřízení objednávky, uzavření a plnění kupní smlouvy, doručení zboží, fakturace, komunikace o objednávce a vyřízení reklamací.</li>
+        <li><strong>Právní základ:</strong> plnění smlouvy (čl. 6 odst. 1 písm. b) GDPR) a plnění právních povinností, zejména účetních a daňových (čl. 6 odst. 1 písm. c) GDPR).</li>
+        <li><strong>Doba uchování:</strong> po dobu, kterou vyžadují účetní a daňové předpisy, u daňových dokladů 10 let od konce zdaňovacího období (zákon č. 235/2004 Sb., o dani z přidané hodnoty). Poté údaje smažeme nebo anonymizujeme.</li>
+      </ul>
+
+      <h3>2.2 Zákaznický účet</h3>
+      <ul>
+        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek. Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
+        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky) a zabezpečení účtu.</li>
+        <li><strong>Právní základ:</strong> plnění smlouvy o vedení účtu (čl. 6 odst. 1 písm. b) GDPR); u IP adresy a údajů o prohlížeči náš oprávněný zájem na zabezpečení účtů (čl. 6 odst. 1 písm. f) GDPR).</li>
+        <li><strong>Doba uchování:</strong> údaje účtu do jeho zrušení, které provedeme na vaši žádost zaslanou e-mailem; údaje o přihlášení po dobu, kdy jste přihlášeni (při odhlášení se smažou). Údaje o již vyřízených objednávkách uchováváme dále podle bodu 2.1.</li>
+      </ul>
+
+      <h3>2.3 Poptávky a kalkulace</h3>
+      <ul>
+        <li><strong>Údaje:</strong> jméno a příjmení, telefon, e-mail, adresa (ulice, číslo popisné, město, PSČ), poptávané zboží a jeho parametry, poznámka a jazyk, ve kterém formulář vyplňujete.</li>
+        <li><strong>Účel:</strong> zpracování poptávky a příprava nezávazné kalkulace či nabídky.</li>
+        <li><strong>Právní základ:</strong> jednání o uzavření smlouvy na vaši žádost (čl. 6 odst. 1 písm. b) GDPR).</li>
+        <li><strong>Doba uchování:</strong> po dobu vyřízení poptávky a navazujících jednání. Nedojde-li k uzavření smlouvy, údaje smažeme, jakmile pominou důvody pro jejich uchování.</li>
+      </ul>
+
+      <h3>2.4 Dotazy e-mailem nebo telefonem</h3>
+      <ul>
+        <li><strong>Údaje:</strong> kontaktní údaje, které nám sdělíte, a obsah komunikace.</li>
+        <li><strong>Účel:</strong> odpověď na váš dotaz.</li>
+        <li><strong>Právní základ:</strong> náš oprávněný zájem odpovídat zájemcům o naše zboží a služby (čl. 6 odst. 1 písm. f) GDPR), případně jednání o uzavření smlouvy (čl. 6 odst. 1 písm. b) GDPR).</li>
+        <li><strong>Doba uchování:</strong> po dobu vyřízení dotazu a navazujících jednání.</li>
+      </ul>
+
+      <h3>2.5 Newsletter</h3>
+      <ul>
+        <li><strong>Údaje:</strong> e-mail a jméno z objednávky, u které jste zaškrtli souhlas se zasíláním newsletterů.</li>
+        <li><strong>Účel:</strong> zasílání obchodních sdělení.</li>
+        <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte zaškrtnutím příslušného políčka při objednávce. Souhlas můžete kdykoliv odvolat e-mailem na stepan.merta@seznam.cz; odvoláním není dotčena zákonnost zpracování před jeho odvoláním.</li>
+        <li><strong>Doba uchování:</strong> do odvolání souhlasu.</li>
+      </ul>
+
+      <h3>2.6 Měření návštěvnosti (Google Analytics)</h3>
+      <ul>
+        <li><strong>Údaje:</strong> údaje o používání webu (např. zobrazené stránky, typ zařízení a prohlížeče, přibližná poloha, údaje o dokončených objednávkách) a online identifikátory v cookies.</li>
+        <li><strong>Účel:</strong> zjistit, jak návštěvníci web používají, a podle toho jej zlepšovat.</li>
+        <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte volbou „Přijmout vše" v cookie liště. Souhlas můžete kdykoliv odvolat odkazem „Nastavení cookies" v patičce stránek.</li>
+        <li><strong>Doba uchování:</strong> po dobu uchování údajů nastavenou v Google Analytics, nejdéle 14 měsíců.</li>
+        <li><strong>Poskytovatel:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irsko.</li>
+      </ul>
+      <p>Bez vašeho souhlasu se analytické cookies neukládají. Při zobrazení stránky se však načítá skript ze serverů Google, takže Google i v tom případě obdrží technické údaje o spojení, zejména vaši IP adresu.</p>
+
+      <h3>2.7 Mapa Google Maps</h3>
+      <p>V patičce stránek je vložena mapa Google Maps, která ukazuje polohu provozovny. Při zobrazení stránky se váš prohlížeč připojí k serverům Google, které obdrží vaši IP adresu a mohou ukládat cookies. Právním základem je náš oprávněný zájem usnadnit zákazníkům nalezení provozovny (čl. 6 odst. 1 písm. f) GDPR). Dobu uchování údajů určuje Google.</p>
+
+      <h3>2.8 Provoz a zabezpečení webu</h3>
+      <p>Při každém zobrazení stránky se zpracovává vaše IP adresa a technické údaje o požadavku (např. čas, adresa stránky, typ prohlížeče), které jsou nezbytné k doručení stránky a k zabezpečení provozu. Právním základem je náš oprávněný zájem na bezpečném a spolehlivém provozu webu (čl. 6 odst. 1 písm. f) GDPR). Tyto provozní záznamy uchováváme jen po dobu nezbytnou k zajištění bezpečnosti.</p>
+      <p>Web používá také soubory cookies. Nezbytné cookies (obsah košíku, volba jazyka, přihlášení a vaše volba v cookie liště) jsou potřeba k fungování stránek, analytické cookies používáme jen s vaším souhlasem. Podrobnosti najdete v <a href="/zasady-cookies">Zásadách používání cookies</a>.</p>
+
+      <h2>3. Komu údaje předáváme</h2>
+      <ul>
+        <li><strong>Poskytovatelé IT služeb</strong> (provoz a správa serveru, e-mailové služby pro odesílání potvrzení objednávek a komunikaci), kteří údaje zpracovávají pro nás jako zpracovatelé a smějí je používat pouze podle našich pokynů.</li>
+        <li><strong>Google Ireland Limited</strong> (měření návštěvnosti a mapa, viz body 2.6 a 2.7).</li>
+        <li><strong>Dopravce</strong>, je-li doručení zajišťováno třetí stranou; předáváme mu pouze údaje nutné k doručení (jméno, adresa, telefon).</li>
+        <li><strong>Orgány veřejné moci</strong> (např. finanční správa), pokud nám to ukládá zákon.</li>
+      </ul>
+      <p>Vaše údaje neprodáváme. Nedochází k automatizovanému individuálnímu rozhodování ve smyslu čl. 22 GDPR.</p>
+      <p>Někteří poskytovatelé, zejména Google, mohou údaje zpracovávat i mimo Evropskou unii a Evropský hospodářský prostor. Takové předání se vždy řídí podmínkami kapitoly V GDPR (např. rozhodnutím Evropské komise o odpovídající ochraně nebo standardními smluvními doložkami).</p>
+
+      <h2>4. Vaše práva</h2>
+      <p>Podle GDPR máte právo:</p>
+      <ul>
+        <li>na přístup ke svým osobním údajům a na kopii zpracovávaných údajů (čl. 15),</li>
+        <li>na opravu nepřesných údajů (čl. 16) – údaje ve svém účtu můžete upravit sami na stránce „Upravit údaje",</li>
+        <li>na výmaz údajů (čl. 17),</li>
+        <li>na omezení zpracování (čl. 18),</li>
+        <li>na přenositelnost údajů (čl. 20),</li>
+        <li>vznést námitku proti zpracování založenému na oprávněném zájmu (čl. 21),</li>
+        <li>kdykoliv odvolat souhlas, který jste nám udělili.</li>
+      </ul>
+      <p>Svá práva můžete uplatnit e-mailem na stepan.merta@seznam.cz. Na žádost odpovíme nejpozději do jednoho měsíce.</p>
+      <p>Domníváte-li se, že s vašimi údaji nakládáme v rozporu s právními předpisy, máte právo podat stížnost u dozorového úřadu. V České republice je jím Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Stížnost můžete podat také u dozorového úřadu v zemi svého bydliště (v Rakousku Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
+
+      <h2>5. Povinnost poskytnout údaje</h2>
+      <p>Údaje potřebné k vyřízení objednávky nebo poptávky je nutné poskytnout – bez nich bychom objednávku ani poptávku nemohli vyřídit. Souhlas s newsletterem a s analytickými cookies je dobrovolný a jeho neudělení nemá na vyřízení objednávky žádný vliv.</p>
+
+      <h2>6. Zabezpečení údajů</h2>
+      <p>Web je provozován přes šifrované spojení (HTTPS) a hesla k zákaznickým účtům ukládáme pouze v podobě nevratného otisku.</p>
+
+      <h2>7. Změny těchto zásad</h2>
+      <p>Tyto zásady můžeme aktualizovat, např. při změně funkcí webu nebo právních předpisů. Aktuální znění je vždy zveřejněno na této stránce, datum poslední aktualizace najdete na jejím začátku. Související informace o zpracování údajů při nákupu najdete také v <a href="/obchodni-podminky">Obchodních podmínkách</a>.</p>
 
   cookies:
     banner_text: "Používáme cookies, abychom vám zajistili co nejlepší fungování těchto stránek. Nezbytné cookies jsou vždy aktivní."

@@ -24,7 +24,7 @@ class SitemapTest < ActionDispatch::IntegrationTest
   test "lists the public pages and every active product, with absolute URLs" do
     urls = locs
 
-    %w[/ /kontakt /sluzby /sortiment /sortiment/stavebni-rezivo /obchodni-podminky /zasady-cookies /eshop /eshop?category=rezivo
+    %w[/ /kontakt /sluzby /sortiment /sortiment/stavebni-rezivo /obchodni-podminky /zasady-cookies /zasady-ochrany-osobnich-udaju /eshop /eshop?category=rezivo
        /eshop/smrk /eshop/tramy /eshop/odkory].each do |path|
       assert_includes urls, "http://www.example.com#{path}"
     end

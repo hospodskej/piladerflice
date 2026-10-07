@@ -99,33 +99,6 @@
       </div>
     </div>
   </section>
-  <section class="let-zkusenosti-section">
-    <div class="let-zkusenosti-banner">
-      <h2><%= t("home.index.zkusenosti_banner") %></h2>
-    </div>
-  </section>
-  <section class="akcni-nabidka-section">
-    <div class="akcni-nabidka-left">
-      <div class="akcni-nabidka-header">
-        <h1><%= t("home.index.akcni_nabidka_title_rest") %> <span style="color: #2C8FFF"><%= t("home.index.akcni_nabidka_title_accent") %></span></h1>
-        <div class="akcni-nabidka">
-          <h4><%= t("home.index.akcni_nabidka_lead_html") %></h4>
-          <h4><%= t("home.index.akcni_nabidka_text_html") %></h4>
-        </div>
-        <div class="akcni-nabidka-cenik">
-          <%= link_to t("common.cenik"), "/kontakt#cenik", class: "akcni-nabidka-button" %>
-        </div>
-      </div>
-    </div>
-    <div class="akcni-nabidka-right">
-      <div class="akcni-nabidka-decoration">
-        <div class="product-image-wrapper">
-          <div class="akcni-badge"><%= t("home.index.akcni_badge") %></div>
-          <%= image_tag "akcni-nabidka.webp", alt: t("home.index.akcni_image_alt"), class: "akcni-nabidka-image" %>
-        </div>
-      </div>
-    </div>
-  </section>
   <section class="nejprodavanejsi-produkty-section">
     <h1><span style="color: #2C8FFF"><%= t("home.index.nejprodavanejsi_title_accent") %></span>    <%= t("home.index.nejprodavanejsi_title_rest") %></h1>
     <div class="nejprodavanejsi-produkty-grid">
@@ -155,6 +128,28 @@
       <% end %>
     </div>
 
+  </section>
+  <section class="akcni-nabidka-section">
+    <div class="akcni-nabidka-left">
+      <div class="akcni-nabidka-header">
+        <h1><%= t("home.index.akcni_nabidka_title_rest") %> <span style="color: #2C8FFF"><%= t("home.index.akcni_nabidka_title_accent") %></span></h1>
+        <div class="akcni-nabidka">
+          <h4><%= t("home.index.akcni_nabidka_lead_html") %></h4>
+          <h4><%= t("home.index.akcni_nabidka_text_html") %></h4>
+        </div>
+        <div class="akcni-nabidka-cenik">
+          <%= link_to t("common.cenik"), "/kontakt#cenik", class: "akcni-nabidka-button" %>
+        </div>
+      </div>
+    </div>
+    <div class="akcni-nabidka-right">
+      <div class="akcni-nabidka-decoration">
+        <div class="product-image-wrapper">
+          <div class="akcni-badge"><%= t("home.index.akcni_badge") %></div>
+          <%= image_tag "akcni-nabidka.webp", alt: t("home.index.akcni_image_alt"), class: "akcni-nabidka-image" %>
+        </div>
+      </div>
+    </div>
   </section>
   <section class="nabidka-section">
     <div class="nabidka-header">
@@ -319,6 +314,11 @@
         <span><%= t("home.index.faq_cta_text") %></span>
       </div>
       <%= link_to t("home.index.faq_cta_button"), "/kontakt", class: "btn-primary" %>
+    </div>
+  </section>
+  <section class="let-zkusenosti-section">
+    <div class="let-zkusenosti-banner">
+      <h2><%= t("home.index.zkusenosti_banner") %></h2>
     </div>
   </section>
   <section class="o-sobe-section">

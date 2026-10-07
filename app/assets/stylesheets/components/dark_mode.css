@@ -272,6 +272,14 @@ html.dark-mode .nejprodavanejsi-produkty-card {
     border-color: #2b2f35;
 }
 
+/* In light mode, hovering turns the card blue and "skladem" black. The
+   dark background above outranks that hover background, so in dark mode
+   the card stays dark - leaving the hover's black text unreadable on it.
+   Keep "skladem" the same green as at rest. */
+html.dark-mode .nejprodavanejsi-produkty-card:hover .nejprodavanejsi-produkty-stock {
+    color: #00aa00;
+}
+
 /* === Carousel ("Co by vás mohlo zajímat") === */
 html.dark-mode .carousel-overlay {
     background-color: rgba(23, 25, 28, 0.85);

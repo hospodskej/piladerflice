@@ -1,34 +1,18 @@
 .let-zkusenosti-section {
     width: 100%;
-    padding: 80px 20px 20px;
-    display: flex;
-    justify-content: center;
+    padding: 0 0 20px;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 .let-zkusenosti-banner {
-    position: relative;
-    padding: 30px 190px;
-    display: inline-block;
-    z-index: 1;
-}
-
-.let-zkusenosti-banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
     background-color: #2C8FFF;
-    transform: skewX(-45deg);
-    z-index: -1;
+    border-radius: 8px;
+    padding: 22px 20px;
 }
 
 .let-zkusenosti-banner h2 {
     color: #ffffff;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     margin: 0;
     text-align: center;
@@ -37,27 +21,14 @@
 
 @media (max-width: 992px) {
     .let-zkusenosti-section {
-        padding: 40px 10px 10px;
+        padding: 0 0 10px;
     }
 
     .let-zkusenosti-banner {
-        padding: 20px 36px;
+        padding: 18px 16px;
     }
 
     .let-zkusenosti-banner h2 {
-        font-size: 1.3rem;
-        text-wrap: balance;
-    }
-
-    /* skewX would push the shape past the screen edges and get it clipped,
-       so on small screens draw the same slanted corners inside the box. */
-    .let-zkusenosti-banner {
-        box-sizing: border-box;
-        max-width: 100%;
-    }
-
-    .let-zkusenosti-banner::before {
-        transform: none;
-        clip-path: polygon(32px 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
+        font-size: 1.25rem;
     }
 }

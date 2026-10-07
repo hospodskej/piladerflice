@@ -82,7 +82,7 @@
 }
 
 .cenik-table tr:nth-child(odd) {
-    background-color: #e6e6e6;
+    background-color: #f2f2f2;
 }
 
 .cenik-table tr:nth-child(even) {

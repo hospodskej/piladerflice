@@ -9,7 +9,7 @@
 
 .let-zkusenosti-banner {
     position: relative;
-    padding: 22px 142px;
+    padding: 30px 190px;
     display: inline-block;
     z-index: 1;
 }
@@ -28,7 +28,7 @@
 
 .let-zkusenosti-banner h2 {
     color: #ffffff;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 800;
     margin: 0;
     text-align: center;

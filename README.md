@@ -54,6 +54,24 @@ Not set up yet - nobody has done it since the site isn't live. The old verificat
 - Under Sitemaps, submit `sitemap.xml` (the site generates it automatically; `robots.txt` already points to it)
 - Later, check the Pages report for pages Google couldn't index
 
+### Google Analytics
+
+The tracking code is already in the layout (measurement ID `G-CMJ46E7F3G`, loaded with Consent Mode so nothing is stored until a visitor clicks "Přijmout vše"), and a `purchase` event fires on the order confirmation page. It has never been checked against live traffic, so once the site is live:
+
+- Confirm the measurement ID belongs to the right Google Analytics property and the data stream points at the live domain
+- Accept cookies on the live site and check the Realtime report shows the visit
+- Place a test order and check the `purchase` event arrives (mark it as a key event/conversion if wanted)
+- Set the data retention in Admin > Data collection and modification > Data retention to match what the privacy policy says (currently up to 14 months)
+- Link the property to Google Search Console once that is set up
+
+### SEO
+
+The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. It is spread over the entries below: meta descriptions, unique page titles, social share image, local business schema and clickable phone/email. Once those are done, also:
+
+- Add canonical links and `hreflang` tags tying the Czech and German versions of each page together (the sitemap already declares the pair, the pages themselves don't)
+- Check heading structure (one `h1` per page) and image `alt` texts on the main pages
+- Run Lighthouse/PageSpeed on the live site and fix whatever it flags
+
 ### Update privacy policy after launch
 
 The privacy policy (`legal.privacy_content_html` in `config/locales/cs.yml` and `de.yml`) was drafted before the server was live. Once the server is up and running, update it with the real hosting and e-mail providers, confirm the retention periods and the Google Analytics retention setting, and have it reviewed (ideally by a lawyer).

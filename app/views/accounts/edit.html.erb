@@ -1,8 +1,9 @@
+<% page_meta :account_edit %>
 <main class="main">
   <section class="account-dashboard">
     <div class="account-form-header">
       <h1><%= t("auth.edit_profile_title") %></h1>
-      <%= link_to t("auth.back_to_account"), account_path, class: "btn-outline-dark", data: { turbo: false } %>
+      <%= link_to t("auth.back_to_account"), account_path, class: "btn-outline-dark account-back-btn", data: { turbo: false } %>
     </div>
 
     <% if @user.errors.any? %>
@@ -15,6 +16,32 @@
         </ul>
       </div>
     <% end %>
+
+    <div class="checkout-box avatar-box">
+      <h3 class="checkout-box-title"><%= t("auth.avatar_title") %></h3>
+      <div class="checkout-box-body avatar-box-body">
+        <div class="account-avatar avatar-preview">
+          <%= avatar_image_tag(@user, width: 64, height: 64) || @user.email_address.first.upcase %>
+        </div>
+
+        <div class="avatar-controls">
+          <%= form_with url: avatar_path, method: :patch, multipart: true, class: "avatar-upload-form",
+                        data: { turbo: false, controller: "file-picker", file_picker_empty_value: t("auth.avatar_no_file") } do %>
+            <input type="file" name="avatar" id="avatar_file" class="file-picker-input" accept="image/jpeg,image/png,image/webp" required
+                   data-file-picker-target="input" data-action="change->file-picker#update">
+            <label for="avatar_file" class="btn-outline-dark file-picker-btn"><%= t("auth.avatar_choose") %></label>
+            <span class="file-picker-name" data-file-picker-target="name"><%= t("auth.avatar_no_file") %></span>
+            <%= submit_tag t("auth.avatar_upload"), class: "btn-primary avatar-btn", data: { file_picker_target: "submit" } %>
+          <% end %>
+
+          <% if @user.avatar.attached? %>
+            <%= button_to t("auth.avatar_remove"), avatar_path, method: :delete, class: "btn-outline-dark avatar-btn", form: { data: { turbo: false } } %>
+          <% end %>
+
+          <p class="avatar-hint"><%= t("auth.avatar_hint") %></p>
+        </div>
+      </div>
+    </div>
 
     <%= form_with url: update_account_path, method: :patch, scope: :user, class: "checkout-main-col" do %>
       <div class="checkout-box">

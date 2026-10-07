@@ -1,3 +1,7 @@
+<% page_meta :home, brand_only_title: true %>
+<% content_for :head do %>
+  <%= json_ld_tag(local_business_schema) %>
+<% end %>
 <main class="main">
   <section class="hero-section">
     <div class="hero-intro">

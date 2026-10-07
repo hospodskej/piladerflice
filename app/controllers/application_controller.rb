@@ -23,6 +23,13 @@ class ApplicationController < ActionController::Base
   end
   helper_method :locale_switch_path
 
+  def require_login
+    return if current_user
+
+    session[:return_to_after_authenticating] = request.url
+    redirect_to login_path, alert: "Pro zobrazení účtu se musíte přihlásit."
+  end
+
   def current_cart
     @current_cart ||= Cart.new(session)
   end

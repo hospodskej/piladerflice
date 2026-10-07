@@ -33,3 +33,6 @@ gem "bcrypt", "~> 3.1.7"
 # Optimize admin-uploaded PNG/JPG images on upload (precompiled binaries, no system packages)
 gem "image_optim", "~> 0.32"
 gem "image_optim_pack", "~> 0.13"
+
+# Re-encodes uploaded profile pictures (needs the libvips system library)
+gem "ruby-vips", "~> 2.2"

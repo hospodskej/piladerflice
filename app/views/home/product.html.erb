@@ -1,1 +1,6 @@
+<%
+  product_title = [@product.title_i18n, @product.type_label_i18n].compact_blank.join(" – ")
+  product_description = strip_tags(@product.description_i18n.to_s).presence || t("meta.product_fallback", title: @product.title_i18n)
+  page_meta :product, title: product_title, description: product_description
+%>
 <%= render "shared/#{@product.template}_product", product: @product %>

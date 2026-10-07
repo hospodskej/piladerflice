@@ -12,6 +12,78 @@ cs:
     sortiment: "Sortiment"
     kontakt: "Kontakt"
 
+  meta:
+    home:
+      title: "Pila Derflice – palivové dřevo a řezivo u Znojma"
+      description: "Rodinná pila Derflice u Znojma: palivové dřevo, stavební a truhlářské řezivo, piliny a štěpka. Rychlý dovoz po Jižní Moravě i severním Rakousku."
+    kontakt:
+      title: "Kontakt a ceník"
+      description: "Kontakt, ceník a nezávazná kalkulace. Pila Derflice 66, Znojmo, Po–Pá 7:00–15:30, tel. +420 602 446 339, stepan.merta@seznam.cz."
+    sluzby:
+      title: "Služby"
+      description: "Služby pily Derflice: zakázková výroba, hoblování, doprava, impregnace a pořez nebo prodej kulatiny. Nezávazná cenová kalkulace."
+    sortiment:
+      title: "Sortiment"
+      description: "Sortiment pily Derflice: palivové dřevo, stavební a truhlářské řezivo, výrobní zbytky (odkory, štěpka, piliny) a okrasné kamenivo."
+    palivove_drevo:
+      title: "Palivové dřevo"
+      description: "Tvrdé (buk, dub, habr, akát, jasan, bříza) i měkké (smrk, borovice, modřín) palivové dřevo, nařezané a naštípané, s dovozem až k vám. Prodej po 1 PRM."
+    stavebni_rezivo:
+      title: "Stavební řezivo"
+      description: "Stavební řezivo na míru: trámy, prkna, latě a fošny ze smrku, borovice, modřínu i dubu. Řezané délky až 11 m."
+    truhlarske_rezivo:
+      title: "Truhlářské řezivo"
+      description: "Truhlářské řezivo: fošny jako surovina pro spárovku a nábytek z masivu, schody, dveře, okna i hudební nástroje."
+    okrasne_kamenivo:
+      title: "Okrasné kamenivo"
+      description: "Okrasné kamenivo, valouny a oblázky pro zahrady, chodníky, jezírka a záhony. V pytlích nebo volně ložené, cena od 1 Kč za 1 kg."
+    vyrobni_zbytky:
+      title: "Výrobní zbytky"
+      description: "Výrobní zbytky z pily: odkory, štěpka a piliny pro topení, mulčování, steliva a další zpracování."
+    eshop_palivove:
+      title: "Palivové dřevo – e-shop"
+      description: "Objednejte palivové dřevo online: tvrdé i měkké, nařezané a naštípané, s dovozem po Jižní Moravě a severním Rakousku."
+    eshop_rezivo:
+      title: "Stavební řezivo – e-shop"
+      description: "Objednejte stavební řezivo online: trámy, latě a fošny ze smrku, borovice i modřínu, s dovozem po Jižní Moravě a severním Rakousku."
+    eshop_zbytky:
+      title: "Výrobní zbytky – e-shop"
+      description: "Objednejte odkory, štěpku a piliny online, s dovozem po Jižní Moravě a severním Rakousku."
+    eshop_kamenivo:
+      title: "Okrasné kamenivo – e-shop"
+      description: "Objednejte okrasné kamenivo online, valouny a oblázky v pytlích nebo volně ložené, od 1 Kč za 1 kg."
+    area_served:
+      south_moravia: "Jižní Morava"
+      north_austria: "Severní Rakousko"
+    product_fallback: "%{title} z pily Derflice. Objednejte online s dovozem po Jižní Moravě a severním Rakousku."
+    cart:
+      title: "Košík"
+    checkout_shipping:
+      title: "Doprava a platba"
+    checkout_details:
+      title: "Kontaktní údaje"
+    checkout_summary:
+      title: "Souhrn objednávky"
+    checkout_confirmation:
+      title: "Děkujeme za objednávku"
+    login:
+      title: "Přihlášení"
+    register:
+      title: "Registrace"
+    account:
+      title: "Můj účet"
+    account_edit:
+      title: "Upravit údaje"
+    terms:
+      title: "Obchodní podmínky"
+      description: "Obchodní podmínky e-shopu pily Derflice (Štěpán Merta)."
+    cookies:
+      title: "Zásady cookies"
+      description: "Jak pila Derflice používá cookies a jak můžete svůj souhlas kdykoliv změnit."
+    privacy:
+      title: "Zásady ochrany osobních údajů"
+      description: "Jaké osobní údaje pila Derflice zpracovává, proč, komu je předává a jaká máte práva."
+
   auth:
     login_title: "Přihlášení"
     password: "Heslo"
@@ -45,6 +117,22 @@ cs:
     back_to_account: "Zpět na účet"
     save_profile: "Uložit změny"
     profile_updated: "Vaše údaje byly uloženy."
+    avatar_title: "Profilový obrázek"
+    avatar_alt: "Váš profilový obrázek"
+    avatar_choose: "Vybrat obrázek"
+    avatar_no_file: "Žádný obrázek nevybrán"
+    avatar_upload: "Nahrát obrázek"
+    avatar_remove: "Odstranit obrázek"
+    avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px, metadata EXIF (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) zůstanou zachována."
+    avatar_updated: "Profilový obrázek byl uložen."
+    avatar_removed: "Profilový obrázek byl odstraněn."
+    avatar_errors:
+      none_selected: "Nevybrali jste žádný obrázek."
+      too_large: "Soubor je příliš velký (nejvýše 2 MB)."
+      unsupported_type: "Podporujeme pouze obrázky JPG, PNG a WebP."
+      too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
+      unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
+      rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
     phone_prefix_label: "Předvolba"
 
   nav:
@@ -318,7 +406,7 @@ cs:
     info_ico: "IČ: 45665451 | DIČ: CZ6909094742"
     info_billing: "Fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice"
     info_legal: "Fyzická osoba podnikající dle živnostenského zákona nezapsaná v obchodním rejstříku."
-    kalkulace_title_html: "Poptejte se na naše výroby <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
+    kalkulace_title_html: "Poptejte se na naše výrobky <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
     toggle_palivove: "Palivové dřevo"
     toggle_stavebni: "Stavební řezivo"
     form_section_kontakt: "Kontakt"
@@ -746,8 +834,8 @@ cs:
 
       <h3>2.2 Zákaznický účet</h3>
       <ul>
-        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek. Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
-        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky) a zabezpečení účtu.</li>
+        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek, případně profilový obrázek, pokud si jej nahrajete (ukládáme jej zmenšený na 256 × 256 px, včetně metadat EXIF, která fotka případně obsahuje, např. údajů o fotoaparátu nebo polohy; zobrazujeme jej jen vám). Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
+        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky), zobrazení vašeho profilového obrázku a zabezpečení účtu.</li>
         <li><strong>Právní základ:</strong> plnění smlouvy o vedení účtu (čl. 6 odst. 1 písm. b) GDPR); u IP adresy a údajů o prohlížeči náš oprávněný zájem na zabezpečení účtů (čl. 6 odst. 1 písm. f) GDPR).</li>
         <li><strong>Doba uchování:</strong> údaje účtu do jeho zrušení, které provedeme na vaši žádost zaslanou e-mailem; údaje o přihlášení po dobu, kdy jste přihlášeni (při odhlášení se smažou). Údaje o již vyřízených objednávkách uchováváme dále podle bodu 2.1.</li>
       </ul>

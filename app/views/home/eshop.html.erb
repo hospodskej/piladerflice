@@ -4,6 +4,8 @@
 
   base_products = CatalogProduct.active.where(category: category)
 
+  page_meta "eshop_#{category}"
+
   products =
     case params[:wood]
     when "tvrde" then base_products.where(hardness: "hard")

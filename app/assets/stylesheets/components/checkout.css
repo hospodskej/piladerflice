@@ -540,7 +540,7 @@
     min-height: 460px;
 }
 
-/* On wide screens the mascot waves from the bottom-right corner; below that
+/* On wide screens the mascot stands in the bottom-right corner; below that
    there's no spare room beside the box, so it sits under the button. */
 .checkout-confirmation-mascot {
     width: 220px;

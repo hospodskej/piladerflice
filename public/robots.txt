@@ -1,1 +1,14 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+# Block private or per-visitor pages with nothing worth finding in a search
+# engine: admin, cart + checkout, customer account, login and registration.
+# Everything else stays crawlable - including /assets and the uploaded product
+# images under /rails/active_storage, which Google needs to render pages.
+# Keep the rules directly under User-agent: some parsers end the group at a
+# blank line and would silently ignore everything after it.
+User-agent: *
+Disallow: /admin
+Disallow: /kosik
+Disallow: /muj-ucet
+Disallow: /prihlaseni
+Disallow: /registrace

@@ -42,19 +42,9 @@ A `Review` model already exists, currently just holding imported Google reviews.
 - Needs light moderation before a review goes public
 - Likely gated to customers who actually have an order for that product
 
-### Site search
-
-The catalog is growing (species, dimensions, grades) and currently has no search, only category browsing.
-
-- A search bar across products/variants once the catalog outgrows simple category pages
-
 ### Custom 404 page
 
 `public/404.html` is still the generic Rails default (plain English, not styled to match the site) rather than something branded and in Czech.
-
-### robots.txt
-
-`public/robots.txt` is still just the default Rails placeholder comment, with no real rules in it.
 
 ### Team mascot
 

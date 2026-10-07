@@ -82,7 +82,7 @@ de:
     spec_quality: "Qualität"
     spec_thickness: "Stärke"
     spec_wood: "Holzart"
-    spec_description: "Beschreibung"
+    spec_description: "Typ"
     spec_fraction: "Körnung"
     spec_grade: "Klasse"
     spec_width: "Breite"

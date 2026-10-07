@@ -147,11 +147,11 @@
 }
 
 .inventory-specs {
-    width: 87%;
-    margin-left: 9%;
-    margin-right: 4%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 12px;
     font-size: 1rem;
 }
@@ -161,8 +161,13 @@
     flex-direction: column;
     justify-content: center;
     gap: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
+/* min-width + overflow-wrap: a value too long for the card (e.g. one typed
+   into the admin later) wraps inside the box instead of being clipped by
+   the card's overflow: hidden. */
 .spec-values {
     display: flex;
     flex-direction: column;
@@ -170,7 +175,10 @@
     gap: 6px;
     border: 1px solid #93C5FD;
     border-radius: 4px;
-    padding: 4px 10px;
+    padding: 4px 8px;
+    min-width: 0;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
 .spec-value {
@@ -308,7 +316,7 @@
 
 .simple-grid-2 {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
@@ -403,6 +411,7 @@
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        scroll-padding-inline: 20px;
         -webkit-overflow-scrolling: touch;
         gap: 16px;
         margin: 0 -20px 40px -20px;
@@ -432,7 +441,7 @@
     .matrix-grid-bedny .matrix-cell,
     .simple-grid-2 .inventory-card,
     .simple-grid-3 .inventory-card {
-        flex: 0 0 220px;
+        flex: 0 0 250px;
         scroll-snap-align: start;
     }
 }

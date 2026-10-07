@@ -580,6 +580,16 @@ cs:
           attributes:
             field:
               invalid_for_category: "neodpovídá zvolené kategorii"
+        pricelist_item:
+          attributes:
+            category:
+              inclusion: "není platná"
+            item_name:
+              blank: "je povinné pole"
+            subcategory:
+              blank: "je povinné pole"
+            price:
+              blank: "je povinné pole"
         user:
           attributes:
             email_address:
@@ -591,6 +601,11 @@ cs:
             password_confirmation:
               confirmation: "se neshoduje s heslem"
     attributes:
+      pricelist_item:
+        category: "Kategorie"
+        item_name: "Název"
+        subcategory: "Dřevina"
+        price: "Cena"
       user:
         email_address: "E-mail"
         password: "Heslo"

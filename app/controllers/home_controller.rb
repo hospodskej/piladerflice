@@ -11,12 +11,13 @@ class HomeController < ApplicationController
   end
 
   def kontakt
-    @stavebni_data = PricelistItem.where(category: "stavebni")
-    @palivove_volne_groups = PricelistItem.where(category: "palivove_volne").group_by(&:subcategory_i18n)
-    @palivove_skladane_groups = PricelistItem.where(category: "palivove_skladane").group_by(&:subcategory_i18n)
-    @vyrobni_zbytky = PricelistItem.where(category: "zbytky")
-    @kamenivo_item = PricelistItem.find_by(category: "kamenivo")
-    @sluzby_cenik = PricelistItem.where(category: "sluzby")
+    pricelist = PricelistItem.ordered.group_by(&:category)
+    @stavebni_data = pricelist.fetch("stavebni", [])
+    @palivove_volne_groups = pricelist.fetch("palivove_volne", []).group_by(&:subcategory_i18n)
+    @palivove_skladane_groups = pricelist.fetch("palivove_skladane", []).group_by(&:subcategory_i18n)
+    @vyrobni_zbytky = pricelist.fetch("zbytky", [])
+    @kamenivo_item = pricelist.fetch("kamenivo", []).first
+    @sluzby_cenik = pricelist.fetch("sluzby", [])
     @kalkulace_options = InquiryFormOption.ordered.group_by(&:category).transform_values { |options| options.group_by(&:field) }
   end
 

@@ -46,18 +46,37 @@
     color: #333333;
 }
 
+/* border-collapse: separate is what lets the table have rounded corners;
+   each cell draws only its right and bottom line so inner borders stay 1px. */
 .cenik-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     border: 1px solid #999999;
+    border-radius: 8px;
 }
 
 .cenik-table td {
     padding: 12px 20px;
-    border: 1px solid #999999;
+    border: 0 solid #999999;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
     font-size: 0.95rem;
     text-align: center;
 }
+
+.cenik-table td:last-child {
+    border-right-width: 0;
+}
+
+.cenik-table tr:last-child td {
+    border-bottom-width: 0;
+}
+
+.cenik-table tr:first-child td:first-child { border-top-left-radius: 7px; }
+.cenik-table tr:first-child td:last-child { border-top-right-radius: 7px; }
+.cenik-table tr:last-child td:first-child { border-bottom-left-radius: 7px; }
+.cenik-table tr:last-child td:last-child { border-bottom-right-radius: 7px; }
 
 .cenik-table td:first-child {
     text-align: left;
@@ -81,11 +100,11 @@
     width: 50%;
 }
 
-.cenik-table tr:nth-child(odd) {
-    background-color: #e6e6e6;
+.cenik-table tr:nth-child(odd) td {
+    background-color: #f2f2f2;
 }
 
-.cenik-table tr:nth-child(even) {
+.cenik-table tr:nth-child(even) td {
     background-color: #ffffff;
 }
 
@@ -111,6 +130,7 @@
 .cenik-sluzba-box {
     width: 100%;
     border: 1px solid #999999;
+    border-radius: 8px;
     background-color: #e6e6e6;
     padding: 12px 20px;
     text-align: right;

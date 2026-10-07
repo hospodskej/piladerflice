@@ -42,6 +42,12 @@ Rails.application.routes.draw do
       end
     end
     resources :promos, except: [:show]
+    resources :pricelist_items, only: [:index, :create, :update, :destroy] do
+      member do
+        patch :move_up
+        patch :move_down
+      end
+    end
   end
 
   get '/kosik/doprava', to: 'checkout#shipping', as: :checkout_shipping

@@ -207,9 +207,9 @@
         <tbody>
         <% @stavebni_data.each do |row| %>
           <tr>
-            <td><%= row.item_name_i18n %></td>
-            <td><%= row.details_i18n %></td>
-            <td><%= row.price_i18n.html_safe %></td>
+            <td><%= pricelist_html(row.item_name_i18n) %></td>
+            <td><%= pricelist_html(row.details_i18n) %></td>
+            <td><%= pricelist_html(row.price_i18n) %></td>
           </tr>
         <% end %>
         </tbody>
@@ -220,13 +220,13 @@
       <div class="cenik-header"><h3><%= t("kontakt.cenik_palivove_volne_title") %></h3><span class="cenik-line"></span></div>
       <% @palivove_volne_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
-          <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
+          <h4 class="cenik-subtitle"><%= pricelist_html(subcategory_name) %></h4>
           <table class="cenik-table two-cols">
             <tbody>
             <% items.each do |item| %>
               <tr>
-                <td><%= item.item_name_i18n %></td>
-                <td><%= item.price_i18n %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
+                <td><%= pricelist_html(item.item_name_i18n) %></td>
+                <td><%= pricelist_html(item.price_i18n) %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
               </tr>
             <% end %>
             </tbody>
@@ -239,13 +239,13 @@
       <div class="cenik-header"><h3><%= t("kontakt.cenik_palivove_skladane_title") %></h3><span class="cenik-line"></span></div>
       <% @palivove_skladane_groups.each do |subcategory_name, items| %>
         <div class="cenik-subgroup">
-          <h4 class="cenik-subtitle"><%= subcategory_name.html_safe %></h4>
+          <h4 class="cenik-subtitle"><%= pricelist_html(subcategory_name) %></h4>
           <table class="cenik-table two-cols">
             <tbody>
             <% items.each do |item| %>
               <tr>
-                <td><%= item.item_name_i18n %></td>
-                <td><%= item.price_i18n %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
+                <td><%= pricelist_html(item.item_name_i18n) %></td>
+                <td><%= pricelist_html(item.price_i18n) %><%= " / #{t('common.per_m3')}" unless item.price_i18n == "---" %></td>
               </tr>
             <% end %>
             </tbody>
@@ -260,8 +260,8 @@
         <tbody>
         <% @vyrobni_zbytky.each do |row| %>
           <tr>
-            <td style="text-align: left"><%= row.item_name_i18n %></td>
-            <td><%= row.price_i18n %></td>
+            <td style="text-align: left"><%= pricelist_html(row.item_name_i18n) %></td>
+            <td><%= pricelist_html(row.price_i18n) %></td>
           </tr>
         <% end %>
         </tbody>
@@ -274,7 +274,7 @@
         <tbody>
         <tr>
           <td style="text-align: right; padding-right: 30px;">
-            <%= @kamenivo_item&.price_i18n || t("kontakt.cenik_kamenivo_default") %>
+            <%= @kamenivo_item ? pricelist_html(@kamenivo_item.price_i18n) : t("kontakt.cenik_kamenivo_default") %>
           </td>
         </tr>
         </tbody>
@@ -285,8 +285,8 @@
     <div class="cenik-sluzby-container">
       <% @sluzby_cenik.each do |sluzba| %>
         <div class="cenik-sluzba-item">
-          <h4 class="cenik-sluzba-label"><%= sluzba.item_name_i18n.html_safe %></h4>
-          <div class="cenik-sluzba-box"><%= sluzba.price_i18n.html_safe %></div>
+          <h4 class="cenik-sluzba-label"><%= pricelist_html(sluzba.item_name_i18n) %></h4>
+          <div class="cenik-sluzba-box"><%= pricelist_html(sluzba.price_i18n) %></div>
         </div>
       <% end %>
     </div>

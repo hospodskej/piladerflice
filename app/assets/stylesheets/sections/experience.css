@@ -41,14 +41,23 @@
     }
 
     .let-zkusenosti-banner {
-        padding: 20px 40px;
+        padding: 20px 36px;
     }
 
     .let-zkusenosti-banner h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+        text-wrap: balance;
+    }
+
+    /* skewX would push the shape past the screen edges and get it clipped,
+       so on small screens draw the same slanted corners inside the box. */
+    .let-zkusenosti-banner {
+        box-sizing: border-box;
+        max-width: 100%;
     }
 
     .let-zkusenosti-banner::before {
-        transform: skewX(-45deg);
+        transform: none;
+        clip-path: polygon(32px 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
     }
 }

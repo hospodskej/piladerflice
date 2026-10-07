@@ -99,12 +99,6 @@
       </div>
     </div>
   </section>
-  <%# Temporarily hidden "Již přes 30 let zkušeností" banner. To restore, uncomment (the h2 holds t("home.index.zkusenosti_banner")): %>
-  <%# <section class="let-zkusenosti-section"> %>
-  <%#   <div class="let-zkusenosti-banner"> %>
-  <%#     <h2>(erb output tag: t("home.index.zkusenosti_banner"))</h2> %>
-  <%#   </div> %>
-  <%# </section> %>
   <section class="nejprodavanejsi-produkty-section">
     <h1><span style="color: #2C8FFF"><%= t("home.index.nejprodavanejsi_title_accent") %></span>    <%= t("home.index.nejprodavanejsi_title_rest") %></h1>
     <div class="nejprodavanejsi-produkty-grid">
@@ -320,6 +314,11 @@
         <span><%= t("home.index.faq_cta_text") %></span>
       </div>
       <%= link_to t("home.index.faq_cta_button"), "/kontakt", class: "btn-primary" %>
+    </div>
+  </section>
+  <section class="let-zkusenosti-section">
+    <div class="let-zkusenosti-banner">
+      <h2><%= t("home.index.zkusenosti_banner") %></h2>
     </div>
   </section>
   <section class="o-sobe-section">

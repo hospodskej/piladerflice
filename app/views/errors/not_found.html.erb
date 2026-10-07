@@ -1,0 +1,19 @@
+<% content_for :title, "#{t('not_found.title')} | #{t('site.name')}" %>
+<% content_for :head do %>
+  <meta name="robots" content="noindex">
+<% end %>
+
+<main class="main">
+  <section class="not-found">
+    <%= image_tag @mascot, alt: t("not_found.alt"), class: "not-found-mascot", width: 320, height: 320 %>
+    <p class="not-found-code">404</p>
+    <h1><%= t("not_found.heading") %></h1>
+    <p class="not-found-text"><%= t("not_found.text") %></p>
+    <%= link_to t("not_found.home"), root_path, class: "btn-primary" %>
+    <nav class="not-found-links">
+      <%= link_to t("not_found.eshop"), eshop_path %>
+      <%= link_to t("not_found.sortiment"), sortiment_path %>
+      <%= link_to t("not_found.kontakt"), kontakt_path %>
+    </nav>
+  </section>
+</main>

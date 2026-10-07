@@ -1,0 +1,59 @@
+.not-found {
+    max-width: 640px;
+    margin: 40px auto 80px auto;
+    padding: 0 5%;
+    text-align: center;
+}
+
+.not-found-mascot {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+}
+
+.not-found-code {
+    margin: 0;
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #2C8FFF;
+}
+
+.not-found h1 {
+    font-size: 2rem;
+    margin: 10px 0 14px 0;
+}
+
+.not-found-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0 0 24px 0;
+}
+
+.not-found-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: 28px;
+}
+
+.not-found-links a {
+    color: #2C8FFF;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.not-found-links a:hover {
+    text-decoration: underline;
+}
+
+html.dark-mode .not-found-text {
+    color: #a8adb5;
+}
+
+/* The mascot's dark blue outline nearly vanishes on the dark page. */
+html.dark-mode .not-found-mascot {
+    filter: brightness(1.35);
+}

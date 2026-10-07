@@ -361,3 +361,13 @@
         display: none;
     }
 }
+/* Phone numbers and e-mail addresses in the header, sidebar and footer are
+   tel:/mailto: links that look like the plain text they replaced. */
+.contact-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}

@@ -98,4 +98,21 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "select[name='vyska[]'] option[value='__custom__']", count: 1
     assert_select "select[name='sirka[]'] option[value='__custom__']", count: 1
   end
+
+  test "phone numbers and e-mail are clickable in header, footer and mobile sidebar" do
+    get root_url
+    assert_select ".contact-header a[href=?]", "tel:+420602446339"
+    assert_select ".contact-header a[href=?]", "mailto:stepan.merta@seznam.cz"
+    assert_select ".sidebar-contact a[href=?]", "tel:+420602446339"
+    assert_select ".sidebar-contact a[href=?]", "mailto:stepan.merta@seznam.cz"
+    assert_select "footer a[href=?]", "tel:+420602446339"
+    assert_select "footer a[href=?]", "tel:+420515235527"
+    assert_select "footer a[href=?]", "mailto:stepan.merta@seznam.cz"
+  end
+
+  test "contact page phone numbers are tel links" do
+    get kontakt_url
+    assert_select ".kontakt-list-items a[href=?]", "tel:+420602446339"
+    assert_select ".kontakt-list-items a[href=?]", "tel:+420515235527"
+  end
 end

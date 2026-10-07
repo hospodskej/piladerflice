@@ -92,10 +92,6 @@ No page sets one, so Google just auto-grabs random text from the page for the se
 
 Only one view sets a custom `<title>` - every other page (eshop, every product page, cart, checkout, account, etc.) shows the generic "Pila Derflice" title.
 
-### Clickable phone/email
-
-The phone number and email in the header and footer are plain text, not `tel:`/`mailto:` links (kontakt page has a working mailto, but it's the only one).
-
 ### Social share image
 
 No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.

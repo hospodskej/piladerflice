@@ -12,6 +12,75 @@ de:
     sortiment: "Sortiment"
     kontakt: "Kontakt"
 
+  meta:
+    home:
+      title: "Pila Derflice – Brennholz und Schnittholz bei Znojmo"
+      description: "Familiensägewerk Derflice bei Znojmo: Brennholz, Bau- und Tischlerschnittholz, Sägespäne und Hackschnitzel. Schnelle Lieferung in Südmähren und Nordösterreich."
+    kontakt:
+      title: "Kontakt und Preisliste"
+      description: "Kontakt, Preisliste und unverbindliche Kalkulation. Pila Derflice 66, Znojmo, Mo–Fr 7:00–15:30, Tel. +420 602 446 339, stepan.merta@seznam.cz."
+    sluzby:
+      title: "Dienstleistungen"
+      description: "Dienstleistungen des Sägewerks Derflice: Sonderanfertigung, Hobeln, Lieferung, Imprägnierung sowie Einschnitt und Verkauf von Rundholz. Unverbindliche Preiskalkulation."
+    sortiment:
+      title: "Sortiment"
+      description: "Sortiment des Sägewerks Derflice: Brennholz, Bau- und Tischlerschnittholz, Produktionsreste (Schwarten, Hackschnitzel, Sägespäne) und Ziersteine."
+    palivove_drevo:
+      title: "Brennholz"
+      description: "Hartes (Buche, Eiche, Hainbuche, Robinie, Esche, Birke) und weiches (Fichte, Kiefer, Lärche) Brennholz, gesägt und gespalten, mit Lieferung zu Ihnen. Verkauf pro Raummeter."
+    stavebni_rezivo:
+      title: "Bauschnittholz"
+      description: "Bauschnittholz nach Maß: Balken, Bretter, Latten und Bohlen aus Fichte, Kiefer, Lärche und Eiche. Schnittlängen bis 11 m."
+    truhlarske_rezivo:
+      title: "Tischlerschnittholz"
+      description: "Tischlerschnittholz: Bohlen als Rohstoff für Leimholz und Massivholzmöbel, Treppen, Türen, Fenster und Musikinstrumente."
+    okrasne_kamenivo:
+      title: "Ziersteine"
+      description: "Ziersteine, Findlinge und Kieselsteine für Gärten, Wege, Teiche und Beete. In Säcken oder lose, Preis ab 1 Kč pro 1 kg."
+    vyrobni_zbytky:
+      title: "Produktionsreste"
+      description: "Produktionsreste aus dem Sägewerk: Schwarten, Hackschnitzel und Sägespäne zum Heizen, Mulchen, als Einstreu und zur Weiterverarbeitung."
+    eshop_palivove:
+      title: "Brennholz – Onlineshop"
+      description: "Brennholz online bestellen: hart und weich, gesägt und gespalten, mit Lieferung in Südmähren und Nordösterreich."
+    eshop_rezivo:
+      title: "Bauschnittholz – Onlineshop"
+      description: "Bauschnittholz online bestellen: Balken, Latten und Bohlen aus Fichte, Kiefer und Lärche, mit Lieferung in Südmähren und Nordösterreich."
+    eshop_zbytky:
+      title: "Produktionsreste – Onlineshop"
+      description: "Schwarten, Hackschnitzel und Sägespäne online bestellen, mit Lieferung in Südmähren und Nordösterreich."
+    eshop_kamenivo:
+      title: "Ziersteine – Onlineshop"
+      description: "Ziersteine online bestellen: Findlinge und Kieselsteine in Säcken oder lose, ab 1 Kč pro 1 kg."
+    product_fallback: "%{title} vom Sägewerk Derflice. Online bestellen mit Lieferung in Südmähren und Nordösterreich."
+    cart:
+      title: "Warenkorb"
+    checkout_shipping:
+      title: "Versand und Zahlung"
+    checkout_details:
+      title: "Kontaktdaten"
+    checkout_summary:
+      title: "Bestellübersicht"
+    checkout_confirmation:
+      title: "Danke für Ihre Bestellung"
+    login:
+      title: "Anmeldung"
+    register:
+      title: "Registrierung"
+    account:
+      title: "Mein Konto"
+    account_edit:
+      title: "Daten bearbeiten"
+    terms:
+      title: "Allgemeine Geschäftsbedingungen"
+      description: "Allgemeine Geschäftsbedingungen des Onlineshops des Sägewerks Derflice (Štěpán Merta)."
+    cookies:
+      title: "Cookie-Richtlinie"
+      description: "Wie das Sägewerk Derflice Cookies verwendet und wie Sie Ihre Einwilligung jederzeit ändern können."
+    privacy:
+      title: "Datenschutzerklärung"
+      description: "Welche personenbezogenen Daten das Sägewerk Derflice verarbeitet, warum, an wen sie weitergegeben werden und welche Rechte Sie haben."
+
   auth:
     login_title: "Anmeldung"
     password: "Passwort"
@@ -48,9 +117,10 @@ de:
     avatar_title: "Profilbild"
     avatar_alt: "Ihr Profilbild"
     avatar_choose: "Bild auswählen"
+    avatar_no_file: "Kein Bild ausgewählt"
     avatar_upload: "Bild hochladen"
     avatar_remove: "Bild entfernen"
-    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px und entfernen versteckte Daten (zum Beispiel den Standort)."
+    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px; EXIF-Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) bleiben erhalten."
     avatar_updated: "Das Profilbild wurde gespeichert."
     avatar_removed: "Das Profilbild wurde entfernt."
     avatar_errors:
@@ -741,7 +811,7 @@ de:
 
       <h3>2.2 Kundenkonto</h3>
       <ul>
-        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie, gegebenenfalls ein Profilbild, wenn Sie eines hochladen (wir speichern es nur auf 256 × 256 px verkleinert und ohne versteckte Daten wie den Standort und zeigen es nur Ihnen). Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
+        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie, gegebenenfalls ein Profilbild, wenn Sie eines hochladen (wir speichern es auf 256 × 256 px verkleinert, einschließlich der EXIF-Metadaten, die das Foto gegebenenfalls enthält, z. B. Kameradaten oder Standort; wir zeigen es nur Ihnen). Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
         <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen), Anzeige Ihres Profilbilds und Sicherheit des Kontos.</li>
         <li><strong>Rechtsgrundlage:</strong> Erfüllung des Vertrags über die Kontoführung (Art. 6 Abs. 1 lit. b DSGVO); für IP-Adresse und Browserangaben unser berechtigtes Interesse an der Sicherheit der Konten (Art. 6 Abs. 1 lit. f DSGVO).</li>
         <li><strong>Speicherdauer:</strong> die Kontodaten bis zur Löschung des Kontos, die wir auf Ihren Wunsch per E-Mail vornehmen; die Anmeldedaten, solange Sie angemeldet sind (sie werden bei der Abmeldung gelöscht). Daten zu bereits abgewickelten Bestellungen bewahren wir weiterhin gemäß Punkt 2.1 auf.</li>

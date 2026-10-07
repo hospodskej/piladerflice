@@ -4,8 +4,10 @@
 # actual bytes (not the filename or the Content-Type the browser claims),
 # limited in size and pixel count (decompression bombs), decoded by libvips
 # with an allowlist of image loaders, and then re-encoded as a fresh
-# 256x256 WebP. Re-encoding drops everything that isn't pixels: EXIF/GPS
-# metadata, comments, trailing bytes and any payload hidden in a polyglot file.
+# 256x256 WebP. Re-encoding drops trailing bytes and any payload hidden in a
+# polyglot file, plus XMP/IPTC/comments. EXIF metadata (camera, date, GPS...)
+# is deliberately kept; it is attacker-controlled text, so never render it
+# as HTML.
 class AvatarSanitizer
   class Invalid < StandardError
     attr_reader :reason
@@ -41,7 +43,7 @@ class AvatarSanitizer
     raise Invalid, :unsupported_type unless ALLOWED_TYPES.include?(sniffed_type)
 
     check_header!
-    thumbnail.webpsave_buffer(Q: 85, strip: true)
+    thumbnail.webpsave_buffer(Q: 85, **save_options)
   rescue Vips::Error
     raise Invalid, :unreadable
   end
@@ -59,6 +61,11 @@ class AvatarSanitizer
 
     raise Invalid, :unsupported_type unless ALLOWED_LOADERS.include?(image.get("vips-loader"))
     raise Invalid, :too_many_pixels if image.width * image.height > MAX_PIXELS
+  end
+
+  # Keep only the EXIF block. libvips 8.15 replaced `strip` with `keep`.
+  def save_options
+    Vips.at_least_libvips?(8, 15) ? { keep: :exif } : { strip: false }
   end
 
   # Shrinks while decoding (so a huge image never lives in memory at full

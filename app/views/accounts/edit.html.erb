@@ -1,8 +1,9 @@
+<% page_meta :account_edit %>
 <main class="main">
   <section class="account-dashboard">
     <div class="account-form-header">
       <h1><%= t("auth.edit_profile_title") %></h1>
-      <%= link_to t("auth.back_to_account"), account_path, class: "btn-outline-dark", data: { turbo: false } %>
+      <%= link_to t("auth.back_to_account"), account_path, class: "btn-outline-dark account-back-btn", data: { turbo: false } %>
     </div>
 
     <% if @user.errors.any? %>
@@ -24,10 +25,13 @@
         </div>
 
         <div class="avatar-controls">
-          <%= form_with url: avatar_path, method: :patch, multipart: true, class: "avatar-upload-form", data: { turbo: false } do %>
-            <label for="avatar_file" class="visually-hidden"><%= t("auth.avatar_choose") %></label>
-            <input type="file" name="avatar" id="avatar_file" accept="image/jpeg,image/png,image/webp" required>
-            <%= submit_tag t("auth.avatar_upload"), class: "btn-primary avatar-btn" %>
+          <%= form_with url: avatar_path, method: :patch, multipart: true, class: "avatar-upload-form",
+                        data: { turbo: false, controller: "file-picker", file_picker_empty_value: t("auth.avatar_no_file") } do %>
+            <input type="file" name="avatar" id="avatar_file" class="file-picker-input" accept="image/jpeg,image/png,image/webp" required
+                   data-file-picker-target="input" data-action="change->file-picker#update">
+            <label for="avatar_file" class="btn-outline-dark file-picker-btn"><%= t("auth.avatar_choose") %></label>
+            <span class="file-picker-name" data-file-picker-target="name"><%= t("auth.avatar_no_file") %></span>
+            <%= submit_tag t("auth.avatar_upload"), class: "btn-primary avatar-btn", data: { file_picker_target: "submit" } %>
           <% end %>
 
           <% if @user.avatar.attached? %>

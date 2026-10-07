@@ -26,9 +26,9 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
-  test "uploading stores only a sanitized 256x256 WebP under a fixed name" do
+  test "uploading stores only a re-encoded 256x256 WebP under a fixed name, keeping its EXIF" do
     sign_in
-    upload(image_file("jpg", width: 900, height: 500, exif: "SECRET-MARKER"), type: "image/jpeg")
+    upload(image_file("jpg", width: 900, height: 500, exif: "Merta-Sawmill"), type: "image/jpeg")
 
     assert_redirected_to edit_account_path
     assert_equal I18n.t("auth.avatar_updated"), flash[:notice]
@@ -37,10 +37,10 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     assert avatar.attached?
     assert_equal "image/webp", avatar.content_type
     assert_equal "avatar.webp", avatar.filename.to_s
-    assert_not_includes avatar.download, "SECRET-MARKER"
 
     image = Vips::Image.new_from_buffer(avatar.download, "")
     assert_equal [256, 256], [image.width, image.height]
+    assert_includes image.get("exif-ifd0-Copyright"), "Merta-Sawmill"
   end
 
   test "ignores the filename and content type the browser claims" do

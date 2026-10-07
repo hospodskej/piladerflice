@@ -29,14 +29,14 @@ class AvatarSanitizerTest < ActiveSupport::TestCase
     assert_equal [256, 256], [image.width, image.height]
   end
 
-  test "strips EXIF metadata such as GPS and copyright" do
-    upload = image_file("jpg", exif: "SECRET-MARKER")
-    assert_includes File.binread(upload.path), "SECRET-MARKER"
+  test "keeps the EXIF metadata of the original" do
+    output = sanitize(image_file("jpg", exif: "Merta-Sawmill"))
 
-    output = sanitize(upload)
+    assert_includes decode(output).get("exif-ifd0-Copyright"), "Merta-Sawmill"
+  end
 
-    assert_not_includes output, "SECRET-MARKER"
-    assert_empty decode(output).get_fields.grep(/exif/)
+  test "a jpeg without EXIF still works" do
+    assert_empty decode(sanitize(image_file("png"))).get_fields.grep(/exif-ifd0-Copyright/)
   end
 
   test "drops a payload appended to a valid image (polyglot file)" do
@@ -47,6 +47,16 @@ class AvatarSanitizerTest < ActiveSupport::TestCase
 
     assert_not_includes output, "<script"
     assert_not_includes output, "<?php"
+  end
+
+  test "EXIF is kept, but a payload appended after it still isn't" do
+    payload = "<script>alert(1)</script>"
+    upload = raw_file("jpg", File.binread(image_file("jpg", exif: "keep-me").path) + payload)
+
+    output = sanitize(upload)
+
+    assert_includes decode(output).get("exif-ifd0-Copyright"), "keep-me"
+    assert_not_includes output, "<script"
   end
 
   test "trusts the bytes, not the file extension" do

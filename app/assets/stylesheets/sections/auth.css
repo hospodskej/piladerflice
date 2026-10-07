@@ -385,9 +385,77 @@
 
 .avatar-btn {
     margin: 0;
-    font-size: 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
     padding: 10px 22px;
     cursor: pointer;
+}
+
+input.avatar-btn.btn-primary {
+    border: 0;
+}
+
+.avatar-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Outline buttons on the account pages (the base class has no styles of its
+   own): same rounded look as the primary buttons. */
+.account-dashboard .btn-outline-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px 22px;
+    border: 1.5px solid #000000;
+    border-radius: 8px;
+    background: transparent;
+    color: #000000;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.account-dashboard .btn-outline-dark:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+.account-dashboard .btn-primary {
+    border-radius: 8px;
+}
+
+/* The real file input stays in the page (so it submits and takes keyboard
+   focus) but is hidden; its label is the visible button. */
+.file-picker-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.file-picker-input:focus-visible + .file-picker-btn {
+    outline: 3px solid #2C8FFF;
+    outline-offset: 2px;
+}
+
+.file-picker-name {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.file-picker-name.has-file {
+    color: #000000;
 }
 
 .avatar-hint {

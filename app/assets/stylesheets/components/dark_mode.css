@@ -771,3 +771,11 @@ html.dark-mode .checkout-confirmation-mascot {
 html.dark-mode .avatar-hint {
     color: #a8adb5;
 }
+
+html.dark-mode .file-picker-name {
+    color: #a8adb5;
+}
+
+html.dark-mode .file-picker-name.has-file {
+    color: #e8eaed;
+}

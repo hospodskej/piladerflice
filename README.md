@@ -8,7 +8,7 @@
 
 ### Requirements
 
-- The **libvips** system library (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
+- The **libvips** system library, 8.15 or newer preferred (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
 - Profile pictures are checked in the app (2 MB, 25 megapixels, JPG/PNG/WebP only), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
 
 ## Roadmap
@@ -67,7 +67,7 @@ The tracking code is already in the layout (measurement ID `G-CMJ46E7F3G`, loade
 
 ### SEO
 
-The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. It is spread over the entries below: meta descriptions, unique page titles, social share image, local business schema and clickable phone/email. Once those are done, also:
+The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Still open: the social share image and local business schema entries below. Once those are done, also:
 
 - Add canonical links and `hreflang` tags tying the Czech and German versions of each page together (the sitemap already declares the pair, the pages themselves don't)
 - Check heading structure (one `h1` per page) and image `alt` texts on the main pages
@@ -84,14 +84,6 @@ The three mascot illustrations live in `app/assets/images/mascot/` and currently
 ### Team photo
 
 A real photo of Štěpán Merta / the team for the "O nás" section, replacing the current stock/illustration imagery.
-
-### Meta descriptions
-
-No page sets one, so Google just auto-grabs random text from the page for the search result snippet instead of something written to get clicks.
-
-### Unique page titles
-
-Only one view sets a custom `<title>` - every other page (eshop, every product page, cart, checkout, account, etc.) shows the generic "Pila Derflice" title.
 
 ### Social share image
 

@@ -697,11 +697,11 @@ html.dark-mode .cenik-sluzba-box {
     border-color: #3a3f46;
 }
 
-html.dark-mode .cenik-table tr:nth-child(odd) {
+html.dark-mode .cenik-table tr:nth-child(odd) td {
     background-color: #1f2226;
 }
 
-html.dark-mode .cenik-table tr:nth-child(even) {
+html.dark-mode .cenik-table tr:nth-child(even) td {
     background-color: #181a1d;
 }
 

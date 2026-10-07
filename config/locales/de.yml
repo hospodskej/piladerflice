@@ -52,6 +52,9 @@ de:
     eshop_kamenivo:
       title: "Ziersteine – Onlineshop"
       description: "Ziersteine online bestellen: Findlinge und Kieselsteine in Säcken oder lose, ab 1 Kč pro 1 kg."
+    area_served:
+      south_moravia: "Südmähren"
+      north_austria: "Nordösterreich"
     product_fallback: "%{title} vom Sägewerk Derflice. Online bestellen mit Lieferung in Südmähren und Nordösterreich."
     cart:
       title: "Warenkorb"

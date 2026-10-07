@@ -52,6 +52,9 @@ cs:
     eshop_kamenivo:
       title: "Okrasné kamenivo – e-shop"
       description: "Objednejte okrasné kamenivo online, valouny a oblázky v pytlích nebo volně ložené, od 1 Kč za 1 kg."
+    area_served:
+      south_moravia: "Jižní Morava"
+      north_austria: "Severní Rakousko"
     product_fallback: "%{title} z pily Derflice. Objednejte online s dovozem po Jižní Moravě a severním Rakousku."
     cart:
       title: "Košík"

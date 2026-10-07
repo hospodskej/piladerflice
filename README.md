@@ -67,7 +67,7 @@ The tracking code is already in the layout (measurement ID `G-CMJ46E7F3G`, loade
 
 ### SEO
 
-The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Still open: the social share image and local business schema entries below. Once those are done, also:
+The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Local business schema (JSON-LD on the home and contact pages) is done too. Still open: the social share image entry below (a designer is making the image). Once that is done, also:
 
 - Add canonical links and `hreflang` tags tying the Czech and German versions of each page together (the sitemap already declares the pair, the pages themselves don't)
 - Check heading structure (one `h1` per page) and image `alt` texts on the main pages
@@ -79,7 +79,7 @@ The privacy policy (`legal.privacy_content_html` in `config/locales/cs.yml` and 
 
 ### Use the mascots elsewhere
 
-The three mascot illustrations live in `app/assets/images/mascot/` and currently only appear (one picked at random) on the 404 page. They could also show up on the empty cart, order confirmation, loading states and the "O nás" section.
+The three mascot illustrations live in `app/assets/images/mascot/` and currently appear on the 404 page (one picked at random) and the order confirmation page (the thumbs-up one). They could also show up on the empty cart, loading states and the "O nás" section.
 
 ### Team photo
 
@@ -88,111 +88,3 @@ A real photo of Štěpán Merta / the team for the "O nás" section, replacing t
 ### Social share image
 
 No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
-
-### Local business schema
-
-No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google Maps visibility.
-
----
-
-Patch 0.8.80: Real dark mode palette (was a color-invert filter), fixed 500 on terms/cookie-policy pages  
-Patch 0.8.79: Made bestseller, TOP kategorie, and recommendation images clickable  
-Patch 0.8.77: Admin-uploaded images get losslessly shrunk on upload (gems only, no server dependency)  
-Patch 0.8.76: Converted every static site image to WebP ahead of time (168MB -> 29MB), no server dependency needed  
-Patch 0.8.74: SVG flags for phone dropdown  
-Patch 0.8.73: Phone prefix dropdown  
-Patch 0.8.72: Edit profile page, removed old admin login  
-Patch 0.8.71: Account dashboard redesign  
-Patch 0.8.70: Order history & reorder  
-Patch 0.8.69: Fixed registration error messages  
-Patch 0.8.68: Admin "back to site" link  
-Patch 0.8.67: Customer login & registration  
-Patch 0.8.66: Gold review stars in dark mode  
-Patch 0.8.65: Sticky header logo  
-Patch 0.8.64: Softer dark mode colors  
-Patch 0.8.63: Renamed admin promo section  
-Patch 0.8.62: Renamed hero badge  
-Patch 0.8.61: Live bestseller data on homepage  
-Patch 0.8.60: Fixed image upload crash  
-Patch 0.8.59: Per-variant product images  
-Patch 0.8.58: Real image uploads  
-Patch 0.8.57: Weekly rotating promos  
-Patch 0.8.56: Google Search Console setup  
-Patch 0.8.55: GA4 purchase tracking  
-Patch 0.8.54: Header & analytics tweaks  
-Patch 0.8.53: Added dark mode  
-Patch 0.8.52: Cookie consent banner  
-Patch 0.8.51: Polished eshop cards  
-Patch 0.8.50: Reverted header size change  
-Patch 0.8.49: Removed firewood qty stepper  
-Patch 0.8.48: Hero title wrap fix  
-Patch 0.8.47: Sleeker promo overlay  
-Patch 0.8.46: Fixed FAQ accordion bug  
-Patch 0.8.45: Fixed promo card crop  
-Patch 0.8.44: Lumber dimension filter  
-Patch 0.8.43: Fixed eshop card overflow  
-Patch 0.8.42: Redesigned lumber cards  
-Patch 0.8.41: Checkout terms error message  
-Patch 0.8.40: Added terms & conditions  
-Patch 0.8.39: Mobile overhaul  
-Patch 0.8.38: Centered reviews row  
-Patch 0.8.37: Hero button alignment fix  
-Patch 0.8.36: Real reviewer photos  
-Patch 0.8.35: Reviews carousel fix  
-Patch 0.8.34: Fixed carousel overlap bug  
-Patch 0.8.33: Resized review cards  
-Patch 0.8.32: Fixed reviews carousel loop  
-Patch 0.8.31: Added Google reviews section  
-Patch 0.8.30: Centered promo text  
-Patch 0.8.29: Added truck fleet info  
-Patch 0.8.28: Extended homepage alignment  
-Patch 0.8.27: Carousel fleet info + dots  
-Patch 0.8.26: Fixed promo shadow overflow  
-Patch 0.8.25: Fixed promo image overflow  
-Patch 0.8.24: Unified homepage width  
-Patch 0.8.23: FAQ box alignment fix  
-Patch 0.8.22: Added homepage FAQ section  
-Patch 0.8.21: Widened gallery block  
-Patch 0.8.20: Widened "Co je nového" image  
-Patch 0.8.19: Added "Co je nového" section  
-Patch 0.8.18: Reverted carousel borders  
-Patch 0.8.17: Blue carousel hover borders  
-Patch 0.8.16: Lumber dims cm to mm  
-Patch 0.8.15: Accordion hover color fix  
-Patch 0.8.14: Numeric-only custom values  
-Patch 0.8.13: Custom values keep units  
-Patch 0.8.12: Custom values merge to dropdown  
-Patch 0.8.11: Limited custom value field  
-Patch 0.8.10: Fixed admin column misalignment  
-Patch 0.8.9: Dashboard stats + order delete  
-Patch 0.8.8: Admin-editable kalkulace options  
-Patch 0.8.7: Added test suite, 2 bugfixes  
-Patch 0.8.6: Clickable "Co vám můžeme nabídnout" images  
-Patch 0.8.5: Clickable eshop product images  
-Patch 0.8.4: Randomized eshop product recommendations  
-Patch 0.8.3: Fixed product image cropping on eshop/sortiment  
-Patch 0.8.2: Removed unused CSS, images & JS  
-Patch 0.8.1: Kalkulace form now saves inquiries and shows them in admin  
-Patch 0.8.0: Admin migration  
-Patch 0.7.8: SMTP Ready  
-Patch 0.7.7: Preparation for SMTP  
-Patch 0.7.6: Added checkout page  
-Patch 0.7.5: Fixed "do košíku" buttons on eshop  
-Patch 0.7.4: Fixed cart button + eshop routing  
-Patch 0.7.3: Cart button  
-Patch 0.7.2: Cart UI fixes 2  
-Patch 0.7.1: Cart UI fixes  
-Patch 0.7.0: Added Cart and Eshop currency  
-Patch 0.6.3: UI/UX fixes, clickable icon  
-Patch 0.6.2: Added currency converter  
-Patch 0.6.1: Added README.md updates  
-Patch 0.6.0: Added translation for Austrian customers  
-Patch 0.5.0: Prepared for translation  
-Patch 0.4.0: Added eshop  
-Patch 0.3.0: Added breadcrumbs  
-Patch 0.2.4: UI/UX fixes  
-Patch 0.2.3: UI/UX fixes  
-Patch 0.2.2: UI/UX fixes  
-Patch 0.2.1: Finished Main, Kontakty & Ceník pages  
-Patch 0.2.0: Set up Main page  
-Patch 0.1.0: Migrated from Static website into Ruby on Rails

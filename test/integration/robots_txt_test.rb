@@ -12,6 +12,15 @@ class RobotsTxtTest < ActionDispatch::IntegrationTest
     PRIVATE_PATHS.each { |path| assert_match(/^Disallow: #{Regexp.escape(path)}$/, response.body) }
   end
 
+  test "robots.txt points crawlers at the sitemap using the host they asked for" do
+    get "/robots.txt"
+    assert_match(%r{^Sitemap: http://www\.example\.com/sitemap\.xml$}, response.body)
+
+    host! "shop.example.cz"
+    get "/robots.txt"
+    assert_match(%r{^Sitemap: http://shop\.example\.cz/sitemap\.xml$}, response.body)
+  end
+
   test "robots.txt keeps the rules directly under User-agent, with no blank line splitting the group" do
     get "/robots.txt"
 

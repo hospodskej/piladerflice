@@ -90,4 +90,9 @@ A real photo of Štěpán Merta / the team for the "O nás" section, replacing t
 
 ### Social share image
 
-No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
+The Open Graph / Twitter tags are in place (title, description, address and language of each page) but there are no cards yet, so a shared link has no picture. A designer is making them: two files, **1200x630 px**, PNG or JPG, ideally under 300 KB, one per language:
+
+- `app/assets/images/share/share-cs.png` - used for the Czech site
+- `app/assets/images/share/share-de.png` - used for the Austrian German site (`/at`)
+
+Drop them in and restart; nothing else to change. A language without a card just has no picture.

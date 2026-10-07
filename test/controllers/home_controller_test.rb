@@ -44,6 +44,11 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.breadcrumb-item[href='/eshop?category=rezivo']", text: "Stavební řezivo"
   end
 
+  test "icon-only add-to-cart button keeps an accessible label" do
+    get eshop_product_url(catalog_products(:tramy).key)
+    assert_select "form.add-to-cart-form button[type=submit][aria-label=?][title=?] svg", "Do košíku", "Do košíku"
+  end
+
   test "product created in the admin gets a detail page without code changes" do
     product = CatalogProduct.create!(key: "prkna-iii", template: "lumber", category: "rezivo", title: "Prkna III")
     product.catalog_variants.create!(key: "iii-3000", grade: "III. jakostní třída", length_label: "3 000 mm", price_czk: 4_000)

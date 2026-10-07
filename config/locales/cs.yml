@@ -2,6 +2,16 @@ cs:
   site:
     name: "Pila Derflice"
 
+  not_found:
+    title: "Stránka nenalezena"
+    heading: "Tady nic není"
+    text: "Stránku, kterou hledáte, jsme nenašli. Možná byla přesunuta nebo je v adrese překlep."
+    home: "Zpět na úvodní stránku"
+    alt: "Maskot Pily Derflice"
+    eshop: "Eshop"
+    sortiment: "Sortiment"
+    kontakt: "Kontakt"
+
   auth:
     login_title: "Přihlášení"
     password: "Heslo"

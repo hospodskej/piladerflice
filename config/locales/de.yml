@@ -2,6 +2,16 @@ de:
   site:
     name: "Pila Derflice"
 
+  not_found:
+    title: "Seite nicht gefunden"
+    heading: "Hier ist nichts"
+    text: "Die gesuchte Seite haben wir nicht gefunden. Vielleicht wurde sie verschoben oder die Adresse enthält einen Tippfehler."
+    home: "Zurück zur Startseite"
+    alt: "Maskottchen der Pila Derflice"
+    eshop: "Eshop"
+    sortiment: "Sortiment"
+    kontakt: "Kontakt"
+
   auth:
     login_title: "Anmeldung"
     password: "Passwort"

@@ -28,6 +28,10 @@ module PilaDerflice
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Render errors (404 for unknown URLs and missing records) through our own
+    # routes so they get the site layout instead of the static public/*.html.
+    config.exceptions_app = routes
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

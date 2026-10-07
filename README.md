@@ -42,10 +42,6 @@ A `Review` model already exists, currently just holding imported Google reviews.
 - Needs light moderation before a review goes public
 - Likely gated to customers who actually have an order for that product
 
-### Custom 404 page
-
-`public/404.html` is still the generic Rails default (plain English, not styled to match the site) rather than something branded and in Czech.
-
 ### Google Search Console
 
 Not set up yet - nobody has done it since the site isn't live. The old verification tag was removed from the layout, so this starts from scratch once the site is live.
@@ -76,9 +72,9 @@ The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work i
 
 The privacy policy (`legal.privacy_content_html` in `config/locales/cs.yml` and `de.yml`) was drafted before the server was live. Once the server is up and running, update it with the real hosting and e-mail providers, confirm the retention periods and the Google Analytics retention setting, and have it reviewed (ideally by a lawyer).
 
-### Team mascot
+### Use the mascots elsewhere
 
-An illustrated mascot for the brand - could double as the face of the 404 page, loading states, etc.
+The three mascot illustrations live in `app/assets/images/mascot/` and currently only appear (one picked at random) on the 404 page. They could also show up on the empty cart, order confirmation, loading states and the "O nás" section.
 
 ### Team photo
 

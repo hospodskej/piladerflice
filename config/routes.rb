@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  match "/404", to: "errors#not_found", via: :all
+
   get "robots.txt", to: "robots#show", defaults: { format: :text }
   get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: :xml }
 

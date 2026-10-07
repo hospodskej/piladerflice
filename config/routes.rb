@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  # The German site lives under /de (the Czech default has no prefix), so a
+  # The (Austrian) German site lives under /at (the Czech default has no prefix), so a
   # link always opens in the language it was shared in. Controllers add the
   # current locale to every generated URL (see default_url_options in
   # ApplicationController); routes outside this scope, like the admin area,
   # stay Czech and unprefixed.
-  scope "(:locale)", locale: /de/ do
+  scope "(:locale)", locale: /at/ do
     root "home#index"
   end
 
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope "(:locale)", locale: /de/ do
+  scope "(:locale)", locale: /at/ do
     get "kontakt", to: "home#kontakt", as: :kontakt
     get "sluzby", to: "home#sluzby", as: :sluzby
     get "sortiment", to: "home#sortiment", as: :sortiment

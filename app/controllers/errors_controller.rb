@@ -22,8 +22,8 @@ class ErrorsController < ApplicationController
   private
 
   # Rails rewrites the path to /404 for this page, so look at the URL that was
-  # asked for: /de/whatever gets the German 404.
+  # asked for: /at/whatever gets the German 404.
   def locale_from_path
-    LocalizedPath.call(original_request_path, "de") == original_request_path ? "de" : I18n.default_locale
+    LocalizedPath.locale_for(original_request_path[%r{\A/([^/?#]+)}, 1]) || I18n.default_locale
   end
 end

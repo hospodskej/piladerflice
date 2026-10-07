@@ -18,7 +18,7 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "404 page is translated" do
-    get "/de/this-page-does-not-exist"
+    get "/at/this-page-does-not-exist"
 
     assert_response :not_found
     assert_select "h1", "Hier ist nichts"

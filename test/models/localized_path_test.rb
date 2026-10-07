@@ -7,26 +7,26 @@ class LocalizedPathTest < ActiveSupport::TestCase
     assert_equal "/", LocalizedPath.call("/", "cs")
   end
 
-  test "German paths get the /de prefix, keeping query and anchor" do
-    assert_equal "/de/kontakt#cenik", LocalizedPath.call("/kontakt#cenik", "de")
-    assert_equal "/de/eshop?category=rezivo&sort=x", LocalizedPath.call("/eshop?category=rezivo&sort=x", :de)
-    assert_equal "/de/sortiment/palivove-drevo", LocalizedPath.call("/sortiment/palivove-drevo", "de")
+  test "German paths get the /at prefix, keeping query and anchor" do
+    assert_equal "/at/kontakt#cenik", LocalizedPath.call("/kontakt#cenik", "de")
+    assert_equal "/at/eshop?category=rezivo&sort=x", LocalizedPath.call("/eshop?category=rezivo&sort=x", :de)
+    assert_equal "/at/sortiment/palivove-drevo", LocalizedPath.call("/sortiment/palivove-drevo", "de")
   end
 
-  test "the home page is /de, not /de/" do
-    assert_equal "/de", LocalizedPath.call("/", "de")
-    assert_equal "/de?x=1", LocalizedPath.call("/?x=1", "de")
+  test "the home page is /at, not /at/" do
+    assert_equal "/at", LocalizedPath.call("/", "de")
+    assert_equal "/at?x=1", LocalizedPath.call("/?x=1", "de")
   end
 
   test "switching language replaces the prefix instead of stacking it" do
-    assert_equal "/de/kontakt", LocalizedPath.call("/de/kontakt", "de")
-    assert_equal "/kontakt", LocalizedPath.call("/de/kontakt", "cs")
-    assert_equal "/", LocalizedPath.call("/de", "cs")
-    assert_equal "/?x=1", LocalizedPath.call("/de?x=1", "cs")
+    assert_equal "/at/kontakt", LocalizedPath.call("/at/kontakt", "de")
+    assert_equal "/kontakt", LocalizedPath.call("/at/kontakt", "cs")
+    assert_equal "/", LocalizedPath.call("/at", "cs")
+    assert_equal "/?x=1", LocalizedPath.call("/at?x=1", "cs")
   end
 
   test "a path that merely starts with the letters de isn't treated as a prefix" do
-    assert_equal "/de/delivery", LocalizedPath.call("/delivery", "de")
+    assert_equal "/at/delivery", LocalizedPath.call("/delivery", "de")
     assert_equal "/delivery", LocalizedPath.call("/delivery", "cs")
     assert_equal "/dekujeme", LocalizedPath.call("/dekujeme", "cs")
   end
@@ -39,8 +39,18 @@ class LocalizedPathTest < ActiveSupport::TestCase
   end
 
   test "strip" do
-    assert_equal "/kontakt", LocalizedPath.strip("/de/kontakt")
-    assert_equal "/", LocalizedPath.strip("/de")
+    assert_equal "/kontakt", LocalizedPath.strip("/at/kontakt")
+    assert_equal "/", LocalizedPath.strip("/at")
     assert_equal "/", LocalizedPath.strip("/")
+  end
+
+  test "the German site is the Austrian one: prefix /at, never /de" do
+    assert_equal "/at/kontakt", LocalizedPath.call("/kontakt", "de")
+    assert_equal "/kontakt", LocalizedPath.call("/de/kontakt", "cs").sub(%r{\A/de/}, "/"), "a stray /de prefix is just another path"
+    assert_equal "de", LocalizedPath.locale_for("at")
+    assert_nil LocalizedPath.locale_for("de")
+    assert_nil LocalizedPath.locale_for(nil)
+    assert_equal "at", LocalizedPath.segment_for(:de)
+    assert_nil LocalizedPath.segment_for(:cs)
   end
 end

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # The language is part of the URL: /de/... is German, everything else is
+  # The language is part of the URL: /at/... is (Austrian) German, everything else is
   # Czech. (It used to live in the session, so a shared link opened in Czech.)
   def set_locale
     I18n.locale = locale_from_path
@@ -18,12 +18,11 @@ class ApplicationController < ActionController::Base
   # current page, so links never drop out of German (and positional arguments
   # like eshop_product_path(key) keep working). Czech is the unprefixed default.
   def default_url_options
-    { locale: I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale }
+    { locale: LocalizedPath.segment_for(I18n.locale) }
   end
 
   def locale_from_path
-    requested = request.path_parameters[:locale].to_s
-    I18n.available_locales.map(&:to_s).include?(requested) ? requested : I18n.default_locale
+    LocalizedPath.locale_for(request.path_parameters[:locale]) || I18n.default_locale
   end
 
   # Links shared before the switch looked like /kontakt?locale=de. Send them
@@ -40,8 +39,8 @@ class ApplicationController < ActionController::Base
     redirect_to target, status: :moved_permanently
   end
 
-  # "/kontakt#cenik" -> "/de/kontakt#cenik" in German. Paths that already start
-  # with /de, or that aren't site paths, are returned as they are.
+  # "/kontakt#cenik" -> "/at/kontakt#cenik" in German. Paths that already start
+  # with /at, or that aren't site paths, are returned as they are.
   def localized_path(path, locale: I18n.locale)
     LocalizedPath.call(path, locale)
   end

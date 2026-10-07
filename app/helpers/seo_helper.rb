@@ -1,4 +1,7 @@
 module SeoHelper
+  # The German version is for Austria.
+  HREFLANG = { "cs" => "cs", "de" => "de-AT" }.freeze
+
   # <link rel="canonical"> and the hreflang alternates for the Czech and
   # German versions of a public page (the pages page_meta gave a description).
   # Only the query parameters that change what the page shows are kept.
@@ -12,7 +15,7 @@ module SeoHelper
 
     safe_join([
       tag.link(rel: "canonical", href: hrefs.fetch(I18n.locale.to_s)),
-      *hrefs.map { |locale, href| tag.link(rel: "alternate", hreflang: locale, href: href) },
+      *hrefs.map { |locale, href| tag.link(rel: "alternate", hreflang: HREFLANG.fetch(locale), href: href) },
       tag.link(rel: "alternate", hreflang: "x-default", href: hrefs.fetch("cs"))
     ], "\n")
   end

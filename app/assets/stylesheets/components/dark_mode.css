@@ -767,3 +767,7 @@ html.dark-mode .auth-privacy-note {
 html.dark-mode .checkout-confirmation-mascot {
     filter: brightness(1.35);
 }
+
+html.dark-mode .avatar-hint {
+    color: #a8adb5;
+}

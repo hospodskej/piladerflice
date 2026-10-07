@@ -1,4 +1,12 @@
 module ApplicationHelper
+  # The signed-in user's profile picture. The checksum in the URL changes
+  # whenever the picture does, so browsers can cache it for a long time.
+  def avatar_image_tag(user, **options)
+    return unless user&.avatar&.attached?
+
+    image_tag avatar_path(v: user.avatar.blob.checksum.first(12)), alt: t("auth.avatar_alt"), **options
+  end
+
   def image_tag_if_attached(attachment, **options)
     return unless attachment&.attached?
     return unless attachment.blob&.persisted?

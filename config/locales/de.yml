@@ -45,6 +45,21 @@ de:
     back_to_account: "Zurück zum Konto"
     save_profile: "Änderungen speichern"
     profile_updated: "Ihre Daten wurden gespeichert."
+    avatar_title: "Profilbild"
+    avatar_alt: "Ihr Profilbild"
+    avatar_choose: "Bild auswählen"
+    avatar_upload: "Bild hochladen"
+    avatar_remove: "Bild entfernen"
+    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px und entfernen versteckte Daten (zum Beispiel den Standort)."
+    avatar_updated: "Das Profilbild wurde gespeichert."
+    avatar_removed: "Das Profilbild wurde entfernt."
+    avatar_errors:
+      none_selected: "Sie haben kein Bild ausgewählt."
+      too_large: "Die Datei ist zu groß (höchstens 2 MB)."
+      unsupported_type: "Wir unterstützen nur JPG-, PNG- und WebP-Bilder."
+      too_many_pixels: "Die Auflösung des Bildes ist zu hoch (höchstens 25 Megapixel)."
+      unreadable: "Das Bild konnte nicht gelesen werden. Bitte versuchen Sie eine andere Datei."
+      rate_limited: "Zu viele Upload-Versuche. Bitte versuchen Sie es gleich noch einmal."
     phone_prefix_label: "Vorwahl"
 
   nav:
@@ -726,8 +741,8 @@ de:
 
       <h3>2.2 Kundenkonto</h3>
       <ul>
-        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie. Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
-        <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen) und Sicherheit des Kontos.</li>
+        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie, gegebenenfalls ein Profilbild, wenn Sie eines hochladen (wir speichern es nur auf 256 × 256 px verkleinert und ohne versteckte Daten wie den Standort und zeigen es nur Ihnen). Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
+        <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen), Anzeige Ihres Profilbilds und Sicherheit des Kontos.</li>
         <li><strong>Rechtsgrundlage:</strong> Erfüllung des Vertrags über die Kontoführung (Art. 6 Abs. 1 lit. b DSGVO); für IP-Adresse und Browserangaben unser berechtigtes Interesse an der Sicherheit der Konten (Art. 6 Abs. 1 lit. f DSGVO).</li>
         <li><strong>Speicherdauer:</strong> die Kontodaten bis zur Löschung des Kontos, die wir auf Ihren Wunsch per E-Mail vornehmen; die Anmeldedaten, solange Sie angemeldet sind (sie werden bei der Abmeldung gelöscht). Daten zu bereits abgewickelten Bestellungen bewahren wir weiterhin gemäß Punkt 2.1 auf.</li>
       </ul>

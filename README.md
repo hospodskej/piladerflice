@@ -6,6 +6,11 @@
 - `rails db:seed`
 - `rails server`
 
+### Requirements
+
+- The **libvips** system library (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
+- Profile pictures are checked in the app (2 MB, 25 megapixels, JPG/PNG/WebP only), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
+
 ## Roadmap
 
 Bigger things we've talked about but haven't built yet.

@@ -45,6 +45,21 @@ cs:
     back_to_account: "Zpět na účet"
     save_profile: "Uložit změny"
     profile_updated: "Vaše údaje byly uloženy."
+    avatar_title: "Profilový obrázek"
+    avatar_alt: "Váš profilový obrázek"
+    avatar_choose: "Vyberte obrázek"
+    avatar_upload: "Nahrát obrázek"
+    avatar_remove: "Odstranit obrázek"
+    avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px a odstraníme z něj skrytá data (například polohu)."
+    avatar_updated: "Profilový obrázek byl uložen."
+    avatar_removed: "Profilový obrázek byl odstraněn."
+    avatar_errors:
+      none_selected: "Nevybrali jste žádný obrázek."
+      too_large: "Soubor je příliš velký (nejvýše 2 MB)."
+      unsupported_type: "Podporujeme pouze obrázky JPG, PNG a WebP."
+      too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
+      unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
+      rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
     phone_prefix_label: "Předvolba"
 
   nav:
@@ -746,8 +761,8 @@ cs:
 
       <h3>2.2 Zákaznický účet</h3>
       <ul>
-        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek. Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
-        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky) a zabezpečení účtu.</li>
+        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek, případně profilový obrázek, pokud si jej nahrajete (ukládáme jej pouze zmenšený na 256 × 256 px a bez skrytých dat, např. polohy, a zobrazujeme jej jen vám). Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
+        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky), zobrazení vašeho profilového obrázku a zabezpečení účtu.</li>
         <li><strong>Právní základ:</strong> plnění smlouvy o vedení účtu (čl. 6 odst. 1 písm. b) GDPR); u IP adresy a údajů o prohlížeči náš oprávněný zájem na zabezpečení účtů (čl. 6 odst. 1 písm. f) GDPR).</li>
         <li><strong>Doba uchování:</strong> údaje účtu do jeho zrušení, které provedeme na vaši žádost zaslanou e-mailem; údaje o přihlášení po dobu, kdy jste přihlášeni (při odhlášení se smažou). Údaje o již vyřízených objednávkách uchováváme dále podle bodu 2.1.</li>
       </ul>

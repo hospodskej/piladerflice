@@ -16,6 +16,29 @@
       </div>
     <% end %>
 
+    <div class="checkout-box avatar-box">
+      <h3 class="checkout-box-title"><%= t("auth.avatar_title") %></h3>
+      <div class="checkout-box-body avatar-box-body">
+        <div class="account-avatar avatar-preview">
+          <%= avatar_image_tag(@user, width: 64, height: 64) || @user.email_address.first.upcase %>
+        </div>
+
+        <div class="avatar-controls">
+          <%= form_with url: avatar_path, method: :patch, multipart: true, class: "avatar-upload-form", data: { turbo: false } do %>
+            <label for="avatar_file" class="visually-hidden"><%= t("auth.avatar_choose") %></label>
+            <input type="file" name="avatar" id="avatar_file" accept="image/jpeg,image/png,image/webp" required>
+            <%= submit_tag t("auth.avatar_upload"), class: "btn-primary avatar-btn" %>
+          <% end %>
+
+          <% if @user.avatar.attached? %>
+            <%= button_to t("auth.avatar_remove"), avatar_path, method: :delete, class: "btn-outline-dark avatar-btn", form: { data: { turbo: false } } %>
+          <% end %>
+
+          <p class="avatar-hint"><%= t("auth.avatar_hint") %></p>
+        </div>
+      </div>
+    </div>
+
     <%= form_with url: update_account_path, method: :patch, scope: :user, class: "checkout-main-col" do %>
       <div class="checkout-box">
         <h3 class="checkout-box-title"><%= t("checkout.personal_details") %></h3>

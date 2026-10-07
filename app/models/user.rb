@@ -14,6 +14,9 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :orders, dependent: :nullify
 
+  # Only ever holds the sanitized WebP from AvatarSanitizer, see AvatarsController.
+  has_one_attached :avatar
+
   normalizes :email_address, with: ->(email) { email.strip.downcase }
 
   validates :email_address, presence: true, uniqueness: true

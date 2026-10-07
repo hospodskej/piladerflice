@@ -342,3 +342,73 @@
 .phone-prefix-option:hover {
     background-color: #f1f1f1;
 }
+
+.account-avatar {
+    overflow: hidden;
+}
+
+.account-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-box {
+    margin-bottom: 24px;
+}
+
+.avatar-box-body {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.avatar-preview {
+    width: 96px;
+    height: 96px;
+    font-size: 2.2rem;
+}
+
+.avatar-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-upload-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-btn {
+    margin: 0;
+    font-size: 1rem;
+    padding: 10px 22px;
+    cursor: pointer;
+}
+
+.avatar-hint {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666666;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .avatar-box-body {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class RobotsTxtTest < ActionDispatch::IntegrationTest
-  PRIVATE_PATHS = %w[/admin /kosik /muj-ucet /prihlaseni /registrace].freeze
+  PRIVATE_PATHS = %w[/admin /kosik /muj-ucet /prihlaseni /registrace /de/kosik /de/muj-ucet /de/prihlaseni /de/registrace].freeze
 
   test "robots.txt is served as plain text and blocks the private areas for every crawler" do
     get "/robots.txt"
@@ -38,7 +38,11 @@ class RobotsTxtTest < ActionDispatch::IntegrationTest
   end
 
   test "every blocked path still exists as a route" do
-    app_paths = Rails.application.routes.routes.map { |route| route.path.spec.to_s }
+    # Routes inside the language scope are written "(/:locale)/kosik": /kosik is the Czech form, /de/kosik the German one.
+    app_paths = Rails.application.routes.routes.flat_map do |route|
+      spec = route.path.spec.to_s
+      [spec, spec.sub("(/:locale)", ""), spec.sub("(/:locale)", "/de")]
+    end
 
     PRIVATE_PATHS.each do |path|
       assert app_paths.any? { |route_path| route_path.start_with?(path) }, "#{path} is in robots.txt but no route starts with it"

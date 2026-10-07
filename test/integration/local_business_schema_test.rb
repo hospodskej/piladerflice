@@ -2,7 +2,7 @@ require "test_helper"
 
 class LocalBusinessSchemaTest < ActionDispatch::IntegrationTest
   def schema_for(path, locale: "cs")
-    get path, params: { locale: locale }
+    get LocalizedPath.call(path, locale)
     assert_response :success
     scripts = Nokogiri::HTML(response.body).css('script[type="application/ld+json"]')
     return nil if scripts.empty?
@@ -19,6 +19,7 @@ class LocalBusinessSchemaTest < ActionDispatch::IntegrationTest
     assert_equal "Pila Derflice", data["name"]
     assert_equal "Štěpán Merta", data["legalName"]
     assert_equal "http://www.example.com/", data["url"]
+    assert_equal "http://www.example.com/de", schema_for("/", locale: "de")["url"]
     assert_equal "stepan.merta@seznam.cz", data["email"]
     assert_equal %w[+420602446339 +420515235527], data["telephone"]
     assert data["logo"].start_with?("http://www.example.com/assets/logo-wm"), "logo must be an absolute URL"

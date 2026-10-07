@@ -7,7 +7,10 @@ module ApplicationHelper
     description ||= I18n.t("meta.#{key}.description", default: nil)
 
     content_for :title, (brand_only_title ? title : "#{title} | #{t('site.name')}")
-    content_for :description, description.to_s.squish.truncate(160, separator: " ") if description.present?
+    if description.present?
+      content_for :description, description.to_s.squish.truncate(160, separator: " ")
+      @indexable_page = true
+    end
     nil
   end
 
@@ -23,7 +26,9 @@ module ApplicationHelper
     return unless attachment&.attached?
     return unless attachment.blob&.persisted?
 
-    image_tag(attachment, **options)
+    # locale: nil keeps the language out of the image address (storage URLs
+    # aren't language-specific and shouldn't get "?locale=de").
+    image_tag(rails_storage_redirect_path(attachment.blob, locale: nil), **options)
   end
 
   def image_tag_with_fallback(attachment, fallback, **options)

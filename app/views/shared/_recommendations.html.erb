@@ -10,7 +10,7 @@
   <div class="eshop-grid">
     <% recommendations.each do |product| %>
       <div class="product-card">
-        <%= link_to "/eshop/#{product.key}", class: "product-image-wrapper-eshop", data: { turbo: false } do %>
+        <%= link_to localized_path("/eshop/#{product.key}"), class: "product-image-wrapper-eshop", data: { turbo: false } do %>
           <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "product-img" %>
         <% end %>
         <div class="product-info-eshop">
@@ -24,7 +24,7 @@
               ---
             <% end %>
           </p>
-          <%= link_to t("common.detail"), "/eshop/#{product.key}", class: "btn-primary btn-detail", data: { turbo: false } %>
+          <%= link_to t("common.detail"), localized_path("/eshop/#{product.key}"), class: "btn-primary btn-detail", data: { turbo: false } %>
         </div>
       </div>
     <% end %>

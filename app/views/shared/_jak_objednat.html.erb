@@ -9,7 +9,7 @@
       <% end %>
     </ul>
     <%= image_tag "jak-objednat/drevo.webp", class: "jak-objednat-box-img", alt: t("shared.jak_objednat.online_img_alt") %>
-    <%= link_to t("shared.jak_objednat.online_button"), "/eshop", class: "btn-primary full-width" %>
+    <%= link_to t("shared.jak_objednat.online_button"), localized_path("/eshop"), class: "btn-primary full-width" %>
   </div>
 
   <div class="jak-objednat-box">
@@ -20,7 +20,7 @@
       <% end %>
     </ul>
     <%= image_tag "jak-objednat/pila.webp", class: "jak-objednat-box-img", alt: t("shared.jak_objednat.poptavka_img_alt") %>
-    <%= link_to t("shared.jak_objednat.poptavka_button"), "/kontakt#kalkulace", class: "btn-primary full-width" %>
+    <%= link_to t("shared.jak_objednat.poptavka_button"), localized_path("/kontakt#kalkulace"), class: "btn-primary full-width" %>
   </div>
 
 </div>

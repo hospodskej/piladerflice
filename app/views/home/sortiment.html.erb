@@ -5,7 +5,7 @@
 
     <div class="sortiment-grid-5">
       <% @kategorie.each do |kat| %>
-        <%= link_to kat.link, class: "sortiment-card" do %>
+        <%= link_to localized_path(kat.link), class: "sortiment-card" do %>
 
           <div class="sortiment-card-img">
             <%= image_tag kat.image, alt: kat.title_i18n %>

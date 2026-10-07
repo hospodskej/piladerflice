@@ -5,6 +5,10 @@ class ErrorsController < ApplicationController
   # The error can come from any verb, and there's no form to protect here.
   skip_forgery_protection
 
+  # The query string of the original request is irrelevant here (and
+  # request.path is /404), so no legacy redirect.
+  skip_before_action :redirect_legacy_locale_param
+
   def not_found
     @mascot = MASCOTS.sample
     @breadcrumb_items = []
@@ -13,5 +17,13 @@ class ErrorsController < ApplicationController
       format.html { render status: :not_found }
       format.any { head :not_found }
     end
+  end
+
+  private
+
+  # Rails rewrites the path to /404 for this page, so look at the URL that was
+  # asked for: /de/whatever gets the German 404.
+  def locale_from_path
+    LocalizedPath.call(original_request_path, "de") == original_request_path ? "de" : I18n.default_locale
   end
 end

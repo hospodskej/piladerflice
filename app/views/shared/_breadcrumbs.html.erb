@@ -1,6 +1,6 @@
 <%
   items = @breadcrumb_items || begin
-                                 segments = request.path.split('/').reject(&:blank?)
+                                 segments = LocalizedPath.strip(request.path).split('/').reject(&:blank?)
                                  current_path = ""
                                  name_map = {
                                    "sortiment" => t("breadcrumbs.sortiment"),
@@ -42,7 +42,7 @@
         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
       </svg>
 
-      <%= link_to name, path, class: "breadcrumb-item #{'active' if index == items.size - 1}" %>
+      <%= link_to name, localized_path(path), class: "breadcrumb-item #{'active' if index == items.size - 1}" %>
     <% end %>
   </nav>
 <% end %>

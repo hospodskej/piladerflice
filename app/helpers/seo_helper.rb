@@ -1,4 +1,22 @@
 module SeoHelper
+  # <link rel="canonical"> and the hreflang alternates for the Czech and
+  # German versions of a public page (the pages page_meta gave a description).
+  # Only the query parameters that change what the page shows are kept.
+  def alternate_links
+    return unless @indexable_page
+
+    path = LocalizedPath.strip(request.path)
+    query = request.query_parameters.slice("category")
+    suffix = query.any? ? "?#{query.to_query}" : ""
+    hrefs = %w[cs de].index_with { |locale| request.base_url + LocalizedPath.call(path, locale) + suffix }
+
+    safe_join([
+      tag.link(rel: "canonical", href: hrefs.fetch(I18n.locale.to_s)),
+      *hrefs.map { |locale, href| tag.link(rel: "alternate", hreflang: locale, href: href) },
+      tag.link(rel: "alternate", hreflang: "x-default", href: hrefs.fetch("cs"))
+    ], "\n")
+  end
+
   # schema.org LocalBusiness data for search engines (JSON-LD). The facts are
   # the same ones shown in the footer and on the contact page; keep them in
   # sync. Deliberately no aggregateRating: Google doesn't accept a business's

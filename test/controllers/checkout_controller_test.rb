@@ -68,6 +68,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
 
     get checkout_confirmation_path
     assert_response :success
+    assert_select "img.checkout-confirmation-mascot[src*=thumbs-up]"
   end
 
   test "confirm re-renders the summary with an error when terms are not agreed" do

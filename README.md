@@ -46,6 +46,14 @@ A `Review` model already exists, currently just holding imported Google reviews.
 
 `public/404.html` is still the generic Rails default (plain English, not styled to match the site) rather than something branded and in Czech.
 
+### Google Search Console
+
+Not set up yet - nobody has done it since the site isn't live. The old verification tag was removed from the layout, so this starts from scratch once the site is live.
+
+- Add the live domain at https://search.google.com/search-console and verify ownership (the DNS TXT record option needs no code change; the HTML-tag option means adding Google's new `google-site-verification` meta tag to `app/views/layouts/application.html.erb`)
+- Under Sitemaps, submit `sitemap.xml` (the site generates it automatically; `robots.txt` already points to it)
+- Later, check the Pages report for pages Google couldn't index
+
 ### Team mascot
 
 An illustrated mascot for the brand - could double as the face of the 404 page, loading states, etc.

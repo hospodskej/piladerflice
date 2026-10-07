@@ -42,19 +42,17 @@ A `Review` model already exists, currently just holding imported Google reviews.
 - Needs light moderation before a review goes public
 - Likely gated to customers who actually have an order for that product
 
-### Site search
-
-The catalog is growing (species, dimensions, grades) and currently has no search, only category browsing.
-
-- A search bar across products/variants once the catalog outgrows simple category pages
-
 ### Custom 404 page
 
 `public/404.html` is still the generic Rails default (plain English, not styled to match the site) rather than something branded and in Czech.
 
-### robots.txt
+### Google Search Console
 
-`public/robots.txt` is still just the default Rails placeholder comment, with no real rules in it.
+Not set up yet - nobody has done it since the site isn't live. The old verification tag was removed from the layout, so this starts from scratch once the site is live.
+
+- Add the live domain at https://search.google.com/search-console and verify ownership (the DNS TXT record option needs no code change; the HTML-tag option means adding Google's new `google-site-verification` meta tag to `app/views/layouts/application.html.erb`)
+- Under Sitemaps, submit `sitemap.xml` (the site generates it automatically; `robots.txt` already points to it)
+- Later, check the Pages report for pages Google couldn't index
 
 ### Team mascot
 

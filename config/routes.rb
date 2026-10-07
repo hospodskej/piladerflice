@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  get "robots.txt", to: "robots#show", defaults: { format: :text }
+  get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: :xml }
+
   get "kontakt", to: "home#kontakt", as: :kontakt
   get "sluzby", to: "home#sluzby", as: :sluzby
   get "sortiment", to: "home#sortiment", as: :sortiment

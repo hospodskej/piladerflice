@@ -86,7 +86,9 @@
 
 .footer-bottom {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 6px 24px;
     margin-bottom: 20px;
 }
 

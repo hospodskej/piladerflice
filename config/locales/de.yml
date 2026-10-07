@@ -10,6 +10,8 @@ de:
     no_account: "Noch kein Konto?"
     register_link: "Registrieren"
     register_title: "Registrierung"
+    register_privacy_html: "Mit der Kontoerstellung nehmen Sie die Verarbeitung Ihrer Daten gemäß der %{privacy_link} zur Kenntnis."
+    privacy_link_text: "Datenschutzerklärung"
     register_submit: "Konto erstellen"
     have_account: "Schon ein Konto?"
     login_link: "Anmelden"
@@ -146,8 +148,9 @@ de:
     company_dic: "Steuernummer (DIČ)"
     delivery_address_different: "Lieferadresse (falls abweichend von der Rechnungsadresse)"
     summary_title: "Zusammenfassung"
-    terms_agreement_html: "Mit dem Absenden der Bestellung stimme ich den %{terms_link} des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung zur Kenntnis."
+    terms_agreement_html: "Mit dem Absenden der Bestellung stimme ich den %{terms_link} des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung gemäß der %{privacy_link} zur Kenntnis."
     terms_link_text: "Geschäftsbedingungen"
+    privacy_link_text: "Datenschutzerklärung"
     terms_required: "Zum Abschluss der Bestellung müssen Sie den Bedingungen zustimmen."
     submit_error: "Die Bestellung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Angaben."
     confirmation_title: "Vielen Dank für Ihre Bestellung!"
@@ -331,7 +334,8 @@ de:
     delete_item_aria: "Löschen"
     add_item_aria: "Position hinzufügen"
     form_section_poznamky: "Anmerkungen"
-    consent_text: "Mit dem Absenden der Bestellung stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten zur Bearbeitung Ihrer Bestellung zu."
+    consent_text_html: "Mit dem Absenden der Bestellung stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten zur Bearbeitung Ihrer Bestellung zu. Mehr dazu in der %{privacy_link}."
+    privacy_link_text: "Datenschutzerklärung"
     submit_button: "Angebot anfordern"
     cenik_main_title: "Sortiments-Preisliste"
     cenik_stavebni_title: "Bau- und Tischlerschnittholz"
@@ -683,6 +687,114 @@ de:
 
       <h2>3. Verwaltung der Zustimmung</h2>
       <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>
+
+    privacy_title: "Datenschutzerklärung"
+    privacy_content_html: |
+      <p>Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir beim Betrieb der Website piladerflice.cz verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage, an wen wir sie weitergeben und welche Rechte Sie haben. Wir verarbeiten Ihre Daten gemäß der Verordnung (EU) 2016/679 (DSGVO) und dem tschechischen Gesetz Nr. 110/2019 Slg. über die Verarbeitung personenbezogener Daten.</p>
+      <p>Zuletzt aktualisiert: 7. 10. 2026.</p>
+
+      <h2>1. Wer für Ihre Daten verantwortlich ist</h2>
+      <p><strong>Štěpán Merta</strong><br>
+      Pila Derflice<br>
+      Betriebsstätte: Derflice 66, 671 28 Znojmo, Tschechische Republik<br>
+      Korrespondenz- und Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice, Tschechische Republik<br>
+      Ident.-Nr. (IČ): 45665451<br>
+      USt-IdNr. (DIČ): CZ6909094742<br>
+      E-Mail: stepan.merta@seznam.cz<br>
+      Telefon: +420 602 446 339</p>
+      <p>Natürliche Person, die ein Gewerbe nach dem tschechischen Gewerbegesetz betreibt und nicht im Handelsregister eingetragen ist (im Folgenden „wir"). Bei allen Fragen zur Verarbeitung personenbezogener Daten können Sie sich an die oben genannte E-Mail-Adresse wenden.</p>
+
+      <h2>2. Welche Daten wir verarbeiten und warum</h2>
+
+      <h3>2.1 Bestellungen im Onlineshop</h3>
+      <ul>
+        <li><strong>Daten:</strong> Vor- und Nachname, E-Mail, Telefon, Rechnungsadresse, Lieferadresse (falls abweichend), bei Firmenkäufen Firmenname, Ident.-Nr. und USt-IdNr., außerdem Inhalt der Bestellung, gewählte Liefer- und Zahlungsart sowie die Sprache, in der Sie die Bestellung aufgeben.</li>
+        <li><strong>Zweck:</strong> Bearbeitung der Bestellung, Abschluss und Erfüllung des Kaufvertrags, Lieferung der Ware, Rechnungsstellung, Kommunikation zur Bestellung und Bearbeitung von Reklamationen.</li>
+        <li><strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und Erfüllung rechtlicher Verpflichtungen, insbesondere buchhalterischer und steuerlicher (Art. 6 Abs. 1 lit. c DSGVO).</li>
+        <li><strong>Speicherdauer:</strong> so lange, wie es die buchhalterischen und steuerlichen Vorschriften verlangen, bei Steuerbelegen 10 Jahre ab Ende des Besteuerungszeitraums (tschechisches Mehrwertsteuergesetz Nr. 235/2004 Slg.). Danach löschen oder anonymisieren wir die Daten.</li>
+      </ul>
+
+      <h3>2.2 Kundenkonto</h3>
+      <ul>
+        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie. Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
+        <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen) und Sicherheit des Kontos.</li>
+        <li><strong>Rechtsgrundlage:</strong> Erfüllung des Vertrags über die Kontoführung (Art. 6 Abs. 1 lit. b DSGVO); für IP-Adresse und Browserangaben unser berechtigtes Interesse an der Sicherheit der Konten (Art. 6 Abs. 1 lit. f DSGVO).</li>
+        <li><strong>Speicherdauer:</strong> die Kontodaten bis zur Löschung des Kontos, die wir auf Ihren Wunsch per E-Mail vornehmen; die Anmeldedaten, solange Sie angemeldet sind (sie werden bei der Abmeldung gelöscht). Daten zu bereits abgewickelten Bestellungen bewahren wir weiterhin gemäß Punkt 2.1 auf.</li>
+      </ul>
+
+      <h3>2.3 Anfragen und Kalkulationen</h3>
+      <ul>
+        <li><strong>Daten:</strong> Vor- und Nachname, Telefon, E-Mail, Adresse (Straße, Hausnummer, Ort, Postleitzahl), angefragte Ware und deren Parameter, Anmerkung sowie die Sprache, in der Sie das Formular ausfüllen.</li>
+        <li><strong>Zweck:</strong> Bearbeitung der Anfrage und Erstellung einer unverbindlichen Kalkulation bzw. eines Angebots.</li>
+        <li><strong>Rechtsgrundlage:</strong> Maßnahmen zur Anbahnung eines Vertrags auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).</li>
+        <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen. Kommt kein Vertrag zustande, löschen wir die Daten, sobald die Gründe für ihre Aufbewahrung entfallen sind.</li>
+      </ul>
+
+      <h3>2.4 Anfragen per E-Mail oder Telefon</h3>
+      <ul>
+        <li><strong>Daten:</strong> die Kontaktdaten, die Sie uns mitteilen, und der Inhalt der Kommunikation.</li>
+        <li><strong>Zweck:</strong> Beantwortung Ihrer Anfrage.</li>
+        <li><strong>Rechtsgrundlage:</strong> unser berechtigtes Interesse, Interessenten für unsere Waren und Dienstleistungen zu antworten (Art. 6 Abs. 1 lit. f DSGVO), gegebenenfalls die Anbahnung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO).</li>
+        <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen.</li>
+      </ul>
+
+      <h3>2.5 Newsletter</h3>
+      <ul>
+        <li><strong>Daten:</strong> E-Mail und Name aus der Bestellung, bei der Sie das Kästchen zum Erhalt von Newslettern angekreuzt haben.</li>
+        <li><strong>Zweck:</strong> Zusendung von Werbemitteilungen.</li>
+        <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch Ankreuzen des Kästchens bei der Bestellung erteilen. Sie können sie jederzeit per E-Mail an stepan.merta@seznam.cz widerrufen; die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt.</li>
+        <li><strong>Speicherdauer:</strong> bis zum Widerruf der Einwilligung.</li>
+      </ul>
+
+      <h3>2.6 Besuchermessung (Google Analytics)</h3>
+      <ul>
+        <li><strong>Daten:</strong> Daten zur Nutzung der Website (z. B. aufgerufene Seiten, Geräte- und Browsertyp, ungefährer Standort, Angaben zu abgeschlossenen Bestellungen) sowie Online-Kennungen in Cookies.</li>
+        <li><strong>Zweck:</strong> herauszufinden, wie Besucher die Website nutzen, und sie entsprechend zu verbessern.</li>
+        <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch die Auswahl „Alle akzeptieren" im Cookie-Banner erteilen. Sie können sie jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile widerrufen.</li>
+        <li><strong>Speicherdauer:</strong> entsprechend der in Google Analytics eingestellten Aufbewahrungsdauer, höchstens 14 Monate.</li>
+        <li><strong>Anbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</li>
+      </ul>
+      <p>Ohne Ihre Einwilligung werden keine Analyse-Cookies gespeichert. Beim Aufruf einer Seite wird jedoch ein Skript von Google-Servern geladen, sodass Google auch in diesem Fall technische Verbindungsdaten erhält, insbesondere Ihre IP-Adresse.</p>
+
+      <h3>2.7 Google Maps</h3>
+      <p>In der Fußzeile der Seiten ist eine Google-Maps-Karte eingebunden, die den Standort der Betriebsstätte zeigt. Beim Aufruf der Seite verbindet sich Ihr Browser mit den Servern von Google, die Ihre IP-Adresse erhalten und Cookies speichern können. Rechtsgrundlage ist unser berechtigtes Interesse, Kunden das Auffinden der Betriebsstätte zu erleichtern (Art. 6 Abs. 1 lit. f DSGVO). Die Speicherdauer bestimmt Google.</p>
+
+      <h3>2.8 Betrieb und Sicherheit der Website</h3>
+      <p>Bei jedem Seitenaufruf werden Ihre IP-Adresse und technische Angaben zur Anfrage (z. B. Zeitpunkt, Seitenadresse, Browsertyp) verarbeitet, die zur Auslieferung der Seite und zur Sicherheit des Betriebs erforderlich sind. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Diese Betriebsprotokolle bewahren wir nur so lange auf, wie es für die Sicherheit erforderlich ist.</p>
+      <p>Die Website verwendet außerdem Cookies. Notwendige Cookies (Warenkorbinhalt, Sprachauswahl, Anmeldung und Ihre Auswahl im Cookie-Banner) sind für den Betrieb der Seiten erforderlich, Analyse-Cookies setzen wir nur mit Ihrer Einwilligung. Einzelheiten finden Sie in der <a href="/zasady-cookies">Cookie-Richtlinie</a>.</p>
+
+      <h2>3. An wen wir Daten weitergeben</h2>
+      <ul>
+        <li><strong>IT-Dienstleister</strong> (Betrieb und Verwaltung des Servers, E-Mail-Dienste für den Versand von Bestellbestätigungen und die Kommunikation), die Daten als Auftragsverarbeiter für uns verarbeiten und sie nur nach unseren Weisungen verwenden dürfen.</li>
+        <li><strong>Google Ireland Limited</strong> (Besuchermessung und Karte, siehe Punkte 2.6 und 2.7).</li>
+        <li><strong>Transportunternehmen</strong>, sofern die Lieferung durch einen Dritten erfolgt; wir geben ihm nur die für die Lieferung erforderlichen Daten (Name, Adresse, Telefon) weiter.</li>
+        <li><strong>Behörden</strong> (z. B. die Finanzverwaltung), wenn uns das Gesetz dazu verpflichtet.</li>
+      </ul>
+      <p>Wir verkaufen Ihre Daten nicht. Eine automatisierte Entscheidungsfindung im Sinne von Art. 22 DSGVO findet nicht statt.</p>
+      <p>Einige Dienstleister, insbesondere Google, können Daten auch außerhalb der Europäischen Union und des Europäischen Wirtschaftsraums verarbeiten. Eine solche Übermittlung richtet sich stets nach den Voraussetzungen von Kapitel V der DSGVO (z. B. einem Angemessenheitsbeschluss der Europäischen Kommission oder Standardvertragsklauseln).</p>
+
+      <h2>4. Ihre Rechte</h2>
+      <p>Nach der DSGVO haben Sie das Recht auf:</p>
+      <ul>
+        <li>Auskunft über Ihre personenbezogenen Daten und eine Kopie der verarbeiteten Daten (Art. 15),</li>
+        <li>Berichtigung unrichtiger Daten (Art. 16) – die Daten in Ihrem Konto können Sie selbst auf der Seite „Daten bearbeiten" ändern,</li>
+        <li>Löschung der Daten (Art. 17),</li>
+        <li>Einschränkung der Verarbeitung (Art. 18),</li>
+        <li>Datenübertragbarkeit (Art. 20),</li>
+        <li>Widerspruch gegen eine Verarbeitung, die auf einem berechtigten Interesse beruht (Art. 21),</li>
+        <li>jederzeitigen Widerruf einer von Ihnen erteilten Einwilligung.</li>
+      </ul>
+      <p>Ihre Rechte können Sie per E-Mail an stepan.merta@seznam.cz ausüben. Wir antworten spätestens innerhalb eines Monats.</p>
+      <p>Wenn Sie der Ansicht sind, dass wir Ihre Daten rechtswidrig verarbeiten, haben Sie das Recht, bei einer Aufsichtsbehörde Beschwerde einzulegen. In der Tschechischen Republik ist das das Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Sie können sich auch an die Aufsichtsbehörde in Ihrem Wohnsitzstaat wenden (in Österreich die Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
+
+      <h2>5. Pflicht zur Bereitstellung der Daten</h2>
+      <p>Die zur Bearbeitung einer Bestellung oder Anfrage erforderlichen Daten müssen Sie angeben – ohne sie können wir die Bestellung oder Anfrage nicht bearbeiten. Die Einwilligung in den Newsletter und in Analyse-Cookies ist freiwillig; wenn Sie sie nicht erteilen, hat das keinen Einfluss auf die Bearbeitung Ihrer Bestellung.</p>
+
+      <h2>6. Datensicherheit</h2>
+      <p>Die Website wird über eine verschlüsselte Verbindung (HTTPS) betrieben, und Passwörter für Kundenkonten speichern wir nur als nicht umkehrbaren Hashwert.</p>
+
+      <h2>7. Änderungen dieser Erklärung</h2>
+      <p>Wir können diese Datenschutzerklärung aktualisieren, z. B. bei Änderungen der Funktionen der Website oder der Rechtslage. Die aktuelle Fassung ist stets auf dieser Seite veröffentlicht, das Datum der letzten Aktualisierung finden Sie am Anfang. Weitere Informationen zur Datenverarbeitung beim Einkauf finden Sie auch in den <a href="/obchodni-podminky">Allgemeinen Geschäftsbedingungen</a>.</p>
 
   cookies:
     banner_text: "Wir verwenden Cookies, um die bestmögliche Funktion dieser Website sicherzustellen. Notwendige Cookies sind immer aktiv."

@@ -27,6 +27,7 @@
             <label for="user_password_confirmation"><%= t("auth.password_confirmation") %></label>
             <input type="password" name="user[password_confirmation]" id="user_password_confirmation" required>
           </div>
+          <p class="auth-privacy-note"><%= t("auth.register_privacy_html", privacy_link: link_to(t("auth.privacy_link_text"), privacy_policy_path, target: "_blank", rel: "noopener")) %></p>
           <%= submit_tag t("auth.register_submit"), class: "btn-primary auth-submit" %>
         <% end %>
 

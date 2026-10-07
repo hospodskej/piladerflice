@@ -188,7 +188,7 @@
         <label class="custom-checkbox-label">
           <%= form.check_box :souhlas, required: true %>
           <span class="custom-checkbox"></span>
-          <span class="consent-text"><%= t("kontakt.consent_text") %></span>
+          <span class="consent-text"><%= t("kontakt.consent_text_html", privacy_link: link_to(t("kontakt.privacy_link_text"), privacy_policy_path, target: "_blank", rel: "noopener")) %></span>
         </label>
       </div>
 

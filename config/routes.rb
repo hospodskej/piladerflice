@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :inquiries, only: [:create]
   get '/obchodni-podminky', to: 'pages#terms', as: :terms
   get '/zasady-cookies', to: 'pages#cookies_policy', as: :cookies_policy
+  get '/zasady-ochrany-osobnich-udaju', to: 'pages#privacy_policy', as: :privacy_policy
 
   namespace :admin do
     root to: "dashboard#index"

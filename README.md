@@ -78,10 +78,6 @@ The phone number and email in the header and footer are plain text, not `tel:`/`
 
 No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
 
-### Privacy policy page
-
-There's a terms page and a cookies policy, but no separate privacy policy - relevant now that the site collects accounts and checkout data.
-
 ### Local business schema
 
 No JSON-LD structured data (LocalBusiness schema), which helps local SEO/Google Maps visibility.

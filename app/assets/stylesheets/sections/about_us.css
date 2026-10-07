@@ -1,6 +1,6 @@
 .o-sobe-section {
     margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 90px;
 }
 
 .o-sobe-card {
@@ -68,6 +68,10 @@
 }
 
 @media (max-width: 992px) {
+    .o-sobe-section {
+        margin-bottom: 70px;
+    }
+
     .o-sobe-card {
         flex-direction: column;
         padding: 40px 20px;

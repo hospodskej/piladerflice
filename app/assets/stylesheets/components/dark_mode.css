@@ -762,3 +762,8 @@ html.dark-mode .breadcrumb-separator {
 html.dark-mode .auth-privacy-note {
     color: #aaaaaa;
 }
+
+/* The mascot's dark blue outline nearly vanishes on the dark page. */
+html.dark-mode .checkout-confirmation-mascot {
+    filter: brightness(1.35);
+}

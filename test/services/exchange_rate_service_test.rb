@@ -9,6 +9,11 @@ class ExchangeRateServiceTest < ActiveSupport::TestCase
     assert_equal "≈ 100,00 €", ExchangeRateService.convert_price_string("2 500 Kč")
   end
 
+  test "convert_price_string also understands CZK as the currency name" do
+    assert_equal "ab ≈ 340,00 € / m³", ExchangeRateService.convert_price_string("ab 8500 CZK / m³")
+    assert_equal "≈ 100,00 €", ExchangeRateService.convert_price_string("2 500 CZK")
+  end
+
   test "convert_price_string converts multiple amounts in the same string" do
     result = ExchangeRateService.convert_price_string("9 800 Kč / m<sup>3</sup>")
     assert_equal "≈ 392,00 € / m<sup>3</sup>", result

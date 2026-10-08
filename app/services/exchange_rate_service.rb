@@ -9,7 +9,8 @@ class ExchangeRateService
 
   FALLBACK_RATE = 25.0
 
-  AMOUNT_PATTERN = /(\d[\d\s]*)\s*Kč/
+  # "2 500 Kč" or "2500 CZK" (the German texts sometimes spell it CZK)
+  AMOUNT_PATTERN = /(\d[\d\s]*)\s*(?:Kč|CZK)/
 
   class << self
     def czk_per_eur

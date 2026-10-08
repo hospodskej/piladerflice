@@ -221,4 +221,13 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
       assert_match(/^Disallow: #{Regexp.escape(path)}$/, response.body)
     end
   end
+
+  test "the promo price on the German home page is in euros, on the Czech one in crowns" do
+    Rails.cache.write(ExchangeRateService::CACHE_KEY, 25.0, expires_in: 1.hour)
+    Promo.destroy_all
+    Promo.create!(title: "Latě", price: "od 8500 Kč / m³", price_de: "ab 8500 CZK / m³", link: "/eshop/late")
+
+    assert_equal "od 8500 Kč / m³", page("/").at_css(".akcni-nabidka-price").text.strip
+    assert_equal "ab ≈ 340,00 € / m³", page("/at").at_css(".akcni-nabidka-price").text.strip
+  end
 end

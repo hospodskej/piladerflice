@@ -797,7 +797,7 @@ cs:
       <p>Tyto webové stránky používají soubory cookies – malé textové soubory ukládané ve vašem prohlížeči, které nám pomáhají zajistit jejich správné fungování.</p>
 
       <h2>1. Nezbytné cookies</h2>
-      <p>Tyto cookies jsou nutné pro základní fungování stránek (např. obsah košíku, uložení jazyka a měny, přihlášení do administrace) a nelze je vypnout. Bez nich by stránky nefungovaly správně.</p>
+      <p>Tyto cookies jsou nutné pro základní fungování stránek (např. obsah košíku, přihlášení) a nelze je vypnout. Bez nich by stránky nefungovaly správně.</p>
 
       <h2>2. Analytické cookies</h2>
       <p>Pro měření návštěvnosti používáme Google Analytics (Google Ireland Limited). Tyto cookies se nastaví pouze v případě, že s jejich použitím souhlasíte volbou „Přijmout vše". Pomáhají nám pochopit, jak návštěvníci stránky používají, a stránky podle toho vylepšovat.</p>
@@ -879,7 +879,7 @@ cs:
 
       <h3>2.8 Provoz a zabezpečení webu</h3>
       <p>Při každém zobrazení stránky se zpracovává vaše IP adresa a technické údaje o požadavku (např. čas, adresa stránky, typ prohlížeče), které jsou nezbytné k doručení stránky a k zabezpečení provozu. Právním základem je náš oprávněný zájem na bezpečném a spolehlivém provozu webu (čl. 6 odst. 1 písm. f) GDPR). Tyto provozní záznamy uchováváme jen po dobu nezbytnou k zajištění bezpečnosti.</p>
-      <p>Web používá také soubory cookies. Nezbytné cookies (obsah košíku, volba jazyka, přihlášení a vaše volba v cookie liště) jsou potřeba k fungování stránek, analytické cookies používáme jen s vaším souhlasem. Podrobnosti najdete v <a href="/zasady-cookies">Zásadách používání cookies</a>.</p>
+      <p>Web používá také soubory cookies. Nezbytné cookies (obsah košíku, přihlášení a vaše volba v cookie liště) jsou potřeba k fungování stránek, analytické cookies používáme jen s vaším souhlasem. Podrobnosti najdete v <a href="/zasady-cookies">Zásadách používání cookies</a>.</p>
 
       <h2>3. Komu údaje předáváme</h2>
       <ul>

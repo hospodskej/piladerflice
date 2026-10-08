@@ -11,6 +11,10 @@
 - The **libvips** system library, 8.15 or newer preferred (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
 - Profile pictures are checked in the app (2 MB, 25 megapixels, JPG/PNG/WebP only), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
 
+### Languages and URLs
+
+The German (Austrian) site lives under `/at` (`/at/kontakt`, `/at/eshop/tramy`, ...), Czech has no prefix. Translations are German (`de` locale); `LocalizedPath::SEGMENTS` maps the locale to the URL prefix, and the alternates are announced as `de-AT`. The language comes from the URL only, so a shared link opens in the language it was shared in. Old `?locale=de` links redirect (301) to the `/at` URL. In views, link with the route helpers (language is added automatically) or, for stored or hand-written paths, with `localized_path("/kontakt#cenik")`. The admin area is Czech only.
+
 ## Roadmap
 
 Bigger things we've talked about but haven't built yet.
@@ -67,9 +71,8 @@ The tracking code is already in the layout (measurement ID `G-CMJ46E7F3G`, loade
 
 ### SEO
 
-The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Local business schema (JSON-LD on the home and contact pages) is done too. Still open: the social share image entry below (a designer is making the image). Once that is done, also:
+The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Local business schema (JSON-LD on the home and contact pages) and canonical/`hreflang` links are done too. Still open: the social share image entry below (a designer is making the image). Once that is done, also:
 
-- Add canonical links and `hreflang` tags tying the Czech and German versions of each page together (the sitemap already declares the pair, the pages themselves don't)
 - Check heading structure (one `h1` per page) and image `alt` texts on the main pages
 - Run Lighthouse/PageSpeed on the live site and fix whatever it flags
 
@@ -87,4 +90,9 @@ A real photo of Štěpán Merta / the team for the "O nás" section, replacing t
 
 ### Social share image
 
-No `og:image`/`og:title` meta tags, so a link to the site shared in WhatsApp/Facebook/iMessage shows no useful preview card.
+The Open Graph / Twitter tags are in place (title, description, address and language of each page) but there are no cards yet, so a shared link has no picture. A designer is making them: two files, **1200x630 px**, WebP (PNG or JPG also work), ideally under 300 KB, one per language:
+
+- `app/assets/images/share/share-cs.webp` - used for the Czech site
+- `app/assets/images/share/share-de.webp` - used for the Austrian German site (`/at`)
+
+Drop them in and restart; nothing else to change. A language without a card just has no picture.

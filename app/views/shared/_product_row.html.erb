@@ -7,9 +7,9 @@
     <% end %>
 
     <div class="product-hero-buttons">
-      <%= link_to t("shared.product_row.cenik"), "/kontakt#cenik", class: "btn-primary" %>
-      <%= link_to t("shared.product_row.to_eshop"), eshop_link, class: "btn-outline-dark" %>
-      <%= link_to t("shared.product_row.request_quote"), "/kontakt#kalkulace", class: "btn-outline-dark" %>
+      <%= link_to t("shared.product_row.cenik"), localized_path("/kontakt#cenik"), class: "btn-primary" %>
+      <%= link_to t("shared.product_row.to_eshop"), localized_path(eshop_link), class: "btn-outline-dark" %>
+      <%= link_to t("shared.product_row.request_quote"), localized_path("/kontakt#kalkulace"), class: "btn-outline-dark" %>
     </div>
   </div>
 

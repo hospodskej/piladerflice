@@ -10,8 +10,8 @@
         <p><%= t("home.index.hero_text") %></p>
       </div>
       <div class="domu-buttons">
-        <%= link_to t("home.index.btn_eshop"), "/eshop/", class: "btn-eshop" %>
-        <%= link_to t("home.index.btn_vyroba"), "/kontakt#kalkulace", class: "btn-vyroba" %>
+        <%= link_to t("home.index.btn_eshop"), localized_path("/eshop/"), class: "btn-eshop" %>
+        <%= link_to t("home.index.btn_vyroba"), localized_path("/kontakt#kalkulace"), class: "btn-vyroba" %>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
             </div>
             <div class="akcni-product-price">
               <span class="akcni-nabidka-price"><%= @hero_promo.price_i18n %></span>
-              <%= link_to t("home.index.promo_cta"), @hero_promo.link, class: "akce-btn-eshop" %>
+              <%= link_to t("home.index.promo_cta"), localized_path(@hero_promo.link), class: "akce-btn-eshop" %>
             </div>
           </div>
         </div>
@@ -86,9 +86,9 @@
       <h2 class="top-categories-title"><span class="brand-blue"><%= t("home.index.top_categories_title_accent") %></span> <%= t("home.index.top_categories_title_rest") %></h2>
 
       <% categories = [
-        { name: t("home.index.categories.palivove_drevo"), img: "top-palivove-drevo.webp", url: "/sortiment/palivove-drevo" },
-        { name: t("home.index.categories.stavebni_drevo"), img: "top-stavebni-drevo.webp", url: "/sortiment/stavebni-rezivo" },
-        { name: t("home.index.categories.vyrobni_zbytky"), img: "top-vyrobni-zbytky.webp", url: "/sortiment/vyrobni-zbytky" },
+        { name: t("home.index.categories.palivove_drevo"), img: "top-palivove-drevo.webp", url: localized_path("/sortiment/palivove-drevo") },
+        { name: t("home.index.categories.stavebni_drevo"), img: "top-stavebni-drevo.webp", url: localized_path("/sortiment/stavebni-rezivo") },
+        { name: t("home.index.categories.vyrobni_zbytky"), img: "top-vyrobni-zbytky.webp", url: localized_path("/sortiment/vyrobni-zbytky") },
       ] %>
 
       <div class="top-categories-grid">
@@ -108,7 +108,7 @@
     <div class="nejprodavanejsi-produkty-grid">
       <% @bestseller_products.each do |product| %>
         <div class="nejprodavanejsi-produkty-card">
-          <%= link_to "/eshop/#{product.key}", class: "nejprodavanejsi-produkty-image-link", data: { turbo: false } do %>
+          <%= link_to localized_path("/eshop/#{product.key}"), class: "nejprodavanejsi-produkty-image-link", data: { turbo: false } do %>
             <%= image_tag_if_attached product.image, alt: product.title_i18n, class: "nejprodavanejsi-produkty-image" %>
           <% end %>
 
@@ -126,7 +126,7 @@
               </strong>
             </span>
 
-            <%= link_to t("home.index.btn_prohlednout"), "/eshop/#{product.key}", class: "btn-prohlednout", data: { turbo: false } %>
+            <%= link_to t("home.index.btn_prohlednout"), localized_path("/eshop/#{product.key}"), class: "btn-prohlednout", data: { turbo: false } %>
           </div>
         </div>
       <% end %>
@@ -142,7 +142,7 @@
           <h4><%= t("home.index.akcni_nabidka_text_html") %></h4>
         </div>
         <div class="akcni-nabidka-cenik">
-          <%= link_to t("common.cenik"), "/kontakt#cenik", class: "akcni-nabidka-button" %>
+          <%= link_to t("common.cenik"), localized_path("/kontakt#cenik"), class: "akcni-nabidka-button" %>
         </div>
       </div>
     </div>
@@ -167,10 +167,10 @@
     <div class="nabidka-grid">
       <% @produkty.each do |item| %>
         <div class="nabidka-card">
-          <%= link_to item.link, class: "nabidka-image-link" do %>
+          <%= link_to localized_path(item.link), class: "nabidka-image-link" do %>
             <%= image_tag item.image, alt: item.title_i18n, class: "nabidka-image" %>
           <% end %>
-          <%= link_to item.title_i18n, item.link, class: "nabidka-btn" %>
+          <%= link_to item.title_i18n, localized_path(item.link), class: "nabidka-btn" %>
         </div>
       <% end %>
     </div>
@@ -196,7 +196,7 @@
                 <p><%= sluzba.content_i18n.html_safe %></p>
 
                 <% if sluzba.button_text.present? && sluzba.button_path.present? %>
-                  <%= link_to sluzba.button_text_i18n, sluzba.button_path, class: "btn-cenik" %>
+                  <%= link_to sluzba.button_text_i18n, localized_path(sluzba.button_path), class: "btn-cenik" %>
                 <% end %>
               </div>
             </div>
@@ -212,7 +212,7 @@
 
       <p><%= t("home.index.dorucujeme_text_1") %></p>
       <p><%= t("home.index.dorucujeme_text_2") %></p>
-      <%= link_to t("common.cenik"), "/kontakt#cenik", class: "btn-primary" %>
+      <%= link_to t("common.cenik"), localized_path("/kontakt#cenik"), class: "btn-primary" %>
     </div>
 
     <div class="dorucujeme-map">
@@ -238,7 +238,7 @@
       <h2><%= t("home.index.co_je_noveho_title_rest") %> <span style="color: #2C8FFF"><%= t("home.index.co_je_noveho_title_accent") %></span></h2>
       <h3><%= t("home.index.co_je_noveho_subtitle") %></h3>
       <p><%= t("home.index.co_je_noveho_text") %></p>
-      <%= link_to t("common.cenik"), "/kontakt#cenik", class: "btn-primary" %>
+      <%= link_to t("common.cenik"), localized_path("/kontakt#cenik"), class: "btn-primary" %>
     </div>
   </section>
   <section class="how-to-order-section">
@@ -317,7 +317,7 @@
         </span>
         <span><%= t("home.index.faq_cta_text") %></span>
       </div>
-      <%= link_to t("home.index.faq_cta_button"), "/kontakt", class: "btn-primary" %>
+      <%= link_to t("home.index.faq_cta_button"), localized_path("/kontakt"), class: "btn-primary" %>
     </div>
   </section>
   <section class="o-sobe-section">
@@ -333,7 +333,7 @@
         <p><%= t("home.index.o_sobe_p3_html") %></p>
         <p><%= t("home.index.o_sobe_p4") %></p>
         <p><%= t("home.index.o_sobe_p5_html") %></p>
-        <%= link_to t("home.index.o_sobe_cta"), "/kontakt#kalkulace", class: "btn-primary" %>
+        <%= link_to t("home.index.o_sobe_cta"), localized_path("/kontakt#kalkulace"), class: "btn-primary" %>
       </div>
     </div>
   </section>

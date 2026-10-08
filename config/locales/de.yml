@@ -777,7 +777,7 @@ de:
       <p>Diese Website verwendet Cookies – kleine Textdateien, die in Ihrem Browser gespeichert werden und uns helfen, ihre korrekte Funktion sicherzustellen.</p>
 
       <h2>1. Notwendige Cookies</h2>
-      <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, gespeicherte Sprache und Währung, Anmeldung im Verwaltungsbereich) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
+      <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, Anmeldung) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
 
       <h2>2. Analyse-Cookies</h2>
       <p>Zur Besuchermessung verwenden wir Google Analytics (Google Ireland Limited). Diese Cookies werden nur gesetzt, wenn Sie dem über „Alle akzeptieren" zustimmen. Sie helfen uns zu verstehen, wie Besucher die Website nutzen, um sie entsprechend zu verbessern.</p>
@@ -859,7 +859,7 @@ de:
 
       <h3>2.8 Betrieb und Sicherheit der Website</h3>
       <p>Bei jedem Seitenaufruf werden Ihre IP-Adresse und technische Angaben zur Anfrage (z. B. Zeitpunkt, Seitenadresse, Browsertyp) verarbeitet, die zur Auslieferung der Seite und zur Sicherheit des Betriebs erforderlich sind. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Diese Betriebsprotokolle bewahren wir nur so lange auf, wie es für die Sicherheit erforderlich ist.</p>
-      <p>Die Website verwendet außerdem Cookies. Notwendige Cookies (Warenkorbinhalt, Sprachauswahl, Anmeldung und Ihre Auswahl im Cookie-Banner) sind für den Betrieb der Seiten erforderlich, Analyse-Cookies setzen wir nur mit Ihrer Einwilligung. Einzelheiten finden Sie in der <a href="/zasady-cookies">Cookie-Richtlinie</a>.</p>
+      <p>Die Website verwendet außerdem Cookies. Notwendige Cookies (Warenkorbinhalt, Anmeldung und Ihre Auswahl im Cookie-Banner) sind für den Betrieb der Seiten erforderlich, Analyse-Cookies setzen wir nur mit Ihrer Einwilligung. Einzelheiten finden Sie in der <a href="/at/zasady-cookies">Cookie-Richtlinie</a>.</p>
 
       <h2>3. An wen wir Daten weitergeben</h2>
       <ul>
@@ -892,7 +892,7 @@ de:
       <p>Die Website wird über eine verschlüsselte Verbindung (HTTPS) betrieben, und Passwörter für Kundenkonten speichern wir nur als nicht umkehrbaren Hashwert.</p>
 
       <h2>7. Änderungen dieser Erklärung</h2>
-      <p>Wir können diese Datenschutzerklärung aktualisieren, z. B. bei Änderungen der Funktionen der Website oder der Rechtslage. Die aktuelle Fassung ist stets auf dieser Seite veröffentlicht, das Datum der letzten Aktualisierung finden Sie am Anfang. Weitere Informationen zur Datenverarbeitung beim Einkauf finden Sie auch in den <a href="/obchodni-podminky">Allgemeinen Geschäftsbedingungen</a>.</p>
+      <p>Wir können diese Datenschutzerklärung aktualisieren, z. B. bei Änderungen der Funktionen der Website oder der Rechtslage. Die aktuelle Fassung ist stets auf dieser Seite veröffentlicht, das Datum der letzten Aktualisierung finden Sie am Anfang. Weitere Informationen zur Datenverarbeitung beim Einkauf finden Sie auch in den <a href="/at/obchodni-podminky">Allgemeinen Geschäftsbedingungen</a>.</p>
 
   cookies:
     banner_text: "Wir verwenden Cookies, um die bestmögliche Funktion dieser Website sicherzustellen. Notwendige Cookies sind immer aktiv."

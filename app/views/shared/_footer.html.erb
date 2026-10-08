@@ -40,22 +40,22 @@
       <div class="footer-col">
         <h3><%= t("footer.sluzby_title") %></h3>
         <ul class="link-list">
-          <li><%= link_to t("footer.sluzby_links.zakazkova_vyroba"), "/kontakt#kalkulace" %></li>
-          <li><%= link_to t("footer.sluzby_links.hoblovani"), "/sluzby#hoblovani" %></li>
-          <li><%= link_to t("footer.sluzby_links.doprava"), "/sluzby#doprava" %></li>
-          <li><%= link_to t("footer.sluzby_links.impregnace"), "/sluzby#impregnace" %></li>
-          <li><%= link_to t("footer.sluzby_links.porez"), "/sluzby#porez-prodej-kulatiny" %></li>
+          <li><%= link_to t("footer.sluzby_links.zakazkova_vyroba"), localized_path("/kontakt#kalkulace") %></li>
+          <li><%= link_to t("footer.sluzby_links.hoblovani"), localized_path("/sluzby#hoblovani") %></li>
+          <li><%= link_to t("footer.sluzby_links.doprava"), localized_path("/sluzby#doprava") %></li>
+          <li><%= link_to t("footer.sluzby_links.impregnace"), localized_path("/sluzby#impregnace") %></li>
+          <li><%= link_to t("footer.sluzby_links.porez"), localized_path("/sluzby#porez-prodej-kulatiny") %></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h3><%= t("footer.sortiment_title") %></h3>
         <ul class="link-list">
-          <li><%= link_to t("footer.sortiment_links.palivove_drevo"), "/sortiment/palivove-drevo" %></li>
-          <li><%= link_to t("footer.sortiment_links.stavebni_rezivo"), "/sortiment/stavebni-rezivo" %></li>
-          <li><%= link_to t("footer.sortiment_links.truhlarske_rezivo"), "/sortiment/truhlarske-rezivo" %></li>
-          <li><%= link_to t("footer.sortiment_links.vyrobni_zbytky"), "/sortiment/vyrobni-zbytky" %></li>
-          <li><%= link_to t("footer.sortiment_links.okrasne_kamenivo"), "/sortiment/okrasne-kamenivo" %></li>
+          <li><%= link_to t("footer.sortiment_links.palivove_drevo"), localized_path("/sortiment/palivove-drevo") %></li>
+          <li><%= link_to t("footer.sortiment_links.stavebni_rezivo"), localized_path("/sortiment/stavebni-rezivo") %></li>
+          <li><%= link_to t("footer.sortiment_links.truhlarske_rezivo"), localized_path("/sortiment/truhlarske-rezivo") %></li>
+          <li><%= link_to t("footer.sortiment_links.vyrobni_zbytky"), localized_path("/sortiment/vyrobni-zbytky") %></li>
+          <li><%= link_to t("footer.sortiment_links.okrasne_kamenivo"), localized_path("/sortiment/okrasne-kamenivo") %></li>
         </ul>
       </div>
 

@@ -36,7 +36,7 @@ class SitemapTest < ActionDispatch::IntegrationTest
     urls = locs.join("\n")
 
     assert_no_match(/inactive_test/, urls)
-    %w[/admin /kosik /muj-ucet /prihlaseni /registrace].each { |path| assert_no_match(/#{Regexp.escape(path)}/, urls) }
+    %w[/admin /kosik /muj-ucet /prihlaseni /registrace /at/kosik /at/muj-ucet].each { |path| assert_no_match(/#{Regexp.escape(path)}/, urls) }
     assert_no_match(/category=kamenivo/, urls)
   end
 
@@ -52,19 +52,22 @@ class SitemapTest < ActionDispatch::IntegrationTest
   test "every page is listed in Czech and German and linked to its translation" do
     doc = sitemap
     urls = locs(doc)
-    cs, de = "http://www.example.com/eshop/tramy", "http://www.example.com/eshop/tramy?locale=de"
+    cs, de = "http://www.example.com/eshop/tramy", "http://www.example.com/at/eshop/tramy"
 
     assert_includes urls, cs
     assert_includes urls, de
     [cs, de].each do |loc|
       entry = doc.at_xpath("//s:url[s:loc='#{loc}']", NS)
       alternates = entry.xpath("x:link[@rel='alternate']", NS).to_h { |link| [link["hreflang"], link["href"]] }
-      assert_equal({ "cs" => cs, "de" => de, "x-default" => cs }, alternates)
+      assert_equal({ "cs" => cs, "de-AT" => de, "x-default" => cs }, alternates)
     end
   end
 
-  test "category URLs keep their own parameter when the German parameter is added" do
-    assert_includes locs, "http://www.example.com/eshop?category=rezivo&locale=de"
+  test "German URLs are under /at and keep their own parameters" do
+    assert_includes locs, "http://www.example.com/at/eshop?category=rezivo"
+    assert_includes locs, "http://www.example.com/at"
+    assert_includes locs, "http://www.example.com/at/kontakt"
+    assert locs.none? { |url| url.include?("locale=") }, "no ?locale= URLs any more"
   end
 
   test "lastmod is the newest of the product and its variants, in W3C format" do

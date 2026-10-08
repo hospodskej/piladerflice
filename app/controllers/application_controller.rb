@@ -3,25 +3,61 @@ class ApplicationController < ActionController::Base
 
   allow_browser versions: :modern
 
+  before_action :redirect_legacy_locale_param
   before_action :set_locale
 
   private
 
+  # The language is part of the URL: /at/... is (Austrian) German, everything else is
+  # Czech. (It used to live in the session, so a shared link opened in Czech.)
   def set_locale
-    requested_locale = params[:locale].to_s
-
-    if I18n.available_locales.map(&:to_s).include?(requested_locale)
-      session[:locale] = requested_locale
-    end
-
-    I18n.locale = session[:locale].presence || I18n.default_locale
+    I18n.locale = locale_from_path
   end
 
+  # Every generated URL inside the /(:locale) routes gets the language of the
+  # current page, so links never drop out of German (and positional arguments
+  # like eshop_product_path(key) keep working). Czech is the unprefixed default.
+  def default_url_options
+    { locale: LocalizedPath.segment_for(I18n.locale) }
+  end
+
+  def locale_from_path
+    LocalizedPath.locale_for(request.path_parameters[:locale]) || I18n.default_locale
+  end
+
+  # Links shared before the switch looked like /kontakt?locale=de. Send them
+  # to the new address for good.
+  def redirect_legacy_locale_param
+    legacy = request.query_parameters["locale"]
+    return unless legacy.present? && (request.get? || request.head?)
+    return if request.path_parameters.key?(:locale) && request.path_parameters[:locale].present?
+    return unless I18n.available_locales.map(&:to_s).include?(legacy)
+
+    query = request.query_parameters.except("locale")
+    target = localized_path(request.path, locale: legacy)
+    target += "?#{query.to_query}" if query.any?
+    redirect_to target, status: :moved_permanently
+  end
+
+  # "/kontakt#cenik" -> "/at/kontakt#cenik" in German. Paths that already start
+  # with /at, or that aren't site paths, are returned as they are.
+  def localized_path(path, locale: I18n.locale)
+    LocalizedPath.call(path, locale)
+  end
+  helper_method :localized_path
+
+  # The current page in the other language (the language switcher).
   def locale_switch_path(locale)
-    query = request.query_parameters.merge(locale: locale)
-    "#{request.path}?#{query.to_query}"
+    path = LocalizedPath.call(LocalizedPath.strip(original_request_path), locale)
+    query = request.query_parameters.except("locale")
+    query.any? ? "#{path}?#{query.to_query}" : path
   end
   helper_method :locale_switch_path
+
+  # request.path, except on error pages, where Rails rewrites it to /404.
+  def original_request_path
+    request.env["action_dispatch.original_path"].presence || request.path
+  end
 
   def require_login
     return if current_user

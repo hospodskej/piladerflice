@@ -15,7 +15,7 @@ class MetaTagsTest < ActionDispatch::IntegrationTest
   end
 
   def meta_for(path, locale)
-    get path, params: { locale: locale }
+    get LocalizedPath.call(path, locale)
     assert_response :success, "#{path} (#{locale})"
     doc = Nokogiri::HTML(response.body)
 
@@ -80,7 +80,7 @@ class MetaTagsTest < ActionDispatch::IntegrationTest
     product = catalog_products(:smrk)
     product.update!(description: %(x"><script>alert(1)</script><meta name="y))
 
-    get "/eshop/#{product.key}", params: { locale: "cs" }
+    get "/eshop/#{product.key}"
     head = response.body[%r{<head>.*</head>}m]
 
     assert_not_includes head, "<script>alert(1)</script>"

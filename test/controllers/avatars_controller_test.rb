@@ -200,7 +200,7 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
 
   test "the German edit page is translated" do
     sign_in
-    get edit_account_path, params: { locale: "de" }
+    get "/at/muj-ucet/upravit"
 
     assert_select ".avatar-box .checkout-box-title", "Profilbild"
   end

@@ -30,26 +30,26 @@
       <section class="eshop-filters">
         <h3><%= t("eshop.index.filters_title") %></h3>
         <div class="filter-group">
-          <%= link_to t("eshop.index.cat_palivove"), "/eshop?category=palivove&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category].blank? || params[:category] == 'palivove'}" %>
-          <%= link_to t("eshop.index.cat_rezivo"), "/eshop?category=rezivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'rezivo'}" %>
-          <%= link_to t("eshop.index.cat_zbytky"), "/eshop?category=zbytky&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'zbytky'}" %>
-          <%= link_to t("eshop.index.cat_kamenivo"), "/eshop?category=kamenivo&sort=#{params[:sort]}", class: "btn-filter #{'active' if params[:category] == 'kamenivo'}" %>
+          <%= link_to t("eshop.index.cat_palivove"), localized_path("/eshop?category=palivove&sort=#{params[:sort]}"), class: "btn-filter #{'active' if params[:category].blank? || params[:category] == 'palivove'}" %>
+          <%= link_to t("eshop.index.cat_rezivo"), localized_path("/eshop?category=rezivo&sort=#{params[:sort]}"), class: "btn-filter #{'active' if params[:category] == 'rezivo'}" %>
+          <%= link_to t("eshop.index.cat_zbytky"), localized_path("/eshop?category=zbytky&sort=#{params[:sort]}"), class: "btn-filter #{'active' if params[:category] == 'zbytky'}" %>
+          <%= link_to t("eshop.index.cat_kamenivo"), localized_path("/eshop?category=kamenivo&sort=#{params[:sort]}"), class: "btn-filter #{'active' if params[:category] == 'kamenivo'}" %>
         </div>
 
         <% if params[:category].blank? || params[:category] == 'palivove' %>
           <h3 class="mt-40"><%= t("eshop.index.wood_type_title") %></h3>
           <div class="filter-group">
-            <%= link_to t("eshop.index.wood_all"), "/eshop?category=#{params[:category]}&wood=vse&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood].blank? || params[:wood] == 'vse'}" %>
-            <%= link_to t("eshop.index.wood_hard"), "/eshop?category=#{params[:category]}&wood=tvrde&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'tvrde'}" %>
-            <%= link_to t("eshop.index.wood_soft"), "/eshop?category=#{params[:category]}&wood=mekke&sort=#{params[:sort]}", class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'mekke'}" %>
+            <%= link_to t("eshop.index.wood_all"), localized_path("/eshop?category=#{params[:category]}&wood=vse&sort=#{params[:sort]}"), class: "btn-filter btn-filter-sm #{'active' if params[:wood].blank? || params[:wood] == 'vse'}" %>
+            <%= link_to t("eshop.index.wood_hard"), localized_path("/eshop?category=#{params[:category]}&wood=tvrde&sort=#{params[:sort]}"), class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'tvrde'}" %>
+            <%= link_to t("eshop.index.wood_soft"), localized_path("/eshop?category=#{params[:category]}&wood=mekke&sort=#{params[:sort]}"), class: "btn-filter btn-filter-sm #{'active' if params[:wood] == 'mekke'}" %>
           </div>
         <% end %>
       </section>
 
       <section class="eshop-sorting">
         <div class="sorting-tabs">
-          <%= link_to t("eshop.index.sort_recommended"), "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=doporucujeme", class: "btn-sort #{'active' if params[:sort].blank? || params[:sort] == 'doporucujeme'}" %>
-          <%= link_to t("eshop.index.sort_bestsellers"), "/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=nejprodavanejsi", class: "btn-sort #{'active' if params[:sort] == 'nejprodavanejsi'}" %>
+          <%= link_to t("eshop.index.sort_recommended"), localized_path("/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=doporucujeme"), class: "btn-sort #{'active' if params[:sort].blank? || params[:sort] == 'doporucujeme'}" %>
+          <%= link_to t("eshop.index.sort_bestsellers"), localized_path("/eshop?category=#{params[:category]}&wood=#{params[:wood]}&sort=nejprodavanejsi"), class: "btn-sort #{'active' if params[:sort] == 'nejprodavanejsi'}" %>
         </div>
         <hr class="sorting-divider">
       </section>
@@ -57,7 +57,7 @@
       <section class="eshop-grid">
         <% products.each_with_index do |product, index| %>
           <div class="product-card">
-            <%= link_to "/eshop/#{product.key}", class: "product-image-wrapper-eshop", data: { turbo: false } do %>
+            <%= link_to localized_path("/eshop/#{product.key}"), class: "product-image-wrapper-eshop", data: { turbo: false } do %>
               <% if index < 3 %>
                 <span class="product-badge"><%= index + 1 %>.</span>
               <% end %>
@@ -75,7 +75,7 @@
                   ---
                 <% end %>
               </p>
-              <%= link_to t("common.detail"), "/eshop/#{product.key}", class: "btn-primary btn-detail", data: { turbo: false } %>
+              <%= link_to t("common.detail"), localized_path("/eshop/#{product.key}"), class: "btn-primary btn-detail", data: { turbo: false } %>
             </div>
           </div>
         <% end %>

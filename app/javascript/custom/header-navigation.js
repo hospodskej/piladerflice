@@ -1,5 +1,5 @@
 const initNavHighlight = () => {
-    if (window.location.pathname === '/kontakt') {
+    if (/^\/(at\/)?kontakt\/?$/.test(window.location.pathname)) {
 
         const cenikLink = document.getElementById('nav-cenik');
         const kontaktLink = document.getElementById('nav-kontakt');

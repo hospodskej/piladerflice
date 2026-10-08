@@ -18,7 +18,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".legal-content h2", minimum: 5
     assert_select ".legal-content", /45665451/
 
-    get privacy_policy_url(locale: "de")
+    get privacy_policy_url(locale: "at")
     assert_response :success
     assert_select "h1", "Datenschutzerklärung"
     assert_select ".legal-content", /45665451/

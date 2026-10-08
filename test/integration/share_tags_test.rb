@@ -70,6 +70,7 @@ class ShareTagsTest < ActionDispatch::IntegrationTest
 
       assert_match %r{\Ahttp://www\.example\.com/assets/logo-wm-\w+\.webp\z}, cs["og:image"].first
       assert_match %r{\Ahttp://www\.example\.com/assets/logo-dm-\w+\.webp\z}, de["og:image"].first
+      assert_equal %w[image/webp], cs["og:image:type"]
       assert_equal %w[1200], cs["og:image:width"]
       assert_equal %w[630], cs["og:image:height"]
       assert_equal ["Pila Derflice"], cs["og:image:alt"]
@@ -101,6 +102,12 @@ class ShareTagsTest < ActionDispatch::IntegrationTest
     found = Rails.application.config.x.share_images
     assert_kind_of Hash, found
     assert found.keys.all? { |locale| %w[cs de].include?(locale) }
-    assert found.values.all? { |path| path.match?(%r{\Ashare/share-(cs|de)\.(png|jpe?g)\z}) }
+    assert found.values.all? { |path| path.match?(%r{\Ashare/share-(cs|de)\.(webp|png|jpe?g)\z}) }
+  end
+
+  test "the image type follows the file extension" do
+    { "x.webp" => "image/webp", "x.png" => "image/png", "x.jpg" => "image/jpeg", "x.JPEG" => "image/jpeg" }.each do |file, type|
+      assert_equal type, SeoHelper::IMAGE_TYPES.fetch(File.extname(file).downcase)
+    end
   end
 end

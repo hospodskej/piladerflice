@@ -22,6 +22,7 @@ module SeoHelper
   # description, and the share image of the current language when there is one
   # (see config/initializers/share_images.rb).
   OG_LOCALES = { "cs" => "cs_CZ", "de" => "de_AT" }.freeze
+  IMAGE_TYPES = { ".webp" => "image/webp", ".png" => "image/png", ".jpg" => "image/jpeg", ".jpeg" => "image/jpeg" }.freeze
 
   def open_graph_tags
     locale = I18n.locale.to_s
@@ -36,8 +37,8 @@ module SeoHelper
     ]
     tags << og("og:description", content_for(:description)) if content_for?(:description)
     if image
-      tags.push(og("og:image", image_url(image)), og("og:image:width", 1200), og("og:image:height", 630),
-                og("og:image:alt", t("site.name")))
+      tags.push(og("og:image", image_url(image)), og("og:image:type", IMAGE_TYPES.fetch(File.extname(image).downcase)),
+                og("og:image:width", 1200), og("og:image:height", 630), og("og:image:alt", t("site.name")))
     end
     tags << tag.meta(name: "twitter:card", content: image ? "summary_large_image" : "summary")
 

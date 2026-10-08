@@ -90,9 +90,9 @@ A real photo of Štěpán Merta / the team for the "O nás" section, replacing t
 
 ### Social share image
 
-The Open Graph / Twitter tags are in place (title, description, address and language of each page) but there are no cards yet, so a shared link has no picture. A designer is making them: two files, **1200x630 px**, PNG or JPG, ideally under 300 KB, one per language:
+The Open Graph / Twitter tags are in place (title, description, address and language of each page) but there are no cards yet, so a shared link has no picture. A designer is making them: two files, **1200x630 px**, WebP (PNG or JPG also work), ideally under 300 KB, one per language:
 
-- `app/assets/images/share/share-cs.png` - used for the Czech site
-- `app/assets/images/share/share-de.png` - used for the Austrian German site (`/at`)
+- `app/assets/images/share/share-cs.webp` - used for the Czech site
+- `app/assets/images/share/share-de.webp` - used for the Austrian German site (`/at`)
 
 Drop them in and restart; nothing else to change. A language without a card just has no picture.

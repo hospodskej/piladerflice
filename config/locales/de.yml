@@ -566,8 +566,8 @@ de:
 
     firewood:
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttetes</span> Brennholz"
-      stacked_heading_html: "<span class=\"text-blue\">Gestapeltes</span> Brennholz in Kisten"
+      variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+      crates_heading_html: "<span class=\"text-blue\">Brennholz</span> in Kisten"
       species:
         smrk:
           subtitle: "Weiches Brennholz"

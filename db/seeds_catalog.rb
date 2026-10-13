@@ -17,6 +17,7 @@ def add_firewood_variants(product, kontejner_price:, bedny_price:)
       product.catalog_variants.create!(
         key: "kontejner-#{len.parameterize}-#{amount}prm",
         variant_group: "kontejner",
+        stacked: ["100 cm", "50 cm"].include?(len), # 50 cm and 1 m are laid in rows, 25 and 33 cm poured loose
         length_label: len,
         amount_value: amount,
         price_czk: kontejner_price,
@@ -29,6 +30,7 @@ def add_firewood_variants(product, kontejner_price:, bedny_price:)
     product.catalog_variants.create!(
       key: "bedny-#{len.parameterize}",
       variant_group: "bedny",
+      stacked: true,
       length_label: len,
       amount_value: 1,
       price_czk: bedny_price,

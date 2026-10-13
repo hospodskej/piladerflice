@@ -41,7 +41,7 @@
       <hr class="inventory-separator main-separator">
 
       <div id="section-kontejner" class="inventory-group">
-        <h2 class="section-title"><%= t("eshop.firewood.loose_heading_html") %></h2>
+        <h2 class="section-title"><%= t("eshop.firewood.variants_heading_html") %></h2>
 
         <div class="matrix-grid">
           <div class="matrix-cell empty"></div>
@@ -64,7 +64,7 @@
                         <span><%= t("common.spec_amount") %></span>
                       </div>
                       <div class="spec-values">
-                        <span class="spec-value"><%= t("common.loose_variant") %></span>
+                        <span class="spec-value"><%= variant.stacked? ? t("common.stacked_variant") : t("common.loose_variant") %></span>
                         <span class="spec-value"><%= len %></span>
                         <span class="spec-value"><%= amount %> <%= t("common.per_m3") %></span>
                       </div>
@@ -86,7 +86,7 @@
       <hr class="inventory-separator mid-separator">
 
       <div id="section-bedny" class="inventory-group">
-        <h2 class="section-title"><%= t("eshop.firewood.stacked_heading_html") %></h2>
+        <h2 class="section-title"><%= t("eshop.firewood.crates_heading_html") %></h2>
 
         <div class="matrix-grid-bedny">
           <div class="matrix-cell empty"></div>

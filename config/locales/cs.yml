@@ -567,8 +567,8 @@ cs:
     firewood:
       # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
       stock_status: "Skladem"
-      loose_heading_html: "<span class=\"text-blue\">Volně ložené</span> palivové dřevo"
-      stacked_heading_html: "<span class=\"text-blue\">Skládané</span> palivové dřevo v bednách"
+      variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
+      crates_heading_html: "<span class=\"text-blue\">Palivové dřevo</span> v bednách"
       species:
         smrk:
           subtitle: "Měkké palivové dřevo"

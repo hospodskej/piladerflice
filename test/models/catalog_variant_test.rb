@@ -11,6 +11,25 @@ class CatalogVariantTest < ActiveSupport::TestCase
     ], variant.to_cart_specs
   end
 
+  test "to_cart_specs for a stacked firewood variant in a container" do
+    variant = catalog_variants(:smrk_kontejner_100cm)
+    variant.stacked = true
+
+    assert_equal "common.stacked_variant", variant.to_cart_specs.first["value"]
+  end
+
+  test "stacked? is false for loose container wood, true when flagged, and always true for crates" do
+    container = catalog_variants(:smrk_kontejner_100cm)
+    assert_not container.stacked?
+
+    container.stacked = true
+    assert container.stacked?
+
+    crate = catalog_variants(:smrk_bedny)
+    crate.stacked = false
+    assert crate.stacked?, "crates are always stacked"
+  end
+
   test "to_cart_specs for a stacked (bedny) firewood variant" do
     variant = catalog_variants(:smrk_bedny)
 

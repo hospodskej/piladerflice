@@ -9,15 +9,19 @@ end
 
 def add_firewood_variants(product, kontejner_price:, bedny_price:)
   lengths = ["100 cm", "50 cm", "33 cm", "25 cm"]
-  amounts = [5, 10, 15]
+  # A container holds at most 14 prm of loose wood and 13 prm of stacked wood.
+  loose_amounts = [5, 10, 14]
+  stacked_amounts = [5, 10, 13]
 
   position = 0
-  amounts.each do |amount|
+  3.times do |row|
     lengths.each do |len|
+      stacked = ["100 cm", "50 cm"].include?(len) # 50 cm and 1 m are laid in rows, 25 and 33 cm poured loose
+      amount = (stacked ? stacked_amounts : loose_amounts)[row]
       product.catalog_variants.create!(
         key: "kontejner-#{len.parameterize}-#{amount}prm",
         variant_group: "kontejner",
-        stacked: ["100 cm", "50 cm"].include?(len), # 50 cm and 1 m are laid in rows, 25 and 33 cm poured loose
+        stacked: stacked,
         length_label: len,
         amount_value: amount,
         price_czk: kontejner_price,

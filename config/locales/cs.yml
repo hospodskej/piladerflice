@@ -189,6 +189,7 @@ cs:
     spec_height: "Výška"
     price_per_m3_html: "/ m<sup>3</sup>"
     per_m3: "PRM"
+    and: "a"
     close: "Zavřít"
 
   cart:

@@ -5,8 +5,7 @@
   kontejner_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "kontejner" }
   bedny_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "bedny" }
 
-  kontejner_lengths = kontejner_variants.map(&:length_label).uniq
-  kontejner_amounts = kontejner_variants.map(&:amount_value).uniq
+  grid = FirewoodGrid.new(kontejner_variants)
 %>
 
 <main class="product-page-main main">
@@ -45,14 +44,14 @@
 
         <div class="matrix-grid">
           <div class="matrix-cell empty"></div>
-          <% kontejner_lengths.each do |len| %>
+          <% grid.lengths.each do |len| %>
             <div class="matrix-cell col-header"><%= len %></div>
           <% end %>
 
-          <% kontejner_amounts.each do |amount| %>
-            <div class="matrix-cell row-header"><span><%= amount %> <%= t("common.per_m3") %></span></div>
-            <% kontejner_lengths.each do |len| %>
-              <% variant = kontejner_variants.find { |v| v.length_label == len && v.amount_value == amount } %>
+          <% grid.rows.each_with_index do |amounts, row_index| %>
+            <div class="matrix-cell row-header"><span><%= amounts.join(" #{t('common.and')} ") %> <%= t("common.per_m3") %></span></div>
+            <% grid.lengths.each do |len| %>
+              <% variant = grid.variant_at(row_index, len) %>
               <div class="matrix-cell">
                 <% if variant %>
                   <div class="inventory-card">
@@ -66,7 +65,7 @@
                       <div class="spec-values">
                         <span class="spec-value"><%= variant.stacked? ? t("common.stacked_variant") : t("common.loose_variant") %></span>
                         <span class="spec-value"><%= len %></span>
-                        <span class="spec-value"><%= amount %> <%= t("common.per_m3") %></span>
+                        <span class="spec-value"><%= variant.amount_value %> <%= t("common.per_m3") %></span>
                       </div>
                     </div>
                     <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>

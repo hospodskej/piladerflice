@@ -152,4 +152,22 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "#section-kontejner .spec-value", text: "Gestapelt"
     assert_select "#section-bedny h2.section-title", text: "Brennholz in Kisten"
   end
+
+  test "firewood page: loose 14 prm and stacked 13 prm wood share the last row, labelled '13 a 14 PRM'" do
+    product = CatalogProduct.create!(key: "testovaci-drevo", template: "firewood", category: "palivove", title: "Testovací", active: true)
+    [["100 cm", true, 13], ["50 cm", true, 13], ["33 cm", false, 14], ["25 cm", false, 14]].each_with_index do |(length, stacked, amount), index|
+      product.catalog_variants.create!(key: "v#{index}", variant_group: "kontejner", stacked: stacked, length_label: length,
+                                       amount_value: amount, price_czk: 1000, position: index)
+    end
+
+    get eshop_product_url(product.key)
+
+    assert_equal ["13 a 14 PRM"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
+    cards = css_select("#section-kontejner .inventory-card").map { |c| c.css(".spec-value").map { |v| v.text.strip } }
+    assert_equal [["Skládané", "100 cm", "13 PRM"], ["Skládané", "50 cm", "13 PRM"],
+                  ["Sypané", "33 cm", "14 PRM"], ["Sypané", "25 cm", "14 PRM"]], cards
+
+    get "/at/eshop/#{product.key}"
+    assert_equal ["13 und 14 Rm"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
+  end
 end

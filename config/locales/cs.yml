@@ -568,8 +568,6 @@ cs:
       # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
       stock_status: "Skladem"
       variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
-      loose_block_html: "<span class=\"text-blue\">Sypané</span> v kontejneru"
-      stacked_block_html: "<span class=\"text-blue\">Skládané</span> v kontejneru"
       crates_heading_html: "<span class=\"text-blue\">Palivové dřevo</span> v bednách"
       species:
         smrk:

@@ -40,7 +40,7 @@
               <%= variant.variant_label %>
             <% end %>
             <% if variant.variant_group.present? %>
-              <br><span style="color:#999; font-size:0.8rem;"><%= variant.variant_group == "bedny" ? "Skládané (bedny)" : "Sypané (kontejner)" %></span>
+              <br><span style="color:#999; font-size:0.8rem;"><%= variant.variant_group == "bedny" ? "Skládané (bedny)" : (variant.stacked? ? "Skládané (kontejner)" : "Sypané (kontejner)") %></span>
             <% end %>
           </td>
           <td><%= variant.length_label %></td>

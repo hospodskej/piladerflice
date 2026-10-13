@@ -189,6 +189,7 @@ de:
     spec_height: "Höhe"
     price_per_m3_html: "/ m<sup>3</sup>"
     per_m3: "Rm"
+    and: "und"
     close: "Schließen"
 
   cart:
@@ -566,8 +567,8 @@ de:
 
     firewood:
       stock_status: "Auf Lager"
-      loose_heading_html: "<span class=\"text-blue\">Lose geschüttetes</span> Brennholz"
-      stacked_heading_html: "<span class=\"text-blue\">Gestapeltes</span> Brennholz in Kisten"
+      variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+      crates_heading_html: "<span class=\"text-blue\">Brennholz</span> in Kisten"
       species:
         smrk:
           subtitle: "Weiches Brennholz"

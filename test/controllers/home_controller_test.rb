@@ -115,4 +115,59 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".kontakt-list-items a[href=?]", "tel:+420602446339"
     assert_select ".kontakt-list-items a[href=?]", "tel:+420515235527"
   end
+
+  test "firewood page: container cards say loose or stacked by the wood, crates are listed separately" do
+    product = catalog_products(:smrk)
+    product.catalog_variants.create!(key: "kontejner-33cm-10prm", variant_group: "kontejner", length_label: "33 cm", amount_value: 10, price_czk: 1500)
+    catalog_variants(:smrk_kontejner_100cm).update!(stacked: true)
+
+    get eshop_product_url(product.key)
+    assert_response :success
+
+    container = css_select("#section-kontejner .inventory-card").to_h do |card|
+      values = card.css(".spec-value").map { |v| v.text.strip }
+      [values[1], values[0]] # length => "Sypané" / "Skládané"
+    end
+    assert_equal "Skládané", container["100 cm"]
+    assert_equal "Sypané", container["33 cm"]
+
+    crates = css_select("#section-bedny .inventory-card .spec-value:first-child").map { |v| v.text.strip }
+    assert_equal ["Skládané"], crates.uniq
+  end
+
+  test "firewood page headings: neutral 'available variants' on top, only crates below" do
+    get eshop_product_url(catalog_products(:smrk).key)
+
+    assert_select "#section-kontejner h2.section-title", text: "Dostupné varianty"
+    assert_select "#section-bedny h2.section-title", text: "Palivové dřevo v bednách"
+    assert_no_match(/Volně ložené/, response.body)
+  end
+
+  test "the German firewood page uses German labels" do
+    catalog_variants(:smrk_kontejner_100cm).update!(stacked: true)
+
+    get "/at/eshop/#{catalog_products(:smrk).key}"
+
+    assert_select "#section-kontejner h2.section-title", text: "Verfügbare Varianten"
+    assert_select "#section-kontejner .spec-value", text: "Gestapelt"
+    assert_select "#section-bedny h2.section-title", text: "Brennholz in Kisten"
+  end
+
+  test "firewood page: loose 14 prm and stacked 13 prm wood share the last row, labelled '13 a 14 PRM'" do
+    product = CatalogProduct.create!(key: "testovaci-drevo", template: "firewood", category: "palivove", title: "Testovací", active: true)
+    [["100 cm", true, 13], ["50 cm", true, 13], ["33 cm", false, 14], ["25 cm", false, 14]].each_with_index do |(length, stacked, amount), index|
+      product.catalog_variants.create!(key: "v#{index}", variant_group: "kontejner", stacked: stacked, length_label: length,
+                                       amount_value: amount, price_czk: 1000, position: index)
+    end
+
+    get eshop_product_url(product.key)
+
+    assert_equal ["13 a 14 PRM"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
+    cards = css_select("#section-kontejner .inventory-card").map { |c| c.css(".spec-value").map { |v| v.text.strip } }
+    assert_equal [["Skládané", "100 cm", "13 PRM"], ["Skládané", "50 cm", "13 PRM"],
+                  ["Sypané", "33 cm", "14 PRM"], ["Sypané", "25 cm", "14 PRM"]], cards
+
+    get "/at/eshop/#{product.key}"
+    assert_equal ["13 und 14 Rm"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
+  end
 end

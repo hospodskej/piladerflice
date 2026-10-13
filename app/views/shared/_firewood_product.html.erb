@@ -5,8 +5,11 @@
   kontejner_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "kontejner" }
   bedny_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "bedny" }
 
-  kontejner_lengths = kontejner_variants.map(&:length_label).uniq
-  kontejner_amounts = kontejner_variants.map(&:amount_value).uniq
+  # Loose (25, 33 cm) and stacked (50 cm, 1 m) wood in a container get a block each.
+  container_blocks = [
+    ["eshop.firewood.loose_block_html", kontejner_variants.reject(&:stacked?)],
+    ["eshop.firewood.stacked_block_html", kontejner_variants.select(&:stacked?)]
+  ].reject { |_, variants| variants.empty? }
 %>
 
 <main class="product-page-main main">
@@ -43,44 +46,13 @@
       <div id="section-kontejner" class="inventory-group">
         <h2 class="section-title"><%= t("eshop.firewood.variants_heading_html") %></h2>
 
-        <div class="matrix-grid">
-          <div class="matrix-cell empty"></div>
-          <% kontejner_lengths.each do |len| %>
-            <div class="matrix-cell col-header"><%= len %></div>
+        <% container_blocks.each_with_index do |(heading, variants), index| %>
+          <% if index.positive? %>
+            <hr class="inventory-separator block-separator">
           <% end %>
-
-          <% kontejner_amounts.each do |amount| %>
-            <div class="matrix-cell row-header"><span><%= amount %> <%= t("common.per_m3") %></span></div>
-            <% kontejner_lengths.each do |len| %>
-              <% variant = kontejner_variants.find { |v| v.length_label == len && v.amount_value == amount } %>
-              <div class="matrix-cell">
-                <% if variant %>
-                  <div class="inventory-card">
-                    <%= image_tag_with_fallback variant.image, "eshop/container.webp", alt: t("common.container"), class: "inventory-img" %>
-                    <div class="inventory-specs">
-                      <div class="spec-labels">
-                        <span><%= t("common.spec_variant") %></span>
-                        <span><%= t("common.spec_length") %></span>
-                        <span><%= t("common.spec_amount") %></span>
-                      </div>
-                      <div class="spec-values">
-                        <span class="spec-value"><%= variant.stacked? ? t("common.stacked_variant") : t("common.loose_variant") %></span>
-                        <span class="spec-value"><%= len %></span>
-                        <span class="spec-value"><%= amount %> <%= t("common.per_m3") %></span>
-                      </div>
-                    </div>
-                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
-                    <% if variant.in_stock? %>
-                      <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
-                    <% else %>
-                      <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
+          <h3 class="section-title inventory-block-title"><%= t(heading) %></h3>
+          <%= render "shared/firewood_matrix", variants: variants %>
+        <% end %>
       </div>
 
       <hr class="inventory-separator mid-separator">

@@ -300,6 +300,23 @@
     margin-bottom: 40px;
 }
 
+/* A container block with N length columns: the same card width as the
+   4-column grid (the width formula below), just fewer columns. */
+.matrix-grid-block {
+    grid-template-columns: 90px repeat(var(--cols, 4), minmax(0, 1fr));
+    width: calc(90px + var(--cols, 4) * (16px + (100% - 154px) / 4));
+    max-width: 100%;
+}
+
+.inventory-block-title {
+    font-size: 1.4rem;
+    margin: 0 0 24px 0;
+}
+
+.inventory-group > .block-separator {
+    margin: 0 0 25px 0;
+}
+
 .matrix-grid-3 {
     display: grid;
     grid-template-columns: 90px repeat(3, minmax(0, 1fr));
@@ -387,6 +404,10 @@
 }
 
 @media (max-width: 900px) {
+    .matrix-grid-block {
+        width: auto;
+    }
+
     .product-intro-section {
         grid-template-columns: 1fr;
     }

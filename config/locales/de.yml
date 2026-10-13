@@ -567,6 +567,8 @@ de:
     firewood:
       stock_status: "Auf Lager"
       variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+      loose_block_html: "<span class=\"text-blue\">Lose</span> im Container"
+      stacked_block_html: "<span class=\"text-blue\">Gestapelt</span> im Container"
       crates_heading_html: "<span class=\"text-blue\">Brennholz</span> in Kisten"
       species:
         smrk:

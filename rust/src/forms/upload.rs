@@ -1,6 +1,9 @@
-//! A form with a file (multipart). Like [`FormData`](super::FormData): the
-//! token is checked before the handler sees anything. The whole request
-//! may be at most [`MAX_UPLOAD_BYTES`]; the route sets the same limit.
+//! A form that may have a file (multipart). Like [`FormData`](super::FormData):
+//! the token is checked before the handler sees anything. The route sets
+//! how big the request may be ([`MAX_UPLOAD_BYTES`] for profile pictures).
+//!
+//! A plain form is read too (as fields without files), so one handler can
+//! take both the "Save" form with its photo and a plain "Delete" button.
 
 use axum::extract::{FromRequest, Multipart, Request};
 use axum::http::StatusCode;
@@ -9,9 +12,12 @@ use super::{Refused, verify};
 use crate::AppState;
 use crate::request::Req;
 
-/// A little over the 2 MB a picture may have, so a too big picture still
-/// gets a friendly message instead of a bare error.
+/// Profile pictures: a little over the 2 MB a picture may have, so a too
+/// big picture still gets a friendly message instead of a bare error.
 pub const MAX_UPLOAD_BYTES: usize = 3 * 1024 * 1024;
+
+/// Admin forms with a photo (straight from a phone camera).
+pub const MAX_ADMIN_UPLOAD_BYTES: usize = 25 * 1024 * 1024;
 
 #[derive(Debug)]
 pub struct UploadedFile {
@@ -35,6 +41,12 @@ impl UploadForm {
             .map(|(_, value)| value.as_str())
     }
 
+    /// The method a Rails-style form asks for with `_method`; "post"
+    /// without one.
+    pub fn method(&self) -> String {
+        self.get("_method").unwrap_or("post").to_lowercase()
+    }
+
     /// The chosen file of a field; None when no file was chosen.
     pub fn file(&self, name: &str) -> Option<&UploadedFile> {
         self.files
@@ -43,10 +55,28 @@ impl UploadForm {
     }
 }
 
+impl super::Fields for UploadForm {
+    fn field(&self, name: &str) -> Option<&str> {
+        self.get(name)
+    }
+}
+
 impl FromRequest<AppState> for UploadForm {
     type Rejection = Refused;
 
     async fn from_request(request: Request, state: &AppState) -> Result<Self, Self::Rejection> {
+        let multipart = request
+            .headers()
+            .get(axum::http::header::CONTENT_TYPE)
+            .and_then(|value| value.to_str().ok())
+            .is_some_and(|value| value.starts_with("multipart/form-data"));
+        if !multipart {
+            let form = super::FormData::from_request(request, state).await?;
+            return Ok(UploadForm {
+                fields: form.pairs().to_vec(),
+                files: Vec::new(),
+            });
+        }
         let (mut parts, body) = request.into_parts();
         let req = <Req as axum::extract::FromRequestParts<AppState>>::from_request_parts(&mut parts, state)
             .await

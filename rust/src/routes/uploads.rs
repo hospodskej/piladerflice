@@ -2,24 +2,13 @@
 //! folder: `storage/ab/cd/abcd…` (the key's first two pairs of characters
 //! as folders).
 
-use std::path::{Path, PathBuf};
-
 use axum::body::Body;
 use axum::extract::{Path as UrlPath, State};
 use axum::http::{HeaderValue, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 
 use crate::AppState;
-
-/// Blob keys are 28 lowercase letters and digits; anything else is not a key
-/// (and must never reach the file system).
-fn valid_key(key: &str) -> bool {
-    !key.is_empty() && key.len() <= 64 && key.chars().all(|c| c.is_ascii_alphanumeric())
-}
-
-fn file_for(root: &Path, key: &str) -> PathBuf {
-    root.join(&key[0..2]).join(&key[2..4]).join(key)
-}
+use crate::storage;
 
 /// Types a browser may show directly (Active Storage's
 /// content_types_allowed_inline). Anything else (an SVG with a script in it,
@@ -41,7 +30,7 @@ const INLINE_TYPES: [&str; 11] = [
 /// GET /uploads/{key}/{filename}. The key never changes for a file, so it
 /// can be cached for good.
 pub async fn serve(State(state): State<AppState>, UrlPath((key, _filename)): UrlPath<(String, String)>) -> Response {
-    if !valid_key(&key) || key.len() < 4 {
+    if !storage::valid_key(&key) {
         return StatusCode::NOT_FOUND.into_response();
     }
     let blob: Option<(Option<String>,)> =
@@ -59,7 +48,7 @@ pub async fn serve(State(state): State<AppState>, UrlPath((key, _filename)): Url
     let Some((content_type,)) = blob else {
         return StatusCode::NOT_FOUND.into_response();
     };
-    let Ok(bytes) = tokio::fs::read(file_for(&state.config.storage_root, &key)).await else {
+    let Some(bytes) = storage::read(&state.config.storage_root, &key).await else {
         return StatusCode::NOT_FOUND.into_response();
     };
 
@@ -87,25 +76,4 @@ pub async fn serve(State(state): State<AppState>, UrlPath((key, _filename)): Url
     );
     headers.insert(header::X_CONTENT_TYPE_OPTIONS, HeaderValue::from_static("nosniff"));
     response
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn only_plain_keys_are_accepted() {
-        assert!(valid_key("vipnt6c82q5dy393de7xojdl6nbv"));
-        assert!(!valid_key("../../etc/passwd"));
-        assert!(!valid_key("ab/cd"));
-        assert!(!valid_key(""));
-    }
-
-    #[test]
-    fn files_live_in_two_levels_of_folders() {
-        assert_eq!(
-            file_for(Path::new("/s"), "vipnt6c8"),
-            PathBuf::from("/s/vi/pn/vipnt6c8")
-        );
-    }
 }

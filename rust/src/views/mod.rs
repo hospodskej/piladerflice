@@ -12,9 +12,13 @@
 //! - [`cart_view`]: the cart as the pages show it (header widget, cart page, checkout)
 //! - [`turbo`], [`fragment`]: Turbo Stream answers to forms; [`redirect`]: after a form
 //! - [`text`]: small text helpers (escaping, Rails' squish and truncate)
+//! - [`form_helpers`]: Rails' form helpers for the admin templates
+//! - [`admin_layout`]: rendering an admin page inside the admin layout
 
+pub mod admin_layout;
 pub mod breadcrumbs;
 pub mod cart_view;
+pub mod form_helpers;
 pub mod fragment;
 mod functions;
 pub mod layout;

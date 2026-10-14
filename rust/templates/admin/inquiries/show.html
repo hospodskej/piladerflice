@@ -1,0 +1,48 @@
+{% extends "layouts/admin.html" %}
+{% block content %}
+<a class="admin-back-link" href="/admin/inquiries">← Zpět na poptávky</a>
+
+<h1 class="admin-page-title">Poptávka #{{ inquiry.id }}</h1>
+<p class="admin-page-subtitle">
+  {{ inquiry.date }} · jazyk formuláře: {{ "němčina" if inquiry.german else "čeština" }}
+</p>
+
+<div class="admin-detail-grid">
+  <div class="admin-box">
+    <h2>Kontakt</h2>
+    <p>{{ inquiry.full_name }}<br>
+      <a href="mailto:{{ inquiry.email }}">{{ inquiry.email }}</a><br>
+      {{ inquiry.phone }}</p>
+    {% if inquiry.full_address %}
+      <p>{{ inquiry.full_address }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="admin-box">
+  <h2>Požadované položky ({{ inquiry.category }})</h2>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        {% for header in headers %}
+          <th>{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          {% for value in row %}
+            <td>{{ value }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if inquiry.notes|trim %}
+    <h2 style="margin-top: 20px;">Poznámka</h2>
+    <p style="white-space: pre-wrap;">{{ inquiry.notes }}</p>
+  {% endif %}
+</div>
+{% endblock %}

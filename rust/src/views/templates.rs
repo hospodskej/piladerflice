@@ -9,8 +9,8 @@ use minijinja::value::{Kwargs, Value};
 use minijinja::{AutoEscape, Environment, Error, State, path_loader};
 use minijinja_autoreload::AutoReloader;
 
-use super::functions;
 use super::text::escape;
+use super::{form_helpers, functions};
 use crate::assets::Assets;
 use crate::i18n::Translations;
 
@@ -63,5 +63,6 @@ fn environment(dir: PathBuf, translations: Arc<Translations>, assets: Arc<Assets
     });
     env.add_function("path", functions::path);
     env.add_function("asset", move |logical: String| assets.url(&logical));
+    form_helpers::register(&mut env);
     env
 }

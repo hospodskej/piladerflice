@@ -1,0 +1,37 @@
+{% extends "layouts/admin.html" %}
+{% block content %}
+<h1 class="admin-page-title">Objednávky</h1>
+
+{% if orders %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Č.</th>
+        <th>Zákazník</th>
+        <th>E-mail</th>
+        <th>Celkem</th>
+        <th>Doprava</th>
+        <th>Platba</th>
+        <th>Datum</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td><a href="/admin/orders/{{ order.id }}">#{{ order.id }}</a></td>
+          <td>{{ order.full_name }}</td>
+          <td>{{ order.email }}</td>
+          <td>{{ order.total }}</td>
+          <td>{{ "Osobní odběr" if order.pickup else "Doručení" }}</td>
+          <td>{{ "Převod" if order.bank_transfer else "Hotově" }}</td>
+          <td>{{ order.date }}</td>
+          <td>{{ button_to("Smazat", "/admin/orders/" ~ order.id, method="delete", class="admin-danger-btn", form_confirm="Opravdu smazat tuto objednávku?") }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Zatím žádné objednávky.</p>
+{% endif %}
+{% endblock %}

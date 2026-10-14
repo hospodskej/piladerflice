@@ -4,6 +4,7 @@
 
 use crate::i18n::Translations;
 use crate::locale::Locale;
+use crate::models::validation::full_message;
 
 pub const MIN_PASSWORD: usize = 8;
 /// bcrypt only looks at the first 72 bytes.
@@ -19,11 +20,7 @@ pub struct Registration<'a> {
 /// "Heslo je příliš krátké (nejméně 8 znaků)", ...; empty when all is well.
 pub fn errors(registration: &Registration, translations: &Translations, locale: Locale) -> Vec<String> {
     let message = |field: &str, error: &str, count: Option<usize>| {
-        let attribute = translations.text(locale, &format!("activerecord.attributes.user.{field}"), &[]);
-        let key = format!("activerecord.errors.models.user.attributes.{field}.{error}");
-        let count = count.map(|c| c.to_string()).unwrap_or_default();
-        let text = translations.text(locale, &key, &[("count", &count)]);
-        format!("{attribute} {text}")
+        full_message(translations, locale, "user", field, error, count.map(|c| c as i64))
     };
     let mut errors = Vec::new();
     if registration.password.is_empty() {
@@ -49,14 +46,4 @@ pub fn errors(registration: &Registration, translations: &Translations, locale: 
         errors.push(message("password", "too_short", Some(MIN_PASSWORD)));
     }
     errors
-}
-
-/// "1 chyba", "3 chyby", "5 chyb" (Czech plural).
-pub fn error_count(count: usize) -> String {
-    let word = match count {
-        1 => "chyba",
-        2..=4 => "chyby",
-        _ => "chyb",
-    };
-    format!("{count} {word}")
 }

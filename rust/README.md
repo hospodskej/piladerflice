@@ -54,10 +54,12 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 | 2 | Catalogue: home page, e-shop, product pages (firewood grid, lumber filters, simple variants), contact page with price list and quote form, services, Sortiment, euro prices, sitemap, uploaded images | done |
 | 3 | Sessions (encrypted cookie) and form protection, cart with Turbo Streams, checkout (shipping, details, summary, thank-you), delivery price by distance, order and quote request e-mails | done |
 | 4 | Accounts: registration, sign-in and sign-out, profile, profile pictures, order history and reordering, checkout prefill | done |
-| 5 | Admin area | next |
-| 6 | Remaining extras, side-by-side comparison with Rails, switch-over | |
+| 5 | Admin area: overview, orders, quote requests, catalogue products and variants with photos, promos, price list, quote form choices | done |
+| 6 | Remaining extras, side-by-side comparison with Rails, switch-over | next |
 
 Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical. The whole shopping flow (add to cart, change quantities, all checkout steps, the thank-you page) was run in a browser against both apps, in Czech and German, and every step's HTML matched; the saved orders and quote requests are the same too. The account flow (sign-in required, registration with errors, profile, picture upload, checkout prefill, sign-out, failed and successful sign-in) was compared the same way, in both languages.
+
+The admin was compared the same way: all 29 admin pages (including forms that didn't save) have the same HTML as Rails, and a script that adds, edits, moves and deletes one of everything (with a photo upload) gave the same page at every step and, on two copies of the same database, the same data afterwards.
 
 Accounts are shared with Rails: passwords are bcrypt hashes in the same format as Rails' `has_secure_password`, and sign-ins are rows of the same `sessions` table, so an account made in one app signs in to the other (tested both ways). Profile pictures are stored as Active Storage blobs, cleaned the same way (decoded, turned upright, cut to 256×256, saved as WebP).
 
@@ -67,9 +69,12 @@ A few things differ from Rails on purpose:
 - error counts use the Czech plural ("2 chyby", Rails says "2 chyba");
 - the session cookie has a new name (`_pila_session`) and the login cookie is `_pila_login`, so switching from Rails to Rust starts everyone with an empty cart and signed out;
 - a sign-in with an unknown e-mail takes as long as one with a wrong password, so the timing doesn't tell which e-mails have accounts;
-- picture uploads are limited per account (10 per 10 minutes) instead of per IP address.
+- picture uploads are limited per account (10 per 10 minutes) instead of per IP address;
+- photos uploaded in the admin must be JPEG, PNG or WebP (Rails took any file). Their metadata (GPS position, camera, date) is removed as in Rails, but without recompressing them, so they are stored a little bigger, and a rotated phone photo keeps its orientation (ImageOptim drops it, so Rails shows such photos lying on their side).
 
 The sign-in, sign-out and registration messages are in Czech in both languages, as in Rails; translating them is a small fix for later, in both apps.
+
+The comparison found bugs in the Rails app too, fixed in both: the admin's error messages read "Translation missing" (no Czech validation messages), "2 chyba" instead of "2 chyby", an emptied "Pořadí" field crashed saving a product or variant, and old orders showed "Translation missing" for products deleted since. The admin's dates are in UTC, as in Rails (the Rails app sets no time zone); showing Czech time would be a change for both.
 
 Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' signed `/rails/active_storage/...` links. The key is random and never reused, so these URLs are cached for good.
 
@@ -92,6 +97,10 @@ src/
   session/           the encrypted session cookie: data, load/save layer, CSRF token, flash
   shop/              cart and cart lines, checkout details, line descriptions, VAT,
     delivery/        the delivery quote and the openrouteservice distance lookup
+  admin/             what the admin edits: one file per table (columns, Rails' checks),
+                     record.rs (a row as form values and back), images.rs (checking and
+                     cleaning uploaded photos), ordering.rs, dashboard.rs
+  storage.rs         files the way Active Storage keeps them (blob, attachment, ab/cd/key)
   accounts/          the signed-in user, passwords (bcrypt), registration checks, rate limits
     avatar/          profile pictures: storing as Active Storage blobs, cleaning uploads,
                      keeping the EXIF data inside the WebP
@@ -102,10 +111,12 @@ src/
     catalog/         product, variant, firewood grid
     content/         promo, service, category tile, FAQ slide, review
     user.rs          accounts and their profile; login_session.rs: the sessions table
+    validation.rs    Rails-style error messages ("Klíč už je použitý") from the translations
     order.rs, inquiry.rs, pricelist.rs, inquiry_options.rs, upload.rs
   views/             templates and the layout
     templates.rs     loading templates; functions.rs: t() and path()
-    layout.rs        renders a page inside the site layout
+    layout.rs        renders a page inside the site layout; admin_layout.rs: the admin's
+    form_helpers.rs  Rails' form helpers (text_field, select, button_to...) for the admin
     page.rs          title, description, breadcrumbs, status of a page
     breadcrumbs.rs, seo.rs, text.rs
   routes/            one file per page; mod.rs is the list of all URLs
@@ -116,6 +127,8 @@ src/
     inquiries.rs     the quote request form
     auth/            sign-in, sign-out, registration
     account/         the account page, profile form, profile picture, ordering again
+    admin/           the admin: guard.rs lets only admins in, params.rs reads record ids,
+                     one file per section
     eshop/           listing, product page, one file per product layout
                      (firewood, lumber, simple_variant), recommendations
     components/      view pieces used by several pages (product card,
@@ -126,7 +139,7 @@ templates/           Jinja templates (MiniJinja); same HTML as the Rails views (
 db/schema.sql        the database schema (exported from Rails), used by the tests
 tests/               requests against the whole app, like a browser would make them;
                      fixtures/data.sql is the test data, loaded into a fresh in-memory database;
-                     fixtures/accounts.sql adds two accounts (password "heslo12345")
+                     fixtures/accounts.sql adds two accounts (password "heslo12345"), one an admin
 ```
 
 When a Rails migration changes the database, re-export `db/schema.sql` (the `CREATE` statements from `sqlite_master`).
@@ -170,6 +183,10 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **`Send` futures**: axum runs handlers on any thread, so nothing that isn't `Send` may live across an `.await`. `shop/delivery/route_service.rs` shows the fix for one such error (finish the URL builder into a `String` first); `#[axum::debug_handler]` explains these errors best.
 - **`spawn_blocking`** (`routes/account/avatar.rs`): resizing a picture is CPU work that would stall the async threads, so it runs on a thread meant for blocking work.
 - **`Box`** (`require_login` in `routes/account/mod.rs`): puts a big value on the heap so the `Result` that carries it stays small; clippy points these out.
+- **Middleware** (`routes/admin/guard.rs`): a function that runs before every admin route; it answers itself (a redirect) or passes the request on with `next.run(...)`. Checking access in one place means no page can forget it.
+- **Custom extractors with their own rejection** (`routes/admin/params.rs`): `RecordId` reads `{id}` from the URL and answers "not found" by itself when it isn't a number.
+- **`const` tables** (`admin/products.rs`): each admin table's columns are a constant, checked by the compiler and by a test that every column can be changed by its form.
+- **Byte-level parsing** (`admin/images.rs`): walking a JPEG's or PNG's blocks with slices and `get(..)?`, which stops at a broken file instead of panicking.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

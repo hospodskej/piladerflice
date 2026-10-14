@@ -1,0 +1,44 @@
+{% extends "layouts/admin.html" %}
+{% block content %}
+<div class="admin-toolbar">
+  <h1 class="admin-page-title">Katalog a ceny</h1>
+  <a class="btn-primary" href="/admin/catalog_products/new">+ Nový produkt</a>
+</div>
+
+{% if products %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Produkt</th>
+        <th>Šablona</th>
+        <th>Kategorie</th>
+        <th>Varianty</th>
+        <th>Od ceny</th>
+        <th>Aktivní</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <td><strong>{{ product.title }}</strong><br><span style="color:#999; font-size:0.8rem;">{{ product.key }}</span></td>
+          <td>{{ product.template }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.variant_count }}</td>
+          <td>
+            {% if product.starting_price %}
+              {{ product.starting_price }}
+            {% else %}
+              <span style="color:#D33;">bez ceny</span>
+            {% endif %}
+          </td>
+          <td>{{ "Ano" if product.active else "Ne" }}</td>
+          <td><a href="/admin/catalog_products/{{ product.id }}/edit">Upravit</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="admin-empty-state">Zatím žádné produkty v katalogu.</div>
+{% endif %}
+{% endblock %}

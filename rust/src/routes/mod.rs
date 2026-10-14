@@ -3,6 +3,7 @@
 //! same handler, which reads the language from [`Req`](crate::request::Req).
 
 mod account;
+mod admin;
 mod auth;
 mod cart;
 mod checkout;
@@ -94,6 +95,8 @@ pub fn router(state: AppState) -> Router {
                 .layer(DefaultBodyLimit::max(MAX_UPLOAD_BYTES)),
         )
         .route("/muj-ucet/objednavky/{id}/znovu-objednat", post(account::reorder))
+        // Admin (Czech only, admins only)
+        .nest("/admin", admin::router(state.clone()))
         // Legal
         .route("/obchodni-podminky", get(legal::terms))
         .route("/zasady-cookies", get(legal::cookies_policy))

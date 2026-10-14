@@ -8,6 +8,7 @@ use super::cart_line::{CartLine, Spec};
 use crate::db::Db;
 use crate::i18n::Translations;
 use crate::locale::Locale;
+use crate::views::text::humanize;
 
 /// Product names by key, loaded once per page or e-mail.
 pub struct Describer<'a> {
@@ -37,9 +38,13 @@ impl<'a> Describer<'a> {
     fn title(&self, key: &str, locale: Locale) -> String {
         match self.titles.get(key) {
             Some((title, title_de)) => crate::models::tr(locale, &Some(title.clone()), title_de),
+            // A product that is no longer sold (an old order): its old
+            // translated title, or else its key made readable.
             None => self
                 .translations
-                .text(locale, &format!("eshop.products.{key}.title"), &[]),
+                .lookup(locale, &format!("eshop.products.{key}.title"))
+                .and_then(|title| title.as_str())
+                .map_or_else(|| humanize(key), str::to_string),
         }
     }
 

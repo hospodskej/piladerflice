@@ -64,6 +64,17 @@ impl FormData {
     }
 }
 
+/// Reading fields, whichever kind of form they came in.
+pub trait Fields {
+    fn field(&self, name: &str) -> Option<&str>;
+}
+
+impl Fields for FormData {
+    fn field(&self, name: &str) -> Option<&str> {
+        self.get(name)
+    }
+}
+
 /// The form was refused: forged, from another site, or too big.
 #[derive(Debug)]
 pub struct Refused(pub StatusCode);

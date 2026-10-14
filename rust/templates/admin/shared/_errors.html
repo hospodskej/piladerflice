@@ -1,0 +1,11 @@
+{# The box above a form that didn't save. #}
+{% if f.errors %}
+  <div class="admin-flash admin-flash-alert">
+    <strong>{{ f.error_count }} brání uložení:</strong>
+    <ul>
+      {% for message in f.errors %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

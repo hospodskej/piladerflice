@@ -217,6 +217,24 @@ impl Order {
         .await
     }
 
+    /// The latest orders of everyone, newest first; `limit` None for all.
+    pub async fn latest(db: &Db, limit: Option<i64>) -> sqlx::Result<Vec<Order>> {
+        sqlx::query_as(&format!(
+            "SELECT {COLUMNS} FROM orders ORDER BY created_at DESC, id DESC LIMIT ?"
+        ))
+        .bind(limit.unwrap_or(-1))
+        .fetch_all(db)
+        .await
+    }
+
+    pub async fn delete(db: &Db, id: i64) -> sqlx::Result<()> {
+        sqlx::query("DELETE FROM orders WHERE id = ?")
+            .bind(id)
+            .execute(db)
+            .await?;
+        Ok(())
+    }
+
     pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<Order>> {
         sqlx::query_as(&format!("SELECT {COLUMNS} FROM orders WHERE id = ?"))
             .bind(id)

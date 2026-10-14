@@ -9,6 +9,7 @@ use crate::accounts::password;
 use crate::accounts::registration::{self, Registration};
 use crate::forms::FormData;
 use crate::models::user;
+use crate::models::validation::error_count;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
@@ -47,7 +48,7 @@ pub async fn create(State(state): State<AppState>, req: Req, form: FormData) -> 
 
 async fn render(state: &AppState, req: &Req, email: &str, errors: Vec<String>) -> Result {
     let page = Page::meta(state, req, "register");
-    let error_count = registration::error_count(errors.len());
+    let error_count = error_count(errors.len());
     Ok(views::render(
         state,
         req,

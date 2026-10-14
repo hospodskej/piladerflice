@@ -10,6 +10,7 @@
 //! - [`routes`]: one module per area of the site
 
 pub mod accounts;
+pub mod admin;
 pub mod assets;
 pub mod config;
 pub mod db;
@@ -24,6 +25,7 @@ pub mod routes;
 pub mod session;
 pub mod shop;
 pub mod state;
+pub mod storage;
 pub mod views;
 
 pub use config::Config;

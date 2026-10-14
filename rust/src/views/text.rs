@@ -47,6 +47,17 @@ pub fn capitalize(text: &str) -> String {
     }
 }
 
+/// "price_czk" -> "Price czk", "okrasne_kamenivo" -> "Okrasne kamenivo"
+/// (Rails' `humanize`, for names that have no translation).
+pub fn humanize(name: &str) -> String {
+    let words = name.strip_suffix("_id").unwrap_or(name).replace('_', " ");
+    let mut chars = words.chars();
+    match chars.next() {
+        Some(first) => first.to_uppercase().chain(chars).collect(),
+        None => String::new(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

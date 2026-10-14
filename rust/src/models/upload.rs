@@ -37,6 +37,20 @@ pub async fn images_of(db: &Db, record_type: &str) -> sqlx::Result<HashMap<i64, 
     Ok(uploads.into_iter().map(|upload| (upload.record_id, upload)).collect())
 }
 
+/// The `image` of one record, if it has one.
+pub async fn image_of(db: &Db, record_type: &str, record_id: i64) -> sqlx::Result<Option<Upload>> {
+    sqlx::query_as(
+        "SELECT a.record_id, b.key, b.filename, b.content_type
+         FROM active_storage_attachments a JOIN active_storage_blobs b ON b.id = a.blob_id
+         WHERE a.record_type = ? AND a.record_id = ? AND a.name = 'image'
+         ORDER BY a.id DESC LIMIT 1",
+    )
+    .bind(record_type)
+    .bind(record_id)
+    .fetch_optional(db)
+    .await
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

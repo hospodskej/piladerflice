@@ -5,7 +5,13 @@ use chrono::{NaiveDateTime, SubsecRound, Utc};
 
 use crate::db::Db;
 
-#[derive(Clone, Debug, Default)]
+/// The columns, with empty text for NULL.
+const COLUMNS: &str = "id, COALESCE(first_name, '') AS first_name, COALESCE(last_name, '') AS last_name,
+    COALESCE(email, '') AS email, COALESCE(phone, '') AS phone, COALESCE(street, '') AS street,
+    COALESCE(house_number, '') AS house_number, COALESCE(city, '') AS city, COALESCE(zip, '') AS zip,
+    COALESCE(notes, '') AS notes, category, items_snapshot, locale, created_at";
+
+#[derive(Clone, Debug, Default, sqlx::FromRow)]
 pub struct Inquiry {
     pub id: i64,
     pub first_name: String,
@@ -56,6 +62,22 @@ impl Inquiry {
 
     pub fn items(&self) -> Vec<serde_json::Map<String, serde_json::Value>> {
         serde_json::from_str(&self.items_snapshot).unwrap_or_default()
+    }
+
+    /// All quote requests, newest first.
+    pub async fn latest(db: &Db) -> sqlx::Result<Vec<Inquiry>> {
+        sqlx::query_as(&format!(
+            "SELECT {COLUMNS} FROM inquiries ORDER BY created_at DESC, id DESC"
+        ))
+        .fetch_all(db)
+        .await
+    }
+
+    pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<Inquiry>> {
+        sqlx::query_as(&format!("SELECT {COLUMNS} FROM inquiries WHERE id = ?"))
+            .bind(id)
+            .fetch_optional(db)
+            .await
     }
 
     pub async fn insert(mut self, db: &Db) -> sqlx::Result<Inquiry> {

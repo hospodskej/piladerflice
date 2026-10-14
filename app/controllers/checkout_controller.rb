@@ -127,7 +127,7 @@ class CheckoutController < ApplicationController
   def delivery_quote
     return @delivery_quote if defined?(@delivery_quote)
 
-    @delivery_quote = DeliveryQuote.for_checkout(current_checkout, current_cart)
+    @delivery_quote = DeliveryQuote.for_checkout(current_checkout)
   end
 
   def cart_items_snapshot

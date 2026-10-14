@@ -231,8 +231,6 @@ cs:
     shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
     shipping_address_rate_note: "%{rate} za km (tam i zpět) – orientační cenu uvidíte v souhrnu objednávky"
     delivery_approximate: "(orientační cena)"
-    delivery_breakdown: "%{km} km od pily, účtujeme tam i zpět po %{rate} za km."
-    delivery_per_prm: "To je asi %{price} na každý PRM dřeva."
     goods_total: "Zboží"
     delivery_line: "Doprava (%{km} km, orientačně)"
     shipping_pickup: "Osobní odběr na adrese skladu"

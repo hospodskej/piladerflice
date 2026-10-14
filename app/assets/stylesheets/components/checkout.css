@@ -635,10 +635,3 @@
         box-sizing: border-box;
     }
 }
-
-.checkout-delivery-breakdown {
-    margin: 6px 0 0 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #555555;
-}

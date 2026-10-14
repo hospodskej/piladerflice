@@ -166,7 +166,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
 
     get checkout_summary_path
     assert_response :success
-    assert_select ".checkout-delivery-breakdown", text: /50 km od pily.*40 Kč za km/m
+    assert_select ".checkout-radio-note", text: /4 000 Kč\s*\(orientační cena\)/
     assert_select ".cart-total-row", text: /Doprava \(100 km, orientačně\)\s*4 000 Kč/
     assert_select ".cart-total-row strong", text: ActiveSupport::NumberHelper.number_to_delimited(@variant.price_czk + 4000, delimiter: " ") + " Kč"
 
@@ -183,16 +183,6 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.last(2).each do |mail|
       assert_includes mail.text_part.body.to_s, "Doprava (100 km tam i zpět, orientačně): 4 000 Kč"
     end
-  end
-
-  test "the delivery price shows the surcharge per PRM of firewood" do
-    fake_route(meters: 50_000)
-    post cart_items_path, params: { catalog_variant_id: catalog_variants(:smrk_kontejner_100cm).id }
-    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
-    submit_details
-
-    get checkout_summary_path
-    assert_select ".checkout-delivery-breakdown", text: /asi 267 Kč na každý PRM/
   end
 
   test "a different delivery address is the one the distance is measured to" do
@@ -214,7 +204,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     get checkout_summary_path
     assert_response :success
     assert_includes response.body, "Ceny dopravy jsou kalkulovány individuálně"
-    assert_select ".checkout-delivery-breakdown", count: 0
+    assert_select ".cart-total-row", text: /Doprava/, count: 0
 
     post checkout_confirm_path, params: { terms_agreement: "1" }
     order = Order.last
@@ -229,7 +219,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     submit_details
 
     get checkout_summary_path
-    assert_select ".checkout-delivery-breakdown", count: 0
+    assert_select ".cart-total-row", text: /Doprava/, count: 0
     assert_empty @fake_route_urls
   end
 
@@ -241,7 +231,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
 
     get "/at/kosik/souhrn"
     assert_response :success
-    assert_select ".checkout-delivery-breakdown", text: /50 km vom Sägewerk.*≈ 1,60 € pro km/m
+    assert_select ".checkout-radio-note", text: /≈ 160,00 €\s*\(ungefährer Preis\)/
     assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*≈ 160,00 €/
   end
 end

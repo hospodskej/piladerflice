@@ -231,8 +231,6 @@ de:
     shipping_address_note: "Versandkosten werden individuell berechnet"
     shipping_address_rate_note: "%{rate} pro km (hin und zurück) – den ungefähren Preis sehen Sie in der Bestellübersicht"
     delivery_approximate: "(ungefährer Preis)"
-    delivery_breakdown: "%{km} km vom Sägewerk, berechnet hin und zurück zu %{rate} pro km."
-    delivery_per_prm: "Das sind etwa %{price} pro Rm Holz."
     goods_total: "Ware"
     delivery_line: "Lieferung (%{km} km, ungefähr)"
     shipping_pickup: "Persönliche Abholung am Lagerstandort"

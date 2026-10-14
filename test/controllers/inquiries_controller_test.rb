@@ -18,6 +18,7 @@ class InquiriesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to kontakt_path(anchor: "kalkulace")
+    assert_equal "Děkujeme, poptávku jsme přijali. Ozveme se vám co nejdříve.", flash[:notice]
 
     inquiry = Inquiry.last
     assert_equal "Jana", inquiry.first_name
@@ -60,6 +61,6 @@ class InquiriesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to kontakt_path(anchor: "kalkulace")
-    assert_equal I18n.t("kontakt.inquiry_error"), flash[:alert]
+    assert_equal "Poptávku se nepodařilo odeslat. Vyplňte prosím jméno, příjmení, e-mail a telefon.", flash[:alert]
   end
 end

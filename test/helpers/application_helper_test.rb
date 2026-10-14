@@ -1,6 +1,12 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "error_count uses the Czech plural" do
+    assert_equal "1 chyba", error_count(1)
+    assert_equal "3 chyby", error_count(3)
+    assert_equal "5 chyb", error_count(5)
+  end
+
   test "image_tag_if_attached renders nothing for an unattached image" do
     product = catalog_products(:odkory)
 

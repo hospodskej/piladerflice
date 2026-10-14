@@ -8,6 +8,10 @@ class CatalogVariant < ApplicationRecord
   translates :variant_label
   translates :grade
 
+  # An emptied "Pořadí" field means the default order, not NULL (the column
+  # doesn't allow NULL and saving failed with an error page).
+  normalizes :position, with: ->(position) { position || 0 }, apply_to_nil: true
+
   validates :key, presence: true, uniqueness: { scope: :catalog_product_id }
   validates :price_czk, numericality: { greater_than: 0 }
   validates :variant_group, inclusion: { in: %w[kontejner bedny] }, allow_nil: true

@@ -6,7 +6,7 @@
       <div class="auth-box-body">
         <% if @user.errors.any? %>
           <div class="page-flash page-flash-alert">
-            <strong><%= pluralize(@user.errors.count, "chyba") %> brání vytvoření účtu:</strong>
+            <strong><%= error_count(@user.errors.count) %> brání vytvoření účtu:</strong>
             <ul>
               <% @user.errors.full_messages.each do |message| %>
                 <li><%= message %></li>

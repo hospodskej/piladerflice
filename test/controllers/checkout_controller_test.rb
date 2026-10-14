@@ -158,4 +158,90 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_match 'value="Jana"', response.body
     assert_no_match 'value="Eva"', response.body
   end
+
+  test "delivery to an address is priced at 40 Kč per km there and back and added to the total" do
+    fake_route(meters: 50_000)
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details
+
+    get checkout_summary_path
+    assert_response :success
+    assert_select ".checkout-delivery-breakdown", text: /50 km od pily.*40 Kč za km/m
+    assert_select ".cart-total-row", text: /Doprava \(100 km, orientačně\)\s*4 000 Kč/
+    assert_select ".cart-total-row strong", text: ActiveSupport::NumberHelper.number_to_delimited(@variant.price_czk + 4000, delimiter: " ") + " Kč"
+
+    assert_emails 2 do
+      post checkout_confirm_path, params: { terms_agreement: "1" }
+    end
+
+    order = Order.last
+    assert_equal 100, order.delivery_distance_km
+    assert_equal 4000, order.delivery_czk
+    assert_equal @variant.price_czk, order.subtotal_czk
+    assert_equal @variant.price_czk + 4000, order.total_czk
+    assert_equal order.total_czk - (order.total_czk / 1.21).round, order.vat_czk
+    ActionMailer::Base.deliveries.last(2).each do |mail|
+      assert_includes mail.text_part.body.to_s, "Doprava (100 km tam i zpět, orientačně): 4 000 Kč"
+    end
+  end
+
+  test "the delivery price shows the surcharge per PRM of firewood" do
+    fake_route(meters: 50_000)
+    post cart_items_path, params: { catalog_variant_id: catalog_variants(:smrk_kontejner_100cm).id }
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details
+
+    get checkout_summary_path
+    assert_select ".checkout-delivery-breakdown", text: /asi 267 Kč na každý PRM/
+  end
+
+  test "a different delivery address is the one the distance is measured to" do
+    fake_route
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details(delivery_address_different: "1", delivery_street: "Hauptplatz 1", delivery_city: "Retz",
+                   delivery_zip: "2070", delivery_country: "at")
+
+    get checkout_summary_path
+    assert_includes @fake_route_urls.first, "locality=Retz"
+    assert_includes @fake_route_urls.first, "country=AT"
+  end
+
+  test "without a distance the delivery is priced individually and left out of the total" do
+    fake_route(coordinates: nil)
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details
+
+    get checkout_summary_path
+    assert_response :success
+    assert_includes response.body, "Ceny dopravy jsou kalkulovány individuálně"
+    assert_select ".checkout-delivery-breakdown", count: 0
+
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+    order = Order.last
+    assert_nil order.delivery_czk
+    assert_equal @variant.price_czk, order.total_czk
+    assert_includes ActionMailer::Base.deliveries.last(2).first.text_part.body.to_s, "Vzdálenost se nepodařilo spočítat"
+  end
+
+  test "pickup has no delivery price and does not look up a distance" do
+    fake_route
+    submit_shipping
+    submit_details
+
+    get checkout_summary_path
+    assert_select ".checkout-delivery-breakdown", count: 0
+    assert_empty @fake_route_urls
+  end
+
+  test "the Austrian checkout shows the delivery price in euros" do
+    Rails.cache.write(ExchangeRateService::CACHE_KEY, 25.0, expires_in: ExchangeRateService::CACHE_TTL)
+    fake_route(meters: 50_000)
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details(billing_street: "Hauptplatz 1", billing_city: "Retz", billing_zip: "2070", billing_country: "at")
+
+    get "/at/kosik/souhrn"
+    assert_response :success
+    assert_select ".checkout-delivery-breakdown", text: /50 km vom Sägewerk.*≈ 1,60 € pro km/m
+    assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*≈ 160,00 €/
+  end
 end

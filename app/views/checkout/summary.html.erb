@@ -45,8 +45,24 @@
           <div class="checkout-box-body checkout-radio-list">
             <div class="checkout-radio-option checkout-radio-option-readonly">
               <span><span class="checkout-radio-dot"></span> <%= @order.shipping_method == "address" ? t("checkout.shipping_address") : t("checkout.shipping_pickup") %></span>
-              <span class="checkout-radio-note"><%= @order.shipping_method == "address" ? t("checkout.shipping_address_note") : t("checkout.free") %></span>
+              <span class="checkout-radio-note">
+                <% if @order.shipping_method != "address" %>
+                  <%= t("checkout.free") %>
+                <% elsif @delivery %>
+                  <strong><%= cart_price(@delivery.price_czk) %></strong> <%= t("checkout.delivery_approximate") %>
+                <% else %>
+                  <%= t("checkout.shipping_address_note") %>
+                <% end %>
+              </span>
             </div>
+            <% if @delivery %>
+              <p class="checkout-delivery-breakdown">
+                <%= t("checkout.delivery_breakdown", km: @delivery.one_way_km, rate: cart_price(DeliveryQuote::CZK_PER_KM)) %>
+                <% if @delivery.price_per_prm_czk %>
+                  <br><%= t("checkout.delivery_per_prm", price: cart_price(@delivery.price_per_prm_czk)) %>
+                <% end %>
+              </p>
+            <% end %>
           </div>
         </div>
 
@@ -61,17 +77,27 @@
 
         <div class="checkout-box">
           <div class="checkout-box-body">
+            <% if @delivery %>
+              <div class="cart-total-row cart-total-excl-vat">
+                <span><%= t("checkout.goods_total") %></span>
+                <span><%= cart_price(@order.subtotal_czk) %></span>
+              </div>
+              <div class="cart-total-row cart-total-excl-vat">
+                <span><%= t("checkout.delivery_line", km: @delivery.round_trip_km) %></span>
+                <span><%= cart_price(@delivery.price_czk) %></span>
+              </div>
+            <% end %>
             <div class="cart-total-row">
               <span><%= t("cart.total_due") %></span>
-              <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
+              <strong><%= cart_price(@order.total_czk) %></strong>
             </div>
             <div class="cart-total-row cart-total-excl-vat">
               <span><%= t("cart.total_vat") %></span>
-              <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
+              <span><%= cart_price(@order.vat_czk) %></span>
             </div>
             <div class="cart-total-row cart-total-excl-vat">
               <span><%= t("cart.without_vat") %></span>
-              <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
+              <span><%= cart_price(@order.total_czk - @order.vat_czk) %></span>
             </div>
           </div>
         </div>

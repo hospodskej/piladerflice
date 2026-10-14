@@ -779,3 +779,7 @@ html.dark-mode .file-picker-name {
 html.dark-mode .file-picker-name.has-file {
     color: #e8eaed;
 }
+
+html.dark-mode .checkout-delivery-breakdown {
+    color: #a8adb5;
+}

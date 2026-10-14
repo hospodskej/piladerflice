@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require_relative "support/fake_route_service"
 
 # Builds real image files on the fly so the repo needs no binary fixtures.
 module ImageFixtures
@@ -28,6 +29,9 @@ end
 module ActiveSupport
   class TestCase
     include ImageFixtures
+    include FakeRouteService
+
+    teardown { restore_route_service }
 
     # Run tests in parallel with specified workers
     parallelize(workers: 1)

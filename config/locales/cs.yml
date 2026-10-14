@@ -229,6 +229,12 @@ cs:
     shipping_method_label: "Způsob dopravy"
     shipping_address: "Doručení na adresu"
     shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
+    shipping_address_rate_note: "%{rate} za km (tam i zpět) – orientační cenu uvidíte v souhrnu objednávky"
+    delivery_approximate: "(orientační cena)"
+    delivery_breakdown: "%{km} km od pily, účtujeme tam i zpět po %{rate} za km."
+    delivery_per_prm: "To je asi %{price} na každý PRM dřeva."
+    goods_total: "Zboží"
+    delivery_line: "Doprava (%{km} km, orientačně)"
     shipping_pickup: "Osobní odběr na adrese skladu"
     free: "Zdarma"
     payment_method_label: "Způsob platby"
@@ -725,6 +731,7 @@ cs:
     shipping_method: "Způsob dopravy"
     payment_method: "Způsob platby"
     total_due: "Celkem k úhradě"
+    delivery: "Doprava (%{km} km tam i zpět, orientačně)"
     questions_text: "V případě jakýchkoliv dotazů nás neváhejte kontaktovat na telefonu +420 602 446 339 nebo e-mailu stepan.merta@seznam.cz."
     sign_off: "S pozdravem,"
     signature: "Štěpán Merta, Pila Derflice"
@@ -765,7 +772,7 @@ cs:
       <p>Kupující si může zvolit jeden z následujících způsobů dodání:</p>
       <ul>
         <li><strong>Osobní odběr</strong> – zdarma, na adrese provozovny Derflice 66, 671 28 Znojmo, po předchozí domluvě.</li>
-        <li><strong>Doprava na adresu</strong> – cena dopravy se odvíjí od vzdálenosti a množství objednaného zboží (aktuálně 35 Kč/km) a je kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
+        <li><strong>Doprava na adresu</strong> – cena dopravy činí 40 Kč (včetně DPH) za každý ujetý kilometr, počítáno tam i zpět mezi provozovnou v Derflicích a doručovací adresou. Vzdálenost se počítá automaticky podle doručovací adresy a orientační cena dopravy je zobrazena v souhrnu objednávky a zahrnuta v celkové ceně; konečnou cenu dopravy prodávající potvrdí po přijetí objednávky. Celé objednané množství se doveze jednou jízdou. Nepodaří-li se vzdálenost spočítat, je cena dopravy kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
       </ul>
       <p>Termín dodání či předání zboží k osobnímu odběru je dohodnut individuálně s ohledem na dostupnost zboží a kapacitu prodávajícího; není-li dohodnuto jinak, dodá prodávající zboží v přiměřené lhůtě.</p>
 
@@ -782,7 +789,7 @@ cs:
 
       <h2>7. Ochrana osobních údajů</h2>
       <p>Prodávající zpracovává osobní údaje kupujícího (jméno, příjmení, adresa, telefon, e-mail, popř. IČ/DIČ při nákupu na firmu) výhradně za účelem vyřízení objednávky, plnění kupní smlouvy a plnění zákonných povinností (např. účetních). Správcem osobních údajů je Štěpán Merta, IČ: 45665451.</p>
-      <p>Osobní údaje nejsou předávány třetím osobám s výjimkou subjektů nezbytných pro doručení zboží (dopravce) a subjektů vyžadovaných zákonem (např. finanční správa).</p>
+      <p>Osobní údaje nejsou předávány třetím osobám s výjimkou subjektů nezbytných pro doručení zboží (dopravce), poskytovatele služby pro výpočet vzdálenosti doručovací adresy (openrouteservice, HeiGIT gGmbH, Německo) a subjektů vyžadovaných zákonem (např. finanční správa).</p>
       <p>Kupující má právo na přístup ke svým osobním údajům, jejich opravu či výmaz, popřípadě omezení zpracování, a právo vznést námitku proti zpracování, jakož i právo podat stížnost u Úřadu pro ochranu osobních údajů.</p>
 
       <h2>8. Mimosoudní řešení sporů</h2>
@@ -810,7 +817,7 @@ cs:
     privacy_title: "Zásady ochrany osobních údajů"
     privacy_content_html: |
       <p>Tyto zásady vysvětlují, jaké osobní údaje při provozu webu piladerflice.cz zpracováváme, proč je zpracováváme, na jakém právním základě, komu je předáváme a jaká máte práva. Údaje zpracováváme v souladu s nařízením (EU) 2016/679 (GDPR) a zákonem č. 110/2019 Sb., o zpracování osobních údajů.</p>
-      <p>Poslední aktualizace: 7. 10. 2026.</p>
+      <p>Poslední aktualizace: 14. 10. 2026.</p>
 
       <h2>1. Kdo je správcem vašich údajů</h2>
       <p><strong>Štěpán Merta</strong><br>
@@ -828,7 +835,7 @@ cs:
       <h3>2.1 Objednávky v e-shopu</h3>
       <ul>
         <li><strong>Údaje:</strong> jméno a příjmení, e-mail, telefon, fakturační adresa, doručovací adresa (je-li jiná), při nákupu na firmu název firmy, IČ a DIČ, dále obsah objednávky, zvolený způsob dopravy a platby a jazyk, ve kterém objednávku odesíláte.</li>
-        <li><strong>Účel:</strong> vyřízení objednávky, uzavření a plnění kupní smlouvy, doručení zboží, fakturace, komunikace o objednávce a vyřízení reklamací.</li>
+        <li><strong>Účel:</strong> vyřízení objednávky, uzavření a plnění kupní smlouvy, výpočet orientační ceny dopravy podle vzdálenosti doručovací adresy, doručení zboží, fakturace, komunikace o objednávce a vyřízení reklamací.</li>
         <li><strong>Právní základ:</strong> plnění smlouvy (čl. 6 odst. 1 písm. b) GDPR) a plnění právních povinností, zejména účetních a daňových (čl. 6 odst. 1 písm. c) GDPR).</li>
         <li><strong>Doba uchování:</strong> po dobu, kterou vyžadují účetní a daňové předpisy, u daňových dokladů 10 let od konce zdaňovacího období (zákon č. 235/2004 Sb., o dani z přidané hodnoty). Poté údaje smažeme nebo anonymizujeme.</li>
       </ul>
@@ -886,6 +893,7 @@ cs:
       <ul>
         <li><strong>Poskytovatelé IT služeb</strong> (provoz a správa serveru, e-mailové služby pro odesílání potvrzení objednávek a komunikaci), kteří údaje zpracovávají pro nás jako zpracovatelé a smějí je používat pouze podle našich pokynů.</li>
         <li><strong>Google Ireland Limited</strong> (měření návštěvnosti a mapa, viz body 2.6 a 2.7).</li>
+        <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Německo (služba openrouteservice) – při volbě doručení na adresu jí předáváme pouze doručovací adresu (ulice, město, PSČ, země), abychom spočítali vzdálenost od provozovny a orientační cenu dopravy. Jméno ani kontaktní údaje jí nepředáváme.</li>
         <li><strong>Dopravce</strong>, je-li doručení zajišťováno třetí stranou; předáváme mu pouze údaje nutné k doručení (jméno, adresa, telefon).</li>
         <li><strong>Orgány veřejné moci</strong> (např. finanční správa), pokud nám to ukládá zákon.</li>
       </ul>

@@ -44,3 +44,10 @@ http-body-util = "0.1"
 # Fingerprinting the images is hashing-heavy; keep it fast in debug builds too.
 [profile.dev.package.sha1]
 opt-level = 3
+
+# The server build: no debug symbols, whole-program optimisation (smaller
+# and a little faster; the build takes longer).
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1

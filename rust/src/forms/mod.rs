@@ -81,9 +81,7 @@ pub struct Refused(pub StatusCode);
 
 impl IntoResponse for Refused {
     fn into_response(self) -> Response {
-        let page = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../public/422.html"))
-            .unwrap_or_else(|_| "The change you wanted was rejected.".into());
-        (self.0, Html(page)).into_response()
+        (self.0, Html(crate::views::error_pages::rejected())).into_response()
     }
 }
 

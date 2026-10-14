@@ -3,6 +3,8 @@
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse, Response};
 
+use crate::views::error_pages;
+
 /// A database or template failure: logged, and the visitor gets the static
 /// error page (Rails' public/500.html).
 pub struct AppError(anyhow::Error);
@@ -16,9 +18,7 @@ impl<E: Into<anyhow::Error>> From<E> for AppError {
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         tracing::error!("request failed: {:#}", self.0);
-        let page = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../public/500.html"))
-            .unwrap_or_else(|_| "Internal Server Error".into());
-        (StatusCode::INTERNAL_SERVER_ERROR, Html(page)).into_response()
+        (StatusCode::INTERNAL_SERVER_ERROR, Html(error_pages::failed())).into_response()
     }
 }
 

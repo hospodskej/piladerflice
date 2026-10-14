@@ -1,0 +1,31 @@
+# systemd service for the site. Install:
+#   sudo cp pila-derflice.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now pila-derflice
+# Logs: journalctl -u pila-derflice -f
+[Unit]
+Description=Pila Derflice website
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pila
+Group=pila
+# /opt/pila-derflice/current points at the release in use.
+WorkingDirectory=/opt/pila-derflice/current
+EnvironmentFile=/etc/pila-derflice.env
+ExecStart=/opt/pila-derflice/current/piladerflice
+Restart=on-failure
+RestartSec=2
+# SIGTERM: finish the requests being answered, then stop.
+TimeoutStopSec=20
+
+# The program may write only to its data folder.
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ReadWritePaths=/var/lib/pila-derflice
+
+[Install]
+WantedBy=multi-user.target

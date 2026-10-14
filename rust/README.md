@@ -25,9 +25,12 @@ In development, edits to templates, CSS, JavaScript and images show up on the ne
 ### Production
 
 ```sh
-cargo build --release     # -> target/release/piladerflice (one ~6 MB file)
-APP_ENV=production PORT=4000 ./target/release/piladerflice
+deploy/package.sh         # -> dist/pila-derflice-<commit>.tar.gz
 ```
+
+The release is a folder: the program (15 MB, needs only the C library) and the files it reads, laid out like this repository: `rust/templates`, `config/locales`, `app/assets` (the site's images are most of its 36 MB), `app/javascript`, `public/`, plus `deploy/`. On the server it runs from that folder with `APP_ROOT` pointing at it. **`deploy/SWITCH-OVER.md`** is the step-by-step guide: setting up the server (systemd, Caddy for HTTPS, nightly backups), putting a release on it, moving the live site from Rails, the checklist afterwards, and going back if needed.
+
+`piladerflice backup <file>` copies the database to a new file while the site keeps running (the nightly backup uses it).
 
 Settings come from environment variables:
 
@@ -37,6 +40,7 @@ Settings come from environment variables:
 | `PORT`     | `4000`      | Port to listen on. |
 | `APP_ENV`  | `development` in debug builds, `production` in release builds | `production` loads templates and assets once at startup. |
 | `RUST_LOG` | `info`      | Log detail, e.g. `debug` or `piladerflice=debug`. |
+| `APP_ROOT` | this repository | The release folder on a server (templates, translations, assets, `public/`). Then the database defaults to `APP_ROOT/storage/production.sqlite3`. |
 | `DATABASE_URL` | the Rails development database | The SQLite database, e.g. `sqlite:/srv/pila/production.sqlite3`. |
 | `STORAGE_DIR` | `../storage` | Where the uploaded images live (Active Storage's folder). |
 | `SECRET_KEY_BASE` | a fixed development value | Encrypts the session and login cookies. **Required in production**, at least 64 characters (e.g. `openssl rand -hex 64`). Changing it signs everyone out and empties their carts. |
@@ -55,9 +59,11 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 | 3 | Sessions (encrypted cookie) and form protection, cart with Turbo Streams, checkout (shipping, details, summary, thank-you), delivery price by distance, order and quote request e-mails | done |
 | 4 | Accounts: registration, sign-in and sign-out, profile, profile pictures, order history and reordering, checkout prefill | done |
 | 5 | Admin area: overview, orders, quote requests, catalogue products and variants with photos, promos, price list, quote form choices | done |
-| 6 | Remaining extras, side-by-side comparison with Rails, switch-over | next |
+| 6 | Czech time; the security headers, `public/` files and old image addresses of Rails; startup and shutdown safety; backups; a comparison of every page; the release package and the switch-over guide | done |
 
 Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical. The whole shopping flow (add to cart, change quantities, all checkout steps, the thank-you page) was run in a browser against both apps, in Czech and German, and every step's HTML matched; the saved orders and quote requests are the same too. The account flow (sign-in required, registration with errors, profile, picture upload, checkout prefill, sign-out, failed and successful sign-in) was compared the same way, in both languages.
+
+Before the switch-over, every page of the sitemap (Czech and German) and a set of odd addresses were fetched from both apps once more: same status, same HTML. The packaged release was also run from an empty folder with production settings and served the same pages.
 
 The admin was compared the same way: all 29 admin pages (including forms that didn't save) have the same HTML as Rails, and a script that adds, edits, moves and deletes one of everything (with a photo upload) gave the same page at every step and, on two copies of the same database, the same data afterwards.
 
@@ -71,6 +77,8 @@ A few things differ from Rails on purpose:
 - a sign-in with an unknown e-mail takes as long as one with a wrong password, so the timing doesn't tell which e-mails have accounts;
 - picture uploads are limited per account (10 per 10 minutes) instead of per IP address;
 - photos uploaded in the admin must be JPEG, PNG or WebP (Rails took any file). Their metadata (GPS position, camera, date) is removed as in Rails, but without recompressing them, so they are stored a little bigger, and a rotated phone photo keeps its orientation (ImageOptim drops it, so Rails shows such photos lying on their side).
+
+Smaller differences: Rails sends a `Link` header preloading the stylesheets and an `X-Request-Id`, Rust doesn't; Rails' old image addresses are redirected (308) instead of served; `robots.txt` has a reworded comment.
 
 The sign-in, sign-out and registration messages are in Czech in both languages, as in Rails; translating them is a small fix for later, in both apps.
 
@@ -91,7 +99,6 @@ src/
   request.rs         takes /at off the URL before routing; Req = language, paths, site address
   locale.rs          Czech/German and their URLs (port of Rails' LocalizedPath)
   i18n.rs            the YAML translations; t("key", name=value) like Rails I18n
-  db.rs              the SQLite connection
   forms/             submitted forms: checks the form protection token, then reads the fields
                      (upload.rs: the same for forms with a file)
   session/           the encrypted session cookie: data, load/save layer, CSRF token, flash
@@ -101,6 +108,7 @@ src/
                      record.rs (a row as form values and back), images.rs (checking and
                      cleaning uploaded photos), ordering.rs, dashboard.rs
   czech_time.rs      Czech time (UTC+1, summer UTC+2) for showing dates and counting days
+  db.rs              the connection, the schema version check, backups
   storage.rs         files the way Active Storage keeps them (blob, attachment, ab/cd/key)
   accounts/          the signed-in user, passwords (bcrypt), registration checks, rate limits
     avatar/          profile pictures: storing as Active Storage blobs, cleaning uploads,
@@ -134,8 +142,12 @@ src/
                      (firewood, lumber, simple_variant), recommendations
     components/      view pieces used by several pages (product card,
                      category tile, business data for search engines, text formatting)
-    error.rs         what a failing request shows
+    error.rs         what a failing request shows (views/error_pages.rs: public/500.html)
+    headers.rs       the protective headers on every response
+    public_files.rs  /icon.png and the other files of public/
+    legacy_storage.rs  Rails' /rails/active_storage image addresses, sent on to /uploads
     not_found.rs, legacy_locale.rs, system.rs, sitemap.rs, uploads.rs
+deploy/              release package script, systemd units, Caddyfile, backups, SWITCH-OVER.md
 templates/           Jinja templates (MiniJinja); same HTML as the Rails views (mail/: the e-mails)
 db/schema.sql        the database schema (exported from Rails), used by the tests
 tests/               requests against the whole app, like a browser would make them;
@@ -188,6 +200,8 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **Custom extractors with their own rejection** (`routes/admin/params.rs`): `RecordId` reads `{id}` from the URL and answers "not found" by itself when it isn't a number.
 - **`const` tables** (`admin/products.rs`): each admin table's columns are a constant, checked by the compiler and by a test that every column can be changed by its form.
 - **Byte-level parsing** (`admin/images.rs`): walking a JPEG's or PNG's blocks with slices and `get(..)?`, which stops at a broken file instead of panicking.
+- **Graceful shutdown** (`main.rs`): `tokio::select!` waits for whichever comes first, Ctrl+C or systemd's SIGTERM; the server then finishes the requests it is answering.
+- **`OnceLock`** (`views/error_pages.rs`): a value set once at startup and read from anywhere afterwards, safely across threads.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

@@ -1,0 +1,8 @@
+[Unit]
+Description=Pila Derflice backup (database and uploaded images)
+
+[Service]
+Type=oneshot
+User=pila
+Group=pila
+ExecStart=/opt/pila-derflice/current/deploy/backup.sh

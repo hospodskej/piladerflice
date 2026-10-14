@@ -10,9 +10,10 @@ const DEVELOPMENT_SECRET: &str = "development-only-secret-key-for-the-session-co
 
 pub struct Config {
     /// The repository root: translations, images, CSS and JavaScript are
-    /// shared with the Rails app and read from there.
+    /// shared with the Rails app and read from there. On a server, the
+    /// release folder (`APP_ROOT`), laid out the same way.
     pub app_root: PathBuf,
-    /// This crate's folder (templates, vendored JavaScript).
+    /// This crate's folder (templates, vendored JavaScript): `app_root/rust`.
     pub crate_root: PathBuf,
     /// Development: templates and assets are re-read when they change.
     pub development: bool,
@@ -30,6 +31,11 @@ pub struct Config {
 }
 
 impl Config {
+    /// Rails' `public/` folder: icons and the static error pages.
+    pub fn public_dir(&self) -> PathBuf {
+        self.app_root.join("public")
+    }
+
     /// Paths relative to this source tree; good for development and tests.
     /// Nothing is read from the environment here (see `from_env`).
     pub fn from_source_tree(development: bool) -> Self {
@@ -58,6 +64,15 @@ impl Config {
     pub fn from_env(development: bool) -> anyhow::Result<Self> {
         let var = |name: &str| std::env::var(name).ok().filter(|value| !value.is_empty());
         let mut config = Self::from_source_tree(development);
+        if let Some(root) = var("APP_ROOT") {
+            config.app_root = PathBuf::from(&root);
+            config.crate_root = config.app_root.join("rust");
+            config.database_url = format!(
+                "sqlite:{}",
+                config.app_root.join("storage/production.sqlite3").display()
+            );
+            config.storage_root = config.app_root.join("storage");
+        }
         if let Some(url) = var("DATABASE_URL") {
             config.database_url = url;
         }

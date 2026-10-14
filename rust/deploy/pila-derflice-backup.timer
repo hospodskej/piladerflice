@@ -1,0 +1,12 @@
+# Every night at 03:15. Install with the service:
+#   sudo cp pila-derflice-backup.* /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now pila-derflice-backup.timer
+[Unit]
+Description=Nightly Pila Derflice backup
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

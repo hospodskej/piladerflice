@@ -1,0 +1,11 @@
+# Caddy in front of the program: HTTPS certificates (automatic, Let's
+# Encrypt), HTTP -> HTTPS, compression. Install Caddy, put this into
+# /etc/caddy/Caddyfile and run: sudo systemctl reload caddy
+piladerflice.cz {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:4000
+}
+
+www.piladerflice.cz {
+	redir https://piladerflice.cz{uri} permanent
+}

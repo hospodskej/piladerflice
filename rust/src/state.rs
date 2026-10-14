@@ -52,6 +52,7 @@ impl AppState {
     /// Connects to the database and loads translations, assets and templates.
     pub async fn new(config: Config) -> Result<Self> {
         let db = db::connect(&config.database_url).await?;
+        db::check_schema(&db).await?;
         let services = Services {
             rates: ExchangeRates::live(),
             routes: RouteService::new(config.ors_api_key.clone()),
@@ -61,6 +62,7 @@ impl AppState {
 
     /// With a given database and services (tests: in-memory, fakes).
     pub fn with(config: Config, db: Db, services: Services) -> Result<Self> {
+        crate::views::error_pages::load(&config.public_dir());
         let mailer = Mailer::from_settings(&config.mail)?;
         let mail_settings = config.mail.clone();
         let cookie_key = Key::derive_from(config.secret_key_base.as_bytes());

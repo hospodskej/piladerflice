@@ -37,7 +37,9 @@ module PilaDerflice
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    # Times are shown in Czech time (stored in UTC as before): order and
+    # inquiry dates, the admin's monthly counts, the weekly promo.
+    config.time_zone = "Prague"
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.

@@ -38,4 +38,15 @@ module ApplicationHelper
 
     image_tag_if_attached(fallback, **options)
   end
+
+  # "1 chyba", "3 chyby", "5 chyb": pluralize only knows English plurals
+  # and printed "2 chyba".
+  def error_count(count)
+    word = case count
+           when 1 then "chyba"
+           when 2..4 then "chyby"
+           else "chyb"
+           end
+    "#{count} #{word}"
+  end
 end

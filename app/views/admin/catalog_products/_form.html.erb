@@ -1,7 +1,7 @@
 <%= form_with model: [:admin, catalog_product], class: "admin-form", multipart: true do |f| %>
   <% if catalog_product.errors.any? %>
     <div class="admin-flash admin-flash-alert">
-      <strong><%= pluralize(catalog_product.errors.count, "chyba") %> brání uložení:</strong>
+      <strong><%= error_count(catalog_product.errors.count) %> brání uložení:</strong>
       <ul>
         <% catalog_product.errors.full_messages.each do |message| %>
           <li><%= message %></li>

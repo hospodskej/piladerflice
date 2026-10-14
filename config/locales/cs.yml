@@ -670,6 +670,17 @@ cs:
         akat: "Akát"
         jasan: "Jasan"
 
+  # Rails' default validation messages, which exist only in English;
+  # without them the admin forms showed "Translation missing".
+  errors:
+    messages:
+      blank: "je povinné pole"
+      taken: "už je použitý"
+      inclusion: "má neplatnou hodnotu"
+      invalid: "má neplatnou hodnotu"
+      not_a_number: "musí být číslo"
+      greater_than: "musí být větší než %{count}"
+
   activerecord:
     errors:
       models:
@@ -710,6 +721,19 @@ cs:
             password_confirmation:
               confirmation: "se neshoduje s heslem"
     attributes:
+      catalog_product:
+        key: "Klíč"
+        template: "Šablona zobrazení"
+        category: "Kategorie filtru"
+        hardness: "Tvrdost dřeva"
+      catalog_variant:
+        key: "Klíč"
+        price_czk: "Cena"
+        variant_group: "Dodání v"
+      inquiry_form_option:
+        category: "Kategorie"
+        field: "Pole"
+        value: "Hodnota"
       pricelist_item:
         category: "Kategorie"
         item_name: "Název"

@@ -13,7 +13,11 @@ module CartHelper
 
   def catalog_product_title(product_key)
     product = CatalogProduct.find_by(key: product_key)
-    product ? product.title_i18n : t("eshop.products.#{product_key}.title")
+    return product.title_i18n if product
+
+    # A product no longer sold (an old order): its old translated title, or
+    # else its key made readable, rather than "Translation missing".
+    t("eshop.products.#{product_key}.title", default: product_key.to_s.humanize)
   end
 
   def cart_spec_text(spec)

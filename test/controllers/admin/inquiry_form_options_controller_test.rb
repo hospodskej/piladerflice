@@ -29,6 +29,7 @@ class Admin::InquiryFormOptionsControllerTest < ActionDispatch::IntegrationTest
       post admin_inquiry_form_options_path, params: { inquiry_form_option: { category: "palivove", field: "polozka", value: "X" } }
     end
     assert_redirected_to admin_inquiry_form_options_path
+    assert_equal "Pole neodpovídá zvolené kategorii", flash[:alert]
   end
 
   test "update changes an option's value" do

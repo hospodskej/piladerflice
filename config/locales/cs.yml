@@ -670,6 +670,13 @@ cs:
         akat: "Akát"
         jasan: "Jasan"
 
+  # How lists of messages are joined ("A, B a C"), instead of English "and".
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " a "
+      last_word_connector: " a "
+
   # Rails' default validation messages, which exist only in English;
   # without them the admin forms showed "Translation missing".
   errors:

@@ -32,6 +32,12 @@ class Admin::InquiryFormOptionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Pole neodpovídá zvolené kategorii", flash[:alert]
   end
 
+  test "several problems are listed in one Czech sentence" do
+    post admin_inquiry_form_options_path, params: { inquiry_form_option: { category: "palivove", field: "polozka", value: "" } }
+
+    assert_equal "Hodnota je povinné pole a Pole neodpovídá zvolené kategorii", flash[:alert]
+  end
+
   test "update changes an option's value" do
     option = inquiry_form_options(:palivove_varianta_skladane)
     patch admin_inquiry_form_option_path(option), params: { inquiry_form_option: { value: "Skládané (upraveno)" } }

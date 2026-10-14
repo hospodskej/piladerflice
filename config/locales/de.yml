@@ -398,6 +398,8 @@ de:
       google_review_like: "Gefällt mir"
 
   kontakt:
+    inquiry_success: "Vielen Dank, wir haben Ihre Anfrage erhalten und melden uns so bald wie möglich."
+    inquiry_error: "Die Anfrage konnte nicht gesendet werden. Bitte füllen Sie Vor- und Nachname, E-Mail und Telefon aus."
     page_title: "Informationsformulare"
     image_alt: "Brennholz"
     brand_name: "Štěpán Merta"

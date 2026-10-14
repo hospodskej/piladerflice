@@ -70,13 +70,7 @@ pub async fn show(State(state): State<AppState>, req: Req, Path(key): Path<Strin
         Some(description(&state, &product, &title, locale)),
     );
     page.breadcrumbs = Some(breadcrumbs(&state, &req, &product, &title));
-    Ok(views::render(
-        &state,
-        &req,
-        &format!("eshop/{}.html", product.template),
-        page,
-        data,
-    ))
+    Ok(views::render(&state, &req, &format!("eshop/{}.html", product.template), page, data).await)
 }
 
 /// "Smrk – Palivové dřevo"

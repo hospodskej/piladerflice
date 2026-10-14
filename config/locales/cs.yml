@@ -398,6 +398,8 @@ cs:
       google_review_like: "Líbí se"
 
   kontakt:
+    inquiry_success: "Děkujeme, poptávku jsme přijali. Ozveme se vám co nejdříve."
+    inquiry_error: "Poptávku se nepodařilo odeslat. Vyplňte prosím jméno, příjmení, e-mail a telefon."
     page_title: "Informační formuláře"
     image_alt: "Palivové dřevo"
     brand_name: "Štěpán Merta"

@@ -10,7 +10,7 @@ use crate::request::Req;
 use crate::views::{self, Page};
 
 pub async fn terms(State(state): State<AppState>, req: Req) -> Response {
-    legal(&state, &req, "terms", "legal.terms_title", "legal.terms_content_html")
+    legal(&state, &req, "terms", "legal.terms_title", "legal.terms_content_html").await
 }
 
 pub async fn cookies_policy(State(state): State<AppState>, req: Req) -> Response {
@@ -21,6 +21,7 @@ pub async fn cookies_policy(State(state): State<AppState>, req: Req) -> Response
         "legal.cookies_title",
         "legal.cookies_content_html",
     )
+    .await
 }
 
 pub async fn privacy_policy(State(state): State<AppState>, req: Req) -> Response {
@@ -31,9 +32,10 @@ pub async fn privacy_policy(State(state): State<AppState>, req: Req) -> Response
         "legal.privacy_title",
         "legal.privacy_content_html",
     )
+    .await
 }
 
-fn legal(state: &AppState, req: &Req, meta_key: &str, title_key: &str, content_key: &str) -> Response {
+async fn legal(state: &AppState, req: &Req, meta_key: &str, title_key: &str, content_key: &str) -> Response {
     let page = Page::meta(state, req, meta_key);
     views::render(
         state,
@@ -42,4 +44,5 @@ fn legal(state: &AppState, req: &Req, meta_key: &str, title_key: &str, content_k
         page,
         context! { title_key, content_key },
     )
+    .await
 }

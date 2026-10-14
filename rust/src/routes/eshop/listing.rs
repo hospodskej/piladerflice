@@ -81,5 +81,6 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         "home/eshop.html",
         page,
         context! { cards, category_param, wood, sort, palivove },
-    ))
+    )
+    .await)
 }

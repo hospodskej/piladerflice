@@ -1,0 +1,9 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+<main class="main">
+  <section class="checkout-section">
+    {% with current_step = 1 %}{% include "shared/checkout_stepper.html" %}{% endwith %}
+    {% include "carts/_contents.html" %}
+  </section>
+</main>
+{% endblock %}

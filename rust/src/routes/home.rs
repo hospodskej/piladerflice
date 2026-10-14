@@ -37,7 +37,8 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         "home/index.html",
         page,
         context! { promo, bestsellers, tiles, services, slides, reviews },
-    ))
+    )
+    .await)
 }
 
 #[derive(Serialize)]

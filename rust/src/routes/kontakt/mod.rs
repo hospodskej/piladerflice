@@ -26,5 +26,6 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         "home/kontakt.html",
         page,
         context! { form_sections, ..prices },
-    ))
+    )
+    .await)
 }

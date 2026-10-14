@@ -4,7 +4,9 @@
 
 pub mod catalog;
 pub mod content;
+pub mod inquiry;
 pub mod inquiry_options;
+pub mod order;
 pub mod pricelist;
 pub mod upload;
 

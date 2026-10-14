@@ -9,15 +9,21 @@
 //! - [`page`]: per-page title, description, breadcrumbs, status
 //! - [`layout`]: rendering a page inside the site layout
 //! - [`breadcrumbs`], [`seo`]: what the layout derives from the URL
+//! - [`cart_view`]: the cart as the pages show it (header widget, cart page, checkout)
+//! - [`turbo`], [`fragment`]: Turbo Stream answers to forms; [`redirect`]: after a form
 //! - [`text`]: small text helpers (escaping, Rails' squish and truncate)
 
 pub mod breadcrumbs;
+pub mod cart_view;
+pub mod fragment;
 mod functions;
 pub mod layout;
 pub mod page;
+pub mod redirect;
 pub mod seo;
 pub mod templates;
 pub mod text;
+pub mod turbo;
 
 pub use breadcrumbs::Crumb;
 pub use layout::render;

@@ -31,5 +31,5 @@ pub async fn page(State(state): State<AppState>, req: Req) -> Response {
     page.status = Some(StatusCode::NOT_FOUND);
 
     let mascot = *MASCOTS.choose(&mut rand::rng()).unwrap_or(&MASCOTS[0]);
-    views::render(&state, &req, "errors/not_found.html", page, context! { mascot })
+    views::render(&state, &req, "errors/not_found.html", page, context! { mascot }).await
 }

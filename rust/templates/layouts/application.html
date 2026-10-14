@@ -17,6 +17,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Pila Derflice">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="csrf-param" content="authenticity_token">
+  <meta name="csrf-token" content="{{ csrf_token }}">
 
   <script>
     (function () {
@@ -66,6 +68,9 @@
 <div class="page-wrapper">
   {% include "shared/header.html" %}
   {% include "shared/breadcrumbs.html" %}
+  {% if flash %}
+  <div class="page-flash page-flash-{{ flash.kind }}">{{ flash.text }}</div>
+  {% endif %}
   {% block content %}{% endblock %}
   {% include "shared/footer.html" %}
 </div>

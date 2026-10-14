@@ -1,0 +1,27 @@
+{# The cart beside the checkout forms. #}
+<aside class="checkout-summary-box">
+  <h3 class="checkout-summary-title">{{ t("checkout.order_contents") }}</h3>
+  <ul class="checkout-summary-items">
+    {% for item in cart.lines %}
+      <li class="checkout-summary-item">
+        {% if item.image %}<img alt="{{ item.description }}" class="checkout-summary-item-img" src="{{ item.image }}">{% endif %}
+        <span class="checkout-summary-item-desc">{{ item.description }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="cart-totals checkout-summary-totals">
+    <div class="cart-total-row">
+      <span>{{ t("cart.total_due") }}</span>
+      <strong>{{ cart.subtotal }}</strong>
+    </div>
+    <div class="cart-total-row cart-total-excl-vat">
+      <span>{{ t("cart.total_vat") }}</span>
+      <span>{{ cart.vat }}</span>
+    </div>
+    <div class="cart-total-row cart-total-excl-vat">
+      <span>{{ t("cart.without_vat") }}</span>
+      <span>{{ cart.excl_vat }}</span>
+    </div>
+  </div>
+</aside>

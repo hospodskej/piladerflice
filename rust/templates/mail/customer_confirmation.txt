@@ -1,0 +1,22 @@
+{{ t("order_mailer.greeting", name=first_name) }}
+
+{{ t("order_mailer.thank_you") }}
+
+{{ t("order_mailer.order_number") }}: #{{ id }}
+
+{% for line in lines %}
+- {{ line.description }} | {{ line.quantity }}x | {{ line.unit_price }} | {{ line.line_total }}
+{% endfor %}
+
+{{ t("order_mailer.shipping_method") }}: {{ t("checkout.shipping_pickup") if shipping_method == "pickup" else t("checkout.shipping_address") }}
+{{ t("order_mailer.payment_method") }}: {{ t("checkout.payment_bank_transfer") if payment_method == "bank_transfer" else t("checkout.payment_cash") }}
+{% if delivery_quoted %}
+{{ t("order_mailer.delivery", km=delivery_km) }}: {{ delivery }}
+{% endif %}
+
+{{ t("order_mailer.total_due") }}: {{ total }}
+
+{{ t("order_mailer.questions_text") }}
+
+{{ t("order_mailer.sign_off") }}
+{{ t("order_mailer.signature") }}

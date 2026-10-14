@@ -11,6 +11,7 @@ use axum::http::request::Parts;
 use axum::http::{HeaderMap, Uri, header};
 
 use crate::locale::{self, Locale};
+use crate::session::Session;
 
 /// The path as the visitor asked for it, before the language prefix was removed.
 #[derive(Clone, Debug)]
@@ -70,6 +71,8 @@ pub struct Req {
     /// "https://piladerflice.cz"
     pub base_url: String,
     pub headers: HeaderMap,
+    /// This visitor's session (cart, checkout, form token...).
+    pub session: Session,
 }
 
 impl Req {
@@ -90,6 +93,15 @@ impl Req {
     /// A site path in the current language.
     pub fn path_for(&self, path: &str) -> String {
         locale::localized_path(path, self.locale)
+    }
+
+    /// Whether the browser asked for a Turbo Stream (a form submitted by
+    /// Turbo), rather than a whole page.
+    pub fn wants_turbo_stream(&self) -> bool {
+        self.headers
+            .get(axum::http::header::ACCEPT)
+            .and_then(|value| value.to_str().ok())
+            .is_some_and(|accept| accept.contains("text/vnd.turbo-stream.html"))
     }
 }
 
@@ -118,6 +130,11 @@ impl<S: Send + Sync> FromRequestParts<S> for Req {
             query: original.query().map(str::to_string),
             base_url: base_url(&parts.headers),
             headers: parts.headers.clone(),
+            session: parts
+                .extensions
+                .get::<Session>()
+                .cloned()
+                .unwrap_or_else(|| Session::new(Default::default())),
         })
     }
 }

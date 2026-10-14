@@ -5,7 +5,7 @@ use axum::response::{Html, IntoResponse, Response};
 use minijinja::{Value, context};
 
 use super::page::Page;
-use super::{breadcrumbs, seo};
+use super::{breadcrumbs, cart_view, seo};
 use crate::AppState;
 use crate::locale::Locale;
 use crate::request::Req;
@@ -13,7 +13,7 @@ use crate::request::Req;
 pub const GA_MEASUREMENT_ID: &str = "G-CMJ46E7F3G";
 
 /// Renders `template` with the layout's variables plus `data`, the page's own.
-pub fn render(state: &AppState, req: &Req, template: &str, page: Page, data: Value) -> Response {
+pub async fn render(state: &AppState, req: &Req, template: &str, page: Page, data: Value) -> Response {
     state.assets.refresh();
     let site_name = state.translations.text(req.locale, "site.name", &[]);
 
@@ -39,6 +39,14 @@ pub fn render(state: &AppState, req: &Req, template: &str, page: Page, data: Val
         .clone()
         .unwrap_or_else(|| breadcrumbs::from_path(&state.translations, req));
     let preloads: Vec<String> = state.assets.importmap().into_iter().map(|(_, url)| url).collect();
+    let cart = match cart_view::load(state, req).await {
+        Ok(cart) => cart,
+        Err(error) => {
+            tracing::error!("loading the cart widget failed: {error:#}");
+            return (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response();
+        }
+    };
+    let flash = req.session.take_flash();
 
     let ctx = context! {
         locale => req.locale.code(),
@@ -65,6 +73,9 @@ pub fn render(state: &AppState, req: &Req, template: &str, page: Page, data: Val
         importmap_json => state.assets.importmap_json(),
         preloads => preloads,
         ga_measurement_id => GA_MEASUREMENT_ID,
+        csrf_token => req.session.csrf_token(),
+        flash => flash,
+        cart => cart,
         ..data
     };
 

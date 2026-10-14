@@ -21,5 +21,6 @@ pub fn page(meta_key: &'static str) -> MethodRouter<AppState> {
             page,
             context! {},
         )
+        .await
     })
 }

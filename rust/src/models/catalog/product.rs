@@ -73,3 +73,20 @@ pub async fn active_product(db: &Db, key: &str) -> sqlx::Result<Option<CatalogPr
     .fetch_optional(db)
     .await
 }
+
+/// A variant that may be bought (its product is active), with its product.
+pub async fn buyable_variant(
+    db: &Db,
+    variant_id: i64,
+) -> sqlx::Result<Option<(CatalogProduct, super::CatalogVariant)>> {
+    let Some(variant) = super::variant::find(db, variant_id).await? else {
+        return Ok(None);
+    };
+    let product: Option<CatalogProduct> = sqlx::query_as(&format!(
+        "SELECT {PRODUCT_COLUMNS} FROM catalog_products WHERE active = 1 AND id = ?"
+    ))
+    .bind(variant.catalog_product_id)
+    .fetch_optional(db)
+    .await?;
+    Ok(product.map(|product| (product, variant)))
+}

@@ -8,7 +8,33 @@
   </button>
 
   <div class="cart-dropdown-content">
-    {# The cart arrives in phase 3; until then it is always empty. #}
-    <p class="cart-empty">{{ t("cart.empty") }}</p>
+    {% if cart.empty %}
+      <p class="cart-empty">{{ t("cart.empty") }}</p>
+    {% else %}
+      <ul class="cart-items-list">
+        {% for item in cart.lines %}
+          <li class="cart-item">
+            {% if item.image %}<img alt="{{ item.description }}" class="cart-item-img" src="{{ item.image }}">{% endif %}
+            <div class="cart-item-details">
+              <span class="cart-item-desc">{{ item.description }}</span>
+            </div>
+            <span class="cart-item-price">{{ item.total }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="cart-totals">
+        <div class="cart-total-row">
+          <span>{{ t("cart.total_due") }}</span>
+          <strong>{{ cart.subtotal }}</strong>
+        </div>
+        <div class="cart-total-row cart-total-excl-vat">
+          <span>{{ t("cart.without_vat") }}</span>
+          <span>{{ cart.excl_vat }}</span>
+        </div>
+      </div>
+
+      <a class="btn-primary full-width cart-dropdown-view-cart" href="{{ path('/kosik') }}">{{ t("cart.view_cart") }}</a>
+    {% endif %}
   </div>
 </div>

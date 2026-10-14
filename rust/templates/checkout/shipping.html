@@ -1,0 +1,70 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+<main class="main">
+  <section class="checkout-section">
+    {% with current_step = 2 %}{% include "shared/checkout_stepper.html" %}{% endwith %}
+
+    <div class="checkout-layout">
+      <form class="checkout-main-col" action="{{ path('/kosik/doprava') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title">{{ t("checkout.delivery_country_label") }}</h3>
+          <div class="checkout-box-body">
+            <label for="country">{{ t("checkout.country_field") }}</label>
+            <select name="country" id="country">
+              <option value="cz" {{ "selected" if not checkout.country or checkout.country == "cz" }}>{{ t("checkout.country_cz") }}</option>
+              <option value="at" {{ "selected" if checkout.country == "at" }}>{{ t("checkout.country_at") }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title">{{ t("checkout.shipping_method_label") }}</h3>
+          <div class="checkout-box-body checkout-radio-list">
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="shipping_method" value="address" {{ "checked" if checkout.shipping_method == "address" }}>
+                {{ t("checkout.shipping_address") }}
+              </span>
+              <span class="checkout-radio-note">{{ t("checkout.shipping_address_rate_note", rate=rate_per_km) }}</span>
+            </label>
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="shipping_method" value="pickup" {{ "checked" if checkout.shipping_method != "address" }}>
+                {{ t("checkout.shipping_pickup") }}
+              </span>
+              <span class="checkout-radio-note">{{ t("checkout.free") }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-box">
+          <h3 class="checkout-box-title">{{ t("checkout.payment_method_label") }}</h3>
+          <div class="checkout-box-body checkout-radio-list">
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="payment_method" value="cash" {{ "checked" if checkout.payment_method != "bank_transfer" }}>
+                {{ t("checkout.payment_cash") }}
+              </span>
+              <span class="checkout-radio-note">{{ t("checkout.free") }}</span>
+            </label>
+            <label class="checkout-radio-option">
+              <span>
+                <input type="radio" name="payment_method" value="bank_transfer" {{ "checked" if checkout.payment_method == "bank_transfer" }}>
+                {{ t("checkout.payment_bank_transfer") }}
+              </span>
+              <span class="checkout-radio-note">{{ t("checkout.free") }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-nav">
+          <a class="btn-outline-dark" data-turbo="false" href="{{ path('/kosik') }}">{{ t("checkout.back") }}</a>
+          <input type="submit" name="commit" value="{{ t('checkout.continue') }}" class="btn-primary" data-disable-with="{{ t('checkout.continue') }}">
+        </div>
+</form>
+      {% include "shared/checkout_summary.html" %}
+    </div>
+  </section>
+</main>
+{% endblock %}

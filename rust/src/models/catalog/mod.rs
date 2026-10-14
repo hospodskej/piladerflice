@@ -7,7 +7,7 @@ mod product;
 mod variant;
 
 pub use firewood_grid::FirewoodGrid;
-pub use product::{CATEGORIES, CatalogProduct, active_product, active_products};
+pub use product::{CATEGORIES, CatalogProduct, active_product, active_products, buyable_variant};
 pub use variant::{CatalogVariant, all_variants, starting_price_czk, variants_of};
 
 /// A variant to build test data from.

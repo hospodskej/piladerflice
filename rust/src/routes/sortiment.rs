@@ -12,11 +12,5 @@ use crate::views::{self, Page};
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let tiles = category_tile::all(&state, &req).await?;
     let page = Page::meta(&state, &req, "sortiment");
-    Ok(views::render(
-        &state,
-        &req,
-        "home/sortiment.html",
-        page,
-        context! { tiles },
-    ))
+    Ok(views::render(&state, &req, "home/sortiment.html", page, context! { tiles }).await)
 }

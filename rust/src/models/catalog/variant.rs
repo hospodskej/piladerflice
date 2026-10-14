@@ -78,6 +78,13 @@ pub async fn variants_of(db: &Db, product_id: i64) -> sqlx::Result<Vec<CatalogVa
     .await
 }
 
+pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<CatalogVariant>> {
+    sqlx::query_as(&format!("SELECT {VARIANT_COLUMNS} FROM catalog_variants WHERE id = ?"))
+        .bind(id)
+        .fetch_optional(db)
+        .await
+}
+
 /// "From" price of a product: its cheapest variant in stock, or the cheapest
 /// of all when none is in stock.
 pub fn starting_price_czk(variants: &[&CatalogVariant]) -> Option<i64> {

@@ -39,6 +39,10 @@ Settings come from environment variables:
 | `RUST_LOG` | `info`      | Log detail, e.g. `debug` or `piladerflice=debug`. |
 | `DATABASE_URL` | the Rails development database | The SQLite database, e.g. `sqlite:/srv/pila/production.sqlite3`. |
 | `STORAGE_DIR` | `../storage` | Where the uploaded images live (Active Storage's folder). |
+| `SECRET_KEY_BASE` | a fixed development value | Encrypts the session cookie. **Required in production**, at least 64 characters (e.g. `openssl rand -hex 64`). Changing it logs everyone out and empties their carts. |
+| `ORS_API_KEY` | none | openrouteservice key for the delivery price. Without it, delivery is priced individually. |
+| `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_ADDRESS`, `SMTP_PORT` | none, smtp.gmail.com, 587 | The mail server. Without `SMTP_USERNAME`, e-mails are only logged. Port 465 uses TLS from the start, other ports STARTTLS. |
+| `MAIL_FROM_ADDRESS`, `ORDER_NOTIFICATION_EMAIL`, `INQUIRY_NOTIFICATION_EMAIL` | objednavky@piladerflice.cz, … | Sender, and who gets told about new orders and quote requests. |
 
 The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and the sitemap use the right `https://` address.
 
@@ -48,12 +52,14 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 |-------|------|-------|
 | 1 | Server, layout (header, footer, menu, cookie banner, breadcrumbs, SEO and share tags), cs/de with `/at` URLs, legal pages, Sortiment pages, 404, robots.txt, health check | done |
 | 2 | Catalogue: home page, e-shop, product pages (firewood grid, lumber filters, simple variants), contact page with price list and quote form, services, Sortiment, euro prices, sitemap, uploaded images | done |
-| 3 | Sessions and form protection, cart and checkout, delivery price, quote requests, order emails | next |
-| 4 | Accounts: registration, login, profile pictures | |
+| 3 | Sessions (encrypted cookie) and form protection, cart with Turbo Streams, checkout (shipping, details, summary, thank-you), delivery price by distance, order and quote request e-mails | done |
+| 4 | Accounts: registration, login, profile pictures, checkout prefill, order history | next |
 | 5 | Admin area | |
 | 6 | Remaining extras, side-by-side comparison with Rails, switch-over | |
 
-Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical.
+Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical. The whole shopping flow (add to cart, change quantities, all checkout steps, the thank-you page) was run in a browser against both apps, in Czech and German, and every step's HTML matched; the saved orders and quote requests are the same too.
+
+Two things differ from Rails on purpose: order errors read "Při nákupu na firmu je potřeba vyplnit název firmy" without Rails' English field name in front, and the session cookie has a new name (`_pila_session`), so switching from Rails to Rust starts everyone with an empty cart.
 
 Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' signed `/rails/active_storage/...` links. The key is random and never reused, so these URLs are cached for good.
 
@@ -71,6 +77,11 @@ src/
   locale.rs          Czech/German and their URLs (port of Rails' LocalizedPath)
   i18n.rs            the YAML translations; t("key", name=value) like Rails I18n
   db.rs              the SQLite connection
+  forms.rs           submitted forms: checks the form protection token, then reads the fields
+  session/           the encrypted session cookie: data, load/save layer, CSRF token, flash
+  shop/              cart and cart lines, checkout details, line descriptions, VAT,
+    delivery/        the delivery quote and the openrouteservice distance lookup
+  mail/              e-mails: SMTP or outbox, settings, order and quote request mails
   assets/            static files: index + fingerprints, import map, /assets handler
   money/             Kč and € formatting; the live exchange rate
   models/            one file per table
@@ -85,13 +96,16 @@ src/
   routes/            one file per page; mod.rs is the list of all URLs
     home.rs, sluzby.rs, sortiment.rs, legal.rs, product_range.rs
     kontakt/         the page, its price list, its quote form
+    cart/            cart page, add, change quantity/remove, Turbo Streams
+    checkout/        one file per step, the guard between steps, the order draft
+    inquiries.rs     the quote request form
     eshop/           listing, product page, one file per product layout
                      (firewood, lumber, simple_variant), recommendations
     components/      view pieces used by several pages (product card,
                      category tile, business data for search engines, text formatting)
     error.rs         what a failing request shows
     not_found.rs, legacy_locale.rs, system.rs, sitemap.rs, uploads.rs
-templates/           Jinja templates (MiniJinja); same HTML as the Rails views
+templates/           Jinja templates (MiniJinja); same HTML as the Rails views (mail/: the e-mails)
 db/schema.sql        the database schema (exported from Rails), used by the tests
 tests/               requests against the whole app, like a browser would make them;
                      fixtures/data.sql is the test data, loaded into a fresh in-memory database
@@ -133,6 +147,9 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **`sqlx::FromRow`**: a struct per table row (`models/catalog.rs`); queries return typed values instead of hashes.
 - **Lifetimes** (`FirewoodGrid<'a>`): the grid borrows the variants instead of copying them, and the compiler checks they live long enough. `routes/eshop/firewood.rs` has a small one: a closure returning an iterator needs `&'static str`.
 - **Modules and privacy**: `mod` declares a file, `pub` makes things visible outside it, `pub use` re-exports. A child module may add methods to its parent's type (`assets/importmap.rs` adds `impl Assets`) and see its private fields.
+- **Shared, changeable state** (`session/mod.rs`): `Arc<Mutex<…>>` lets the session layer and the handler see the same data; `read` and `update` keep the lock short.
+- **Extractors** (`forms.rs`): `impl FromRequest for FormData` means a handler that takes `form: FormData` can only run after the token check passed.
+- **`Send` futures**: axum runs handlers on any thread, so nothing that isn't `Send` may live across an `.await`. `shop/delivery/route_service.rs` shows the fix for one such error (finish the URL builder into a `String` first); `#[axum::debug_handler]` explains these errors best.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

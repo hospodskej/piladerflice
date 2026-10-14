@@ -41,13 +41,7 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         })
         .collect();
     let page = Page::meta(&state, &req, "sluzby");
-    Ok(views::render(
-        &state,
-        &req,
-        "home/sluzby.html",
-        page,
-        context! { sections },
-    ))
+    Ok(views::render(&state, &req, "home/sluzby.html", page, context! { sections }).await)
 }
 
 /// The section's id, so links like /sluzby#doprava jump to it:

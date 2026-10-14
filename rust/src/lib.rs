@@ -12,17 +12,21 @@
 pub mod assets;
 pub mod config;
 pub mod db;
+pub mod forms;
 pub mod i18n;
 pub mod locale;
+pub mod mail;
 pub mod models;
 pub mod money;
 pub mod request;
 pub mod routes;
+pub mod session;
+pub mod shop;
 pub mod state;
 pub mod views;
 
 pub use config::Config;
-pub use state::AppState;
+pub use state::{AppState, Services};
 
 use axum::Router;
 use tower::ServiceBuilder;
@@ -39,7 +43,8 @@ pub fn app(
 > + Clone
 + Send
 + 'static {
-    let router: Router = routes::router(state);
+    let router: Router =
+        routes::router(state.clone()).layer(axum::middleware::from_fn_with_state(state, session::layer::handle));
     ServiceBuilder::new()
         .layer(MapRequestLayer::new(request::strip_locale_prefix))
         .service(router)

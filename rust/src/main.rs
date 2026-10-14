@@ -10,6 +10,9 @@ use tracing_subscriber::EnvFilter;
 /// - `RUST_LOG`: log detail, e.g. `info` or `piladerflice=debug`
 /// - `DATABASE_URL`: the SQLite database (default: the Rails development database)
 /// - `STORAGE_DIR`: uploaded images (default: the Rails `storage/` folder)
+/// - `SECRET_KEY_BASE`: encrypts the session cookie (required in production)
+/// - `ORS_API_KEY`: openrouteservice, for the delivery price
+/// - `SMTP_*`, `MAIL_FROM_ADDRESS`, `ORDER_NOTIFICATION_EMAIL`...: see `mail/settings.rs`
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt()
@@ -17,13 +20,7 @@ async fn main() -> anyhow::Result<()> {
         .init();
 
     let development = std::env::var("APP_ENV").map_or(cfg!(debug_assertions), |env| env != "production");
-    let mut config = Config::from_source_tree(development);
-    if let Ok(url) = std::env::var("DATABASE_URL") {
-        config.database_url = url;
-    }
-    if let Ok(dir) = std::env::var("STORAGE_DIR") {
-        config.storage_root = dir.into();
-    }
+    let config = Config::from_env(development)?;
     let state = AppState::new(config).await?;
 
     let host = std::env::var("HOST").unwrap_or_else(|_| "127.0.0.1".into());

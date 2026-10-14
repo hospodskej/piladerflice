@@ -18,6 +18,17 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: "Objednávka ##{orders(:this_month).id}"
   end
 
+  test "times are shown in Czech time" do
+    order = orders(:this_month)
+    order.update!(created_at: Time.utc(2026, 7, 1, 21, 30))
+    get admin_order_path(order)
+    assert_select ".admin-page-subtitle", text: "01.07.2026 23:30"
+
+    order.update!(created_at: Time.utc(2026, 12, 1, 21, 30))
+    get admin_order_path(order)
+    assert_select ".admin-page-subtitle", text: "01.12.2026 22:30"
+  end
+
   test "show lists the approximate delivery price of an order delivered to an address" do
     order = orders(:this_month)
     order.update!(shipping_method: "address", delivery_distance_km: 100, delivery_czk: 4000)

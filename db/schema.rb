@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_13_110000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_100000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -136,6 +136,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_110000) do
     t.boolean "delivery_address_different", default: false, null: false
     t.string "delivery_city"
     t.string "delivery_country"
+    t.integer "delivery_czk"
+    t.integer "delivery_distance_km"
     t.string "delivery_street"
     t.string "delivery_zip"
     t.string "email"

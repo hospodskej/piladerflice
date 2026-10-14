@@ -18,6 +18,14 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: "Objednávka ##{orders(:this_month).id}"
   end
 
+  test "show lists the approximate delivery price of an order delivered to an address" do
+    order = orders(:this_month)
+    order.update!(shipping_method: "address", delivery_distance_km: 100, delivery_czk: 4000)
+
+    get admin_order_path(order)
+    assert_select ".admin-order-totals p", text: "Doprava (100 km tam i zpět, orientačně): 4 000 Kč"
+  end
+
   test "destroy removes the order and redirects to the index" do
     order = orders(:this_month)
 

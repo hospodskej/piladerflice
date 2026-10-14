@@ -24,10 +24,12 @@ class CheckoutController < ApplicationController
 
   def summary
     @order = Order.new(order_attributes)
+    @delivery = delivery_quote
   end
 
   def confirm
     @order = Order.new(order_attributes)
+    @delivery = delivery_quote
 
     if params[:terms_agreement] != "1"
       @order.errors.add(:base, t("checkout.terms_required"))
@@ -109,10 +111,23 @@ class CheckoutController < ApplicationController
       payment_method: current_checkout["payment_method"],
       items_snapshot: cart_items_snapshot,
       subtotal_czk: current_cart.subtotal_czk,
-      vat_czk: current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk,
-      total_czk: current_cart.subtotal_czk,
+      delivery_distance_km: delivery_quote&.round_trip_km,
+      delivery_czk: delivery_quote&.price_czk,
+      vat_czk: total_czk - (total_czk / (1 + Cart::VAT_RATE)).round,
+      total_czk: total_czk,
       locale: I18n.locale.to_s
     }
+  end
+
+  # Goods plus the approximate delivery price, both incl. VAT.
+  def total_czk
+    current_cart.subtotal_czk + delivery_quote&.price_czk.to_i
+  end
+
+  def delivery_quote
+    return @delivery_quote if defined?(@delivery_quote)
+
+    @delivery_quote = DeliveryQuote.for_checkout(current_checkout)
   end
 
   def cart_items_snapshot

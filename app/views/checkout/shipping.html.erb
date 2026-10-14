@@ -25,7 +25,7 @@
                 <input type="radio" name="shipping_method" value="address" <%= "checked" if current_checkout["shipping_method"] == "address" %>>
                 <%= t("checkout.shipping_address") %>
               </span>
-              <span class="checkout-radio-note"><%= t("checkout.shipping_address_note") %></span>
+              <span class="checkout-radio-note"><%= t("checkout.shipping_address_rate_note", rate: cart_price(DeliveryQuote::CZK_PER_KM)) %></span>
             </label>
             <label class="checkout-radio-option">
               <span>

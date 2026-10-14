@@ -229,6 +229,10 @@ de:
     shipping_method_label: "Versandart"
     shipping_address: "Lieferung an Adresse"
     shipping_address_note: "Versandkosten werden individuell berechnet"
+    shipping_address_rate_note: "%{rate} pro km (hin und zurück) – den ungefähren Preis sehen Sie in der Bestellübersicht"
+    delivery_approximate: "(ungefährer Preis)"
+    goods_total: "Ware"
+    delivery_line: "Lieferung (%{km} km, ungefähr)"
     shipping_pickup: "Persönliche Abholung am Lagerstandort"
     free: "Kostenlos"
     payment_method_label: "Zahlungsart"
@@ -705,6 +709,7 @@ de:
     shipping_method: "Versandart"
     payment_method: "Zahlungsart"
     total_due: "Gesamtbetrag"
+    delivery: "Lieferung (%{km} km hin und zurück, ungefähr)"
     questions_text: "Bei Fragen kontaktieren Sie uns gerne telefonisch unter +420 602 446 339 oder per E-Mail an stepan.merta@seznam.cz."
     sign_off: "Mit freundlichen Grüßen,"
     signature: "Štěpán Merta, Pila Derflice"
@@ -745,7 +750,7 @@ de:
       <p>Der Käufer kann zwischen folgenden Versandarten wählen:</p>
       <ul>
         <li><strong>Persönliche Abholung</strong> – kostenlos, am Betriebssitz Derflice 66, 671 28 Znojmo, nach vorheriger Vereinbarung.</li>
-        <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis richtet sich nach Entfernung und bestellter Menge (aktuell 35 CZK/km) und wird dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
+        <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis beträgt 40 CZK (inkl. MwSt.) pro gefahrenem Kilometer, berechnet hin und zurück zwischen dem Betrieb in Derflice und der Lieferadresse. Die Entfernung wird anhand der Lieferadresse automatisch berechnet; der ungefähre Lieferpreis wird in der Bestellübersicht angezeigt und ist im Gesamtpreis enthalten, den endgültigen Lieferpreis bestätigt der Verkäufer nach Eingang der Bestellung. Die gesamte bestellte Menge wird in einer Fahrt geliefert. Kann die Entfernung nicht berechnet werden, wird der Lieferpreis dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
       </ul>
       <p>Der Liefer- bzw. Abholtermin wird individuell je nach Warenverfügbarkeit und Kapazität des Verkäufers vereinbart; sofern nichts anderes vereinbart wurde, liefert der Verkäufer die Ware innerhalb einer angemessenen Frist.</p>
 
@@ -762,7 +767,7 @@ de:
 
       <h2>7. Datenschutz</h2>
       <p>Der Verkäufer verarbeitet personenbezogene Daten des Käufers (Name, Adresse, Telefonnummer, E-Mail, ggf. Steuernummer/USt-IdNr. bei Firmenkäufen) ausschließlich zum Zweck der Bestellabwicklung, der Erfüllung des Kaufvertrags sowie der Erfüllung gesetzlicher Pflichten (z. B. Buchhaltung). Verantwortlicher für die Datenverarbeitung ist Štěpán Merta, IČ: 45665451.</p>
-      <p>Die Daten werden nicht an Dritte weitergegeben, mit Ausnahme der für die Zustellung notwendigen Personen (Transportunternehmen) sowie gesetzlich vorgeschriebener Stellen (z. B. Finanzbehörden).</p>
+      <p>Die Daten werden nicht an Dritte weitergegeben, mit Ausnahme der für die Zustellung notwendigen Personen (Transportunternehmen), des Dienstes zur Entfernungsberechnung der Lieferadresse (openrouteservice, HeiGIT gGmbH, Deutschland) sowie gesetzlich vorgeschriebener Stellen (z. B. Finanzbehörden).</p>
       <p>Der Käufer hat das Recht auf Auskunft über seine personenbezogenen Daten, deren Berichtigung oder Löschung sowie auf Einschränkung der Verarbeitung, das Recht, der Verarbeitung zu widersprechen, sowie das Recht, Beschwerde bei der zuständigen Datenschutzbehörde einzureichen.</p>
 
       <h2>8. Außergerichtliche Streitbeilegung</h2>
@@ -790,7 +795,7 @@ de:
     privacy_title: "Datenschutzerklärung"
     privacy_content_html: |
       <p>Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir beim Betrieb der Website piladerflice.cz verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage, an wen wir sie weitergeben und welche Rechte Sie haben. Wir verarbeiten Ihre Daten gemäß der Verordnung (EU) 2016/679 (DSGVO) und dem tschechischen Gesetz Nr. 110/2019 Slg. über die Verarbeitung personenbezogener Daten.</p>
-      <p>Zuletzt aktualisiert: 7. 10. 2026.</p>
+      <p>Zuletzt aktualisiert: 14. 10. 2026.</p>
 
       <h2>1. Wer für Ihre Daten verantwortlich ist</h2>
       <p><strong>Štěpán Merta</strong><br>
@@ -808,7 +813,7 @@ de:
       <h3>2.1 Bestellungen im Onlineshop</h3>
       <ul>
         <li><strong>Daten:</strong> Vor- und Nachname, E-Mail, Telefon, Rechnungsadresse, Lieferadresse (falls abweichend), bei Firmenkäufen Firmenname, Ident.-Nr. und USt-IdNr., außerdem Inhalt der Bestellung, gewählte Liefer- und Zahlungsart sowie die Sprache, in der Sie die Bestellung aufgeben.</li>
-        <li><strong>Zweck:</strong> Bearbeitung der Bestellung, Abschluss und Erfüllung des Kaufvertrags, Lieferung der Ware, Rechnungsstellung, Kommunikation zur Bestellung und Bearbeitung von Reklamationen.</li>
+        <li><strong>Zweck:</strong> Bearbeitung der Bestellung, Abschluss und Erfüllung des Kaufvertrags, Berechnung des ungefähren Lieferpreises anhand der Entfernung zur Lieferadresse, Lieferung der Ware, Rechnungsstellung, Kommunikation zur Bestellung und Bearbeitung von Reklamationen.</li>
         <li><strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und Erfüllung rechtlicher Verpflichtungen, insbesondere buchhalterischer und steuerlicher (Art. 6 Abs. 1 lit. c DSGVO).</li>
         <li><strong>Speicherdauer:</strong> so lange, wie es die buchhalterischen und steuerlichen Vorschriften verlangen, bei Steuerbelegen 10 Jahre ab Ende des Besteuerungszeitraums (tschechisches Mehrwertsteuergesetz Nr. 235/2004 Slg.). Danach löschen oder anonymisieren wir die Daten.</li>
       </ul>
@@ -866,6 +871,7 @@ de:
       <ul>
         <li><strong>IT-Dienstleister</strong> (Betrieb und Verwaltung des Servers, E-Mail-Dienste für den Versand von Bestellbestätigungen und die Kommunikation), die Daten als Auftragsverarbeiter für uns verarbeiten und sie nur nach unseren Weisungen verwenden dürfen.</li>
         <li><strong>Google Ireland Limited</strong> (Besuchermessung und Karte, siehe Punkte 2.6 und 2.7).</li>
+        <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Deutschland (Dienst openrouteservice) – bei Lieferung an die Adresse übermitteln wir ausschließlich die Lieferadresse (Straße, Ort, PLZ, Land), um die Entfernung vom Betrieb und den ungefähren Lieferpreis zu berechnen. Name und Kontaktdaten übermitteln wir nicht.</li>
         <li><strong>Transportunternehmen</strong>, sofern die Lieferung durch einen Dritten erfolgt; wir geben ihm nur die für die Lieferung erforderlichen Daten (Name, Adresse, Telefon) weiter.</li>
         <li><strong>Behörden</strong> (z. B. die Finanzverwaltung), wenn uns das Gesetz dazu verpflichtet.</li>
       </ul>

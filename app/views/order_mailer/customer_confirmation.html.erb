@@ -31,6 +31,12 @@
     <td style="padding:2px 0; color:#666;"><%= t("order_mailer.payment_method") %></td>
     <td style="padding:2px 0;"><%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %></td>
   </tr>
+  <% if @order.delivery_quoted? %>
+    <tr>
+      <td style="padding:2px 0; color:#666;"><%= t("order_mailer.delivery", km: @order.delivery_distance_km) %></td>
+      <td style="padding:2px 0;"><%= ExchangeRateService.display_amount(@order.delivery_czk, locale: @locale) %></td>
+    </tr>
+  <% end %>
   <tr>
     <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= t("order_mailer.total_due") %></td>
     <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= ExchangeRateService.display_amount(@order.total_czk, locale: @locale) %></td>

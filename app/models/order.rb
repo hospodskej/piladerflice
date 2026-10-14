@@ -35,6 +35,12 @@ class Order < ApplicationRecord
     end
   end
 
+  # Whether a delivery price was worked out at checkout (otherwise it is
+  # agreed individually).
+  def delivery_quoted?
+    shipping_method == "address" && delivery_czk.present?
+  end
+
   def full_name
     "#{first_name} #{last_name}".strip
   end

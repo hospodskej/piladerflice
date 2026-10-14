@@ -39,7 +39,7 @@ Settings come from environment variables:
 | `RUST_LOG` | `info`      | Log detail, e.g. `debug` or `piladerflice=debug`. |
 | `DATABASE_URL` | the Rails development database | The SQLite database, e.g. `sqlite:/srv/pila/production.sqlite3`. |
 | `STORAGE_DIR` | `../storage` | Where the uploaded images live (Active Storage's folder). |
-| `SECRET_KEY_BASE` | a fixed development value | Encrypts the session cookie. **Required in production**, at least 64 characters (e.g. `openssl rand -hex 64`). Changing it logs everyone out and empties their carts. |
+| `SECRET_KEY_BASE` | a fixed development value | Encrypts the session and login cookies. **Required in production**, at least 64 characters (e.g. `openssl rand -hex 64`). Changing it signs everyone out and empties their carts. |
 | `ORS_API_KEY` | none | openrouteservice key for the delivery price. Without it, delivery is priced individually. |
 | `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_ADDRESS`, `SMTP_PORT` | none, smtp.gmail.com, 587 | The mail server. Without `SMTP_USERNAME`, e-mails are only logged. Port 465 uses TLS from the start, other ports STARTTLS. |
 | `MAIL_FROM_ADDRESS`, `ORDER_NOTIFICATION_EMAIL`, `INQUIRY_NOTIFICATION_EMAIL` | objednavky@piladerflice.cz, … | Sender, and who gets told about new orders and quote requests. |
@@ -53,13 +53,23 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 | 1 | Server, layout (header, footer, menu, cookie banner, breadcrumbs, SEO and share tags), cs/de with `/at` URLs, legal pages, Sortiment pages, 404, robots.txt, health check | done |
 | 2 | Catalogue: home page, e-shop, product pages (firewood grid, lumber filters, simple variants), contact page with price list and quote form, services, Sortiment, euro prices, sitemap, uploaded images | done |
 | 3 | Sessions (encrypted cookie) and form protection, cart with Turbo Streams, checkout (shipping, details, summary, thank-you), delivery price by distance, order and quote request e-mails | done |
-| 4 | Accounts: registration, login, profile pictures, checkout prefill, order history | next |
-| 5 | Admin area | |
+| 4 | Accounts: registration, sign-in and sign-out, profile, profile pictures, order history and reordering, checkout prefill | done |
+| 5 | Admin area | next |
 | 6 | Remaining extras, side-by-side comparison with Rails, switch-over | |
 
-Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical. The whole shopping flow (add to cart, change quantities, all checkout steps, the thank-you page) was run in a browser against both apps, in Czech and German, and every step's HTML matched; the saved orders and quote requests are the same too.
+Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical. The whole shopping flow (add to cart, change quantities, all checkout steps, the thank-you page) was run in a browser against both apps, in Czech and German, and every step's HTML matched; the saved orders and quote requests are the same too. The account flow (sign-in required, registration with errors, profile, picture upload, checkout prefill, sign-out, failed and successful sign-in) was compared the same way, in both languages.
 
-Two things differ from Rails on purpose: order errors read "Při nákupu na firmu je potřeba vyplnit název firmy" without Rails' English field name in front, and the session cookie has a new name (`_pila_session`), so switching from Rails to Rust starts everyone with an empty cart.
+Accounts are shared with Rails: passwords are bcrypt hashes in the same format as Rails' `has_secure_password`, and sign-ins are rows of the same `sessions` table, so an account made in one app signs in to the other (tested both ways). Profile pictures are stored as Active Storage blobs, cleaned the same way (decoded, turned upright, cut to 256×256, saved as WebP).
+
+A few things differ from Rails on purpose:
+
+- order errors read "Při nákupu na firmu je potřeba vyplnit název firmy" without Rails' English field name in front;
+- error counts use the Czech plural ("2 chyby", Rails says "2 chyba");
+- the session cookie has a new name (`_pila_session`) and the login cookie is `_pila_login`, so switching from Rails to Rust starts everyone with an empty cart and signed out;
+- a sign-in with an unknown e-mail takes as long as one with a wrong password, so the timing doesn't tell which e-mails have accounts;
+- picture uploads are limited per account (10 per 10 minutes) instead of per IP address.
+
+The sign-in, sign-out and registration messages are in Czech in both languages, as in Rails; translating them is a small fix for later, in both apps.
 
 Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' signed `/rails/active_storage/...` links. The key is random and never reused, so these URLs are cached for good.
 
@@ -77,17 +87,22 @@ src/
   locale.rs          Czech/German and their URLs (port of Rails' LocalizedPath)
   i18n.rs            the YAML translations; t("key", name=value) like Rails I18n
   db.rs              the SQLite connection
-  forms.rs           submitted forms: checks the form protection token, then reads the fields
+  forms/             submitted forms: checks the form protection token, then reads the fields
+                     (upload.rs: the same for forms with a file)
   session/           the encrypted session cookie: data, load/save layer, CSRF token, flash
   shop/              cart and cart lines, checkout details, line descriptions, VAT,
     delivery/        the delivery quote and the openrouteservice distance lookup
+  accounts/          the signed-in user, passwords (bcrypt), registration checks, rate limits
+    avatar/          profile pictures: storing as Active Storage blobs, cleaning uploads,
+                     keeping the EXIF data inside the WebP
   mail/              e-mails: SMTP or outbox, settings, order and quote request mails
   assets/            static files: index + fingerprints, import map, /assets handler
   money/             Kč and € formatting; the live exchange rate
   models/            one file per table
     catalog/         product, variant, firewood grid
     content/         promo, service, category tile, FAQ slide, review
-    pricelist.rs, inquiry_options.rs, upload.rs
+    user.rs          accounts and their profile; login_session.rs: the sessions table
+    order.rs, inquiry.rs, pricelist.rs, inquiry_options.rs, upload.rs
   views/             templates and the layout
     templates.rs     loading templates; functions.rs: t() and path()
     layout.rs        renders a page inside the site layout
@@ -99,6 +114,8 @@ src/
     cart/            cart page, add, change quantity/remove, Turbo Streams
     checkout/        one file per step, the guard between steps, the order draft
     inquiries.rs     the quote request form
+    auth/            sign-in, sign-out, registration
+    account/         the account page, profile form, profile picture, ordering again
     eshop/           listing, product page, one file per product layout
                      (firewood, lumber, simple_variant), recommendations
     components/      view pieces used by several pages (product card,
@@ -108,7 +125,8 @@ src/
 templates/           Jinja templates (MiniJinja); same HTML as the Rails views (mail/: the e-mails)
 db/schema.sql        the database schema (exported from Rails), used by the tests
 tests/               requests against the whole app, like a browser would make them;
-                     fixtures/data.sql is the test data, loaded into a fresh in-memory database
+                     fixtures/data.sql is the test data, loaded into a fresh in-memory database;
+                     fixtures/accounts.sql adds two accounts (password "heslo12345")
 ```
 
 When a Rails migration changes the database, re-export `db/schema.sql` (the `CREATE` statements from `sqlite_master`).
@@ -150,6 +168,8 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **Shared, changeable state** (`session/mod.rs`): `Arc<Mutex<…>>` lets the session layer and the handler see the same data; `read` and `update` keep the lock short.
 - **Extractors** (`forms.rs`): `impl FromRequest for FormData` means a handler that takes `form: FormData` can only run after the token check passed.
 - **`Send` futures**: axum runs handlers on any thread, so nothing that isn't `Send` may live across an `.await`. `shop/delivery/route_service.rs` shows the fix for one such error (finish the URL builder into a `String` first); `#[axum::debug_handler]` explains these errors best.
+- **`spawn_blocking`** (`routes/account/avatar.rs`): resizing a picture is CPU work that would stall the async threads, so it runs on a thread meant for blocking work.
+- **`Box`** (`require_login` in `routes/account/mod.rs`): puts a big value on the heap so the `Result` that carries it stays small; clippy points these out.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

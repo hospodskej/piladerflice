@@ -23,6 +23,8 @@ pub struct Page {
     pub status: Option<StatusCode>,
     /// Extra trusted HTML for <head> (the JSON-LD business data).
     pub head_html: Option<String>,
+    /// A message for this very page (Rails' `flash.now`), e.g. a failed login.
+    pub flash_now: Option<crate::session::Flash>,
 }
 
 impl Page {

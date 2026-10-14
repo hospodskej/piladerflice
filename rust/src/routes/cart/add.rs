@@ -8,9 +8,9 @@ use super::streams;
 use crate::AppState;
 use crate::forms::FormData;
 use crate::models::catalog;
-use crate::models::upload::{self, Upload};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
+use crate::shop::cart_image;
 use crate::views::{cart_view, redirect, turbo};
 
 pub async fn add(State(state): State<AppState>, req: Req, form: FormData) -> Result {
@@ -21,14 +21,7 @@ pub async fn add(State(state): State<AppState>, req: Req, form: FormData) -> Res
     let Some((product, variant)) = catalog::buyable_variant(&state.db, variant_id).await? else {
         return Ok(not_found::page(State(state), req).await);
     };
-    // The variant's own photo, or the product's.
-    let image = match upload::images_of(&state.db, "CatalogVariant").await?.get(&variant.id) {
-        Some(own) => Some(own.url()),
-        None => upload::images_of(&state.db, "CatalogProduct")
-            .await?
-            .get(&product.id)
-            .map(Upload::url),
-    };
+    let image = cart_image::for_variant(&state.db, &product, &variant).await?;
     // Like Ruby's to_i: anything that isn't a number counts as 0, then 1.
     let quantity = form
         .get("quantity")

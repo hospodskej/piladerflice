@@ -5,6 +5,11 @@
 //! Fields are read like Rails params: `get("quantity")` (the last value when
 //! a name repeats, so a hidden "0" before a checked checkbox gives "1"),
 //! `all("delka[]")` for the repeated fields of the quote form.
+//!
+//! [`upload::UploadForm`] is the same for forms with a file (the profile
+//! picture).
+
+pub mod upload;
 
 use axum::body::Bytes;
 use axum::extract::{FromRequest, Request};
@@ -61,7 +66,7 @@ impl FormData {
 
 /// The form was refused: forged, from another site, or too big.
 #[derive(Debug)]
-pub struct Refused(StatusCode);
+pub struct Refused(pub StatusCode);
 
 impl IntoResponse for Refused {
     fn into_response(self) -> Response {
@@ -69,6 +74,22 @@ impl IntoResponse for Refused {
             .unwrap_or_else(|_| "The change you wanted was rejected.".into());
         (self.0, Html(page)).into_response()
     }
+}
+
+/// Checks the Origin and the form token; the shared part of both form kinds.
+pub(crate) fn verify(req: &Req, headers: &axum::http::HeaderMap, form_token: Option<&str>) -> Result<(), Refused> {
+    let origin = headers.get("origin").and_then(|value| value.to_str().ok());
+    if !csrf::origin_allowed(origin, &req.base_url) {
+        tracing::warn!("form from another site refused (Origin {origin:?})");
+        return Err(Refused(StatusCode::UNPROCESSABLE_ENTITY));
+    }
+    let header_token = headers.get("x-csrf-token").and_then(|value| value.to_str().ok());
+    let given = form_token.or(header_token).unwrap_or_default();
+    if !csrf::matches(&req.session.csrf_token(), given) {
+        tracing::warn!("form without a valid authenticity token refused");
+        return Err(Refused(StatusCode::UNPROCESSABLE_ENTITY));
+    }
+    Ok(())
 }
 
 impl FromRequest<AppState> for FormData {
@@ -80,23 +101,11 @@ impl FromRequest<AppState> for FormData {
             .await
             .map_err(|_| Refused(StatusCode::BAD_REQUEST))?;
 
-        let origin = parts.headers.get("origin").and_then(|value| value.to_str().ok());
-        if !csrf::origin_allowed(origin, &req.base_url) {
-            tracing::warn!("form from another site refused (Origin {origin:?})");
-            return Err(Refused(StatusCode::UNPROCESSABLE_ENTITY));
-        }
-
         let bytes: Bytes = axum::body::to_bytes(body, MAX_FORM_BYTES)
             .await
             .map_err(|_| Refused(StatusCode::PAYLOAD_TOO_LARGE))?;
         let form = FormData::parse(&bytes);
-
-        let header_token = parts.headers.get("x-csrf-token").and_then(|value| value.to_str().ok());
-        let given = form.get("authenticity_token").or(header_token).unwrap_or_default();
-        if !csrf::matches(&req.session.csrf_token(), given) {
-            tracing::warn!("form without a valid authenticity token refused");
-            return Err(Refused(StatusCode::UNPROCESSABLE_ENTITY));
-        }
+        verify(&req, &parts.headers, form.get("authenticity_token"))?;
         Ok(form)
     }
 }

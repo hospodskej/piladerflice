@@ -46,7 +46,14 @@ pub async fn render(state: &AppState, req: &Req, template: &str, page: Page, dat
             return (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response();
         }
     };
-    let flash = req.session.take_flash();
+    let flash = page.flash_now.clone().or_else(|| req.session.take_flash());
+    let current_user = req.user.as_ref().map(|current| {
+        context! {
+            email => &current.user.email_address,
+            is_admin => current.user.is_admin(),
+            avatar_path => current.avatar_path(|path| req.path_for(path)),
+        }
+    });
 
     let ctx = context! {
         locale => req.locale.code(),
@@ -76,6 +83,7 @@ pub async fn render(state: &AppState, req: &Req, template: &str, page: Page, dat
         csrf_token => req.session.csrf_token(),
         flash => flash,
         cart => cart,
+        current_user => current_user,
         ..data
     };
 

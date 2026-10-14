@@ -6,9 +6,11 @@ pub mod catalog;
 pub mod content;
 pub mod inquiry;
 pub mod inquiry_options;
+pub mod login_session;
 pub mod order;
 pub mod pricelist;
 pub mod upload;
+pub mod user;
 
 use crate::locale::Locale;
 

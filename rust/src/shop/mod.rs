@@ -2,6 +2,7 @@
 //! the delivery price.
 
 pub mod cart;
+pub mod cart_image;
 pub mod cart_line;
 pub mod checkout;
 pub mod delivery;

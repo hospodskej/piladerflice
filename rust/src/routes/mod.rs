@@ -2,6 +2,8 @@
 //! both languages: `/kontakt` (Czech) and `/at/kontakt` (German) reach the
 //! same handler, which reads the language from [`Req`](crate::request::Req).
 
+mod account;
+mod auth;
 mod cart;
 mod checkout;
 mod components;
@@ -23,12 +25,14 @@ mod uploads;
 pub use error::{AppError, Result};
 
 use axum::Router;
+use axum::extract::DefaultBodyLimit;
 use axum::middleware;
 use axum::routing::{get, post};
 use tower_http::trace::TraceLayer;
 
 use crate::AppState;
 use crate::assets;
+use crate::forms::upload::MAX_UPLOAD_BYTES;
 
 pub fn router(state: AppState) -> Router {
     Router::new()
@@ -72,6 +76,24 @@ pub fn router(state: AppState) -> Router {
         .route("/kosik/souhrn", get(checkout::summary).post(checkout::confirm))
         .route("/kosik/dekujeme", get(checkout::confirmation))
         .route("/inquiries", post(inquiries::create))
+        // Accounts
+        .route("/prihlaseni", get(auth::login_page).post(auth::login))
+        .route("/odhlaseni", post(auth::logout).delete(auth::logout))
+        .route("/registrace", get(auth::register_page).post(auth::register))
+        .route("/muj-ucet", get(account::show))
+        .route(
+            "/muj-ucet/upravit",
+            get(account::edit).post(account::update).patch(account::update),
+        )
+        .route(
+            "/muj-ucet/profilovy-obrazek",
+            get(account::avatar)
+                .post(account::avatar_change)
+                .patch(account::avatar_update)
+                .delete(account::avatar_destroy)
+                .layer(DefaultBodyLimit::max(MAX_UPLOAD_BYTES)),
+        )
+        .route("/muj-ucet/objednavky/{id}/znovu-objednat", post(account::reorder))
         // Legal
         .route("/obchodni-podminky", get(legal::terms))
         .route("/zasady-cookies", get(legal::cookies_policy))

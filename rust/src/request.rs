@@ -10,7 +10,10 @@ use axum::extract::{FromRequestParts, Request};
 use axum::http::request::Parts;
 use axum::http::{HeaderMap, Uri, header};
 
+use crate::AppState;
+use crate::accounts::current_user::CurrentUser;
 use crate::locale::{self, Locale};
+use crate::routes::AppError;
 use crate::session::Session;
 
 /// The path as the visitor asked for it, before the language prefix was removed.
@@ -73,6 +76,8 @@ pub struct Req {
     pub headers: HeaderMap,
     /// This visitor's session (cart, checkout, form token...).
     pub session: Session,
+    /// The signed-in customer, if any.
+    pub user: Option<CurrentUser>,
 }
 
 impl Req {
@@ -95,6 +100,24 @@ impl Req {
         locale::localized_path(path, self.locale)
     }
 
+    /// The visitor's address as the reverse proxy reports it (for the login
+    /// record; informational only).
+    pub fn client_ip(&self) -> Option<String> {
+        let header = |name: &str| self.headers.get(name).and_then(|value| value.to_str().ok());
+        header("x-forwarded-for")
+            .and_then(|list| list.split(',').next())
+            .or_else(|| header("x-real-ip"))
+            .map(|ip| ip.trim().to_string())
+            .filter(|ip| !ip.is_empty())
+    }
+
+    pub fn user_agent(&self) -> Option<String> {
+        self.headers
+            .get(axum::http::header::USER_AGENT)
+            .and_then(|value| value.to_str().ok())
+            .map(str::to_string)
+    }
+
     /// Whether the browser asked for a Turbo Stream (a form submitted by
     /// Turbo), rather than a whole page.
     pub fn wants_turbo_stream(&self) -> bool {
@@ -105,10 +128,14 @@ impl Req {
     }
 }
 
-impl<S: Send + Sync> FromRequestParts<S> for Req {
-    type Rejection = std::convert::Infallible;
+/// The signed-in user, once loaded for a request (extractors may run twice).
+#[derive(Clone)]
+struct LoadedUser(Option<CurrentUser>);
 
-    async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
+impl FromRequestParts<AppState> for Req {
+    type Rejection = AppError;
+
+    async fn from_request_parts(parts: &mut Parts, state: &AppState) -> Result<Self, Self::Rejection> {
         let original = parts
             .extensions
             .get::<OriginalUri>()
@@ -123,6 +150,19 @@ impl<S: Send + Sync> FromRequestParts<S> for Req {
         } else {
             path.to_string()
         };
+        let session = parts
+            .extensions
+            .get::<Session>()
+            .cloned()
+            .unwrap_or_else(|| Session::new(Default::default()));
+        let user = match parts.extensions.get::<LoadedUser>() {
+            Some(loaded) => loaded.0.clone(),
+            None => {
+                let user = CurrentUser::load(&state.db, session.login()).await?;
+                parts.extensions.insert(LoadedUser(user.clone()));
+                user
+            }
+        };
         Ok(Req {
             locale,
             plain_path: locale::strip(&path),
@@ -130,11 +170,8 @@ impl<S: Send + Sync> FromRequestParts<S> for Req {
             query: original.query().map(str::to_string),
             base_url: base_url(&parts.headers),
             headers: parts.headers.clone(),
-            session: parts
-                .extensions
-                .get::<Session>()
-                .cloned()
-                .unwrap_or_else(|| Session::new(Default::default())),
+            session,
+            user,
         })
     }
 }

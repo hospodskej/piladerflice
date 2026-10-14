@@ -9,6 +9,10 @@
 //! - [`cookie_store`]: encrypting it into the cookie and back
 //! - [`csrf`]: the token that proves a form came from our own page
 //! - [`flash`]: a message shown once on the next page
+//!
+//! A login lives in a second cookie that lasts (like Rails' permanent
+//! `session_id` cookie): it holds the id of the `sessions` row, so closing
+//! the browser doesn't sign the customer out.
 
 pub mod cookie_store;
 pub mod csrf;
@@ -41,11 +45,17 @@ pub struct SessionData {
     /// The order just placed, for the thank-you page.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub last_order_id: Option<i64>,
+    /// Where to go after signing in (the page that asked for it).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub return_to: Option<String>,
 }
 
 struct Inner {
     data: SessionData,
     changed: bool,
+    /// The `sessions` row id of the login, if signed in.
+    login: Option<i64>,
+    login_changed: bool,
 }
 
 /// A handle to this request's session. Cloning it is cheap; all clones see
@@ -56,7 +66,34 @@ pub struct Session(Arc<Mutex<Inner>>);
 
 impl Session {
     pub fn new(data: SessionData) -> Self {
-        Session(Arc::new(Mutex::new(Inner { data, changed: false })))
+        Self::with_login(data, None)
+    }
+
+    pub fn with_login(data: SessionData, login: Option<i64>) -> Self {
+        Session(Arc::new(Mutex::new(Inner {
+            data,
+            changed: false,
+            login,
+            login_changed: false,
+        })))
+    }
+
+    /// The `sessions` row of the current login.
+    pub fn login(&self) -> Option<i64> {
+        self.0.lock().expect("session lock").login
+    }
+
+    /// Signs in (`Some(row id)`) or out (`None`); saved with the response.
+    pub fn set_login(&self, login: Option<i64>) {
+        let mut inner = self.0.lock().expect("session lock");
+        inner.login = login;
+        inner.login_changed = true;
+    }
+
+    /// The new login to save, when it changed: Some(Some(id)) or Some(None).
+    fn changed_login(&self) -> Option<Option<i64>> {
+        let inner = self.0.lock().expect("session lock");
+        inner.login_changed.then_some(inner.login)
     }
 
     /// Looks at the session without changing it.

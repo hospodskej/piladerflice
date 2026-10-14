@@ -1,0 +1,4 @@
+{# The round picture of the account (or the e-mail's first letter). #}
+<div class="account-avatar{{ ' ' ~ extra_class if extra_class }}">
+  {% if account.avatar_path %}<img alt="{{ t('auth.avatar_alt') }}" width="64" height="64" src="{{ account.avatar_path }}">{% else %}{{ account.initial }}{% endif %}
+</div>

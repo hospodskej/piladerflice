@@ -9,6 +9,7 @@
 //! - [`money`]: crowns, and euros for the Austrian site
 //! - [`routes`]: one module per area of the site
 
+pub mod accounts;
 pub mod assets;
 pub mod config;
 pub mod db;

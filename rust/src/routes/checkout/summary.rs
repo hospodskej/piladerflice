@@ -10,6 +10,7 @@ use super::order_draft::{self, Draft};
 use crate::AppState;
 use crate::forms::FormData;
 use crate::mail;
+use crate::models::user::{self, PROFILE_FIELDS};
 use crate::request::Req;
 use crate::routes::Result;
 use crate::views::{self, Page, redirect};
@@ -37,9 +38,12 @@ pub async fn confirm(State(state): State<AppState>, req: Req, form: FormData) ->
         return render(&state, &req, &draft, errors).await;
     }
 
-    let order = draft.order.insert(&state.db).await?;
-    // Phase 4 (accounts): link the order to the signed-in customer and save
-    // the details to their account.
+    let mut order = draft.order;
+    order.user_id = req.user.as_ref().map(|current| current.user.id);
+    let order = order.insert(&state.db).await?;
+    if let Some(current) = &req.user {
+        save_to_account(&state, &req, current.user.id).await?;
+    }
     for email in [
         mail::orders::new_order(&state, &order).await,
         mail::orders::customer_confirmation(&state, &order).await,
@@ -66,4 +70,18 @@ async fn render(state: &AppState, req: &Req, draft: &Draft, errors: Vec<String>)
     }
     let data = order_draft::view(state, req.locale, draft).await;
     Ok(views::render(state, req, "checkout/summary.html", page, context! { errors, ..data }).await)
+}
+
+/// The details entered at checkout become the customer's saved profile.
+async fn save_to_account(state: &AppState, req: &Req, user_id: i64) -> Result<()> {
+    let fields: Vec<(String, Option<String>)> = req.session.read(|data| {
+        data.checkout
+            .fields()
+            .iter()
+            .filter(|(name, _)| PROFILE_FIELDS.contains(&name.as_str()))
+            .map(|(name, value)| (name.clone(), Some(value.clone())))
+            .collect()
+    });
+    user::update_profile(&state.db, user_id, &fields).await?;
+    Ok(())
 }

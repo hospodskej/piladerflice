@@ -8,6 +8,12 @@ use crate::i18n::Translations;
 use crate::locale::Locale;
 use crate::shop::cart_line::CartLine;
 
+const COLUMNS: &str = "id, user_id, first_name, last_name, email, phone, newsletter_opt_in, billing_street,
+    billing_city, billing_zip, billing_country, company_purchase, company_name, company_ico, company_dic,
+    delivery_address_different, delivery_street, delivery_city, delivery_zip, delivery_country, shipping_method,
+    payment_method, items_snapshot, subtotal_czk, delivery_distance_km, delivery_czk, vat_czk, total_czk, locale,
+    created_at";
+
 pub const SHIPPING_METHODS: [&str; 2] = ["address", "pickup"];
 pub const PAYMENT_METHODS: [&str; 2] = ["cash", "bank_transfer"];
 
@@ -200,18 +206,22 @@ impl Order {
         Ok(self)
     }
 
-    pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<Order>> {
-        sqlx::query_as(
-            "SELECT id, user_id, first_name, last_name, email, phone, newsletter_opt_in, billing_street, billing_city,
-               billing_zip, billing_country, company_purchase, company_name, company_ico, company_dic,
-               delivery_address_different, delivery_street, delivery_city, delivery_zip, delivery_country,
-               shipping_method, payment_method, items_snapshot, subtotal_czk, delivery_distance_km, delivery_czk,
-               vat_czk, total_czk, locale, created_at
-             FROM orders WHERE id = ?",
-        )
-        .bind(id)
-        .fetch_optional(db)
+    /// A customer's latest orders, newest first.
+    pub async fn latest_of_user(db: &Db, user_id: i64, limit: i64) -> sqlx::Result<Vec<Order>> {
+        sqlx::query_as(&format!(
+            "SELECT {COLUMNS} FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT ?"
+        ))
+        .bind(user_id)
+        .bind(limit)
+        .fetch_all(db)
         .await
+    }
+
+    pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<Order>> {
+        sqlx::query_as(&format!("SELECT {COLUMNS} FROM orders WHERE id = ?"))
+            .bind(id)
+            .fetch_optional(db)
+            .await
     }
 }
 

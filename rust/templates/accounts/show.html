@@ -1,0 +1,64 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+<main class="main">
+  <section class="account-dashboard">
+    <header class="account-profile-card">
+      {% include "accounts/_avatar.html" %}
+
+      <div class="account-profile-info">
+        <h1 class="account-profile-title">
+          {{ t("auth.account_title") }}
+          {% if account.is_admin %}
+            <span class="account-admin-badge">{{ t("auth.admin_badge") }}</span>
+          {% endif %}
+        </h1>
+        <p class="account-profile-email">{{ account.email }}</p>
+        <p class="account-profile-since">{{ t("auth.customer_since", date=account.since) }}</p>
+      </div>
+
+      <div class="account-profile-actions">
+        {% if account.is_admin %}
+          <a class="btn-primary account-action-btn" href="/admin">{{ t("auth.go_to_admin") }}</a>
+        {% endif %}
+        <a class="btn-outline-dark account-action-btn" href="{{ path('/muj-ucet/upravit') }}">{{ t("auth.edit_profile_link") }}</a>
+        <form class="button_to" method="post" action="{{ path('/odhlaseni') }}"><input type="hidden" name="_method" value="delete"><button class="btn-outline-dark account-action-btn" type="submit">{{ t("auth.logout") }}</button><input type="hidden" name="authenticity_token" value="{{ csrf_token }}"></form>
+      </div>
+    </header>
+
+    <section class="account-orders-section">
+      <div class="account-orders-heading">
+        <h2>{{ t("auth.order_history_title") }}</h2>
+        {% if orders %}
+          <span class="account-orders-count">{{ orders|length }}</span>
+        {% endif %}
+      </div>
+
+      {% if orders %}
+        <div class="order-card-list">
+          {% for order in orders %}
+            <div class="order-card">
+              <div class="order-card-main">
+                <span class="order-card-number">{{ t("auth.order_number") }} {{ order.id }}</span>
+                <span class="order-card-meta">
+                  {{ order.date }}
+                  &middot;
+                  {{ t("auth.order_item_count_one") if order.items == 1 else t("auth.order_item_count_other", count=order.items) }}
+                </span>
+              </div>
+
+              <span class="order-card-total">{{ order.total }}</span>
+
+              <form class="button_to" method="post" action="{{ path('/muj-ucet/objednavky/' ~ order.id ~ '/znovu-objednat') }}"><button class="btn-outline-dark order-card-reorder-btn" type="submit">{{ t("auth.reorder_button") }}</button><input type="hidden" name="authenticity_token" value="{{ csrf_token }}"></form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="account-orders-empty">
+          <p>{{ t("auth.no_orders") }}</p>
+          <a class="btn-primary" href="{{ path('/eshop') }}">{{ t("nav.eshop") }}</a>
+        </div>
+      {% endif %}
+    </section>
+  </section>
+</main>
+{% endblock %}

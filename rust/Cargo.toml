@@ -5,7 +5,7 @@ edition = "2024"
 publish = false
 
 [dependencies]
-axum = { version = "0.8", features = ["macros"] }
+axum = { version = "0.8", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }
 tower = { version = "0.5", features = ["util"] }
 tower-http = { version = "0.6", features = ["trace", "compression-gzip"] }
@@ -32,6 +32,10 @@ cookie = { version = "0.18", features = ["private", "key-expansion", "percent-en
 base64 = "0.22"
 subtle = "2"
 serde_html_form = "0.2"
+bcrypt = "0.17"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+webp = "0.3"
+md-5 = "0.10"
 lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls-tls", "hostname"] }
 
 [dev-dependencies]

@@ -44,7 +44,11 @@ fn environment(dir: PathBuf, translations: Arc<Translations>, assets: Arc<Assets
     env.set_loader(path_loader(dir));
     env.set_trim_blocks(true);
     // Escape like Rails (& < > " '), not "/" too as MiniJinja does by default.
+    // Missing values (None) print as nothing, like nil in ERB, not "none".
     env.set_formatter(|out, state, value| {
+        if value.is_none() || value.is_undefined() {
+            return Ok(());
+        }
         if matches!(state.auto_escape(), AutoEscape::Html) && !value.is_safe() && value.as_str().is_some() {
             out.write_str(&escape(value.as_str().unwrap_or_default()))
                 .map_err(Error::from)

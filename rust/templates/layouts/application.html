@@ -49,6 +49,7 @@
   {% if noindex %}
   <meta name="robots" content="noindex">
   {% endif %}
+  {% if head_html %}{{ head_html }}{% endif %}
   {% block head %}{% endblock %}
 
   <link rel="icon" type="image/x-icon" href="{{ asset('icon.svg') }}">

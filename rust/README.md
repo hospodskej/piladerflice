@@ -7,6 +7,7 @@ It shares the Rails app's files instead of copying them, so both always look the
 - translations: `../config/locales/cs.yml`, `de.yml`
 - images and CSS: `../app/assets/`
 - JavaScript: `../app/javascript/` (Turbo and Stimulus are in `vendor/javascript/`)
+- the database: `../storage/development.sqlite3`, and uploaded images in `../storage/`
 
 ## Running it
 
@@ -36,6 +37,8 @@ Settings come from environment variables:
 | `PORT`     | `4000`      | Port to listen on. |
 | `APP_ENV`  | `development` in debug builds, `production` in release builds | `production` loads templates and assets once at startup. |
 | `RUST_LOG` | `info`      | Log detail, e.g. `debug` or `piladerflice=debug`. |
+| `DATABASE_URL` | the Rails development database | The SQLite database, e.g. `sqlite:/srv/pila/production.sqlite3`. |
+| `STORAGE_DIR` | `../storage` | Where the uploaded images live (Active Storage's folder). |
 
 The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and the sitemap use the right `https://` address.
 
@@ -44,13 +47,15 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 | Phase | What | State |
 |-------|------|-------|
 | 1 | Server, layout (header, footer, menu, cookie banner, breadcrumbs, SEO and share tags), cs/de with `/at` URLs, legal pages, Sortiment pages, 404, robots.txt, health check | done |
-| 2 | Catalogue: home page, e-shop, products, firewood grid, price list, services, euro prices, sitemap (needs the database) | next |
-| 3 | Cart and checkout, delivery price, order emails | |
+| 2 | Catalogue: home page, e-shop, product pages (firewood grid, lumber filters, simple variants), contact page with price list and quote form, services, Sortiment, euro prices, sitemap, uploaded images | done |
+| 3 | Sessions and form protection, cart and checkout, delivery price, quote requests, order emails | next |
 | 4 | Accounts: registration, login, profile pictures | |
 | 5 | Admin area | |
 | 6 | Remaining extras, side-by-side comparison with Rails, switch-over | |
 
-Phase 1 output was compared with Rails page by page: the HTML is the same apart from asset fingerprints, and browser screenshots are pixel-identical.
+Every page so far was compared with Rails: the HTML is the same apart from asset fingerprints, form tokens and uploaded-image URLs, and browser screenshots are pixel-identical.
+
+Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' signed `/rails/active_storage/...` links. The key is random and never reused, so these URLs are cached for good.
 
 ## How the code is organised
 
@@ -63,14 +68,26 @@ src/
   i18n.rs        reads the YAML translations; t("key", name=value) like Rails I18n
   assets.rs      fingerprinted static files (like Propshaft) and the JavaScript import map
   views.rs       templates, page title/description, breadcrumbs, share tags
+  db.rs          the SQLite connection
+  money.rs       Kč and € formatting, the live exchange rate
+  models/        database rows: catalog (products, variants, firewood grid), content
+                 (promo, services, reviews...), pricelist, uploads (images)
   routes/
     mod.rs       the list of all URLs, and the old ?locale= redirect
+    home.rs      home, Kontakt (price list, quote form), Služby, Sortiment
+    eshop.rs     e-shop grid and product pages
+    sitemap.rs   /sitemap.xml
+    catalog.rs   product cards and the business data for search engines
     pages.rs     legal and Sortiment pages
     errors.rs    the 404 page with a random mascot
     system.rs    /up and /robots.txt
 templates/       Jinja templates (MiniJinja); same HTML as the Rails views
-tests/site.rs    requests against the whole app, like a browser would make them
+db/schema.sql    the database schema (exported from Rails), used by the tests
+tests/           requests against the whole app, like a browser would make them;
+                 fixtures/data.sql is the test data, loaded into a fresh in-memory database
 ```
+
+When a Rails migration changes the database, re-export `db/schema.sql` (the `CREATE` statements from `sqlite_master`).
 
 ### Templates
 
@@ -103,6 +120,8 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **Traits**: `FromRequestParts` for `Req` in `request.rs` lets a handler simply ask for `req: Req`, and axum builds it from the request.
 - **`async`/`await`**: handlers are async so one small process can serve many visitors at once (tokio is the runtime).
 - **`Arc`**: shared ownership across threads. `AppState` wraps everything in one `Arc`, so cloning it per request is just a counter bump.
+- **`sqlx::FromRow`**: a struct per table row (`models/catalog.rs`); queries return typed values instead of hashes.
+- **Lifetimes** (`FirewoodGrid<'a>`): the grid borrows the variants instead of copying them, and the compiler checks they live long enough.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

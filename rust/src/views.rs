@@ -91,7 +91,12 @@ fn translate(translations: &Translations, state: &State, key: &str, kwargs: Kwar
     for name in kwargs.args() {
         let value: Value = kwargs.get(name)?;
         let text = value.to_string();
-        args.push((name.to_string(), if html { escape(&text) } else { text }));
+        // Like Rails: arguments of an HTML text are escaped unless they are
+        // HTML already (a link built in the template).
+        args.push((
+            name.to_string(),
+            if html && !value.is_safe() { escape(&text) } else { text },
+        ));
     }
     let args: Vec<(&str, &str)> = args
         .iter()
@@ -144,6 +149,8 @@ pub struct Page {
     /// `None` = derived from the URL; `Some(vec![])` = no breadcrumbs.
     pub breadcrumbs: Option<Vec<Crumb>>,
     pub status: Option<StatusCode>,
+    /// Extra trusted HTML for <head> (the JSON-LD business data).
+    pub head_html: Option<String>,
 }
 
 impl Page {
@@ -160,13 +167,23 @@ impl Page {
 
     pub fn titled(state: &crate::AppState, req: &Req, title: &str, description: Option<String>) -> Page {
         let site = state.translations.text(req.locale, "site.name", &[]);
-        let description = description.map(|text| truncate(&squish(&text), 160));
+        let description = description
+            .map(|text| truncate(&squish(&text), 160))
+            .filter(|text| !text.is_empty());
         Page {
             title: format!("{title} | {site}"),
             indexable: description.is_some(),
             description,
             ..Page::default()
         }
+    }
+}
+
+impl Page {
+    /// The home page title is the brand line alone, without " | Pila Derflice".
+    pub fn brand_only_title(mut self, state: &crate::AppState, req: &Req, key: &str) -> Page {
+        self.title = state.translations.text(req.locale, &format!("meta.{key}.title"), &[]);
+        self
     }
 }
 
@@ -341,6 +358,7 @@ pub fn render(state: &crate::AppState, req: &Req, template: &str, page: Page, da
         title => &page.title,
         description => &page.description,
         noindex => page.noindex,
+        head_html => page.head_html.clone().map(Value::from_safe_string),
         indexable => page.indexable,
         canonical => own_url,
         alternates => alternates,

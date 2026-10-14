@@ -1,44 +1,23 @@
 //! Requests against the whole app, the way a browser would make them.
 
-use axum::body::Body;
-use axum::http::{Request, StatusCode, header};
-use http_body_util::BodyExt;
-use piladerflice::{AppState, Config, app};
-use tower::ServiceExt;
+mod common;
 
-use std::sync::LazyLock;
-
-struct Page {
-    status: StatusCode,
-    headers: axum::http::HeaderMap,
-    body: String,
-}
-
-/// Built once: fingerprinting all the images takes a moment.
-static STATE: LazyLock<AppState> = LazyLock::new(|| AppState::new(Config::from_source_tree(false)).expect("app state"));
-
-async fn get(path: &str) -> Page {
-    let state = STATE.clone();
-    let request = Request::get(path)
-        .header(header::HOST, "piladerflice.test")
-        .body(Body::empty())
-        .unwrap();
-    let response = app(state).oneshot(request).await.unwrap();
-    let status = response.status();
-    let headers = response.headers().clone();
-    let bytes = response.into_body().collect().await.unwrap().to_bytes();
-    Page {
-        status,
-        headers,
-        body: String::from_utf8_lossy(&bytes).into_owned(),
-    }
-}
+use axum::http::{StatusCode, header};
+use common::{Page, get};
 
 fn assert_contains(page: &Page, needle: &str) {
-    assert!(page.body.contains(needle), "expected {needle:?} in:\n{}", page.body);
+    page.assert_contains(needle);
 }
 
-const PUBLIC_PAGES: [&str; 8] = [
+const PUBLIC_PAGES: [&str; 17] = [
+    "/",
+    "/kontakt",
+    "/sluzby",
+    "/sortiment",
+    "/eshop",
+    "/eshop?category=rezivo",
+    "/eshop/smrk",
+    "/eshop/fosny",
     "/obchodni-podminky",
     "/zasady-cookies",
     "/zasady-ochrany-osobnich-udaju",
@@ -47,13 +26,15 @@ const PUBLIC_PAGES: [&str; 8] = [
     "/sortiment/truhlarske-rezivo",
     "/sortiment/okrasne-kamenivo",
     "/sortiment/vyrobni-zbytky",
+    "/eshop/stepka",
 ];
 
 #[tokio::test]
 async fn every_page_renders_in_both_languages_without_missing_texts() {
+    let app = common::TestApp::new().await;
     for path in PUBLIC_PAGES {
         for prefix in ["", "/at"] {
-            let page = get(&format!("{prefix}{path}")).await;
+            let page = app.get(&format!("{prefix}{path}")).await;
             assert_eq!(page.status, StatusCode::OK, "{prefix}{path}");
             assert!(
                 !page.body.contains("[missing:"),
@@ -108,6 +89,19 @@ async fn german_page_links_stay_in_german() {
     assert_contains(&page, r#"<meta property="og:locale" content="de_AT">"#);
     // The language switcher points at the same page in Czech.
     assert_contains(&page, r#"href="/sortiment/palivove-drevo""#);
+}
+
+#[tokio::test]
+async fn a_trailing_slash_is_ignored() {
+    for path in ["/eshop/", "/at/eshop/", "/sortiment/palivove-drevo/", "/at/"] {
+        assert_eq!(get(path).await.status, StatusCode::OK, "{path}");
+    }
+    let page = get("/at/kontakt/").await;
+    assert_contains(
+        &page,
+        r#"<link rel="canonical" href="http://piladerflice.test/at/kontakt">"#,
+    );
+    assert_eq!(get("/at/up/").await.status, StatusCode::NOT_FOUND);
 }
 
 #[tokio::test]

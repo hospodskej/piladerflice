@@ -1,0 +1,20 @@
+{# A product in the e-shop grid and in the recommendations. Expects `product`
+   (a ProductCard) and optionally `badge` (1, 2, 3 for the top products). #}
+<div class="product-card">
+  <a class="product-image-wrapper-eshop" data-turbo="false" href="{{ path('/eshop/' ~ product.key) }}">
+    {% if badge %}
+    <span class="product-badge">{{ badge }}.</span>
+    {% endif %}
+    {% if product.image %}<img alt="{{ product.title }}" class="product-img" src="{{ product.image }}">{% endif %}
+  </a>
+
+  <div class="product-info-eshop">
+    <h4 class="product-title">{{ product.title }}</h4>
+    <p class="product-type">{{ product.type_label }}</p>
+    <p class="product-stock">{{ t("common.stock") }}</p>
+    <p class="product-price">
+      {{ product.price_from or "---" }}
+    </p>
+    <a class="btn-primary btn-detail" data-turbo="false" href="{{ path('/eshop/' ~ product.key) }}">{{ t("common.detail") }}</a>
+  </div>
+</div>

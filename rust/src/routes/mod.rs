@@ -2,8 +2,12 @@
 //! (Czech) and `/at/kontakt` (German) reach the same handler, which reads the
 //! language from [`Req`](crate::request::Req).
 
+mod catalog;
 mod errors;
+mod eshop;
+mod home;
 mod pages;
+mod sitemap;
 mod system;
 
 use axum::Router;
@@ -17,6 +21,7 @@ use tower_http::trace::TraceLayer;
 use crate::AppState;
 use crate::assets;
 use crate::locale::{self, Locale};
+use crate::models::uploads;
 use crate::request::OriginalUri;
 
 pub fn router(state: AppState) -> Router {
@@ -24,6 +29,14 @@ pub fn router(state: AppState) -> Router {
         .route("/up", get(system::health))
         .route("/robots.txt", get(system::robots))
         .route("/assets/{*path}", get(assets::serve))
+        .route("/uploads/{key}/{filename}", get(uploads::serve))
+        .route("/sitemap.xml", get(sitemap::show))
+        .route("/", get(home::index))
+        .route("/kontakt", get(home::kontakt))
+        .route("/sluzby", get(home::sluzby))
+        .route("/sortiment", get(home::sortiment))
+        .route("/eshop", get(eshop::index))
+        .route("/eshop/{key}", get(eshop::product))
         .route("/obchodni-podminky", get(pages::terms))
         .route("/zasady-cookies", get(pages::cookies_policy))
         .route("/zasady-ochrany-osobnich-udaju", get(pages::privacy_policy))
@@ -71,3 +84,24 @@ async fn redirect_legacy_locale_param(request: Request, next: Next) -> Response 
     }
     next.run(request).await
 }
+
+/// Something went wrong on our side (database, template...): log it and
+/// show the static error page, like Rails' public/500.html.
+pub struct AppError(anyhow::Error);
+
+impl<E: Into<anyhow::Error>> From<E> for AppError {
+    fn from(error: E) -> Self {
+        AppError(error.into())
+    }
+}
+
+impl IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        tracing::error!("request failed: {:#}", self.0);
+        let page = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../public/500.html"))
+            .unwrap_or_else(|_| "Internal Server Error".into());
+        (StatusCode::INTERNAL_SERVER_ERROR, axum::response::Html(page)).into_response()
+    }
+}
+
+pub type Result<T = Response> = std::result::Result<T, AppError>;

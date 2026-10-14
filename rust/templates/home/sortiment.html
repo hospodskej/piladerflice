@@ -1,0 +1,27 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+<main class="main">
+  <section class="sortiment-page-section">
+    <h2 class="section-main-title">{{ t("sortiment.index.title") }}</h2>
+
+    <div class="sortiment-grid-5">
+      {% for kat in tiles %}
+      <a class="sortiment-card" href="{{ kat.link }}">
+
+        <div class="sortiment-card-img">
+          <img alt="{{ kat.title }}" src="{{ asset(kat.image) }}">
+        </div>
+        <div class="sortiment-card-text">
+          <h3>{{ kat.title }}</h3>
+          <p>{{ kat.text }}</p>
+        </div>
+
+      </a>
+      {% endfor %}
+    </div>
+
+    {% include "shared/jak_objednat.html" %}
+
+  </section>
+</main>
+{% endblock %}

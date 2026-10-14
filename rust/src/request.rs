@@ -21,25 +21,36 @@ pub struct OriginalUri(pub Uri);
 const UNLOCALIZED: [&str; 5] = ["/admin", "/assets", "/robots.txt", "/sitemap.xml", "/up"];
 
 /// Removes the /at prefix and remembers the language, before the router
-/// looks at the path.
+/// looks at the path. A trailing slash is ignored too ("/eshop/" is
+/// "/eshop"), as in Rails.
 pub fn strip_locale_prefix(mut request: Request) -> Request {
     let original = request.uri().clone();
     let path = original.path();
     let locale = locale::prefix_locale(path);
 
+    let mut routed = path.to_string();
     if locale.is_some() {
         let stripped = locale::strip(path);
         let unlocalized = UNLOCALIZED
             .iter()
             .any(|p| stripped == *p || stripped.starts_with(&format!("{p}/")));
         if !unlocalized {
-            let path_and_query = match original.query() {
-                Some(query) => format!("{stripped}?{query}"),
-                None => stripped,
-            };
-            if let Ok(uri) = path_and_query.parse() {
-                *request.uri_mut() = uri;
-            }
+            routed = stripped;
+        }
+    }
+    if routed.len() > 1 && routed.ends_with('/') {
+        routed = routed.trim_end_matches('/').to_string();
+        if routed.is_empty() {
+            routed = "/".into();
+        }
+    }
+    if routed != path {
+        let path_and_query = match original.query() {
+            Some(query) => format!("{routed}?{query}"),
+            None => routed,
+        };
+        if let Ok(uri) = path_and_query.parse() {
+            *request.uri_mut() = uri;
         }
     }
 
@@ -92,7 +103,14 @@ impl<S: Send + Sync> FromRequestParts<S> for Req {
             .map(|uri| uri.0.clone())
             .unwrap_or_else(|| parts.uri.clone());
         let locale = parts.extensions.get::<Locale>().copied().unwrap_or(Locale::Cs);
-        let path = original.path().to_string();
+        // Like Rails, "/eshop/" is "/eshop" (canonical links, breadcrumbs).
+        let raw = original.path();
+        let path = if raw.len() > 1 { raw.trim_end_matches('/') } else { raw };
+        let path = if path.is_empty() {
+            "/".to_string()
+        } else {
+            path.to_string()
+        };
         Ok(Req {
             locale,
             plain_path: locale::strip(&path),

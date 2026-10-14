@@ -1,0 +1,100 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+<main class="product-page-main main">
+  <div class="product-container">
+
+    {% with intro_alt = product.image_alt %}{% include "eshop/_intro.html" %}{% endwith %}
+
+    <section class="inventory-section">
+
+      <div class="inventory-filter">
+        <span class="filter-label">{{ t("common.loose_type_label") }}</span>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-target="all">{{ t("common.all") }}</button>
+          <button class="filter-btn" data-target="kontejner">{{ t("common.container") }}</button>
+          <button class="filter-btn" data-target="bedny">{{ t("common.crate") }}</button>
+        </div>
+      </div>
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group">
+        <h2 class="section-title">{{ t("eshop.firewood.variants_heading_html") }}</h2>
+
+        <div class="matrix-grid">
+          <div class="matrix-cell empty"></div>
+          {% for len in lengths %}
+          <div class="matrix-cell col-header">{{ len }}</div>
+          {% endfor %}
+
+          {% for row in rows %}
+          <div class="matrix-cell row-header"><span>{{ row.label }} {{ t("common.per_m3") }}</span></div>
+          {% for variant in row.cells %}
+          <div class="matrix-cell">
+            {% if variant %}
+            {% with image_alt = t("common.container") %}{% include "eshop/_firewood_card.html" %}{% endwith %}
+            {% endif %}
+          </div>
+          {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <hr class="inventory-separator mid-separator">
+
+      <div id="section-bedny" class="inventory-group">
+        <h2 class="section-title">{{ t("eshop.firewood.crates_heading_html") }}</h2>
+
+        <div class="matrix-grid-bedny">
+          <div class="matrix-cell empty"></div>
+          {% for variant in bedny %}
+          <div class="matrix-cell">
+            {% with image_alt = t("common.crate") %}{% include "eshop/_firewood_card.html" %}{% endwith %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".filter-btn");
+            const sectionKontejner = document.getElementById("section-kontejner");
+            const sectionBedny = document.getElementById("section-bedny");
+            const midSeparator = document.querySelector(".mid-separator");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const target = btn.dataset.target;
+
+                    if (target === "all") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "block";
+                    } else if (target === "kontejner") {
+                        sectionKontejner.style.display = "block";
+                        sectionBedny.style.display = "none";
+                        midSeparator.style.display = "none";
+                    } else if (target === "bedny") {
+                        sectionKontejner.style.display = "none";
+                        sectionBedny.style.display = "block";
+                        midSeparator.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+
+    {% include "shared/recommendations.html" %}
+
+  </div>
+
+  {% include "shared/custom_demand.html" %}
+</main>
+{% endblock %}

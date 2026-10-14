@@ -1,0 +1,8 @@
+<section class="recommendations-section">
+  <h2 class="section-title text-center">{{ t("shared.recommendations.title_html") }}</h2>
+  <div class="eshop-grid">
+    {% for product in recommendations %}
+    {% include "shared/product_card.html" %}
+    {% endfor %}
+  </div>
+</section>

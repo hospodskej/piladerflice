@@ -2,7 +2,7 @@
 //! "might interest you" slides and Google reviews.
 
 use axum::extract::State;
-use chrono::{NaiveDate, Utc};
+use chrono::NaiveDate;
 use minijinja::context;
 use serde::Serialize;
 
@@ -20,7 +20,7 @@ const BESTSELLER_KEYS: [&str; 3] = ["akat", "tramy", "dub"];
 
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let money = state.rates.money(req.locale).await;
-    let today = Utc::now().date_naive();
+    let today = crate::czech_time::today();
 
     let promo = promo(&state, &req, &money, today).await?;
     let bestsellers = bestsellers(&state, &money).await?;

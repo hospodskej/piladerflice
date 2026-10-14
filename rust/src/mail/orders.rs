@@ -94,7 +94,7 @@ async fn order_data(state: &AppState, order: &Order, locale: Locale, money: &Mon
         total => money.display(order.total_czk),
         vat => money.display(order.vat_czk),
         without_vat => money.display(order.total_czk - order.vat_czk),
-        created_at => order.created_at.format("%d.%m.%Y %H:%M").to_string(),
+        created_at => crate::czech_time::from_utc(order.created_at).format("%d.%m.%Y %H:%M").to_string(),
         customer_locale => &order.locale,
     })
 }

@@ -4,7 +4,6 @@
 use axum::extract::State;
 use axum::http::{Method, StatusCode};
 use axum::response::Response;
-use chrono::Utc;
 use minijinja::{Value, context};
 
 use super::params::RecordId;
@@ -13,6 +12,7 @@ use crate::AppState;
 use crate::admin::images;
 use crate::admin::promos::{self, PERMITTED, TABLE};
 use crate::admin::record::Values;
+use crate::czech_time;
 use crate::forms::upload::UploadForm;
 use crate::models::content::weekly_promo;
 use crate::models::upload::image_of;
@@ -36,7 +36,7 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let rows: Vec<Listed> = sqlx::query_as("SELECT id, title, price, link FROM promos ORDER BY id")
         .fetch_all(&state.db)
         .await?;
-    let this_week = weekly_promo(&state.db, Utc::now().date_naive())
+    let this_week = weekly_promo(&state.db, czech_time::today())
         .await?
         .map(|promo| promo.id);
     let promos: Vec<_> = rows

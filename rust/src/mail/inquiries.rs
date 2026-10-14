@@ -48,7 +48,7 @@ pub fn new_inquiry(state: &AppState, inquiry: &Inquiry) -> anyhow::Result<Email>
     let data = context! {
         locale => "cs",
         id => inquiry.id,
-        created_at => inquiry.created_at.format("%d.%m.%Y %H:%M").to_string(),
+        created_at => crate::czech_time::from_utc(inquiry.created_at).format("%d.%m.%Y %H:%M").to_string(),
         german => inquiry.locale == "de",
         full_name => inquiry.full_name(),
         email => &inquiry.email,

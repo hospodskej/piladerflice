@@ -76,7 +76,8 @@ async fn the_overview_counts_and_lists_the_latest_orders() {
     page.assert_contains(r#"<span class="admin-dashboard-card-number">5</span>"#);
     page.assert_contains(r#"<a href="/admin/orders/501">#501</a>"#);
     page.assert_contains("<td>18 100 Kč</td>");
-    page.assert_contains("<td>01.05.2026 10:00</td>");
+    // Stored 10:00 UTC: 12:00 Czech summer time.
+    page.assert_contains("<td>01.05.2026 12:00</td>");
     page.assert_contains(r#"<a class="admin-nav-link active" href="/admin">Přehled</a>"#);
     page.assert_contains(r#"<span class="admin-current-user">admin@piladerflice.cz</span>"#);
 }
@@ -93,6 +94,16 @@ async fn an_order_is_shown_in_full_and_can_be_deleted() {
     page.assert_contains("<td>Zmizely</td>");
     page.assert_contains("Osobní odběr na adrese skladu");
     page.assert_contains("<strong>Celkem k úhradě: 18 100 Kč</strong>");
+
+    // Czech winter time: one hour ahead of UTC, the next day after 23:00 UTC.
+    sqlx::query("UPDATE orders SET created_at = '2026-12-31 23:30:00' WHERE id = 500")
+        .execute(&app.state.db)
+        .await
+        .unwrap();
+    browser
+        .get("/admin/orders/500")
+        .await
+        .assert_contains(r#"<p class="admin-page-subtitle">01.01.2027 00:30</p>"#);
 
     assert_eq!(browser.get("/admin/orders/9999").await.status, StatusCode::NOT_FOUND);
     assert_eq!(browser.get("/admin/orders/abc").await.status, StatusCode::NOT_FOUND);

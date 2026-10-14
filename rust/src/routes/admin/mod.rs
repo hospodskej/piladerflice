@@ -23,6 +23,7 @@ use chrono::NaiveDateTime;
 
 use crate::AppState;
 use crate::admin::images::{self, Image};
+use crate::czech_time;
 use crate::forms::upload::{MAX_ADMIN_UPLOAD_BYTES, UploadForm};
 use crate::models::validation::Errors;
 use crate::money::delimit;
@@ -139,7 +140,7 @@ fn czk(amount: i64) -> String {
     format!("{} Kč", delimit(amount, " "))
 }
 
-/// "14.10.2026 16:28" (UTC, as the Rails admin shows it).
+/// "14.10.2026 18:28": a stored time in Czech time.
 fn date(time: &NaiveDateTime) -> String {
-    time.format("%d.%m.%Y %H:%M").to_string()
+    czech_time::from_utc(*time).format("%d.%m.%Y %H:%M").to_string()
 }

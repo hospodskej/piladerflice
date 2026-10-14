@@ -74,7 +74,7 @@ A few things differ from Rails on purpose:
 
 The sign-in, sign-out and registration messages are in Czech in both languages, as in Rails; translating them is a small fix for later, in both apps.
 
-The comparison found bugs in the Rails app too, fixed in both: the admin's error messages read "Translation missing" (no Czech validation messages), "2 chyba" instead of "2 chyby", an emptied "Pořadí" field crashed saving a product or variant, and old orders showed "Translation missing" for products deleted since. The admin's dates are in UTC, as in Rails (the Rails app sets no time zone); showing Czech time would be a change for both.
+The comparison found bugs in the Rails app too, fixed in both: the admin's error messages read "Translation missing" (no Czech validation messages), "2 chyba" instead of "2 chyby", an emptied "Pořadí" field crashed saving a product or variant, and old orders showed "Translation missing" for products deleted since. Both apps now show times in Czech time (`czech_time.rs`; Rails: `config.time_zone = "Prague"`), still storing UTC.
 
 Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' signed `/rails/active_storage/...` links. The key is random and never reused, so these URLs are cached for good.
 
@@ -100,6 +100,7 @@ src/
   admin/             what the admin edits: one file per table (columns, Rails' checks),
                      record.rs (a row as form values and back), images.rs (checking and
                      cleaning uploaded photos), ordering.rs, dashboard.rs
+  czech_time.rs      Czech time (UTC+1, summer UTC+2) for showing dates and counting days
   storage.rs         files the way Active Storage keeps them (blob, attachment, ab/cd/key)
   accounts/          the signed-in user, passwords (bcrypt), registration checks, rate limits
     avatar/          profile pictures: storing as Active Storage blobs, cleaning uploads,

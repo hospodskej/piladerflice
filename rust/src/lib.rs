@@ -13,6 +13,7 @@ pub mod accounts;
 pub mod admin;
 pub mod assets;
 pub mod config;
+pub mod czech_time;
 pub mod db;
 pub mod forms;
 pub mod i18n;

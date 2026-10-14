@@ -42,7 +42,7 @@ pub(super) fn account_view(req: &Req, current: &CurrentUser) -> Value {
         email => &user.email_address,
         initial => user.email_address.chars().next().map(|c| c.to_uppercase().to_string()).unwrap_or_default(),
         is_admin => user.is_admin(),
-        since => user.created_at.format("%d.%m.%Y").to_string(),
+        since => crate::czech_time::from_utc(user.created_at).format("%d.%m.%Y").to_string(),
         avatar_path => current.avatar_path(|path| req.path_for(path)),
         phone_prefix => user.phone_prefix(),
         phone_number => user.phone_number(),

@@ -30,7 +30,9 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
         .iter()
         .map(|order| OrderCard {
             id: order.id,
-            date: order.created_at.format("%d.%m.%Y").to_string(),
+            date: crate::czech_time::from_utc(order.created_at)
+                .format("%d.%m.%Y")
+                .to_string(),
             items: order.items().len(),
             total: money.display(order.total_czk),
         })

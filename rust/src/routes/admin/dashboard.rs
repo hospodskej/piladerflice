@@ -1,19 +1,19 @@
 //! /admin: the overview, with counts and the latest orders.
 
 use axum::extract::State;
-use chrono::Utc;
 use minijinja::context;
 
 use super::orders::order_row;
 use crate::AppState;
 use crate::admin::dashboard;
+use crate::czech_time;
 use crate::models::order::Order;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::views::admin_layout;
 
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
-    let stats = dashboard::stats(&state.db, Utc::now().naive_utc()).await?;
+    let stats = dashboard::stats(&state.db, czech_time::now()).await?;
     let recent: Vec<_> = Order::latest(&state.db, Some(5)).await?.iter().map(order_row).collect();
     let data = context! {
         product_count => stats.products,

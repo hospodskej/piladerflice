@@ -13,6 +13,10 @@ class CatalogProduct < ApplicationRecord
 
   normalizes :hardness, with: ->(hardness) { hardness.presence }
 
+  # An emptied "Pořadí" field means the default order, not NULL (the column
+  # doesn't allow NULL and saving failed with an error page).
+  normalizes :position, with: ->(position) { position || 0 }, apply_to_nil: true
+
   validates :key, presence: true, uniqueness: true
   validates :template, inclusion: { in: TEMPLATES }
   validates :category, inclusion: { in: CATEGORIES }

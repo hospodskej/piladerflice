@@ -42,4 +42,12 @@ class Admin::CatalogVariantsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".admin-flash-alert li", text: "Cena musí být větší než 0"
     assert_no_match "Translation missing", response.body
   end
+
+  test "an empty position saves as 0 instead of failing" do
+    post admin_catalog_product_catalog_variants_path(@product),
+         params: { catalog_variant: { key: "bez-poradi", price_czk: "100", position: "" } }
+
+    assert_redirected_to edit_admin_catalog_product_path(@product)
+    assert_equal 0, @product.catalog_variants.find_by!(key: "bez-poradi").position
+  end
 end

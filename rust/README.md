@@ -59,32 +59,42 @@ Uploaded images are served at `/uploads/<key>/<file name>` instead of Rails' sig
 
 ## How the code is organised
 
+Small files, one job each: a page, a table, a piece of the layout. A file's first lines (`//!`) say what it is for. Folders group what belongs together; their `mod.rs` lists the files and says how they fit.
+
 ```
 src/
-  main.rs        starts the server (reads HOST, PORT, APP_ENV)
-  lib.rs         AppState (shared by all requests) and app(): the whole site as one service
-  request.rs     takes /at off the URL before routing; Req = language, paths, site address
-  locale.rs      Czech/German and their URLs (port of Rails' LocalizedPath)
-  i18n.rs        reads the YAML translations; t("key", name=value) like Rails I18n
-  assets.rs      fingerprinted static files (like Propshaft) and the JavaScript import map
-  views.rs       templates, page title/description, breadcrumbs, share tags
-  db.rs          the SQLite connection
-  money.rs       Kč and € formatting, the live exchange rate
-  models/        database rows: catalog (products, variants, firewood grid), content
-                 (promo, services, reviews...), pricelist, uploads (images)
-  routes/
-    mod.rs       the list of all URLs, and the old ?locale= redirect
-    home.rs      home, Kontakt (price list, quote form), Služby, Sortiment
-    eshop.rs     e-shop grid and product pages
-    sitemap.rs   /sitemap.xml
-    catalog.rs   product cards and the business data for search engines
-    pages.rs     legal and Sortiment pages
-    errors.rs    the 404 page with a random mascot
-    system.rs    /up and /robots.txt
-templates/       Jinja templates (MiniJinja); same HTML as the Rails views
-db/schema.sql    the database schema (exported from Rails), used by the tests
-tests/           requests against the whole app, like a browser would make them;
-                 fixtures/data.sql is the test data, loaded into a fresh in-memory database
+  main.rs            starts the server (reads HOST, PORT, APP_ENV, DATABASE_URL...)
+  lib.rs             app(): the whole site as one service
+  config.rs          settings: where files, database and uploads are
+  state.rs           AppState, shared by all requests
+  request.rs         takes /at off the URL before routing; Req = language, paths, site address
+  locale.rs          Czech/German and their URLs (port of Rails' LocalizedPath)
+  i18n.rs            the YAML translations; t("key", name=value) like Rails I18n
+  db.rs              the SQLite connection
+  assets/            static files: index + fingerprints, import map, /assets handler
+  money/             Kč and € formatting; the live exchange rate
+  models/            one file per table
+    catalog/         product, variant, firewood grid
+    content/         promo, service, category tile, FAQ slide, review
+    pricelist.rs, inquiry_options.rs, upload.rs
+  views/             templates and the layout
+    templates.rs     loading templates; functions.rs: t() and path()
+    layout.rs        renders a page inside the site layout
+    page.rs          title, description, breadcrumbs, status of a page
+    breadcrumbs.rs, seo.rs, text.rs
+  routes/            one file per page; mod.rs is the list of all URLs
+    home.rs, sluzby.rs, sortiment.rs, legal.rs, product_range.rs
+    kontakt/         the page, its price list, its quote form
+    eshop/           listing, product page, one file per product layout
+                     (firewood, lumber, simple_variant), recommendations
+    components/      view pieces used by several pages (product card,
+                     category tile, business data for search engines, text formatting)
+    error.rs         what a failing request shows
+    not_found.rs, legacy_locale.rs, system.rs, sitemap.rs, uploads.rs
+templates/           Jinja templates (MiniJinja); same HTML as the Rails views
+db/schema.sql        the database schema (exported from Rails), used by the tests
+tests/               requests against the whole app, like a browser would make them;
+                     fixtures/data.sql is the test data, loaded into a fresh in-memory database
 ```
 
 When a Rails migration changes the database, re-export `db/schema.sql` (the `CREATE` statements from `sqlite_master`).
@@ -121,7 +131,8 @@ Text is HTML-escaped automatically; translation keys ending in `_html` are trust
 - **`async`/`await`**: handlers are async so one small process can serve many visitors at once (tokio is the runtime).
 - **`Arc`**: shared ownership across threads. `AppState` wraps everything in one `Arc`, so cloning it per request is just a counter bump.
 - **`sqlx::FromRow`**: a struct per table row (`models/catalog.rs`); queries return typed values instead of hashes.
-- **Lifetimes** (`FirewoodGrid<'a>`): the grid borrows the variants instead of copying them, and the compiler checks they live long enough.
+- **Lifetimes** (`FirewoodGrid<'a>`): the grid borrows the variants instead of copying them, and the compiler checks they live long enough. `routes/eshop/firewood.rs` has a small one: a closure returning an iterator needs `&'static str`.
+- **Modules and privacy**: `mod` declares a file, `pub` makes things visible outside it, `pub use` re-exports. A child module may add methods to its parent's type (`assets/importmap.rs` adds `impl Assets`) and see its private fields.
 - **Tests next to the code**: `#[cfg(test)] mod tests` at the bottom of a file; whole-app tests in `tests/`.
 
 Good next reads: *The Rust Programming Language* (https://doc.rust-lang.org/book/), chapters 4 (ownership), 6 (enums), 9 (errors) and 10 (traits), then the axum examples (https://github.com/tokio-rs/axum/tree/main/examples).

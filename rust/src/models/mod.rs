@@ -4,8 +4,9 @@
 
 pub mod catalog;
 pub mod content;
+pub mod inquiry_options;
 pub mod pricelist;
-pub mod uploads;
+pub mod upload;
 
 use crate::locale::Locale;
 

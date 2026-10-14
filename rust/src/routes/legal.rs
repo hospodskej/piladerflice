@@ -1,9 +1,8 @@
-//! Pages with fixed content: the legal pages and the product range pages
-//! (Sortiment) of each kind of wood.
+//! The legal pages: terms, cookie policy, privacy policy. Their text is one
+//! long HTML translation each.
 
 use axum::extract::State;
 use axum::response::Response;
-use axum::routing::{MethodRouter, get};
 use minijinja::context;
 
 use crate::AppState;
@@ -43,19 +42,4 @@ fn legal(state: &AppState, req: &Req, meta_key: &str, title_key: &str, content_k
         page,
         context! { title_key, content_key },
     )
-}
-
-/// A Sortiment page (one kind of wood). The products shown live in the
-/// template itself, like they did in the Rails views.
-pub fn sortiment(meta_key: &'static str) -> MethodRouter<AppState> {
-    get(move |State(state): State<AppState>, req: Req| async move {
-        let page = Page::meta(&state, &req, meta_key);
-        views::render(
-            &state,
-            &req,
-            &format!("home/sortiment/{meta_key}.html"),
-            page,
-            context! {},
-        )
-    })
 }

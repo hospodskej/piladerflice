@@ -1,0 +1,26 @@
+<h2 class="section-main-title jak-objednat-title">{{ t("shared.jak_objednat.title_html") }}</h2>
+<div class="jak-objednat-grid">
+
+  <div class="jak-objednat-box">
+    <h3>{{ t("shared.jak_objednat.online_title_rest") }} <span class="text-blue">{{ t("shared.jak_objednat.online_title_accent") }}</span></h3>
+    <ul class="jak-objednat-steps">
+      {% for krok in t("shared.jak_objednat.online_steps") %}
+        <li><strong>{{ loop.index }}.</strong> {{ krok }}</li>
+      {% endfor %}
+    </ul>
+    <img class="jak-objednat-box-img" alt="{{ t('shared.jak_objednat.online_img_alt') }}" src="{{ asset('jak-objednat/drevo.webp') }}">
+    <a class="btn-primary full-width" href="{{ path('/eshop') }}">{{ t("shared.jak_objednat.online_button") }}</a>
+  </div>
+
+  <div class="jak-objednat-box">
+    <h3>{{ t("shared.jak_objednat.poptavka_title_rest") }} <span class="text-blue">{{ t("shared.jak_objednat.poptavka_title_accent") }}</span></h3>
+    <ul class="jak-objednat-steps">
+      {% for krok in t("shared.jak_objednat.poptavka_steps") %}
+        <li><strong>{{ loop.index }}.</strong> {{ krok }}</li>
+      {% endfor %}
+    </ul>
+    <img class="jak-objednat-box-img" alt="{{ t('shared.jak_objednat.poptavka_img_alt') }}" src="{{ asset('jak-objednat/pila.webp') }}">
+    <a class="btn-primary full-width" href="{{ path('/kontakt#kalkulace') }}">{{ t("shared.jak_objednat.poptavka_button") }}</a>
+  </div>
+
+</div>

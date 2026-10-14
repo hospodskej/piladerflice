@@ -1,0 +1,28 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+{% set products = [
+  {
+    "title_key": "sortiment.vyrobni_zbytky.odkory.title",
+    "description_keys": ["sortiment.vyrobni_zbytky.odkory.desc_1"],
+    "images": ["sortiment/odrezky1.webp", "sortiment/odrezky2.webp"],
+    "eshop_link": "/eshop/odkory"
+  },
+  {
+    "title_key": "sortiment.vyrobni_zbytky.stepka.title",
+    "description_keys": ["sortiment.vyrobni_zbytky.stepka.desc_1"],
+    "images": ["sortiment/stepka1.webp", "sortiment/stepka2.webp"],
+    "eshop_link": "/eshop/stepka"
+  },
+  {
+    "title_key": "sortiment.vyrobni_zbytky.piliny.title",
+    "description_keys": ["sortiment.vyrobni_zbytky.piliny.desc_1"],
+    "images": ["sortiment/piliny1.webp", "sortiment/piliny2.webp"],
+    "eshop_link": "/eshop/piliny"
+  }
+] %}
+<main class="main">
+  {% include "home/sortiment/_rows.html" %}
+  {% include "shared/wood_types.html" %}
+  {% include "shared/jak_objednat.html" %}
+</main>
+{% endblock %}

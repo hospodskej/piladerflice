@@ -1,0 +1,34 @@
+{% extends "layouts/application.html" %}
+{% block content %}
+{% set products = [
+  {
+    "title_key": "sortiment.stavebni_rezivo.tramy.title",
+    "description_keys": ["sortiment.stavebni_rezivo.tramy.desc_1", "sortiment.stavebni_rezivo.tramy.desc_2"],
+    "images": ["sortiment/tramy1.webp", "sortiment/tramy2.webp"],
+    "eshop_link": "/eshop/tramy"
+  },
+  {
+    "title_key": "sortiment.stavebni_rezivo.prkna.title",
+    "description_keys": ["sortiment.stavebni_rezivo.prkna.desc_1", "sortiment.stavebni_rezivo.prkna.desc_2"],
+    "images": ["sortiment/prkna1.webp", "sortiment/prkna2.webp"],
+    "eshop_link": "/eshop/prkna"
+  },
+  {
+    "title_key": "sortiment.stavebni_rezivo.late.title",
+    "description_keys": ["sortiment.stavebni_rezivo.late.desc_1", "sortiment.stavebni_rezivo.late.desc_2"],
+    "images": ["sortiment/late1.webp", "sortiment/late2.webp"],
+    "eshop_link": "/eshop/late"
+  },
+  {
+    "title_key": "sortiment.stavebni_rezivo.fosny.title",
+    "description_keys": ["sortiment.stavebni_rezivo.fosny.desc_1", "sortiment.stavebni_rezivo.fosny.desc_2"],
+    "images": ["sortiment/fosny1.webp", "sortiment/fosny2.webp"],
+    "eshop_link": "/eshop/fosny"
+  }
+] %}
+<main class="main">
+  {% include "home/sortiment/_rows.html" %}
+  {% include "shared/wood_types.html" %}
+  {% include "shared/jak_objednat.html" %}
+</main>
+{% endblock %}

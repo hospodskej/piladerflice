@@ -1,0 +1,29 @@
+[package]
+name = "sapwood-assets"
+description = "Fingerprinted static files for Rust web apps: content-hashed URLs that browsers cache forever, a JavaScript import map, live reload of the index in development, and an Axum handler."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+keywords = ["assets", "fingerprint", "importmap", "axum", "static-files"]
+categories = ["web-programming::http-server", "caching"]
+readme = "README.md"
+
+[features]
+default = ["axum"]
+## Serving `/assets/...` with Axum.
+axum = ["dep:axum", "dep:tokio"]
+
+[dependencies]
+sha1 = "0.10"
+hex = "0.4"
+mime_guess = "2"
+serde_json = "1"
+tracing = "0.1"
+axum = { version = "0.8", optional = true, default-features = false }
+tokio = { version = "1", optional = true, features = ["fs"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs"] }
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"

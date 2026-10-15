@@ -16,12 +16,17 @@ pub fn render(state: &AppState, req: &Req, template: &str, data: Value) -> Respo
 /// For a form that didn't save: 422, so Turbo shows it in place.
 pub fn render_with_status(state: &AppState, req: &Req, status: StatusCode, template: &str, data: Value) -> Response {
     state.assets.refresh();
-    let preloads: Vec<String> = state.assets.importmap().into_iter().map(|(_, url)| url).collect();
+    let preloads: Vec<String> = state
+        .importmap
+        .urls(&state.assets)
+        .into_iter()
+        .map(|(_, url)| url)
+        .collect();
     let ctx = context! {
         locale => "cs",
         current_path => &req.path,
-        stylesheets => state.assets.stylesheet_urls(),
-        importmap_json => state.assets.importmap_json(),
+        stylesheets => state.assets.urls_with_extension("css"),
+        importmap_json => state.importmap.json(&state.assets),
         preloads => preloads,
         csrf_token => req.session.csrf_token(),
         flash => req.session.take_flash(),

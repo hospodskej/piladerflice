@@ -35,7 +35,7 @@ use axum::routing::{get, post};
 use tower_http::trace::TraceLayer;
 
 use crate::AppState;
-use crate::assets;
+use crate::assets::Assets;
 use crate::forms::upload::MAX_UPLOAD_BYTES;
 
 pub fn router(state: AppState) -> Router {
@@ -44,7 +44,7 @@ pub fn router(state: AppState) -> Router {
         .route("/up", get(system::health))
         .route("/robots.txt", get(system::robots))
         .route("/sitemap.xml", get(sitemap::show))
-        .route("/assets/{*path}", get(assets::serve))
+        .merge(Assets::router(state.assets.clone()))
         .route("/uploads/{key}/{filename}", get(uploads::serve))
         // Image addresses of the Rails app, sent on to /uploads
         .route(

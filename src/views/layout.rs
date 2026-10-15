@@ -38,7 +38,12 @@ pub async fn render(state: &AppState, req: &Req, template: &str, page: Page, dat
         .breadcrumbs
         .clone()
         .unwrap_or_else(|| breadcrumbs::from_path(&state.translations, req));
-    let preloads: Vec<String> = state.assets.importmap().into_iter().map(|(_, url)| url).collect();
+    let preloads: Vec<String> = state
+        .importmap
+        .urls(&state.assets)
+        .into_iter()
+        .map(|(_, url)| url)
+        .collect();
     let cart = match cart_view::load(state, req).await {
         Ok(cart) => cart,
         Err(error) => {
@@ -76,8 +81,8 @@ pub async fn render(state: &AppState, req: &Req, template: &str, page: Page, dat
         breadcrumbs => breadcrumbs,
         switch_cs => seo::switch_path(req, Locale::Cs),
         switch_de => seo::switch_path(req, Locale::De),
-        stylesheets => state.assets.stylesheet_urls(),
-        importmap_json => state.assets.importmap_json(),
+        stylesheets => state.assets.urls_with_extension("css"),
+        importmap_json => state.importmap.json(&state.assets),
         preloads => preloads,
         ga_measurement_id => GA_MEASUREMENT_ID,
         csrf_token => req.session.csrf_token(),

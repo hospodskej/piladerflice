@@ -1807,6 +1807,7 @@ dependencies = [
  "rand 0.9.5",
  "regex",
  "reqwest",
+ "sapwood-assets",
  "sapwood-i18n",
  "serde",
  "serde_html_form",
@@ -2285,6 +2286,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "sapwood-assets"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "hex",
+ "http-body-util",
+ "mime_guess",
+ "serde_json",
+ "sha1",
+ "tokio",
+ "tower",
+ "tracing",
 ]
 
 [[package]]

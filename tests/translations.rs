@@ -6,7 +6,6 @@
 
 use std::path::{Path, PathBuf};
 
-use piladerflice::i18n::Translations;
 use piladerflice::locale::Locale;
 use regex::Regex;
 

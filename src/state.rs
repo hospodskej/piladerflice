@@ -8,7 +8,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use cookie::Key;
 
-use crate::assets::{self, Assets};
+use crate::assets::{self, Assets, Importmap};
 use crate::config::Config;
 use crate::db::{self, Db};
 use crate::i18n::Translations;
@@ -21,6 +21,7 @@ pub struct Inner {
     pub config: Config,
     pub translations: Arc<Translations>,
     pub assets: Arc<Assets>,
+    pub importmap: Importmap,
     pub templates: Templates,
     pub db: Db,
     pub rates: ExchangeRates,
@@ -67,7 +68,7 @@ impl AppState {
         let mail_settings = config.mail.clone();
         let cookie_key = Key::derive_from(config.secret_key_base.as_bytes());
         let translations = Arc::new(crate::i18n::load(&config.root.join("locales"))?);
-        let assets = Arc::new(Assets::new(assets::default_sources(&config.root), config.development)?);
+        let assets = Arc::new(assets::load(&config.root, config.development)?);
         let templates = Templates::new(
             config.root.join("templates"),
             translations.clone(),
@@ -78,6 +79,7 @@ impl AppState {
             config,
             translations,
             assets,
+            importmap: assets::importmap(),
             templates,
             db,
             rates: services.rates,

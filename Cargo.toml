@@ -17,6 +17,7 @@ publish = false
 
 [dependencies]
 sapwood-i18n = { path = "sapwood/sapwood-i18n" }
+sapwood-assets = { path = "sapwood/sapwood-assets" }
 dotenvy = "0.15"
 axum = { version = "0.8", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }

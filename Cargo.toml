@@ -18,6 +18,7 @@ publish = false
 [dependencies]
 sapwood-i18n = { path = "sapwood/sapwood-i18n" }
 sapwood-assets = { path = "sapwood/sapwood-assets" }
+sapwood-session = { path = "sapwood/sapwood-session" }
 dotenvy = "0.15"
 axum = { version = "0.8", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }
@@ -27,9 +28,6 @@ minijinja = { version = "2", features = ["loader", "json"] }
 minijinja-autoreload = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
-sha1 = "0.10"
-hex = "0.4"
-mime_guess = "2"
 rand = "0.9"
 form_urlencoded = "1"
 tracing = "0.1"
@@ -41,10 +39,7 @@ reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"
 regex = "1"
 ammonia = "4"
 deunicode = "1"
-cookie = { version = "0.18", features = ["private", "key-expansion", "percent-encode"] }
 base64 = "0.22"
-subtle = "2"
-serde_html_form = "0.2"
 bcrypt = "0.17"
 image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
 webp = "0.3"
@@ -54,7 +49,8 @@ lettre = { version = "0.11", default-features = false, features = ["builder", "s
 [dev-dependencies]
 http-body-util = "0.1"
 
-# Fingerprinting the images is hashing-heavy; keep it fast in debug builds too.
+# Fingerprinting the images (sapwood-assets) is hashing-heavy; keep it fast
+# in debug builds too.
 [profile.dev.package.sha1]
 opt-level = 3
 

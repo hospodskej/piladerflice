@@ -94,7 +94,7 @@ pub(crate) fn verify(req: &Req, headers: &axum::http::HeaderMap, form_token: Opt
     }
     let header_token = headers.get("x-csrf-token").and_then(|value| value.to_str().ok());
     let given = form_token.or(header_token).unwrap_or_default();
-    if !csrf::matches(&req.session.csrf_token(), given) {
+    if !req.session.verify_csrf(given) {
         tracing::warn!("form without a valid authenticity token refused");
         return Err(Refused(StatusCode::UNPROCESSABLE_ENTITY));
     }

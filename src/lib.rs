@@ -49,7 +49,7 @@ pub fn app(
 + Send
 + 'static {
     let router: Router =
-        routes::router(state.clone()).layer(axum::middleware::from_fn_with_state(state, session::layer::handle));
+        routes::router(state.clone()).layer(session::layer(state.cookie_key.clone(), state.config.secure_cookies));
     ServiceBuilder::new()
         .layer(MapRequestLayer::new(request::strip_locale_prefix))
         .service(router)

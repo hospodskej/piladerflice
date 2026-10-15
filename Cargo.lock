@@ -1792,16 +1792,13 @@ dependencies = [
  "base64 0.22.1",
  "bcrypt",
  "chrono",
- "cookie",
  "deunicode",
  "dotenvy",
  "form_urlencoded",
- "hex",
  "http-body-util",
  "image",
  "lettre",
  "md-5",
- "mime_guess",
  "minijinja",
  "minijinja-autoreload",
  "rand 0.9.5",
@@ -1809,12 +1806,10 @@ dependencies = [
  "reqwest",
  "sapwood-assets",
  "sapwood-i18n",
+ "sapwood-session",
  "serde",
- "serde_html_form",
  "serde_json",
- "sha1",
  "sqlx",
- "subtle",
  "tokio",
  "tower",
  "tower-http",
@@ -2313,6 +2308,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "sapwood-session"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "base64 0.22.1",
+ "cookie",
+ "http-body-util",
+ "rand 0.9.5",
+ "serde",
+ "serde_json",
+ "subtle",
+ "tokio",
+ "tower",
+ "tower-layer",
+ "tower-service",
+ "tracing",
+]
+
+[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2363,19 +2377,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 3.0.9",
-]
-
-[[package]]
-name = "serde_html_form"
-version = "0.2.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b2f2d7ff8a2140333718bb329f5c40fc5f0865b84c426183ce14c97d2ab8154f"
-dependencies = [
- "form_urlencoded",
- "indexmap",
- "itoa",
- "ryu",
- "serde_core",
 ]
 
 [[package]]

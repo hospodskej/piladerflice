@@ -210,7 +210,7 @@ pub(crate) mod tests {
         assert!(url.starts_with("/assets/css/site-") && url.ends_with(".css"), "{url}");
         assert_eq!(assets.url("/logo.svg"), assets.url("logo.svg"));
         assert_eq!(assets.url("missing.png"), "/assets/missing.png");
-        assert_eq!(assets.urls_with_extension("css"), [url.clone()]);
+        assert_eq!(assets.urls_with_extension("css"), std::slice::from_ref(&url));
 
         let found = assets.find(url.trim_start_matches("/assets/")).unwrap();
         assert!(found.fingerprinted);

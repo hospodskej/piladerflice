@@ -158,7 +158,7 @@ impl FromRequestParts<AppState> for Req {
         let user = match parts.extensions.get::<LoadedUser>() {
             Some(loaded) => loaded.0.clone(),
             None => {
-                let user = CurrentUser::load(&state.db, session.login()).await?;
+                let user = CurrentUser::load(&state.db, crate::session::login_id(&session)).await?;
                 parts.extensions.insert(LoadedUser(user.clone()));
                 user
             }

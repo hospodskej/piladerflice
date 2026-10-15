@@ -1,16 +1,21 @@
 //! Protection against cross-site request forgery: another website must not
-//! be able to make a visitor's browser submit our forms (put things in their
-//! cart, place an order...).
+//! be able to make a visitor's browser submit your forms.
 //!
-//! Every session gets a random token; our forms send it back as
-//! `authenticity_token` (or Turbo sends it as the `X-CSRF-Token` header), and
-//! a form without the right token is refused. A request that says it comes
-//! from another site (`Origin`) is refused too.
+//! Every session gets a random token ([`crate::Session::csrf_token`]); put
+//! it in your forms as the field [`FIELD`] (or let JavaScript send it as the
+//! [`HEADER`] header) and refuse a form whose token doesn't match
+//! ([`crate::Session::verify_csrf`]). Also refuse requests whose `Origin`
+//! header names another site ([`origin_allowed`]).
 
 use base64::Engine;
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use rand::RngCore;
 use subtle::ConstantTimeEq;
+
+/// The form field that carries the token.
+pub const FIELD: &str = "csrf_token";
+/// The request header that carries the token (Turbo and fetch requests).
+pub const HEADER: &str = "x-csrf-token";
 
 /// A new random token: 32 bytes, base64.
 pub fn new_token() -> String {
@@ -19,16 +24,18 @@ pub fn new_token() -> String {
     URL_SAFE_NO_PAD.encode(bytes)
 }
 
-/// Whether `given` is the session's token. Compared in constant time, so the
-/// time it takes says nothing about how much of it was right.
+/// Whether `given` is the `expected` token. Compared in constant time, so
+/// how long it takes says nothing about how much of it was right.
 pub fn matches(expected: &str, given: &str) -> bool {
     !expected.is_empty() && expected.as_bytes().ct_eq(given.as_bytes()).into()
 }
 
-/// Whether the browser's `Origin` header (when it sends one) is our own site.
+/// Whether the browser's `Origin` header, when it sends one, is the site
+/// itself (`base_url`, e.g. `"https://example.com"`).
 pub fn origin_allowed(origin: Option<&str>, base_url: &str) -> bool {
     match origin {
-        None | Some("null") => origin.is_none(),
+        None => true,
+        Some("null") => false,
         Some(origin) => origin.trim_end_matches('/') == base_url.trim_end_matches('/'),
     }
 }
@@ -50,7 +57,7 @@ mod tests {
     #[test]
     fn only_our_own_origin_is_allowed() {
         assert!(origin_allowed(None, "https://pila.cz"));
-        assert!(origin_allowed(Some("https://pila.cz"), "https://pila.cz"));
+        assert!(origin_allowed(Some("https://pila.cz"), "https://pila.cz/"));
         assert!(!origin_allowed(Some("https://evil.example"), "https://pila.cz"));
         assert!(!origin_allowed(Some("null"), "https://pila.cz"));
     }

@@ -1,0 +1,28 @@
+[package]
+name = "sapwood-session"
+description = "Encrypted cookie sessions for Axum: your own typed session data, CSRF protection, flash messages and a long-lived login cookie, with nothing stored on the server."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+keywords = ["session", "cookie", "csrf", "axum", "flash"]
+categories = ["web-programming::http-server", "authentication"]
+readme = "README.md"
+
+[dependencies]
+axum = { version = "0.8", default-features = false }
+tower-layer = "0.3"
+tower-service = "0.3"
+cookie = { version = "0.18", features = ["private", "key-expansion", "percent-encode"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+rand = "0.9"
+subtle = "2"
+tracing = "0.1"
+
+[dev-dependencies]
+axum = { version = "0.8", default-features = false, features = ["macros"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"

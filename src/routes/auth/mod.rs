@@ -22,6 +22,6 @@ pub(super) async fn sign_in(state: &AppState, req: &Req, user_id: i64) -> Result
         req.user_agent().as_deref(),
     )
     .await?;
-    req.session.set_login(Some(session_id));
+    req.session.set_login(Some(session_id.to_string()));
     Ok(())
 }

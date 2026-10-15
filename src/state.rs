@@ -5,8 +5,8 @@
 use std::ops::Deref;
 use std::sync::Arc;
 
+use crate::session::Key;
 use anyhow::Result;
-use cookie::Key;
 
 use crate::assets::{self, Assets, Importmap};
 use crate::config::Config;

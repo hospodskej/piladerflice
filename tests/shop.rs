@@ -297,6 +297,10 @@ async fn missing_company_or_delivery_details_stop_the_order() {
 async fn delivery_is_priced_by_distance_and_added_to_the_total() {
     let app = TestApp::with_distance(50.0).await;
     let mut browser = with_cart(&app).await;
+    browser
+        .get("/kosik/doprava")
+        .await
+        .assert_contains("40 Kč/km – orientační cenu uvidíte v souhrnu objednávky");
     through_details(&mut browser, "address", &[]).await;
 
     let summary = browser.get("/kosik/souhrn").await;
@@ -336,7 +340,7 @@ async fn austrian_customers_check_out_in_german_and_euros() {
     let mut browser = app.browser();
     browser.get("/at/eshop/smrk").await;
     browser.post("/at/cart_items", &[("catalog_variant_id", "10")]).await;
-    browser.get("/at/kosik/doprava").await;
+    browser.get("/at/kosik/doprava").await.assert_contains("≈ 1,60 €/km – den ungefähren Preis");
     let page = browser
         .post(
             "/at/kosik/doprava",

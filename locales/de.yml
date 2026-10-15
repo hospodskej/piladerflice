@@ -229,7 +229,7 @@ de:
     shipping_method_label: "Versandart"
     shipping_address: "Lieferung an Adresse"
     shipping_address_note: "Versandkosten werden individuell berechnet"
-    shipping_address_rate_note: "%{rate} pro km (hin und zurück) – den ungefähren Preis sehen Sie in der Bestellübersicht"
+    shipping_address_rate_note: "%{rate}/km – den ungefähren Preis sehen Sie in der Bestellübersicht"
     delivery_approximate: "(ungefährer Preis)"
     goods_total: "Ware"
     delivery_line: "Lieferung (%{km} km, ungefähr)"

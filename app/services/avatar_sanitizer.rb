@@ -8,6 +8,10 @@
 # polyglot file, plus XMP/IPTC/comments. EXIF metadata (camera, date, GPS...)
 # is deliberately kept; it is attacker-controlled text, so never render it
 # as HTML.
+#
+# libvips is a system library (apt install libvips). It is loaded on the
+# first upload, not at boot, so the app runs without it (e.g. on a Windows
+# development PC); every upload is then refused, never stored unprocessed.
 class AvatarSanitizer
   class Invalid < StandardError
     attr_reader :reason
@@ -24,12 +28,25 @@ class AvatarSanitizer
   ALLOWED_TYPES = %w[image/jpeg image/png image/webp].freeze
   ALLOWED_LOADERS = %w[jpegload pngload webpload].freeze
 
-  # Refuse libvips loaders it flags as unsafe for untrusted data (e.g. via
-  # external delegates), on top of our own allowlist.
-  Vips.block_untrusted(true)
-
   def self.call(path)
     new(path).call
+  end
+
+  # Loads libvips once; false (and a warning in the log) when it isn't
+  # installed.
+  def self.vips_available?
+    return @vips_available if defined?(@vips_available)
+
+    @vips_available = begin
+      require "vips"
+      # Refuse libvips loaders it flags as unsafe for untrusted data (e.g.
+      # via external delegates), on top of our own allowlist.
+      Vips.block_untrusted(true)
+      true
+    rescue LoadError => error
+      Rails.logger.warn("libvips is not installed, profile pictures can't be uploaded: #{error.message}")
+      false
+    end
   end
 
   def initialize(path)
@@ -41,14 +58,20 @@ class AvatarSanitizer
     raise Invalid, :unreadable unless File.file?(@path)
     raise Invalid, :too_large if File.size(@path) > MAX_BYTES
     raise Invalid, :unsupported_type unless ALLOWED_TYPES.include?(sniffed_type)
+    raise Invalid, :unavailable unless self.class.vips_available?
 
+    reencode
+  end
+
+  private
+
+  # Only reached once libvips is loaded (the rescue names one of its classes).
+  def reencode
     check_header!
     thumbnail.webpsave_buffer(Q: 85, **save_options)
   rescue Vips::Error
     raise Invalid, :unreadable
   end
-
-  private
 
   # What the bytes say the file is. Marcel reads the magic numbers only.
   def sniffed_type

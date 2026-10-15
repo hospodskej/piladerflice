@@ -133,6 +133,7 @@ cs:
       too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
       unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
       rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
+      unavailable: "Nahrávání profilových obrázků teď nefunguje. Zkuste to prosím později."
     phone_prefix_label: "Předvolba"
 
   nav:

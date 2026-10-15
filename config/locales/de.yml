@@ -133,6 +133,7 @@ de:
       too_many_pixels: "Die Auflösung des Bildes ist zu hoch (höchstens 25 Megapixel)."
       unreadable: "Das Bild konnte nicht gelesen werden. Bitte versuchen Sie eine andere Datei."
       rate_limited: "Zu viele Upload-Versuche. Bitte versuchen Sie es gleich noch einmal."
+      unavailable: "Das Hochladen von Profilbildern funktioniert gerade nicht. Bitte versuchen Sie es später erneut."
     phone_prefix_label: "Vorwahl"
 
   nav:

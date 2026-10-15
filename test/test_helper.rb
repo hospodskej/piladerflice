@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require "vips" # the image tests need libvips (the app itself loads it on first use)
 require_relative "support/fake_route_service"
 
 # Builds real image files on the fly so the repo needs no binary fixtures.

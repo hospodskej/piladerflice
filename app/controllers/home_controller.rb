@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     @zajimavosti = FaqItem.all
     @produkty = Product.all
     @google_reviews = Review.ordered
-    @bestseller_products = CatalogProduct.active.where(key: BESTSELLER_KEYS).index_by(&:key).values_at(*BESTSELLER_KEYS).compact
+    @bestseller_products = CatalogProduct.active.where(key: BESTSELLER_KEYS).with_starting_price.with_attached_image.index_by(&:key).values_at(*BESTSELLER_KEYS).compact
   end
 
   def kontakt

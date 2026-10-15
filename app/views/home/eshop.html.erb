@@ -2,7 +2,7 @@
   valid_categories = %w[palivove rezivo zbytky kamenivo]
   category = valid_categories.include?(params[:category]) ? params[:category] : "palivove"
 
-  base_products = CatalogProduct.active.where(category: category)
+  base_products = CatalogProduct.active.where(category: category).with_starting_price.with_attached_image
 
   page_meta "eshop_#{category}"
 

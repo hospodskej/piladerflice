@@ -25,8 +25,9 @@ class SitemapsController < ApplicationController
   end
 
   def product_entries
-    CatalogProduct.active.ordered.includes(:catalog_variants).map do |product|
-      { path: eshop_product_path(product.key), lastmod: [product.updated_at, *product.catalog_variants.map(&:updated_at)].max }
+    variant_changes = CatalogVariant.group(:catalog_product_id).maximum(:updated_at)
+    CatalogProduct.active.ordered.map do |product|
+      { path: eshop_product_path(product.key), lastmod: [product.updated_at, variant_changes[product.id]].compact.max }
     end
   end
 end

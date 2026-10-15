@@ -22,10 +22,22 @@ class CatalogProduct < ApplicationRecord
   validates :category, inclusion: { in: CATEGORIES }
   validates :hardness, inclusion: { in: HARDNESS_VALUES }, allow_nil: true
 
+  # The "from" price: the cheapest variant in stock, or the cheapest of all
+  # when none is in stock (nil without variants).
+  STARTING_PRICE_SQL = <<~SQL.squish
+    (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))
+     FROM catalog_variants v WHERE v.catalog_product_id = catalog_products.id)
+  SQL
+
   scope :active, -> { where(active: true) }
   scope :ordered, -> { order(:position, :id) }
+  # Product lists: the price comes with the product instead of one or two
+  # queries per product card.
+  scope :with_starting_price, -> { select(arel_table[Arel.star], Arel.sql("#{STARTING_PRICE_SQL} AS starting_price_czk")) }
 
   def starting_price_czk
-    (catalog_variants.where(in_stock: true).reorder(:price_czk).first || catalog_variants.reorder(:price_czk).first)&.price_czk
+    return self[:starting_price_czk] if has_attribute?(:starting_price_czk)
+
+    self.class.where(id: id).pick(Arel.sql(STARTING_PRICE_SQL))
   end
 end

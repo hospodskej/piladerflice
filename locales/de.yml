@@ -124,6 +124,11 @@ auth:
   avatar_remove: "Bild entfernen"
   avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px; EXIF-Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) bleiben erhalten."
   avatar_updated: "Das Profilbild wurde gespeichert."
+  login_failed: "E-Mail oder Passwort ist falsch."
+  login_required: "Bitte melden Sie sich an, um Ihr Konto zu sehen."
+  logged_out: "Sie wurden abgemeldet."
+  account_created: "Ihr Konto wurde erstellt."
+  register_errors: "Das Konto konnte nicht erstellt werden:"
   avatar_removed: "Das Profilbild wurde entfernt."
   avatar_errors:
     none_selected: "Sie haben kein Bild ausgewählt."

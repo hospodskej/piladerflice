@@ -55,7 +55,7 @@ pub fn image(id: i64) -> (Owner, i64) {
     (Owner::Variant, id)
 }
 
-/// The variant's checks, in Rails' order: key given and not used by another
+/// The variant's checks, in this order: key given and not used by another
 /// variant of the same product, a price above zero, a known group.
 pub async fn validate(db: &Db, values: &Values, id: Option<i64>) -> sqlx::Result<Errors> {
     let mut errors = Errors::new();

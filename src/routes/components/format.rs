@@ -1,6 +1,6 @@
-//! Turning text typed in the admin into HTML, like Rails' text helpers.
+//! Turning text typed in the admin into HTML.
 
-/// Rails' `simple_format`: the text made safe, blank lines become
+/// The text made safe; blank lines become
 /// paragraphs and single line breaks become <br>.
 pub fn simple_format(text: &str) -> String {
     let clean = ammonia::clean(text);
@@ -18,7 +18,7 @@ pub fn simple_format(text: &str) -> String {
     }
 }
 
-/// The text of an HTML fragment, without its tags (Rails' `strip_tags`).
+/// The text of an HTML fragment, without its tags.
 pub fn strip_tags(html: &str) -> String {
     let mut out = String::with_capacity(html.len());
     let mut in_tag = false;

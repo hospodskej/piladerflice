@@ -1,5 +1,5 @@
-//! "Smrk, Skládané, 100 cm, 13 PRM": a cart line as text, in a language
-//! (Rails' `cart_line_description`). The product's current name is used; the
+//! "Smrk, Skládané, 100 cm, 13 PRM": a cart line as text, in a language.
+//! The product's current name is used; the
 //! specs were copied into the line when it was added.
 
 use std::collections::HashMap;

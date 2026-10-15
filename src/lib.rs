@@ -5,7 +5,7 @@
 //! - [`i18n`]: translations from `locales/*.yml`
 //! - [`assets`]: fingerprinted static files
 //! - [`views`]: templates and the shared page layout
-//! - [`db`] and [`models`]: the SQLite database shared with Rails
+//! - [`db`] and [`models`]: the SQLite database and its tables
 //! - [`money`]: crowns, and euros for the Austrian site
 //! - [`routes`]: one module per area of the site
 

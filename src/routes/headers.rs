@@ -1,4 +1,4 @@
-//! The headers Rails adds to every response, for the browser's protection:
+//! The headers added to every response, for the browser's protection:
 //! no showing the site in another site's frame, no guessing file types,
 //! only the site's address (not the page) passed on to other sites. In
 //! production also HSTS: browsers use only HTTPS for two years.

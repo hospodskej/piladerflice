@@ -1,5 +1,4 @@
-//! Turns an untrusted uploaded picture into a safe profile picture (port of
-//! Rails' `AvatarSanitizer`).
+//! Turns an untrusted uploaded picture into a safe profile picture.
 //!
 //! We never store or serve what the user sent. The upload is checked by its
 //! actual bytes (not the file name or the type the browser claims), limited

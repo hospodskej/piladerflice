@@ -124,6 +124,11 @@ auth:
   avatar_remove: "Odstranit obrázek"
   avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px, metadata EXIF (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) zůstanou zachována."
   avatar_updated: "Profilový obrázek byl uložen."
+  login_failed: "Nesprávný e-mail nebo heslo."
+  login_required: "Pro zobrazení účtu se musíte přihlásit."
+  logged_out: "Byli jste odhlášeni."
+  account_created: "Účet byl vytvořen."
+  register_errors: "{count} brání vytvoření účtu:"
   avatar_removed: "Profilový obrázek byl odstraněn."
   avatar_errors:
     none_selected: "Nevybrali jste žádný obrázek."

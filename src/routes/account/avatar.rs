@@ -24,7 +24,7 @@ use crate::views::redirect;
 static UPLOADS: LazyLock<RateLimit> = LazyLock::new(|| RateLimit::new(10, Duration::from_secs(600)));
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };
@@ -57,7 +57,7 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
 
 /// POST /muj-ucet/profilovy-obrazek: a new picture (multipart form).
 pub async fn update(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };
@@ -95,7 +95,7 @@ pub async fn update(State(state): State<AppState>, req: Req, form: UploadForm) -
 
 /// POST /muj-ucet/profilovy-obrazek/smazat: removes the picture.
 pub async fn destroy(State(state): State<AppState>, req: Req, _form: FormData) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };

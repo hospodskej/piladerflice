@@ -6,7 +6,7 @@ use axum::response::{Html, IntoResponse, Response};
 use crate::views::error_pages;
 
 /// A database or template failure: logged, and the visitor gets the static
-/// error page (Rails' public/500.html).
+/// error page (public/500.html).
 pub struct AppError(anyhow::Error);
 
 impl<E: Into<anyhow::Error>> From<E> for AppError {

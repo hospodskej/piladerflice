@@ -1,6 +1,5 @@
 //! Prices. Everything is stored in Czech crowns; German (Austrian) visitors
-//! see euros, converted at the live rate (port of Rails'
-//! `ExchangeRateService`).
+//! see euros, converted at the day's ECB rate.
 //!
 //! - this file: formatting amounts ("2 500 Kč", "≈ 100,00 €")
 //! - [`exchange_rate`]: the live rate, cached

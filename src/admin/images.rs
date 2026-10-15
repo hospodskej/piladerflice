@@ -3,11 +3,10 @@
 //! stored and shown on the site.
 //!
 //! Phone photos carry EXIF data: where they were taken (GPS), when, with
-//! which phone. Rails strips it with ImageOptim; here the metadata blocks
-//! are dropped from the file without touching the picture itself (no
-//! re-encoding, so no quality is lost). Unlike ImageOptim, a JPEG keeps its
-//! orientation, so a photo taken with the phone upright isn't shown lying
-//! on its side.
+//! which phone. The metadata blocks are dropped from the file without
+//! touching the picture itself (no re-encoding, so no quality is lost); a
+//! JPEG keeps its orientation, so a photo taken with the phone upright
+//! isn't shown lying on its side.
 
 use std::io::Cursor;
 use std::path::Path;
@@ -44,7 +43,7 @@ pub fn prepare(bytes: &[u8]) -> Result<Image, NotAnImage> {
     let mut decoder = reader.into_decoder().map_err(|_| NotAnImage)?;
     let (mut width, mut height) = decoder.dimensions();
     let orientation = decoder.orientation().map(|o| o.to_exif()).unwrap_or(1);
-    // Turned a quarter: shown the other way round, as Rails records it.
+    // Turned a quarter: shown the other way round.
     if (5..=8).contains(&orientation) {
         std::mem::swap(&mut width, &mut height);
     }

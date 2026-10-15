@@ -15,6 +15,10 @@ pub async fn destroy(State(state): State<AppState>, req: Req, _form: FormData) -
         login_session::end(&state.db, session_id).await?;
     }
     req.session.set_login(None);
-    req.session.set_flash(Flash::Notice("Byli jste odhlášeni.".into()));
+    req.session.set_flash(Flash::Notice(state.translations.text(
+        req.locale,
+        "auth.logged_out",
+        &[],
+    )));
     Ok(redirect::to(&req.path_for("/")))
 }

@@ -1,6 +1,5 @@
 //! The product range pages (Sortiment), one per kind of wood. The products
-//! they show live in the templates (`templates/home/sortiment/`), like they
-//! did in the Rails views.
+//! they show live in the templates (`templates/home/sortiment/`).
 
 use axum::extract::State;
 use axum::routing::{MethodRouter, get};

@@ -15,7 +15,7 @@ use crate::shop::cart_image;
 use crate::views::redirect;
 
 pub async fn reorder(State(state): State<AppState>, req: Req, Path(id): Path<i64>, _form: FormData) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };

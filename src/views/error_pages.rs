@@ -1,4 +1,4 @@
-//! The static error pages of `public/` (shared with Rails): "422 The
+//! The static error pages of `public/`: "422 The
 //! change you wanted was rejected" and "500 Something went wrong". Read
 //! once at startup, so they can be shown even when something else fails.
 

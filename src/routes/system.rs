@@ -9,7 +9,7 @@ use crate::AppState;
 use crate::request::Req;
 
 /// GET /up: 200 when the app is running (for uptime monitors and the
-/// reverse proxy), same page as Rails' health check.
+/// reverse proxy).
 pub async fn health() -> Html<&'static str> {
     Html(r#"<!DOCTYPE html><html><body style="background-color: green"></body></html>"#)
 }

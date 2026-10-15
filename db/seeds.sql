@@ -1,6 +1,5 @@
 -- The starting content of a new database (piladerflice setup): the
--- price list, catalogue, promos, services and the like, as the Rails seeds
--- created it. Their pictures are attached from db/seed_images.csv.
+-- price list, catalogue, promos, services and the like. Their pictures are attached from db/seed_images.csv.
 
 INSERT INTO products (id, created_at, image, link, text, text_de, title, title_de, updated_at) VALUES
   (1, '2026-10-15 06:13:59.364949', 'sortiment/palivove-drevo.webp', '/sortiment/palivove-drevo', 'Velikosti a druh podle volby zákazníka', 'Größe und Holzart nach Kundenwunsch', 'Palivové dřevo', 'Brennholz', '2026-10-15 06:13:59.364949'),

@@ -82,6 +82,28 @@ async fn a_wrong_password_or_unknown_email_gets_the_same_answer() {
 }
 
 #[tokio::test]
+async fn the_german_site_answers_in_german() {
+    let app = TestApp::with_accounts().await;
+    let mut browser = app.browser();
+    browser.get("/at/prihlaseni").await;
+    let page = browser
+        .post("/at/prihlaseni", &[("email_address", CUSTOMER), ("password", "falsch")])
+        .await;
+    page.assert_contains("E-Mail oder Passwort ist falsch.");
+    browser.get("/at/registrace").await;
+    let page = browser
+        .post("/at/registrace", &[("email_address", ""), ("password", "x")])
+        .await;
+    page.assert_contains("Das Konto konnte nicht erstellt werden:");
+    let page = browser.get("/at/muj-ucet").await;
+    assert_eq!(page.location(), "/at/prihlaseni");
+    browser
+        .get("/at/prihlaseni")
+        .await
+        .assert_contains("Bitte melden Sie sich an, um Ihr Konto zu sehen.");
+}
+
+#[tokio::test]
 async fn signing_in_returns_only_to_pages_of_this_site() {
     let app = TestApp::with_accounts().await;
     let mut browser = app.browser();
@@ -142,7 +164,7 @@ async fn a_stolen_login_cookie_is_useless_once_signed_out() {
 }
 
 #[tokio::test]
-async fn registering_checks_the_form_like_rails() {
+async fn registering_checks_the_form() {
     let app = TestApp::with_accounts().await;
     let mut browser = app.browser();
     browser.get("/registrace").await;
@@ -184,7 +206,7 @@ async fn registering_checks_the_form_like_rails() {
             .await
             .unwrap();
     assert_eq!(role, "customer");
-    assert!(digest.starts_with("$2"), "a bcrypt hash Rails can check");
+    assert!(digest.starts_with("$2"), "a bcrypt hash");
 }
 
 #[tokio::test]

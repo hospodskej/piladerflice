@@ -1,4 +1,4 @@
-//! Czech time (Europe/Prague). The database stores UTC, as Rails does;
+//! Czech time (Europe/Prague). The database stores UTC;
 //! times are shown, and days and months are counted, in Czech time.
 //!
 //! Czechia follows the EU summer time rule: UTC+2 from 01:00 UTC on the

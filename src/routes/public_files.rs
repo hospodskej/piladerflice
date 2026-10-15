@@ -1,5 +1,5 @@
-//! Files from Rails' `public/` folder (the site icons, the static error
-//! pages), served at the top level like Rails does: `/icon.png`. Tried for
+//! Files from the `public/` folder (the site icons, the static error
+//! pages), served at the top level: `/icon.png`. Tried for
 //! any URL no page answers, before the "page not found" page.
 
 use axum::Extension;
@@ -40,7 +40,7 @@ async fn serve(state: &AppState, path: &str) -> Option<Response> {
     let mut response = (StatusCode::OK, Body::from(bytes)).into_response();
     let headers = response.headers_mut();
     headers.insert(header::CONTENT_TYPE, HeaderValue::from_static(content_type));
-    // Rails' production setting for public files.
+    // Icons and error pages may be cached for a year.
     headers.insert(
         header::CACHE_CONTROL,
         HeaderValue::from_static("public, max-age=31536000"),

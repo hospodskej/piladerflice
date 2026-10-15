@@ -42,7 +42,11 @@ pub async fn create(State(state): State<AppState>, req: Req, form: FormData) -> 
     let digest = password::hash(given)?;
     let user_id = user::create_customer(&state.db, email, &digest).await?;
     super::sign_in(&state, &req, user_id).await?;
-    req.session.set_flash(Flash::Notice("Účet byl vytvořen.".into()));
+    req.session.set_flash(Flash::Notice(state.translations.text(
+        req.locale,
+        "auth.account_created",
+        &[],
+    )));
     Ok(redirect::to(&req.path_for("/muj-ucet")))
 }
 

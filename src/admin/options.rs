@@ -53,7 +53,7 @@ pub const TABLE: Table = Table {
 
 pub const FORM_FIELDS: [&str; 4] = ["category", "field", "value", "value_de"];
 
-/// Rails' order: a known category, a value, a field of that category.
+/// In this order: a known category, a value, a field of that category.
 pub fn validate(values: &Values) -> Errors {
     let mut errors = Errors::new();
     let category = values.get("category").unwrap_or_default();

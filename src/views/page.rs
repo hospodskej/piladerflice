@@ -1,5 +1,5 @@
-//! Per-page settings for the layout. Port of `page_meta` in the Rails
-//! ApplicationHelper.
+//! Per-page settings for the layout: title, description, indexing,
+//! breadcrumbs, status.
 
 use axum::http::StatusCode;
 use serde_json::Value;
@@ -23,7 +23,7 @@ pub struct Page {
     pub status: Option<StatusCode>,
     /// Extra trusted HTML for <head> (the JSON-LD business data).
     pub head_html: Option<String>,
-    /// A message for this very page (Rails' `flash.now`), e.g. a failed login.
+    /// A message for this very page (not the next one), e.g. a failed login.
     pub flash_now: Option<crate::session::Flash>,
 }
 

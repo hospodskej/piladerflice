@@ -58,8 +58,8 @@ impl CheckoutState {
         self.0.get(field).is_some_and(|value| value == "true")
     }
 
-    /// Stores the submitted fields we know; checkboxes become true/false the
-    /// way Rails reads them ("0", "false", "off"... are false).
+    /// Stores the submitted fields we know; checkboxes become true/false
+    /// ("0", "false", "off"... are false).
     pub fn update(&mut self, fields: &[(String, String)]) {
         for (name, value) in fields {
             if STRING_FIELDS.contains(&name.as_str()) {
@@ -100,7 +100,7 @@ mod tests {
     }
 
     #[test]
-    fn keeps_known_fields_and_reads_checkboxes_like_rails() {
+    fn keeps_known_fields_and_reads_checkboxes() {
         let mut state = CheckoutState::default();
         state.update(&pairs(&[
             ("first_name", "Jana"),

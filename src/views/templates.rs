@@ -43,7 +43,7 @@ fn environment(dir: PathBuf, translations: Arc<Translations>, assets: Arc<Assets
     let mut env = Environment::new();
     env.set_loader(path_loader(dir));
     env.set_trim_blocks(true);
-    // Escape like Rails (& < > " '), not "/" too as MiniJinja does by default.
+    // Escape & < > " ' (not "/" too, as MiniJinja does by default).
     // Missing values (None) print as nothing, like nil in ERB, not "none".
     env.set_formatter(|out, state, value| {
         if value.is_none() || value.is_undefined() {

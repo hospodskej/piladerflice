@@ -23,7 +23,7 @@ pub fn tag(state: &AppState, req: &Req) -> String {
 /// in sync. No aggregateRating: Google doesn't accept a business's own
 /// ratings, and the Google reviews are on Google already.
 fn local_business_schema(req: &Req, name: &str, description: &str, logo_url: &str, area: [String; 2]) -> String {
-    // Rails' root_url: "https://host/" in Czech, "https://host/at" in German.
+    // The home page: "https://host/" in Czech, "https://host/at" in German.
     let root = format!("{}{}", req.base_url, req.path_for("/"));
     let data = json!({
         "@context": "https://schema.org",

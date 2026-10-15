@@ -133,7 +133,7 @@
 
         <div class="checkout-nav">
           <a class="btn-outline-dark" data-turbo="false" href="{{ path('/kosik/doprava') }}">{{ t("checkout.back") }}</a>
-          <input type="submit" name="commit" value="{{ t('checkout.continue') }}" class="btn-primary" data-disable-with="{{ t('checkout.continue') }}">
+          <input type="submit" value="{{ t('checkout.continue') }}" class="btn-primary">
         </div>
 </form>
       {% include "shared/checkout_summary.html" %}

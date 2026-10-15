@@ -1,7 +1,6 @@
 //! The two languages of the site and their URLs. Czech is the default and has
 //! no prefix; the (Austrian) German site lives under `/at`. The translations
-//! are German ("de"), the URL prefix names the market. Port of Rails'
-//! `LocalizedPath`.
+//! are German ("de"), the URL prefix names the market.
 
 use serde::Serialize;
 

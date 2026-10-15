@@ -14,8 +14,8 @@ pub mod user;
 
 use crate::locale::Locale;
 
-/// The German text when there is one, otherwise the Czech one (Rails'
-/// `Translatable` / `*_i18n`).
+/// The German text when there is one, otherwise the Czech one (the
+/// `*_de` columns).
 pub fn tr(locale: Locale, cs: &Option<String>, de: &Option<String>) -> String {
     match (locale, de) {
         (Locale::De, Some(de)) if !de.trim().is_empty() => de.clone(),
@@ -23,7 +23,7 @@ pub fn tr(locale: Locale, cs: &Option<String>, de: &Option<String>) -> String {
     }
 }
 
-/// "Truhlářské řezivo AB" -> "truhlarske-rezivo-ab" (Rails' `parameterize`).
+/// "Truhlářské řezivo AB" -> "truhlarske-rezivo-ab": a slug for URLs and ids.
 pub fn parameterize(text: &str) -> String {
     let ascii = deunicode::deunicode(text).to_lowercase();
     let mut out = String::with_capacity(ascii.len());
@@ -48,7 +48,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parameterizes_like_rails() {
+    fn makes_slugs() {
         assert_eq!(parameterize("Truhlářské řezivo AB"), "truhlarske-rezivo-ab");
         assert_eq!(parameterize("  Pořez / prodej kulatiny "), "porez-prodej-kulatiny");
         assert_eq!(parameterize("I. třída"), "i-trida");

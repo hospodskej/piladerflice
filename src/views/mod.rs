@@ -1,5 +1,5 @@
 //! HTML pages. Templates live in `templates/` and use Jinja syntax
-//! (MiniJinja), close to the ERB views of the Rails app:
+//! (MiniJinja):
 //!
 //! - `{{ t("nav.domu") }}`: a translation (`t("key", km=50)` fills `{km}`)
 //! - `{{ path("/kontakt#cenik") }}`: a site link in the current language
@@ -12,8 +12,8 @@
 //! - [`cart_view`]: the cart as the pages show it (header widget, cart page, checkout)
 //! - [`turbo`], [`fragment`]: Turbo Stream answers to forms; [`redirect`]: after a form
 //! - [`error_pages`]: the static 422 and 500 pages
-//! - [`text`]: small text helpers (escaping, Rails' squish and truncate)
-//! - [`form_helpers`]: Rails' form helpers for the admin templates
+//! - [`text`]: small text helpers (escaping, squish, truncate)
+//! - [`form_helpers`]: form fields for the admin templates
 //! - [`admin_layout`]: rendering an admin page inside the admin layout
 
 pub mod admin_layout;

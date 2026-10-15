@@ -7,7 +7,7 @@
       <div class="auth-box-body">
         {% if errors %}
           <div class="page-flash page-flash-alert">
-            <strong>{{ error_count }} brání vytvoření účtu:</strong>
+            <strong>{{ t("auth.register_errors", count=error_count) }}</strong>
             <ul>
               {% for message in errors %}
                 <li>{{ message }}</li>
@@ -31,7 +31,7 @@
           </div>
           {% set privacy_link %}<a target="_blank" rel="noopener" href="{{ path('/zasady-ochrany-osobnich-udaju') }}">{{ t("auth.privacy_link_text") }}</a>{% endset %}
           <p class="auth-privacy-note">{{ t("auth.register_privacy_html", privacy_link=privacy_link) }}</p>
-          <input type="submit" name="commit" value="{{ t('auth.register_submit') }}" class="btn-primary auth-submit" data-disable-with="{{ t('auth.register_submit') }}">
+          <input type="submit" value="{{ t('auth.register_submit') }}" class="btn-primary auth-submit">
 </form>
         <p class="auth-switch">
           {{ t("auth.have_account") }} <a href="{{ path('/prihlaseni') }}">{{ t("auth.login_link") }}</a>

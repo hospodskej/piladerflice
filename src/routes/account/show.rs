@@ -20,7 +20,7 @@ struct OrderCard {
 }
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };

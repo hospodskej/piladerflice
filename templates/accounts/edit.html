@@ -18,7 +18,7 @@
                    data-file-picker-target="input" data-action="change->file-picker#update">
             <label for="avatar_file" class="btn-outline-dark file-picker-btn">{{ t("auth.avatar_choose") }}</label>
             <span class="file-picker-name" data-file-picker-target="name">{{ t("auth.avatar_no_file") }}</span>
-            <input type="submit" name="commit" value="{{ t('auth.avatar_upload') }}" class="btn-primary avatar-btn" data-file-picker-target="submit" data-disable-with="{{ t('auth.avatar_upload') }}">
+            <input type="submit" value="{{ t('auth.avatar_upload') }}" class="btn-primary avatar-btn" data-file-picker-target="submit">
 </form>
 
           {% if account.avatar_path %}
@@ -155,7 +155,7 @@
 
       <div class="checkout-nav">
         <a class="btn-outline-dark" data-turbo="false" href="{{ path('/muj-ucet') }}">{{ t("checkout.back") }}</a>
-        <input type="submit" name="commit" value="{{ t('auth.save_profile') }}" class="btn-primary" data-disable-with="{{ t('auth.save_profile') }}">
+        <input type="submit" value="{{ t('auth.save_profile') }}" class="btn-primary">
       </div>
 </form>
   </section>

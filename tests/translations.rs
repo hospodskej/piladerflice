@@ -1,6 +1,5 @@
 //! Every translation key the templates and the code use exists in Czech and
-//! in German, so no page ever shows "[missing: ...]" (the check the Rails
-//! app had in `test/i18n/translation_keys_test.rb`). Only keys written out
+//! in German, so no page ever shows "[missing: ...]". Only keys written out
 //! in full are checked; keys put together at run time are tested where
 //! they are used.
 

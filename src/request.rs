@@ -142,7 +142,7 @@ impl FromRequestParts<AppState> for Req {
             .map(|uri| uri.0.clone())
             .unwrap_or_else(|| parts.uri.clone());
         let locale = parts.extensions.get::<Locale>().copied().unwrap_or(Locale::Cs);
-        // Like Rails, "/eshop/" is "/eshop" (canonical links, breadcrumbs).
+        // "/eshop/" is "/eshop" (canonical links, breadcrumbs).
         let raw = original.path();
         let path = if raw.len() > 1 { raw.trim_end_matches('/') } else { raw };
         let path = if path.is_empty() {

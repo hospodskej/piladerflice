@@ -2,7 +2,7 @@
 # Builds the release folder for a server: the program plus the files it
 # reads (templates, translations, images, CSS, JavaScript, public/, the
 # database schema and migrations), laid out like the repository. Copy the resulting .tar.gz to the server and unpack it
-# into /opt/pila-derflice/releases/<version> (see SWITCH-OVER.md).
+# into /opt/pila-derflice/releases/<version> (see LAUNCH.md).
 #
 #   deploy/package.sh            -> dist/pila-derflice-<commit>.tar.gz
 #

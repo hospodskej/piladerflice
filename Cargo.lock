@@ -2285,6 +2285,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "sapwood"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "minijinja",
+ "sapwood-assets",
+ "sapwood-forms",
+ "sapwood-i18n",
+ "sapwood-session",
+ "serde",
+ "tokio",
+]
+
+[[package]]
 name = "sapwood-assets"
 version = "0.1.0"
 dependencies = [

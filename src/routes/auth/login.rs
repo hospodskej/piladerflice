@@ -47,8 +47,8 @@ pub async fn create(State(state): State<AppState>, req: Req, form: FormData) -> 
 const DUMMY_DIGEST: &str = "$2a$12$NxBaAjc.5tabNjXY/rmokeQN37LnflU0ZEdgmXV5797bm6Utrw0ua";
 
 async fn failed(state: &AppState, req: &Req) -> Result {
-    // The Rails app says this in Czech in both languages.
-    let mut response = render(state, req, Some(Flash::Alert("Nesprávný e-mail nebo heslo.".into()))).await?;
+    let message = state.translations.text(req.locale, "auth.login_failed", &[]);
+    let mut response = render(state, req, Some(Flash::Alert(message))).await?;
     *response.status_mut() = StatusCode::UNPROCESSABLE_ENTITY;
     Ok(response)
 }

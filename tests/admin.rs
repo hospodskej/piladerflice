@@ -268,7 +268,7 @@ async fn variants_are_checked_and_belong_to_their_product() {
     page.assert_contains("<li>Klíč už je použitý</li>");
     page.assert_contains("<li>Cena musí být větší než 0</li>");
 
-    // An emptied position saves as 0 (Rails failed here).
+    // An emptied position saves as 0.
     let page = browser
         .post(
             "/admin/catalog_products/1/catalog_variants",

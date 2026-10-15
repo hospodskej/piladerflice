@@ -1,5 +1,5 @@
-//! A simple limit on how often something may be done (like Rails'
-//! `rate_limit`): at most `max` times per `window`, per key (here: per
+//! A simple limit on how often something may be done: at most `max`
+//! times per `window`, per key (here: per
 //! user). Kept in memory; a restart forgets it, which is fine for this.
 
 use std::collections::HashMap;

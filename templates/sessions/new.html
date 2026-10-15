@@ -14,7 +14,7 @@
             <label for="password">{{ t("auth.password") }}</label>
             <input type="password" name="password" id="password" required>
           </div>
-          <input type="submit" name="commit" value="{{ t('auth.login_submit') }}" class="btn-primary auth-submit" data-disable-with="{{ t('auth.login_submit') }}">
+          <input type="submit" value="{{ t('auth.login_submit') }}" class="btn-primary auth-submit">
 </form>
         <p class="auth-switch">
           {{ t("auth.no_account") }} <a href="{{ path('/registrace') }}">{{ t("auth.register_link") }}</a>

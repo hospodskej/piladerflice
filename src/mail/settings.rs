@@ -1,5 +1,4 @@
-//! Where e-mails come from and go to. Same environment variables as the
-//! Rails app:
+//! Where e-mails come from and go to, from environment variables:
 //!
 //! - `SMTP_ADDRESS` (default smtp.gmail.com), `SMTP_PORT` (587; 465 means
 //!   TLS from the start), `SMTP_USERNAME`, `SMTP_PASSWORD`. Without

@@ -76,7 +76,7 @@ impl Cart {
     }
 }
 
-/// What a variant is, shown after the product name (Rails' `to_cart_specs`).
+/// What a variant is, shown after the product name.
 fn specs_of(product: &CatalogProduct, variant: &CatalogVariant) -> Vec<Spec> {
     let spec = |kind: &str, value: serde_json::Value| Spec {
         kind: kind.into(),

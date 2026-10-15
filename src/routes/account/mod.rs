@@ -14,6 +14,7 @@ pub use show::show;
 use axum::response::Response;
 use minijinja::{Value, context};
 
+use crate::AppState;
 use crate::accounts::current_user::CurrentUser;
 use crate::request::Req;
 use crate::session::Flash;
@@ -21,7 +22,7 @@ use crate::views::redirect;
 
 /// The signed-in customer, or the redirect to the sign-in page (which comes
 /// back here afterwards). Boxed: a response is big, the user small.
-pub(super) fn require_login(req: &Req) -> Result<&CurrentUser, Box<Response>> {
+pub(super) fn require_login<'a>(state: &AppState, req: &'a Req) -> Result<&'a CurrentUser, Box<Response>> {
     if let Some(user) = &req.user {
         return Ok(user);
     }
@@ -30,8 +31,11 @@ pub(super) fn require_login(req: &Req) -> Result<&CurrentUser, Box<Response>> {
         None => req.path.clone(),
     };
     req.session.update(|data| data.return_to = Some(here));
-    req.session
-        .set_flash(Flash::Alert("Pro zobrazení účtu se musíte přihlásit.".into()));
+    req.session.set_flash(Flash::Alert(state.translations.text(
+        req.locale,
+        "auth.login_required",
+        &[],
+    )));
     Err(Box::new(redirect::to(&req.path_for("/prihlaseni"))))
 }
 

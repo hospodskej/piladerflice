@@ -1,0 +1,35 @@
+[package]
+name = "sapwood"
+description = "A small web framework for server-rendered Rust sites on Axum: encrypted cookie sessions, CSRF-checked forms, YAML translations and fingerprinted assets."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords = ["web", "framework", "axum", "session", "forms"]
+categories = ["web-programming::http-server"]
+readme = "README.md"
+
+[features]
+default = ["i18n", "assets", "session", "forms"]
+## Translations (sapwood-i18n).
+i18n = ["dep:sapwood-i18n"]
+## Fingerprinted static files (sapwood-assets).
+assets = ["dep:sapwood-assets"]
+## Encrypted cookie sessions (sapwood-session).
+session = ["dep:sapwood-session"]
+## CSRF-checked forms (sapwood-forms); needs sessions.
+forms = ["dep:sapwood-forms", "session"]
+
+[dependencies]
+sapwood-i18n = { version = "0.1.0", path = "../sapwood-i18n", optional = true }
+sapwood-assets = { version = "0.1.0", path = "../sapwood-assets", optional = true }
+sapwood-session = { version = "0.1.0", path = "../sapwood-session", optional = true }
+sapwood-forms = { version = "0.1.0", path = "../sapwood-forms", optional = true }
+
+[dev-dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+minijinja = "2"
+serde = { version = "1", features = ["derive"] }

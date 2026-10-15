@@ -30,7 +30,7 @@ pub fn squish(text: &str) -> String {
     text.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-/// Rails' `truncate(length, separator: " ")`: at most `length` characters,
+/// At most `length` characters,
 /// cut at a space, ending in "...".
 pub fn truncate(text: &str, length: usize) -> String {
     let chars: Vec<char> = text.chars().collect();
@@ -58,7 +58,7 @@ pub fn capitalize(text: &str) -> String {
 }
 
 /// "price_czk" -> "Price czk", "okrasne_kamenivo" -> "Okrasne kamenivo"
-/// (Rails' `humanize`, for names that have no translation).
+/// (for names that have no translation).
 pub fn humanize(name: &str) -> String {
     let words = name.strip_suffix("_id").unwrap_or(name).replace('_', " ");
     let mut chars = words.chars();
@@ -73,7 +73,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn truncates_like_rails() {
+    fn truncates_at_a_space() {
         let text = "a ".repeat(100);
         let cut = truncate(text.trim(), 160);
         assert!(cut.chars().count() <= 160);
@@ -87,7 +87,7 @@ mod tests {
     }
 
     #[test]
-    fn escapes_like_rails() {
+    fn escapes_the_five_html_characters() {
         assert_eq!(
             escape(r#"<a href="x">'&'</a>"#),
             "&lt;a href=&quot;x&quot;&gt;&#39;&amp;&#39;&lt;/a&gt;"

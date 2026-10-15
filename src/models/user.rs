@@ -7,7 +7,7 @@ use crate::db::Db;
 
 pub const PHONE_PREFIXES: [&str; 2] = ["+420", "+43"];
 
-/// The profile fields, in the order the Rails app lists them.
+/// The profile fields, in the order the profile form shows them.
 pub const PROFILE_FIELDS: [&str; 16] = [
     "first_name",
     "last_name",

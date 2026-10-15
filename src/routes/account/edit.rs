@@ -14,7 +14,7 @@ use crate::session::Flash;
 use crate::views::{self, Page, redirect};
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };
@@ -24,7 +24,7 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
 }
 
 pub async fn update(State(state): State<AppState>, req: Req, form: FormData) -> Result {
-    let current = match require_login(&req) {
+    let current = match require_login(&state, &req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),
     };

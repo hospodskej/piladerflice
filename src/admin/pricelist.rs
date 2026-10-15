@@ -58,7 +58,7 @@ pub fn fields_of(category: &str) -> &'static [&'static str] {
         .unwrap_or(&[])
 }
 
-/// Rails' order: a known category, a price, a name where the table has
+/// In this order: a known category, a price, a name where the table has
 /// one, the wood where it is firewood.
 pub fn validate(values: &Values) -> Errors {
     let mut errors = Errors::new();

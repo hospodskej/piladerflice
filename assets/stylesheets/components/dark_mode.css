@@ -73,22 +73,20 @@ html.dark-mode .theme-toggle-thumb {
 
 /* Filter-invert dark mode: flips the whole page's colors, then flips
    photographic content (product photos, embeds) back so it stays true-color.
-   What's left relying on this: the mobile sidebar, cookie banner, and cart
-   modal - everything else (header, main, footer) now cancels this and uses
+   What's left relying on this: the mobile sidebar and cookie banner -
+   everything else (header, main, footer, cart modal) cancels this or uses
    real dark colors instead, since the filter can't give a real "theme", it
    can only preserve or mangle whatever the light-mode color already was. */
 html.dark-mode .page-wrapper,
 html.dark-mode .mobile-sidebar,
 html.dark-mode .sidebar-overlay,
 html.dark-mode .cookie-consent-banner,
-html.dark-mode .cart-modal-backdrop,
 html.dark-mode .sticky-logo-bar {
     filter: invert(1) hue-rotate(180deg);
 }
 
 html.dark-mode .mobile-sidebar img:not(.logo):not(.sidebar-logo):not(.footer-logo),
-html.dark-mode .cookie-consent-banner img,
-html.dark-mode .cart-modal-backdrop img {
+html.dark-mode .cookie-consent-banner img {
     filter: invert(1) hue-rotate(180deg);
 }
 
@@ -438,6 +436,20 @@ html.dark-mode .cart-empty {
 
 html.dark-mode .cart-item {
     border-bottom-color: #2b2f35;
+}
+
+/* The "added to cart" popup: real dark colors (it used to be inverted by
+   the filter above, which turned its light text dark on the dark box). */
+html.dark-mode .cart-modal {
+    background-color: #1f2226;
+}
+
+html.dark-mode .cart-modal-close {
+    color: #a8adb5;
+}
+
+html.dark-mode .cart-modal-close:hover {
+    color: #f2f3f5;
 }
 
 html.dark-mode .cart-item-desc,

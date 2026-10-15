@@ -117,7 +117,7 @@ async fn signing_in_survives_the_browser_closing_until_signing_out() {
     assert_eq!(page.status, StatusCode::OK);
     page.assert_contains(r#"href="/muj-ucet""#);
 
-    let page = browser.post("/odhlaseni", &[("_method", "delete")]).await;
+    let page = browser.post("/odhlaseni", &[]).await;
     assert_eq!(page.location(), "/");
     assert!(!browser.cookie_header().contains("_pila_login="));
     browser.get("/").await.assert_contains("Byli jste odhlášeni.");
@@ -134,7 +134,7 @@ async fn a_stolen_login_cookie_is_useless_once_signed_out() {
     let app = TestApp::with_accounts().await;
     let mut browser = signed_in(&app, CUSTOMER).await;
     let copied = browser.cookie_header().to_string();
-    browser.post("/odhlaseni", &[("_method", "delete")]).await;
+    browser.post("/odhlaseni", &[]).await;
 
     let mut thief = app.browser();
     thief.set_cookie_header(&copied);
@@ -150,9 +150,9 @@ async fn registering_checks_the_form_like_rails() {
         .post(
             "/registrace",
             &[
-                ("user[email_address]", CUSTOMER),
-                ("user[password]", "kratke"),
-                ("user[password_confirmation]", "jine"),
+                ("email_address", CUSTOMER),
+                ("password", "kratke"),
+                ("password_confirmation", "jine"),
             ],
         )
         .await;
@@ -167,9 +167,9 @@ async fn registering_checks_the_form_like_rails() {
         .post(
             "/registrace",
             &[
-                ("user[email_address]", " Nova@Example.com"),
-                ("user[password]", "heslo12345"),
-                ("user[password_confirmation]", "heslo12345"),
+                ("email_address", " Nova@Example.com"),
+                ("password", "heslo12345"),
+                ("password_confirmation", "heslo12345"),
             ],
         )
         .await;
@@ -196,17 +196,15 @@ async fn nobody_can_make_themselves_an_admin() {
         .post(
             "/registrace",
             &[
-                ("user[email_address]", "hacker@example.com"),
-                ("user[password]", "heslo12345"),
-                ("user[password_confirmation]", "heslo12345"),
-                ("user[role]", "admin"),
+                ("email_address", "hacker@example.com"),
+                ("password", "heslo12345"),
+                ("password_confirmation", "heslo12345"),
+                ("role", "admin"),
             ],
         )
         .await;
     browser.get("/muj-ucet/upravit").await;
-    browser
-        .post("/muj-ucet/upravit", &[("_method", "patch"), ("user[role]", "admin")])
-        .await;
+    browser.post("/muj-ucet/upravit", &[("role", "admin")]).await;
     let role: String = sqlx::query_scalar("SELECT role FROM users WHERE email_address = 'hacker@example.com'")
         .fetch_one(&app.state.db)
         .await
@@ -226,13 +224,11 @@ async fn the_profile_is_saved_with_the_phone_put_together() {
         .post(
             "/muj-ucet/upravit",
             &[
-                ("_method", "patch"),
-                ("user[first_name]", "Jana"),
-                ("user[phone_prefix]", "+420"),
-                ("user[phone_number]", " 602 111 222 "),
-                ("user[company_purchase]", "0"),
-                ("user[company_purchase]", "1"),
-                ("user[company_name]", "Pila s.r.o."),
+                ("first_name", "Jana"),
+                ("phone_prefix", "+420"),
+                ("phone_number", " 602 111 222 "),
+                ("company_purchase", "1"),
+                ("company_name", "Pila s.r.o."),
             ],
         )
         .await;
@@ -274,11 +270,7 @@ async fn empty_details_stay_empty_and_never_read_none() {
     browser
         .post(
             "/kosik/doprava",
-            &[
-                ("_method", "patch"),
-                ("shipping_method", "pickup"),
-                ("payment_method", "cash"),
-            ],
+            &[("shipping_method", "pickup"), ("payment_method", "cash")],
         )
         .await;
     browser.get("/kosik/udaje").await.assert_lacks(r#"value="None""#);
@@ -297,11 +289,7 @@ async fn checkout_is_filled_from_the_account_and_saved_back() {
     browser
         .post(
             "/kosik/doprava",
-            &[
-                ("_method", "patch"),
-                ("shipping_method", "pickup"),
-                ("payment_method", "cash"),
-            ],
+            &[("shipping_method", "pickup"), ("payment_method", "cash")],
         )
         .await;
     let page = browser.get("/kosik/udaje").await;
@@ -313,7 +301,6 @@ async fn checkout_is_filled_from_the_account_and_saved_back() {
         .post(
             "/kosik/udaje",
             &[
-                ("_method", "patch"),
                 ("first_name", "Karel"),
                 ("last_name", "Dvořák"),
                 ("email", CUSTOMER),
@@ -370,11 +357,7 @@ async fn the_picture_is_cleaned_shown_only_to_its_owner_and_removable() {
 
     // Not a picture.
     let page = browser
-        .post_file(
-            "/muj-ucet/profilovy-obrazek",
-            &[("_method", "patch")],
-            ("avatar", "x.gif", b"GIF89a....."),
-        )
+        .post_file("/muj-ucet/profilovy-obrazek", &[], ("avatar", "x.gif", b"GIF89a....."))
         .await;
     assert_eq!(page.location(), "/muj-ucet/upravit");
     browser
@@ -383,11 +366,7 @@ async fn the_picture_is_cleaned_shown_only_to_its_owner_and_removable() {
         .assert_contains("Podporujeme pouze obrázky JPG, PNG a WebP.");
 
     let page = browser
-        .post_file(
-            "/muj-ucet/profilovy-obrazek",
-            &[("_method", "patch")],
-            ("avatar", "ja.png", &png()),
-        )
+        .post_file("/muj-ucet/profilovy-obrazek", &[], ("avatar", "ja.png", &png()))
         .await;
     assert_eq!(page.location(), "/muj-ucet/upravit");
     let edit = browser.get("/muj-ucet/upravit").await;
@@ -408,9 +387,7 @@ async fn the_picture_is_cleaned_shown_only_to_its_owner_and_removable() {
     let page = app.browser().get("/muj-ucet/profilovy-obrazek").await;
     assert_eq!(page.location(), "/prihlaseni");
 
-    let page = browser
-        .post("/muj-ucet/profilovy-obrazek", &[("_method", "delete")])
-        .await;
+    let page = browser.post("/muj-ucet/profilovy-obrazek/smazat", &[]).await;
     assert_eq!(page.location(), "/muj-ucet/upravit");
     browser
         .get("/muj-ucet/upravit")
@@ -430,11 +407,7 @@ async fn the_picture_is_cleaned_shown_only_to_its_owner_and_removable() {
     let mut last = None;
     for _ in 0..9 {
         browser
-            .post_file(
-                "/muj-ucet/profilovy-obrazek",
-                &[("_method", "patch")],
-                ("avatar", "x.gif", b"GIF"),
-            )
+            .post_file("/muj-ucet/profilovy-obrazek", &[], ("avatar", "x.gif", b"GIF"))
             .await;
         last = Some(browser.get("/muj-ucet/upravit").await);
     }

@@ -6,7 +6,7 @@ mod edit;
 mod reorder;
 mod show;
 
-pub use avatar::{change as avatar_change, destroy as avatar_destroy, show as avatar, update as avatar_update};
+pub use avatar::{destroy as avatar_destroy, show as avatar, update as avatar_update};
 pub use edit::{show as edit, update};
 pub use reorder::reorder;
 pub use show::show;

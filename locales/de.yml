@@ -668,36 +668,21 @@ shared:
       akat: "Akazie"
       jasan: "Esche"
 
-activerecord:
-  errors:
-    models:
-      order:
-        attributes:
-          company_name:
-            blank: "Beim Kauf als Firma muss der Firmenname angegeben werden"
-          delivery_street:
-            blank: "Bei abweichender Lieferadresse muss Straße und Hausnummer angegeben werden"
-          delivery_city:
-            blank: "Bei abweichender Lieferadresse muss die Stadt angegeben werden"
-          delivery_zip:
-            blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
-          delivery_country:
-            blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"
-      user:
-        attributes:
-          email_address:
-            blank: "darf nicht leer sein"
-            taken: "ist bereits registriert"
-          password:
-            blank: "darf nicht leer sein"
-            too_short: "ist zu kurz (mindestens {count} Zeichen)"
-          password_confirmation:
-            confirmation: "stimmt nicht mit dem Passwort überein"
-  attributes:
-    user:
-      email_address: "E-Mail"
-      password: "Passwort"
-      password_confirmation: "Passwort-Bestätigung"
+# Messages about forms that weren't filled in right.
+validation:
+  registration:
+    password_blank: "Passwort darf nicht leer sein"
+    password_too_long: "Passwort ist zu lang (höchstens {count} Bytes)"
+    password_too_short: "Passwort ist zu kurz (mindestens {count} Zeichen)"
+    password_confirmation: "Passwort-Bestätigung stimmt nicht mit dem Passwort überein"
+    email_blank: "E-Mail darf nicht leer sein"
+    email_taken: "E-Mail ist bereits registriert"
+  order:
+    company_name: "Beim Kauf als Firma muss der Firmenname angegeben werden"
+    delivery_street: "Bei abweichender Lieferadresse muss Straße und Hausnummer angegeben werden"
+    delivery_city: "Bei abweichender Lieferadresse muss die Stadt angegeben werden"
+    delivery_zip: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
+    delivery_country: "Bei abweichender Lieferadresse muss das Land angegeben werden"
 
 order_mailer:
   greeting: "Guten Tag {name},"

@@ -5,7 +5,7 @@
     {% with current_step = 2 %}{% include "shared/checkout_stepper.html" %}{% endwith %}
 
     <div class="checkout-layout">
-      <form class="checkout-main-col" action="{{ path('/kosik/doprava') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+      <form class="checkout-main-col" action="{{ path('/kosik/doprava') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
         <div class="checkout-box">
           <h3 class="checkout-box-title">{{ t("checkout.delivery_country_label") }}</h3>

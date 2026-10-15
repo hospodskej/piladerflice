@@ -1,5 +1,5 @@
-//! /cart_items/{id}: change a line's quantity (PATCH) or remove it
-//! (DELETE). Rails-style forms send both as POST with a hidden `_method`.
+//! POST /cart_items/{id}: change a line's quantity;
+//! POST /cart_items/{id}/delete: remove it.
 
 use axum::extract::{Path, State};
 use axum::http::StatusCode;
@@ -11,15 +11,6 @@ use crate::forms::FormData;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::views::{redirect, turbo};
-
-/// POST with `_method=patch` or `_method=delete`.
-pub async fn change(state: State<AppState>, req: Req, id: Path<String>, form: FormData) -> Result {
-    match form.method().as_str() {
-        "delete" => destroy(state, req, id, form).await,
-        "patch" | "put" => update(state, req, id, form).await,
-        _ => Ok(StatusCode::METHOD_NOT_ALLOWED.into_response()),
-    }
-}
 
 pub async fn update(State(state): State<AppState>, req: Req, Path(id): Path<String>, form: FormData) -> Result {
     let Some(quantity) = form.get("quantity") else {

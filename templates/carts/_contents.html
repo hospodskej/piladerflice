@@ -23,7 +23,7 @@
           </div>
 
           <div class="col-qty">
-            <form data-controller="auto-submit" action="{{ path('/cart_items/' ~ item.id) }}" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+            <form data-controller="auto-submit" action="{{ path('/cart_items/' ~ item.id) }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
               <input type="number" name="quantity" value="{{ item.quantity }}" min="1" step="1"
                      class="qty-input" data-action="change->auto-submit#submit"
                      aria-label="{{ t('cart.table_quantity') }}">
@@ -35,7 +35,7 @@
           <div class="col-price-incl"><strong>{{ item.total }}</strong></div>
 
           <div class="col-remove">
-            <form class="button_to" method="post" action="{{ path('/cart_items/' ~ item.id) }}"><input type="hidden" name="_method" value="delete"><button class="cart-remove-btn" aria-label="{{ t('cart.remove_aria') }}" type="submit">×</button><input type="hidden" name="authenticity_token" value="{{ csrf_token }}"></form>
+            <form class="button_to" method="post" action="{{ path('/cart_items/' ~ item.id ~ '/delete') }}"><button class="cart-remove-btn" aria-label="{{ t('cart.remove_aria') }}" type="submit">×</button><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></form>
           </div>
         </div>
       {% endfor %}

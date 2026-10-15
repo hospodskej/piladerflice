@@ -8,5 +8,5 @@ mod show;
 mod streams;
 
 pub use add::add;
-pub use change::{change, destroy, update};
+pub use change::{destroy, update};
 pub use show::show;

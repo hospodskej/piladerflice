@@ -16,7 +16,7 @@
     {% endif %}
 
     <div class="checkout-layout">
-      <form class="checkout-main-col" action="{{ path('/kosik/souhrn') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+      <form class="checkout-main-col" action="{{ path('/kosik/souhrn') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
         <div class="checkout-box">
           <h3 class="checkout-box-title">{{ t("checkout.order_contents") }}</h3>

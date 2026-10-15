@@ -1,6 +1,6 @@
 {# Puts a variant into the cart. Expects `variant`; `show_qty` (default
    true) shows the quantity stepper. #}
-<form class="add-to-cart-form" action="{{ path('/cart_items') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+<form class="add-to-cart-form" action="{{ path('/cart_items') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   <input type="hidden" name="catalog_variant_id" id="catalog_variant_id" value="{{ variant.id }}">
   <div class="qty-cart-row">
     {% if show_qty is not defined or show_qty %}

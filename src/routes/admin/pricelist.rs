@@ -10,7 +10,7 @@ use super::params::RecordId;
 use crate::AppState;
 use crate::admin::pricelist::{self, CATEGORY_FIELDS, PERMITTED, SINGLE_ITEM_CATEGORIES, TABLE};
 use crate::admin::record::Values;
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -52,7 +52,7 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     let category = values.get("category").unwrap_or_default().to_string();
     let errors = pricelist::validate(&state.translations, &values);
     if !errors.is_empty() {
@@ -91,7 +91,7 @@ pub async fn change(
     }
     // The category stays: an item doesn't move to another table.
     let editable: Vec<&str> = PERMITTED.into_iter().filter(|name| *name != "category").collect();
-    TABLE.assign(&mut values, &form, &editable);
+    TABLE.assign(&mut values, &form.fields, &editable);
     let errors = pricelist::validate(&state.translations, &values);
     if errors.is_empty() {
         TABLE.update(&state.db, id, &values).await?;

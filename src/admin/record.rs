@@ -13,7 +13,7 @@ use serde::Serialize;
 use sqlx::Row;
 
 use crate::db::Db;
-use crate::forms::Fields;
+use crate::forms::FormData;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Kind {
@@ -126,12 +126,12 @@ impl Table {
 
     /// Takes the submitted `param[name]` fields that may be changed
     /// (Rails' `params.permit`); fields not sent stay as they are.
-    pub fn assign(&self, values: &mut Values, form: &impl Fields, permitted: &[&str]) {
+    pub fn assign(&self, values: &mut Values, form: &FormData, permitted: &[&str]) {
         for name in permitted {
             if self.column(name).is_none() {
                 continue;
             }
-            if let Some(value) = form.field(&format!("{}[{name}]", self.param)) {
+            if let Some(value) = form.get(&format!("{}[{name}]", self.param)) {
                 values.set(name, Some(value.to_string()));
             }
         }

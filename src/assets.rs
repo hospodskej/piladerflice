@@ -21,7 +21,7 @@ pub fn load(root: &Path, watch: bool) -> std::io::Result<Assets> {
 pub fn importmap() -> Importmap {
     Importmap::new()
         .pin("application", "application.js")
-        .pin("@hotwired/turbo-rails", "turbo.min.js")
+        .pin("@hotwired/turbo", "turbo.min.js")
         .pin("@hotwired/stimulus", "stimulus.min.js")
         .pin("@hotwired/stimulus-loading", "stimulus-loading.js")
         .pin_all_from("controllers")

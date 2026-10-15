@@ -750,6 +750,22 @@ activerecord:
       password: "Heslo"
       password_confirmation: "Heslo znovu"
 
+# Messages about forms that weren't filled in right.
+validation:
+  registration:
+    password_blank: "Heslo musí být vyplněno"
+    password_too_long: "Heslo je příliš dlouhé (nejvýše {count} bajtů)"
+    password_too_short: "Heslo je příliš krátké (nejméně {count} znaků)"
+    password_confirmation: "Heslo znovu se neshoduje s heslem"
+    email_blank: "E-mail musí být vyplněn"
+    email_taken: "E-mail je již zaregistrován"
+  order:
+    company_name: "Při nákupu na firmu je potřeba vyplnit název firmy"
+    delivery_street: "Při odlišné doručovací adrese je potřeba vyplnit ulici a č.p."
+    delivery_city: "Při odlišné doručovací adrese je potřeba vyplnit město"
+    delivery_zip: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
+    delivery_country: "Při odlišné doručovací adrese je potřeba vyplnit stát"
+
 order_mailer:
   greeting: "Dobrý den, {name},"
   thank_you: "děkujeme za Vaši objednávku. Zde je její shrnutí:"

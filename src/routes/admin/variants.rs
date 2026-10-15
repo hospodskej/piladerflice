@@ -14,7 +14,7 @@ use crate::admin::images;
 use crate::admin::products;
 use crate::admin::record::Values;
 use crate::admin::variants::{self, PERMITTED, TABLE};
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::models::upload::{Owner, image_of};
 use crate::models::validation::Errors;
 use crate::request::Req;
@@ -63,7 +63,7 @@ pub async fn create(
         return Ok(not_found::page(State(state), req).await);
     };
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     values.set("catalog_product_id", Some(product.id.to_string()));
     let mut errors = variants::validate(&state.db, &state.translations, &values, None).await?;
     let image = chosen_image(&form, "catalog_variant[image]", &mut errors).await;
@@ -118,7 +118,7 @@ pub async fn change(
         }
         _ => return Ok(not_found::page(State(state), req).await),
     }
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     let mut errors = variants::validate(&state.db, &state.translations, &values, Some(id)).await?;
     let image = chosen_image(&form, "catalog_variant[image]", &mut errors).await;
     if !errors.is_empty() {

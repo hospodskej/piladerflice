@@ -17,6 +17,20 @@ pub const FIELD: &str = "csrf_token";
 /// The request header that carries the token (Turbo and fetch requests).
 pub const HEADER: &str = "x-csrf-token";
 
+/// The session's token as the request brought it (empty when the session
+/// has none yet). The [`crate::SessionLayer`] puts it into every request's
+/// extensions, so code that doesn't know the session's data type (form
+/// extractors) can check a form: `request.extensions().get::<RequestToken>()`.
+#[derive(Clone, Debug, Default)]
+pub struct RequestToken(pub String);
+
+impl RequestToken {
+    /// Whether `given` is the token.
+    pub fn verify(&self, given: &str) -> bool {
+        matches(&self.0, given)
+    }
+}
+
 /// A new random token: 32 bytes, base64.
 pub fn new_token() -> String {
     let mut bytes = [0u8; 32];

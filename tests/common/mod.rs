@@ -167,7 +167,7 @@ impl Browser<'_> {
 
     /// Submits a form with the page's token.
     pub async fn post(&mut self, path: &str, fields: &[(&str, &str)]) -> Page {
-        let mut all = vec![("authenticity_token", self.token.clone())];
+        let mut all = vec![("csrf_token", self.token.clone())];
         all.extend(fields.iter().map(|(k, v)| (*k, v.to_string())));
         self.post_raw(path, &all).await
     }
@@ -191,7 +191,7 @@ impl Browser<'_> {
     pub async fn post_file(&mut self, path: &str, fields: &[(&str, &str)], file: (&str, &str, &[u8])) -> Page {
         let boundary = "----pilaTestBoundary";
         let mut body: Vec<u8> = Vec::new();
-        let mut all = vec![("authenticity_token", self.token.clone())];
+        let mut all = vec![("csrf_token", self.token.clone())];
         all.extend(fields.iter().map(|(k, v)| (*k, v.to_string())));
         for (name, value) in all {
             body.extend(

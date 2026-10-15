@@ -21,7 +21,7 @@
           <a class="btn-primary account-action-btn" href="/admin">{{ t("auth.go_to_admin") }}</a>
         {% endif %}
         <a class="btn-outline-dark account-action-btn" href="{{ path('/muj-ucet/upravit') }}">{{ t("auth.edit_profile_link") }}</a>
-        <form class="button_to" method="post" action="{{ path('/odhlaseni') }}"><input type="hidden" name="_method" value="delete"><button class="btn-outline-dark account-action-btn" type="submit">{{ t("auth.logout") }}</button><input type="hidden" name="authenticity_token" value="{{ csrf_token }}"></form>
+        <form class="button_to" method="post" action="{{ path('/odhlaseni') }}"><button class="btn-outline-dark account-action-btn" type="submit">{{ t("auth.logout") }}</button><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></form>
       </div>
     </header>
 
@@ -48,7 +48,7 @@
 
               <span class="order-card-total">{{ order.total }}</span>
 
-              <form class="button_to" method="post" action="{{ path('/muj-ucet/objednavky/' ~ order.id ~ '/znovu-objednat') }}"><button class="btn-outline-dark order-card-reorder-btn" type="submit">{{ t("auth.reorder_button") }}</button><input type="hidden" name="authenticity_token" value="{{ csrf_token }}"></form>
+              <form class="button_to" method="post" action="{{ path('/muj-ucet/objednavky/' ~ order.id ~ '/znovu-objednat') }}"><button class="btn-outline-dark order-card-reorder-btn" type="submit">{{ t("auth.reorder_button") }}</button><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></form>
             </div>
           {% endfor %}
         </div>

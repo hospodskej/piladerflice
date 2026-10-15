@@ -24,7 +24,7 @@ use chrono::NaiveDateTime;
 use crate::AppState;
 use crate::admin::images::{self, Image};
 use crate::czech_time;
-use crate::forms::upload::{MAX_ADMIN_UPLOAD_BYTES, UploadForm};
+use crate::forms::{MAX_ADMIN_UPLOAD_BYTES, UploadForm};
 use crate::models::validation::Errors;
 use crate::money::delimit;
 
@@ -117,7 +117,7 @@ pub fn router(state: AppState) -> Router<AppState> {
 /// `_method` ("patch", "delete").
 fn method_of(http: &Method, form: &UploadForm) -> String {
     if http == Method::POST {
-        form.method()
+        form.get("_method").unwrap_or("post").to_lowercase()
     } else {
         http.as_str().to_ascii_lowercase()
     }

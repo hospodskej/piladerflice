@@ -15,7 +15,7 @@ use std::path::Path;
 use image::{ImageDecoder, ImageFormat, ImageReader};
 
 use crate::db::Db;
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::models::upload::Owner;
 use crate::storage::{self, NewFile};
 

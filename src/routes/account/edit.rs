@@ -37,28 +37,28 @@ pub async fn update(State(state): State<AppState>, req: Req, form: FormData) -> 
     Ok(redirect::to(&req.path_for("/muj-ucet")))
 }
 
-/// The submitted profile: the fields that were sent, checkboxes as
-/// "true"/"false", and the phone put together from prefix and number.
+/// The submitted profile: the text fields that were sent, the checkboxes
+/// ("true", or "false" when not checked), and the phone put together from
+/// prefix and number.
 fn profile_fields(form: &FormData) -> Vec<(String, Option<String>)> {
     let mut fields: Vec<(String, Option<String>)> = PROFILE_FIELDS
         .iter()
         .filter(|name| **name != "phone")
         .filter_map(|name| {
-            let value = form.get(&format!("user[{name}]"))?;
             let value = match *name {
                 "company_purchase" | "delivery_address_different" => {
-                    (!matches!(value.trim(), "" | "0" | "false" | "off")).to_string()
+                    form.get(name).is_some_and(sapwood_forms::de::is_true).to_string()
                 }
-                _ => value.to_string(),
+                _ => form.get(name)?.to_string(),
             };
             Some((name.to_string(), Some(value)))
         })
         .collect();
     let prefix = form
-        .get("user[phone_prefix]")
+        .get("phone_prefix")
         .filter(|prefix| PHONE_PREFIXES.contains(prefix))
         .unwrap_or(PHONE_PREFIXES[0]);
-    let number = form.get("user[phone_number]").unwrap_or_default().trim();
+    let number = form.get("phone_number").unwrap_or_default().trim();
     fields.push((
         "phone".into(),
         (!number.is_empty()).then(|| format!("{prefix} {number}")),
@@ -72,15 +72,13 @@ mod tests {
 
     #[test]
     fn puts_the_phone_together_and_reads_checkboxes() {
-        let form = FormData::parse(
-            "user%5Bphone_prefix%5D=%2B43&user%5Bphone_number%5D=+660+1&user%5Bcompany_purchase%5D=0&user%5Bcompany_purchase%5D=1&user%5Brole%5D=admin"
-                .as_bytes(),
-        );
+        let form = FormData::parse(b"phone_prefix=%2B43&phone_number=+660+1&company_purchase=1&role=admin");
         let fields = profile_fields(&form);
         assert!(fields.contains(&("phone".into(), Some("+43 660 1".into()))));
         assert!(fields.contains(&("company_purchase".into(), Some("true".into()))));
+        assert!(fields.contains(&("delivery_address_different".into(), Some("false".into()))));
         assert!(!fields.iter().any(|(name, _)| name == "role"));
-        let fields = profile_fields(&FormData::parse(b"user%5Bphone_prefix%5D=%2B1&user%5Bphone_number%5D="));
+        let fields = profile_fields(&FormData::parse(b"phone_prefix=%2B1&phone_number="));
         assert!(fields.contains(&("phone".into(), None)));
     }
 }

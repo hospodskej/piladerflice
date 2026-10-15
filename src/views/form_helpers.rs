@@ -274,7 +274,7 @@ fn csrf_token(state: &State) -> String {
 /// The hidden form protection field.
 fn token_field(state: &State) -> Value {
     Value::from_safe_string(format!(
-        r#"<input type="hidden" name="authenticity_token" value="{}" />"#,
+        r#"<input type="hidden" name="csrf_token" value="{}" />"#,
         escape(&csrf_token(state))
     ))
 }
@@ -386,7 +386,7 @@ mod tests {
                 r#"{{ button_to("Smazat", "/admin/orders/5", method="delete", class="admin-danger-btn", form_confirm="Opravdu?") }}"#,
                 &form(&[])
             ),
-            r#"<form data-turbo-confirm="Opravdu?" class="button_to" method="post" action="/admin/orders/5"><input type="hidden" name="_method" value="delete" /><button class="admin-danger-btn" type="submit">Smazat</button><input type="hidden" name="authenticity_token" value="TOKEN" /></form>"#
+            r#"<form data-turbo-confirm="Opravdu?" class="button_to" method="post" action="/admin/orders/5"><input type="hidden" name="_method" value="delete" /><button class="admin-danger-btn" type="submit">Smazat</button><input type="hidden" name="csrf_token" value="TOKEN" /></form>"#
         );
     }
 }

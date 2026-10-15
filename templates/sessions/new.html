@@ -5,7 +5,7 @@
     <div class="auth-box">
       <h1 class="auth-box-title">{{ t("auth.login_title") }}</h1>
       <div class="auth-box-body">
-        <form class="auth-form" action="{{ path('/prihlaseni') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+        <form class="auth-form" action="{{ path('/prihlaseni') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
           <div class="form-group">
             <label for="email_address">{{ t("kontakt.form_email") }}</label>
             <input type="email" name="email_address" id="email_address" required autofocus>

@@ -6,8 +6,7 @@ mod common;
 use axum::http::{StatusCode, header};
 use common::{Browser, TestApp};
 
-const DETAILS: [(&str, &str); 9] = [
-    ("_method", "patch"),
+const DETAILS: [(&str, &str); 8] = [
     ("first_name", "Jana"),
     ("last_name", "Nováková"),
     ("email", "jana@example.com"),
@@ -34,11 +33,7 @@ async fn through_details(browser: &mut Browser<'_>, shipping: &str, extra: &[(&s
     let page = browser
         .post(
             "/kosik/doprava",
-            &[
-                ("_method", "patch"),
-                ("shipping_method", shipping),
-                ("payment_method", "cash"),
-            ],
+            &[("shipping_method", shipping), ("payment_method", "cash")],
         )
         .await;
     assert_eq!(page.location(), "/kosik/udaje");
@@ -96,13 +91,11 @@ async fn quantities_change_and_lines_go() {
     let mut browser = with_cart(&app).await;
     browser.get("/kosik").await;
     browser.turbo = true;
-    let page = browser
-        .post("/cart_items/10", &[("_method", "patch"), ("quantity", "4")])
-        .await;
+    let page = browser.post("/cart_items/10", &[("quantity", "4")]).await;
     page.assert_contains(r#"<turbo-stream action="replace" target="cart-page-contents">"#);
     page.assert_contains("36 000 Kč");
 
-    let page = browser.post("/cart_items/10", &[("_method", "delete")]).await;
+    let page = browser.post("/cart_items/10/delete", &[]).await;
     page.assert_contains(r#"<p class="cart-empty">"#);
     browser.turbo = false;
     assert_eq!(browser.get("/kosik/doprava").await.location(), "/kosik");

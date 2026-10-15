@@ -18,6 +18,7 @@ mod legal;
 pub(crate) mod not_found;
 mod product_range;
 mod public_files;
+mod rejections;
 mod sitemap;
 mod sluzby;
 mod sortiment;
@@ -34,7 +35,7 @@ use tower_http::trace::TraceLayer;
 
 use crate::AppState;
 use crate::assets::Assets;
-use crate::forms::upload::MAX_UPLOAD_BYTES;
+use crate::forms::MAX_UPLOAD_BYTES;
 
 pub fn router(state: AppState) -> Router {
     Router::new()
@@ -56,45 +57,32 @@ pub fn router(state: AppState) -> Router {
         .route("/sortiment/vyrobni-zbytky", product_range::page("vyrobni_zbytky"))
         .route("/eshop", get(eshop::index))
         .route("/eshop/{key}", get(eshop::show))
-        // Cart and checkout (Rails-style forms send PATCH/DELETE as POST + _method)
+        // Cart and checkout
         .route("/kosik", get(cart::show))
         .route("/cart_items", post(cart::add))
-        .route(
-            "/cart_items/{id}",
-            post(cart::change).patch(cart::update).delete(cart::destroy),
-        )
+        .route("/cart_items/{id}", post(cart::update))
+        .route("/cart_items/{id}/delete", post(cart::destroy))
         .route(
             "/kosik/doprava",
-            get(checkout::shipping)
-                .post(checkout::update_shipping)
-                .patch(checkout::update_shipping),
+            get(checkout::shipping).post(checkout::update_shipping),
         )
-        .route(
-            "/kosik/udaje",
-            get(checkout::details)
-                .post(checkout::update_details)
-                .patch(checkout::update_details),
-        )
+        .route("/kosik/udaje", get(checkout::details).post(checkout::update_details))
         .route("/kosik/souhrn", get(checkout::summary).post(checkout::confirm))
         .route("/kosik/dekujeme", get(checkout::confirmation))
         .route("/inquiries", post(inquiries::create))
         // Accounts
         .route("/prihlaseni", get(auth::login_page).post(auth::login))
-        .route("/odhlaseni", post(auth::logout).delete(auth::logout))
+        .route("/odhlaseni", post(auth::logout))
         .route("/registrace", get(auth::register_page).post(auth::register))
         .route("/muj-ucet", get(account::show))
-        .route(
-            "/muj-ucet/upravit",
-            get(account::edit).post(account::update).patch(account::update),
-        )
+        .route("/muj-ucet/upravit", get(account::edit).post(account::update))
         .route(
             "/muj-ucet/profilovy-obrazek",
             get(account::avatar)
-                .post(account::avatar_change)
-                .patch(account::avatar_update)
-                .delete(account::avatar_destroy)
+                .post(account::avatar_update)
                 .layer(DefaultBodyLimit::max(MAX_UPLOAD_BYTES)),
         )
+        .route("/muj-ucet/profilovy-obrazek/smazat", post(account::avatar_destroy))
         .route("/muj-ucet/objednavky/{id}/znovu-objednat", post(account::reorder))
         // Admin (Czech only, admins only)
         .nest("/admin", admin::router(state.clone()))
@@ -103,6 +91,7 @@ pub fn router(state: AppState) -> Router {
         .route("/zasady-cookies", get(legal::cookies_policy))
         .route("/zasady-ochrany-osobnich-udaju", get(legal::privacy_policy))
         .fallback(public_files::or_not_found)
+        .layer(middleware::from_fn(rejections::page))
         .layer(middleware::from_fn_with_state(state.clone(), headers::add))
         .layer(TraceLayer::new_for_http())
         .with_state(state)

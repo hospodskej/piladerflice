@@ -81,7 +81,7 @@
       <button type="button" class="toggle-btn" data-target="stavebni">{{ t("kontakt.toggle_stavebni") }}</button>
     </div>
 
-    <form id="kalkulace-form" class="kalkulace-form" action="{{ path('/inquiries') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="{{ csrf_token }}">
+    <form id="kalkulace-form" class="kalkulace-form" action="{{ path('/inquiries') }}" accept-charset="UTF-8" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
       <input type="hidden" name="kalkulace_category" id="kalkulace-category-input" value="palivove">
       <h3 class="form-section-title">{{ t("kontakt.form_section_kontakt") }}</h3>
       <div class="kalkulace-grid-2">

@@ -20,14 +20,14 @@ pub async fn new(State(state): State<AppState>, req: Req) -> Result {
 }
 
 pub async fn create(State(state): State<AppState>, req: Req, form: FormData) -> Result {
-    let email = form.get("user[email_address]").unwrap_or_default();
-    let given = form.get("user[password]").unwrap_or_default();
+    let email = form.get("email_address").unwrap_or_default();
+    let given = form.get("password").unwrap_or_default();
     let email_taken = !email.trim().is_empty() && user::find_by_email(&state.db, email).await?.is_some();
     let errors = registration::errors(
         &Registration {
             email,
             password: given,
-            confirmation: form.get("user[password_confirmation]"),
+            confirmation: form.get("password_confirmation"),
             email_taken,
         },
         &state.translations,

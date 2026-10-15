@@ -6,7 +6,7 @@ use std::sync::LazyLock;
 use std::time::Duration;
 
 use axum::body::Body;
-use axum::extract::{FromRequest, FromRequestParts, Request, State};
+use axum::extract::State;
 use axum::http::{HeaderValue, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 
@@ -14,8 +14,7 @@ use super::require_login;
 use crate::AppState;
 use crate::accounts::avatar::{self, sanitize};
 use crate::accounts::rate_limit::RateLimit;
-use crate::forms::FormData;
-use crate::forms::upload::UploadForm;
+use crate::forms::{FormData, UploadForm};
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
@@ -56,37 +55,7 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     Ok(response)
 }
 
-/// POST: the upload form (multipart, `_method=patch`) or the remove button
-/// (a plain form, `_method=delete`).
-pub async fn change(State(state): State<AppState>, request: Request) -> Response {
-    let multipart = request
-        .headers()
-        .get(header::CONTENT_TYPE)
-        .and_then(|value| value.to_str().ok())
-        .is_some_and(|value| value.starts_with("multipart/form-data"));
-    let (mut parts, body) = request.into_parts();
-    let req = match Req::from_request_parts(&mut parts, &state).await {
-        Ok(req) => req,
-        Err(error) => return error.into_response(),
-    };
-    let request = Request::from_parts(parts, body);
-    if multipart {
-        match UploadForm::from_request(request, &state).await {
-            Ok(form) if form.get("_method").is_some_and(|m| m.eq_ignore_ascii_case("delete")) => {
-                remove(State(state), req).await.into_response()
-            }
-            Ok(form) => update(State(state), req, form).await.into_response(),
-            Err(refused) => refused.into_response(),
-        }
-    } else {
-        match FormData::from_request(request, &state).await {
-            Ok(form) if form.method() == "delete" => remove(State(state), req).await.into_response(),
-            Ok(_) => StatusCode::METHOD_NOT_ALLOWED.into_response(),
-            Err(refused) => refused.into_response(),
-        }
-    }
-}
-
+/// POST /muj-ucet/profilovy-obrazek: a new picture (multipart form).
 pub async fn update(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let current = match require_login(&req) {
         Ok(current) => current,
@@ -124,11 +93,8 @@ pub async fn update(State(state): State<AppState>, req: Req, form: UploadForm) -
     }
 }
 
-pub async fn destroy(state: State<AppState>, req: Req, _form: FormData) -> Result {
-    remove(state, req).await
-}
-
-async fn remove(State(state): State<AppState>, req: Req) -> Result {
+/// POST /muj-ucet/profilovy-obrazek/smazat: removes the picture.
+pub async fn destroy(State(state): State<AppState>, req: Req, _form: FormData) -> Result {
     let current = match require_login(&req) {
         Ok(current) => current,
         Err(redirect) => return Ok(*redirect),

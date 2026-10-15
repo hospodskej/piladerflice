@@ -7,7 +7,7 @@ use minijinja::{Value, context};
 use super::params::RecordId;
 use super::{czk, date, method_of};
 use crate::AppState;
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::locale::Locale;
 use crate::models::order::{Order, country_name};
 use crate::request::Req;

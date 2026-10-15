@@ -142,6 +142,7 @@ where
                 .and_then(|(name, _)| store::read(cookies, &settings.key, name));
             let session = Session::<T>::from_parts(store::load(cookies, &settings), login);
             request.extensions_mut().insert(session.clone());
+            request.extensions_mut().insert(session.request_csrf());
 
             let mut response = inner.call(request).await?;
             for value in session.set_cookie_headers(&settings) {

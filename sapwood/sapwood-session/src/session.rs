@@ -97,6 +97,12 @@ impl<T: SessionData> Session<T> {
         csrf::matches(&self.lock().stored.csrf, given)
     }
 
+    /// The token as the request brought it, for code that doesn't know the
+    /// session's data type (form extractors).
+    pub(crate) fn request_csrf(&self) -> csrf::RequestToken {
+        csrf::RequestToken(self.lock().stored.csrf.clone())
+    }
+
     /// The login cookie's value (e.g. the id of a login record), if signed in.
     pub fn login(&self) -> Option<String> {
         self.lock().login.clone()

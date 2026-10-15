@@ -81,8 +81,9 @@ impl Order {
     /// What is wrong with the order, as messages for the customer.
     pub fn errors(&self, translations: &Translations, locale: Locale) -> Vec<String> {
         let blank = |value: &Option<String>| value.as_deref().is_none_or(|text| text.trim().is_empty());
+        // A field of its own has its own message; the rest the general one.
         let message = |field: &str| {
-            let key = format!("activerecord.errors.models.order.attributes.{field}.blank");
+            let key = format!("validation.order.{field}");
             match translations.lookup(locale, &key).and_then(|value| value.as_str()) {
                 Some(text) => text.to_string(),
                 None => translations.text(locale, "checkout.submit_error", &[]),

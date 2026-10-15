@@ -13,7 +13,7 @@ use crate::admin::images;
 use crate::admin::promos::{self, PERMITTED, TABLE};
 use crate::admin::record::Values;
 use crate::czech_time;
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::models::content::weekly_promo;
 use crate::models::upload::{Owner, image_of};
 use crate::models::validation::Errors;
@@ -57,7 +57,7 @@ pub async fn new(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     let mut errors = Errors::default();
     let image = chosen_image(&form, "promo[image]", &mut errors).await;
     if !errors.is_empty() {
@@ -99,7 +99,7 @@ pub async fn change(
         }
         _ => return Ok(not_found::page(State(state), req).await),
     }
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     let mut errors = Errors::default();
     let image = chosen_image(&form, "promo[image]", &mut errors).await;
     if !errors.is_empty() {

@@ -9,7 +9,7 @@ use super::method_of;
 use super::params::RecordId;
 use crate::AppState;
 use crate::admin::options::{self, PERMITTED, TABLE, category_label, dropdown_fields, field_label};
-use crate::forms::upload::UploadForm;
+use crate::forms::UploadForm;
 use crate::locale::Locale;
 use crate::models::inquiry_options::INQUIRY_CATEGORIES;
 use crate::models::validation::to_sentence;
@@ -52,7 +52,7 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &PERMITTED);
     let errors = options::validate(&state.translations, &values);
     if !errors.is_empty() {
         let message = to_sentence(&state.translations, Locale::Cs, &errors.messages());
@@ -92,7 +92,7 @@ pub async fn change(
         _ => return Ok(not_found::page(State(state), req).await),
     }
     // An option stays in its list.
-    TABLE.assign(&mut values, &form, &["value", "value_de"]);
+    TABLE.assign(&mut values, &form.fields, &["value", "value_de"]);
     let errors = options::validate(&state.translations, &values);
     if errors.is_empty() {
         TABLE.update(&state.db, id, &values).await?;

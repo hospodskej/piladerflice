@@ -1,8 +1,8 @@
 namespace :admin do
-  desc "Creates or updates the admin user from ADMIN_EMAIL / ADMIN_PASSWORD (see .env.example)"
+  desc "Creates or updates the admin user from ADMIN_EMAIL / ADMIN_PASSWORD"
   task create_user: :environment do
-    email = ENV.fetch("ADMIN_EMAIL") { abort "Set ADMIN_EMAIL in your .env file first (see .env.example)." }
-    password = ENV.fetch("ADMIN_PASSWORD") { abort "Set ADMIN_PASSWORD in your .env file first (see .env.example)." }
+    email = ENV.fetch("ADMIN_EMAIL") { abort "Set ADMIN_EMAIL (e.g. in your .env file) first." }
+    password = ENV.fetch("ADMIN_PASSWORD") { abort "Set ADMIN_PASSWORD (e.g. in your .env file) first." }
 
     user = User.find_or_initialize_by(email_address: email)
     user.password = password

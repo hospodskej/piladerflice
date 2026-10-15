@@ -66,7 +66,7 @@ impl AppState {
         let mailer = Mailer::from_settings(&config.mail)?;
         let mail_settings = config.mail.clone();
         let cookie_key = Key::derive_from(config.secret_key_base.as_bytes());
-        let translations = Arc::new(Translations::load(&config.root.join("locales"))?);
+        let translations = Arc::new(crate::i18n::load(&config.root.join("locales"))?);
         let assets = Arc::new(Assets::new(assets::default_sources(&config.root), config.development)?);
         let templates = Templates::new(
             config.root.join("templates"),

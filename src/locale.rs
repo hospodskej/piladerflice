@@ -12,6 +12,12 @@ pub enum Locale {
     De,
 }
 
+impl AsRef<str> for Locale {
+    fn as_ref(&self) -> &str {
+        self.code()
+    }
+}
+
 impl Locale {
     pub const ALL: [Locale; 2] = [Locale::Cs, Locale::De];
 

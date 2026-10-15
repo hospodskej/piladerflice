@@ -1,0 +1,20 @@
+[package]
+name = "sapwood-i18n"
+description = "Translations for server-rendered Rust sites: YAML files per language, dotted keys, {name} placeholders, a fallback language and a MiniJinja t() function."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+keywords = ["i18n", "translations", "yaml", "minijinja", "web"]
+categories = ["internationalization", "web-programming", "template-engine"]
+readme = "README.md"
+
+[features]
+default = ["minijinja"]
+## The `t()` template function.
+minijinja = ["dep:minijinja"]
+
+[dependencies]
+serde_json = "1"
+serde-saphyr = "2"
+minijinja = { version = "2", optional = true }

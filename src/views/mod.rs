@@ -1,7 +1,7 @@
 //! HTML pages. Templates live in `templates/` and use Jinja syntax
 //! (MiniJinja), close to the ERB views of the Rails app:
 //!
-//! - `{{ t("nav.domu") }}`: a translation (`t("key", km=50)` fills `%{km}`)
+//! - `{{ t("nav.domu") }}`: a translation (`t("key", km=50)` fills `{km}`)
 //! - `{{ path("/kontakt#cenik") }}`: a site link in the current language
 //! - `{{ asset("logo-wm.webp") }}`: the fingerprinted URL of a static file
 //!

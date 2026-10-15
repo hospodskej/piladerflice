@@ -5,8 +5,8 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use minijinja::value::{Kwargs, Value};
-use minijinja::{AutoEscape, Environment, Error, State, path_loader};
+use minijinja::value::Value;
+use minijinja::{AutoEscape, Environment, Error, path_loader};
 use minijinja_autoreload::AutoReloader;
 
 use super::text::escape;
@@ -58,9 +58,7 @@ fn environment(dir: PathBuf, translations: Arc<Translations>, assets: Arc<Assets
     });
     env.set_lstrip_blocks(true);
 
-    env.add_function("t", move |state: &State, key: String, kwargs: Kwargs| {
-        functions::translate(&translations, state, &key, kwargs)
-    });
+    env.add_function("t", sapwood_i18n::jinja::function(translations, "locale"));
     env.add_function("path", functions::path);
     env.add_function("asset", move |logical: String| assets.url(&logical));
     form_helpers::register(&mut env);

@@ -1,3 +1,14 @@
+[workspace]
+members = [".", "sapwood/*"]
+resolver = "3"
+
+# Shared by the sapwood crates (the framework under sapwood/).
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.88"
+
 [package]
 name = "piladerflice"
 version = "0.1.0"
@@ -5,6 +16,7 @@ edition = "2024"
 publish = false
 
 [dependencies]
+sapwood-i18n = { path = "sapwood/sapwood-i18n" }
 dotenvy = "0.15"
 axum = { version = "0.8", features = ["macros", "multipart"] }
 tokio = { version = "1", features = ["full"] }
@@ -14,7 +26,6 @@ minijinja = { version = "2", features = ["loader", "json"] }
 minijinja-autoreload = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
-serde_yaml = "0.9"
 sha1 = "0.10"
 hex = "0.4"
 mime_guess = "2"

@@ -1,963 +1,962 @@
-cs:
-  site:
-    name: "Pila Derflice"
+site:
+  name: "Pila Derflice"
 
-  not_found:
-    title: "Stránka nenalezena"
-    heading: "Tady nic není"
-    text: "Stránku, kterou hledáte, jsme nenašli. Možná byla přesunuta nebo je v adrese překlep."
-    home: "Zpět na úvodní stránku"
-    alt: "Maskot Pily Derflice"
-    eshop: "Eshop"
-    sortiment: "Sortiment"
-    kontakt: "Kontakt"
+not_found:
+  title: "Stránka nenalezena"
+  heading: "Tady nic není"
+  text: "Stránku, kterou hledáte, jsme nenašli. Možná byla přesunuta nebo je v adrese překlep."
+  home: "Zpět na úvodní stránku"
+  alt: "Maskot Pily Derflice"
+  eshop: "Eshop"
+  sortiment: "Sortiment"
+  kontakt: "Kontakt"
 
-  meta:
-    home:
-      title: "Pila Derflice – palivové dřevo a řezivo u Znojma"
-      description: "Rodinná pila Derflice u Znojma: palivové dřevo, stavební a truhlářské řezivo, piliny a štěpka. Rychlý dovoz po Jižní Moravě i severním Rakousku."
-    kontakt:
-      title: "Kontakt a ceník"
-      description: "Kontakt, ceník a nezávazná kalkulace. Pila Derflice 66, Znojmo, Po–Pá 7:00–15:30, tel. +420 602 446 339, stepan.merta@seznam.cz."
-    sluzby:
-      title: "Služby"
-      description: "Služby pily Derflice: zakázková výroba, hoblování, doprava, impregnace a pořez nebo prodej kulatiny. Nezávazná cenová kalkulace."
-    sortiment:
-      title: "Sortiment"
-      description: "Sortiment pily Derflice: palivové dřevo, stavební a truhlářské řezivo, výrobní zbytky (odkory, štěpka, piliny) a okrasné kamenivo."
-    palivove_drevo:
-      title: "Palivové dřevo"
-      description: "Tvrdé (buk, dub, habr, akát, jasan, bříza) i měkké (smrk, borovice, modřín) palivové dřevo, nařezané a naštípané, s dovozem až k vám. Prodej po 1 PRM."
-    stavebni_rezivo:
-      title: "Stavební řezivo"
-      description: "Stavební řezivo na míru: trámy, prkna, latě a fošny ze smrku, borovice, modřínu i dubu. Řezané délky až 11 m."
-    truhlarske_rezivo:
-      title: "Truhlářské řezivo"
-      description: "Truhlářské řezivo: fošny jako surovina pro spárovku a nábytek z masivu, schody, dveře, okna i hudební nástroje."
-    okrasne_kamenivo:
-      title: "Okrasné kamenivo"
-      description: "Okrasné kamenivo, valouny a oblázky pro zahrady, chodníky, jezírka a záhony. V pytlích nebo volně ložené, cena od 1 Kč za 1 kg."
-    vyrobni_zbytky:
-      title: "Výrobní zbytky"
-      description: "Výrobní zbytky z pily: odkory, štěpka a piliny pro topení, mulčování, steliva a další zpracování."
-    eshop_palivove:
-      title: "Palivové dřevo – e-shop"
-      description: "Objednejte palivové dřevo online: tvrdé i měkké, nařezané a naštípané, s dovozem po Jižní Moravě a severním Rakousku."
-    eshop_rezivo:
-      title: "Stavební řezivo – e-shop"
-      description: "Objednejte stavební řezivo online: trámy, latě a fošny ze smrku, borovice i modřínu, s dovozem po Jižní Moravě a severním Rakousku."
-    eshop_zbytky:
-      title: "Výrobní zbytky – e-shop"
-      description: "Objednejte odkory, štěpku a piliny online, s dovozem po Jižní Moravě a severním Rakousku."
-    eshop_kamenivo:
-      title: "Okrasné kamenivo – e-shop"
-      description: "Objednejte okrasné kamenivo online, valouny a oblázky v pytlích nebo volně ložené, od 1 Kč za 1 kg."
-    area_served:
-      south_moravia: "Jižní Morava"
-      north_austria: "Severní Rakousko"
-    product_fallback: "%{title} z pily Derflice. Objednejte online s dovozem po Jižní Moravě a severním Rakousku."
-    cart:
-      title: "Košík"
-    checkout_shipping:
-      title: "Doprava a platba"
-    checkout_details:
-      title: "Kontaktní údaje"
-    checkout_summary:
-      title: "Souhrn objednávky"
-    checkout_confirmation:
-      title: "Děkujeme za objednávku"
-    login:
-      title: "Přihlášení"
-    register:
-      title: "Registrace"
-    account:
-      title: "Můj účet"
-    account_edit:
-      title: "Upravit údaje"
-    terms:
-      title: "Obchodní podmínky"
-      description: "Obchodní podmínky e-shopu pily Derflice (Štěpán Merta)."
-    cookies:
-      title: "Zásady cookies"
-      description: "Jak pila Derflice používá cookies a jak můžete svůj souhlas kdykoliv změnit."
-    privacy:
-      title: "Zásady ochrany osobních údajů"
-      description: "Jaké osobní údaje pila Derflice zpracovává, proč, komu je předává a jaká máte práva."
-
-  auth:
-    login_title: "Přihlášení"
-    password: "Heslo"
-    password_confirmation: "Heslo znovu"
-    login_submit: "Přihlásit se"
-    no_account: "Nemáte účet?"
-    register_link: "Zaregistrujte se"
-    register_title: "Registrace"
-    register_submit: "Vytvořit účet"
-    register_privacy_html: "Vytvořením účtu bereme na vědomí zpracování Vašich údajů dle %{privacy_link}."
-    privacy_link_text: "zásad ochrany osobních údajů"
-    have_account: "Už máte účet?"
-    login_link: "Přihlaste se"
-    account_title: "Můj účet"
-    go_to_admin: "Přejít do administrace"
-    logout: "Odhlásit se"
-    order_history_title: "Moje objednávky"
-    order_number: "Objednávka č."
-    order_total: "Celkem"
-    reorder_button: "Objednat znovu"
-    no_orders: "Zatím nemáte žádné objednávky."
-    reorder_success: "Položky byly přidány do košíku."
-    reorder_partial: "%{count} položek z této objednávky už není dostupných, zbytek byl přidán do košíku."
-    reorder_failed: "Žádná z položek této objednávky už bohužel není dostupná."
-    admin_badge: "Admin"
-    customer_since: "Zákazníkem od %{date}"
-    order_item_count_one: "1 položka"
-    order_item_count_other: "%{count} položek"
-    edit_profile_link: "Upravit údaje"
-    edit_profile_title: "Upravit údaje"
-    back_to_account: "Zpět na účet"
-    save_profile: "Uložit změny"
-    profile_updated: "Vaše údaje byly uloženy."
-    avatar_title: "Profilový obrázek"
-    avatar_alt: "Váš profilový obrázek"
-    avatar_choose: "Vybrat obrázek"
-    avatar_no_file: "Žádný obrázek nevybrán"
-    avatar_upload: "Nahrát obrázek"
-    avatar_remove: "Odstranit obrázek"
-    avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px, metadata EXIF (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) zůstanou zachována."
-    avatar_updated: "Profilový obrázek byl uložen."
-    avatar_removed: "Profilový obrázek byl odstraněn."
-    avatar_errors:
-      none_selected: "Nevybrali jste žádný obrázek."
-      too_large: "Soubor je příliš velký (nejvýše 2 MB)."
-      unsupported_type: "Podporujeme pouze obrázky JPG, PNG a WebP."
-      too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
-      unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
-      rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
-    phone_prefix_label: "Předvolba"
-
-  nav:
-    domu: "Domů"
-    eshop: "Eshop"
-    sortiment: "Sortiment"
-    sluzby: "Služby"
-    cenik: "Ceník"
-    kontakt: "Kontakt"
-    open_menu: "Otevřít menu"
-    close_menu: "Zavřít menu"
-    toggle_theme: "Přepnout tmavý/světlý režim"
-    dark_mode_label: "Tmavý režim"
-    account: "Můj účet"
-
-  common:
-    previous: "Předchozí"
-    next: "Další"
-    slide: "Snímek"
-    detail: "Detail"
-    stock: "skladem"
-    in_stock: "Skladem"
-    out_of_stock: "Není skladem"
-    add_to_cart: "Do košíku"
-    qty_decrease: "Snížit množství"
-    qty_increase: "Zvýšit množství"
-    delete: "Smazat"
-    add_item: "Přidat položku"
-    cenik: "Ceník"
-    to_eshop: "Přejít do e-shopu"
-    request_quote: "Zadat poptávku"
-    buy_online: "Nakoupit online"
-    price_from: "od"
-    loose_type_label: "Typ ložení"
-    all: "Vše"
-    container: "Kontejner"
-    crate: "Bedny"
-    available_variants_html: "<span class=\"text-blue\">Dostupné</span> varianty"
-    loose_variant: "Sypané"
-    stacked_variant: "Skládané"
-    volne_lozene: "Volně ložené"
-    balene: "Balené"
-    spec_variant: "Varianta"
-    spec_length: "Délka"
-    spec_amount: "Množství"
-    spec_dimension: "Rozměr"
-    spec_quality: "Jakost"
-    spec_thickness: "Tloušťka"
-    spec_wood: "Dřevo"
-    spec_description: "Popis"
-    spec_fraction: "Frakce"
-    spec_grade: "Třída"
-    spec_width: "Šířka"
-    spec_height: "Výška"
-    price_per_m3_html: "/ m<sup>3</sup>"
-    per_m3: "PRM"
-    and: "a"
-    close: "Zavřít"
-
+meta:
+  home:
+    title: "Pila Derflice – palivové dřevo a řezivo u Znojma"
+    description: "Rodinná pila Derflice u Znojma: palivové dřevo, stavební a truhlářské řezivo, piliny a štěpka. Rychlý dovoz po Jižní Moravě i severním Rakousku."
+  kontakt:
+    title: "Kontakt a ceník"
+    description: "Kontakt, ceník a nezávazná kalkulace. Pila Derflice 66, Znojmo, Po–Pá 7:00–15:30, tel. +420 602 446 339, stepan.merta@seznam.cz."
+  sluzby:
+    title: "Služby"
+    description: "Služby pily Derflice: zakázková výroba, hoblování, doprava, impregnace a pořez nebo prodej kulatiny. Nezávazná cenová kalkulace."
+  sortiment:
+    title: "Sortiment"
+    description: "Sortiment pily Derflice: palivové dřevo, stavební a truhlářské řezivo, výrobní zbytky (odkory, štěpka, piliny) a okrasné kamenivo."
+  palivove_drevo:
+    title: "Palivové dřevo"
+    description: "Tvrdé (buk, dub, habr, akát, jasan, bříza) i měkké (smrk, borovice, modřín) palivové dřevo, nařezané a naštípané, s dovozem až k vám. Prodej po 1 PRM."
+  stavebni_rezivo:
+    title: "Stavební řezivo"
+    description: "Stavební řezivo na míru: trámy, prkna, latě a fošny ze smrku, borovice, modřínu i dubu. Řezané délky až 11 m."
+  truhlarske_rezivo:
+    title: "Truhlářské řezivo"
+    description: "Truhlářské řezivo: fošny jako surovina pro spárovku a nábytek z masivu, schody, dveře, okna i hudební nástroje."
+  okrasne_kamenivo:
+    title: "Okrasné kamenivo"
+    description: "Okrasné kamenivo, valouny a oblázky pro zahrady, chodníky, jezírka a záhony. V pytlích nebo volně ložené, cena od 1 Kč za 1 kg."
+  vyrobni_zbytky:
+    title: "Výrobní zbytky"
+    description: "Výrobní zbytky z pily: odkory, štěpka a piliny pro topení, mulčování, steliva a další zpracování."
+  eshop_palivove:
+    title: "Palivové dřevo – e-shop"
+    description: "Objednejte palivové dřevo online: tvrdé i měkké, nařezané a naštípané, s dovozem po Jižní Moravě a severním Rakousku."
+  eshop_rezivo:
+    title: "Stavební řezivo – e-shop"
+    description: "Objednejte stavební řezivo online: trámy, latě a fošny ze smrku, borovice i modřínu, s dovozem po Jižní Moravě a severním Rakousku."
+  eshop_zbytky:
+    title: "Výrobní zbytky – e-shop"
+    description: "Objednejte odkory, štěpku a piliny online, s dovozem po Jižní Moravě a severním Rakousku."
+  eshop_kamenivo:
+    title: "Okrasné kamenivo – e-shop"
+    description: "Objednejte okrasné kamenivo online, valouny a oblázky v pytlích nebo volně ložené, od 1 Kč za 1 kg."
+  area_served:
+    south_moravia: "Jižní Morava"
+    north_austria: "Severní Rakousko"
+  product_fallback: "{title} z pily Derflice. Objednejte online s dovozem po Jižní Moravě a severním Rakousku."
   cart:
-    aria_label: "Košík"
-    page_title: "Košík"
-    empty: "Váš košík je prázdný"
-    total_due: "Celkem k úhradě"
-    without_vat: "bez DPH"
-    view_cart: "Zobrazit košík"
-    added_title: "Zboží bylo přidáno nebo bylo upraveno množství v košíku"
-    continue_shopping: "Pokračovat v nákupu"
-    to_checkout: "K pokladně"
-    remove_aria: "Odebrat"
-    table_contents: "Obsah košíku"
-    table_quantity: "Množství"
-    table_availability: "Dostupnost"
-    table_unit_price: "Jednotková cena"
-    table_price_excl_vat: "Cena bez DPH"
-    table_price_incl_vat: "Cena s DPH"
-    total_vat: "Celkem DPH"
-    back_to_shopping: "Zpět k nákupu"
-    discount_code_label: "Slevový kód"
-    discount_code_verify: "Ověřit slevový kód"
+    title: "Košík"
+  checkout_shipping:
+    title: "Doprava a platba"
+  checkout_details:
+    title: "Kontaktní údaje"
+  checkout_summary:
+    title: "Souhrn objednávky"
+  checkout_confirmation:
+    title: "Děkujeme za objednávku"
+  login:
+    title: "Přihlášení"
+  register:
+    title: "Registrace"
+  account:
+    title: "Můj účet"
+  account_edit:
+    title: "Upravit údaje"
+  terms:
+    title: "Obchodní podmínky"
+    description: "Obchodní podmínky e-shopu pily Derflice (Štěpán Merta)."
+  cookies:
+    title: "Zásady cookies"
+    description: "Jak pila Derflice používá cookies a jak můžete svůj souhlas kdykoliv změnit."
+  privacy:
+    title: "Zásady ochrany osobních údajů"
+    description: "Jaké osobní údaje pila Derflice zpracovává, proč, komu je předává a jaká máte práva."
 
-  checkout:
-    step_cart: "Váš nákupní košík"
-    step_shipping: "Doprava a platba"
-    step_details: "Dodací údaje"
-    step_summary: "Souhrn"
-    continue: "Pokračovat v objednávce"
-    back: "Zpět"
-    order_contents: "Obsah objednávky"
-    delivery_country_label: "Země doručení"
-    country_field: "Stát"
-    country_cz: "Česká republika"
-    country_at: "Rakousko"
-    shipping_method_label: "Způsob dopravy"
-    shipping_address: "Doručení na adresu"
-    shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
-    shipping_address_rate_note: "%{rate}/km – orientační cenu uvidíte v souhrnu objednávky"
-    delivery_approximate: "(orientační cena)"
-    goods_total: "Zboží"
-    delivery_line: "Doprava (%{km} km, orientačně)"
-    shipping_pickup: "Osobní odběr na adrese skladu"
-    free: "Zdarma"
-    payment_method_label: "Způsob platby"
-    payment_cash: "Hotově při vyzvednutí"
-    payment_bank_transfer: "Bankovním převodem - proforma"
-    personal_details: "Osobní údaje"
-    login_existing_user: "Přihlásit se jako stávající uživatel"
-    login_not_available: "Přihlášení zatím není k dispozici"
-    logged_in_as: "Přihlášen/a jako %{email} – vaše údaje se předvyplní automaticky."
-    newsletter_opt_in: "Souhlasím se zasíláním Newsletterů"
-    billing_details: "Fakturační údaje"
-    street_and_number: "Ulice a č.p."
-    company_purchase: "Nakupuji na firmu"
-    company_name: "Název firmy"
-    company_ico: "IČO"
-    company_dic: "DIČ"
-    delivery_address_different: "Doručovací adresa (pokud je rozdílná od fakturační)"
-    summary_title: "Souhrn"
-    terms_agreement_html: "Odesláním objednávky souhlasím s %{terms_link} e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky dle %{privacy_link}."
-    terms_link_text: "obchodními podmínkami"
-    privacy_link_text: "zásad ochrany osobních údajů"
-    terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
-    submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
-    confirmation_title: "Děkujeme za vaši objednávku!"
-    confirmation_text: "Vaše objednávka č. %{order_number} byla úspěšně přijata. Brzy vás budeme kontaktovat s dalšími informacemi."
-    back_to_homepage: "Zpět na hlavní stránku"
+auth:
+  login_title: "Přihlášení"
+  password: "Heslo"
+  password_confirmation: "Heslo znovu"
+  login_submit: "Přihlásit se"
+  no_account: "Nemáte účet?"
+  register_link: "Zaregistrujte se"
+  register_title: "Registrace"
+  register_submit: "Vytvořit účet"
+  register_privacy_html: "Vytvořením účtu bereme na vědomí zpracování Vašich údajů dle {privacy_link}."
+  privacy_link_text: "zásad ochrany osobních údajů"
+  have_account: "Už máte účet?"
+  login_link: "Přihlaste se"
+  account_title: "Můj účet"
+  go_to_admin: "Přejít do administrace"
+  logout: "Odhlásit se"
+  order_history_title: "Moje objednávky"
+  order_number: "Objednávka č."
+  order_total: "Celkem"
+  reorder_button: "Objednat znovu"
+  no_orders: "Zatím nemáte žádné objednávky."
+  reorder_success: "Položky byly přidány do košíku."
+  reorder_partial: "{count} položek z této objednávky už není dostupných, zbytek byl přidán do košíku."
+  reorder_failed: "Žádná z položek této objednávky už bohužel není dostupná."
+  admin_badge: "Admin"
+  customer_since: "Zákazníkem od {date}"
+  order_item_count_one: "1 položka"
+  order_item_count_other: "{count} položek"
+  edit_profile_link: "Upravit údaje"
+  edit_profile_title: "Upravit údaje"
+  back_to_account: "Zpět na účet"
+  save_profile: "Uložit změny"
+  profile_updated: "Vaše údaje byly uloženy."
+  avatar_title: "Profilový obrázek"
+  avatar_alt: "Váš profilový obrázek"
+  avatar_choose: "Vybrat obrázek"
+  avatar_no_file: "Žádný obrázek nevybrán"
+  avatar_upload: "Nahrát obrázek"
+  avatar_remove: "Odstranit obrázek"
+  avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px, metadata EXIF (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) zůstanou zachována."
+  avatar_updated: "Profilový obrázek byl uložen."
+  avatar_removed: "Profilový obrázek byl odstraněn."
+  avatar_errors:
+    none_selected: "Nevybrali jste žádný obrázek."
+    too_large: "Soubor je příliš velký (nejvýše 2 MB)."
+    unsupported_type: "Podporujeme pouze obrázky JPG, PNG a WebP."
+    too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
+    unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
+    rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
+  phone_prefix_label: "Předvolba"
 
-  breadcrumbs:
-    home_aria: "breadcrumb"
-    sortiment: "Sortiment"
+nav:
+  domu: "Domů"
+  eshop: "Eshop"
+  sortiment: "Sortiment"
+  sluzby: "Služby"
+  cenik: "Ceník"
+  kontakt: "Kontakt"
+  open_menu: "Otevřít menu"
+  close_menu: "Zavřít menu"
+  toggle_theme: "Přepnout tmavý/světlý režim"
+  dark_mode_label: "Tmavý režim"
+  account: "Můj účet"
+
+common:
+  previous: "Předchozí"
+  next: "Další"
+  slide: "Snímek"
+  detail: "Detail"
+  stock: "skladem"
+  in_stock: "Skladem"
+  out_of_stock: "Není skladem"
+  add_to_cart: "Do košíku"
+  qty_decrease: "Snížit množství"
+  qty_increase: "Zvýšit množství"
+  delete: "Smazat"
+  add_item: "Přidat položku"
+  cenik: "Ceník"
+  to_eshop: "Přejít do e-shopu"
+  request_quote: "Zadat poptávku"
+  buy_online: "Nakoupit online"
+  price_from: "od"
+  loose_type_label: "Typ ložení"
+  all: "Vše"
+  container: "Kontejner"
+  crate: "Bedny"
+  available_variants_html: "<span class=\"text-blue\">Dostupné</span> varianty"
+  loose_variant: "Sypané"
+  stacked_variant: "Skládané"
+  volne_lozene: "Volně ložené"
+  balene: "Balené"
+  spec_variant: "Varianta"
+  spec_length: "Délka"
+  spec_amount: "Množství"
+  spec_dimension: "Rozměr"
+  spec_quality: "Jakost"
+  spec_thickness: "Tloušťka"
+  spec_wood: "Dřevo"
+  spec_description: "Popis"
+  spec_fraction: "Frakce"
+  spec_grade: "Třída"
+  spec_width: "Šířka"
+  spec_height: "Výška"
+  price_per_m3_html: "/ m<sup>3</sup>"
+  per_m3: "PRM"
+  and: "a"
+  close: "Zavřít"
+
+cart:
+  aria_label: "Košík"
+  page_title: "Košík"
+  empty: "Váš košík je prázdný"
+  total_due: "Celkem k úhradě"
+  without_vat: "bez DPH"
+  view_cart: "Zobrazit košík"
+  added_title: "Zboží bylo přidáno nebo bylo upraveno množství v košíku"
+  continue_shopping: "Pokračovat v nákupu"
+  to_checkout: "K pokladně"
+  remove_aria: "Odebrat"
+  table_contents: "Obsah košíku"
+  table_quantity: "Množství"
+  table_availability: "Dostupnost"
+  table_unit_price: "Jednotková cena"
+  table_price_excl_vat: "Cena bez DPH"
+  table_price_incl_vat: "Cena s DPH"
+  total_vat: "Celkem DPH"
+  back_to_shopping: "Zpět k nákupu"
+  discount_code_label: "Slevový kód"
+  discount_code_verify: "Ověřit slevový kód"
+
+checkout:
+  step_cart: "Váš nákupní košík"
+  step_shipping: "Doprava a platba"
+  step_details: "Dodací údaje"
+  step_summary: "Souhrn"
+  continue: "Pokračovat v objednávce"
+  back: "Zpět"
+  order_contents: "Obsah objednávky"
+  delivery_country_label: "Země doručení"
+  country_field: "Stát"
+  country_cz: "Česká republika"
+  country_at: "Rakousko"
+  shipping_method_label: "Způsob dopravy"
+  shipping_address: "Doručení na adresu"
+  shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
+  shipping_address_rate_note: "{rate}/km – orientační cenu uvidíte v souhrnu objednávky"
+  delivery_approximate: "(orientační cena)"
+  goods_total: "Zboží"
+  delivery_line: "Doprava ({km} km, orientačně)"
+  shipping_pickup: "Osobní odběr na adrese skladu"
+  free: "Zdarma"
+  payment_method_label: "Způsob platby"
+  payment_cash: "Hotově při vyzvednutí"
+  payment_bank_transfer: "Bankovním převodem - proforma"
+  personal_details: "Osobní údaje"
+  login_existing_user: "Přihlásit se jako stávající uživatel"
+  login_not_available: "Přihlášení zatím není k dispozici"
+  logged_in_as: "Přihlášen/a jako {email} – vaše údaje se předvyplní automaticky."
+  newsletter_opt_in: "Souhlasím se zasíláním Newsletterů"
+  billing_details: "Fakturační údaje"
+  street_and_number: "Ulice a č.p."
+  company_purchase: "Nakupuji na firmu"
+  company_name: "Název firmy"
+  company_ico: "IČO"
+  company_dic: "DIČ"
+  delivery_address_different: "Doručovací adresa (pokud je rozdílná od fakturační)"
+  summary_title: "Souhrn"
+  terms_agreement_html: "Odesláním objednávky souhlasím s {terms_link} e-shopu a beru na vědomí zpracování osobních údajů pro účely vyřízení objednávky dle {privacy_link}."
+  terms_link_text: "obchodními podmínkami"
+  privacy_link_text: "zásad ochrany osobních údajů"
+  terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
+  submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
+  confirmation_title: "Děkujeme za vaši objednávku!"
+  confirmation_text: "Vaše objednávka č. {order_number} byla úspěšně přijata. Brzy vás budeme kontaktovat s dalšími informacemi."
+  back_to_homepage: "Zpět na hlavní stránku"
+
+breadcrumbs:
+  home_aria: "breadcrumb"
+  sortiment: "Sortiment"
+  palivove_drevo: "Palivové dřevo"
+  stavebni_rezivo: "Stavební řezivo"
+  truhlarske_rezivo: "Truhlářské řezivo"
+  okrasne_kamenivo: "Okrasné kamenivo"
+  vyrobni_zbytky: "Výrobní zbytky"
+  sluzby: "Služby"
+  kontakt: "Kontakty"
+  eshop: "E-shop"
+
+footer:
+  brand_name: "Štěpán Merta"
+  brand_sub: "Pila Derflice"
+  kontakt_title: "Kontakt"
+  address: "Derflice 66, 671 28 Znojmo"
+  hours: "Pondělí - Pátek : 7:00 - 15:30"
+  sluzby_title: "Služby"
+  sluzby_links:
+    zakazkova_vyroba: "Zakázková výroba"
+    hoblovani: "Hoblování"
+    doprava: "Doprava"
+    impregnace: "Impregnace"
+    porez: "Pořez / Prodej kulatiny"
+  sortiment_title: "Sortiment"
+  sortiment_links:
     palivove_drevo: "Palivové dřevo"
     stavebni_rezivo: "Stavební řezivo"
     truhlarske_rezivo: "Truhlářské řezivo"
-    okrasne_kamenivo: "Okrasné kamenivo"
     vyrobni_zbytky: "Výrobní zbytky"
-    sluzby: "Služby"
-    kontakt: "Kontakty"
-    eshop: "E-shop"
+    okrasne_kamenivo: "Okrasné kamenivo"
 
-  footer:
-    brand_name: "Štěpán Merta"
-    brand_sub: "Pila Derflice"
-    kontakt_title: "Kontakt"
-    address: "Derflice 66, 671 28 Znojmo"
-    hours: "Pondělí - Pátek : 7:00 - 15:30"
-    sluzby_title: "Služby"
-    sluzby_links:
-      zakazkova_vyroba: "Zakázková výroba"
-      hoblovani: "Hoblování"
-      doprava: "Doprava"
-      impregnace: "Impregnace"
-      porez: "Pořez / Prodej kulatiny"
-    sortiment_title: "Sortiment"
-    sortiment_links:
+home:
+  index:
+    hero_title_accent: "KVALITNÍ DŘEVO"
+    hero_title_rest: "PRO DOMOV, DÍLNU I STAVBU"
+    hero_text: "Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku."
+    btn_eshop: "DO ESHOPU"
+    btn_vyroba: "VÝROBA NA MÍRU"
+    reviews_count: "(11+ recenzí)"
+    features:
+      doprava: "Vlastní<br>doprava"
+      vyroba: "Výroba<br>na míru"
+      sortiment: "Široký<br>sortiment"
+      vyrobce: "Lokální<br>výrobce"
+      garance: "Záruka<br>kvality"
+      ceny: "Férové<br>ceny"
+    promo_badge: "Doporučujeme"
+    promo_alt: "Akční nabídka"
+    promo_cta: "Prohlédnout si"
+    top_categories_title_accent: "TOP"
+    top_categories_title_rest: "Kategorie"
+    categories:
       palivove_drevo: "Palivové dřevo"
-      stavebni_rezivo: "Stavební řezivo"
-      truhlarske_rezivo: "Truhlářské řezivo"
+      stavebni_drevo: "Stavební dřevo"
       vyrobni_zbytky: "Výrobní zbytky"
-      okrasne_kamenivo: "Okrasné kamenivo"
+    zkusenosti_banner: "Již přes 30 let zkušeností"
+    akcni_nabidka_title_accent: "NABÍDKA"
+    akcni_nabidka_title_rest: "AKČNÍ"
+    akcni_nabidka_lead_html: "<b>Kvalitní palivové dřevo, které zahřeje víc než jen cenou.</b>"
+    akcni_nabidka_text_html: "Suché, štípané a ihned připravené k topení.<br>Doprava až k vám domů – rychle, spolehlivě a bez starostí."
+    akcni_badge: "AKCE"
+    akcni_image_alt: "Akční nabídka - palivové dřevo"
+    nejprodavanejsi_title_accent: "Nejprodávanější"
+    nejprodavanejsi_title_rest: "produkty?"
+    btn_prohlednout: "PROHLÉDNOUT"
+    nabidka_title_accent: "nabídnout?"
+    nabidka_title_rest: "Co vám můžeme"
+    nabidka_text_1_html: "Pokud topíte dřevem a sháníte kvalitní otop do krbu či na zátop? Potřebujete stavební dřevo k rekonstrukci či stavbě altánů, plotů či dřevostaveb? Vyrábíte nábytek z <strong>kvalitního řeziva</strong>, pak se na nás nebojte obrátit."
+    nabidka_text_2_html: "Za tu dobu nabízíme <strong>široký sortiment</strong> dřevěných materiálů, včetně prken, latí, trámů a fošen. Pro zahradní úpravy máme okrasné kamenivo, a pro další využití také piliny, hobliny a štěpku."
+    sluzby_title_accent: "poskytujeme?"
+    sluzby_title_rest: "Jaké služby"
+    dorucujeme_title_accent: "doručujeme?"
+    dorucujeme_title_rest: "Kam všude"
+    dorucujeme_text_1: "Palivové dřevo rozvážíme po celé jižní Moravě i severním Rakousku, a to včetně hraničních oblastí mezi Vysočinou a středním Rakouskem. Patří sem například města a obce jako Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, na rakouské straně pak například Drosendorf, Raabs an der Thaya, Hardegg či Thaya."
+    dorucujeme_text_2: "Cena dopravy se vždy odvíjí od vzdálenosti a množství objednaného dřeva, aby byla co nejvýhodnější pro každého zákazníka."
+    dorucujeme_map_alt: "Mapa doručení po jížní Moravě a Rakousku"
+    dorucujeme_pin_label: "Pila Derflice"
+    dorucujeme_pin_address: "Derflice 66, 671 28 Znojmo"
+    co_je_noveho_title_accent: "nového?"
+    co_je_noveho_title_rest: "Co je"
+    co_je_noveho_subtitle: "Palivové dřevo v bednách"
+    co_je_noveho_text: "Připravte se na topnou sezónu včas! Nabízíme kvalitní, suché palivové dřevo v praktických bednách o objemu 1 m³ s dovozem až k vám domů. Ušetřete čas i starosti – stačí objednat a o zbytek se postaráme."
+    co_je_noveho_pic1_alt: "Bedny s palivovým dřevem"
+    co_je_noveho_pic2_alt: "Naskládané palivové dřevo v bedně"
+    co_je_noveho_pic3_alt: "Palivové dřevo připravené k expedici"
+    zajimat_title_accent: "zajímat?"
+    zajimat_title_rest: "Co by Vás mohlo"
+    faq_title_rest: "Vámi nejčastěji"
+    faq_title_accent: "kladené dotazy"
+    faq_cat_palivove: "Palivové dřevo"
+    faq_cat_stavebni: "Stavební a truhlářské řezivo"
+    faq_cat_doprava: "Doprava"
+    faq_palivove_q1: "Jaký je rozdíl mezi tvrdým a měkkým dřevem?"
+    faq_palivove_a1: "Tvrdé dřevo (např. buk, dub, habr, akát, jasan či bříza) má vyšší výhřevnost a hoří déle, proto se hodí na dlouhé topení. Měkké dřevo (smrk, borovice, modřín) hoří rychleji a snadněji se zapaluje, takže je ideální na podpal a rychlý zátop."
+    faq_palivove_q2: "Jak správně skladovat dřevo?"
+    faq_palivove_a2: "Dřevo skladujte na suchém a dobře větraném místě, ideálně na paletách nebo podstavcích, aby nebylo v přímém kontaktu se zemí. Horní vrstvu zakryjte, ale boky nechte volně prodyšné, aby mohla vlhkost odcházet. Správně uskladněné dřevo je připravené k topení zpravidla po 1–2 letech sušení."
+    faq_palivove_q3: "Jaký je rozdíl mezi PRMs a PRMr prostorovým metrem?"
+    faq_palivove_a3: "PRMs (sypaný prostorový metr) označuje dřevo volně naskládané nebo sypané, kde je mezi kusy více vzduchových mezer. PRMr (rovnaný prostorový metr) je dřevo pečlivě naskládané, které díky menším mezerám obsahuje více skutečného dřeva na stejný objem."
+    faq_palivove_q4: "Je dřevo připravené k okamžitému topení?"
+    faq_palivove_a4: "Nabízíme sušené palivové dřevo s nízkou vlhkostí, které je připravené k topení. Přesnou vlhkost a stav dřeva vám rádi upřesníme při objednávce, ať víte přesně, co si pořizujete."
+    faq_stavebni_q1: "Jaké druhy řeziva nabízíte?"
+    faq_stavebni_a1: "V nabídce najdete trámy, latě, fošny i prkna ve stavební kvalitě, a pro truhláře a výrobu nábytku také hoblované řezivo. Aktuální rozměry a ceny naleznete v našem e-shopu."
+    faq_stavebni_q2: "Vyrábíte řezivo na zakázku podle rozpisky krovu?"
+    faq_stavebni_a2: "Ano, na základě dodané rozpisky krovu (seznamu rozměrů a délek jednotlivých prvků) vám řezivo připravíme přesně na míru. Rozpisku nám můžete zaslat přes kontaktní formulář nebo přímo na naši e-mailovou adresu."
+    faq_stavebni_q3: "Je řezivo ošetřené impregnací?"
+    faq_stavebni_a3: "Nabízíme jak řezivo bez povrchové úpravy, tak impregnované řezivo (ochrana proti dřevokaznému hmyzu, houbám a plísním), což doporučujeme zejména pro střešní latě a nosné konstrukce."
+    faq_stavebni_q4: "Vyrábíte i nestandardní rozměry trámů a fošen na míru?"
+    faq_stavebni_a4: "Ano, kromě standardních rozměrů umíme vyrobit trámy i fošny na míru podle vašich požadavků. Stačí nám zadat požadovaný rozměr a množství přes poptávkový formulář v sekci Kontakt a my vám připravíme cenovou nabídku."
+    faq_doprava_q1: "Jak probíhá doprava?"
+    faq_doprava_a1: "Dřevo dovážíme vlastními vozy přímo k vám domů nebo na stavbu. Cena dopravy se odvíjí od vzdálenosti a množství objednaného dřeva, aby byla pro vás co nejvýhodnější."
+    faq_doprava_q2: "Jaké je minimální množství pro objednávku s dopravou?"
+    faq_doprava_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    faq_doprava_q3: "Za jak dlouho dřevo dorazí?"
+    faq_doprava_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    faq_doprava_q4: "Jaké jsou možnosti platby?"
+    faq_doprava_a4: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
+    faq_cta_text: "Nenašli jste odpověď?"
+    faq_cta_button: "Kontaktujte nás"
+    o_sobe_title_accent: "o sobě řekli?"
+    o_sobe_title_rest: "Co bychom"
+    o_sobe_image_alt: "Nakládání dřeva v lese"
+    o_sobe_p1_html: "Naše pila, vedená panem Štěpánem Mertou, působí v oboru zpracování dřeva již <strong>přes 30 let.</strong>"
+    o_sobe_p2_html: "Díky dlouholeté praxi a zkušenostem jsme schopni <strong>vyhovět specifickým požadavkům</strong> našich zákazníků."
+    o_sobe_p3_html: "Disponujeme <strong>moderním vybavením</strong>, včetně automatické štípačky, pásové pily, hoblovačky, impregnační vany apod."
+    o_sobe_p4: "Zajišťujeme dopravu výrobků přímo k vám domů."
+    o_sobe_p5_html: "I přes menší tým čítající přibližně 10 zaměstnanců si zakládáme na <strong>dodržování termínů</strong> a <strong>poskytování vysoké kvality služeb.</strong>"
+    o_sobe_cta: "Poptávka"
+    google_reviews_title_rest: "Co říkají"
+    google_reviews_title_accent: "naši zákazníci?"
+    google_reviews_count: "Na základě 11+ recenzí"
+    google_reviews_verified_title: "Ověřeno zákazníky Google"
+    google_reviews_verified_sub: "Skutečné recenze od našich zákazníků"
+    google_review_source: "Recenze z Google"
+    google_review_like: "Líbí se"
 
-  home:
-    index:
-      hero_title_accent: "KVALITNÍ DŘEVO"
-      hero_title_rest: "PRO DOMOV, DÍLNU I STAVBU"
-      hero_text: "Jsme rodinná pila s 30letou tradicí. Zajistíme pro vás kompletní zpracování palivového dřeva i stavebního a truhlářského řeziva. Vše s rychlým dovozem po celé Jižní Moravě a severním Rakousku."
-      btn_eshop: "DO ESHOPU"
-      btn_vyroba: "VÝROBA NA MÍRU"
-      reviews_count: "(11+ recenzí)"
-      features:
-        doprava: "Vlastní<br>doprava"
-        vyroba: "Výroba<br>na míru"
-        sortiment: "Široký<br>sortiment"
-        vyrobce: "Lokální<br>výrobce"
-        garance: "Záruka<br>kvality"
-        ceny: "Férové<br>ceny"
-      promo_badge: "Doporučujeme"
-      promo_alt: "Akční nabídka"
-      promo_cta: "Prohlédnout si"
-      top_categories_title_accent: "TOP"
-      top_categories_title_rest: "Kategorie"
-      categories:
-        palivove_drevo: "Palivové dřevo"
-        stavebni_drevo: "Stavební dřevo"
-        vyrobni_zbytky: "Výrobní zbytky"
-      zkusenosti_banner: "Již přes 30 let zkušeností"
-      akcni_nabidka_title_accent: "NABÍDKA"
-      akcni_nabidka_title_rest: "AKČNÍ"
-      akcni_nabidka_lead_html: "<b>Kvalitní palivové dřevo, které zahřeje víc než jen cenou.</b>"
-      akcni_nabidka_text_html: "Suché, štípané a ihned připravené k topení.<br>Doprava až k vám domů – rychle, spolehlivě a bez starostí."
-      akcni_badge: "AKCE"
-      akcni_image_alt: "Akční nabídka - palivové dřevo"
-      nejprodavanejsi_title_accent: "Nejprodávanější"
-      nejprodavanejsi_title_rest: "produkty?"
-      btn_prohlednout: "PROHLÉDNOUT"
-      nabidka_title_accent: "nabídnout?"
-      nabidka_title_rest: "Co vám můžeme"
-      nabidka_text_1_html: "Pokud topíte dřevem a sháníte kvalitní otop do krbu či na zátop? Potřebujete stavební dřevo k rekonstrukci či stavbě altánů, plotů či dřevostaveb? Vyrábíte nábytek z <strong>kvalitního řeziva</strong>, pak se na nás nebojte obrátit."
-      nabidka_text_2_html: "Za tu dobu nabízíme <strong>široký sortiment</strong> dřevěných materiálů, včetně prken, latí, trámů a fošen. Pro zahradní úpravy máme okrasné kamenivo, a pro další využití také piliny, hobliny a štěpku."
-      sluzby_title_accent: "poskytujeme?"
-      sluzby_title_rest: "Jaké služby"
-      dorucujeme_title_accent: "doručujeme?"
-      dorucujeme_title_rest: "Kam všude"
-      dorucujeme_text_1: "Palivové dřevo rozvážíme po celé jižní Moravě i severním Rakousku, a to včetně hraničních oblastí mezi Vysočinou a středním Rakouskem. Patří sem například města a obce jako Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, na rakouské straně pak například Drosendorf, Raabs an der Thaya, Hardegg či Thaya."
-      dorucujeme_text_2: "Cena dopravy se vždy odvíjí od vzdálenosti a množství objednaného dřeva, aby byla co nejvýhodnější pro každého zákazníka."
-      dorucujeme_map_alt: "Mapa doručení po jížní Moravě a Rakousku"
-      dorucujeme_pin_label: "Pila Derflice"
-      dorucujeme_pin_address: "Derflice 66, 671 28 Znojmo"
-      co_je_noveho_title_accent: "nového?"
-      co_je_noveho_title_rest: "Co je"
-      co_je_noveho_subtitle: "Palivové dřevo v bednách"
-      co_je_noveho_text: "Připravte se na topnou sezónu včas! Nabízíme kvalitní, suché palivové dřevo v praktických bednách o objemu 1 m³ s dovozem až k vám domů. Ušetřete čas i starosti – stačí objednat a o zbytek se postaráme."
-      co_je_noveho_pic1_alt: "Bedny s palivovým dřevem"
-      co_je_noveho_pic2_alt: "Naskládané palivové dřevo v bedně"
-      co_je_noveho_pic3_alt: "Palivové dřevo připravené k expedici"
-      zajimat_title_accent: "zajímat?"
-      zajimat_title_rest: "Co by Vás mohlo"
-      faq_title_rest: "Vámi nejčastěji"
-      faq_title_accent: "kladené dotazy"
-      faq_cat_palivove: "Palivové dřevo"
-      faq_cat_stavebni: "Stavební a truhlářské řezivo"
-      faq_cat_doprava: "Doprava"
-      faq_palivove_q1: "Jaký je rozdíl mezi tvrdým a měkkým dřevem?"
-      faq_palivove_a1: "Tvrdé dřevo (např. buk, dub, habr, akát, jasan či bříza) má vyšší výhřevnost a hoří déle, proto se hodí na dlouhé topení. Měkké dřevo (smrk, borovice, modřín) hoří rychleji a snadněji se zapaluje, takže je ideální na podpal a rychlý zátop."
-      faq_palivove_q2: "Jak správně skladovat dřevo?"
-      faq_palivove_a2: "Dřevo skladujte na suchém a dobře větraném místě, ideálně na paletách nebo podstavcích, aby nebylo v přímém kontaktu se zemí. Horní vrstvu zakryjte, ale boky nechte volně prodyšné, aby mohla vlhkost odcházet. Správně uskladněné dřevo je připravené k topení zpravidla po 1–2 letech sušení."
-      faq_palivove_q3: "Jaký je rozdíl mezi PRMs a PRMr prostorovým metrem?"
-      faq_palivove_a3: "PRMs (sypaný prostorový metr) označuje dřevo volně naskládané nebo sypané, kde je mezi kusy více vzduchových mezer. PRMr (rovnaný prostorový metr) je dřevo pečlivě naskládané, které díky menším mezerám obsahuje více skutečného dřeva na stejný objem."
-      faq_palivove_q4: "Je dřevo připravené k okamžitému topení?"
-      faq_palivove_a4: "Nabízíme sušené palivové dřevo s nízkou vlhkostí, které je připravené k topení. Přesnou vlhkost a stav dřeva vám rádi upřesníme při objednávce, ať víte přesně, co si pořizujete."
-      faq_stavebni_q1: "Jaké druhy řeziva nabízíte?"
-      faq_stavebni_a1: "V nabídce najdete trámy, latě, fošny i prkna ve stavební kvalitě, a pro truhláře a výrobu nábytku také hoblované řezivo. Aktuální rozměry a ceny naleznete v našem e-shopu."
-      faq_stavebni_q2: "Vyrábíte řezivo na zakázku podle rozpisky krovu?"
-      faq_stavebni_a2: "Ano, na základě dodané rozpisky krovu (seznamu rozměrů a délek jednotlivých prvků) vám řezivo připravíme přesně na míru. Rozpisku nám můžete zaslat přes kontaktní formulář nebo přímo na naši e-mailovou adresu."
-      faq_stavebni_q3: "Je řezivo ošetřené impregnací?"
-      faq_stavebni_a3: "Nabízíme jak řezivo bez povrchové úpravy, tak impregnované řezivo (ochrana proti dřevokaznému hmyzu, houbám a plísním), což doporučujeme zejména pro střešní latě a nosné konstrukce."
-      faq_stavebni_q4: "Vyrábíte i nestandardní rozměry trámů a fošen na míru?"
-      faq_stavebni_a4: "Ano, kromě standardních rozměrů umíme vyrobit trámy i fošny na míru podle vašich požadavků. Stačí nám zadat požadovaný rozměr a množství přes poptávkový formulář v sekci Kontakt a my vám připravíme cenovou nabídku."
-      faq_doprava_q1: "Jak probíhá doprava?"
-      faq_doprava_a1: "Dřevo dovážíme vlastními vozy přímo k vám domů nebo na stavbu. Cena dopravy se odvíjí od vzdálenosti a množství objednaného dřeva, aby byla pro vás co nejvýhodnější."
-      faq_doprava_q2: "Jaké je minimální množství pro objednávku s dopravou?"
-      faq_doprava_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      faq_doprava_q3: "Za jak dlouho dřevo dorazí?"
-      faq_doprava_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
-      faq_doprava_q4: "Jaké jsou možnosti platby?"
-      faq_doprava_a4: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
-      faq_cta_text: "Nenašli jste odpověď?"
-      faq_cta_button: "Kontaktujte nás"
-      o_sobe_title_accent: "o sobě řekli?"
-      o_sobe_title_rest: "Co bychom"
-      o_sobe_image_alt: "Nakládání dřeva v lese"
-      o_sobe_p1_html: "Naše pila, vedená panem Štěpánem Mertou, působí v oboru zpracování dřeva již <strong>přes 30 let.</strong>"
-      o_sobe_p2_html: "Díky dlouholeté praxi a zkušenostem jsme schopni <strong>vyhovět specifickým požadavkům</strong> našich zákazníků."
-      o_sobe_p3_html: "Disponujeme <strong>moderním vybavením</strong>, včetně automatické štípačky, pásové pily, hoblovačky, impregnační vany apod."
-      o_sobe_p4: "Zajišťujeme dopravu výrobků přímo k vám domů."
-      o_sobe_p5_html: "I přes menší tým čítající přibližně 10 zaměstnanců si zakládáme na <strong>dodržování termínů</strong> a <strong>poskytování vysoké kvality služeb.</strong>"
-      o_sobe_cta: "Poptávka"
-      google_reviews_title_rest: "Co říkají"
-      google_reviews_title_accent: "naši zákazníci?"
-      google_reviews_count: "Na základě 11+ recenzí"
-      google_reviews_verified_title: "Ověřeno zákazníky Google"
-      google_reviews_verified_sub: "Skutečné recenze od našich zákazníků"
-      google_review_source: "Recenze z Google"
-      google_review_like: "Líbí se"
+kontakt:
+  inquiry_success: "Děkujeme, poptávku jsme přijali. Ozveme se vám co nejdříve."
+  inquiry_error: "Poptávku se nepodařilo odeslat. Vyplňte prosím jméno, příjmení, e-mail a telefon."
+  page_title: "Informační formuláře"
+  image_alt: "Palivové dřevo"
+  brand_name: "Štěpán Merta"
+  brand_sub: "Pila Derflice"
+  kontakt_title: "Kontakt"
+  address: "Derflice 66, 671 28 Znojmo"
+  hours_title: "Otevírací doba"
+  hours_text_html: "Pondělí až pátek 7:00 - 15:30<br>mimo pracovní dobu dle dohody"
+  info_title: "Informace"
+  info_responsible: "Odpovědná osoba: Štěpán Merta"
+  info_ico: "IČ: 45665451 | DIČ: CZ6909094742"
+  info_billing: "Fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice"
+  info_legal: "Fyzická osoba podnikající dle živnostenského zákona nezapsaná v obchodním rejstříku."
+  kalkulace_title_html: "Poptejte se na naše výrobky <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
+  toggle_palivove: "Palivové dřevo"
+  toggle_stavebni: "Stavební řezivo"
+  form_section_kontakt: "Kontakt"
+  form_jmeno: "Jméno"
+  form_prijmeni: "Příjmení"
+  form_telefon: "Telefon"
+  form_email: "E-mail"
+  form_ulice: "Ulice"
+  form_cislo_popisne: "Číslo popisné"
+  form_mesto: "Město"
+  form_psc: "PSČ"
+  form_section_formular: "Formulář"
+  grid_varianta: "Varianta"
+  grid_druh: "Druh"
+  grid_delka: "Délka"
+  grid_mnozstvi: "Množství"
+  grid_polozka: "Položka"
+  grid_vyska: "Výška"
+  grid_sirka: "Šířka"
+  kalkulace_custom_option: "Vlastní"
+  kalkulace_custom_placeholder: "Zadejte vlastní hodnotu"
+  kalkulace_mnozstvi_placeholder: "ks"
+  delete_item_aria: "Smazat"
+  add_item_aria: "Přidat položku"
+  form_section_poznamky: "Poznámky"
+  consent_text_html: "Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky. Více v {privacy_link}."
+  privacy_link_text: "zásadách ochrany osobních údajů"
+  submit_button: "Odeslat ke kalkulaci"
+  cenik_main_title: "Ceník sortimentu"
+  cenik_stavebni_title: "Stavební a Truhlářské řezivo"
+  cenik_palivove_volne_title: "Palivové dřevo - volně ložené"
+  cenik_palivove_skladane_title: "Palivové dřevo - Bedny skládané"
+  cenik_zbytky_title: "Výrobní zbytky"
+  cenik_kamenivo_title: "Okrasné kamenivo"
+  cenik_kamenivo_default: "1 – 30 Kč / 1 kg"
+  cenik_sluzeb_title: "Ceník služeb"
 
-  kontakt:
-    inquiry_success: "Děkujeme, poptávku jsme přijali. Ozveme se vám co nejdříve."
-    inquiry_error: "Poptávku se nepodařilo odeslat. Vyplňte prosím jméno, příjmení, e-mail a telefon."
-    page_title: "Informační formuláře"
-    image_alt: "Palivové dřevo"
-    brand_name: "Štěpán Merta"
-    brand_sub: "Pila Derflice"
-    kontakt_title: "Kontakt"
-    address: "Derflice 66, 671 28 Znojmo"
-    hours_title: "Otevírací doba"
-    hours_text_html: "Pondělí až pátek 7:00 - 15:30<br>mimo pracovní dobu dle dohody"
-    info_title: "Informace"
-    info_responsible: "Odpovědná osoba: Štěpán Merta"
-    info_ico: "IČ: 45665451 | DIČ: CZ6909094742"
-    info_billing: "Fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice"
-    info_legal: "Fyzická osoba podnikající dle živnostenského zákona nezapsaná v obchodním rejstříku."
-    kalkulace_title_html: "Poptejte se na naše výrobky <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
-    toggle_palivove: "Palivové dřevo"
-    toggle_stavebni: "Stavební řezivo"
-    form_section_kontakt: "Kontakt"
-    form_jmeno: "Jméno"
-    form_prijmeni: "Příjmení"
-    form_telefon: "Telefon"
-    form_email: "E-mail"
-    form_ulice: "Ulice"
-    form_cislo_popisne: "Číslo popisné"
-    form_mesto: "Město"
-    form_psc: "PSČ"
-    form_section_formular: "Formulář"
-    grid_varianta: "Varianta"
-    grid_druh: "Druh"
-    grid_delka: "Délka"
-    grid_mnozstvi: "Množství"
-    grid_polozka: "Položka"
-    grid_vyska: "Výška"
-    grid_sirka: "Šířka"
-    kalkulace_custom_option: "Vlastní"
-    kalkulace_custom_placeholder: "Zadejte vlastní hodnotu"
-    kalkulace_mnozstvi_placeholder: "ks"
-    delete_item_aria: "Smazat"
-    add_item_aria: "Přidat položku"
-    form_section_poznamky: "Poznámky"
-    consent_text_html: "Odesláním objednávky souhlasíte se zpracováním osobních údajů za účelem vyřízení Vaší objednávky. Více v %{privacy_link}."
-    privacy_link_text: "zásadách ochrany osobních údajů"
-    submit_button: "Odeslat ke kalkulaci"
-    cenik_main_title: "Ceník sortimentu"
-    cenik_stavebni_title: "Stavební a Truhlářské řezivo"
-    cenik_palivove_volne_title: "Palivové dřevo - volně ložené"
-    cenik_palivove_skladane_title: "Palivové dřevo - Bedny skládané"
-    cenik_zbytky_title: "Výrobní zbytky"
-    cenik_kamenivo_title: "Okrasné kamenivo"
-    cenik_kamenivo_default: "1 – 30 Kč / 1 kg"
-    cenik_sluzeb_title: "Ceník služeb"
+sortiment:
+  index:
+    title: "Sortiment"
+  palivove_drevo:
+    title: "Palivové dřevo"
+    desc_1: "Palivové dřevo běžně prodáváme nařezané na 25, 33 cm, 1 m, až 4 m a dál., naštípané a sypané volně v kontejneru, které dovezeme až na vámi zvolené místo. Prodejní jednotka je 1 PRM (prostorový metr)."
+    desc_2: "Momentálně nabízíme dřevo z tvrdých listnatých stromů, které jsou buk, dub, habr, akát, jasan, bříza a z měkkých jehličnatých je v nabídce smrk, borovice, modřín."
+  stavebni_rezivo:
+    tramy:
+      title: "Trámy"
+      desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru dle zákazníka."
+      desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice a modřínu."
+    prkna:
+      title: "Prkna"
+      desc_1: "Stavební materiál používán k výrobě stropů, podlah, střech, obkladů stěn, pomocné stavební konstrukce a jiné."
+      desc_2: "Prkna vyrábíme ze smrku, dubu borovice, modřínu atd. Maximální řezaná délka je 11m."
+    late:
+      title: "Latě"
+      desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru podle zákazníka."
+      desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice, modřínu."
+    fosny:
+      title: "Fošny"
+      desc_1: "Standardní stavební materiál, který je možno použít pro výrobu nosných konstrukcí (střešní konstrukce, pergoly, terasy apod.)"
+      desc_2: "Maximální řezaná délka je 11m. Stavební řezivo vyrábíme ze smrku, dubu, modřínu, borovice atd."
+  truhlarske_rezivo:
+    fosny:
+      title: "Fošny"
+      desc_1: "Truhlářské řezivo je základní surovinou pro výrobu spárovky, která se dále používá k výrobě nábytku z masivu, jako jsou např. skříně, stoly, židle, postele, dveře, okna, schody, hudební nástroje a tak dále."
+  okrasne_kamenivo:
+    title: "Valouny a oblázky"
+    desc_1: "Dekorativní kamenivo ideální pro zahrady, chodníky, jezírka a okrasné záhony"
+    desc_2: "K dispozici v různých frakcích a barevných variantách, vhodné pro designové úpravy i praktické využití"
+    desc_3: "Nabízíme balení v pytlích nebo volně ložené dle požadavků zákazníka."
+    desc_4: "Cena od 1kč za 1kg."
+  vyrobni_zbytky:
+    odkory:
+      title: "Odkory"
+      desc_1: "Kvalitní dřevěné odkory vznikající při výrobě, vhodné pro další dílenské využití, topení nebo drobné truhlářské práce. Každá šarže obsahuje směs různých rozměrů a tvarů."
+    stepka:
+      title: "Štěpka"
+      desc_1: "Čistá dřevní štěpka bez příměsí, ideální pro energetické využití, mulčování nebo výrobu dřevotřískových materiálů. Vyznačuje se stabilní frakcí a rovnoměrnou strukturou."
+    piliny:
+      title: "Piliny"
+      desc_1: "Jemné suché piliny vhodné pro pelety, brikety, stelivo nebo další průmyslové zpracování. Vznikají při řezání a broušení masivního dřeva a mají výbornou sypkost."
 
-  sortiment:
-    index:
-      title: "Sortiment"
-    palivove_drevo:
-      title: "Palivové dřevo"
-      desc_1: "Palivové dřevo běžně prodáváme nařezané na 25, 33 cm, 1 m, až 4 m a dál., naštípané a sypané volně v kontejneru, které dovezeme až na vámi zvolené místo. Prodejní jednotka je 1 PRM (prostorový metr)."
-      desc_2: "Momentálně nabízíme dřevo z tvrdých listnatých stromů, které jsou buk, dub, habr, akát, jasan, bříza a z měkkých jehličnatých je v nabídce smrk, borovice, modřín."
-    stavebni_rezivo:
-      tramy:
-        title: "Trámy"
-        desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru dle zákazníka."
-        desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice a modřínu."
-      prkna:
-        title: "Prkna"
-        desc_1: "Stavební materiál používán k výrobě stropů, podlah, střech, obkladů stěn, pomocné stavební konstrukce a jiné."
-        desc_2: "Prkna vyrábíme ze smrku, dubu borovice, modřínu atd. Maximální řezaná délka je 11m."
-      late:
-        title: "Latě"
-        desc_1: "Standardní stavební materiál nejčastěji používaný jako dřevěné krovy a konstrukce střešních vazeb pro stavbu pergol a jiné. Hranoly vyrábíme na míru podle zákazníka."
-        desc_2: "Maximální řezaná délka je 11m a pila snese maximální šířku kmene 110. Stavební řezivo vyrábíme ze smrku, borovice, modřínu."
-      fosny:
-        title: "Fošny"
-        desc_1: "Standardní stavební materiál, který je možno použít pro výrobu nosných konstrukcí (střešní konstrukce, pergoly, terasy apod.)"
-        desc_2: "Maximální řezaná délka je 11m. Stavební řezivo vyrábíme ze smrku, dubu, modřínu, borovice atd."
-    truhlarske_rezivo:
-      fosny:
-        title: "Fošny"
-        desc_1: "Truhlářské řezivo je základní surovinou pro výrobu spárovky, která se dále používá k výrobě nábytku z masivu, jako jsou např. skříně, stoly, židle, postele, dveře, okna, schody, hudební nástroje a tak dále."
+eshop:
+  index:
+    filters_title: "Kategorie produktů"
+    cat_palivove: "Palivové dřevo"
+    cat_rezivo: "Stavební řezivo"
+    cat_zbytky: "Výrobní zbytky"
+    cat_kamenivo: "Okrasné kamenivo"
+    wood_type_title: "Typ dřeva"
+    wood_all: "Vše"
+    wood_hard: "Tvrdé"
+    wood_soft: "Měkké"
+    sort_recommended: "Doporučujeme"
+    sort_bestsellers: "Nejprodávanější"
+  products:
+    smrk:
+      title: "Smrk"
+      type: "Měkké palivové dřevo"
+      price: "od 1 260 Kč"
+    dub:
+      title: "Dub"
+      type: "Tvrdé palivové dřevo"
+      price: "od 1 740 Kč"
+    buk:
+      title: "Buk"
+      type: "Tvrdé palivové dřevo"
+      price: "od 1 900 Kč"
+    akat:
+      title: "Akát"
+      type: "Tvrdé palivové dřevo"
+      price: "od 1 900 Kč"
+    jasan:
+      title: "Jasan"
+      type: "Tvrdé palivové dřevo"
+      price: "od 1 740 Kč"
+    briza:
+      title: "Bříza"
+      type: "Tvrdé palivové dřevo"
+      price: "---"
+    habr:
+      title: "Habr"
+      type: "Tvrdé palivové dřevo"
+      price: "od 1 900 Kč"
+    late:
+      title: "Střešní latě"
+      type: "Stavební řezivo"
+      price: "od 8 500 Kč"
+    tramy:
+      title: "Trámy"
+      type: "Stavební řezivo"
+      price: "od 8 500 Kč"
+    fosny:
+      title: "Fošny"
+      type: "Stavební řezivo"
+      price: "od 8 500 Kč"
+    prkna:
+      title: "Prkna"
+      type: "Stavební řezivo"
+      price: "od 5 000 Kč"
+    stepka:
+      title: "Štěpka"
+      type: "Výrobní zbytky"
+      price: "od 700 Kč"
+    odkory:
+      title: "Odkory na topení"
+      type: "Výrobní zbytky"
+      price: "od 800 Kč"
+    piliny:
+      title: "Piliny"
+      type: "Výrobní zbytky"
+      price: "od 450 Kč"
     okrasne_kamenivo:
-      title: "Valouny a oblázky"
-      desc_1: "Dekorativní kamenivo ideální pro zahrady, chodníky, jezírka a okrasné záhony"
-      desc_2: "K dispozici v různých frakcích a barevných variantách, vhodné pro designové úpravy i praktické využití"
-      desc_3: "Nabízíme balení v pytlích nebo volně ložené dle požadavků zákazníka."
-      desc_4: "Cena od 1kč za 1kg."
-    vyrobni_zbytky:
-      odkory:
-        title: "Odkory"
-        desc_1: "Kvalitní dřevěné odkory vznikající při výrobě, vhodné pro další dílenské využití, topení nebo drobné truhlářské práce. Každá šarže obsahuje směs různých rozměrů a tvarů."
-      stepka:
-        title: "Štěpka"
-        desc_1: "Čistá dřevní štěpka bez příměsí, ideální pro energetické využití, mulčování nebo výrobu dřevotřískových materiálů. Vyznačuje se stabilní frakcí a rovnoměrnou strukturou."
-      piliny:
-        title: "Piliny"
-        desc_1: "Jemné suché piliny vhodné pro pelety, brikety, stelivo nebo další průmyslové zpracování. Vznikají při řezání a broušení masivního dřeva a mají výbornou sypkost."
+      title: "Okrasné kamenivo"
+      type: "Okrasné kamenivo"
+      price: "od 1 Kč"
 
-  eshop:
-    index:
-      filters_title: "Kategorie produktů"
-      cat_palivove: "Palivové dřevo"
-      cat_rezivo: "Stavební řezivo"
-      cat_zbytky: "Výrobní zbytky"
-      cat_kamenivo: "Okrasné kamenivo"
-      wood_type_title: "Typ dřeva"
-      wood_all: "Vše"
-      wood_hard: "Tvrdé"
-      wood_soft: "Měkké"
-      sort_recommended: "Doporučujeme"
-      sort_bestsellers: "Nejprodávanější"
-    products:
+  firewood:
+    # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
+    stock_status: "Skladem"
+    variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
+    crates_heading_html: "<span class=\"text-blue\">Palivové dřevo</span> v bednách"
+    species:
       smrk:
-        title: "Smrk"
-        type: "Měkké palivové dřevo"
-        price: "od 1 260 Kč"
+        subtitle: "Měkké palivové dřevo"
+        description: "Lehké smrkové dřevo ideální pro rychlé vytopení krbů a kamen, snadno chytá plamen. Výhřevnost cca 1500–1700 kWh/m³, hoří 1–2 hodiny."
+        image_alt: "Smrkj palivové dřevo"
+        drying_note: "Doporučeno sušit 6–12 měsíců na suchém, větraném místě."
       dub:
-        title: "Dub"
-        type: "Tvrdé palivové dřevo"
-        price: "od 1 740 Kč"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Dubové dřevo s vysokou výhřevností a dlouhou dobou hoření, ideální pro krby a kamna. Výhřevnost cca 2100–2300 kWh/m³, hoří 3–4 hodiny."
+        image_alt: "Dub palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky na dobře větraném místě."
       buk:
-        title: "Buk"
-        type: "Tvrdé palivové dřevo"
-        price: "od 1 900 Kč"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Bukové dřevo s vysokou výhřevností a rovnoměrným hořením, ideální pro dlouhodobé vytápění. Výhřevnost cca 2100–2200 kWh/m³, hoří 2–3 hodiny."
+        image_alt: "Buk palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky."
       akat:
-        title: "Akát"
-        type: "Tvrdé palivové dřevo"
-        price: "od 1 900 Kč"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 2200–2500 kWh/m³, hoří 3–4 hodiny."
+        image_alt: "Akát palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky."
       jasan:
-        title: "Jasan"
-        type: "Tvrdé palivové dřevo"
-        price: "od 1 740 Kč"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Jasanové dřevo poskytuje stabilní hoření a intenzivní teplo, vhodné pro krby i kamna. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
+        image_alt: "Jasan palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky."
       briza:
-        title: "Bříza"
-        type: "Tvrdé palivové dřevo"
-        price: "---"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
+        image_alt: "Bříza palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky."
       habr:
-        title: "Habr"
-        type: "Tvrdé palivové dřevo"
-        price: "od 1 900 Kč"
-      late:
-        title: "Střešní latě"
-        type: "Stavební řezivo"
-        price: "od 8 500 Kč"
-      tramy:
-        title: "Trámy"
-        type: "Stavební řezivo"
-        price: "od 8 500 Kč"
-      fosny:
-        title: "Fošny"
-        type: "Stavební řezivo"
-        price: "od 8 500 Kč"
-      prkna:
-        title: "Prkna"
-        type: "Stavební řezivo"
-        price: "od 5 000 Kč"
-      stepka:
-        title: "Štěpka"
-        type: "Výrobní zbytky"
-        price: "od 700 Kč"
-      odkory:
-        title: "Odkory na topení"
-        type: "Výrobní zbytky"
-        price: "od 800 Kč"
-      piliny:
-        title: "Piliny"
-        type: "Výrobní zbytky"
-        price: "od 450 Kč"
-      okrasne_kamenivo:
-        title: "Okrasné kamenivo"
-        type: "Okrasné kamenivo"
-        price: "od 1 Kč"
+        subtitle: "Tvrdé palivové dřevo"
+        description: "Habr patří mezi nejvýhřevnější dřeva, poskytuje dlouhotrvající a intenzivní teplo. Výhřevnost cca 2300–2500 kWh/m³, hoří 3–4 hodiny."
+        image_alt: "Habr palivové dřevo"
+        drying_note: "Doporučeno sušit 1–2 roky."
 
-    firewood:
-      # Shared strings for all firewood species detail pages (smrk, dub, buk, akat, jasan, briza, habr)
-      stock_status: "Skladem"
-      variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
-      crates_heading_html: "<span class=\"text-blue\">Palivové dřevo</span> v bednách"
-      species:
-        smrk:
-          subtitle: "Měkké palivové dřevo"
-          description: "Lehké smrkové dřevo ideální pro rychlé vytopení krbů a kamen, snadno chytá plamen. Výhřevnost cca 1500–1700 kWh/m³, hoří 1–2 hodiny."
-          image_alt: "Smrkj palivové dřevo"
-          drying_note: "Doporučeno sušit 6–12 měsíců na suchém, větraném místě."
-        dub:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Dubové dřevo s vysokou výhřevností a dlouhou dobou hoření, ideální pro krby a kamna. Výhřevnost cca 2100–2300 kWh/m³, hoří 3–4 hodiny."
-          image_alt: "Dub palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky na dobře větraném místě."
-        buk:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Bukové dřevo s vysokou výhřevností a rovnoměrným hořením, ideální pro dlouhodobé vytápění. Výhřevnost cca 2100–2200 kWh/m³, hoří 2–3 hodiny."
-          image_alt: "Buk palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky."
-        akat:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 2200–2500 kWh/m³, hoří 3–4 hodiny."
-          image_alt: "Akát palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky."
-        jasan:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Jasanové dřevo poskytuje stabilní hoření a intenzivní teplo, vhodné pro krby i kamna. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
-          image_alt: "Jasan palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky."
-        briza:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Břízové dřevo je oblíbené pro rovnoměrné hoření, minimální kouřivost a jemnou vůni. Skvěle se hodí pro vytápění v krbech a kamnech. Výhřevnost cca 1900–2100 kWh/m³, hoří 2–3 hodiny."
-          image_alt: "Bříza palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky."
-        habr:
-          subtitle: "Tvrdé palivové dřevo"
-          description: "Habr patří mezi nejvýhřevnější dřeva, poskytuje dlouhotrvající a intenzivní teplo. Výhřevnost cca 2300–2500 kWh/m³, hoří 3–4 hodiny."
-          image_alt: "Habr palivové dřevo"
-          drying_note: "Doporučeno sušit 1–2 roky."
+  lumber:
+    variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
 
-    lumber:
-      variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
+shared:
+  custom_demand:
+    title_line1: "Nenašli jste, co jste hledali?"
+    title_line2: "Poptejte se po výrobě na míru"
+    banner_alt: "Zadat poptávku"
+    card_title: "Zadat poptávku"
+    text_html: "Potřebujete palivové dřevo <strong>na míru</strong>, profesionální služby spojené s jeho přípravou, nebo kvalitní řezivo? Napište nám, co přesně hledáte, a my vám připravíme <strong>individuální nabídku podle vašich potřeb</strong>. Rychle, spolehlivě a za férovou cenu."
+  jak_objednat:
+    title_html: "Jak si u nás <span style=\"color: #2C8FFF\">objednat?</span>"
+    online_title_accent: "online"
+    online_title_rest: "Nakoupit"
+    online_steps:
+      - "Vyber produkt v e-shopu"
+      - "Přidejte do košíku"
+      - "Zadejte kontaktní údaje a dopravu"
+      - "Přejděte k dokončení objednávky"
+    online_img_alt: "Dřevo"
+    online_button: "Nakoupit online"
+    poptavka_title_accent: "poptávku"
+    poptavka_title_rest: "Zadat"
+    poptavka_steps:
+      - "Poptáte nám, co potřebujete"
+      - "Připravíme přesnou kalkulaci a návrh"
+      - "Na základě domluvy výrobek vyrobíme"
+      - "Doručíme až k Vám nebo připravíme k osobnímu odběru"
+    poptavka_img_alt: "Pila"
+    poptavka_button: "Zadat poptávku"
+  product_row:
+    cenik: "Ceník"
+    to_eshop: "Přejít do e-shopu"
+    request_quote: "Zadat poptávku"
+  recommendations:
+    title_html: "Mohlo by vás také <span class=\"text-blue\">zajímat:</span>"
+    items:
+      - jasan
+      - briza
+      - habr
+      - odkory
+      - buk
+  wood_types:
+    title_html: "Dřeva v sortimentu <span class=\"text-blue\">podle tvrdosti a barevnosti</span>"
+    soft_title: "Měkká"
+    hard_title: "Tvrdá"
+    soft_items:
+      smrk: "Smrk"
+      borovice: "Borovice"
+      modrin: "Modřín"
+    hard_items:
+      buk: "Buk"
+      habr: "Habr"
+      dub: "Dub"
+      akat: "Akát"
+      jasan: "Jasan"
 
-  shared:
-    custom_demand:
-      title_line1: "Nenašli jste, co jste hledali?"
-      title_line2: "Poptejte se po výrobě na míru"
-      banner_alt: "Zadat poptávku"
-      card_title: "Zadat poptávku"
-      text_html: "Potřebujete palivové dřevo <strong>na míru</strong>, profesionální služby spojené s jeho přípravou, nebo kvalitní řezivo? Napište nám, co přesně hledáte, a my vám připravíme <strong>individuální nabídku podle vašich potřeb</strong>. Rychle, spolehlivě a za férovou cenu."
-    jak_objednat:
-      title_html: "Jak si u nás <span style=\"color: #2C8FFF\">objednat?</span>"
-      online_title_accent: "online"
-      online_title_rest: "Nakoupit"
-      online_steps:
-        - "Vyber produkt v e-shopu"
-        - "Přidejte do košíku"
-        - "Zadejte kontaktní údaje a dopravu"
-        - "Přejděte k dokončení objednávky"
-      online_img_alt: "Dřevo"
-      online_button: "Nakoupit online"
-      poptavka_title_accent: "poptávku"
-      poptavka_title_rest: "Zadat"
-      poptavka_steps:
-        - "Poptáte nám, co potřebujete"
-        - "Připravíme přesnou kalkulaci a návrh"
-        - "Na základě domluvy výrobek vyrobíme"
-        - "Doručíme až k Vám nebo připravíme k osobnímu odběru"
-      poptavka_img_alt: "Pila"
-      poptavka_button: "Zadat poptávku"
-    product_row:
-      cenik: "Ceník"
-      to_eshop: "Přejít do e-shopu"
-      request_quote: "Zadat poptávku"
-    recommendations:
-      title_html: "Mohlo by vás také <span class=\"text-blue\">zajímat:</span>"
-      items:
-        - jasan
-        - briza
-        - habr
-        - odkory
-        - buk
-    wood_types:
-      title_html: "Dřeva v sortimentu <span class=\"text-blue\">podle tvrdosti a barevnosti</span>"
-      soft_title: "Měkká"
-      hard_title: "Tvrdá"
-      soft_items:
-        smrk: "Smrk"
-        borovice: "Borovice"
-        modrin: "Modřín"
-      hard_items:
-        buk: "Buk"
-        habr: "Habr"
-        dub: "Dub"
-        akat: "Akát"
-        jasan: "Jasan"
+# How lists of messages are joined ("A, B a C"), instead of English "and".
+support:
+  array:
+    words_connector: ", "
+    two_words_connector: " a "
+    last_word_connector: " a "
 
-  # How lists of messages are joined ("A, B a C"), instead of English "and".
-  support:
-    array:
-      words_connector: ", "
-      two_words_connector: " a "
-      last_word_connector: " a "
+# Rails' default validation messages, which exist only in English;
+# without them the admin forms showed "Translation missing".
+errors:
+  messages:
+    blank: "je povinné pole"
+    taken: "už je použitý"
+    inclusion: "má neplatnou hodnotu"
+    invalid: "má neplatnou hodnotu"
+    not_a_number: "musí být číslo"
+    greater_than: "musí být větší než {count}"
 
-  # Rails' default validation messages, which exist only in English;
-  # without them the admin forms showed "Translation missing".
+activerecord:
   errors:
-    messages:
-      blank: "je povinné pole"
-      taken: "už je použitý"
-      inclusion: "má neplatnou hodnotu"
-      invalid: "má neplatnou hodnotu"
-      not_a_number: "musí být číslo"
-      greater_than: "musí být větší než %{count}"
-
-  activerecord:
-    errors:
-      models:
-        order:
-          attributes:
-            company_name:
-              blank: "Při nákupu na firmu je potřeba vyplnit název firmy"
-            delivery_street:
-              blank: "Při odlišné doručovací adrese je potřeba vyplnit ulici a č.p."
-            delivery_city:
-              blank: "Při odlišné doručovací adrese je potřeba vyplnit město"
-            delivery_zip:
-              blank: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
-            delivery_country:
-              blank: "Při odlišné doručovací adrese je potřeba vyplnit stát"
-        inquiry_form_option:
-          attributes:
-            field:
-              invalid_for_category: "neodpovídá zvolené kategorii"
-        pricelist_item:
-          attributes:
-            category:
-              inclusion: "není platná"
-            item_name:
-              blank: "je povinné pole"
-            subcategory:
-              blank: "je povinné pole"
-            price:
-              blank: "je povinné pole"
-        user:
-          attributes:
-            email_address:
-              blank: "musí být vyplněn"
-              taken: "je již zaregistrován"
-            password:
-              blank: "musí být vyplněno"
-              too_short: "je příliš krátké (nejméně %{count} znaků)"
-            password_confirmation:
-              confirmation: "se neshoduje s heslem"
-    attributes:
-      catalog_product:
-        key: "Klíč"
-        template: "Šablona zobrazení"
-        category: "Kategorie filtru"
-        hardness: "Tvrdost dřeva"
-      catalog_variant:
-        key: "Klíč"
-        price_czk: "Cena"
-        variant_group: "Dodání v"
+    models:
+      order:
+        attributes:
+          company_name:
+            blank: "Při nákupu na firmu je potřeba vyplnit název firmy"
+          delivery_street:
+            blank: "Při odlišné doručovací adrese je potřeba vyplnit ulici a č.p."
+          delivery_city:
+            blank: "Při odlišné doručovací adrese je potřeba vyplnit město"
+          delivery_zip:
+            blank: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
+          delivery_country:
+            blank: "Při odlišné doručovací adrese je potřeba vyplnit stát"
       inquiry_form_option:
-        category: "Kategorie"
-        field: "Pole"
-        value: "Hodnota"
+        attributes:
+          field:
+            invalid_for_category: "neodpovídá zvolené kategorii"
       pricelist_item:
-        category: "Kategorie"
-        item_name: "Název"
-        subcategory: "Dřevina"
-        price: "Cena"
+        attributes:
+          category:
+            inclusion: "není platná"
+          item_name:
+            blank: "je povinné pole"
+          subcategory:
+            blank: "je povinné pole"
+          price:
+            blank: "je povinné pole"
       user:
-        email_address: "E-mail"
-        password: "Heslo"
-        password_confirmation: "Heslo znovu"
+        attributes:
+          email_address:
+            blank: "musí být vyplněn"
+            taken: "je již zaregistrován"
+          password:
+            blank: "musí být vyplněno"
+            too_short: "je příliš krátké (nejméně {count} znaků)"
+          password_confirmation:
+            confirmation: "se neshoduje s heslem"
+  attributes:
+    catalog_product:
+      key: "Klíč"
+      template: "Šablona zobrazení"
+      category: "Kategorie filtru"
+      hardness: "Tvrdost dřeva"
+    catalog_variant:
+      key: "Klíč"
+      price_czk: "Cena"
+      variant_group: "Dodání v"
+    inquiry_form_option:
+      category: "Kategorie"
+      field: "Pole"
+      value: "Hodnota"
+    pricelist_item:
+      category: "Kategorie"
+      item_name: "Název"
+      subcategory: "Dřevina"
+      price: "Cena"
+    user:
+      email_address: "E-mail"
+      password: "Heslo"
+      password_confirmation: "Heslo znovu"
 
-  order_mailer:
-    greeting: "Dobrý den, %{name},"
-    thank_you: "děkujeme za Vaši objednávku. Zde je její shrnutí:"
-    order_number: "Číslo objednávky"
-    item: "Položka"
-    quantity: "Množství"
-    unit_price: "Jednotková cena"
-    total: "Celkem"
-    shipping_method: "Způsob dopravy"
-    payment_method: "Způsob platby"
-    total_due: "Celkem k úhradě"
-    delivery: "Doprava (%{km} km tam i zpět, orientačně)"
-    questions_text: "V případě jakýchkoliv dotazů nás neváhejte kontaktovat na telefonu +420 602 446 339 nebo e-mailu stepan.merta@seznam.cz."
-    sign_off: "S pozdravem,"
-    signature: "Štěpán Merta, Pila Derflice"
+order_mailer:
+  greeting: "Dobrý den, {name},"
+  thank_you: "děkujeme za Vaši objednávku. Zde je její shrnutí:"
+  order_number: "Číslo objednávky"
+  item: "Položka"
+  quantity: "Množství"
+  unit_price: "Jednotková cena"
+  total: "Celkem"
+  shipping_method: "Způsob dopravy"
+  payment_method: "Způsob platby"
+  total_due: "Celkem k úhradě"
+  delivery: "Doprava ({km} km tam i zpět, orientačně)"
+  questions_text: "V případě jakýchkoliv dotazů nás neváhejte kontaktovat na telefonu +420 602 446 339 nebo e-mailu stepan.merta@seznam.cz."
+  sign_off: "S pozdravem,"
+  signature: "Štěpán Merta, Pila Derflice"
 
-  legal:
-    terms_title: "Obchodní podmínky"
-    terms_placeholder: "Obchodní podmínky budou brzy doplněny."
-    terms_content_html: |
-      <h2>1. Úvodní ustanovení</h2>
-      <p>Tyto obchodní podmínky (dále jen „obchodní podmínky") upravují vzájemná práva a povinnosti smluvních stran vzniklé v souvislosti nebo na základě kupní smlouvy uzavírané mezi:</p>
-      <p><strong>Štěpán Merta</strong><br>
-      Pila Derflice<br>
-      Místo podnikání: Derflice 66, 671 28 Znojmo<br>
-      Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
-      IČ: 45665451<br>
-      DIČ: CZ6909094742<br>
-      Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku.<br>
-      E-mail: stepan.merta@seznam.cz<br>
-      Telefon: +420 602 446 339, +420 515 235 527<br>
-      Provozní doba: pondělí – pátek, 7:00 – 15:30</p>
-      <p>(dále jen „prodávající") a kupujícím, který prostřednictvím e-shopu na adrese piladerflice.cz učiní objednávku zboží (dále jen „kupující").</p>
-      <p>Znění obchodních podmínek může prodávající měnit či doplňovat. Tímto ustanovením nejsou dotčena práva a povinnosti vzniklá po dobu účinnosti předchozího znění obchodních podmínek.</p>
+legal:
+  terms_title: "Obchodní podmínky"
+  terms_placeholder: "Obchodní podmínky budou brzy doplněny."
+  terms_content_html: |
+    <h2>1. Úvodní ustanovení</h2>
+    <p>Tyto obchodní podmínky (dále jen „obchodní podmínky") upravují vzájemná práva a povinnosti smluvních stran vzniklé v souvislosti nebo na základě kupní smlouvy uzavírané mezi:</p>
+    <p><strong>Štěpán Merta</strong><br>
+    Pila Derflice<br>
+    Místo podnikání: Derflice 66, 671 28 Znojmo<br>
+    Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
+    IČ: 45665451<br>
+    DIČ: CZ6909094742<br>
+    Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku.<br>
+    E-mail: stepan.merta@seznam.cz<br>
+    Telefon: +420 602 446 339, +420 515 235 527<br>
+    Provozní doba: pondělí – pátek, 7:00 – 15:30</p>
+    <p>(dále jen „prodávající") a kupujícím, který prostřednictvím e-shopu na adrese piladerflice.cz učiní objednávku zboží (dále jen „kupující").</p>
+    <p>Znění obchodních podmínek může prodávající měnit či doplňovat. Tímto ustanovením nejsou dotčena práva a povinnosti vzniklá po dobu účinnosti předchozího znění obchodních podmínek.</p>
 
-      <h2>2. Uzavření kupní smlouvy</h2>
-      <p>Objednávku zboží kupující odešle prostřednictvím objednávkového formuláře na e-shopu. Odesláním objednávky kupující stvrzuje, že se seznámil s těmito obchodními podmínkami a že s nimi souhlasí.</p>
-      <p>Kupní smlouva mezi prodávajícím a kupujícím vzniká okamžikem doručení potvrzení objednávky ze strany prodávajícího na e-mailovou adresu kupujícího.</p>
+    <h2>2. Uzavření kupní smlouvy</h2>
+    <p>Objednávku zboží kupující odešle prostřednictvím objednávkového formuláře na e-shopu. Odesláním objednávky kupující stvrzuje, že se seznámil s těmito obchodními podmínkami a že s nimi souhlasí.</p>
+    <p>Kupní smlouva mezi prodávajícím a kupujícím vzniká okamžikem doručení potvrzení objednávky ze strany prodávajícího na e-mailovou adresu kupujícího.</p>
 
-      <h2>3. Cena zboží a platební podmínky</h2>
-      <p>Ceny zboží uvedené na e-shopu jsou platné v okamžiku odeslání objednávky a jsou uváděny včetně DPH.</p>
-      <p>Platbu za zboží lze provést jedním z následujících způsobů:</p>
-      <ul>
-        <li><strong>Hotově při osobním odběru</strong> – na adrese provozovny Derflice 66, 671 28 Znojmo.</li>
-        <li><strong>Bankovním převodem</strong> – na základě zálohové (proforma) faktury zaslané kupujícímu po přijetí objednávky; zboží je expedováno po připsání platby na účet prodávajícího.</li>
-      </ul>
-      <p>Prodávající v současné době nenabízí platbu prostřednictvím platební karty online.</p>
+    <h2>3. Cena zboží a platební podmínky</h2>
+    <p>Ceny zboží uvedené na e-shopu jsou platné v okamžiku odeslání objednávky a jsou uváděny včetně DPH.</p>
+    <p>Platbu za zboží lze provést jedním z následujících způsobů:</p>
+    <ul>
+      <li><strong>Hotově při osobním odběru</strong> – na adrese provozovny Derflice 66, 671 28 Znojmo.</li>
+      <li><strong>Bankovním převodem</strong> – na základě zálohové (proforma) faktury zaslané kupujícímu po přijetí objednávky; zboží je expedováno po připsání platby na účet prodávajícího.</li>
+    </ul>
+    <p>Prodávající v současné době nenabízí platbu prostřednictvím platební karty online.</p>
 
-      <h2>4. Dodací podmínky</h2>
-      <p>Kupující si může zvolit jeden z následujících způsobů dodání:</p>
-      <ul>
-        <li><strong>Osobní odběr</strong> – zdarma, na adrese provozovny Derflice 66, 671 28 Znojmo, po předchozí domluvě.</li>
-        <li><strong>Doprava na adresu</strong> – cena dopravy činí 40 Kč (včetně DPH) za každý ujetý kilometr, počítáno tam i zpět mezi provozovnou v Derflicích a doručovací adresou. Vzdálenost se počítá automaticky podle doručovací adresy a orientační cena dopravy je zobrazena v souhrnu objednávky a zahrnuta v celkové ceně; konečnou cenu dopravy prodávající potvrdí po přijetí objednávky. Celé objednané množství se doveze jednou jízdou. Nepodaří-li se vzdálenost spočítat, je cena dopravy kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
-      </ul>
-      <p>Termín dodání či předání zboží k osobnímu odběru je dohodnut individuálně s ohledem na dostupnost zboží a kapacitu prodávajícího; není-li dohodnuto jinak, dodá prodávající zboží v přiměřené lhůtě.</p>
+    <h2>4. Dodací podmínky</h2>
+    <p>Kupující si může zvolit jeden z následujících způsobů dodání:</p>
+    <ul>
+      <li><strong>Osobní odběr</strong> – zdarma, na adrese provozovny Derflice 66, 671 28 Znojmo, po předchozí domluvě.</li>
+      <li><strong>Doprava na adresu</strong> – cena dopravy činí 40 Kč (včetně DPH) za každý ujetý kilometr, počítáno tam i zpět mezi provozovnou v Derflicích a doručovací adresou. Vzdálenost se počítá automaticky podle doručovací adresy a orientační cena dopravy je zobrazena v souhrnu objednávky a zahrnuta v celkové ceně; konečnou cenu dopravy prodávající potvrdí po přijetí objednávky. Celé objednané množství se doveze jednou jízdou. Nepodaří-li se vzdálenost spočítat, je cena dopravy kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
+    </ul>
+    <p>Termín dodání či předání zboží k osobnímu odběru je dohodnut individuálně s ohledem na dostupnost zboží a kapacitu prodávajícího; není-li dohodnuto jinak, dodá prodávající zboží v přiměřené lhůtě.</p>
 
-      <h2>5. Odstoupení od smlouvy</h2>
-      <p>V souladu s § 1829 občanského zákoníku má kupující, je-li spotřebitelem, právo odstoupit od kupní smlouvy uzavřené distančním způsobem bez udání důvodu ve lhůtě 14 dnů ode dne převzetí zboží, a to zasláním písemného odstoupení na e-mail nebo poštovní adresu prodávajícího.</p>
-      <p>V souladu s § 1837 písm. d) občanského zákoníku nelze odstoupit od smlouvy v případě zboží, které bylo upraveno podle přání kupujícího nebo pro jeho osobu (např. řezivo, trámy či fošny vyrobené na míru dle individuálně zadaných rozměrů).</p>
-      <p>Zboží je kupující povinen vrátit prodávajícímu nepoškozené a bez známek užívání, je-li to s ohledem na jeho povahu možné, a to do 14 dnů od odstoupení od smlouvy. Náklady spojené s vrácením zboží nese kupující.</p>
+    <h2>5. Odstoupení od smlouvy</h2>
+    <p>V souladu s § 1829 občanského zákoníku má kupující, je-li spotřebitelem, právo odstoupit od kupní smlouvy uzavřené distančním způsobem bez udání důvodu ve lhůtě 14 dnů ode dne převzetí zboží, a to zasláním písemného odstoupení na e-mail nebo poštovní adresu prodávajícího.</p>
+    <p>V souladu s § 1837 písm. d) občanského zákoníku nelze odstoupit od smlouvy v případě zboží, které bylo upraveno podle přání kupujícího nebo pro jeho osobu (např. řezivo, trámy či fošny vyrobené na míru dle individuálně zadaných rozměrů).</p>
+    <p>Zboží je kupující povinen vrátit prodávajícímu nepoškozené a bez známek užívání, je-li to s ohledem na jeho povahu možné, a to do 14 dnů od odstoupení od smlouvy. Náklady spojené s vrácením zboží nese kupující.</p>
 
-      <h2>6. Práva z vadného plnění a reklamace</h2>
-      <p>Práva a povinnosti smluvních stran ohledně práv z vadného plnění se řídí příslušnými obecně závaznými právními předpisy, zejména § 2099 a násl. a § 2158 a násl. občanského zákoníku.</p>
-      <p>Je-li kupující spotřebitelem, odpovídá prodávající za to, že zboží při převzetí nemá vady, a to po dobu 24 měsíců od převzetí zboží.</p>
-      <p>Reklamaci lze uplatnit e-mailem na adrese stepan.merta@seznam.cz nebo osobně na adrese provozovny. Prodávající rozhodne o reklamaci a vyřídí ji nejpozději do 30 dnů ode dne jejího uplatnění, nedohodne-li se s kupujícím na delší lhůtě.</p>
-      <p>Vzhledem k povaze zboží (přírodní materiál – dřevo) se za vadu nepovažují drobné rozdíly v kresbě, barvě nebo mírné rozdíly v rozměrech způsobené přirozenými vlastnostmi dřeva, pokud nebrání obvyklému užití zboží.</p>
+    <h2>6. Práva z vadného plnění a reklamace</h2>
+    <p>Práva a povinnosti smluvních stran ohledně práv z vadného plnění se řídí příslušnými obecně závaznými právními předpisy, zejména § 2099 a násl. a § 2158 a násl. občanského zákoníku.</p>
+    <p>Je-li kupující spotřebitelem, odpovídá prodávající za to, že zboží při převzetí nemá vady, a to po dobu 24 měsíců od převzetí zboží.</p>
+    <p>Reklamaci lze uplatnit e-mailem na adrese stepan.merta@seznam.cz nebo osobně na adrese provozovny. Prodávající rozhodne o reklamaci a vyřídí ji nejpozději do 30 dnů ode dne jejího uplatnění, nedohodne-li se s kupujícím na delší lhůtě.</p>
+    <p>Vzhledem k povaze zboží (přírodní materiál – dřevo) se za vadu nepovažují drobné rozdíly v kresbě, barvě nebo mírné rozdíly v rozměrech způsobené přirozenými vlastnostmi dřeva, pokud nebrání obvyklému užití zboží.</p>
 
-      <h2>7. Ochrana osobních údajů</h2>
-      <p>Prodávající zpracovává osobní údaje kupujícího (jméno, příjmení, adresa, telefon, e-mail, popř. IČ/DIČ při nákupu na firmu) výhradně za účelem vyřízení objednávky, plnění kupní smlouvy a plnění zákonných povinností (např. účetních). Správcem osobních údajů je Štěpán Merta, IČ: 45665451.</p>
-      <p>Osobní údaje nejsou předávány třetím osobám s výjimkou subjektů nezbytných pro doručení zboží (dopravce), poskytovatele služby pro výpočet vzdálenosti doručovací adresy (openrouteservice, HeiGIT gGmbH, Německo) a subjektů vyžadovaných zákonem (např. finanční správa).</p>
-      <p>Kupující má právo na přístup ke svým osobním údajům, jejich opravu či výmaz, popřípadě omezení zpracování, a právo vznést námitku proti zpracování, jakož i právo podat stížnost u Úřadu pro ochranu osobních údajů.</p>
+    <h2>7. Ochrana osobních údajů</h2>
+    <p>Prodávající zpracovává osobní údaje kupujícího (jméno, příjmení, adresa, telefon, e-mail, popř. IČ/DIČ při nákupu na firmu) výhradně za účelem vyřízení objednávky, plnění kupní smlouvy a plnění zákonných povinností (např. účetních). Správcem osobních údajů je Štěpán Merta, IČ: 45665451.</p>
+    <p>Osobní údaje nejsou předávány třetím osobám s výjimkou subjektů nezbytných pro doručení zboží (dopravce), poskytovatele služby pro výpočet vzdálenosti doručovací adresy (openrouteservice, HeiGIT gGmbH, Německo) a subjektů vyžadovaných zákonem (např. finanční správa).</p>
+    <p>Kupující má právo na přístup ke svým osobním údajům, jejich opravu či výmaz, popřípadě omezení zpracování, a právo vznést námitku proti zpracování, jakož i právo podat stížnost u Úřadu pro ochranu osobních údajů.</p>
 
-      <h2>8. Mimosoudní řešení sporů</h2>
-      <p>V případě, že mezi prodávajícím a kupujícím spotřebitelem dojde ke vzniku spotřebitelského sporu, má kupující právo na jeho mimosoudní řešení. Subjektem mimosoudního řešení spotřebitelských sporů je Česká obchodní inspekce, Ústřední inspektorát – oddělení ADR, se sídlem Štěpánská 567/15, 120 00 Praha 2, internetová adresa: <a href="https://adr.coi.cz" target="_blank" rel="noopener">adr.coi.cz</a>.</p>
+    <h2>8. Mimosoudní řešení sporů</h2>
+    <p>V případě, že mezi prodávajícím a kupujícím spotřebitelem dojde ke vzniku spotřebitelského sporu, má kupující právo na jeho mimosoudní řešení. Subjektem mimosoudního řešení spotřebitelských sporů je Česká obchodní inspekce, Ústřední inspektorát – oddělení ADR, se sídlem Štěpánská 567/15, 120 00 Praha 2, internetová adresa: <a href="https://adr.coi.cz" target="_blank" rel="noopener">adr.coi.cz</a>.</p>
 
-      <h2>9. Závěrečná ustanovení</h2>
-      <p>Tyto obchodní podmínky se řídí právním řádem České republiky, zejména zákonem č. 89/2012 Sb., občanský zákoník, a zákonem č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů.</p>
-      <p>Je-li některé ustanovení obchodních podmínek neplatné nebo neúčinné, nebo se takovým stane, namísto neplatných ustanovení nastoupí ustanovení, jehož smysl se neplatnému ustanovení co nejvíce přibližuje. Neplatností nebo neúčinností jednoho ustanovení není dotčena platnost ostatních ustanovení.</p>
-      <p>Tyto obchodní podmínky nabývají účinnosti dnem jejich zveřejnění.</p>
+    <h2>9. Závěrečná ustanovení</h2>
+    <p>Tyto obchodní podmínky se řídí právním řádem České republiky, zejména zákonem č. 89/2012 Sb., občanský zákoník, a zákonem č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů.</p>
+    <p>Je-li některé ustanovení obchodních podmínek neplatné nebo neúčinné, nebo se takovým stane, namísto neplatných ustanovení nastoupí ustanovení, jehož smysl se neplatnému ustanovení co nejvíce přibližuje. Neplatností nebo neúčinností jednoho ustanovení není dotčena platnost ostatních ustanovení.</p>
+    <p>Tyto obchodní podmínky nabývají účinnosti dnem jejich zveřejnění.</p>
 
-    cookies_title: "Zásady používání cookies"
-    cookies_content_html: |
-      <p>Tyto webové stránky používají soubory cookies – malé textové soubory ukládané ve vašem prohlížeči, které nám pomáhají zajistit jejich správné fungování.</p>
+  cookies_title: "Zásady používání cookies"
+  cookies_content_html: |
+    <p>Tyto webové stránky používají soubory cookies – malé textové soubory ukládané ve vašem prohlížeči, které nám pomáhají zajistit jejich správné fungování.</p>
 
-      <h2>1. Nezbytné cookies</h2>
-      <p>Tyto cookies jsou nutné pro základní fungování stránek (např. obsah košíku, přihlášení) a nelze je vypnout. Bez nich by stránky nefungovaly správně.</p>
+    <h2>1. Nezbytné cookies</h2>
+    <p>Tyto cookies jsou nutné pro základní fungování stránek (např. obsah košíku, přihlášení) a nelze je vypnout. Bez nich by stránky nefungovaly správně.</p>
 
-      <h2>2. Analytické cookies</h2>
-      <p>Pro měření návštěvnosti používáme Google Analytics (Google Ireland Limited). Tyto cookies se nastaví pouze v případě, že s jejich použitím souhlasíte volbou „Přijmout vše". Pomáhají nám pochopit, jak návštěvníci stránky používají, a stránky podle toho vylepšovat.</p>
-      <p>V současné době nepoužíváme žádné marketingové ani reklamní cookies.</p>
+    <h2>2. Analytické cookies</h2>
+    <p>Pro měření návštěvnosti používáme Google Analytics (Google Ireland Limited). Tyto cookies se nastaví pouze v případě, že s jejich použitím souhlasíte volbou „Přijmout vše". Pomáhají nám pochopit, jak návštěvníci stránky používají, a stránky podle toho vylepšovat.</p>
+    <p>V současné době nepoužíváme žádné marketingové ani reklamní cookies.</p>
 
-      <h2>3. Správa souhlasu</h2>
-      <p>Svou volbu můžete kdykoliv změnit pomocí odkazu „Nastavení cookies" v patičce stránek.</p>
+    <h2>3. Správa souhlasu</h2>
+    <p>Svou volbu můžete kdykoliv změnit pomocí odkazu „Nastavení cookies" v patičce stránek.</p>
 
-    privacy_title: "Zásady ochrany osobních údajů"
-    privacy_content_html: |
-      <p>Tyto zásady vysvětlují, jaké osobní údaje při provozu webu piladerflice.cz zpracováváme, proč je zpracováváme, na jakém právním základě, komu je předáváme a jaká máte práva. Údaje zpracováváme v souladu s nařízením (EU) 2016/679 (GDPR) a zákonem č. 110/2019 Sb., o zpracování osobních údajů.</p>
-      <p>Poslední aktualizace: 14. 10. 2026.</p>
+  privacy_title: "Zásady ochrany osobních údajů"
+  privacy_content_html: |
+    <p>Tyto zásady vysvětlují, jaké osobní údaje při provozu webu piladerflice.cz zpracováváme, proč je zpracováváme, na jakém právním základě, komu je předáváme a jaká máte práva. Údaje zpracováváme v souladu s nařízením (EU) 2016/679 (GDPR) a zákonem č. 110/2019 Sb., o zpracování osobních údajů.</p>
+    <p>Poslední aktualizace: 14. 10. 2026.</p>
 
-      <h2>1. Kdo je správcem vašich údajů</h2>
-      <p><strong>Štěpán Merta</strong><br>
-      Pila Derflice<br>
-      Místo podnikání: Derflice 66, 671 28 Znojmo<br>
-      Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
-      IČ: 45665451<br>
-      DIČ: CZ6909094742<br>
-      E-mail: stepan.merta@seznam.cz<br>
-      Telefon: +420 602 446 339</p>
-      <p>Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku (dále jen „my"). Se všemi dotazy ke zpracování osobních údajů se na nás můžete obrátit na uvedené e-mailové adrese.</p>
+    <h2>1. Kdo je správcem vašich údajů</h2>
+    <p><strong>Štěpán Merta</strong><br>
+    Pila Derflice<br>
+    Místo podnikání: Derflice 66, 671 28 Znojmo<br>
+    Korespondenční a fakturační adresa: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
+    IČ: 45665451<br>
+    DIČ: CZ6909094742<br>
+    E-mail: stepan.merta@seznam.cz<br>
+    Telefon: +420 602 446 339</p>
+    <p>Fyzická osoba podnikající dle živnostenského zákona, nezapsaná v obchodním rejstříku (dále jen „my"). Se všemi dotazy ke zpracování osobních údajů se na nás můžete obrátit na uvedené e-mailové adrese.</p>
 
-      <h2>2. Jaké údaje zpracováváme a proč</h2>
+    <h2>2. Jaké údaje zpracováváme a proč</h2>
 
-      <h3>2.1 Objednávky v e-shopu</h3>
-      <ul>
-        <li><strong>Údaje:</strong> jméno a příjmení, e-mail, telefon, fakturační adresa, doručovací adresa (je-li jiná), při nákupu na firmu název firmy, IČ a DIČ, dále obsah objednávky, zvolený způsob dopravy a platby a jazyk, ve kterém objednávku odesíláte.</li>
-        <li><strong>Účel:</strong> vyřízení objednávky, uzavření a plnění kupní smlouvy, výpočet orientační ceny dopravy podle vzdálenosti doručovací adresy, doručení zboží, fakturace, komunikace o objednávce a vyřízení reklamací.</li>
-        <li><strong>Právní základ:</strong> plnění smlouvy (čl. 6 odst. 1 písm. b) GDPR) a plnění právních povinností, zejména účetních a daňových (čl. 6 odst. 1 písm. c) GDPR).</li>
-        <li><strong>Doba uchování:</strong> po dobu, kterou vyžadují účetní a daňové předpisy, u daňových dokladů 10 let od konce zdaňovacího období (zákon č. 235/2004 Sb., o dani z přidané hodnoty). Poté údaje smažeme nebo anonymizujeme.</li>
-      </ul>
+    <h3>2.1 Objednávky v e-shopu</h3>
+    <ul>
+      <li><strong>Údaje:</strong> jméno a příjmení, e-mail, telefon, fakturační adresa, doručovací adresa (je-li jiná), při nákupu na firmu název firmy, IČ a DIČ, dále obsah objednávky, zvolený způsob dopravy a platby a jazyk, ve kterém objednávku odesíláte.</li>
+      <li><strong>Účel:</strong> vyřízení objednávky, uzavření a plnění kupní smlouvy, výpočet orientační ceny dopravy podle vzdálenosti doručovací adresy, doručení zboží, fakturace, komunikace o objednávce a vyřízení reklamací.</li>
+      <li><strong>Právní základ:</strong> plnění smlouvy (čl. 6 odst. 1 písm. b) GDPR) a plnění právních povinností, zejména účetních a daňových (čl. 6 odst. 1 písm. c) GDPR).</li>
+      <li><strong>Doba uchování:</strong> po dobu, kterou vyžadují účetní a daňové předpisy, u daňových dokladů 10 let od konce zdaňovacího období (zákon č. 235/2004 Sb., o dani z přidané hodnoty). Poté údaje smažeme nebo anonymizujeme.</li>
+    </ul>
 
-      <h3>2.2 Zákaznický účet</h3>
-      <ul>
-        <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek, případně profilový obrázek, pokud si jej nahrajete (ukládáme jej zmenšený na 256 × 256 px, včetně metadat EXIF, která fotka případně obsahuje, např. údajů o fotoaparátu nebo polohy; zobrazujeme jej jen vám). Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
-        <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky), zobrazení vašeho profilového obrázku a zabezpečení účtu.</li>
-        <li><strong>Právní základ:</strong> plnění smlouvy o vedení účtu (čl. 6 odst. 1 písm. b) GDPR); u IP adresy a údajů o prohlížeči náš oprávněný zájem na zabezpečení účtů (čl. 6 odst. 1 písm. f) GDPR).</li>
-        <li><strong>Doba uchování:</strong> údaje účtu do jeho zrušení, které provedeme na vaši žádost zaslanou e-mailem; údaje o přihlášení po dobu, kdy jste přihlášeni (při odhlášení se smažou). Údaje o již vyřízených objednávkách uchováváme dále podle bodu 2.1.</li>
-      </ul>
+    <h3>2.2 Zákaznický účet</h3>
+    <ul>
+      <li><strong>Údaje:</strong> e-mail (slouží jako přihlašovací jméno), heslo (ukládáme jej pouze v podobě nevratného zašifrovaného otisku, nikoli čitelně), jméno, telefon, fakturační a doručovací adresa a firemní údaje, které si v účtu uložíte pro předvyplnění objednávek, a historie vašich objednávek, případně profilový obrázek, pokud si jej nahrajete (ukládáme jej zmenšený na 256 × 256 px, včetně metadat EXIF, která fotka případně obsahuje, např. údajů o fotoaparátu nebo polohy; zobrazujeme jej jen vám). Při přihlášení navíc ukládáme čas přihlášení, IP adresu a údaje o vašem prohlížeči (user agent).</li>
+      <li><strong>Účel:</strong> vedení účtu, usnadnění opakovaných nákupů (předvyplnění údajů, historie objednávek, opakování objednávky), zobrazení vašeho profilového obrázku a zabezpečení účtu.</li>
+      <li><strong>Právní základ:</strong> plnění smlouvy o vedení účtu (čl. 6 odst. 1 písm. b) GDPR); u IP adresy a údajů o prohlížeči náš oprávněný zájem na zabezpečení účtů (čl. 6 odst. 1 písm. f) GDPR).</li>
+      <li><strong>Doba uchování:</strong> údaje účtu do jeho zrušení, které provedeme na vaši žádost zaslanou e-mailem; údaje o přihlášení po dobu, kdy jste přihlášeni (při odhlášení se smažou). Údaje o již vyřízených objednávkách uchováváme dále podle bodu 2.1.</li>
+    </ul>
 
-      <h3>2.3 Poptávky a kalkulace</h3>
-      <ul>
-        <li><strong>Údaje:</strong> jméno a příjmení, telefon, e-mail, adresa (ulice, číslo popisné, město, PSČ), poptávané zboží a jeho parametry, poznámka a jazyk, ve kterém formulář vyplňujete.</li>
-        <li><strong>Účel:</strong> zpracování poptávky a příprava nezávazné kalkulace či nabídky.</li>
-        <li><strong>Právní základ:</strong> jednání o uzavření smlouvy na vaši žádost (čl. 6 odst. 1 písm. b) GDPR).</li>
-        <li><strong>Doba uchování:</strong> po dobu vyřízení poptávky a navazujících jednání. Nedojde-li k uzavření smlouvy, údaje smažeme, jakmile pominou důvody pro jejich uchování.</li>
-      </ul>
+    <h3>2.3 Poptávky a kalkulace</h3>
+    <ul>
+      <li><strong>Údaje:</strong> jméno a příjmení, telefon, e-mail, adresa (ulice, číslo popisné, město, PSČ), poptávané zboží a jeho parametry, poznámka a jazyk, ve kterém formulář vyplňujete.</li>
+      <li><strong>Účel:</strong> zpracování poptávky a příprava nezávazné kalkulace či nabídky.</li>
+      <li><strong>Právní základ:</strong> jednání o uzavření smlouvy na vaši žádost (čl. 6 odst. 1 písm. b) GDPR).</li>
+      <li><strong>Doba uchování:</strong> po dobu vyřízení poptávky a navazujících jednání. Nedojde-li k uzavření smlouvy, údaje smažeme, jakmile pominou důvody pro jejich uchování.</li>
+    </ul>
 
-      <h3>2.4 Dotazy e-mailem nebo telefonem</h3>
-      <ul>
-        <li><strong>Údaje:</strong> kontaktní údaje, které nám sdělíte, a obsah komunikace.</li>
-        <li><strong>Účel:</strong> odpověď na váš dotaz.</li>
-        <li><strong>Právní základ:</strong> náš oprávněný zájem odpovídat zájemcům o naše zboží a služby (čl. 6 odst. 1 písm. f) GDPR), případně jednání o uzavření smlouvy (čl. 6 odst. 1 písm. b) GDPR).</li>
-        <li><strong>Doba uchování:</strong> po dobu vyřízení dotazu a navazujících jednání.</li>
-      </ul>
+    <h3>2.4 Dotazy e-mailem nebo telefonem</h3>
+    <ul>
+      <li><strong>Údaje:</strong> kontaktní údaje, které nám sdělíte, a obsah komunikace.</li>
+      <li><strong>Účel:</strong> odpověď na váš dotaz.</li>
+      <li><strong>Právní základ:</strong> náš oprávněný zájem odpovídat zájemcům o naše zboží a služby (čl. 6 odst. 1 písm. f) GDPR), případně jednání o uzavření smlouvy (čl. 6 odst. 1 písm. b) GDPR).</li>
+      <li><strong>Doba uchování:</strong> po dobu vyřízení dotazu a navazujících jednání.</li>
+    </ul>
 
-      <h3>2.5 Newsletter</h3>
-      <ul>
-        <li><strong>Údaje:</strong> e-mail a jméno z objednávky, u které jste zaškrtli souhlas se zasíláním newsletterů.</li>
-        <li><strong>Účel:</strong> zasílání obchodních sdělení.</li>
-        <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte zaškrtnutím příslušného políčka při objednávce. Souhlas můžete kdykoliv odvolat e-mailem na stepan.merta@seznam.cz; odvoláním není dotčena zákonnost zpracování před jeho odvoláním.</li>
-        <li><strong>Doba uchování:</strong> do odvolání souhlasu.</li>
-      </ul>
+    <h3>2.5 Newsletter</h3>
+    <ul>
+      <li><strong>Údaje:</strong> e-mail a jméno z objednávky, u které jste zaškrtli souhlas se zasíláním newsletterů.</li>
+      <li><strong>Účel:</strong> zasílání obchodních sdělení.</li>
+      <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte zaškrtnutím příslušného políčka při objednávce. Souhlas můžete kdykoliv odvolat e-mailem na stepan.merta@seznam.cz; odvoláním není dotčena zákonnost zpracování před jeho odvoláním.</li>
+      <li><strong>Doba uchování:</strong> do odvolání souhlasu.</li>
+    </ul>
 
-      <h3>2.6 Měření návštěvnosti (Google Analytics)</h3>
-      <ul>
-        <li><strong>Údaje:</strong> údaje o používání webu (např. zobrazené stránky, typ zařízení a prohlížeče, přibližná poloha, údaje o dokončených objednávkách) a online identifikátory v cookies.</li>
-        <li><strong>Účel:</strong> zjistit, jak návštěvníci web používají, a podle toho jej zlepšovat.</li>
-        <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte volbou „Přijmout vše" v cookie liště. Souhlas můžete kdykoliv odvolat odkazem „Nastavení cookies" v patičce stránek.</li>
-        <li><strong>Doba uchování:</strong> po dobu uchování údajů nastavenou v Google Analytics, nejdéle 14 měsíců.</li>
-        <li><strong>Poskytovatel:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irsko.</li>
-      </ul>
-      <p>Bez vašeho souhlasu se analytické cookies neukládají. Při zobrazení stránky se však načítá skript ze serverů Google, takže Google i v tom případě obdrží technické údaje o spojení, zejména vaši IP adresu.</p>
+    <h3>2.6 Měření návštěvnosti (Google Analytics)</h3>
+    <ul>
+      <li><strong>Údaje:</strong> údaje o používání webu (např. zobrazené stránky, typ zařízení a prohlížeče, přibližná poloha, údaje o dokončených objednávkách) a online identifikátory v cookies.</li>
+      <li><strong>Účel:</strong> zjistit, jak návštěvníci web používají, a podle toho jej zlepšovat.</li>
+      <li><strong>Právní základ:</strong> váš souhlas (čl. 6 odst. 1 písm. a) GDPR), který udělíte volbou „Přijmout vše" v cookie liště. Souhlas můžete kdykoliv odvolat odkazem „Nastavení cookies" v patičce stránek.</li>
+      <li><strong>Doba uchování:</strong> po dobu uchování údajů nastavenou v Google Analytics, nejdéle 14 měsíců.</li>
+      <li><strong>Poskytovatel:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irsko.</li>
+    </ul>
+    <p>Bez vašeho souhlasu se analytické cookies neukládají. Při zobrazení stránky se však načítá skript ze serverů Google, takže Google i v tom případě obdrží technické údaje o spojení, zejména vaši IP adresu.</p>
 
-      <h3>2.7 Mapa Google Maps</h3>
-      <p>V patičce stránek je vložena mapa Google Maps, která ukazuje polohu provozovny. Při zobrazení stránky se váš prohlížeč připojí k serverům Google, které obdrží vaši IP adresu a mohou ukládat cookies. Právním základem je náš oprávněný zájem usnadnit zákazníkům nalezení provozovny (čl. 6 odst. 1 písm. f) GDPR). Dobu uchování údajů určuje Google.</p>
+    <h3>2.7 Mapa Google Maps</h3>
+    <p>V patičce stránek je vložena mapa Google Maps, která ukazuje polohu provozovny. Při zobrazení stránky se váš prohlížeč připojí k serverům Google, které obdrží vaši IP adresu a mohou ukládat cookies. Právním základem je náš oprávněný zájem usnadnit zákazníkům nalezení provozovny (čl. 6 odst. 1 písm. f) GDPR). Dobu uchování údajů určuje Google.</p>
 
-      <h3>2.8 Provoz a zabezpečení webu</h3>
-      <p>Při každém zobrazení stránky se zpracovává vaše IP adresa a technické údaje o požadavku (např. čas, adresa stránky, typ prohlížeče), které jsou nezbytné k doručení stránky a k zabezpečení provozu. Právním základem je náš oprávněný zájem na bezpečném a spolehlivém provozu webu (čl. 6 odst. 1 písm. f) GDPR). Tyto provozní záznamy uchováváme jen po dobu nezbytnou k zajištění bezpečnosti.</p>
-      <p>Web používá také soubory cookies. Nezbytné cookies (obsah košíku, přihlášení a vaše volba v cookie liště) jsou potřeba k fungování stránek, analytické cookies používáme jen s vaším souhlasem. Podrobnosti najdete v <a href="/zasady-cookies">Zásadách používání cookies</a>.</p>
+    <h3>2.8 Provoz a zabezpečení webu</h3>
+    <p>Při každém zobrazení stránky se zpracovává vaše IP adresa a technické údaje o požadavku (např. čas, adresa stránky, typ prohlížeče), které jsou nezbytné k doručení stránky a k zabezpečení provozu. Právním základem je náš oprávněný zájem na bezpečném a spolehlivém provozu webu (čl. 6 odst. 1 písm. f) GDPR). Tyto provozní záznamy uchováváme jen po dobu nezbytnou k zajištění bezpečnosti.</p>
+    <p>Web používá také soubory cookies. Nezbytné cookies (obsah košíku, přihlášení a vaše volba v cookie liště) jsou potřeba k fungování stránek, analytické cookies používáme jen s vaším souhlasem. Podrobnosti najdete v <a href="/zasady-cookies">Zásadách používání cookies</a>.</p>
 
-      <h2>3. Komu údaje předáváme</h2>
-      <ul>
-        <li><strong>Poskytovatelé IT služeb</strong> (provoz a správa serveru, e-mailové služby pro odesílání potvrzení objednávek a komunikaci), kteří údaje zpracovávají pro nás jako zpracovatelé a smějí je používat pouze podle našich pokynů.</li>
-        <li><strong>Google Ireland Limited</strong> (měření návštěvnosti a mapa, viz body 2.6 a 2.7).</li>
-        <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Německo (služba openrouteservice) – při volbě doručení na adresu jí předáváme pouze doručovací adresu (ulice, město, PSČ, země), abychom spočítali vzdálenost od provozovny a orientační cenu dopravy. Jméno ani kontaktní údaje jí nepředáváme.</li>
-        <li><strong>Dopravce</strong>, je-li doručení zajišťováno třetí stranou; předáváme mu pouze údaje nutné k doručení (jméno, adresa, telefon).</li>
-        <li><strong>Orgány veřejné moci</strong> (např. finanční správa), pokud nám to ukládá zákon.</li>
-      </ul>
-      <p>Vaše údaje neprodáváme. Nedochází k automatizovanému individuálnímu rozhodování ve smyslu čl. 22 GDPR.</p>
-      <p>Někteří poskytovatelé, zejména Google, mohou údaje zpracovávat i mimo Evropskou unii a Evropský hospodářský prostor. Takové předání se vždy řídí podmínkami kapitoly V GDPR (např. rozhodnutím Evropské komise o odpovídající ochraně nebo standardními smluvními doložkami).</p>
+    <h2>3. Komu údaje předáváme</h2>
+    <ul>
+      <li><strong>Poskytovatelé IT služeb</strong> (provoz a správa serveru, e-mailové služby pro odesílání potvrzení objednávek a komunikaci), kteří údaje zpracovávají pro nás jako zpracovatelé a smějí je používat pouze podle našich pokynů.</li>
+      <li><strong>Google Ireland Limited</strong> (měření návštěvnosti a mapa, viz body 2.6 a 2.7).</li>
+      <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Německo (služba openrouteservice) – při volbě doručení na adresu jí předáváme pouze doručovací adresu (ulice, město, PSČ, země), abychom spočítali vzdálenost od provozovny a orientační cenu dopravy. Jméno ani kontaktní údaje jí nepředáváme.</li>
+      <li><strong>Dopravce</strong>, je-li doručení zajišťováno třetí stranou; předáváme mu pouze údaje nutné k doručení (jméno, adresa, telefon).</li>
+      <li><strong>Orgány veřejné moci</strong> (např. finanční správa), pokud nám to ukládá zákon.</li>
+    </ul>
+    <p>Vaše údaje neprodáváme. Nedochází k automatizovanému individuálnímu rozhodování ve smyslu čl. 22 GDPR.</p>
+    <p>Někteří poskytovatelé, zejména Google, mohou údaje zpracovávat i mimo Evropskou unii a Evropský hospodářský prostor. Takové předání se vždy řídí podmínkami kapitoly V GDPR (např. rozhodnutím Evropské komise o odpovídající ochraně nebo standardními smluvními doložkami).</p>
 
-      <h2>4. Vaše práva</h2>
-      <p>Podle GDPR máte právo:</p>
-      <ul>
-        <li>na přístup ke svým osobním údajům a na kopii zpracovávaných údajů (čl. 15),</li>
-        <li>na opravu nepřesných údajů (čl. 16) – údaje ve svém účtu můžete upravit sami na stránce „Upravit údaje",</li>
-        <li>na výmaz údajů (čl. 17),</li>
-        <li>na omezení zpracování (čl. 18),</li>
-        <li>na přenositelnost údajů (čl. 20),</li>
-        <li>vznést námitku proti zpracování založenému na oprávněném zájmu (čl. 21),</li>
-        <li>kdykoliv odvolat souhlas, který jste nám udělili.</li>
-      </ul>
-      <p>Svá práva můžete uplatnit e-mailem na stepan.merta@seznam.cz. Na žádost odpovíme nejpozději do jednoho měsíce.</p>
-      <p>Domníváte-li se, že s vašimi údaji nakládáme v rozporu s právními předpisy, máte právo podat stížnost u dozorového úřadu. V České republice je jím Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Stížnost můžete podat také u dozorového úřadu v zemi svého bydliště (v Rakousku Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
+    <h2>4. Vaše práva</h2>
+    <p>Podle GDPR máte právo:</p>
+    <ul>
+      <li>na přístup ke svým osobním údajům a na kopii zpracovávaných údajů (čl. 15),</li>
+      <li>na opravu nepřesných údajů (čl. 16) – údaje ve svém účtu můžete upravit sami na stránce „Upravit údaje",</li>
+      <li>na výmaz údajů (čl. 17),</li>
+      <li>na omezení zpracování (čl. 18),</li>
+      <li>na přenositelnost údajů (čl. 20),</li>
+      <li>vznést námitku proti zpracování založenému na oprávněném zájmu (čl. 21),</li>
+      <li>kdykoliv odvolat souhlas, který jste nám udělili.</li>
+    </ul>
+    <p>Svá práva můžete uplatnit e-mailem na stepan.merta@seznam.cz. Na žádost odpovíme nejpozději do jednoho měsíce.</p>
+    <p>Domníváte-li se, že s vašimi údaji nakládáme v rozporu s právními předpisy, máte právo podat stížnost u dozorového úřadu. V České republice je jím Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Stížnost můžete podat také u dozorového úřadu v zemi svého bydliště (v Rakousku Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
 
-      <h2>5. Povinnost poskytnout údaje</h2>
-      <p>Údaje potřebné k vyřízení objednávky nebo poptávky je nutné poskytnout – bez nich bychom objednávku ani poptávku nemohli vyřídit. Souhlas s newsletterem a s analytickými cookies je dobrovolný a jeho neudělení nemá na vyřízení objednávky žádný vliv.</p>
+    <h2>5. Povinnost poskytnout údaje</h2>
+    <p>Údaje potřebné k vyřízení objednávky nebo poptávky je nutné poskytnout – bez nich bychom objednávku ani poptávku nemohli vyřídit. Souhlas s newsletterem a s analytickými cookies je dobrovolný a jeho neudělení nemá na vyřízení objednávky žádný vliv.</p>
 
-      <h2>6. Zabezpečení údajů</h2>
-      <p>Web je provozován přes šifrované spojení (HTTPS) a hesla k zákaznickým účtům ukládáme pouze v podobě nevratného otisku.</p>
+    <h2>6. Zabezpečení údajů</h2>
+    <p>Web je provozován přes šifrované spojení (HTTPS) a hesla k zákaznickým účtům ukládáme pouze v podobě nevratného otisku.</p>
 
-      <h2>7. Změny těchto zásad</h2>
-      <p>Tyto zásady můžeme aktualizovat, např. při změně funkcí webu nebo právních předpisů. Aktuální znění je vždy zveřejněno na této stránce, datum poslední aktualizace najdete na jejím začátku. Související informace o zpracování údajů při nákupu najdete také v <a href="/obchodni-podminky">Obchodních podmínkách</a>.</p>
+    <h2>7. Změny těchto zásad</h2>
+    <p>Tyto zásady můžeme aktualizovat, např. při změně funkcí webu nebo právních předpisů. Aktuální znění je vždy zveřejněno na této stránce, datum poslední aktualizace najdete na jejím začátku. Související informace o zpracování údajů při nákupu najdete také v <a href="/obchodni-podminky">Obchodních podmínkách</a>.</p>
 
-  cookies:
-    banner_text: "Používáme cookies, abychom vám zajistili co nejlepší fungování těchto stránek. Nezbytné cookies jsou vždy aktivní."
-    accept_all: "Přijmout vše"
-    necessary_only: "Pouze nezbytné"
-    decline: "Odmítnout"
-    learn_more: "Zjistit více"
-    settings_link: "Nastavení cookies"
+cookies:
+  banner_text: "Používáme cookies, abychom vám zajistili co nejlepší fungování těchto stránek. Nezbytné cookies jsou vždy aktivní."
+  accept_all: "Přijmout vše"
+  necessary_only: "Pouze nezbytné"
+  decline: "Odmítnout"
+  learn_more: "Zjistit více"
+  settings_link: "Nastavení cookies"

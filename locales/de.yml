@@ -1,912 +1,911 @@
-de:
-  site:
-    name: "Pila Derflice"
+site:
+  name: "Pila Derflice"
 
-  not_found:
-    title: "Seite nicht gefunden"
-    heading: "Hier ist nichts"
-    text: "Die gesuchte Seite haben wir nicht gefunden. Vielleicht wurde sie verschoben oder die Adresse enthält einen Tippfehler."
-    home: "Zurück zur Startseite"
-    alt: "Maskottchen der Pila Derflice"
-    eshop: "Eshop"
-    sortiment: "Sortiment"
-    kontakt: "Kontakt"
+not_found:
+  title: "Seite nicht gefunden"
+  heading: "Hier ist nichts"
+  text: "Die gesuchte Seite haben wir nicht gefunden. Vielleicht wurde sie verschoben oder die Adresse enthält einen Tippfehler."
+  home: "Zurück zur Startseite"
+  alt: "Maskottchen der Pila Derflice"
+  eshop: "Eshop"
+  sortiment: "Sortiment"
+  kontakt: "Kontakt"
 
-  meta:
-    home:
-      title: "Pila Derflice – Brennholz und Schnittholz bei Znojmo"
-      description: "Familiensägewerk Derflice bei Znojmo: Brennholz, Bau- und Tischlerschnittholz, Sägespäne und Hackschnitzel. Schnelle Lieferung in Südmähren und Nordösterreich."
-    kontakt:
-      title: "Kontakt und Preisliste"
-      description: "Kontakt, Preisliste und unverbindliche Kalkulation. Pila Derflice 66, Znojmo, Mo–Fr 7:00–15:30, Tel. +420 602 446 339, stepan.merta@seznam.cz."
-    sluzby:
-      title: "Dienstleistungen"
-      description: "Dienstleistungen des Sägewerks Derflice: Sonderanfertigung, Hobeln, Lieferung, Imprägnierung sowie Einschnitt und Verkauf von Rundholz. Unverbindliche Preiskalkulation."
-    sortiment:
-      title: "Sortiment"
-      description: "Sortiment des Sägewerks Derflice: Brennholz, Bau- und Tischlerschnittholz, Produktionsreste (Schwarten, Hackschnitzel, Sägespäne) und Ziersteine."
-    palivove_drevo:
-      title: "Brennholz"
-      description: "Hartes (Buche, Eiche, Hainbuche, Robinie, Esche, Birke) und weiches (Fichte, Kiefer, Lärche) Brennholz, gesägt und gespalten, mit Lieferung zu Ihnen. Verkauf pro Raummeter."
-    stavebni_rezivo:
-      title: "Bauschnittholz"
-      description: "Bauschnittholz nach Maß: Balken, Bretter, Latten und Bohlen aus Fichte, Kiefer, Lärche und Eiche. Schnittlängen bis 11 m."
-    truhlarske_rezivo:
-      title: "Tischlerschnittholz"
-      description: "Tischlerschnittholz: Bohlen als Rohstoff für Leimholz und Massivholzmöbel, Treppen, Türen, Fenster und Musikinstrumente."
-    okrasne_kamenivo:
-      title: "Ziersteine"
-      description: "Ziersteine, Findlinge und Kieselsteine für Gärten, Wege, Teiche und Beete. In Säcken oder lose, Preis ab 1 Kč pro 1 kg."
-    vyrobni_zbytky:
-      title: "Produktionsreste"
-      description: "Produktionsreste aus dem Sägewerk: Schwarten, Hackschnitzel und Sägespäne zum Heizen, Mulchen, als Einstreu und zur Weiterverarbeitung."
-    eshop_palivove:
-      title: "Brennholz – Onlineshop"
-      description: "Brennholz online bestellen: hart und weich, gesägt und gespalten, mit Lieferung in Südmähren und Nordösterreich."
-    eshop_rezivo:
-      title: "Bauschnittholz – Onlineshop"
-      description: "Bauschnittholz online bestellen: Balken, Latten und Bohlen aus Fichte, Kiefer und Lärche, mit Lieferung in Südmähren und Nordösterreich."
-    eshop_zbytky:
-      title: "Produktionsreste – Onlineshop"
-      description: "Schwarten, Hackschnitzel und Sägespäne online bestellen, mit Lieferung in Südmähren und Nordösterreich."
-    eshop_kamenivo:
-      title: "Ziersteine – Onlineshop"
-      description: "Ziersteine online bestellen: Findlinge und Kieselsteine in Säcken oder lose, ab 1 Kč pro 1 kg."
-    area_served:
-      south_moravia: "Südmähren"
-      north_austria: "Nordösterreich"
-    product_fallback: "%{title} vom Sägewerk Derflice. Online bestellen mit Lieferung in Südmähren und Nordösterreich."
-    cart:
-      title: "Warenkorb"
-    checkout_shipping:
-      title: "Versand und Zahlung"
-    checkout_details:
-      title: "Kontaktdaten"
-    checkout_summary:
-      title: "Bestellübersicht"
-    checkout_confirmation:
-      title: "Danke für Ihre Bestellung"
-    login:
-      title: "Anmeldung"
-    register:
-      title: "Registrierung"
-    account:
-      title: "Mein Konto"
-    account_edit:
-      title: "Daten bearbeiten"
-    terms:
-      title: "Allgemeine Geschäftsbedingungen"
-      description: "Allgemeine Geschäftsbedingungen des Onlineshops des Sägewerks Derflice (Štěpán Merta)."
-    cookies:
-      title: "Cookie-Richtlinie"
-      description: "Wie das Sägewerk Derflice Cookies verwendet und wie Sie Ihre Einwilligung jederzeit ändern können."
-    privacy:
-      title: "Datenschutzerklärung"
-      description: "Welche personenbezogenen Daten das Sägewerk Derflice verarbeitet, warum, an wen sie weitergegeben werden und welche Rechte Sie haben."
-
-  auth:
-    login_title: "Anmeldung"
-    password: "Passwort"
-    password_confirmation: "Passwort wiederholen"
-    login_submit: "Anmelden"
-    no_account: "Noch kein Konto?"
-    register_link: "Registrieren"
-    register_title: "Registrierung"
-    register_privacy_html: "Mit der Kontoerstellung nehmen Sie die Verarbeitung Ihrer Daten gemäß der %{privacy_link} zur Kenntnis."
-    privacy_link_text: "Datenschutzerklärung"
-    register_submit: "Konto erstellen"
-    have_account: "Schon ein Konto?"
-    login_link: "Anmelden"
-    account_title: "Mein Konto"
-    go_to_admin: "Zur Verwaltung"
-    logout: "Abmelden"
-    order_history_title: "Meine Bestellungen"
-    order_number: "Bestellung Nr."
-    order_total: "Gesamt"
-    reorder_button: "Erneut bestellen"
-    no_orders: "Sie haben noch keine Bestellungen."
-    reorder_success: "Die Artikel wurden in den Warenkorb gelegt."
-    reorder_partial: "%{count} Artikel aus dieser Bestellung sind nicht mehr verfügbar, der Rest wurde in den Warenkorb gelegt."
-    reorder_failed: "Leider ist keiner der Artikel dieser Bestellung mehr verfügbar."
-    admin_badge: "Admin"
-    customer_since: "Kunde seit %{date}"
-    order_item_count_one: "1 Artikel"
-    order_item_count_other: "%{count} Artikel"
-    edit_profile_link: "Daten bearbeiten"
-    edit_profile_title: "Daten bearbeiten"
-    back_to_account: "Zurück zum Konto"
-    save_profile: "Änderungen speichern"
-    profile_updated: "Ihre Daten wurden gespeichert."
-    avatar_title: "Profilbild"
-    avatar_alt: "Ihr Profilbild"
-    avatar_choose: "Bild auswählen"
-    avatar_no_file: "Kein Bild ausgewählt"
-    avatar_upload: "Bild hochladen"
-    avatar_remove: "Bild entfernen"
-    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px; EXIF-Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) bleiben erhalten."
-    avatar_updated: "Das Profilbild wurde gespeichert."
-    avatar_removed: "Das Profilbild wurde entfernt."
-    avatar_errors:
-      none_selected: "Sie haben kein Bild ausgewählt."
-      too_large: "Die Datei ist zu groß (höchstens 2 MB)."
-      unsupported_type: "Wir unterstützen nur JPG-, PNG- und WebP-Bilder."
-      too_many_pixels: "Die Auflösung des Bildes ist zu hoch (höchstens 25 Megapixel)."
-      unreadable: "Das Bild konnte nicht gelesen werden. Bitte versuchen Sie eine andere Datei."
-      rate_limited: "Zu viele Upload-Versuche. Bitte versuchen Sie es gleich noch einmal."
-    phone_prefix_label: "Vorwahl"
-
-  nav:
-    domu: "Startseite"
-    eshop: "Onlineshop"
-    sortiment: "Sortiment"
-    sluzby: "Dienstleistungen"
-    cenik: "Preisliste"
-    kontakt: "Kontakt"
-    open_menu: "Menü öffnen"
-    close_menu: "Menü schließen"
-    toggle_theme: "Dunklen/hellen Modus umschalten"
-    dark_mode_label: "Dunkler Modus"
-    account: "Mein Konto"
-
-  common:
-    previous: "Zurück"
-    next: "Weiter"
-    slide: "Folie"
-    detail: "Details"
-    stock: "auf Lager"
-    in_stock: "Auf Lager"
-    out_of_stock: "Nicht auf Lager"
-    add_to_cart: "In den Warenkorb"
-    qty_decrease: "Menge verringern"
-    qty_increase: "Menge erhöhen"
-    delete: "Löschen"
-    add_item: "Position hinzufügen"
-    cenik: "Preisliste"
-    to_eshop: "Zum Onlineshop"
-    request_quote: "Angebot anfragen"
-    buy_online: "Online kaufen"
-    price_from: "ab"
-    loose_type_label: "Lagerungsart"
-    all: "Alle"
-    container: "Container"
-    crate: "Kisten"
-    available_variants_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
-    loose_variant: "Lose"
-    stacked_variant: "Gestapelt"
-    volne_lozene: "Lose geschüttet"
-    balene: "Verpackt"
-    spec_variant: "Variante"
-    spec_length: "Länge"
-    spec_amount: "Menge"
-    spec_dimension: "Maß"
-    spec_quality: "Qualität"
-    spec_thickness: "Stärke"
-    spec_wood: "Holzart"
-    spec_description: "Typ"
-    spec_fraction: "Körnung"
-    spec_grade: "Klasse"
-    spec_width: "Breite"
-    spec_height: "Höhe"
-    price_per_m3_html: "/ m<sup>3</sup>"
-    per_m3: "Rm"
-    and: "und"
-    close: "Schließen"
-
+meta:
+  home:
+    title: "Pila Derflice – Brennholz und Schnittholz bei Znojmo"
+    description: "Familiensägewerk Derflice bei Znojmo: Brennholz, Bau- und Tischlerschnittholz, Sägespäne und Hackschnitzel. Schnelle Lieferung in Südmähren und Nordösterreich."
+  kontakt:
+    title: "Kontakt und Preisliste"
+    description: "Kontakt, Preisliste und unverbindliche Kalkulation. Pila Derflice 66, Znojmo, Mo–Fr 7:00–15:30, Tel. +420 602 446 339, stepan.merta@seznam.cz."
+  sluzby:
+    title: "Dienstleistungen"
+    description: "Dienstleistungen des Sägewerks Derflice: Sonderanfertigung, Hobeln, Lieferung, Imprägnierung sowie Einschnitt und Verkauf von Rundholz. Unverbindliche Preiskalkulation."
+  sortiment:
+    title: "Sortiment"
+    description: "Sortiment des Sägewerks Derflice: Brennholz, Bau- und Tischlerschnittholz, Produktionsreste (Schwarten, Hackschnitzel, Sägespäne) und Ziersteine."
+  palivove_drevo:
+    title: "Brennholz"
+    description: "Hartes (Buche, Eiche, Hainbuche, Robinie, Esche, Birke) und weiches (Fichte, Kiefer, Lärche) Brennholz, gesägt und gespalten, mit Lieferung zu Ihnen. Verkauf pro Raummeter."
+  stavebni_rezivo:
+    title: "Bauschnittholz"
+    description: "Bauschnittholz nach Maß: Balken, Bretter, Latten und Bohlen aus Fichte, Kiefer, Lärche und Eiche. Schnittlängen bis 11 m."
+  truhlarske_rezivo:
+    title: "Tischlerschnittholz"
+    description: "Tischlerschnittholz: Bohlen als Rohstoff für Leimholz und Massivholzmöbel, Treppen, Türen, Fenster und Musikinstrumente."
+  okrasne_kamenivo:
+    title: "Ziersteine"
+    description: "Ziersteine, Findlinge und Kieselsteine für Gärten, Wege, Teiche und Beete. In Säcken oder lose, Preis ab 1 Kč pro 1 kg."
+  vyrobni_zbytky:
+    title: "Produktionsreste"
+    description: "Produktionsreste aus dem Sägewerk: Schwarten, Hackschnitzel und Sägespäne zum Heizen, Mulchen, als Einstreu und zur Weiterverarbeitung."
+  eshop_palivove:
+    title: "Brennholz – Onlineshop"
+    description: "Brennholz online bestellen: hart und weich, gesägt und gespalten, mit Lieferung in Südmähren und Nordösterreich."
+  eshop_rezivo:
+    title: "Bauschnittholz – Onlineshop"
+    description: "Bauschnittholz online bestellen: Balken, Latten und Bohlen aus Fichte, Kiefer und Lärche, mit Lieferung in Südmähren und Nordösterreich."
+  eshop_zbytky:
+    title: "Produktionsreste – Onlineshop"
+    description: "Schwarten, Hackschnitzel und Sägespäne online bestellen, mit Lieferung in Südmähren und Nordösterreich."
+  eshop_kamenivo:
+    title: "Ziersteine – Onlineshop"
+    description: "Ziersteine online bestellen: Findlinge und Kieselsteine in Säcken oder lose, ab 1 Kč pro 1 kg."
+  area_served:
+    south_moravia: "Südmähren"
+    north_austria: "Nordösterreich"
+  product_fallback: "{title} vom Sägewerk Derflice. Online bestellen mit Lieferung in Südmähren und Nordösterreich."
   cart:
-    aria_label: "Warenkorb"
-    page_title: "Warenkorb"
-    empty: "Ihr Warenkorb ist leer"
-    total_due: "Gesamtbetrag"
-    without_vat: "zzgl. MwSt."
-    view_cart: "Warenkorb ansehen"
-    added_title: "Artikel wurde hinzugefügt oder die Menge wurde angepasst"
-    continue_shopping: "Weiter einkaufen"
-    to_checkout: "Zur Kasse"
-    remove_aria: "Entfernen"
-    table_contents: "Warenkorbinhalt"
-    table_quantity: "Menge"
-    table_availability: "Verfügbarkeit"
-    table_unit_price: "Einzelpreis"
-    table_price_excl_vat: "Preis exkl. MwSt."
-    table_price_incl_vat: "Preis inkl. MwSt."
-    total_vat: "MwSt. gesamt"
-    back_to_shopping: "Zurück zum Einkauf"
-    discount_code_label: "Rabattcode"
-    discount_code_verify: "Rabattcode prüfen"
+    title: "Warenkorb"
+  checkout_shipping:
+    title: "Versand und Zahlung"
+  checkout_details:
+    title: "Kontaktdaten"
+  checkout_summary:
+    title: "Bestellübersicht"
+  checkout_confirmation:
+    title: "Danke für Ihre Bestellung"
+  login:
+    title: "Anmeldung"
+  register:
+    title: "Registrierung"
+  account:
+    title: "Mein Konto"
+  account_edit:
+    title: "Daten bearbeiten"
+  terms:
+    title: "Allgemeine Geschäftsbedingungen"
+    description: "Allgemeine Geschäftsbedingungen des Onlineshops des Sägewerks Derflice (Štěpán Merta)."
+  cookies:
+    title: "Cookie-Richtlinie"
+    description: "Wie das Sägewerk Derflice Cookies verwendet und wie Sie Ihre Einwilligung jederzeit ändern können."
+  privacy:
+    title: "Datenschutzerklärung"
+    description: "Welche personenbezogenen Daten das Sägewerk Derflice verarbeitet, warum, an wen sie weitergegeben werden und welche Rechte Sie haben."
 
-  checkout:
-    step_cart: "Ihr Warenkorb"
-    step_shipping: "Versand und Zahlung"
-    step_details: "Lieferdaten"
-    step_summary: "Zusammenfassung"
-    continue: "Bestellung fortsetzen"
-    back: "Zurück"
-    order_contents: "Bestellinhalt"
-    delivery_country_label: "Lieferland"
-    country_field: "Land"
-    country_cz: "Tschechien"
-    country_at: "Österreich"
-    shipping_method_label: "Versandart"
-    shipping_address: "Lieferung an Adresse"
-    shipping_address_note: "Versandkosten werden individuell berechnet"
-    shipping_address_rate_note: "%{rate}/km – den ungefähren Preis sehen Sie in der Bestellübersicht"
-    delivery_approximate: "(ungefährer Preis)"
-    goods_total: "Ware"
-    delivery_line: "Lieferung (%{km} km, ungefähr)"
-    shipping_pickup: "Persönliche Abholung am Lagerstandort"
-    free: "Kostenlos"
-    payment_method_label: "Zahlungsart"
-    payment_cash: "Bar bei Abholung"
-    payment_bank_transfer: "Banküberweisung - Proforma"
-    personal_details: "Persönliche Daten"
-    login_existing_user: "Als bestehender Kunde anmelden"
-    login_not_available: "Anmeldung ist noch nicht verfügbar"
-    logged_in_as: "Angemeldet als %{email} – Ihre Daten werden automatisch ausgefüllt."
-    newsletter_opt_in: "Ich stimme dem Newsletter-Versand zu"
-    billing_details: "Rechnungsdaten"
-    street_and_number: "Straße und Hausnummer"
-    company_purchase: "Ich kaufe als Firma"
-    company_name: "Firmenname"
-    company_ico: "USt-IdNr. (IČO)"
-    company_dic: "Steuernummer (DIČ)"
-    delivery_address_different: "Lieferadresse (falls abweichend von der Rechnungsadresse)"
-    summary_title: "Zusammenfassung"
-    terms_agreement_html: "Mit dem Absenden der Bestellung stimme ich den %{terms_link} des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung gemäß der %{privacy_link} zur Kenntnis."
-    terms_link_text: "Geschäftsbedingungen"
-    privacy_link_text: "Datenschutzerklärung"
-    terms_required: "Zum Abschluss der Bestellung müssen Sie den Bedingungen zustimmen."
-    submit_error: "Die Bestellung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Angaben."
-    confirmation_title: "Vielen Dank für Ihre Bestellung!"
-    confirmation_text: "Ihre Bestellung Nr. %{order_number} wurde erfolgreich entgegengenommen. Wir melden uns in Kürze mit weiteren Informationen bei Ihnen."
-    back_to_homepage: "Zurück zur Startseite"
+auth:
+  login_title: "Anmeldung"
+  password: "Passwort"
+  password_confirmation: "Passwort wiederholen"
+  login_submit: "Anmelden"
+  no_account: "Noch kein Konto?"
+  register_link: "Registrieren"
+  register_title: "Registrierung"
+  register_privacy_html: "Mit der Kontoerstellung nehmen Sie die Verarbeitung Ihrer Daten gemäß der {privacy_link} zur Kenntnis."
+  privacy_link_text: "Datenschutzerklärung"
+  register_submit: "Konto erstellen"
+  have_account: "Schon ein Konto?"
+  login_link: "Anmelden"
+  account_title: "Mein Konto"
+  go_to_admin: "Zur Verwaltung"
+  logout: "Abmelden"
+  order_history_title: "Meine Bestellungen"
+  order_number: "Bestellung Nr."
+  order_total: "Gesamt"
+  reorder_button: "Erneut bestellen"
+  no_orders: "Sie haben noch keine Bestellungen."
+  reorder_success: "Die Artikel wurden in den Warenkorb gelegt."
+  reorder_partial: "{count} Artikel aus dieser Bestellung sind nicht mehr verfügbar, der Rest wurde in den Warenkorb gelegt."
+  reorder_failed: "Leider ist keiner der Artikel dieser Bestellung mehr verfügbar."
+  admin_badge: "Admin"
+  customer_since: "Kunde seit {date}"
+  order_item_count_one: "1 Artikel"
+  order_item_count_other: "{count} Artikel"
+  edit_profile_link: "Daten bearbeiten"
+  edit_profile_title: "Daten bearbeiten"
+  back_to_account: "Zurück zum Konto"
+  save_profile: "Änderungen speichern"
+  profile_updated: "Ihre Daten wurden gespeichert."
+  avatar_title: "Profilbild"
+  avatar_alt: "Ihr Profilbild"
+  avatar_choose: "Bild auswählen"
+  avatar_no_file: "Kein Bild ausgewählt"
+  avatar_upload: "Bild hochladen"
+  avatar_remove: "Bild entfernen"
+  avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px; EXIF-Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) bleiben erhalten."
+  avatar_updated: "Das Profilbild wurde gespeichert."
+  avatar_removed: "Das Profilbild wurde entfernt."
+  avatar_errors:
+    none_selected: "Sie haben kein Bild ausgewählt."
+    too_large: "Die Datei ist zu groß (höchstens 2 MB)."
+    unsupported_type: "Wir unterstützen nur JPG-, PNG- und WebP-Bilder."
+    too_many_pixels: "Die Auflösung des Bildes ist zu hoch (höchstens 25 Megapixel)."
+    unreadable: "Das Bild konnte nicht gelesen werden. Bitte versuchen Sie eine andere Datei."
+    rate_limited: "Zu viele Upload-Versuche. Bitte versuchen Sie es gleich noch einmal."
+  phone_prefix_label: "Vorwahl"
 
-  breadcrumbs:
-    home_aria: "Brotkrümelnavigation"
-    sortiment: "Sortiment"
+nav:
+  domu: "Startseite"
+  eshop: "Onlineshop"
+  sortiment: "Sortiment"
+  sluzby: "Dienstleistungen"
+  cenik: "Preisliste"
+  kontakt: "Kontakt"
+  open_menu: "Menü öffnen"
+  close_menu: "Menü schließen"
+  toggle_theme: "Dunklen/hellen Modus umschalten"
+  dark_mode_label: "Dunkler Modus"
+  account: "Mein Konto"
+
+common:
+  previous: "Zurück"
+  next: "Weiter"
+  slide: "Folie"
+  detail: "Details"
+  stock: "auf Lager"
+  in_stock: "Auf Lager"
+  out_of_stock: "Nicht auf Lager"
+  add_to_cart: "In den Warenkorb"
+  qty_decrease: "Menge verringern"
+  qty_increase: "Menge erhöhen"
+  delete: "Löschen"
+  add_item: "Position hinzufügen"
+  cenik: "Preisliste"
+  to_eshop: "Zum Onlineshop"
+  request_quote: "Angebot anfragen"
+  buy_online: "Online kaufen"
+  price_from: "ab"
+  loose_type_label: "Lagerungsart"
+  all: "Alle"
+  container: "Container"
+  crate: "Kisten"
+  available_variants_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+  loose_variant: "Lose"
+  stacked_variant: "Gestapelt"
+  volne_lozene: "Lose geschüttet"
+  balene: "Verpackt"
+  spec_variant: "Variante"
+  spec_length: "Länge"
+  spec_amount: "Menge"
+  spec_dimension: "Maß"
+  spec_quality: "Qualität"
+  spec_thickness: "Stärke"
+  spec_wood: "Holzart"
+  spec_description: "Typ"
+  spec_fraction: "Körnung"
+  spec_grade: "Klasse"
+  spec_width: "Breite"
+  spec_height: "Höhe"
+  price_per_m3_html: "/ m<sup>3</sup>"
+  per_m3: "Rm"
+  and: "und"
+  close: "Schließen"
+
+cart:
+  aria_label: "Warenkorb"
+  page_title: "Warenkorb"
+  empty: "Ihr Warenkorb ist leer"
+  total_due: "Gesamtbetrag"
+  without_vat: "zzgl. MwSt."
+  view_cart: "Warenkorb ansehen"
+  added_title: "Artikel wurde hinzugefügt oder die Menge wurde angepasst"
+  continue_shopping: "Weiter einkaufen"
+  to_checkout: "Zur Kasse"
+  remove_aria: "Entfernen"
+  table_contents: "Warenkorbinhalt"
+  table_quantity: "Menge"
+  table_availability: "Verfügbarkeit"
+  table_unit_price: "Einzelpreis"
+  table_price_excl_vat: "Preis exkl. MwSt."
+  table_price_incl_vat: "Preis inkl. MwSt."
+  total_vat: "MwSt. gesamt"
+  back_to_shopping: "Zurück zum Einkauf"
+  discount_code_label: "Rabattcode"
+  discount_code_verify: "Rabattcode prüfen"
+
+checkout:
+  step_cart: "Ihr Warenkorb"
+  step_shipping: "Versand und Zahlung"
+  step_details: "Lieferdaten"
+  step_summary: "Zusammenfassung"
+  continue: "Bestellung fortsetzen"
+  back: "Zurück"
+  order_contents: "Bestellinhalt"
+  delivery_country_label: "Lieferland"
+  country_field: "Land"
+  country_cz: "Tschechien"
+  country_at: "Österreich"
+  shipping_method_label: "Versandart"
+  shipping_address: "Lieferung an Adresse"
+  shipping_address_note: "Versandkosten werden individuell berechnet"
+  shipping_address_rate_note: "{rate}/km – den ungefähren Preis sehen Sie in der Bestellübersicht"
+  delivery_approximate: "(ungefährer Preis)"
+  goods_total: "Ware"
+  delivery_line: "Lieferung ({km} km, ungefähr)"
+  shipping_pickup: "Persönliche Abholung am Lagerstandort"
+  free: "Kostenlos"
+  payment_method_label: "Zahlungsart"
+  payment_cash: "Bar bei Abholung"
+  payment_bank_transfer: "Banküberweisung - Proforma"
+  personal_details: "Persönliche Daten"
+  login_existing_user: "Als bestehender Kunde anmelden"
+  login_not_available: "Anmeldung ist noch nicht verfügbar"
+  logged_in_as: "Angemeldet als {email} – Ihre Daten werden automatisch ausgefüllt."
+  newsletter_opt_in: "Ich stimme dem Newsletter-Versand zu"
+  billing_details: "Rechnungsdaten"
+  street_and_number: "Straße und Hausnummer"
+  company_purchase: "Ich kaufe als Firma"
+  company_name: "Firmenname"
+  company_ico: "USt-IdNr. (IČO)"
+  company_dic: "Steuernummer (DIČ)"
+  delivery_address_different: "Lieferadresse (falls abweichend von der Rechnungsadresse)"
+  summary_title: "Zusammenfassung"
+  terms_agreement_html: "Mit dem Absenden der Bestellung stimme ich den {terms_link} des Shops zu und nehme die Verarbeitung meiner personenbezogenen Daten zur Bestellabwicklung gemäß der {privacy_link} zur Kenntnis."
+  terms_link_text: "Geschäftsbedingungen"
+  privacy_link_text: "Datenschutzerklärung"
+  terms_required: "Zum Abschluss der Bestellung müssen Sie den Bedingungen zustimmen."
+  submit_error: "Die Bestellung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Angaben."
+  confirmation_title: "Vielen Dank für Ihre Bestellung!"
+  confirmation_text: "Ihre Bestellung Nr. {order_number} wurde erfolgreich entgegengenommen. Wir melden uns in Kürze mit weiteren Informationen bei Ihnen."
+  back_to_homepage: "Zurück zur Startseite"
+
+breadcrumbs:
+  home_aria: "Brotkrümelnavigation"
+  sortiment: "Sortiment"
+  palivove_drevo: "Brennholz"
+  stavebni_rezivo: "Bauschnittholz"
+  truhlarske_rezivo: "Tischlerholz"
+  okrasne_kamenivo: "Ziersteine"
+  vyrobni_zbytky: "Produktionsreste"
+  sluzby: "Dienstleistungen"
+  kontakt: "Kontakt"
+  eshop: "Onlineshop"
+
+footer:
+  brand_name: "Štěpán Merta"
+  brand_sub: "Pila Derflice"
+  kontakt_title: "Kontakt"
+  address: "Derflice 66, 671 28 Znojmo, Tschechien"
+  hours: "Montag - Freitag: 7:00 - 15:30"
+  sluzby_title: "Dienstleistungen"
+  sluzby_links:
+    zakazkova_vyroba: "Sonderanfertigungen"
+    hoblovani: "Hobeln"
+    doprava: "Lieferung"
+    impregnace: "Imprägnierung"
+    porez: "Sägen / Verkauf von Rundholz"
+  sortiment_title: "Sortiment"
+  sortiment_links:
     palivove_drevo: "Brennholz"
     stavebni_rezivo: "Bauschnittholz"
     truhlarske_rezivo: "Tischlerholz"
-    okrasne_kamenivo: "Ziersteine"
     vyrobni_zbytky: "Produktionsreste"
-    sluzby: "Dienstleistungen"
-    kontakt: "Kontakt"
-    eshop: "Onlineshop"
+    okrasne_kamenivo: "Ziersteine"
 
-  footer:
-    brand_name: "Štěpán Merta"
-    brand_sub: "Pila Derflice"
-    kontakt_title: "Kontakt"
-    address: "Derflice 66, 671 28 Znojmo, Tschechien"
-    hours: "Montag - Freitag: 7:00 - 15:30"
-    sluzby_title: "Dienstleistungen"
-    sluzby_links:
-      zakazkova_vyroba: "Sonderanfertigungen"
-      hoblovani: "Hobeln"
-      doprava: "Lieferung"
-      impregnace: "Imprägnierung"
-      porez: "Sägen / Verkauf von Rundholz"
-    sortiment_title: "Sortiment"
-    sortiment_links:
+home:
+  index:
+    hero_title_accent: "HOCHWERTIGES HOLZ"
+    hero_title_rest: "FÜR ZUHAUSE, WERKSTATT UND BAU"
+    hero_text: "Wir sind eine Familiensägerei mit 30-jähriger Tradition. Wir übernehmen für Sie die komplette Verarbeitung von Brennholz sowie Bau- und Tischlerschnittholz. Mit schneller Lieferung in ganz Südmähren und Nordösterreich."
+    btn_eshop: "ZUM SHOP"
+    btn_vyroba: "MASSANFERTIGUNG"
+    reviews_count: "(11+ Bewertungen)"
+    features:
+      doprava: "Eigene<br>Lieferung"
+      vyroba: "Maß-<br>anfertigung"
+      sortiment: "Breites<br>Sortiment"
+      vyrobce: "Lokaler<br>Hersteller"
+      garance: "Qualitäts-<br>garantie"
+      ceny: "Faire<br>Preise"
+    promo_badge: "Empfohlen"
+    promo_alt: "Aktionsangebot"
+    promo_cta: "Ansehen"
+    top_categories_title_accent: "TOP"
+    top_categories_title_rest: "Kategorien"
+    categories:
       palivove_drevo: "Brennholz"
-      stavebni_rezivo: "Bauschnittholz"
-      truhlarske_rezivo: "Tischlerholz"
+      stavebni_drevo: "Bauholz"
       vyrobni_zbytky: "Produktionsreste"
-      okrasne_kamenivo: "Ziersteine"
+    zkusenosti_banner: "Bereits über 30 Jahre Erfahrung"
+    akcni_nabidka_title_accent: "ANGEBOT"
+    akcni_nabidka_title_rest: "AKTIONS"
+    akcni_nabidka_lead_html: "<b>Hochwertiges Brennholz, das mehr wärmt als nur mit dem Preis.</b>"
+    akcni_nabidka_text_html: "Trocken, gespalten und sofort einsatzbereit zum Heizen.<br>Lieferung direkt zu Ihnen nach Hause – schnell, zuverlässig und ohne Aufwand."
+    akcni_badge: "AKTION"
+    akcni_image_alt: "Aktionsangebot - Brennholz"
+    nejprodavanejsi_title_accent: "Meistverkaufte"
+    nejprodavanejsi_title_rest: "Produkte?"
+    btn_prohlednout: "ANSEHEN"
+    nabidka_title_accent: "anbieten?"
+    nabidka_title_rest: "Was können wir Ihnen"
+    nabidka_text_1_html: "Heizen Sie mit Holz und suchen hochwertigen Brennstoff für Kamin oder Ofen? Benötigen Sie Bauholz für die Renovierung oder den Bau von Pergolen, Zäunen oder Holzhäusern? Fertigen Sie Möbel aus <strong>hochwertigem Schnittholz</strong>, dann wenden Sie sich vertrauensvoll an uns."
+    nabidka_text_2_html: "Wir bieten seit Langem ein <strong>breites Sortiment</strong> an Holzmaterialien, darunter Bretter, Latten, Balken und Bohlen. Für die Gartengestaltung führen wir Ziersteine, und für weitere Verwendungszwecke auch Sägemehl, Hobelspäne und Hackschnitzel."
+    sluzby_title_accent: "bieten wir an?"
+    sluzby_title_rest: "Welche Dienstleistungen"
+    dorucujeme_title_accent: "liefern wir?"
+    dorucujeme_title_rest: "Wohin überall"
+    dorucujeme_text_1: "Wir liefern Brennholz in ganz Südmähren und Nordösterreich, einschließlich der Grenzregionen zwischen der Region Vysočina und Mittelösterreich. Dazu zählen zum Beispiel Städte und Gemeinden wie Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, auf österreichischer Seite etwa Drosendorf, Raabs an der Thaya, Hardegg oder Thaya."
+    dorucujeme_text_2: "Der Lieferpreis richtet sich immer nach Entfernung und bestellter Holzmenge, damit er für jeden Kunden möglichst günstig ist."
+    dorucujeme_map_alt: "Liefergebiet in Südmähren und Österreich"
+    dorucujeme_pin_label: "Pila Derflice"
+    dorucujeme_pin_address: "Derflice 66, 671 28 Znojmo"
+    co_je_noveho_title_accent: "neu?"
+    co_je_noveho_title_rest: "Was ist"
+    co_je_noveho_subtitle: "Brennholz in Kisten"
+    co_je_noveho_text: "Bereiten Sie sich rechtzeitig auf die Heizsaison vor! Wir bieten hochwertiges, trockenes Brennholz in praktischen Kisten mit einem Volumen von 1 m³ und Lieferung direkt zu Ihnen nach Hause. Sparen Sie Zeit und Mühe – bestellen Sie einfach, um den Rest kümmern wir uns."
+    co_je_noveho_pic1_alt: "Kisten mit Brennholz"
+    co_je_noveho_pic2_alt: "Gestapeltes Brennholz in einer Kiste"
+    co_je_noveho_pic3_alt: "Brennholz bereit zum Versand"
+    zajimat_title_accent: "interessieren?"
+    zajimat_title_rest: "Was könnte Sie noch"
+    faq_title_rest: "Von Ihnen am häufigsten"
+    faq_title_accent: "gestellte Fragen"
+    faq_cat_palivove: "Brennholz"
+    faq_cat_stavebni: "Bau- und Tischlerschnittholz"
+    faq_cat_doprava: "Lieferung"
+    faq_palivove_q1: "Was ist der Unterschied zwischen Hart- und Weichholz?"
+    faq_palivove_a1: "Hartholz (z. B. Buche, Eiche, Hainbuche, Akazie, Esche oder Birke) hat einen höheren Brennwert und brennt länger, weshalb es sich für langes Heizen eignet. Weichholz (Fichte, Kiefer, Lärche) brennt schneller und lässt sich leichter entzünden, ideal zum Anzünden und schnellen Aufheizen."
+    faq_palivove_q2: "Wie lagert man Brennholz richtig?"
+    faq_palivove_a2: "Lagern Sie Brennholz an einem trockenen, gut belüfteten Ort, idealerweise auf Paletten oder Unterlagen, damit es nicht direkt mit dem Boden in Berührung kommt. Decken Sie die Oberseite ab, lassen Sie die Seiten aber offen, damit Feuchtigkeit entweichen kann. Richtig gelagertes Holz ist in der Regel nach 1–2 Jahren Trocknung heizbereit."
+    faq_palivove_q3: "Was ist der Unterschied zwischen PRMs (geschüttet) und PRMr (geschichtet) Raummeter?"
+    faq_palivove_a3: "PRMs (geschütteter Raummeter) bezeichnet lose geschüttetes Holz mit mehr Luftzwischenräumen. PRMr (geschichteter Raummeter) ist sorgfältig gestapeltes Holz, das durch kleinere Zwischenräume mehr tatsächliches Holz pro Volumen enthält."
+    faq_palivove_q4: "Ist das Holz sofort zum Heizen bereit?"
+    faq_palivove_a4: "Wir bieten getrocknetes Brennholz mit niedriger Feuchtigkeit an, das heizbereit ist. Den genauen Feuchtigkeitsgehalt und Zustand des Holzes teilen wir Ihnen bei der Bestellung gerne mit."
+    faq_stavebni_q1: "Welche Schnittholzarten bieten Sie an?"
+    faq_stavebni_a1: "Im Angebot finden Sie Balken, Latten, Bohlen und Bretter in Baustandard sowie gehobeltes Schnittholz für Tischler und Möbelbau. Aktuelle Maße und Preise finden Sie in unserem Onlineshop."
+    faq_stavebni_q2: "Fertigen Sie Schnittholz nach Dachstuhl-Zuschnittliste an?"
+    faq_stavebni_a2: "Ja, anhand der von Ihnen übermittelten Zuschnittliste (Maße und Längen der einzelnen Bauteile) fertigen wir das Schnittholz passgenau an. Die Liste können Sie uns über das Kontaktformular oder direkt per E-Mail zusenden."
+    faq_stavebni_q3: "Ist das Schnittholz imprägniert?"
+    faq_stavebni_a3: "Wir bieten sowohl unbehandeltes als auch imprägniertes Schnittholz an (Schutz vor holzzerstörenden Insekten, Pilzen und Schimmel), was wir besonders für Dachlatten und tragende Konstruktionen empfehlen."
+    faq_stavebni_q4: "Fertigen Sie auch untypische Maße für Balken und Bohlen auf Bestellung?"
+    faq_stavebni_a4: "Ja, neben Standardmaßen fertigen wir Balken und Bohlen auch nach Ihren individuellen Anforderungen. Geben Sie einfach das gewünschte Maß und die Menge über das Anfrageformular im Bereich Kontakt an, und wir erstellen Ihnen ein Angebot."
+    faq_doprava_q1: "Wie läuft die Lieferung ab?"
+    faq_doprava_a1: "Wir liefern das Holz mit eigenen Fahrzeugen direkt zu Ihnen nach Hause oder auf die Baustelle. Der Lieferpreis richtet sich nach Entfernung und bestellter Menge, damit er für Sie möglichst günstig ist."
+    faq_doprava_q2: "Wie hoch ist die Mindestmenge für eine Bestellung mit Lieferung?"
+    faq_doprava_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    faq_doprava_q3: "Wie lange dauert es, bis das Holz ankommt?"
+    faq_doprava_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    faq_doprava_q4: "Welche Zahlungsmöglichkeiten gibt es?"
+    faq_doprava_a4: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
+    faq_cta_text: "Keine Antwort gefunden?"
+    faq_cta_button: "Kontaktieren Sie uns"
+    o_sobe_title_accent: "über uns sagen?"
+    o_sobe_title_rest: "Was würden wir"
+    o_sobe_image_alt: "Holzverladung im Wald"
+    o_sobe_p1_html: "Unsere Sägerei unter der Leitung von Herrn Štěpán Merta ist bereits <strong>seit über 30 Jahren</strong> in der Holzverarbeitung tätig."
+    o_sobe_p2_html: "Dank langjähriger Praxis und Erfahrung können wir <strong>auf die individuellen Anforderungen</strong> unserer Kunden eingehen."
+    o_sobe_p3_html: "Wir verfügen über <strong>moderne Ausrüstung</strong>, darunter eine automatische Spaltmaschine, Bandsäge, Hobelmaschine, Imprägnierwanne u. v. m."
+    o_sobe_p4: "Wir sorgen für die Lieferung der Produkte direkt zu Ihnen nach Hause."
+    o_sobe_p5_html: "Trotz eines kleineren Teams von etwa 10 Mitarbeitern legen wir großen Wert auf <strong>die Einhaltung von Terminen</strong> und <strong>hohe Servicequalität.</strong>"
+    o_sobe_cta: "Anfrage senden"
+    google_reviews_title_rest: "Was sagen"
+    google_reviews_title_accent: "unsere Kunden?"
+    google_reviews_count: "Basierend auf 11+ Rezensionen"
+    google_reviews_verified_title: "Von Google-Kunden verifiziert"
+    google_reviews_verified_sub: "Echte Bewertungen unserer Kunden"
+    google_review_source: "Rezension von Google"
+    google_review_like: "Gefällt mir"
 
-  home:
-    index:
-      hero_title_accent: "HOCHWERTIGES HOLZ"
-      hero_title_rest: "FÜR ZUHAUSE, WERKSTATT UND BAU"
-      hero_text: "Wir sind eine Familiensägerei mit 30-jähriger Tradition. Wir übernehmen für Sie die komplette Verarbeitung von Brennholz sowie Bau- und Tischlerschnittholz. Mit schneller Lieferung in ganz Südmähren und Nordösterreich."
-      btn_eshop: "ZUM SHOP"
-      btn_vyroba: "MASSANFERTIGUNG"
-      reviews_count: "(11+ Bewertungen)"
-      features:
-        doprava: "Eigene<br>Lieferung"
-        vyroba: "Maß-<br>anfertigung"
-        sortiment: "Breites<br>Sortiment"
-        vyrobce: "Lokaler<br>Hersteller"
-        garance: "Qualitäts-<br>garantie"
-        ceny: "Faire<br>Preise"
-      promo_badge: "Empfohlen"
-      promo_alt: "Aktionsangebot"
-      promo_cta: "Ansehen"
-      top_categories_title_accent: "TOP"
-      top_categories_title_rest: "Kategorien"
-      categories:
-        palivove_drevo: "Brennholz"
-        stavebni_drevo: "Bauholz"
-        vyrobni_zbytky: "Produktionsreste"
-      zkusenosti_banner: "Bereits über 30 Jahre Erfahrung"
-      akcni_nabidka_title_accent: "ANGEBOT"
-      akcni_nabidka_title_rest: "AKTIONS"
-      akcni_nabidka_lead_html: "<b>Hochwertiges Brennholz, das mehr wärmt als nur mit dem Preis.</b>"
-      akcni_nabidka_text_html: "Trocken, gespalten und sofort einsatzbereit zum Heizen.<br>Lieferung direkt zu Ihnen nach Hause – schnell, zuverlässig und ohne Aufwand."
-      akcni_badge: "AKTION"
-      akcni_image_alt: "Aktionsangebot - Brennholz"
-      nejprodavanejsi_title_accent: "Meistverkaufte"
-      nejprodavanejsi_title_rest: "Produkte?"
-      btn_prohlednout: "ANSEHEN"
-      nabidka_title_accent: "anbieten?"
-      nabidka_title_rest: "Was können wir Ihnen"
-      nabidka_text_1_html: "Heizen Sie mit Holz und suchen hochwertigen Brennstoff für Kamin oder Ofen? Benötigen Sie Bauholz für die Renovierung oder den Bau von Pergolen, Zäunen oder Holzhäusern? Fertigen Sie Möbel aus <strong>hochwertigem Schnittholz</strong>, dann wenden Sie sich vertrauensvoll an uns."
-      nabidka_text_2_html: "Wir bieten seit Langem ein <strong>breites Sortiment</strong> an Holzmaterialien, darunter Bretter, Latten, Balken und Bohlen. Für die Gartengestaltung führen wir Ziersteine, und für weitere Verwendungszwecke auch Sägemehl, Hobelspäne und Hackschnitzel."
-      sluzby_title_accent: "bieten wir an?"
-      sluzby_title_rest: "Welche Dienstleistungen"
-      dorucujeme_title_accent: "liefern wir?"
-      dorucujeme_title_rest: "Wohin überall"
-      dorucujeme_text_1: "Wir liefern Brennholz in ganz Südmähren und Nordösterreich, einschließlich der Grenzregionen zwischen der Region Vysočina und Mittelösterreich. Dazu zählen zum Beispiel Städte und Gemeinden wie Slavonice, Vratěnín, Jemnice, Dačice, Znojmo, auf österreichischer Seite etwa Drosendorf, Raabs an der Thaya, Hardegg oder Thaya."
-      dorucujeme_text_2: "Der Lieferpreis richtet sich immer nach Entfernung und bestellter Holzmenge, damit er für jeden Kunden möglichst günstig ist."
-      dorucujeme_map_alt: "Liefergebiet in Südmähren und Österreich"
-      dorucujeme_pin_label: "Pila Derflice"
-      dorucujeme_pin_address: "Derflice 66, 671 28 Znojmo"
-      co_je_noveho_title_accent: "neu?"
-      co_je_noveho_title_rest: "Was ist"
-      co_je_noveho_subtitle: "Brennholz in Kisten"
-      co_je_noveho_text: "Bereiten Sie sich rechtzeitig auf die Heizsaison vor! Wir bieten hochwertiges, trockenes Brennholz in praktischen Kisten mit einem Volumen von 1 m³ und Lieferung direkt zu Ihnen nach Hause. Sparen Sie Zeit und Mühe – bestellen Sie einfach, um den Rest kümmern wir uns."
-      co_je_noveho_pic1_alt: "Kisten mit Brennholz"
-      co_je_noveho_pic2_alt: "Gestapeltes Brennholz in einer Kiste"
-      co_je_noveho_pic3_alt: "Brennholz bereit zum Versand"
-      zajimat_title_accent: "interessieren?"
-      zajimat_title_rest: "Was könnte Sie noch"
-      faq_title_rest: "Von Ihnen am häufigsten"
-      faq_title_accent: "gestellte Fragen"
-      faq_cat_palivove: "Brennholz"
-      faq_cat_stavebni: "Bau- und Tischlerschnittholz"
-      faq_cat_doprava: "Lieferung"
-      faq_palivove_q1: "Was ist der Unterschied zwischen Hart- und Weichholz?"
-      faq_palivove_a1: "Hartholz (z. B. Buche, Eiche, Hainbuche, Akazie, Esche oder Birke) hat einen höheren Brennwert und brennt länger, weshalb es sich für langes Heizen eignet. Weichholz (Fichte, Kiefer, Lärche) brennt schneller und lässt sich leichter entzünden, ideal zum Anzünden und schnellen Aufheizen."
-      faq_palivove_q2: "Wie lagert man Brennholz richtig?"
-      faq_palivove_a2: "Lagern Sie Brennholz an einem trockenen, gut belüfteten Ort, idealerweise auf Paletten oder Unterlagen, damit es nicht direkt mit dem Boden in Berührung kommt. Decken Sie die Oberseite ab, lassen Sie die Seiten aber offen, damit Feuchtigkeit entweichen kann. Richtig gelagertes Holz ist in der Regel nach 1–2 Jahren Trocknung heizbereit."
-      faq_palivove_q3: "Was ist der Unterschied zwischen PRMs (geschüttet) und PRMr (geschichtet) Raummeter?"
-      faq_palivove_a3: "PRMs (geschütteter Raummeter) bezeichnet lose geschüttetes Holz mit mehr Luftzwischenräumen. PRMr (geschichteter Raummeter) ist sorgfältig gestapeltes Holz, das durch kleinere Zwischenräume mehr tatsächliches Holz pro Volumen enthält."
-      faq_palivove_q4: "Ist das Holz sofort zum Heizen bereit?"
-      faq_palivove_a4: "Wir bieten getrocknetes Brennholz mit niedriger Feuchtigkeit an, das heizbereit ist. Den genauen Feuchtigkeitsgehalt und Zustand des Holzes teilen wir Ihnen bei der Bestellung gerne mit."
-      faq_stavebni_q1: "Welche Schnittholzarten bieten Sie an?"
-      faq_stavebni_a1: "Im Angebot finden Sie Balken, Latten, Bohlen und Bretter in Baustandard sowie gehobeltes Schnittholz für Tischler und Möbelbau. Aktuelle Maße und Preise finden Sie in unserem Onlineshop."
-      faq_stavebni_q2: "Fertigen Sie Schnittholz nach Dachstuhl-Zuschnittliste an?"
-      faq_stavebni_a2: "Ja, anhand der von Ihnen übermittelten Zuschnittliste (Maße und Längen der einzelnen Bauteile) fertigen wir das Schnittholz passgenau an. Die Liste können Sie uns über das Kontaktformular oder direkt per E-Mail zusenden."
-      faq_stavebni_q3: "Ist das Schnittholz imprägniert?"
-      faq_stavebni_a3: "Wir bieten sowohl unbehandeltes als auch imprägniertes Schnittholz an (Schutz vor holzzerstörenden Insekten, Pilzen und Schimmel), was wir besonders für Dachlatten und tragende Konstruktionen empfehlen."
-      faq_stavebni_q4: "Fertigen Sie auch untypische Maße für Balken und Bohlen auf Bestellung?"
-      faq_stavebni_a4: "Ja, neben Standardmaßen fertigen wir Balken und Bohlen auch nach Ihren individuellen Anforderungen. Geben Sie einfach das gewünschte Maß und die Menge über das Anfrageformular im Bereich Kontakt an, und wir erstellen Ihnen ein Angebot."
-      faq_doprava_q1: "Wie läuft die Lieferung ab?"
-      faq_doprava_a1: "Wir liefern das Holz mit eigenen Fahrzeugen direkt zu Ihnen nach Hause oder auf die Baustelle. Der Lieferpreis richtet sich nach Entfernung und bestellter Menge, damit er für Sie möglichst günstig ist."
-      faq_doprava_q2: "Wie hoch ist die Mindestmenge für eine Bestellung mit Lieferung?"
-      faq_doprava_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      faq_doprava_q3: "Wie lange dauert es, bis das Holz ankommt?"
-      faq_doprava_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
-      faq_doprava_q4: "Welche Zahlungsmöglichkeiten gibt es?"
-      faq_doprava_a4: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."
-      faq_cta_text: "Keine Antwort gefunden?"
-      faq_cta_button: "Kontaktieren Sie uns"
-      o_sobe_title_accent: "über uns sagen?"
-      o_sobe_title_rest: "Was würden wir"
-      o_sobe_image_alt: "Holzverladung im Wald"
-      o_sobe_p1_html: "Unsere Sägerei unter der Leitung von Herrn Štěpán Merta ist bereits <strong>seit über 30 Jahren</strong> in der Holzverarbeitung tätig."
-      o_sobe_p2_html: "Dank langjähriger Praxis und Erfahrung können wir <strong>auf die individuellen Anforderungen</strong> unserer Kunden eingehen."
-      o_sobe_p3_html: "Wir verfügen über <strong>moderne Ausrüstung</strong>, darunter eine automatische Spaltmaschine, Bandsäge, Hobelmaschine, Imprägnierwanne u. v. m."
-      o_sobe_p4: "Wir sorgen für die Lieferung der Produkte direkt zu Ihnen nach Hause."
-      o_sobe_p5_html: "Trotz eines kleineren Teams von etwa 10 Mitarbeitern legen wir großen Wert auf <strong>die Einhaltung von Terminen</strong> und <strong>hohe Servicequalität.</strong>"
-      o_sobe_cta: "Anfrage senden"
-      google_reviews_title_rest: "Was sagen"
-      google_reviews_title_accent: "unsere Kunden?"
-      google_reviews_count: "Basierend auf 11+ Rezensionen"
-      google_reviews_verified_title: "Von Google-Kunden verifiziert"
-      google_reviews_verified_sub: "Echte Bewertungen unserer Kunden"
-      google_review_source: "Rezension von Google"
-      google_review_like: "Gefällt mir"
+kontakt:
+  inquiry_success: "Vielen Dank, wir haben Ihre Anfrage erhalten und melden uns so bald wie möglich."
+  inquiry_error: "Die Anfrage konnte nicht gesendet werden. Bitte füllen Sie Vor- und Nachname, E-Mail und Telefon aus."
+  page_title: "Informationsformulare"
+  image_alt: "Brennholz"
+  brand_name: "Štěpán Merta"
+  brand_sub: "Pila Derflice"
+  kontakt_title: "Kontakt"
+  address: "Derflice 66, 671 28 Znojmo, Tschechien"
+  hours_title: "Öffnungszeiten"
+  hours_text_html: "Montag bis Freitag 7:00 - 15:30<br>außerhalb der Geschäftszeiten nach Vereinbarung"
+  info_title: "Informationen"
+  info_responsible: "Verantwortliche Person: Štěpán Merta"
+  info_ico: "USt-IdNr.: CZ6909094742 | IČ: 45665451"
+  info_billing: "Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice, Tschechien"
+  info_legal: "Einzelunternehmer nach dem tschechischen Gewerbegesetz, nicht im Handelsregister eingetragen."
+  kalkulace_title_html: "Fragen Sie unverbindlich unsere Produkte an <span style=\"color: #2C8FFF\">und wir erstellen Ihnen ein unverbindliches Angebot</span>"
+  toggle_palivove: "Brennholz"
+  toggle_stavebni: "Bauschnittholz"
+  form_section_kontakt: "Kontakt"
+  form_jmeno: "Vorname"
+  form_prijmeni: "Nachname"
+  form_telefon: "Telefon"
+  form_email: "E-Mail"
+  form_ulice: "Straße"
+  form_cislo_popisne: "Hausnummer"
+  form_mesto: "Stadt"
+  form_psc: "PLZ"
+  form_section_formular: "Formular"
+  grid_varianta: "Variante"
+  grid_druh: "Holzart"
+  grid_delka: "Länge"
+  grid_mnozstvi: "Menge"
+  grid_polozka: "Position"
+  grid_vyska: "Höhe"
+  grid_sirka: "Breite"
+  kalkulace_custom_option: "Eigene Angabe"
+  kalkulace_custom_placeholder: "Eigenen Wert eingeben"
+  kalkulace_mnozstvi_placeholder: "Stk"
+  delete_item_aria: "Löschen"
+  add_item_aria: "Position hinzufügen"
+  form_section_poznamky: "Anmerkungen"
+  consent_text_html: "Mit dem Absenden der Bestellung stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten zur Bearbeitung Ihrer Bestellung zu. Mehr dazu in der {privacy_link}."
+  privacy_link_text: "Datenschutzerklärung"
+  submit_button: "Angebot anfordern"
+  cenik_main_title: "Sortiments-Preisliste"
+  cenik_stavebni_title: "Bau- und Tischlerschnittholz"
+  cenik_palivove_volne_title: "Brennholz - lose geschüttet"
+  cenik_palivove_skladane_title: "Brennholz - gestapelt in Kisten"
+  cenik_zbytky_title: "Produktionsreste"
+  cenik_kamenivo_title: "Ziersteine"
+  cenik_kamenivo_default: "1 – 30 Kč / 1 kg"
+  cenik_sluzeb_title: "Preisliste Dienstleistungen"
 
-  kontakt:
-    inquiry_success: "Vielen Dank, wir haben Ihre Anfrage erhalten und melden uns so bald wie möglich."
-    inquiry_error: "Die Anfrage konnte nicht gesendet werden. Bitte füllen Sie Vor- und Nachname, E-Mail und Telefon aus."
-    page_title: "Informationsformulare"
-    image_alt: "Brennholz"
-    brand_name: "Štěpán Merta"
-    brand_sub: "Pila Derflice"
-    kontakt_title: "Kontakt"
-    address: "Derflice 66, 671 28 Znojmo, Tschechien"
-    hours_title: "Öffnungszeiten"
-    hours_text_html: "Montag bis Freitag 7:00 - 15:30<br>außerhalb der Geschäftszeiten nach Vereinbarung"
-    info_title: "Informationen"
-    info_responsible: "Verantwortliche Person: Štěpán Merta"
-    info_ico: "USt-IdNr.: CZ6909094742 | IČ: 45665451"
-    info_billing: "Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf - Sedlešovice, Tschechien"
-    info_legal: "Einzelunternehmer nach dem tschechischen Gewerbegesetz, nicht im Handelsregister eingetragen."
-    kalkulace_title_html: "Fragen Sie unverbindlich unsere Produkte an <span style=\"color: #2C8FFF\">und wir erstellen Ihnen ein unverbindliches Angebot</span>"
-    toggle_palivove: "Brennholz"
-    toggle_stavebni: "Bauschnittholz"
-    form_section_kontakt: "Kontakt"
-    form_jmeno: "Vorname"
-    form_prijmeni: "Nachname"
-    form_telefon: "Telefon"
-    form_email: "E-Mail"
-    form_ulice: "Straße"
-    form_cislo_popisne: "Hausnummer"
-    form_mesto: "Stadt"
-    form_psc: "PLZ"
-    form_section_formular: "Formular"
-    grid_varianta: "Variante"
-    grid_druh: "Holzart"
-    grid_delka: "Länge"
-    grid_mnozstvi: "Menge"
-    grid_polozka: "Position"
-    grid_vyska: "Höhe"
-    grid_sirka: "Breite"
-    kalkulace_custom_option: "Eigene Angabe"
-    kalkulace_custom_placeholder: "Eigenen Wert eingeben"
-    kalkulace_mnozstvi_placeholder: "Stk"
-    delete_item_aria: "Löschen"
-    add_item_aria: "Position hinzufügen"
-    form_section_poznamky: "Anmerkungen"
-    consent_text_html: "Mit dem Absenden der Bestellung stimmen Sie der Verarbeitung Ihrer personenbezogenen Daten zur Bearbeitung Ihrer Bestellung zu. Mehr dazu in der %{privacy_link}."
-    privacy_link_text: "Datenschutzerklärung"
-    submit_button: "Angebot anfordern"
-    cenik_main_title: "Sortiments-Preisliste"
-    cenik_stavebni_title: "Bau- und Tischlerschnittholz"
-    cenik_palivove_volne_title: "Brennholz - lose geschüttet"
-    cenik_palivove_skladane_title: "Brennholz - gestapelt in Kisten"
-    cenik_zbytky_title: "Produktionsreste"
-    cenik_kamenivo_title: "Ziersteine"
-    cenik_kamenivo_default: "1 – 30 Kč / 1 kg"
-    cenik_sluzeb_title: "Preisliste Dienstleistungen"
+sortiment:
+  index:
+    title: "Sortiment"
+  palivove_drevo:
+    title: "Brennholz"
+    desc_1: "Brennholz verkaufen wir üblicherweise geschnitten auf 25, 33 cm, 1 m bis 4 m und länger, gespalten und lose in einem Container geschüttet, den wir bis zum gewünschten Ort liefern. Die Verkaufseinheit ist 1 Rm (Raummeter)."
+    desc_2: "Aktuell bieten wir Holz von harten Laubbäumen wie Buche, Eiche, Hainbuche, Akazie, Esche, Birke sowie von weichen Nadelbäumen wie Fichte, Kiefer und Lärche an."
+  stavebni_rezivo:
+    tramy:
+      title: "Balken"
+      desc_1: "Standard-Baumaterial, das am häufigsten als Dachstuhl und Dachkonstruktion für den Bau von Pergolen und Ähnlichem verwendet wird. Kanthölzer fertigen wir nach Kundenmaß an."
+      desc_2: "Die maximale Schnittlänge beträgt 11 m, die Säge verarbeitet Stämme bis 110 cm Durchmesser. Bauschnittholz stellen wir aus Fichte, Kiefer und Lärche her."
+    prkna:
+      title: "Bretter"
+      desc_1: "Baumaterial für die Herstellung von Decken, Böden, Dächern, Wandverkleidungen, Hilfskonstruktionen u. a."
+      desc_2: "Bretter fertigen wir aus Fichte, Eiche, Kiefer, Lärche usw. Die maximale Schnittlänge beträgt 11 m."
+    late:
+      title: "Latten"
+      desc_1: "Standard-Baumaterial, das am häufigsten als Dachstuhl und Dachkonstruktion für den Bau von Pergolen und Ähnlichem verwendet wird. Kanthölzer fertigen wir nach Kundenmaß an."
+      desc_2: "Die maximale Schnittlänge beträgt 11 m, die Säge verarbeitet Stämme bis 110 cm Durchmesser. Bauschnittholz stellen wir aus Fichte, Kiefer und Lärche her."
+    fosny:
+      title: "Bohlen"
+      desc_1: "Standard-Baumaterial, das für tragende Konstruktionen verwendet werden kann (Dachkonstruktionen, Pergolen, Terrassen usw.)"
+      desc_2: "Die maximale Schnittlänge beträgt 11 m. Bauschnittholz stellen wir aus Fichte, Eiche, Lärche, Kiefer usw. her."
+  truhlarske_rezivo:
+    fosny:
+      title: "Bohlen"
+      desc_1: "Tischlerschnittholz ist der Grundrohstoff für die Herstellung von Leimholzplatten, die weiter zur Herstellung von Massivholzmöbeln wie Schränken, Tischen, Stühlen, Betten, Türen, Fenstern, Treppen, Musikinstrumenten usw. verwendet werden."
+  okrasne_kamenivo:
+    title: "Kieselsteine und Kiesel"
+    desc_1: "Dekorative Ziersteine, ideal für Gärten, Wege, Teiche und Zierbeete"
+    desc_2: "Erhältlich in verschiedenen Körnungen und Farbvarianten, geeignet für gestalterische Zwecke und praktische Anwendungen"
+    desc_3: "Wir bieten Verpackung in Säcken oder lose Lieferung nach Kundenwunsch an."
+    desc_4: "Preis ab 1 Kč pro 1 kg."
+  vyrobni_zbytky:
+    odkory:
+      title: "Rindenreste"
+      desc_1: "Hochwertige Rindenreste aus der Produktion, geeignet für weitere Werkstattnutzung, Heizen oder kleinere Tischlerarbeiten. Jede Charge enthält eine Mischung verschiedener Größen und Formen."
+    stepka:
+      title: "Hackschnitzel"
+      desc_1: "Reine Holzhackschnitzel ohne Beimischungen, ideal für die energetische Nutzung, zum Mulchen oder zur Herstellung von Holzspanmaterialien. Zeichnet sich durch eine stabile Körnung und gleichmäßige Struktur aus."
+    piliny:
+      title: "Sägemehl"
+      desc_1: "Feines, trockenes Sägemehl geeignet für Pellets, Briketts, Einstreu oder weitere industrielle Verarbeitung. Entsteht beim Sägen und Schleifen von Massivholz und weist eine hervorragende Rieselfähigkeit auf."
 
-  sortiment:
-    index:
-      title: "Sortiment"
-    palivove_drevo:
-      title: "Brennholz"
-      desc_1: "Brennholz verkaufen wir üblicherweise geschnitten auf 25, 33 cm, 1 m bis 4 m und länger, gespalten und lose in einem Container geschüttet, den wir bis zum gewünschten Ort liefern. Die Verkaufseinheit ist 1 Rm (Raummeter)."
-      desc_2: "Aktuell bieten wir Holz von harten Laubbäumen wie Buche, Eiche, Hainbuche, Akazie, Esche, Birke sowie von weichen Nadelbäumen wie Fichte, Kiefer und Lärche an."
-    stavebni_rezivo:
-      tramy:
-        title: "Balken"
-        desc_1: "Standard-Baumaterial, das am häufigsten als Dachstuhl und Dachkonstruktion für den Bau von Pergolen und Ähnlichem verwendet wird. Kanthölzer fertigen wir nach Kundenmaß an."
-        desc_2: "Die maximale Schnittlänge beträgt 11 m, die Säge verarbeitet Stämme bis 110 cm Durchmesser. Bauschnittholz stellen wir aus Fichte, Kiefer und Lärche her."
-      prkna:
-        title: "Bretter"
-        desc_1: "Baumaterial für die Herstellung von Decken, Böden, Dächern, Wandverkleidungen, Hilfskonstruktionen u. a."
-        desc_2: "Bretter fertigen wir aus Fichte, Eiche, Kiefer, Lärche usw. Die maximale Schnittlänge beträgt 11 m."
-      late:
-        title: "Latten"
-        desc_1: "Standard-Baumaterial, das am häufigsten als Dachstuhl und Dachkonstruktion für den Bau von Pergolen und Ähnlichem verwendet wird. Kanthölzer fertigen wir nach Kundenmaß an."
-        desc_2: "Die maximale Schnittlänge beträgt 11 m, die Säge verarbeitet Stämme bis 110 cm Durchmesser. Bauschnittholz stellen wir aus Fichte, Kiefer und Lärche her."
-      fosny:
-        title: "Bohlen"
-        desc_1: "Standard-Baumaterial, das für tragende Konstruktionen verwendet werden kann (Dachkonstruktionen, Pergolen, Terrassen usw.)"
-        desc_2: "Die maximale Schnittlänge beträgt 11 m. Bauschnittholz stellen wir aus Fichte, Eiche, Lärche, Kiefer usw. her."
-    truhlarske_rezivo:
-      fosny:
-        title: "Bohlen"
-        desc_1: "Tischlerschnittholz ist der Grundrohstoff für die Herstellung von Leimholzplatten, die weiter zur Herstellung von Massivholzmöbeln wie Schränken, Tischen, Stühlen, Betten, Türen, Fenstern, Treppen, Musikinstrumenten usw. verwendet werden."
+eshop:
+  index:
+    filters_title: "Produktkategorien"
+    cat_palivove: "Brennholz"
+    cat_rezivo: "Bauschnittholz"
+    cat_zbytky: "Produktionsreste"
+    cat_kamenivo: "Ziersteine"
+    wood_type_title: "Holzart"
+    wood_all: "Alle"
+    wood_hard: "Hart"
+    wood_soft: "Weich"
+    sort_recommended: "Empfohlen"
+    sort_bestsellers: "Meistverkauft"
+  products:
+    smrk:
+      title: "Fichte"
+      type: "Weiches Brennholz"
+      price: "ab 1.260 Kč"
+    dub:
+      title: "Eiche"
+      type: "Hartes Brennholz"
+      price: "ab 1.740 Kč"
+    buk:
+      title: "Buche"
+      type: "Hartes Brennholz"
+      price: "ab 1.900 Kč"
+    akat:
+      title: "Akazie"
+      type: "Hartes Brennholz"
+      price: "ab 1.900 Kč"
+    jasan:
+      title: "Esche"
+      type: "Hartes Brennholz"
+      price: "ab 1.740 Kč"
+    briza:
+      title: "Birke"
+      type: "Hartes Brennholz"
+      price: "---"
+    habr:
+      title: "Hainbuche"
+      type: "Hartes Brennholz"
+      price: "ab 1.900 Kč"
+    late:
+      title: "Dachlatten"
+      type: "Bauschnittholz"
+      price: "ab 8.500 Kč"
+    tramy:
+      title: "Balken"
+      type: "Bauschnittholz"
+      price: "ab 8.500 Kč"
+    fosny:
+      title: "Bohlen"
+      type: "Bauschnittholz"
+      price: "ab 8.500 Kč"
+    prkna:
+      title: "Bretter"
+      type: "Bauschnittholz"
+      price: "ab 5.000 Kč"
+    stepka:
+      title: "Hackschnitzel"
+      type: "Produktionsreste"
+      price: "ab 700 Kč"
+    odkory:
+      title: "Rindenreste zum Heizen"
+      type: "Produktionsreste"
+      price: "ab 800 Kč"
+    piliny:
+      title: "Sägemehl"
+      type: "Produktionsreste"
+      price: "ab 450 Kč"
     okrasne_kamenivo:
-      title: "Kieselsteine und Kiesel"
-      desc_1: "Dekorative Ziersteine, ideal für Gärten, Wege, Teiche und Zierbeete"
-      desc_2: "Erhältlich in verschiedenen Körnungen und Farbvarianten, geeignet für gestalterische Zwecke und praktische Anwendungen"
-      desc_3: "Wir bieten Verpackung in Säcken oder lose Lieferung nach Kundenwunsch an."
-      desc_4: "Preis ab 1 Kč pro 1 kg."
-    vyrobni_zbytky:
-      odkory:
-        title: "Rindenreste"
-        desc_1: "Hochwertige Rindenreste aus der Produktion, geeignet für weitere Werkstattnutzung, Heizen oder kleinere Tischlerarbeiten. Jede Charge enthält eine Mischung verschiedener Größen und Formen."
-      stepka:
-        title: "Hackschnitzel"
-        desc_1: "Reine Holzhackschnitzel ohne Beimischungen, ideal für die energetische Nutzung, zum Mulchen oder zur Herstellung von Holzspanmaterialien. Zeichnet sich durch eine stabile Körnung und gleichmäßige Struktur aus."
-      piliny:
-        title: "Sägemehl"
-        desc_1: "Feines, trockenes Sägemehl geeignet für Pellets, Briketts, Einstreu oder weitere industrielle Verarbeitung. Entsteht beim Sägen und Schleifen von Massivholz und weist eine hervorragende Rieselfähigkeit auf."
+      title: "Ziersteine"
+      type: "Ziersteine"
+      price: "ab 1 Kč"
 
-  eshop:
-    index:
-      filters_title: "Produktkategorien"
-      cat_palivove: "Brennholz"
-      cat_rezivo: "Bauschnittholz"
-      cat_zbytky: "Produktionsreste"
-      cat_kamenivo: "Ziersteine"
-      wood_type_title: "Holzart"
-      wood_all: "Alle"
-      wood_hard: "Hart"
-      wood_soft: "Weich"
-      sort_recommended: "Empfohlen"
-      sort_bestsellers: "Meistverkauft"
-    products:
+  firewood:
+    stock_status: "Auf Lager"
+    variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+    crates_heading_html: "<span class=\"text-blue\">Brennholz</span> in Kisten"
+    species:
       smrk:
-        title: "Fichte"
-        type: "Weiches Brennholz"
-        price: "ab 1.260 Kč"
+        subtitle: "Weiches Brennholz"
+        description: "Leichtes Fichtenholz, ideal für schnelles Aufheizen von Kaminen und Öfen, fängt leicht Feuer. Heizwert ca. 1500–1700 kWh/m³, brennt 1–2 Stunden."
+        image_alt: "Fichte Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 6–12 Monate an einem trockenen, gut belüfteten Ort."
       dub:
-        title: "Eiche"
-        type: "Hartes Brennholz"
-        price: "ab 1.740 Kč"
+        subtitle: "Hartes Brennholz"
+        description: "Eichenholz mit hohem Heizwert und langer Brenndauer, ideal für Kamine und Öfen. Heizwert ca. 2100–2300 kWh/m³, brennt 3–4 Stunden."
+        image_alt: "Eiche Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre an einem gut belüfteten Ort."
       buk:
-        title: "Buche"
-        type: "Hartes Brennholz"
-        price: "ab 1.900 Kč"
+        subtitle: "Hartes Brennholz"
+        description: "Buchenholz mit hohem Heizwert und gleichmäßigem Abbrand, ideal für langanhaltendes Heizen. Heizwert ca. 2100–2200 kWh/m³, brennt 2–3 Stunden."
+        image_alt: "Buche Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
       akat:
-        title: "Akazie"
-        type: "Hartes Brennholz"
-        price: "ab 1.900 Kč"
+        subtitle: "Hartes Brennholz"
+        description: "Beliebt für gleichmäßigen Abbrand, minimale Rauchentwicklung und einen feinen Duft. Bestens geeignet zum Heizen in Kaminen und Öfen. Heizwert ca. 2200–2500 kWh/m³, brennt 3–4 Stunden."
+        image_alt: "Akazie Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
       jasan:
-        title: "Esche"
-        type: "Hartes Brennholz"
-        price: "ab 1.740 Kč"
+        subtitle: "Hartes Brennholz"
+        description: "Eschenholz sorgt für einen stabilen Abbrand und intensive Wärme, geeignet für Kamine und Öfen. Heizwert ca. 1900–2100 kWh/m³, brennt 2–3 Stunden."
+        image_alt: "Esche Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
       briza:
-        title: "Birke"
-        type: "Hartes Brennholz"
-        price: "---"
+        subtitle: "Hartes Brennholz"
+        description: "Beliebt für gleichmäßigen Abbrand, minimale Rauchentwicklung und einen feinen Duft. Bestens geeignet zum Heizen in Kaminen und Öfen. Heizwert ca. 1900–2100 kWh/m³, brennt 2–3 Stunden."
+        image_alt: "Birke Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
       habr:
-        title: "Hainbuche"
-        type: "Hartes Brennholz"
-        price: "ab 1.900 Kč"
-      late:
-        title: "Dachlatten"
-        type: "Bauschnittholz"
-        price: "ab 8.500 Kč"
-      tramy:
-        title: "Balken"
-        type: "Bauschnittholz"
-        price: "ab 8.500 Kč"
-      fosny:
-        title: "Bohlen"
-        type: "Bauschnittholz"
-        price: "ab 8.500 Kč"
-      prkna:
-        title: "Bretter"
-        type: "Bauschnittholz"
-        price: "ab 5.000 Kč"
-      stepka:
-        title: "Hackschnitzel"
-        type: "Produktionsreste"
-        price: "ab 700 Kč"
-      odkory:
-        title: "Rindenreste zum Heizen"
-        type: "Produktionsreste"
-        price: "ab 800 Kč"
-      piliny:
-        title: "Sägemehl"
-        type: "Produktionsreste"
-        price: "ab 450 Kč"
-      okrasne_kamenivo:
-        title: "Ziersteine"
-        type: "Ziersteine"
-        price: "ab 1 Kč"
+        subtitle: "Hartes Brennholz"
+        description: "Hainbuche gehört zu den heizwertstärksten Hölzern und liefert lang anhaltende, intensive Wärme. Heizwert ca. 2300–2500 kWh/m³, brennt 3–4 Stunden."
+        image_alt: "Hainbuche Brennholz"
+        drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
 
-    firewood:
-      stock_status: "Auf Lager"
-      variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
-      crates_heading_html: "<span class=\"text-blue\">Brennholz</span> in Kisten"
-      species:
-        smrk:
-          subtitle: "Weiches Brennholz"
-          description: "Leichtes Fichtenholz, ideal für schnelles Aufheizen von Kaminen und Öfen, fängt leicht Feuer. Heizwert ca. 1500–1700 kWh/m³, brennt 1–2 Stunden."
-          image_alt: "Fichte Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 6–12 Monate an einem trockenen, gut belüfteten Ort."
-        dub:
-          subtitle: "Hartes Brennholz"
-          description: "Eichenholz mit hohem Heizwert und langer Brenndauer, ideal für Kamine und Öfen. Heizwert ca. 2100–2300 kWh/m³, brennt 3–4 Stunden."
-          image_alt: "Eiche Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre an einem gut belüfteten Ort."
-        buk:
-          subtitle: "Hartes Brennholz"
-          description: "Buchenholz mit hohem Heizwert und gleichmäßigem Abbrand, ideal für langanhaltendes Heizen. Heizwert ca. 2100–2200 kWh/m³, brennt 2–3 Stunden."
-          image_alt: "Buche Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
-        akat:
-          subtitle: "Hartes Brennholz"
-          description: "Beliebt für gleichmäßigen Abbrand, minimale Rauchentwicklung und einen feinen Duft. Bestens geeignet zum Heizen in Kaminen und Öfen. Heizwert ca. 2200–2500 kWh/m³, brennt 3–4 Stunden."
-          image_alt: "Akazie Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
-        jasan:
-          subtitle: "Hartes Brennholz"
-          description: "Eschenholz sorgt für einen stabilen Abbrand und intensive Wärme, geeignet für Kamine und Öfen. Heizwert ca. 1900–2100 kWh/m³, brennt 2–3 Stunden."
-          image_alt: "Esche Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
-        briza:
-          subtitle: "Hartes Brennholz"
-          description: "Beliebt für gleichmäßigen Abbrand, minimale Rauchentwicklung und einen feinen Duft. Bestens geeignet zum Heizen in Kaminen und Öfen. Heizwert ca. 1900–2100 kWh/m³, brennt 2–3 Stunden."
-          image_alt: "Birke Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
-        habr:
-          subtitle: "Hartes Brennholz"
-          description: "Hainbuche gehört zu den heizwertstärksten Hölzern und liefert lang anhaltende, intensive Wärme. Heizwert ca. 2300–2500 kWh/m³, brennt 3–4 Stunden."
-          image_alt: "Hainbuche Brennholz"
-          drying_note: "Empfohlene Trocknungszeit 1–2 Jahre."
+  lumber:
+    variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
 
-    lumber:
-      variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
+shared:
+  custom_demand:
+    title_line1: "Nicht gefunden, was Sie gesucht haben?"
+    title_line2: "Fragen Sie eine Maßanfertigung an"
+    banner_alt: "Anfrage senden"
+    card_title: "Anfrage senden"
+    text_html: "Benötigen Sie Brennholz <strong>nach Maß</strong>, professionelle Dienstleistungen rund um dessen Vorbereitung oder hochwertiges Schnittholz? Schreiben Sie uns, wonach genau Sie suchen, und wir erstellen Ihnen ein <strong>individuelles Angebot nach Ihren Bedürfnissen</strong>. Schnell, zuverlässig und zu einem fairen Preis."
+  jak_objednat:
+    title_html: "Wie können Sie bei uns <span style=\"color: #2C8FFF\">bestellen?</span>"
+    online_title_accent: "online"
+    online_title_rest: "Kaufen"
+    online_steps:
+      - "Produkt im Onlineshop auswählen"
+      - "In den Warenkorb legen"
+      - "Kontaktdaten und Lieferung angeben"
+      - "Bestellung abschließen"
+    online_img_alt: "Holz"
+    online_button: "Online kaufen"
+    poptavka_title_accent: "Anfrage"
+    poptavka_title_rest: "Stellen Sie eine"
+    poptavka_steps:
+      - "Sie fragen uns an, was Sie brauchen"
+      - "Wir erstellen ein genaues Angebot und einen Vorschlag"
+      - "Nach Absprache fertigen wir das Produkt"
+      - "Wir liefern es zu Ihnen oder bereiten es zur Selbstabholung vor"
+    poptavka_img_alt: "Sägewerk"
+    poptavka_button: "Anfrage senden"
+  product_row:
+    cenik: "Preisliste"
+    to_eshop: "Zum Onlineshop"
+    request_quote: "Anfrage senden"
+  recommendations:
+    title_html: "Das könnte Sie auch <span class=\"text-blue\">interessieren:</span>"
+    items:
+      - jasan
+      - briza
+      - habr
+      - odkory
+      - buk
+  wood_types:
+    title_html: "Hölzer im Sortiment <span class=\"text-blue\">nach Härte und Farbe</span>"
+    soft_title: "Weich"
+    hard_title: "Hart"
+    soft_items:
+      smrk: "Fichte"
+      borovice: "Kiefer"
+      modrin: "Lärche"
+    hard_items:
+      buk: "Buche"
+      habr: "Hainbuche"
+      dub: "Eiche"
+      akat: "Akazie"
+      jasan: "Esche"
 
-  shared:
-    custom_demand:
-      title_line1: "Nicht gefunden, was Sie gesucht haben?"
-      title_line2: "Fragen Sie eine Maßanfertigung an"
-      banner_alt: "Anfrage senden"
-      card_title: "Anfrage senden"
-      text_html: "Benötigen Sie Brennholz <strong>nach Maß</strong>, professionelle Dienstleistungen rund um dessen Vorbereitung oder hochwertiges Schnittholz? Schreiben Sie uns, wonach genau Sie suchen, und wir erstellen Ihnen ein <strong>individuelles Angebot nach Ihren Bedürfnissen</strong>. Schnell, zuverlässig und zu einem fairen Preis."
-    jak_objednat:
-      title_html: "Wie können Sie bei uns <span style=\"color: #2C8FFF\">bestellen?</span>"
-      online_title_accent: "online"
-      online_title_rest: "Kaufen"
-      online_steps:
-        - "Produkt im Onlineshop auswählen"
-        - "In den Warenkorb legen"
-        - "Kontaktdaten und Lieferung angeben"
-        - "Bestellung abschließen"
-      online_img_alt: "Holz"
-      online_button: "Online kaufen"
-      poptavka_title_accent: "Anfrage"
-      poptavka_title_rest: "Stellen Sie eine"
-      poptavka_steps:
-        - "Sie fragen uns an, was Sie brauchen"
-        - "Wir erstellen ein genaues Angebot und einen Vorschlag"
-        - "Nach Absprache fertigen wir das Produkt"
-        - "Wir liefern es zu Ihnen oder bereiten es zur Selbstabholung vor"
-      poptavka_img_alt: "Sägewerk"
-      poptavka_button: "Anfrage senden"
-    product_row:
-      cenik: "Preisliste"
-      to_eshop: "Zum Onlineshop"
-      request_quote: "Anfrage senden"
-    recommendations:
-      title_html: "Das könnte Sie auch <span class=\"text-blue\">interessieren:</span>"
-      items:
-        - jasan
-        - briza
-        - habr
-        - odkory
-        - buk
-    wood_types:
-      title_html: "Hölzer im Sortiment <span class=\"text-blue\">nach Härte und Farbe</span>"
-      soft_title: "Weich"
-      hard_title: "Hart"
-      soft_items:
-        smrk: "Fichte"
-        borovice: "Kiefer"
-        modrin: "Lärche"
-      hard_items:
-        buk: "Buche"
-        habr: "Hainbuche"
-        dub: "Eiche"
-        akat: "Akazie"
-        jasan: "Esche"
-
-  activerecord:
-    errors:
-      models:
-        order:
-          attributes:
-            company_name:
-              blank: "Beim Kauf als Firma muss der Firmenname angegeben werden"
-            delivery_street:
-              blank: "Bei abweichender Lieferadresse muss Straße und Hausnummer angegeben werden"
-            delivery_city:
-              blank: "Bei abweichender Lieferadresse muss die Stadt angegeben werden"
-            delivery_zip:
-              blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
-            delivery_country:
-              blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"
-        user:
-          attributes:
-            email_address:
-              blank: "darf nicht leer sein"
-              taken: "ist bereits registriert"
-            password:
-              blank: "darf nicht leer sein"
-              too_short: "ist zu kurz (mindestens %{count} Zeichen)"
-            password_confirmation:
-              confirmation: "stimmt nicht mit dem Passwort überein"
-    attributes:
+activerecord:
+  errors:
+    models:
+      order:
+        attributes:
+          company_name:
+            blank: "Beim Kauf als Firma muss der Firmenname angegeben werden"
+          delivery_street:
+            blank: "Bei abweichender Lieferadresse muss Straße und Hausnummer angegeben werden"
+          delivery_city:
+            blank: "Bei abweichender Lieferadresse muss die Stadt angegeben werden"
+          delivery_zip:
+            blank: "Bei abweichender Lieferadresse muss die PLZ angegeben werden"
+          delivery_country:
+            blank: "Bei abweichender Lieferadresse muss das Land angegeben werden"
       user:
-        email_address: "E-Mail"
-        password: "Passwort"
-        password_confirmation: "Passwort-Bestätigung"
+        attributes:
+          email_address:
+            blank: "darf nicht leer sein"
+            taken: "ist bereits registriert"
+          password:
+            blank: "darf nicht leer sein"
+            too_short: "ist zu kurz (mindestens {count} Zeichen)"
+          password_confirmation:
+            confirmation: "stimmt nicht mit dem Passwort überein"
+  attributes:
+    user:
+      email_address: "E-Mail"
+      password: "Passwort"
+      password_confirmation: "Passwort-Bestätigung"
 
-  order_mailer:
-    greeting: "Guten Tag %{name},"
-    thank_you: "vielen Dank für Ihre Bestellung. Hier ist eine Zusammenfassung:"
-    order_number: "Bestellnummer"
-    item: "Artikel"
-    quantity: "Menge"
-    unit_price: "Einzelpreis"
-    total: "Gesamt"
-    shipping_method: "Versandart"
-    payment_method: "Zahlungsart"
-    total_due: "Gesamtbetrag"
-    delivery: "Lieferung (%{km} km hin und zurück, ungefähr)"
-    questions_text: "Bei Fragen kontaktieren Sie uns gerne telefonisch unter +420 602 446 339 oder per E-Mail an stepan.merta@seznam.cz."
-    sign_off: "Mit freundlichen Grüßen,"
-    signature: "Štěpán Merta, Pila Derflice"
+order_mailer:
+  greeting: "Guten Tag {name},"
+  thank_you: "vielen Dank für Ihre Bestellung. Hier ist eine Zusammenfassung:"
+  order_number: "Bestellnummer"
+  item: "Artikel"
+  quantity: "Menge"
+  unit_price: "Einzelpreis"
+  total: "Gesamt"
+  shipping_method: "Versandart"
+  payment_method: "Zahlungsart"
+  total_due: "Gesamtbetrag"
+  delivery: "Lieferung ({km} km hin und zurück, ungefähr)"
+  questions_text: "Bei Fragen kontaktieren Sie uns gerne telefonisch unter +420 602 446 339 oder per E-Mail an stepan.merta@seznam.cz."
+  sign_off: "Mit freundlichen Grüßen,"
+  signature: "Štěpán Merta, Pila Derflice"
 
-  legal:
-    terms_title: "Allgemeine Geschäftsbedingungen"
-    terms_placeholder: "Die Allgemeinen Geschäftsbedingungen werden in Kürze veröffentlicht."
-    terms_content_html: |
-      <h2>1. Einleitende Bestimmungen</h2>
-      <p>Diese Allgemeinen Geschäftsbedingungen (im Folgenden „AGB") regeln die gegenseitigen Rechte und Pflichten der Vertragsparteien im Zusammenhang mit einem Kaufvertrag, der abgeschlossen wird zwischen:</p>
-      <p><strong>Štěpán Merta</strong><br>
-      Pila Derflice<br>
-      Geschäftssitz: Derflice 66, 671 28 Znojmo, Tschechische Republik<br>
-      Korrespondenz- und Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
-      Steuernummer (IČ): 45665451<br>
-      USt-IdNr. (DIČ): CZ6909094742<br>
-      Natürliche Person, die gemäß dem tschechischen Gewerbegesetz unternehmerisch tätig ist und nicht im Handelsregister eingetragen ist.<br>
-      E-Mail: stepan.merta@seznam.cz<br>
-      Telefon: +420 602 446 339, +420 515 235 527<br>
-      Geschäftszeiten: Montag – Freitag, 7:00 – 15:30 Uhr</p>
-      <p>(im Folgenden „Verkäufer") und dem Käufer, der über den Onlineshop unter piladerflice.cz eine Warenbestellung tätigt (im Folgenden „Käufer").</p>
-      <p>Der Verkäufer kann den Wortlaut der AGB ändern oder ergänzen. Rechte und Pflichten, die während der Gültigkeit der vorherigen Fassung der AGB entstanden sind, bleiben davon unberührt.</p>
+legal:
+  terms_title: "Allgemeine Geschäftsbedingungen"
+  terms_placeholder: "Die Allgemeinen Geschäftsbedingungen werden in Kürze veröffentlicht."
+  terms_content_html: |
+    <h2>1. Einleitende Bestimmungen</h2>
+    <p>Diese Allgemeinen Geschäftsbedingungen (im Folgenden „AGB") regeln die gegenseitigen Rechte und Pflichten der Vertragsparteien im Zusammenhang mit einem Kaufvertrag, der abgeschlossen wird zwischen:</p>
+    <p><strong>Štěpán Merta</strong><br>
+    Pila Derflice<br>
+    Geschäftssitz: Derflice 66, 671 28 Znojmo, Tschechische Republik<br>
+    Korrespondenz- und Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice<br>
+    Steuernummer (IČ): 45665451<br>
+    USt-IdNr. (DIČ): CZ6909094742<br>
+    Natürliche Person, die gemäß dem tschechischen Gewerbegesetz unternehmerisch tätig ist und nicht im Handelsregister eingetragen ist.<br>
+    E-Mail: stepan.merta@seznam.cz<br>
+    Telefon: +420 602 446 339, +420 515 235 527<br>
+    Geschäftszeiten: Montag – Freitag, 7:00 – 15:30 Uhr</p>
+    <p>(im Folgenden „Verkäufer") und dem Käufer, der über den Onlineshop unter piladerflice.cz eine Warenbestellung tätigt (im Folgenden „Käufer").</p>
+    <p>Der Verkäufer kann den Wortlaut der AGB ändern oder ergänzen. Rechte und Pflichten, die während der Gültigkeit der vorherigen Fassung der AGB entstanden sind, bleiben davon unberührt.</p>
 
-      <h2>2. Zustandekommen des Kaufvertrags</h2>
-      <p>Der Käufer sendet die Bestellung über das Bestellformular im Onlineshop ab. Mit dem Absenden der Bestellung bestätigt der Käufer, dass er diese AGB zur Kenntnis genommen hat und ihnen zustimmt.</p>
-      <p>Der Kaufvertrag zwischen dem Verkäufer und dem Käufer kommt in dem Moment zustande, in dem die Bestellbestätigung des Verkäufers an die E-Mail-Adresse des Käufers zugestellt wird.</p>
+    <h2>2. Zustandekommen des Kaufvertrags</h2>
+    <p>Der Käufer sendet die Bestellung über das Bestellformular im Onlineshop ab. Mit dem Absenden der Bestellung bestätigt der Käufer, dass er diese AGB zur Kenntnis genommen hat und ihnen zustimmt.</p>
+    <p>Der Kaufvertrag zwischen dem Verkäufer und dem Käufer kommt in dem Moment zustande, in dem die Bestellbestätigung des Verkäufers an die E-Mail-Adresse des Käufers zugestellt wird.</p>
 
-      <h2>3. Preise und Zahlungsbedingungen</h2>
-      <p>Die im Onlineshop angegebenen Warenpreise gelten zum Zeitpunkt der Bestellabsendung und verstehen sich inklusive Mehrwertsteuer.</p>
-      <p>Die Zahlung kann auf eine der folgenden Arten erfolgen:</p>
-      <ul>
-        <li><strong>Bar bei persönlicher Abholung</strong> – am Betriebssitz Derflice 66, 671 28 Znojmo.</li>
-        <li><strong>Per Banküberweisung</strong> – auf Grundlage einer Proforma-Rechnung, die dem Käufer nach Eingang der Bestellung zugesandt wird; der Versand erfolgt nach Zahlungseingang auf dem Konto des Verkäufers.</li>
-      </ul>
-      <p>Der Verkäufer bietet derzeit keine Online-Kartenzahlung an.</p>
+    <h2>3. Preise und Zahlungsbedingungen</h2>
+    <p>Die im Onlineshop angegebenen Warenpreise gelten zum Zeitpunkt der Bestellabsendung und verstehen sich inklusive Mehrwertsteuer.</p>
+    <p>Die Zahlung kann auf eine der folgenden Arten erfolgen:</p>
+    <ul>
+      <li><strong>Bar bei persönlicher Abholung</strong> – am Betriebssitz Derflice 66, 671 28 Znojmo.</li>
+      <li><strong>Per Banküberweisung</strong> – auf Grundlage einer Proforma-Rechnung, die dem Käufer nach Eingang der Bestellung zugesandt wird; der Versand erfolgt nach Zahlungseingang auf dem Konto des Verkäufers.</li>
+    </ul>
+    <p>Der Verkäufer bietet derzeit keine Online-Kartenzahlung an.</p>
 
-      <h2>4. Lieferbedingungen</h2>
-      <p>Der Käufer kann zwischen folgenden Versandarten wählen:</p>
-      <ul>
-        <li><strong>Persönliche Abholung</strong> – kostenlos, am Betriebssitz Derflice 66, 671 28 Znojmo, nach vorheriger Vereinbarung.</li>
-        <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis beträgt 40 CZK (inkl. MwSt.) pro gefahrenem Kilometer, berechnet hin und zurück zwischen dem Betrieb in Derflice und der Lieferadresse. Die Entfernung wird anhand der Lieferadresse automatisch berechnet; der ungefähre Lieferpreis wird in der Bestellübersicht angezeigt und ist im Gesamtpreis enthalten, den endgültigen Lieferpreis bestätigt der Verkäufer nach Eingang der Bestellung. Die gesamte bestellte Menge wird in einer Fahrt geliefert. Kann die Entfernung nicht berechnet werden, wird der Lieferpreis dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
-      </ul>
-      <p>Der Liefer- bzw. Abholtermin wird individuell je nach Warenverfügbarkeit und Kapazität des Verkäufers vereinbart; sofern nichts anderes vereinbart wurde, liefert der Verkäufer die Ware innerhalb einer angemessenen Frist.</p>
+    <h2>4. Lieferbedingungen</h2>
+    <p>Der Käufer kann zwischen folgenden Versandarten wählen:</p>
+    <ul>
+      <li><strong>Persönliche Abholung</strong> – kostenlos, am Betriebssitz Derflice 66, 671 28 Znojmo, nach vorheriger Vereinbarung.</li>
+      <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis beträgt 40 CZK (inkl. MwSt.) pro gefahrenem Kilometer, berechnet hin und zurück zwischen dem Betrieb in Derflice und der Lieferadresse. Die Entfernung wird anhand der Lieferadresse automatisch berechnet; der ungefähre Lieferpreis wird in der Bestellübersicht angezeigt und ist im Gesamtpreis enthalten, den endgültigen Lieferpreis bestätigt der Verkäufer nach Eingang der Bestellung. Die gesamte bestellte Menge wird in einer Fahrt geliefert. Kann die Entfernung nicht berechnet werden, wird der Lieferpreis dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
+    </ul>
+    <p>Der Liefer- bzw. Abholtermin wird individuell je nach Warenverfügbarkeit und Kapazität des Verkäufers vereinbart; sofern nichts anderes vereinbart wurde, liefert der Verkäufer die Ware innerhalb einer angemessenen Frist.</p>
 
-      <h2>5. Widerrufsrecht</h2>
-      <p>Gemäß § 1829 des tschechischen Bürgerlichen Gesetzbuchs hat der Käufer, sofern er Verbraucher ist, das Recht, innerhalb von 14 Tagen ab Erhalt der Ware ohne Angabe von Gründen vom im Fernabsatz geschlossenen Kaufvertrag zurückzutreten, indem er dem Verkäufer eine schriftliche Widerrufserklärung per E-Mail oder Post zusendet.</p>
-      <p>Gemäß § 1837 lit. d) des Bürgerlichen Gesetzbuchs besteht kein Widerrufsrecht bei Waren, die nach den Wünschen des Käufers angefertigt wurden (z. B. nach individuellen Maßen zugeschnittenes Bau- oder Schnittholz).</p>
-      <p>Der Käufer hat die Ware unbeschädigt und, soweit es die Art der Ware zulässt, ohne Gebrauchsspuren innerhalb von 14 Tagen ab Widerruf zurückzusenden. Die Kosten der Rücksendung trägt der Käufer.</p>
+    <h2>5. Widerrufsrecht</h2>
+    <p>Gemäß § 1829 des tschechischen Bürgerlichen Gesetzbuchs hat der Käufer, sofern er Verbraucher ist, das Recht, innerhalb von 14 Tagen ab Erhalt der Ware ohne Angabe von Gründen vom im Fernabsatz geschlossenen Kaufvertrag zurückzutreten, indem er dem Verkäufer eine schriftliche Widerrufserklärung per E-Mail oder Post zusendet.</p>
+    <p>Gemäß § 1837 lit. d) des Bürgerlichen Gesetzbuchs besteht kein Widerrufsrecht bei Waren, die nach den Wünschen des Käufers angefertigt wurden (z. B. nach individuellen Maßen zugeschnittenes Bau- oder Schnittholz).</p>
+    <p>Der Käufer hat die Ware unbeschädigt und, soweit es die Art der Ware zulässt, ohne Gebrauchsspuren innerhalb von 14 Tagen ab Widerruf zurückzusenden. Die Kosten der Rücksendung trägt der Käufer.</p>
 
-      <h2>6. Gewährleistung und Reklamation</h2>
-      <p>Die Rechte und Pflichten der Vertragsparteien hinsichtlich der Mängelhaftung richten sich nach den einschlägigen Bestimmungen des tschechischen Bürgerlichen Gesetzbuchs, insbesondere §§ 2099 ff. und §§ 2158 ff.</p>
-      <p>Ist der Käufer Verbraucher, haftet der Verkäufer dafür, dass die Ware bei Übergabe keine Mängel aufweist, und zwar für einen Zeitraum von 24 Monaten ab Übergabe.</p>
-      <p>Reklamationen können per E-Mail an stepan.merta@seznam.cz oder persönlich am Betriebssitz geltend gemacht werden. Der Verkäufer entscheidet über die Reklamation und erledigt sie spätestens innerhalb von 30 Tagen ab Geltendmachung, sofern mit dem Käufer keine längere Frist vereinbart wurde.</p>
-      <p>Aufgrund der Beschaffenheit der Ware (Naturmaterial Holz) gelten geringfügige Unterschiede in Maserung, Farbe oder leichte Maßabweichungen, die auf die natürlichen Eigenschaften des Holzes zurückzuführen sind, nicht als Mangel, sofern sie die übliche Verwendung der Ware nicht beeinträchtigen.</p>
+    <h2>6. Gewährleistung und Reklamation</h2>
+    <p>Die Rechte und Pflichten der Vertragsparteien hinsichtlich der Mängelhaftung richten sich nach den einschlägigen Bestimmungen des tschechischen Bürgerlichen Gesetzbuchs, insbesondere §§ 2099 ff. und §§ 2158 ff.</p>
+    <p>Ist der Käufer Verbraucher, haftet der Verkäufer dafür, dass die Ware bei Übergabe keine Mängel aufweist, und zwar für einen Zeitraum von 24 Monaten ab Übergabe.</p>
+    <p>Reklamationen können per E-Mail an stepan.merta@seznam.cz oder persönlich am Betriebssitz geltend gemacht werden. Der Verkäufer entscheidet über die Reklamation und erledigt sie spätestens innerhalb von 30 Tagen ab Geltendmachung, sofern mit dem Käufer keine längere Frist vereinbart wurde.</p>
+    <p>Aufgrund der Beschaffenheit der Ware (Naturmaterial Holz) gelten geringfügige Unterschiede in Maserung, Farbe oder leichte Maßabweichungen, die auf die natürlichen Eigenschaften des Holzes zurückzuführen sind, nicht als Mangel, sofern sie die übliche Verwendung der Ware nicht beeinträchtigen.</p>
 
-      <h2>7. Datenschutz</h2>
-      <p>Der Verkäufer verarbeitet personenbezogene Daten des Käufers (Name, Adresse, Telefonnummer, E-Mail, ggf. Steuernummer/USt-IdNr. bei Firmenkäufen) ausschließlich zum Zweck der Bestellabwicklung, der Erfüllung des Kaufvertrags sowie der Erfüllung gesetzlicher Pflichten (z. B. Buchhaltung). Verantwortlicher für die Datenverarbeitung ist Štěpán Merta, IČ: 45665451.</p>
-      <p>Die Daten werden nicht an Dritte weitergegeben, mit Ausnahme der für die Zustellung notwendigen Personen (Transportunternehmen), des Dienstes zur Entfernungsberechnung der Lieferadresse (openrouteservice, HeiGIT gGmbH, Deutschland) sowie gesetzlich vorgeschriebener Stellen (z. B. Finanzbehörden).</p>
-      <p>Der Käufer hat das Recht auf Auskunft über seine personenbezogenen Daten, deren Berichtigung oder Löschung sowie auf Einschränkung der Verarbeitung, das Recht, der Verarbeitung zu widersprechen, sowie das Recht, Beschwerde bei der zuständigen Datenschutzbehörde einzureichen.</p>
+    <h2>7. Datenschutz</h2>
+    <p>Der Verkäufer verarbeitet personenbezogene Daten des Käufers (Name, Adresse, Telefonnummer, E-Mail, ggf. Steuernummer/USt-IdNr. bei Firmenkäufen) ausschließlich zum Zweck der Bestellabwicklung, der Erfüllung des Kaufvertrags sowie der Erfüllung gesetzlicher Pflichten (z. B. Buchhaltung). Verantwortlicher für die Datenverarbeitung ist Štěpán Merta, IČ: 45665451.</p>
+    <p>Die Daten werden nicht an Dritte weitergegeben, mit Ausnahme der für die Zustellung notwendigen Personen (Transportunternehmen), des Dienstes zur Entfernungsberechnung der Lieferadresse (openrouteservice, HeiGIT gGmbH, Deutschland) sowie gesetzlich vorgeschriebener Stellen (z. B. Finanzbehörden).</p>
+    <p>Der Käufer hat das Recht auf Auskunft über seine personenbezogenen Daten, deren Berichtigung oder Löschung sowie auf Einschränkung der Verarbeitung, das Recht, der Verarbeitung zu widersprechen, sowie das Recht, Beschwerde bei der zuständigen Datenschutzbehörde einzureichen.</p>
 
-      <h2>8. Außergerichtliche Streitbeilegung</h2>
-      <p>Kommt es zwischen dem Verkäufer und einem Käufer, der Verbraucher ist, zu einem Verbraucherstreit, hat der Käufer das Recht auf dessen außergerichtliche Beilegung. Zuständige Stelle ist die tschechische Handelsinspektion (Česká obchodní inspekce), Zentralinspektorat – Abteilung ADR, mit Sitz in Štěpánská 567/15, 120 00 Prag 2, Internetadresse: <a href="https://adr.coi.cz" target="_blank" rel="noopener">adr.coi.cz</a>.</p>
+    <h2>8. Außergerichtliche Streitbeilegung</h2>
+    <p>Kommt es zwischen dem Verkäufer und einem Käufer, der Verbraucher ist, zu einem Verbraucherstreit, hat der Käufer das Recht auf dessen außergerichtliche Beilegung. Zuständige Stelle ist die tschechische Handelsinspektion (Česká obchodní inspekce), Zentralinspektorat – Abteilung ADR, mit Sitz in Štěpánská 567/15, 120 00 Prag 2, Internetadresse: <a href="https://adr.coi.cz" target="_blank" rel="noopener">adr.coi.cz</a>.</p>
 
-      <h2>9. Schlussbestimmungen</h2>
-      <p>Diese AGB unterliegen dem Recht der Tschechischen Republik, insbesondere dem Gesetz Nr. 89/2012 Slg., Bürgerliches Gesetzbuch, sowie dem Gesetz Nr. 634/1992 Slg., über den Verbraucherschutz, in der jeweils geltenden Fassung.</p>
-      <p>Sollte eine Bestimmung dieser AGB unwirksam sein oder werden, tritt an ihre Stelle eine Regelung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt. Die Unwirksamkeit einer Bestimmung berührt nicht die Gültigkeit der übrigen Bestimmungen.</p>
-      <p>Diese AGB treten mit dem Datum ihrer Veröffentlichung in Kraft.</p>
+    <h2>9. Schlussbestimmungen</h2>
+    <p>Diese AGB unterliegen dem Recht der Tschechischen Republik, insbesondere dem Gesetz Nr. 89/2012 Slg., Bürgerliches Gesetzbuch, sowie dem Gesetz Nr. 634/1992 Slg., über den Verbraucherschutz, in der jeweils geltenden Fassung.</p>
+    <p>Sollte eine Bestimmung dieser AGB unwirksam sein oder werden, tritt an ihre Stelle eine Regelung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt. Die Unwirksamkeit einer Bestimmung berührt nicht die Gültigkeit der übrigen Bestimmungen.</p>
+    <p>Diese AGB treten mit dem Datum ihrer Veröffentlichung in Kraft.</p>
 
-    cookies_title: "Cookie-Richtlinie"
-    cookies_content_html: |
-      <p>Diese Website verwendet Cookies – kleine Textdateien, die in Ihrem Browser gespeichert werden und uns helfen, ihre korrekte Funktion sicherzustellen.</p>
+  cookies_title: "Cookie-Richtlinie"
+  cookies_content_html: |
+    <p>Diese Website verwendet Cookies – kleine Textdateien, die in Ihrem Browser gespeichert werden und uns helfen, ihre korrekte Funktion sicherzustellen.</p>
 
-      <h2>1. Notwendige Cookies</h2>
-      <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, Anmeldung) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
+    <h2>1. Notwendige Cookies</h2>
+    <p>Diese Cookies sind für die grundlegende Funktion der Website erforderlich (z. B. Warenkorb-Inhalt, Anmeldung) und können nicht deaktiviert werden. Ohne sie würde die Website nicht ordnungsgemäß funktionieren.</p>
 
-      <h2>2. Analyse-Cookies</h2>
-      <p>Zur Besuchermessung verwenden wir Google Analytics (Google Ireland Limited). Diese Cookies werden nur gesetzt, wenn Sie dem über „Alle akzeptieren" zustimmen. Sie helfen uns zu verstehen, wie Besucher die Website nutzen, um sie entsprechend zu verbessern.</p>
-      <p>Derzeit verwenden wir keine Marketing- oder Werbe-Cookies.</p>
+    <h2>2. Analyse-Cookies</h2>
+    <p>Zur Besuchermessung verwenden wir Google Analytics (Google Ireland Limited). Diese Cookies werden nur gesetzt, wenn Sie dem über „Alle akzeptieren" zustimmen. Sie helfen uns zu verstehen, wie Besucher die Website nutzen, um sie entsprechend zu verbessern.</p>
+    <p>Derzeit verwenden wir keine Marketing- oder Werbe-Cookies.</p>
 
-      <h2>3. Verwaltung der Zustimmung</h2>
-      <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>
+    <h2>3. Verwaltung der Zustimmung</h2>
+    <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>
 
-    privacy_title: "Datenschutzerklärung"
-    privacy_content_html: |
-      <p>Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir beim Betrieb der Website piladerflice.cz verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage, an wen wir sie weitergeben und welche Rechte Sie haben. Wir verarbeiten Ihre Daten gemäß der Verordnung (EU) 2016/679 (DSGVO) und dem tschechischen Gesetz Nr. 110/2019 Slg. über die Verarbeitung personenbezogener Daten.</p>
-      <p>Zuletzt aktualisiert: 14. 10. 2026.</p>
+  privacy_title: "Datenschutzerklärung"
+  privacy_content_html: |
+    <p>Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir beim Betrieb der Website piladerflice.cz verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage, an wen wir sie weitergeben und welche Rechte Sie haben. Wir verarbeiten Ihre Daten gemäß der Verordnung (EU) 2016/679 (DSGVO) und dem tschechischen Gesetz Nr. 110/2019 Slg. über die Verarbeitung personenbezogener Daten.</p>
+    <p>Zuletzt aktualisiert: 14. 10. 2026.</p>
 
-      <h2>1. Wer für Ihre Daten verantwortlich ist</h2>
-      <p><strong>Štěpán Merta</strong><br>
-      Pila Derflice<br>
-      Betriebsstätte: Derflice 66, 671 28 Znojmo, Tschechische Republik<br>
-      Korrespondenz- und Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice, Tschechische Republik<br>
-      Ident.-Nr. (IČ): 45665451<br>
-      USt-IdNr. (DIČ): CZ6909094742<br>
-      E-Mail: stepan.merta@seznam.cz<br>
-      Telefon: +420 602 446 339</p>
-      <p>Natürliche Person, die ein Gewerbe nach dem tschechischen Gewerbegesetz betreibt und nicht im Handelsregister eingetragen ist (im Folgenden „wir"). Bei allen Fragen zur Verarbeitung personenbezogener Daten können Sie sich an die oben genannte E-Mail-Adresse wenden.</p>
+    <h2>1. Wer für Ihre Daten verantwortlich ist</h2>
+    <p><strong>Štěpán Merta</strong><br>
+    Pila Derflice<br>
+    Betriebsstätte: Derflice 66, 671 28 Znojmo, Tschechische Republik<br>
+    Korrespondenz- und Rechnungsadresse: Meruňková 206, 671 81 Nový Šaldorf – Sedlešovice, Tschechische Republik<br>
+    Ident.-Nr. (IČ): 45665451<br>
+    USt-IdNr. (DIČ): CZ6909094742<br>
+    E-Mail: stepan.merta@seznam.cz<br>
+    Telefon: +420 602 446 339</p>
+    <p>Natürliche Person, die ein Gewerbe nach dem tschechischen Gewerbegesetz betreibt und nicht im Handelsregister eingetragen ist (im Folgenden „wir"). Bei allen Fragen zur Verarbeitung personenbezogener Daten können Sie sich an die oben genannte E-Mail-Adresse wenden.</p>
 
-      <h2>2. Welche Daten wir verarbeiten und warum</h2>
+    <h2>2. Welche Daten wir verarbeiten und warum</h2>
 
-      <h3>2.1 Bestellungen im Onlineshop</h3>
-      <ul>
-        <li><strong>Daten:</strong> Vor- und Nachname, E-Mail, Telefon, Rechnungsadresse, Lieferadresse (falls abweichend), bei Firmenkäufen Firmenname, Ident.-Nr. und USt-IdNr., außerdem Inhalt der Bestellung, gewählte Liefer- und Zahlungsart sowie die Sprache, in der Sie die Bestellung aufgeben.</li>
-        <li><strong>Zweck:</strong> Bearbeitung der Bestellung, Abschluss und Erfüllung des Kaufvertrags, Berechnung des ungefähren Lieferpreises anhand der Entfernung zur Lieferadresse, Lieferung der Ware, Rechnungsstellung, Kommunikation zur Bestellung und Bearbeitung von Reklamationen.</li>
-        <li><strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und Erfüllung rechtlicher Verpflichtungen, insbesondere buchhalterischer und steuerlicher (Art. 6 Abs. 1 lit. c DSGVO).</li>
-        <li><strong>Speicherdauer:</strong> so lange, wie es die buchhalterischen und steuerlichen Vorschriften verlangen, bei Steuerbelegen 10 Jahre ab Ende des Besteuerungszeitraums (tschechisches Mehrwertsteuergesetz Nr. 235/2004 Slg.). Danach löschen oder anonymisieren wir die Daten.</li>
-      </ul>
+    <h3>2.1 Bestellungen im Onlineshop</h3>
+    <ul>
+      <li><strong>Daten:</strong> Vor- und Nachname, E-Mail, Telefon, Rechnungsadresse, Lieferadresse (falls abweichend), bei Firmenkäufen Firmenname, Ident.-Nr. und USt-IdNr., außerdem Inhalt der Bestellung, gewählte Liefer- und Zahlungsart sowie die Sprache, in der Sie die Bestellung aufgeben.</li>
+      <li><strong>Zweck:</strong> Bearbeitung der Bestellung, Abschluss und Erfüllung des Kaufvertrags, Berechnung des ungefähren Lieferpreises anhand der Entfernung zur Lieferadresse, Lieferung der Ware, Rechnungsstellung, Kommunikation zur Bestellung und Bearbeitung von Reklamationen.</li>
+      <li><strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und Erfüllung rechtlicher Verpflichtungen, insbesondere buchhalterischer und steuerlicher (Art. 6 Abs. 1 lit. c DSGVO).</li>
+      <li><strong>Speicherdauer:</strong> so lange, wie es die buchhalterischen und steuerlichen Vorschriften verlangen, bei Steuerbelegen 10 Jahre ab Ende des Besteuerungszeitraums (tschechisches Mehrwertsteuergesetz Nr. 235/2004 Slg.). Danach löschen oder anonymisieren wir die Daten.</li>
+    </ul>
 
-      <h3>2.2 Kundenkonto</h3>
-      <ul>
-        <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie, gegebenenfalls ein Profilbild, wenn Sie eines hochladen (wir speichern es auf 256 × 256 px verkleinert, einschließlich der EXIF-Metadaten, die das Foto gegebenenfalls enthält, z. B. Kameradaten oder Standort; wir zeigen es nur Ihnen). Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
-        <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen), Anzeige Ihres Profilbilds und Sicherheit des Kontos.</li>
-        <li><strong>Rechtsgrundlage:</strong> Erfüllung des Vertrags über die Kontoführung (Art. 6 Abs. 1 lit. b DSGVO); für IP-Adresse und Browserangaben unser berechtigtes Interesse an der Sicherheit der Konten (Art. 6 Abs. 1 lit. f DSGVO).</li>
-        <li><strong>Speicherdauer:</strong> die Kontodaten bis zur Löschung des Kontos, die wir auf Ihren Wunsch per E-Mail vornehmen; die Anmeldedaten, solange Sie angemeldet sind (sie werden bei der Abmeldung gelöscht). Daten zu bereits abgewickelten Bestellungen bewahren wir weiterhin gemäß Punkt 2.1 auf.</li>
-      </ul>
+    <h3>2.2 Kundenkonto</h3>
+    <ul>
+      <li><strong>Daten:</strong> E-Mail (dient als Benutzername), Passwort (wir speichern es nur als nicht umkehrbaren verschlüsselten Hashwert, nicht im Klartext), Name, Telefon, Rechnungs- und Lieferadresse sowie Firmendaten, die Sie im Konto zum Vorausfüllen von Bestellungen speichern, und Ihre Bestellhistorie, gegebenenfalls ein Profilbild, wenn Sie eines hochladen (wir speichern es auf 256 × 256 px verkleinert, einschließlich der EXIF-Metadaten, die das Foto gegebenenfalls enthält, z. B. Kameradaten oder Standort; wir zeigen es nur Ihnen). Bei der Anmeldung speichern wir zusätzlich den Zeitpunkt der Anmeldung, die IP-Adresse und Angaben zu Ihrem Browser (User-Agent).</li>
+      <li><strong>Zweck:</strong> Führung des Kontos, Erleichterung wiederholter Käufe (Vorausfüllen der Daten, Bestellhistorie, Bestellung wiederholen), Anzeige Ihres Profilbilds und Sicherheit des Kontos.</li>
+      <li><strong>Rechtsgrundlage:</strong> Erfüllung des Vertrags über die Kontoführung (Art. 6 Abs. 1 lit. b DSGVO); für IP-Adresse und Browserangaben unser berechtigtes Interesse an der Sicherheit der Konten (Art. 6 Abs. 1 lit. f DSGVO).</li>
+      <li><strong>Speicherdauer:</strong> die Kontodaten bis zur Löschung des Kontos, die wir auf Ihren Wunsch per E-Mail vornehmen; die Anmeldedaten, solange Sie angemeldet sind (sie werden bei der Abmeldung gelöscht). Daten zu bereits abgewickelten Bestellungen bewahren wir weiterhin gemäß Punkt 2.1 auf.</li>
+    </ul>
 
-      <h3>2.3 Anfragen und Kalkulationen</h3>
-      <ul>
-        <li><strong>Daten:</strong> Vor- und Nachname, Telefon, E-Mail, Adresse (Straße, Hausnummer, Ort, Postleitzahl), angefragte Ware und deren Parameter, Anmerkung sowie die Sprache, in der Sie das Formular ausfüllen.</li>
-        <li><strong>Zweck:</strong> Bearbeitung der Anfrage und Erstellung einer unverbindlichen Kalkulation bzw. eines Angebots.</li>
-        <li><strong>Rechtsgrundlage:</strong> Maßnahmen zur Anbahnung eines Vertrags auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).</li>
-        <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen. Kommt kein Vertrag zustande, löschen wir die Daten, sobald die Gründe für ihre Aufbewahrung entfallen sind.</li>
-      </ul>
+    <h3>2.3 Anfragen und Kalkulationen</h3>
+    <ul>
+      <li><strong>Daten:</strong> Vor- und Nachname, Telefon, E-Mail, Adresse (Straße, Hausnummer, Ort, Postleitzahl), angefragte Ware und deren Parameter, Anmerkung sowie die Sprache, in der Sie das Formular ausfüllen.</li>
+      <li><strong>Zweck:</strong> Bearbeitung der Anfrage und Erstellung einer unverbindlichen Kalkulation bzw. eines Angebots.</li>
+      <li><strong>Rechtsgrundlage:</strong> Maßnahmen zur Anbahnung eines Vertrags auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).</li>
+      <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen. Kommt kein Vertrag zustande, löschen wir die Daten, sobald die Gründe für ihre Aufbewahrung entfallen sind.</li>
+    </ul>
 
-      <h3>2.4 Anfragen per E-Mail oder Telefon</h3>
-      <ul>
-        <li><strong>Daten:</strong> die Kontaktdaten, die Sie uns mitteilen, und der Inhalt der Kommunikation.</li>
-        <li><strong>Zweck:</strong> Beantwortung Ihrer Anfrage.</li>
-        <li><strong>Rechtsgrundlage:</strong> unser berechtigtes Interesse, Interessenten für unsere Waren und Dienstleistungen zu antworten (Art. 6 Abs. 1 lit. f DSGVO), gegebenenfalls die Anbahnung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO).</li>
-        <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen.</li>
-      </ul>
+    <h3>2.4 Anfragen per E-Mail oder Telefon</h3>
+    <ul>
+      <li><strong>Daten:</strong> die Kontaktdaten, die Sie uns mitteilen, und der Inhalt der Kommunikation.</li>
+      <li><strong>Zweck:</strong> Beantwortung Ihrer Anfrage.</li>
+      <li><strong>Rechtsgrundlage:</strong> unser berechtigtes Interesse, Interessenten für unsere Waren und Dienstleistungen zu antworten (Art. 6 Abs. 1 lit. f DSGVO), gegebenenfalls die Anbahnung eines Vertrags (Art. 6 Abs. 1 lit. b DSGVO).</li>
+      <li><strong>Speicherdauer:</strong> für die Dauer der Bearbeitung der Anfrage und der anschließenden Verhandlungen.</li>
+    </ul>
 
-      <h3>2.5 Newsletter</h3>
-      <ul>
-        <li><strong>Daten:</strong> E-Mail und Name aus der Bestellung, bei der Sie das Kästchen zum Erhalt von Newslettern angekreuzt haben.</li>
-        <li><strong>Zweck:</strong> Zusendung von Werbemitteilungen.</li>
-        <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch Ankreuzen des Kästchens bei der Bestellung erteilen. Sie können sie jederzeit per E-Mail an stepan.merta@seznam.cz widerrufen; die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt.</li>
-        <li><strong>Speicherdauer:</strong> bis zum Widerruf der Einwilligung.</li>
-      </ul>
+    <h3>2.5 Newsletter</h3>
+    <ul>
+      <li><strong>Daten:</strong> E-Mail und Name aus der Bestellung, bei der Sie das Kästchen zum Erhalt von Newslettern angekreuzt haben.</li>
+      <li><strong>Zweck:</strong> Zusendung von Werbemitteilungen.</li>
+      <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch Ankreuzen des Kästchens bei der Bestellung erteilen. Sie können sie jederzeit per E-Mail an stepan.merta@seznam.cz widerrufen; die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung bleibt unberührt.</li>
+      <li><strong>Speicherdauer:</strong> bis zum Widerruf der Einwilligung.</li>
+    </ul>
 
-      <h3>2.6 Besuchermessung (Google Analytics)</h3>
-      <ul>
-        <li><strong>Daten:</strong> Daten zur Nutzung der Website (z. B. aufgerufene Seiten, Geräte- und Browsertyp, ungefährer Standort, Angaben zu abgeschlossenen Bestellungen) sowie Online-Kennungen in Cookies.</li>
-        <li><strong>Zweck:</strong> herauszufinden, wie Besucher die Website nutzen, und sie entsprechend zu verbessern.</li>
-        <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch die Auswahl „Alle akzeptieren" im Cookie-Banner erteilen. Sie können sie jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile widerrufen.</li>
-        <li><strong>Speicherdauer:</strong> entsprechend der in Google Analytics eingestellten Aufbewahrungsdauer, höchstens 14 Monate.</li>
-        <li><strong>Anbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</li>
-      </ul>
-      <p>Ohne Ihre Einwilligung werden keine Analyse-Cookies gespeichert. Beim Aufruf einer Seite wird jedoch ein Skript von Google-Servern geladen, sodass Google auch in diesem Fall technische Verbindungsdaten erhält, insbesondere Ihre IP-Adresse.</p>
+    <h3>2.6 Besuchermessung (Google Analytics)</h3>
+    <ul>
+      <li><strong>Daten:</strong> Daten zur Nutzung der Website (z. B. aufgerufene Seiten, Geräte- und Browsertyp, ungefährer Standort, Angaben zu abgeschlossenen Bestellungen) sowie Online-Kennungen in Cookies.</li>
+      <li><strong>Zweck:</strong> herauszufinden, wie Besucher die Website nutzen, und sie entsprechend zu verbessern.</li>
+      <li><strong>Rechtsgrundlage:</strong> Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die Sie durch die Auswahl „Alle akzeptieren" im Cookie-Banner erteilen. Sie können sie jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile widerrufen.</li>
+      <li><strong>Speicherdauer:</strong> entsprechend der in Google Analytics eingestellten Aufbewahrungsdauer, höchstens 14 Monate.</li>
+      <li><strong>Anbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</li>
+    </ul>
+    <p>Ohne Ihre Einwilligung werden keine Analyse-Cookies gespeichert. Beim Aufruf einer Seite wird jedoch ein Skript von Google-Servern geladen, sodass Google auch in diesem Fall technische Verbindungsdaten erhält, insbesondere Ihre IP-Adresse.</p>
 
-      <h3>2.7 Google Maps</h3>
-      <p>In der Fußzeile der Seiten ist eine Google-Maps-Karte eingebunden, die den Standort der Betriebsstätte zeigt. Beim Aufruf der Seite verbindet sich Ihr Browser mit den Servern von Google, die Ihre IP-Adresse erhalten und Cookies speichern können. Rechtsgrundlage ist unser berechtigtes Interesse, Kunden das Auffinden der Betriebsstätte zu erleichtern (Art. 6 Abs. 1 lit. f DSGVO). Die Speicherdauer bestimmt Google.</p>
+    <h3>2.7 Google Maps</h3>
+    <p>In der Fußzeile der Seiten ist eine Google-Maps-Karte eingebunden, die den Standort der Betriebsstätte zeigt. Beim Aufruf der Seite verbindet sich Ihr Browser mit den Servern von Google, die Ihre IP-Adresse erhalten und Cookies speichern können. Rechtsgrundlage ist unser berechtigtes Interesse, Kunden das Auffinden der Betriebsstätte zu erleichtern (Art. 6 Abs. 1 lit. f DSGVO). Die Speicherdauer bestimmt Google.</p>
 
-      <h3>2.8 Betrieb und Sicherheit der Website</h3>
-      <p>Bei jedem Seitenaufruf werden Ihre IP-Adresse und technische Angaben zur Anfrage (z. B. Zeitpunkt, Seitenadresse, Browsertyp) verarbeitet, die zur Auslieferung der Seite und zur Sicherheit des Betriebs erforderlich sind. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Diese Betriebsprotokolle bewahren wir nur so lange auf, wie es für die Sicherheit erforderlich ist.</p>
-      <p>Die Website verwendet außerdem Cookies. Notwendige Cookies (Warenkorbinhalt, Anmeldung und Ihre Auswahl im Cookie-Banner) sind für den Betrieb der Seiten erforderlich, Analyse-Cookies setzen wir nur mit Ihrer Einwilligung. Einzelheiten finden Sie in der <a href="/at/zasady-cookies">Cookie-Richtlinie</a>.</p>
+    <h3>2.8 Betrieb und Sicherheit der Website</h3>
+    <p>Bei jedem Seitenaufruf werden Ihre IP-Adresse und technische Angaben zur Anfrage (z. B. Zeitpunkt, Seitenadresse, Browsertyp) verarbeitet, die zur Auslieferung der Seite und zur Sicherheit des Betriebs erforderlich sind. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Diese Betriebsprotokolle bewahren wir nur so lange auf, wie es für die Sicherheit erforderlich ist.</p>
+    <p>Die Website verwendet außerdem Cookies. Notwendige Cookies (Warenkorbinhalt, Anmeldung und Ihre Auswahl im Cookie-Banner) sind für den Betrieb der Seiten erforderlich, Analyse-Cookies setzen wir nur mit Ihrer Einwilligung. Einzelheiten finden Sie in der <a href="/at/zasady-cookies">Cookie-Richtlinie</a>.</p>
 
-      <h2>3. An wen wir Daten weitergeben</h2>
-      <ul>
-        <li><strong>IT-Dienstleister</strong> (Betrieb und Verwaltung des Servers, E-Mail-Dienste für den Versand von Bestellbestätigungen und die Kommunikation), die Daten als Auftragsverarbeiter für uns verarbeiten und sie nur nach unseren Weisungen verwenden dürfen.</li>
-        <li><strong>Google Ireland Limited</strong> (Besuchermessung und Karte, siehe Punkte 2.6 und 2.7).</li>
-        <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Deutschland (Dienst openrouteservice) – bei Lieferung an die Adresse übermitteln wir ausschließlich die Lieferadresse (Straße, Ort, PLZ, Land), um die Entfernung vom Betrieb und den ungefähren Lieferpreis zu berechnen. Name und Kontaktdaten übermitteln wir nicht.</li>
-        <li><strong>Transportunternehmen</strong>, sofern die Lieferung durch einen Dritten erfolgt; wir geben ihm nur die für die Lieferung erforderlichen Daten (Name, Adresse, Telefon) weiter.</li>
-        <li><strong>Behörden</strong> (z. B. die Finanzverwaltung), wenn uns das Gesetz dazu verpflichtet.</li>
-      </ul>
-      <p>Wir verkaufen Ihre Daten nicht. Eine automatisierte Entscheidungsfindung im Sinne von Art. 22 DSGVO findet nicht statt.</p>
-      <p>Einige Dienstleister, insbesondere Google, können Daten auch außerhalb der Europäischen Union und des Europäischen Wirtschaftsraums verarbeiten. Eine solche Übermittlung richtet sich stets nach den Voraussetzungen von Kapitel V der DSGVO (z. B. einem Angemessenheitsbeschluss der Europäischen Kommission oder Standardvertragsklauseln).</p>
+    <h2>3. An wen wir Daten weitergeben</h2>
+    <ul>
+      <li><strong>IT-Dienstleister</strong> (Betrieb und Verwaltung des Servers, E-Mail-Dienste für den Versand von Bestellbestätigungen und die Kommunikation), die Daten als Auftragsverarbeiter für uns verarbeiten und sie nur nach unseren Weisungen verwenden dürfen.</li>
+      <li><strong>Google Ireland Limited</strong> (Besuchermessung und Karte, siehe Punkte 2.6 und 2.7).</li>
+      <li><strong>HeiGIT gGmbH</strong>, Schloss-Wolfsbrunnenweg 33, 69118 Heidelberg, Deutschland (Dienst openrouteservice) – bei Lieferung an die Adresse übermitteln wir ausschließlich die Lieferadresse (Straße, Ort, PLZ, Land), um die Entfernung vom Betrieb und den ungefähren Lieferpreis zu berechnen. Name und Kontaktdaten übermitteln wir nicht.</li>
+      <li><strong>Transportunternehmen</strong>, sofern die Lieferung durch einen Dritten erfolgt; wir geben ihm nur die für die Lieferung erforderlichen Daten (Name, Adresse, Telefon) weiter.</li>
+      <li><strong>Behörden</strong> (z. B. die Finanzverwaltung), wenn uns das Gesetz dazu verpflichtet.</li>
+    </ul>
+    <p>Wir verkaufen Ihre Daten nicht. Eine automatisierte Entscheidungsfindung im Sinne von Art. 22 DSGVO findet nicht statt.</p>
+    <p>Einige Dienstleister, insbesondere Google, können Daten auch außerhalb der Europäischen Union und des Europäischen Wirtschaftsraums verarbeiten. Eine solche Übermittlung richtet sich stets nach den Voraussetzungen von Kapitel V der DSGVO (z. B. einem Angemessenheitsbeschluss der Europäischen Kommission oder Standardvertragsklauseln).</p>
 
-      <h2>4. Ihre Rechte</h2>
-      <p>Nach der DSGVO haben Sie das Recht auf:</p>
-      <ul>
-        <li>Auskunft über Ihre personenbezogenen Daten und eine Kopie der verarbeiteten Daten (Art. 15),</li>
-        <li>Berichtigung unrichtiger Daten (Art. 16) – die Daten in Ihrem Konto können Sie selbst auf der Seite „Daten bearbeiten" ändern,</li>
-        <li>Löschung der Daten (Art. 17),</li>
-        <li>Einschränkung der Verarbeitung (Art. 18),</li>
-        <li>Datenübertragbarkeit (Art. 20),</li>
-        <li>Widerspruch gegen eine Verarbeitung, die auf einem berechtigten Interesse beruht (Art. 21),</li>
-        <li>jederzeitigen Widerruf einer von Ihnen erteilten Einwilligung.</li>
-      </ul>
-      <p>Ihre Rechte können Sie per E-Mail an stepan.merta@seznam.cz ausüben. Wir antworten spätestens innerhalb eines Monats.</p>
-      <p>Wenn Sie der Ansicht sind, dass wir Ihre Daten rechtswidrig verarbeiten, haben Sie das Recht, bei einer Aufsichtsbehörde Beschwerde einzulegen. In der Tschechischen Republik ist das das Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Sie können sich auch an die Aufsichtsbehörde in Ihrem Wohnsitzstaat wenden (in Österreich die Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
+    <h2>4. Ihre Rechte</h2>
+    <p>Nach der DSGVO haben Sie das Recht auf:</p>
+    <ul>
+      <li>Auskunft über Ihre personenbezogenen Daten und eine Kopie der verarbeiteten Daten (Art. 15),</li>
+      <li>Berichtigung unrichtiger Daten (Art. 16) – die Daten in Ihrem Konto können Sie selbst auf der Seite „Daten bearbeiten" ändern,</li>
+      <li>Löschung der Daten (Art. 17),</li>
+      <li>Einschränkung der Verarbeitung (Art. 18),</li>
+      <li>Datenübertragbarkeit (Art. 20),</li>
+      <li>Widerspruch gegen eine Verarbeitung, die auf einem berechtigten Interesse beruht (Art. 21),</li>
+      <li>jederzeitigen Widerruf einer von Ihnen erteilten Einwilligung.</li>
+    </ul>
+    <p>Ihre Rechte können Sie per E-Mail an stepan.merta@seznam.cz ausüben. Wir antworten spätestens innerhalb eines Monats.</p>
+    <p>Wenn Sie der Ansicht sind, dass wir Ihre Daten rechtswidrig verarbeiten, haben Sie das Recht, bei einer Aufsichtsbehörde Beschwerde einzulegen. In der Tschechischen Republik ist das das Úřad pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>. Sie können sich auch an die Aufsichtsbehörde in Ihrem Wohnsitzstaat wenden (in Österreich die Datenschutzbehörde, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">dsb.gv.at</a>).</p>
 
-      <h2>5. Pflicht zur Bereitstellung der Daten</h2>
-      <p>Die zur Bearbeitung einer Bestellung oder Anfrage erforderlichen Daten müssen Sie angeben – ohne sie können wir die Bestellung oder Anfrage nicht bearbeiten. Die Einwilligung in den Newsletter und in Analyse-Cookies ist freiwillig; wenn Sie sie nicht erteilen, hat das keinen Einfluss auf die Bearbeitung Ihrer Bestellung.</p>
+    <h2>5. Pflicht zur Bereitstellung der Daten</h2>
+    <p>Die zur Bearbeitung einer Bestellung oder Anfrage erforderlichen Daten müssen Sie angeben – ohne sie können wir die Bestellung oder Anfrage nicht bearbeiten. Die Einwilligung in den Newsletter und in Analyse-Cookies ist freiwillig; wenn Sie sie nicht erteilen, hat das keinen Einfluss auf die Bearbeitung Ihrer Bestellung.</p>
 
-      <h2>6. Datensicherheit</h2>
-      <p>Die Website wird über eine verschlüsselte Verbindung (HTTPS) betrieben, und Passwörter für Kundenkonten speichern wir nur als nicht umkehrbaren Hashwert.</p>
+    <h2>6. Datensicherheit</h2>
+    <p>Die Website wird über eine verschlüsselte Verbindung (HTTPS) betrieben, und Passwörter für Kundenkonten speichern wir nur als nicht umkehrbaren Hashwert.</p>
 
-      <h2>7. Änderungen dieser Erklärung</h2>
-      <p>Wir können diese Datenschutzerklärung aktualisieren, z. B. bei Änderungen der Funktionen der Website oder der Rechtslage. Die aktuelle Fassung ist stets auf dieser Seite veröffentlicht, das Datum der letzten Aktualisierung finden Sie am Anfang. Weitere Informationen zur Datenverarbeitung beim Einkauf finden Sie auch in den <a href="/at/obchodni-podminky">Allgemeinen Geschäftsbedingungen</a>.</p>
+    <h2>7. Änderungen dieser Erklärung</h2>
+    <p>Wir können diese Datenschutzerklärung aktualisieren, z. B. bei Änderungen der Funktionen der Website oder der Rechtslage. Die aktuelle Fassung ist stets auf dieser Seite veröffentlicht, das Datum der letzten Aktualisierung finden Sie am Anfang. Weitere Informationen zur Datenverarbeitung beim Einkauf finden Sie auch in den <a href="/at/obchodni-podminky">Allgemeinen Geschäftsbedingungen</a>.</p>
 
-  cookies:
-    banner_text: "Wir verwenden Cookies, um die bestmögliche Funktion dieser Website sicherzustellen. Notwendige Cookies sind immer aktiv."
-    accept_all: "Alle akzeptieren"
-    necessary_only: "Nur notwendige"
-    decline: "Ablehnen"
-    learn_more: "Mehr erfahren"
-    settings_link: "Cookie-Einstellungen"
+cookies:
+  banner_text: "Wir verwenden Cookies, um die bestmögliche Funktion dieser Website sicherzustellen. Notwendige Cookies sind immer aktiv."
+  accept_all: "Alle akzeptieren"
+  necessary_only: "Nur notwendige"
+  decline: "Ablehnen"
+  learn_more: "Mehr erfahren"
+  settings_link: "Cookie-Einstellungen"

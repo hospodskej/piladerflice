@@ -2,7 +2,7 @@
 //! ApplicationHelper.
 
 use axum::http::StatusCode;
-use serde_yaml::Value as Yaml;
+use serde_json::Value;
 
 use super::breadcrumbs::Crumb;
 use super::text::{squish, truncate};
@@ -34,7 +34,7 @@ impl Page {
         let description = state
             .translations
             .lookup(req.locale, &format!("meta.{key}.description"))
-            .and_then(Yaml::as_str)
+            .and_then(Value::as_str)
             .map(str::to_string);
         Page::titled(state, req, &title, description)
     }

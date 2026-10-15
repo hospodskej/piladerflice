@@ -151,7 +151,7 @@ mod tests {
     use super::*;
 
     fn translations() -> Translations {
-        Translations::load(&crate::Config::from_source_tree(false).root.join("locales")).unwrap()
+        crate::i18n::load(&crate::Config::from_source_tree(false).root.join("locales")).unwrap()
     }
 
     #[test]

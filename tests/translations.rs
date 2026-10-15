@@ -42,7 +42,7 @@ fn keys_used() -> Vec<(String, String)> {
 
 #[test]
 fn every_key_used_exists_in_both_languages() {
-    let translations = Translations::load(&Path::new(env!("CARGO_MANIFEST_DIR")).join("locales")).unwrap();
+    let translations = piladerflice::i18n::load(&Path::new(env!("CARGO_MANIFEST_DIR")).join("locales")).unwrap();
     let used = keys_used();
     assert!(
         used.len() > 200,

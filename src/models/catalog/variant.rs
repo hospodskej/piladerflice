@@ -60,15 +60,6 @@ impl CatalogVariant {
 const VARIANT_COLUMNS: &str = "id, catalog_product_id, key, variant_group, length_label, amount_value, price_czk,
     in_stock, stacked, grade, grade_de, width_mm, height_mm, variant_label, variant_label_de, updated_at";
 
-/// Every variant, in the admin's order (grouped per product by the caller).
-pub async fn all_variants(db: &Db) -> sqlx::Result<Vec<CatalogVariant>> {
-    sqlx::query_as(&format!(
-        "SELECT {VARIANT_COLUMNS} FROM catalog_variants ORDER BY position, id"
-    ))
-    .fetch_all(db)
-    .await
-}
-
 pub async fn variants_of(db: &Db, product_id: i64) -> sqlx::Result<Vec<CatalogVariant>> {
     sqlx::query_as(&format!(
         "SELECT {VARIANT_COLUMNS} FROM catalog_variants WHERE catalog_product_id = ? ORDER BY position, id"
@@ -83,30 +74,4 @@ pub async fn find(db: &Db, id: i64) -> sqlx::Result<Option<CatalogVariant>> {
         .bind(id)
         .fetch_optional(db)
         .await
-}
-
-/// "From" price of a product: its cheapest variant in stock, or the cheapest
-/// of all when none is in stock.
-pub fn starting_price_czk(variants: &[&CatalogVariant]) -> Option<i64> {
-    variants
-        .iter()
-        .filter(|variant| variant.in_stock)
-        .map(|variant| variant.price_czk)
-        .min()
-        .or_else(|| variants.iter().map(|variant| variant.price_czk).min())
-}
-
-#[cfg(test)]
-mod tests {
-    use super::super::test_data::variant;
-    use super::*;
-
-    #[test]
-    fn starting_price_prefers_variants_in_stock() {
-        let cheap_sold_out = variant("25 cm", 5, false, 100, false);
-        let in_stock = variant("25 cm", 10, false, 200, true);
-        assert_eq!(starting_price_czk(&[&cheap_sold_out, &in_stock]), Some(200));
-        assert_eq!(starting_price_czk(&[&cheap_sold_out]), Some(100));
-        assert_eq!(starting_price_czk(&[]), None);
-    }
 }

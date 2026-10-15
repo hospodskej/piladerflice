@@ -18,11 +18,11 @@ pub async fn for_product(state: &AppState, current: &CatalogProduct, money: &Mon
     others.shuffle(&mut rand::rng());
     others.truncate(4);
 
-    let variants = catalog::all_variants(&state.db).await?;
+    let starting_prices = catalog::starting_prices(&state.db).await?;
     let images = upload::images_of(&state.db, "CatalogProduct").await?;
     let price_from = state.translations.text(money.locale, "common.price_from", &[]);
     Ok(others
         .iter()
-        .map(|product| ProductCard::new(product, &variants, &images, money, &price_from))
+        .map(|product| ProductCard::new(product, &starting_prices, &images, money, &price_from))
         .collect())
 }

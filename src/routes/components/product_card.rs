@@ -5,7 +5,7 @@ use std::collections::HashMap;
 
 use serde::Serialize;
 
-use crate::models::catalog::{self, CatalogProduct, CatalogVariant};
+use crate::models::catalog::CatalogProduct;
 use crate::models::upload::Upload;
 use crate::money::Money;
 
@@ -23,19 +23,19 @@ pub struct ProductCard {
 impl ProductCard {
     pub fn new(
         product: &CatalogProduct,
-        variants: &[CatalogVariant],
+        starting_prices: &HashMap<i64, i64>,
         images: &HashMap<i64, Upload>,
         money: &Money,
         price_from_label: &str,
     ) -> Self {
-        let own: Vec<&CatalogVariant> = variants.iter().filter(|v| v.catalog_product_id == product.id).collect();
         Self {
             key: product.key.clone(),
             title: product.title(money.locale),
             type_label: product.type_label(money.locale),
             image: images.get(&product.id).map(Upload::url),
-            price_from: catalog::starting_price_czk(&own)
-                .map(|czk| format!("{price_from_label} {}", money.display(czk))),
+            price_from: starting_prices
+                .get(&product.id)
+                .map(|&czk| format!("{price_from_label} {}", money.display(czk))),
         }
     }
 }

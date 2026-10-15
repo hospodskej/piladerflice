@@ -340,7 +340,10 @@ async fn austrian_customers_check_out_in_german_and_euros() {
     let mut browser = app.browser();
     browser.get("/at/eshop/smrk").await;
     browser.post("/at/cart_items", &[("catalog_variant_id", "10")]).await;
-    browser.get("/at/kosik/doprava").await.assert_contains("≈ 1,60 €/km – den ungefähren Preis");
+    browser
+        .get("/at/kosik/doprava")
+        .await
+        .assert_contains("≈ 1,60 €/km – den ungefähren Preis");
     let page = browser
         .post(
             "/at/kosik/doprava",

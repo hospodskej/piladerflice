@@ -67,13 +67,13 @@ async fn promo(state: &AppState, req: &Req, money: &Money, today: NaiveDate) -> 
 
 async fn bestsellers(state: &AppState, money: &Money) -> Result<Vec<ProductCard>> {
     let products = catalog::active_products(&state.db).await?;
-    let variants = catalog::all_variants(&state.db).await?;
+    let starting_prices = catalog::starting_prices(&state.db).await?;
     let images = upload::images_of(&state.db, "CatalogProduct").await?;
     let price_from = state.translations.text(money.locale, "common.price_from", &[]);
     Ok(BESTSELLER_KEYS
         .iter()
         .filter_map(|key| products.iter().find(|product| product.key == *key))
-        .map(|product| ProductCard::new(product, &variants, &images, money, &price_from))
+        .map(|product| ProductCard::new(product, &starting_prices, &images, money, &price_from))
         .collect())
 }
 

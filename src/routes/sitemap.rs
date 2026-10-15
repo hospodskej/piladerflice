@@ -30,7 +30,7 @@ const STATIC_PATHS: [&str; 12] = [
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     let products = catalog::active_products(&state.db).await?;
-    let variants = catalog::all_variants(&state.db).await?;
+    let variant_changes = catalog::last_changes(&state.db).await?;
 
     let mut entries: Vec<(String, Option<NaiveDateTime>)> =
         STATIC_PATHS.iter().map(|path| (path.to_string(), None)).collect();
@@ -43,10 +43,10 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
         }
     }
     for product in &products {
-        let lastmod = variants
-            .iter()
-            .filter(|variant| variant.catalog_product_id == product.id)
-            .map(|variant| variant.updated_at)
+        let lastmod = variant_changes
+            .get(&product.id)
+            .copied()
+            .into_iter()
             .chain([product.updated_at])
             .max();
         entries.push((format!("/eshop/{}", product.key), lastmod));

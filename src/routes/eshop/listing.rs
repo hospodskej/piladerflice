@@ -65,12 +65,12 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     products.sort_by_key(|product| order.iter().position(|key| *key == product.key).unwrap_or(999));
 
     let money = state.rates.money(req.locale).await;
-    let variants = catalog::all_variants(&state.db).await?;
+    let starting_prices = catalog::starting_prices(&state.db).await?;
     let images = upload::images_of(&state.db, "CatalogProduct").await?;
     let price_from = state.translations.text(req.locale, "common.price_from", &[]);
     let cards: Vec<ProductCard> = products
         .iter()
-        .map(|product| ProductCard::new(product, &variants, &images, &money, &price_from))
+        .map(|product| ProductCard::new(product, &starting_prices, &images, &money, &price_from))
         .collect();
 
     let page = Page::meta(&state, &req, &format!("eshop_{category}"));

@@ -5,10 +5,12 @@
 mod firewood_grid;
 mod product;
 mod variant;
+mod variant_summary;
 
 pub use firewood_grid::FirewoodGrid;
 pub use product::{CATEGORIES, CatalogProduct, active_product, active_products, buyable_variant};
-pub use variant::{CatalogVariant, all_variants, starting_price_czk, variants_of};
+pub use variant::{CatalogVariant, variants_of};
+pub use variant_summary::{last_changes, starting_prices};
 
 /// A variant to build test data from.
 #[cfg(test)]

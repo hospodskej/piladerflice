@@ -11,6 +11,14 @@
 - The **libvips** system library, 8.15 or newer preferred (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
 - Profile pictures are checked in the app (2 MB, 25 megapixels, JPG/PNG/WebP only), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
 
+### Delivery price
+
+Delivery to an address costs 40 Kč (incl. VAT) per km, counted there and back (`DeliveryQuote::CZK_PER_KM`), one trip for the whole order. The road distance from the sawmill (Derflice 66) to the delivery address is looked up with [openrouteservice](https://openrouteservice.org) by `DeliveryRouteService` and cached for 30 days per address. The checkout summary shows the price as approximate and includes it in the total; the order stores it in `delivery_distance_km` (round trip) and `delivery_czk`.
+
+- Set the `ORS_API_KEY` environment variable (locally in the git-ignored `.env`; never commit the key). Without it, or if the lookup fails, the checkout falls back to "delivery price calculated individually" and the total contains the goods only.
+- The server must be allowed to reach `api.openrouteservice.org` over HTTPS.
+- The free plan allows 1,000 geocoding and 2,000 route requests a day, which is plenty for one order per lookup.
+
 ### Languages and URLs
 
 The German (Austrian) site lives under `/at` (`/at/kontakt`, `/at/eshop/tramy`, ...), Czech has no prefix. Translations are German (`de` locale); `LocalizedPath::SEGMENTS` maps the locale to the URL prefix, and the alternates are announced as `de-AT`. The language comes from the URL only, so a shared link opens in the language it was shared in. Old `?locale=de` links redirect (301) to the `/at` URL. In views, link with the route helpers (language is added automatically) or, for stored or hand-written paths, with `localized_path("/kontakt#cenik")`. The admin area is Czech only.

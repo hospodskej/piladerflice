@@ -8,11 +8,22 @@ class CatalogVariant < ApplicationRecord
   translates :variant_label
   translates :grade
 
+  # An emptied "Pořadí" field means the default order, not NULL (the column
+  # doesn't allow NULL and saving failed with an error page).
+  normalizes :position, with: ->(position) { position || 0 }, apply_to_nil: true
+
   validates :key, presence: true, uniqueness: { scope: :catalog_product_id }
   validates :price_czk, numericality: { greater_than: 0 }
   validates :variant_group, inclusion: { in: %w[kontejner bedny] }, allow_nil: true
 
   scope :ordered, -> { order(:position, :id) }
+
+  # Firewood: neatly stacked ("rovnané/skládané") rather than loose
+  # ("sypané"). Crates are always stacked; in a container it depends on the
+  # wood (50 cm and 1 m are stacked, 25 and 33 cm are poured in loose).
+  def stacked?
+    variant_group == "bedny" || super
+  end
 
   def dimension_filter_key
     return nil unless width_mm.present? && height_mm.present?
@@ -29,7 +40,7 @@ class CatalogVariant < ApplicationRecord
 
     case catalog_product.template
     when "firewood"
-      variant_key = variant_group == "bedny" ? "common.stacked_variant" : "common.loose_variant"
+      variant_key = stacked? ? "common.stacked_variant" : "common.loose_variant"
       specs << { "type" => "key", "value" => variant_key }
       specs << { "type" => "raw", "value" => length_label } if length_label.present?
       specs << { "type" => "amount", "value" => amount_value, "unit_key" => "common.per_m3" } if amount_value.present?

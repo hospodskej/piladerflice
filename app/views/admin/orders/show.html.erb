@@ -76,6 +76,12 @@
   </table>
 
   <div class="admin-order-totals">
+    <% if @order.delivery_quoted? %>
+      <p>Zboží: <%= ExchangeRateService.display_amount(@order.subtotal_czk, locale: :cs) %></p>
+      <p><%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %>: <%= ExchangeRateService.display_amount(@order.delivery_czk, locale: :cs) %></p>
+    <% elsif @order.shipping_method == "address" %>
+      <p>Doprava: vzdálenost se nepodařilo spočítat, cena dopravy není v celkové ceně.</p>
+    <% end %>
     <p>Bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></p>
     <p>DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></p>
     <p><strong>Celkem k úhradě: <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></strong></p>

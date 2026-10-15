@@ -1,12 +1,12 @@
 //! An order (`orders`): who, where, how, what (a snapshot of the cart lines)
 //! and the totals, all incl. VAT.
 
-use chrono::{NaiveDateTime, SubsecRound, Utc};
+use chrono::{NaiveDateTime, Utc};
 
 use crate::db::Db;
 use crate::i18n::Translations;
 use crate::locale::Locale;
-use crate::shop::cart_line::CartLine;
+use crate::shop::cart_line::{CartLine, OrderedItem};
 
 const COLUMNS: &str = "id, user_id, first_name, last_name, email, phone, newsletter_opt_in, billing_street,
     billing_city, billing_zip, billing_country, company_purchase, company_name, company_ico, company_dic,
@@ -41,7 +41,7 @@ pub struct Order {
     pub delivery_country: Option<String>,
     pub shipping_method: Option<String>,
     pub payment_method: Option<String>,
-    /// The cart lines as JSON, in the Rails app's format.
+    /// The cart lines as JSON ([`OrderedItem`]s).
     pub items_snapshot: String,
     pub subtotal_czk: i64,
     /// Round trip, when the delivery price was calculated.
@@ -55,36 +55,10 @@ pub struct Order {
 
 impl Order {
     pub fn items(&self) -> Vec<CartLine> {
-        #[derive(serde::Deserialize)]
-        struct Snapshot {
-            /// Text in orders from the Rails app ("106"), maybe a number.
-            #[serde(default)]
-            catalog_variant_id: serde_json::Value,
-            product_key: String,
-            image: Option<String>,
-            unit_price_czk: i64,
-            #[serde(default)]
-            specs: Vec<crate::shop::cart_line::Spec>,
-            quantity: i64,
-        }
-        let snapshots: Vec<Snapshot> = serde_json::from_str(&self.items_snapshot).unwrap_or_default();
-        snapshots
+        serde_json::from_str::<Vec<OrderedItem>>(&self.items_snapshot)
+            .unwrap_or_default()
             .into_iter()
-            .map(|item| {
-                let variant_id = match &item.catalog_variant_id {
-                    serde_json::Value::String(text) => text.parse().unwrap_or_default(),
-                    other => other.as_i64().unwrap_or_default(),
-                };
-                CartLine {
-                    id: variant_id.to_string(),
-                    catalog_variant_id: variant_id,
-                    product_key: item.product_key,
-                    image: item.image,
-                    unit_price_czk: item.unit_price_czk,
-                    specs: item.specs,
-                    quantity: item.quantity,
-                }
-            })
+            .map(CartLine::from)
             .collect()
     }
 
@@ -157,8 +131,7 @@ impl Order {
 
     /// Saves a new order; returns it with its id and time.
     pub async fn insert(mut self, db: &Db) -> sqlx::Result<Order> {
-        // Microseconds, like Rails stores them.
-        let now = Utc::now().naive_utc().trunc_subsecs(6);
+        let now = Utc::now().naive_utc();
         let id: i64 = sqlx::query_scalar(
             "INSERT INTO orders (user_id, first_name, last_name, email, phone, newsletter_opt_in,
                billing_street, billing_city, billing_zip, billing_country,

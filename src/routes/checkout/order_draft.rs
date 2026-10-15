@@ -7,6 +7,7 @@ use crate::AppState;
 use crate::locale::Locale;
 use crate::models::order::{Order, country_name};
 use crate::request::Req;
+use crate::shop::cart_line::OrderedItem;
 use crate::shop::delivery::DeliveryQuote;
 use crate::shop::vat_in;
 
@@ -20,21 +21,7 @@ pub async fn build(state: &AppState, req: &Req) -> anyhow::Result<Draft> {
     let delivery = DeliveryQuote::for_checkout(&checkout, &state.routes).await;
 
     let text = |field: &str| checkout.fields().get(field).cloned();
-    let snapshot: Vec<serde_json::Value> = cart
-        .lines()
-        .iter()
-        .map(|line| {
-            serde_json::json!({
-                // Text, as the Rails app stores it.
-                "catalog_variant_id": line.id,
-                "product_key": line.product_key,
-                "image": line.image,
-                "unit_price_czk": line.unit_price_czk,
-                "specs": line.specs,
-                "quantity": line.quantity,
-            })
-        })
-        .collect();
+    let snapshot: Vec<OrderedItem> = cart.lines().iter().map(OrderedItem::from).collect();
     let subtotal = cart.subtotal_czk();
     let total = subtotal + delivery.map_or(0, |quote| quote.price_czk());
 

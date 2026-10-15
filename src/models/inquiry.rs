@@ -1,7 +1,7 @@
 //! A quote request from the contact page (`inquiries`): contact details and
 //! the requested items (one row per item, the columns depend on the category).
 
-use chrono::{NaiveDateTime, SubsecRound, Utc};
+use chrono::{NaiveDateTime, Utc};
 
 use crate::db::Db;
 
@@ -81,8 +81,7 @@ impl Inquiry {
     }
 
     pub async fn insert(mut self, db: &Db) -> sqlx::Result<Inquiry> {
-        // Microseconds, like Rails stores them.
-        let now = Utc::now().naive_utc().trunc_subsecs(6);
+        let now = Utc::now().naive_utc();
         self.id = sqlx::query_scalar(
             "INSERT INTO inquiries (first_name, last_name, email, phone, street, house_number, city, zip, notes,
                category, items_snapshot, locale, created_at, updated_at)

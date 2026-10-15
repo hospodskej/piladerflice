@@ -1,58 +1,31 @@
-//! Files stored the way Rails' Active Storage stores them, so both apps see
-//! the same pictures: a row in `active_storage_blobs` (key, name, type,
-//! checksum), a row in `active_storage_attachments` tying it to a record
-//! ("the `image` of CatalogProduct 3"), and the file itself in the storage
-//! folder as `ab/cd/abcd…` (the key's first two pairs of characters as
-//! folders).
-//!
-//! Used for profile pictures and for the images uploaded in the admin.
+//! Storing uploaded files: the file goes into the storage folder
+//! (`storage/uploads/<key>`), a row into `uploads`, and the record that owns
+//! it points at that row. Replacing or removing a file deletes the old one.
 
 use std::path::{Path, PathBuf};
 
-use base64::Engine;
-use base64::engine::general_purpose::STANDARD;
-use chrono::{SubsecRound, Utc};
-use md5::{Digest, Md5};
+use chrono::Utc;
 use rand::Rng;
 
 use crate::db::Db;
-
-/// Which attachment of which record: `Attachment::new("Promo", 2, "image")`.
-#[derive(Clone, Copy, Debug)]
-pub struct Attachment<'a> {
-    pub record_type: &'a str,
-    pub record_id: i64,
-    pub name: &'a str,
-}
-
-impl<'a> Attachment<'a> {
-    pub fn new(record_type: &'a str, record_id: i64, name: &'a str) -> Self {
-        Self {
-            record_type,
-            record_id,
-            name,
-        }
-    }
-}
+use crate::models::upload::Owner;
 
 /// A file to store, already checked.
 pub struct NewFile<'a> {
     pub bytes: &'a [u8],
     pub filename: &'a str,
     pub content_type: &'a str,
-    /// Active Storage's JSON, e.g. `{"identified":true,"width":800,...}`.
-    pub metadata: String,
 }
 
-/// Blob keys are letters and digits (28 of them when made here or by
-/// Rails); anything else is not a key and must never reach the file system.
+/// Keys are letters and digits (28 of them); anything else is not a key and
+/// must never reach the file system.
 pub fn valid_key(key: &str) -> bool {
     (4..=64).contains(&key.len()) && key.chars().all(|c| c.is_ascii_alphanumeric())
 }
 
-/// Where a blob's file lives. Only for [`valid_key`]s.
+/// Where a file lives. Only for [`valid_key`]s.
 pub fn file_for(root: &Path, key: &str) -> PathBuf {
-    root.join(&key[0..2]).join(&key[2..4]).join(key)
+    root.join(key)
 }
 
 /// A stored file's bytes.
@@ -63,93 +36,77 @@ pub async fn read(root: &Path, key: &str) -> Option<Vec<u8>> {
     tokio::fs::read(file_for(root, key)).await.ok()
 }
 
-/// Stores `file` as the attachment, replacing (and deleting) what was
-/// attached before. Returns the new blob's key.
-pub async fn attach(db: &Db, root: &Path, at: Attachment<'_>, file: NewFile<'_>) -> anyhow::Result<String> {
+/// Stores `file` as the record's upload, replacing (and deleting) the one
+/// it had. Returns the new key.
+pub async fn attach(db: &Db, root: &Path, owner: Owner, record_id: i64, file: NewFile<'_>) -> anyhow::Result<String> {
     let key = new_key();
-    let path = file_for(root, &key);
-    if let Some(dir) = path.parent() {
-        tokio::fs::create_dir_all(dir).await?;
-    }
-    tokio::fs::write(&path, file.bytes).await?;
+    tokio::fs::create_dir_all(root).await?;
+    tokio::fs::write(file_for(root, &key), file.bytes).await?;
 
-    let checksum = STANDARD.encode(Md5::digest(file.bytes));
-    let now = Utc::now().naive_utc().trunc_subsecs(6);
     let mut tx = db.begin().await?;
-    let blob_id: i64 = sqlx::query_scalar(
-        "INSERT INTO active_storage_blobs (key, filename, content_type, metadata, service_name, byte_size, checksum, created_at)
-         VALUES (?, ?, ?, ?, 'local', ?, ?, ?) RETURNING id",
+    let upload_id: i64 = sqlx::query_scalar(
+        "INSERT INTO uploads (key, filename, content_type, byte_size, created_at) VALUES (?, ?, ?, ?, ?) RETURNING id",
     )
     .bind(&key)
     .bind(file.filename)
     .bind(file.content_type)
-    .bind(&file.metadata)
     .bind(file.bytes.len() as i64)
-    .bind(&checksum)
-    .bind(now)
+    .bind(Utc::now().naive_utc())
     .fetch_one(&mut *tx)
     .await?;
-    let old = remove_attachment(&mut tx, at).await?;
-    sqlx::query(
-        "INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-         VALUES (?, ?, ?, ?, ?)",
-    )
-    .bind(at.name)
-    .bind(at.record_type)
-    .bind(at.record_id)
-    .bind(blob_id)
-    .bind(now)
-    .execute(&mut *tx)
-    .await?;
+    let old = point_at(&mut tx, owner, record_id, Some(upload_id)).await?;
     tx.commit().await?;
-    remove_files(root, &old).await;
+    remove_file(root, old).await;
     Ok(key)
 }
 
-/// Removes the attachment, its blob and its file (Rails' `purge`).
-pub async fn detach(db: &Db, root: &Path, at: Attachment<'_>) -> anyhow::Result<()> {
+/// Removes the record's upload: the row and the file.
+pub async fn detach(db: &Db, root: &Path, owner: Owner, record_id: i64) -> anyhow::Result<()> {
     let mut tx = db.begin().await?;
-    let old = remove_attachment(&mut tx, at).await?;
+    let old = point_at(&mut tx, owner, record_id, None).await?;
     tx.commit().await?;
-    remove_files(root, &old).await;
+    remove_file(root, old).await;
     Ok(())
 }
 
-/// Deletes the attachment rows and their blobs; returns the blob keys,
-/// whose files go once the transaction is through.
-async fn remove_attachment(tx: &mut sqlx::SqliteConnection, at: Attachment<'_>) -> sqlx::Result<Vec<String>> {
-    let blobs: Vec<(i64, String)> = sqlx::query_as(
-        "SELECT b.id, b.key FROM active_storage_attachments a JOIN active_storage_blobs b ON b.id = a.blob_id
-         WHERE a.record_type = ? AND a.record_id = ? AND a.name = ?",
-    )
-    .bind(at.record_type)
-    .bind(at.record_id)
-    .bind(at.name)
-    .fetch_all(&mut *tx)
-    .await?;
-    sqlx::query("DELETE FROM active_storage_attachments WHERE record_type = ? AND record_id = ? AND name = ?")
-        .bind(at.record_type)
-        .bind(at.record_id)
-        .bind(at.name)
+/// Points the record at `upload_id` (or nothing) and deletes the upload it
+/// pointed at before; returns that upload's key, whose file goes once the
+/// transaction is through.
+async fn point_at(
+    tx: &mut sqlx::SqliteConnection,
+    owner: Owner,
+    record_id: i64,
+    upload_id: Option<i64>,
+) -> sqlx::Result<Option<String>> {
+    let (table, column) = (owner.table(), owner.column());
+    let old: Option<i64> = sqlx::query_scalar(&format!("SELECT {column} FROM {table} WHERE id = ?"))
+        .bind(record_id)
+        .fetch_optional(&mut *tx)
+        .await?
+        .flatten();
+    sqlx::query(&format!("UPDATE {table} SET {column} = ? WHERE id = ?"))
+        .bind(upload_id)
+        .bind(record_id)
         .execute(&mut *tx)
         .await?;
-    for (id, _) in &blobs {
-        sqlx::query("DELETE FROM active_storage_blobs WHERE id = ?")
-            .bind(id)
-            .execute(&mut *tx)
-            .await?;
-    }
-    Ok(blobs.into_iter().map(|(_, key)| key).collect())
-}
-
-async fn remove_files(root: &Path, keys: &[String]) {
-    for key in keys.iter().filter(|key| valid_key(key)) {
-        let _ = tokio::fs::remove_file(file_for(root, key)).await;
+    match old {
+        Some(old) => {
+            sqlx::query_scalar("DELETE FROM uploads WHERE id = ? RETURNING key")
+                .bind(old)
+                .fetch_optional(&mut *tx)
+                .await
+        }
+        None => Ok(None),
     }
 }
 
-/// A new blob key: 28 random lowercase letters and digits, like Rails'
-/// `SecureRandom.base36(28)`.
+async fn remove_file(root: &Path, key: Option<String>) {
+    if let Some(key) = key.filter(|key| valid_key(key)) {
+        let _ = tokio::fs::remove_file(file_for(root, &key)).await;
+    }
+}
+
+/// A new key: 28 random lowercase letters and digits.
 fn new_key() -> String {
     const ALPHABET: &[u8] = b"abcdefghijklmnopqrstuvwxyz0123456789";
     let mut rng = rand::rng();
@@ -172,6 +129,46 @@ mod tests {
         let key = new_key();
         assert_eq!(key.len(), 28);
         assert!(valid_key(&key));
-        assert_eq!(file_for(Path::new("/s"), "abcdef"), PathBuf::from("/s/ab/cd/abcdef"));
+        assert_eq!(file_for(Path::new("/s"), "abcdef"), PathBuf::from("/s/abcdef"));
+    }
+
+    #[tokio::test]
+    async fn replacing_and_removing_deletes_the_old_file() {
+        let db = crate::db::in_memory().await.unwrap();
+        sqlx::query("INSERT INTO promos (id, created_at, updated_at) VALUES (1, '2026-01-01', '2026-01-01')")
+            .execute(&db)
+            .await
+            .unwrap();
+        let root = std::env::temp_dir().join(format!("pila-storage-{}", std::process::id()));
+        let file = |bytes: &'static [u8]| NewFile {
+            bytes,
+            filename: "a.png",
+            content_type: "image/png",
+        };
+
+        let first = attach(&db, &root, Owner::Promo, 1, file(b"one")).await.unwrap();
+        let second = attach(&db, &root, Owner::Promo, 1, file(b"two")).await.unwrap();
+        assert!(read(&root, &first).await.is_none(), "the replaced file is gone");
+        assert_eq!(read(&root, &second).await.unwrap(), b"two");
+        let image = crate::models::upload::image_of(&db, Owner::Promo, 1)
+            .await
+            .unwrap()
+            .unwrap();
+        assert_eq!(image.key, second);
+
+        detach(&db, &root, Owner::Promo, 1).await.unwrap();
+        assert!(read(&root, &second).await.is_none());
+        assert!(
+            crate::models::upload::image_of(&db, Owner::Promo, 1)
+                .await
+                .unwrap()
+                .is_none()
+        );
+        let rows: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM uploads")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+        assert_eq!(rows, 0);
+        let _ = std::fs::remove_dir_all(root);
     }
 }

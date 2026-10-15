@@ -16,7 +16,8 @@ use image::{ImageDecoder, ImageFormat, ImageReader};
 
 use crate::db::Db;
 use crate::forms::upload::UploadForm;
-use crate::storage::{self, Attachment, NewFile};
+use crate::models::upload::Owner;
+use crate::storage::{self, NewFile};
 
 /// A picture ready to store.
 #[derive(Debug)]
@@ -25,16 +26,6 @@ pub struct Image {
     pub content_type: &'static str,
     pub width: u32,
     pub height: u32,
-}
-
-impl Image {
-    /// Active Storage's description of the picture.
-    pub fn metadata(&self) -> String {
-        format!(
-            r#"{{"identified":true,"width":{},"height":{},"analyzed":true}}"#,
-            self.width, self.height
-        )
-    }
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -92,16 +83,15 @@ pub async fn from_form(form: &UploadForm, field: &str) -> Result<Option<(Image, 
 pub async fn attach(
     db: &Db,
     storage_root: &Path,
-    at: Attachment<'_>,
+    (owner, record_id): (Owner, i64),
     (image, filename): &(Image, String),
 ) -> anyhow::Result<()> {
     let file = NewFile {
         bytes: &image.bytes,
         filename,
         content_type: image.content_type,
-        metadata: image.metadata(),
     };
-    storage::attach(db, storage_root, at, file).await?;
+    storage::attach(db, storage_root, owner, record_id, file).await?;
     Ok(())
 }
 
@@ -278,10 +268,6 @@ mod tests {
             .unwrap();
         assert_eq!(decoder.orientation().unwrap().to_exif(), 6);
         assert_eq!((image.width, image.height), (20, 40));
-        assert_eq!(
-            image.metadata(),
-            r#"{"identified":true,"width":20,"height":40,"analyzed":true}"#
-        );
     }
 
     #[test]

@@ -12,7 +12,7 @@ use super::variant_view::VariantViews;
 use super::{firewood, lumber, recommendations, simple_variant};
 use crate::AppState;
 use crate::models::catalog::{self, CatalogProduct};
-use crate::models::upload::{self, Upload};
+use crate::models::upload::{self, Owner, Upload};
 use crate::request::Req;
 use crate::views::{self, Crumb, Page};
 
@@ -24,13 +24,13 @@ pub async fn show(State(state): State<AppState>, req: Req, Path(key): Path<Strin
     let t = |key: &str| state.translations.text(locale, key, &[]);
     let money = state.rates.money(locale).await;
     let variants = catalog::variants_of(&state.db, product.id).await?;
-    let product_image = upload::images_of(&state.db, "CatalogProduct")
+    let product_image = upload::images_of(&state.db, Owner::Product)
         .await?
         .get(&product.id)
         .map(Upload::url);
     let views = VariantViews {
         money,
-        images: upload::images_of(&state.db, "CatalogVariant").await?,
+        images: upload::images_of(&state.db, Owner::Variant).await?,
     };
     let title = product.title(locale);
 

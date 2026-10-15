@@ -1,5 +1,5 @@
 //! What the program does besides serving the site, as
-//! `piladerflice <command>` (Rails' `bin/rails db:...` and rake tasks):
+//! `piladerflice <command>`:
 //!
 //! - `setup`: a new database with the starting content ([`crate::db::setup`])
 //! - `migrate`: apply waiting database migrations ([`crate::db::migrations`])
@@ -25,9 +25,8 @@ pub async fn run(args: &[String], config: &Config) -> Result<bool> {
         }
         ["migrate"] => {
             let db = db::connect(&config.database_url).await?;
-            let known = db::migrations::read_dir(&config.root.join("db/migrations"))?;
-            let applied = db::migrations::run(&db, &known).await?;
-            tracing::info!("{} migration(s) applied, the database is up to date", applied.len());
+            let applied = db::migrations::run(&db).await?;
+            tracing::info!("{applied} migration(s) applied, the database is up to date");
         }
         ["admin"] => admin::save(config).await?,
         ["backup", target] => {

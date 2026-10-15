@@ -6,7 +6,7 @@ use super::super::Result;
 use super::super::components::ProductCard;
 use crate::AppState;
 use crate::models::catalog::{self, CatalogProduct};
-use crate::models::upload;
+use crate::models::upload::{self, Owner};
 use crate::money::Money;
 
 pub async fn for_product(state: &AppState, current: &CatalogProduct, money: &Money) -> Result<Vec<ProductCard>> {
@@ -19,7 +19,7 @@ pub async fn for_product(state: &AppState, current: &CatalogProduct, money: &Mon
     others.truncate(4);
 
     let starting_prices = catalog::starting_prices(&state.db).await?;
-    let images = upload::images_of(&state.db, "CatalogProduct").await?;
+    let images = upload::images_of(&state.db, Owner::Product).await?;
     let price_from = state.translations.text(money.locale, "common.price_from", &[]);
     Ok(others
         .iter()

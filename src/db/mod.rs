@@ -1,6 +1,6 @@
 //! The SQLite database (`storage/development.sqlite3` by default, or
-//! `DATABASE_URL`). Its tables come from the Rails app (`db/schema.sql`);
-//! changes since are `db/migrations/*.sql`.
+//! `DATABASE_URL`). Its tables are made by the migrations in
+//! `db/migrations/`.
 //!
 //! - this file: connecting; tests get a fresh in-memory database
 //! - [`migrations`]: changing the tables, and refusing a database that
@@ -30,27 +30,19 @@ pub async fn connect(url: &str) -> Result<Db> {
         .await?)
 }
 
-/// An empty database with the full schema, for tests.
-/// It is up to date: the schema plus this project's migrations.
+/// A database with every table and nothing in it, for tests.
 pub async fn in_memory() -> Result<Db> {
-    let db = in_memory_schema_only().await?;
-    sqlx::query("INSERT INTO schema_migrations (version) VALUES (?)")
-        .bind(migrations::BASELINE)
-        .execute(&db)
-        .await?;
-    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("db/migrations");
-    migrations::run(&db, &migrations::read_dir(&dir)?).await?;
+    let db = empty_in_memory().await?;
+    migrations::run(&db).await?;
     Ok(db)
 }
 
-/// The tables as the Rails app left them, nothing recorded as applied.
-pub async fn in_memory_schema_only() -> Result<Db> {
+/// A database without even the tables.
+pub async fn empty_in_memory() -> Result<Db> {
     let options = SqliteConnectOptions::from_str("sqlite::memory:")?.foreign_keys(true);
     // One connection: every connection to :memory: would be its own database.
-    let db = SqlitePoolOptions::new()
+    Ok(SqlitePoolOptions::new()
         .max_connections(1)
         .connect_with(options)
-        .await?;
-    sqlx::raw_sql(include_str!("../../db/schema.sql")).execute(&db).await?;
-    Ok(db)
+        .await?)
 }

@@ -1,5 +1,5 @@
 -- Test data, loaded into a fresh in-memory database for each test.
--- Like the Rails fixtures: a little of everything the pages show.
+-- A little of everything the pages show.
 
 INSERT INTO catalog_products (id, key, title, title_de, type_label, type_label_de, subtitle, description, description_de,
   drying_note, image_alt, template, category, hardness, position, active, created_at, updated_at) VALUES
@@ -27,10 +27,9 @@ INSERT INTO catalog_variants (id, catalog_product_id, key, variant_group, length
   (40, 4, 's-1', NULL, NULL, NULL, 1200, 1, 0, NULL, NULL, NULL, NULL, 'Kontejner 5 m³', 'Container 5 m³', 0, '2026-01-01 10:00:00', '2026-01-01 10:00:00'),
   (41, 4, 's-2', NULL, NULL, NULL, 2000, 0, 0, NULL, NULL, NULL, NULL, 'Kontejner 10 m³', NULL, 1, '2026-01-01 10:00:00', '2026-01-01 10:00:00');
 
-INSERT INTO active_storage_blobs (id, key, filename, content_type, metadata, service_name, byte_size, checksum, created_at) VALUES
-  (1, 'testkey0000000000000000000001', 'smrk foto.webp', 'image/webp', '{}', 'local', 16, 'x', '2026-01-01 10:00:00');
-INSERT INTO active_storage_attachments (id, name, record_type, record_id, blob_id, created_at) VALUES
-  (1, 'image', 'CatalogProduct', 1, 1, '2026-01-01 10:00:00');
+INSERT INTO uploads (id, key, filename, content_type, byte_size, created_at) VALUES
+  (1, 'testkey0000000000000000000001', 'smrk foto.webp', 'image/webp', 16, '2026-01-01 10:00:00');
+UPDATE catalog_products SET image_id = 1 WHERE id = 1;
 
 INSERT INTO promos (id, title, title_de, feature_1, feature_2, feature_3, price, price_de, link, created_at, updated_at) VALUES
   (1, 'Akční smrk', 'Fichte im Angebot', 'Suché', 'Levné', 'Hned', 'od 8 500 Kč', NULL, '/eshop/smrk', '2026-01-01 10:00:00', '2026-01-01 10:00:00');

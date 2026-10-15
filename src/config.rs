@@ -38,7 +38,7 @@ impl Config {
     pub fn from_source_tree(development: bool) -> Self {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let database_url = format!("sqlite:{}", root.join("storage/development.sqlite3").display());
-        let storage_root = root.join("storage");
+        let storage_root = root.join("storage/uploads");
         Self {
             root,
             development,
@@ -59,7 +59,7 @@ impl Config {
         if let Some(root) = var("APP_ROOT") {
             config.root = PathBuf::from(&root);
             config.database_url = format!("sqlite:{}", config.root.join("storage/production.sqlite3").display());
-            config.storage_root = config.root.join("storage");
+            config.storage_root = config.root.join("storage/uploads");
         }
         if let Some(url) = var("DATABASE_URL") {
             config.database_url = url;

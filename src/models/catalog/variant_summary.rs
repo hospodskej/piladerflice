@@ -37,7 +37,7 @@ mod tests {
     use super::*;
 
     async fn database_with(variants: &[(i64, i64, bool, &str)]) -> Db {
-        let db = crate::db::in_memory_schema_only().await.unwrap();
+        let db = crate::db::in_memory().await.unwrap();
         for product in [1, 2, 3] {
             sqlx::query(
                 "INSERT INTO catalog_products (id, category, key, template, title, created_at, updated_at)

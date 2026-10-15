@@ -5,7 +5,8 @@ use std::path::Path;
 
 use super::record::{Table, text};
 use crate::db::Db;
-use crate::storage::{self, Attachment};
+use crate::models::upload::Owner;
+use crate::storage;
 
 pub const TABLE: Table = Table {
     name: "promos",
@@ -39,12 +40,13 @@ pub const PERMITTED: [&str; 11] = [
     "price_de",
 ];
 
-pub fn image(id: i64) -> Attachment<'static> {
-    Attachment::new("Promo", id, "image")
+/// Where the record's photo is stored.
+pub fn image(id: i64) -> (Owner, i64) {
+    (Owner::Promo, id)
 }
 
 pub async fn delete(db: &Db, storage_root: &Path, id: i64) -> anyhow::Result<()> {
-    storage::detach(db, storage_root, image(id)).await?;
+    storage::detach(db, storage_root, Owner::Promo, id).await?;
     TABLE.delete(db, id).await?;
     Ok(())
 }

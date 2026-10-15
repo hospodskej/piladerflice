@@ -1,6 +1,5 @@
-//! GET /uploads/{key}/{filename}: an uploaded image, from Active Storage's
-//! folder: `storage/ab/cd/abcd…` (the key's first two pairs of characters
-//! as folders).
+//! GET /uploads/{key}/{filename}: an uploaded image (see
+//! [`storage`](crate::storage)).
 
 use axum::body::Body;
 use axum::extract::{Path as UrlPath, State};
@@ -10,9 +9,8 @@ use axum::response::{IntoResponse, Response};
 use crate::AppState;
 use crate::storage;
 
-/// Types a browser may show directly (Active Storage's
-/// content_types_allowed_inline). Anything else (an SVG with a script in it,
-/// HTML...) is offered as a download instead.
+/// Types a browser may show directly. Anything else (an SVG with a script
+/// in it, HTML...) is offered as a download instead.
 const INLINE_TYPES: [&str; 11] = [
     "image/png",
     "image/gif",
@@ -33,26 +31,24 @@ pub async fn serve(State(state): State<AppState>, UrlPath((key, _filename)): Url
     if !storage::valid_key(&key) {
         return StatusCode::NOT_FOUND.into_response();
     }
-    let blob: Option<(Option<String>,)> =
-        match sqlx::query_as("SELECT content_type FROM active_storage_blobs WHERE key = ?")
-            .bind(&key)
-            .fetch_optional(&state.db)
-            .await
-        {
-            Ok(blob) => blob,
-            Err(error) => {
-                tracing::error!("loading blob {key}: {error}");
-                return StatusCode::INTERNAL_SERVER_ERROR.into_response();
-            }
-        };
-    let Some((content_type,)) = blob else {
+    let upload: Option<(String,)> = match sqlx::query_as("SELECT content_type FROM uploads WHERE key = ?")
+        .bind(&key)
+        .fetch_optional(&state.db)
+        .await
+    {
+        Ok(upload) => upload,
+        Err(error) => {
+            tracing::error!("loading upload {key}: {error}");
+            return StatusCode::INTERNAL_SERVER_ERROR.into_response();
+        }
+    };
+    let Some((content_type,)) = upload else {
         return StatusCode::NOT_FOUND.into_response();
     };
     let Some(bytes) = storage::read(&state.config.storage_root, &key).await else {
         return StatusCode::NOT_FOUND.into_response();
     };
 
-    let content_type = content_type.unwrap_or_else(|| "application/octet-stream".into());
     let inline = INLINE_TYPES.contains(&content_type.as_str());
     let mut response = Response::new(Body::from(bytes));
     let headers = response.headers_mut();

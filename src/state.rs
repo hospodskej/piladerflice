@@ -53,7 +53,7 @@ impl AppState {
     /// Connects to the database and loads translations, assets and templates.
     pub async fn new(config: Config) -> Result<Self> {
         let db = db::connect(&config.database_url).await?;
-        db::migrations::check(&db, &db::migrations::read_dir(&config.root.join("db/migrations"))?).await?;
+        db::migrations::check(&db).await?;
         let services = Services {
             rates: ExchangeRates::live(),
             routes: RouteService::new(config.ors_api_key.clone()),

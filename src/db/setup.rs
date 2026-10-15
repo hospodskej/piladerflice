@@ -1,8 +1,8 @@
-//! A new database (`piladerflice setup`): the tables (`db/schema.sql`), the
+//! A new database (`piladerflice setup`): the tables (the migrations), the
 //! starting content (`db/seeds.sql`: price list, catalogue, promos,
-//! services...), the content's pictures (`db/seed_images.csv`, from
-//! `assets/images`) and then the migrations. For a new development machine,
-//! or a fresh start; the live site's database is moved over, not set up.
+//! services...) and the content's pictures (`db/seed_images.csv`, from
+//! `assets/images`). For a new development machine, or the first start of
+//! the live site.
 
 use std::path::Path;
 use std::str::FromStr;
@@ -13,7 +13,8 @@ use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions};
 use super::{Db, migrations};
 use crate::Config;
 use crate::admin::images;
-use crate::storage::{self, Attachment, NewFile};
+use crate::models::upload::Owner;
+use crate::storage::{self, NewFile};
 
 /// Creates the database `config.database_url` names. Refuses to touch an
 /// existing file.
@@ -38,30 +39,26 @@ pub async fn create(config: &Config) -> Result<Db> {
         )
         .await?;
 
-    sqlx::raw_sql(include_str!("../../db/schema.sql")).execute(&db).await?;
-    sqlx::query("INSERT INTO schema_migrations (version) VALUES (?)")
-        .bind(migrations::BASELINE)
-        .execute(&db)
-        .await?;
+    migrations::run(&db).await?;
     let seeds = std::fs::read_to_string(config.root.join("db/seeds.sql")).context("reading db/seeds.sql")?;
     sqlx::raw_sql(&seeds)
         .execute(&db)
         .await
         .context("loading db/seeds.sql")?;
     attach_seed_images(&db, config).await?;
-    migrations::run(&db, &migrations::read_dir(&config.root.join("db/migrations"))?).await?;
     Ok(db)
 }
 
-/// `record_type,record_id,image` lines: the picture `assets/images/<image>`
-/// becomes the record's `image`.
+/// `owner,record_id,image` lines (`product,1,eshop/smrk.webp`): the picture
+/// `assets/images/<image>` becomes the record's photo.
 async fn attach_seed_images(db: &Db, config: &Config) -> Result<()> {
     let list = std::fs::read_to_string(config.root.join("db/seed_images.csv")).context("reading db/seed_images.csv")?;
     for line in list.lines().skip(1).filter(|line| !line.trim().is_empty()) {
         let mut fields = line.split(',');
-        let (Some(record_type), Some(record_id), Some(image)) = (fields.next(), fields.next(), fields.next()) else {
+        let (Some(owner), Some(record_id), Some(image)) = (fields.next(), fields.next(), fields.next()) else {
             anyhow::bail!("db/seed_images.csv: bad line {line:?}");
         };
+        let owner = Owner::from_name(owner).with_context(|| format!("db/seed_images.csv: unknown owner {owner:?}"))?;
         let path = config.root.join("assets/images").join(image);
         let bytes = std::fs::read(&path).with_context(|| format!("reading {}", path.display()))?;
         let picture = images::prepare(&bytes).map_err(|_| anyhow::anyhow!("{image} is not a picture"))?;
@@ -73,10 +70,8 @@ async fn attach_seed_images(db: &Db, config: &Config) -> Result<()> {
             bytes: &picture.bytes,
             filename,
             content_type: picture.content_type,
-            metadata: picture.metadata(),
         };
-        let at = Attachment::new(record_type, record_id.parse()?, "image");
-        storage::attach(db, &config.storage_root, at, file).await?;
+        storage::attach(db, &config.storage_root, owner, record_id.parse()?, file).await?;
     }
     Ok(())
 }
@@ -98,18 +93,13 @@ mod tests {
         assert_eq!(count("SELECT COUNT(*) FROM catalog_products").await.unwrap(), 15);
         assert!(count("SELECT COUNT(*) FROM catalog_variants").await.unwrap() > 100);
         assert_eq!(count("SELECT COUNT(*) FROM promos").await.unwrap(), 3);
-        assert_eq!(
-            count("SELECT COUNT(*) FROM active_storage_attachments").await.unwrap(),
-            18
-        );
+        assert_eq!(count("SELECT COUNT(*) FROM uploads").await.unwrap(), 18);
         assert_eq!(count("SELECT COUNT(*) FROM users").await.unwrap(), 0);
         // Ready to serve: nothing waiting.
-        let known = migrations::read_dir(&config.root.join("db/migrations")).unwrap();
-        migrations::check(&db, &known).await.unwrap();
+        migrations::check(&db).await.unwrap();
         // The pictures are on disk where the site looks for them.
         let key: String = sqlx::query_scalar(
-            "SELECT b.key FROM active_storage_blobs b JOIN active_storage_attachments a ON a.blob_id = b.id
-             WHERE a.record_type = 'CatalogProduct' AND a.record_id = 1",
+            "SELECT u.key FROM uploads u JOIN catalog_products p ON p.image_id = u.id WHERE p.id = 1",
         )
         .fetch_one(&db)
         .await

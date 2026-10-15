@@ -9,7 +9,7 @@ use serde::Serialize;
 use super::Result;
 use super::components::{CategoryTile, ProductCard, business_schema, category_tile};
 use crate::AppState;
-use crate::models::upload::{self, Upload};
+use crate::models::upload::{self, Owner, Upload};
 use crate::models::{catalog, content};
 use crate::money::Money;
 use crate::request::Req;
@@ -55,7 +55,7 @@ async fn promo(state: &AppState, req: &Req, money: &Money, today: NaiveDate) -> 
     let Some(promo) = content::weekly_promo(&state.db, today).await? else {
         return Ok(None);
     };
-    let images = upload::images_of(&state.db, "Promo").await?;
+    let images = upload::images_of(&state.db, Owner::Promo).await?;
     Ok(Some(PromoView {
         title: promo.title(req.locale),
         features: promo.features(req.locale),
@@ -68,7 +68,7 @@ async fn promo(state: &AppState, req: &Req, money: &Money, today: NaiveDate) -> 
 async fn bestsellers(state: &AppState, money: &Money) -> Result<Vec<ProductCard>> {
     let products = catalog::active_products(&state.db).await?;
     let starting_prices = catalog::starting_prices(&state.db).await?;
-    let images = upload::images_of(&state.db, "CatalogProduct").await?;
+    let images = upload::images_of(&state.db, Owner::Product).await?;
     let price_from = state.translations.text(money.locale, "common.price_from", &[]);
     Ok(BESTSELLER_KEYS
         .iter()

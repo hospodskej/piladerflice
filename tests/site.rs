@@ -135,16 +135,6 @@ async fn unknown_pages_get_the_mascot_404_in_their_language() {
 }
 
 #[tokio::test]
-async fn old_language_links_redirect_permanently() {
-    let page = get("/obchodni-podminky?locale=de&x=1").await;
-    assert_eq!(page.status, StatusCode::MOVED_PERMANENTLY);
-    assert_eq!(page.headers[header::LOCATION], "/at/obchodni-podminky?x=1");
-
-    let page = get("/zasady-cookies?locale=cs").await;
-    assert_eq!(page.headers[header::LOCATION], "/zasady-cookies");
-}
-
-#[tokio::test]
 async fn machine_urls_exist_only_without_a_language() {
     assert_eq!(get("/up").await.status, StatusCode::OK);
     assert_eq!(get("/at/up").await.status, StatusCode::NOT_FOUND);

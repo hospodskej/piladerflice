@@ -53,7 +53,7 @@ Settings come from environment variables (on a development machine also from `.e
 | `RUST_LOG` | `info`      | Log detail, e.g. `debug` or `piladerflice=debug`. |
 | `APP_ROOT` | this folder | The release folder on a server. Then the database defaults to `APP_ROOT/storage/production.sqlite3`. |
 | `DATABASE_URL` | `storage/development.sqlite3` | The SQLite database, e.g. `sqlite:/var/lib/pila-derflice/production.sqlite3`. |
-| `STORAGE_DIR` | `storage/` | Where uploaded images live. |
+| `STORAGE_DIR` | `storage/uploads/` | Where uploaded images live. |
 | `SECRET_KEY_BASE` | a fixed development value | Encrypts the session and login cookies. **Required in production**, at least 64 characters (`openssl rand -hex 64`). Changing it signs everyone out and empties their carts. |
 | `ORS_API_KEY` | none | openrouteservice key for the delivery price. Without it, delivery is priced individually. |
 | `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_ADDRESS`, `SMTP_PORT` | none, smtp.gmail.com, 587 | The mail server. Without `SMTP_USERNAME`, e-mails are only logged. Port 465 uses TLS from the start, other ports STARTTLS. |
@@ -68,7 +68,7 @@ The reverse proxy should pass `Host` and `X-Forwarded-Proto` so share links and 
 
 **Delivery price.** Delivery to an address costs 40 Kč (incl. VAT) per km, counted there and back, one trip for the whole order. The road distance from the sawmill (Derflice 66) is looked up with [openrouteservice](https://openrouteservice.org) and cached for 30 days per address; the checkout shows the price as approximate and adds it to the total. Without `ORS_API_KEY`, or if the lookup fails, delivery is "priced individually" and the total is the goods only. The free plan (1,000 geocoding and 2,000 route requests a day) is plenty. Never commit the key.
 
-**Pictures.** Uploaded photos are stored in `storage/ab/cd/<key>` with a row in `active_storage_blobs` (Rails' Active Storage layout, kept so the data stayed compatible) and served at `/uploads/<key>/<file name>`, cached for good. Admin photos lose their metadata (GPS position, camera) on upload; profile pictures are re-encoded to 256×256 WebP.
+**Pictures.** Uploaded photos are stored as `storage/uploads/<key>` with a row in `uploads`, which the product, variant, promo or user points at (`image_id`, `avatar_id`); they are served at `/uploads/<key>/<file name>`, cached for good. Admin photos lose their metadata (GPS position, camera) on upload; profile pictures are re-encoded to 256×256 WebP.
 
 ## How the code is organised
 
@@ -95,9 +95,9 @@ src/
   czech_time.rs      Czech time (UTC+1, summer UTC+2) for showing dates and counting days
   db/                the connection; migrations.rs (and the startup check), setup.rs (a new
                      database with the starting content), backup.rs
-  storage.rs         files the way Active Storage keeps them (blob, attachment, ab/cd/key)
+  storage.rs         uploaded files: the file, its `uploads` row, the record pointing at it
   accounts/          the signed-in user, passwords (bcrypt), registration checks, rate limits
-    avatar/          profile pictures: storing as Active Storage blobs, cleaning uploads,
+    avatar/          profile pictures: storing them as uploads, cleaning uploads,
                      keeping the EXIF data inside the WebP
   mail/              e-mails: SMTP or outbox, settings, order and quote request mails
   assets/            static files: index + fingerprints, import map, /assets handler
@@ -131,14 +131,13 @@ src/
     error.rs         what a failing request shows (views/error_pages.rs: public/500.html)
     headers.rs       the protective headers on every response
     public_files.rs  /icon.png and the other files of public/
-    legacy_storage.rs  Rails' /rails/active_storage image addresses, sent on to /uploads
-    not_found.rs, legacy_locale.rs, system.rs, sitemap.rs, uploads.rs
+    not_found.rs, system.rs, sitemap.rs, uploads.rs
 templates/           Jinja templates (MiniJinja), the HTML of the pages (mail/: the e-mails)
 locales/             cs.yml, de.yml: every text of the site
 assets/              images/ and stylesheets/ (served with fingerprints, see src/assets)
 javascript/          Stimulus controllers and the small scripts; vendor/javascript: Turbo, Stimulus
 public/              icons and the static error pages
-db/                  schema.sql (the tables), migrations/ (changes since), seeds.sql and
+db/                  migrations/ (the tables, built into the program), seeds.sql and
                      seed_images.csv (the starting content for `setup`)
 deploy/              release package script, systemd units, Caddyfile, backups, SWITCH-OVER.md
 tests/               requests against the whole app, like a browser would make them;

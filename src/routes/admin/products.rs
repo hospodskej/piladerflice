@@ -14,7 +14,7 @@ use crate::admin::products::{self, PERMITTED, TABLE};
 use crate::admin::record::Values;
 use crate::admin::variants;
 use crate::forms::upload::UploadForm;
-use crate::models::upload::image_of;
+use crate::models::upload::{Owner, image_of};
 use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
@@ -115,7 +115,7 @@ async fn form_page(
     errors: &Errors,
 ) -> anyhow::Result<Response> {
     let image = match id {
-        Some(id) => image_of(&state.db, "CatalogProduct", id)
+        Some(id) => image_of(&state.db, Owner::Product, id)
             .await?
             .map(|upload| upload.url()),
         None => None,
@@ -147,7 +147,7 @@ async fn form_page(
 
 /// The product's variants as the table below the form shows them.
 async fn variant_rows(state: &AppState, product_id: i64, template: &str) -> anyhow::Result<Vec<Value>> {
-    let images = crate::models::upload::images_of(&state.db, "CatalogVariant").await?;
+    let images = crate::models::upload::images_of(&state.db, Owner::Variant).await?;
     let ids: Vec<i64> =
         sqlx::query_scalar("SELECT id FROM catalog_variants WHERE catalog_product_id = ? ORDER BY position, id")
             .bind(product_id)

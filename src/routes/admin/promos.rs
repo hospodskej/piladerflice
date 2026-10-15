@@ -15,7 +15,7 @@ use crate::admin::record::Values;
 use crate::czech_time;
 use crate::forms::upload::UploadForm;
 use crate::models::content::weekly_promo;
-use crate::models::upload::image_of;
+use crate::models::upload::{Owner, image_of};
 use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
@@ -121,7 +121,7 @@ async fn form_page(
     errors: &Errors,
 ) -> anyhow::Result<Response> {
     let image = match id {
-        Some(id) => image_of(&state.db, "Promo", id).await?.map(|upload| upload.url()),
+        Some(id) => image_of(&state.db, Owner::Promo, id).await?.map(|upload| upload.url()),
         None => None,
     };
     let title = values.get("title").unwrap_or_default().to_string();

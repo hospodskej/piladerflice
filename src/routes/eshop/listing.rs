@@ -7,7 +7,7 @@ use super::super::Result;
 use super::super::components::ProductCard;
 use crate::AppState;
 use crate::models::catalog::{self, CATEGORIES, CatalogProduct};
-use crate::models::upload;
+use crate::models::upload::{self, Owner};
 use crate::request::Req;
 use crate::views::{self, Page};
 
@@ -66,7 +66,7 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
 
     let money = state.rates.money(req.locale).await;
     let starting_prices = catalog::starting_prices(&state.db).await?;
-    let images = upload::images_of(&state.db, "CatalogProduct").await?;
+    let images = upload::images_of(&state.db, Owner::Product).await?;
     let price_from = state.translations.text(req.locale, "common.price_from", &[]);
     let cards: Vec<ProductCard> = products
         .iter()

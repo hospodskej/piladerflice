@@ -231,7 +231,7 @@ async fn placing_an_order_saves_it_mails_both_sides_and_empties_the_cart() {
         (order.1.as_str(), order.2, order.3.as_str(), order.4, order.5),
         ("Jana", true, "pickup", 18000, 3124)
     );
-    assert!(order.6.contains(r#""catalog_variant_id":"10""#) && order.6.contains(r#""quantity":2"#));
+    assert!(order.6.contains(r#""catalog_variant_id":10"#) && order.6.contains(r#""quantity":2"#));
 
     let thanks = browser.get("/kosik/dekujeme").await;
     thanks.assert_contains(&format!("transaction_id: \"{}\"", order.0));

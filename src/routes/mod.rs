@@ -14,8 +14,6 @@ mod headers;
 mod home;
 mod inquiries;
 mod kontakt;
-mod legacy_locale;
-mod legacy_storage;
 mod legal;
 pub(crate) mod not_found;
 mod product_range;
@@ -46,31 +44,6 @@ pub fn router(state: AppState) -> Router {
         .route("/sitemap.xml", get(sitemap::show))
         .merge(Assets::router(state.assets.clone()))
         .route("/uploads/{key}/{filename}", get(uploads::serve))
-        // Image addresses of the Rails app, sent on to /uploads
-        .route(
-            "/rails/active_storage/blobs/{signed_id}/{*filename}",
-            get(legacy_storage::blob),
-        )
-        .route(
-            "/rails/active_storage/blobs/redirect/{signed_id}/{*filename}",
-            get(legacy_storage::blob),
-        )
-        .route(
-            "/rails/active_storage/blobs/proxy/{signed_id}/{*filename}",
-            get(legacy_storage::blob),
-        )
-        .route(
-            "/rails/active_storage/representations/{signed_id}/{variation}/{*filename}",
-            get(legacy_storage::representation),
-        )
-        .route(
-            "/rails/active_storage/representations/redirect/{signed_id}/{variation}/{*filename}",
-            get(legacy_storage::representation),
-        )
-        .route(
-            "/rails/active_storage/representations/proxy/{signed_id}/{variation}/{*filename}",
-            get(legacy_storage::representation),
-        )
         // Pages
         .route("/", get(home::index))
         .route("/kontakt", get(kontakt::index))
@@ -130,7 +103,6 @@ pub fn router(state: AppState) -> Router {
         .route("/zasady-cookies", get(legal::cookies_policy))
         .route("/zasady-ochrany-osobnich-udaju", get(legal::privacy_policy))
         .fallback(public_files::or_not_found)
-        .layer(middleware::from_fn(legacy_locale::redirect))
         .layer(middleware::from_fn_with_state(state.clone(), headers::add))
         .layer(TraceLayer::new_for_http())
         .with_state(state)

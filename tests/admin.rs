@@ -187,22 +187,16 @@ async fn a_product_is_checked_created_and_edited() {
             .await
             .unwrap();
     assert_eq!(row, (None, false, 0, Some("Balken".into())));
-    let blob: (String, String, String) = sqlx::query_as(
-        "SELECT b.filename, b.content_type, b.metadata FROM active_storage_attachments a
-         JOIN active_storage_blobs b ON b.id = a.blob_id WHERE a.record_type = 'CatalogProduct' AND a.record_id = ?",
+    let upload: (String, String, i64) = sqlx::query_as(
+        "SELECT u.filename, u.content_type, u.byte_size FROM catalog_products p
+         JOIN uploads u ON u.id = p.image_id WHERE p.id = ?",
     )
     .bind(id)
     .fetch_one(&app.state.db)
     .await
     .unwrap();
-    assert_eq!(
-        blob,
-        (
-            "trámy.png".into(),
-            "image/png".into(),
-            r#"{"identified":true,"width":30,"height":20,"analyzed":true}"#.into()
-        )
-    );
+    assert_eq!((upload.0.as_str(), upload.1.as_str()), ("trámy.png", "image/png"));
+    assert!(upload.2 > 0);
 
     let page = browser.get(&format!("/admin/catalog_products/{id}/edit")).await;
     page.assert_contains("Produkt byl vytvořen. Nyní k němu přidejte varianty s cenami.");
@@ -242,11 +236,7 @@ async fn only_pictures_can_be_uploaded() {
 async fn deleting_a_product_takes_its_variants_and_picture_along() {
     let app = TestApp::with_accounts().await;
     let mut browser = admin(&app).await;
-    let file = app
-        .state
-        .config
-        .storage_root
-        .join("te/st/testkey0000000000000000000001");
+    let file = app.state.config.storage_root.join("testkey0000000000000000000001");
     assert!(file.exists());
     let page = browser
         .post("/admin/catalog_products/1", &[("_method", "delete")])
@@ -264,10 +254,7 @@ async fn deleting_a_product_takes_its_variants_and_picture_along() {
         .await,
         0
     );
-    assert_eq!(
-        count(&app, "SELECT COUNT(*) FROM active_storage_blobs WHERE id = 1").await,
-        0
-    );
+    assert_eq!(count(&app, "SELECT COUNT(*) FROM uploads WHERE id = 1").await, 0);
     assert!(!file.exists());
 }
 

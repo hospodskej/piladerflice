@@ -15,7 +15,7 @@ use crate::admin::products;
 use crate::admin::record::Values;
 use crate::admin::variants::{self, PERMITTED, TABLE};
 use crate::forms::upload::UploadForm;
-use crate::models::upload::image_of;
+use crate::models::upload::{Owner, image_of};
 use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
@@ -142,7 +142,7 @@ async fn form_page(
     errors: &Errors,
 ) -> anyhow::Result<Response> {
     let image = match id {
-        Some(id) => image_of(&state.db, "CatalogVariant", id)
+        Some(id) => image_of(&state.db, Owner::Variant, id)
             .await?
             .map(|upload| upload.url()),
         None => None,

@@ -7,8 +7,9 @@ use super::record::{Table, Values, boolean, integer, text};
 use crate::db::Db;
 use crate::i18n::Translations;
 use crate::locale::Locale;
+use crate::models::upload::Owner;
 use crate::models::validation::{Errors, Validator};
-use crate::storage::{self, Attachment};
+use crate::storage;
 
 pub const VARIANT_GROUPS: [&str; 2] = ["kontejner", "bedny"];
 
@@ -52,8 +53,9 @@ pub const PERMITTED: [&str; 15] = [
     "image",
 ];
 
-pub fn image(id: i64) -> Attachment<'static> {
-    Attachment::new("CatalogVariant", id, "image")
+/// Where the record's photo is stored.
+pub fn image(id: i64) -> (Owner, i64) {
+    (Owner::Variant, id)
 }
 
 /// The variant's checks, in Rails' order: key given and not used by another
@@ -101,7 +103,7 @@ pub fn is_stacked(values: &Values) -> bool {
 
 /// Deletes the variant and its picture.
 pub async fn delete(db: &Db, storage_root: &Path, id: i64) -> anyhow::Result<()> {
-    storage::detach(db, storage_root, image(id)).await?;
+    storage::detach(db, storage_root, Owner::Variant, id).await?;
     TABLE.delete(db, id).await?;
     Ok(())
 }

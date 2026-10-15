@@ -22,11 +22,11 @@ pub struct OriginalUri(pub Uri);
 
 /// Paths that exist in one language only (Czech admin, files, machine-read
 /// URLs). Under /at they are left alone, so they don't match and get a 404.
-const UNLOCALIZED: [&str; 6] = ["/admin", "/assets", "/rails", "/robots.txt", "/sitemap.xml", "/up"];
+const UNLOCALIZED: [&str; 5] = ["/admin", "/assets", "/robots.txt", "/sitemap.xml", "/up"];
 
 /// Removes the /at prefix and remembers the language, before the router
 /// looks at the path. A trailing slash is ignored too ("/eshop/" is
-/// "/eshop"), as in Rails.
+/// "/eshop").
 pub fn strip_locale_prefix(mut request: Request) -> Request {
     let original = request.uri().clone();
     let path = original.path();

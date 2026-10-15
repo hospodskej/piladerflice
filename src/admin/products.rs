@@ -8,8 +8,9 @@ use super::variants;
 use crate::db::Db;
 use crate::i18n::Translations;
 use crate::locale::Locale;
+use crate::models::upload::Owner;
 use crate::models::validation::{Errors, Validator};
-use crate::storage::{self, Attachment};
+use crate::storage;
 
 pub const TEMPLATES: [&str; 3] = ["firewood", "lumber", "simple_variant"];
 pub const CATEGORIES: [&str; 4] = ["palivove", "rezivo", "zbytky", "kamenivo"];
@@ -98,8 +99,9 @@ pub fn normalize(values: &mut Values) {
     }
 }
 
-pub fn image(id: i64) -> Attachment<'static> {
-    Attachment::new("CatalogProduct", id, "image")
+/// Where the record's photo is stored.
+pub fn image(id: i64) -> (Owner, i64) {
+    (Owner::Product, id)
 }
 
 /// The product's checks, in Rails' order. `id` is the product being
@@ -143,7 +145,7 @@ pub async fn delete(db: &Db, storage_root: &Path, id: i64) -> anyhow::Result<()>
     for variant_id in variant_ids {
         variants::delete(db, storage_root, variant_id).await?;
     }
-    storage::detach(db, storage_root, image(id)).await?;
+    storage::detach(db, storage_root, Owner::Product, id).await?;
     TABLE.delete(db, id).await?;
     Ok(())
 }

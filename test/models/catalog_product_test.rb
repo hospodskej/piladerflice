@@ -33,6 +33,22 @@ class CatalogProductTest < ActiveSupport::TestCase
     assert_nil product.starting_price_czk
   end
 
+  test "with_starting_price loads the same prices with the products, in one query" do
+    catalog_products(:smrk).catalog_variants.update_all(in_stock: false)
+    catalog_products(:odkory).catalog_variants.destroy_all
+    expected = CatalogProduct.all.to_h { |product| [product.key, product.starting_price_czk] }
+    assert_includes expected.values, nil
+
+    queries = 0
+    counter = ->(*, payload) { queries += 1 unless payload[:name] == "SCHEMA" }
+    loaded = ActiveSupport::Notifications.subscribed(counter, "sql.active_record") do
+      CatalogProduct.with_starting_price.to_h { |product| [product.key, product.starting_price_czk] }
+    end
+
+    assert_equal expected, loaded
+    assert_equal 1, queries
+  end
+
   test "requires a unique key" do
     duplicate = CatalogProduct.new(catalog_products(:smrk).attributes.except("id"))
     assert_not duplicate.valid?

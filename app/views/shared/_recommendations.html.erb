@@ -1,5 +1,5 @@
 <%
-  recommendations = CatalogProduct.active
+  recommendations = CatalogProduct.active.with_starting_price.with_attached_image
     .where.not(key: local_assigns[:current_product])
     .order(Arel.sql("RANDOM()"))
     .limit(4)

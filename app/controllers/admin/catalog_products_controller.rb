@@ -3,7 +3,7 @@ module Admin
     before_action :set_catalog_product, only: [:edit, :update, :destroy]
 
     def index
-      @catalog_products = CatalogProduct.ordered
+      @catalog_products = CatalogProduct.ordered.with_starting_price
     end
 
     def new

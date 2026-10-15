@@ -1,0 +1,54 @@
+[package]
+name = "piladerflice"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+dotenvy = "0.15"
+axum = { version = "0.8", features = ["macros", "multipart"] }
+tokio = { version = "1", features = ["full"] }
+tower = { version = "0.5", features = ["util"] }
+tower-http = { version = "0.6", features = ["trace", "compression-gzip"] }
+minijinja = { version = "2", features = ["loader", "json"] }
+minijinja-autoreload = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+serde_yaml = "0.9"
+sha1 = "0.10"
+hex = "0.4"
+mime_guess = "2"
+rand = "0.9"
+form_urlencoded = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "chrono", "macros", "migrate"] }
+chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+regex = "1"
+ammonia = "4"
+deunicode = "1"
+cookie = { version = "0.18", features = ["private", "key-expansion", "percent-encode"] }
+base64 = "0.22"
+subtle = "2"
+serde_html_form = "0.2"
+bcrypt = "0.17"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+webp = "0.3"
+md-5 = "0.10"
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls-tls", "hostname"] }
+
+[dev-dependencies]
+http-body-util = "0.1"
+
+# Fingerprinting the images is hashing-heavy; keep it fast in debug builds too.
+[profile.dev.package.sha1]
+opt-level = 3
+
+# The server build: no debug symbols, whole-program optimisation (smaller
+# and a little faster; the build takes longer).
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1

@@ -32,6 +32,11 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "the address delivery option shows the price per km" do
+    get checkout_shipping_path
+    assert_select ".checkout-radio-note", text: "40 Kč/km – orientační cenu uvidíte v souhrnu objednávky"
+  end
+
   test "details redirects back to shipping until a shipping method is chosen" do
     get checkout_details_path
     assert_redirected_to checkout_shipping_path

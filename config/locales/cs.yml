@@ -230,7 +230,7 @@ cs:
     shipping_method_label: "Způsob dopravy"
     shipping_address: "Doručení na adresu"
     shipping_address_note: "Ceny dopravy jsou kalkulovány individuálně"
-    shipping_address_rate_note: "%{rate} za km (tam i zpět) – orientační cenu uvidíte v souhrnu objednávky"
+    shipping_address_rate_note: "%{rate}/km – orientační cenu uvidíte v souhrnu objednávky"
     delivery_approximate: "(orientační cena)"
     goods_total: "Zboží"
     delivery_line: "Doprava (%{km} km, orientačně)"

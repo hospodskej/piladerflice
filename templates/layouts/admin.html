@@ -37,7 +37,7 @@
       <div class="admin-sidebar-footer">
         <span class="admin-current-user">{{ admin_email }}</span>
         <a class="admin-back-link" href="/">← Zpět na web</a>
-        {{ button_to("Odhlásit se", "/odhlaseni", method="delete", class="admin-logout-btn") }}
+        {{ action_button("Odhlásit se", "/odhlaseni", class="admin-logout-btn") }}
       </div>
     </aside>
 

@@ -43,10 +43,10 @@
     <p class="admin-form-hint">{{ hints[category.name] }}</p>
 
     {% for item in category.items %}
-      <form id="pricelist-item-{{ item.id }}-form" action="/admin/pricelist_items/{{ item.id }}" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" />{{ token_field() }}</form>
+      <form id="pricelist-item-{{ item.id }}-form" action="/admin/pricelist_items/{{ item.id }}" accept-charset="UTF-8" method="post">{{ csrf_field() }}</form>
     {% endfor %}
     {% if category.can_add %}
-      <form id="{{ new_item_form_id }}" action="/admin/pricelist_items" accept-charset="UTF-8" method="post">{{ token_field() }}</form>
+      <form id="{{ new_item_form_id }}" action="/admin/pricelist_items" accept-charset="UTF-8" method="post">{{ csrf_field() }}</form>
     {% endif %}
 
     <table class="admin-table">
@@ -66,26 +66,26 @@
           <tr>
             <td class="admin-option-move">
               {% if category.movable %}
-                {{ button_to("↑", "/admin/pricelist_items/" ~ item.id ~ "/move_up", method="patch", class="admin-move-btn", aria_label="Posunout nahoru") }}
-                {{ button_to("↓", "/admin/pricelist_items/" ~ item.id ~ "/move_down", method="patch", class="admin-move-btn", aria_label="Posunout dolů") }}
+                {{ action_button("↑", "/admin/pricelist_items/" ~ item.id ~ "/move_up", class="admin-move-btn", aria_label="Posunout nahoru") }}
+                {{ action_button("↓", "/admin/pricelist_items/" ~ item.id ~ "/move_down", class="admin-move-btn", aria_label="Posunout dolů") }}
               {% endif %}
             </td>
             {% for field in category.fields %}
-              <td>{{ text_field_tag("pricelist_item[" ~ field ~ "]", item["values"][field], form=item_form_id, aria_label=labels[field] ~ " (CZ)") }}</td>
-              <td>{{ text_field_tag("pricelist_item[" ~ field ~ "_de]", item["values"][field ~ "_de"], form=item_form_id, aria_label=labels[field] ~ " (DE)") }}</td>
+              <td>{{ text_input(field, item["values"][field], form=item_form_id, aria_label=labels[field] ~ " (CZ)") }}</td>
+              <td>{{ text_input(field ~ "_de", item["values"][field ~ "_de"], form=item_form_id, aria_label=labels[field] ~ " (DE)") }}</td>
             {% endfor %}
             <td class="admin-option-actions">
               {{ submit("Uložit", form=item_form_id, class="btn-outline-dark") }}
-              {{ button_to("Smazat", "/admin/pricelist_items/" ~ item.id, method="delete", class="admin-danger-btn", confirm="Opravdu smazat tuto položku ceníku?") }}
+              {{ action_button("Smazat", "/admin/pricelist_items/" ~ item.id ~ "/delete", class="admin-danger-btn", confirm="Opravdu smazat tuto položku ceníku?") }}
             </td>
           </tr>
         {% endfor %}
         {% if category.can_add %}
           <tr>
-            <td>{{ hidden_field_tag("pricelist_item[category]", category.name, form=new_item_form_id) }}</td>
+            <td>{{ hidden_input("category", category.name, form=new_item_form_id) }}</td>
             {% for field in category.fields %}
-              <td>{{ text_field_tag("pricelist_item[" ~ field ~ "]", none, placeholder=labels[field] ~ " (CZ)", form=new_item_form_id, aria_label="Nová položka: " ~ labels[field] ~ " (CZ)") }}</td>
-              <td>{{ text_field_tag("pricelist_item[" ~ field ~ "_de]", none, placeholder=labels[field] ~ " (DE)", form=new_item_form_id, aria_label="Nová položka: " ~ labels[field] ~ " (DE)") }}</td>
+              <td>{{ text_input(field, none, placeholder=labels[field] ~ " (CZ)", form=new_item_form_id, aria_label="Nová položka: " ~ labels[field] ~ " (CZ)") }}</td>
+              <td>{{ text_input(field ~ "_de", none, placeholder=labels[field] ~ " (DE)", form=new_item_form_id, aria_label="Nová položka: " ~ labels[field] ~ " (DE)") }}</td>
             {% endfor %}
             <td>{{ submit("+ Přidat", form=new_item_form_id, class="btn-primary") }}</td>
           </tr>

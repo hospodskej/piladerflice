@@ -7,7 +7,7 @@
     <h1 class="admin-page-title">Objednávka #{{ order.id }}</h1>
     <p class="admin-page-subtitle">{{ order.date }}</p>
   </div>
-  {{ button_to("Smazat objednávku", "/admin/orders/" ~ order.id, method="delete", class="admin-danger-btn", form_confirm="Opravdu smazat tuto objednávku?") }}
+  {{ action_button("Smazat objednávku", "/admin/orders/" ~ order.id ~ "/delete", class="admin-danger-btn", confirm="Opravdu smazat tuto objednávku?") }}
 </div>
 
 <div class="admin-detail-grid">

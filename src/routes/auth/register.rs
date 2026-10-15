@@ -9,10 +9,10 @@ use crate::accounts::password;
 use crate::accounts::registration::{self, Registration};
 use crate::forms::FormData;
 use crate::models::user;
-use crate::models::validation::error_count;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
+use crate::views::text::error_count;
 use crate::views::{self, Page, redirect};
 
 pub async fn new(State(state): State<AppState>, req: Req) -> Result {

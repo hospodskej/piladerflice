@@ -3,13 +3,12 @@
 
 use std::path::Path;
 
+use super::messages::{blank, invalid, taken};
 use super::record::{Table, Values, boolean, integer, text};
 use super::variants;
 use crate::db::Db;
-use crate::i18n::Translations;
-use crate::locale::Locale;
+use crate::forms::Errors;
 use crate::models::upload::Owner;
-use crate::models::validation::{Errors, Validator};
 use crate::storage;
 
 pub const TEMPLATES: [&str; 3] = ["firewood", "lumber", "simple_variant"];
@@ -18,14 +17,13 @@ pub const HARDNESS: [&str; 2] = ["hard", "soft"];
 
 pub const TABLE: Table = Table {
     name: "catalog_products",
-    param: "catalog_product",
     columns: &[
         text("key"),
         text("template"),
         text("category"),
         text("hardness"),
         boolean("active", true),
-        integer("position", Some("0")),
+        integer("position", "Pořadí v katalogu", Some("0")),
         text("title"),
         text("title_de"),
         text("type_label"),
@@ -41,13 +39,12 @@ pub const TABLE: Table = Table {
     ],
 };
 
-/// The fields the form may change (everything; the image comes separately).
-pub const PERMITTED: [&str; 19] = [
+/// The fields the form edits (all columns; the image comes separately).
+pub const FORM_FIELDS: [&str; 18] = [
     "key",
     "template",
     "category",
     "hardness",
-    "image",
     "active",
     "position",
     "title",
@@ -92,7 +89,7 @@ pub async fn list(db: &Db) -> sqlx::Result<Vec<Listed>> {
     .await
 }
 
-/// Rails' `normalizes :hardness`: an empty choice means none.
+/// An empty choice of hardness means none.
 pub fn normalize(values: &mut Values) {
     if !values.is_present("hardness") {
         values.set("hardness", None);
@@ -104,36 +101,37 @@ pub fn image(id: i64) -> (Owner, i64) {
     (Owner::Product, id)
 }
 
-/// The product's checks, in Rails' order. `id` is the product being
-/// edited (None for a new one).
-pub async fn validate(db: &Db, translations: &Translations, values: &Values, id: Option<i64>) -> sqlx::Result<Errors> {
-    let mut check = Validator::new(translations, Locale::Cs, "catalog_product");
+/// The product's checks. `id` is the product being edited (None for a new
+/// one).
+pub async fn validate(db: &Db, values: &Values, id: Option<i64>) -> sqlx::Result<Errors> {
+    let mut errors = Errors::new();
     match values.get("key") {
         Some(key) if !key.trim().is_empty() => {
-            let taken: Option<i64> =
+            let existing: Option<i64> =
                 sqlx::query_scalar("SELECT id FROM catalog_products WHERE key = ? AND id IS NOT ?")
                     .bind(key)
                     .bind(id)
                     .fetch_optional(db)
                     .await?;
-            if taken.is_some() {
-                check.add("key", "taken");
+            if existing.is_some() {
+                errors.add("key", taken("Klíč"));
             }
         }
-        _ => check.add("key", "blank"),
+        _ => errors.add("key", blank("Klíč")),
     }
     if !TEMPLATES.contains(&values.get("template").unwrap_or_default()) {
-        check.add("template", "inclusion");
+        errors.add("template", invalid("Šablona zobrazení"));
     }
     if !CATEGORIES.contains(&values.get("category").unwrap_or_default()) {
-        check.add("category", "inclusion");
+        errors.add("category", invalid("Kategorie filtru"));
     }
     if let Some(hardness) = values.get("hardness")
         && !HARDNESS.contains(&hardness)
     {
-        check.add("hardness", "inclusion");
+        errors.add("hardness", invalid("Tvrdost dřeva"));
     }
-    Ok(check.finish())
+    TABLE.check_numbers(values, &mut errors);
+    Ok(errors)
 }
 
 /// Deletes the product with its variants and all their pictures.

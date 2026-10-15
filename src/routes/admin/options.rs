@@ -2,17 +2,14 @@
 //! lists, one table per list; the first choice is preselected.
 
 use axum::extract::State;
-use axum::http::Method;
 use minijinja::{Value, context};
 
-use super::method_of;
 use super::params::RecordId;
 use crate::AppState;
-use crate::admin::options::{self, PERMITTED, TABLE, category_label, dropdown_fields, field_label};
-use crate::forms::UploadForm;
-use crate::locale::Locale;
+use crate::admin::messages::sentence;
+use crate::admin::options::{self, FORM_FIELDS, TABLE, category_label, dropdown_fields, field_label};
+use crate::forms::{FormData, UploadForm};
 use crate::models::inquiry_options::INQUIRY_CATEGORIES;
-use crate::models::validation::to_sentence;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -52,10 +49,10 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
-    let errors = options::validate(&state.translations, &values);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
+    let errors = options::validate(&values);
     if !errors.is_empty() {
-        let message = to_sentence(&state.translations, Locale::Cs, &errors.messages());
+        let message = sentence(&errors.messages());
         req.session.set_flash(Flash::Alert(message));
         return Ok(redirect::to(PAGE));
     }
@@ -71,37 +68,32 @@ pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -
     Ok(redirect::to(&format!("{PAGE}#{}", options::anchor(&values))))
 }
 
-/// POST with `_method`: "patch" saves the row, "delete" deletes it.
-pub async fn change(
-    State(state): State<AppState>,
-    req: Req,
-    http: Method,
-    RecordId(id): RecordId,
-    form: UploadForm,
-) -> Result {
+/// POST /admin/inquiry_form_options/{id}: saves an option.
+pub async fn update(State(state): State<AppState>, req: Req, RecordId(id): RecordId, form: UploadForm) -> Result {
     let Some(mut values) = TABLE.find(&state.db, id).await? else {
         return Ok(not_found::page(State(state), req).await);
     };
-    match method_of(&http, &form).as_str() {
-        "patch" | "put" => {}
-        "delete" => {
-            TABLE.delete(&state.db, id).await?;
-            req.session.set_flash(Flash::Notice("Možnost byla smazána.".into()));
-            return Ok(redirect::to(PAGE));
-        }
-        _ => return Ok(not_found::page(State(state), req).await),
-    }
     // An option stays in its list.
     TABLE.assign(&mut values, &form.fields, &["value", "value_de"]);
-    let errors = options::validate(&state.translations, &values);
+    let errors = options::validate(&values);
     if errors.is_empty() {
         TABLE.update(&state.db, id, &values).await?;
         req.session.set_flash(Flash::Notice("Možnost byla uložena.".into()));
     } else {
-        let message = to_sentence(&state.translations, Locale::Cs, &errors.messages());
+        let message = sentence(&errors.messages());
         req.session.set_flash(Flash::Alert(message));
     }
     Ok(redirect::to(&format!("{PAGE}#{}", options::anchor(&values))))
+}
+
+/// POST /admin/inquiry_form_options/{id}/delete.
+pub async fn delete(State(state): State<AppState>, req: Req, RecordId(id): RecordId, _form: FormData) -> Result {
+    if TABLE.find(&state.db, id).await?.is_none() {
+        return Ok(not_found::page(State(state), req).await);
+    }
+    TABLE.delete(&state.db, id).await?;
+    req.session.set_flash(Flash::Notice("Možnost byla smazána.".into()));
+    Ok(redirect::to(PAGE))
 }
 
 pub async fn move_up(state: State<AppState>, req: Req, id: RecordId, _form: UploadForm) -> Result {

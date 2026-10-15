@@ -47,7 +47,7 @@
           <td>{{ "Ano" if variant.in_stock else "Ne" }}</td>
           <td>
             <a href="/admin/catalog_products/{{ id }}/catalog_variants/{{ variant.id }}/edit">Upravit</a>
-            {{ button_to("Smazat", "/admin/catalog_products/" ~ id ~ "/catalog_variants/" ~ variant.id, method="delete", class="admin-danger-btn", style="margin-left: 8px;", form_confirm="Opravdu smazat tuto variantu?") }}
+            {{ action_button("Smazat", "/admin/catalog_products/" ~ id ~ "/catalog_variants/" ~ variant.id ~ "/delete", class="admin-danger-btn", style="margin-left: 8px;", confirm="Opravdu smazat tuto variantu?") }}
           </td>
         </tr>
       {% endfor %}

@@ -49,7 +49,7 @@ async fn only_admins_get_in() {
         .get("/")
         .await
         .assert_contains("Nemáte oprávnění k přístupu do administrace.");
-    let page = customer.post("/admin/orders/500", &[("_method", "delete")]).await;
+    let page = customer.post("/admin/orders/500/delete", &[]).await;
     assert_eq!(page.location(), "/");
     assert_eq!(count(&app, "SELECT COUNT(*) FROM orders WHERE id = 500").await, 1);
 
@@ -61,9 +61,7 @@ async fn only_admins_get_in() {
 async fn forms_without_the_token_are_refused() {
     let app = TestApp::with_accounts().await;
     let mut browser = admin(&app).await;
-    let page = browser
-        .post_raw("/admin/orders/500", &[("_method", "delete".into())])
-        .await;
+    let page = browser.post_raw("/admin/orders/500/delete", &[]).await;
     assert_eq!(page.status, StatusCode::UNPROCESSABLE_ENTITY);
     assert_eq!(count(&app, "SELECT COUNT(*) FROM orders").await, 2);
 }
@@ -108,7 +106,7 @@ async fn an_order_is_shown_in_full_and_can_be_deleted() {
     assert_eq!(browser.get("/admin/orders/9999").await.status, StatusCode::NOT_FOUND);
     assert_eq!(browser.get("/admin/orders/abc").await.status, StatusCode::NOT_FOUND);
 
-    let page = browser.post("/admin/orders/500", &[("_method", "delete")]).await;
+    let page = browser.post("/admin/orders/500/delete", &[]).await;
     assert_eq!(page.location(), "/admin/orders");
     let list = browser.get("/admin/orders").await;
     list.assert_contains("Objednávka byla smazána.");
@@ -147,35 +145,29 @@ async fn a_product_is_checked_created_and_edited() {
     let page = browser
         .post(
             "/admin/catalog_products",
-            &[
-                ("catalog_product[key]", "smrk"),
-                ("catalog_product[template]", "lumber"),
-                ("catalog_product[category]", "x"),
-            ],
+            &[("key", "smrk"), ("template", "lumber"), ("category", "x")],
         )
         .await;
     assert_eq!(page.status, StatusCode::UNPROCESSABLE_ENTITY);
     page.assert_contains("2 chyby brání uložení:");
     page.assert_contains("<li>Klíč už je použitý</li>");
     page.assert_contains("<li>Kategorie filtru má neplatnou hodnotu</li>");
-    page.assert_contains(
-        r#"<div class="field_with_errors"><input type="text" value="smrk" name="catalog_product[key]""#,
-    );
+    page.assert_contains(r#"<input type="text" name="key" id="key" class="field-error" value="smrk">"#);
 
     let page = browser
         .post_file(
             "/admin/catalog_products",
             &[
-                ("catalog_product[key]", "tramy"),
-                ("catalog_product[template]", "lumber"),
-                ("catalog_product[category]", "rezivo"),
-                ("catalog_product[hardness]", ""),
-                ("catalog_product[active]", "0"),
-                ("catalog_product[position]", ""),
-                ("catalog_product[title]", "Trámy"),
-                ("catalog_product[image_alt_de]", "Balken"),
+                ("key", "tramy"),
+                ("template", "lumber"),
+                ("category", "rezivo"),
+                ("hardness", ""),
+                ("active", "0"),
+                ("position", ""),
+                ("title", "Trámy"),
+                ("image_alt_de", "Balken"),
             ],
-            ("catalog_product[image]", "trámy.png", &png()),
+            ("image", "trámy.png", &png()),
         )
         .await;
     let id: i64 = count(&app, "SELECT id FROM catalog_products WHERE key = 'tramy'").await;
@@ -204,10 +196,7 @@ async fn a_product_is_checked_created_and_edited() {
     page.assert_contains("Tento produkt zatím nemá žádné varianty");
 
     let page = browser
-        .post(
-            &format!("/admin/catalog_products/{id}"),
-            &[("_method", "patch"), ("catalog_product[title]", "Trámy na míru")],
-        )
+        .post(&format!("/admin/catalog_products/{id}"), &[("title", "Trámy na míru")])
         .await;
     assert_eq!(page.location(), format!("/admin/catalog_products/{id}/edit"));
     let page = browser.get(&format!("/admin/catalog_products/{id}/edit")).await;
@@ -223,8 +212,8 @@ async fn only_pictures_can_be_uploaded() {
     let page = browser
         .post_file(
             "/admin/promos",
-            &[("promo[title]", "X")],
-            ("promo[image]", "x.svg", b"<svg onload=alert(1)>"),
+            &[("title", "X")],
+            ("image", "x.svg", b"<svg onload=alert(1)>"),
         )
         .await;
     assert_eq!(page.status, StatusCode::UNPROCESSABLE_ENTITY);
@@ -238,9 +227,7 @@ async fn deleting_a_product_takes_its_variants_and_picture_along() {
     let mut browser = admin(&app).await;
     let file = app.state.config.storage_root.join("testkey0000000000000000000001");
     assert!(file.exists());
-    let page = browser
-        .post("/admin/catalog_products/1", &[("_method", "delete")])
-        .await;
+    let page = browser.post("/admin/catalog_products/1/delete", &[]).await;
     assert_eq!(page.location(), "/admin/catalog_products");
     browser
         .get("/admin/catalog_products")
@@ -269,12 +256,12 @@ async fn variants_are_checked_and_belong_to_their_product() {
     browser
         .get("/admin/catalog_products/3/catalog_variants/new")
         .await
-        .assert_contains(r#"id="catalog_variant_width_mm""#);
+        .assert_contains(r#"id="width_mm""#);
 
     let page = browser
         .post(
             "/admin/catalog_products/1/catalog_variants",
-            &[("catalog_variant[key]", "k-25-5"), ("catalog_variant[price_czk]", "0")],
+            &[("key", "k-25-5"), ("price_czk", "0")],
         )
         .await;
     assert_eq!(page.status, StatusCode::UNPROCESSABLE_ENTITY);
@@ -286,11 +273,11 @@ async fn variants_are_checked_and_belong_to_their_product() {
         .post(
             "/admin/catalog_products/1/catalog_variants",
             &[
-                ("catalog_variant[key]", "k-100-5"),
-                ("catalog_variant[price_czk]", "12000"),
-                ("catalog_variant[variant_group]", "bedny"),
-                ("catalog_variant[position]", ""),
-                ("catalog_variant[in_stock]", "0"),
+                ("key", "k-100-5"),
+                ("price_czk", "12000"),
+                ("variant_group", "bedny"),
+                ("position", ""),
+                ("in_stock", "0"),
             ],
         )
         .await;
@@ -313,10 +300,7 @@ async fn promos_are_added_edited_and_deleted() {
     let mut browser = admin(&app).await;
     browser.get("/admin/promos").await.assert_contains("<td>✓ Aktivní</td>");
     let page = browser
-        .post(
-            "/admin/promos",
-            &[("promo[title]", "Dubové trámy"), ("promo[price]", "od 9 000 Kč")],
-        )
+        .post("/admin/promos", &[("title", "Dubové trámy"), ("price", "od 9 000 Kč")])
         .await;
     assert_eq!(page.location(), "/admin/promos");
     let list = browser.get("/admin/promos").await;
@@ -324,18 +308,13 @@ async fn promos_are_added_edited_and_deleted() {
     list.assert_contains("<strong>Dubové trámy</strong>");
     let id = count(&app, "SELECT MAX(id) FROM promos").await;
     browser
-        .post(
-            &format!("/admin/promos/{id}"),
-            &[("_method", "patch"), ("promo[title_de]", "Eichenbalken")],
-        )
+        .post(&format!("/admin/promos/{id}"), &[("title_de", "Eichenbalken")])
         .await;
     assert_eq!(
         count(&app, "SELECT COUNT(*) FROM promos WHERE title_de = 'Eichenbalken'").await,
         1
     );
-    browser
-        .post(&format!("/admin/promos/{id}"), &[("_method", "delete")])
-        .await;
+    browser.post(&format!("/admin/promos/{id}/delete"), &[]).await;
     assert_eq!(count(&app, "SELECT COUNT(*) FROM promos").await, 1);
 }
 
@@ -344,10 +323,7 @@ async fn the_price_list_is_edited_row_by_row() {
     let app = TestApp::with_accounts().await;
     let mut browser = admin(&app).await;
     let page = browser
-        .post(
-            "/admin/pricelist_items",
-            &[("pricelist_item[category]", "palivove_volne")],
-        )
+        .post("/admin/pricelist_items", &[("category", "palivove_volne")])
         .await;
     assert_eq!(page.location(), "/admin/pricelist_items#palivove_volne");
     browser
@@ -359,10 +335,10 @@ async fn the_price_list_is_edited_row_by_row() {
         .post(
             "/admin/pricelist_items",
             &[
-                ("pricelist_item[category]", "palivove_volne"),
-                ("pricelist_item[subcategory]", "Tvrdé"),
-                ("pricelist_item[item_name]", "50 cm"),
-                ("pricelist_item[price]", "2 400 Kč"),
+                ("category", "palivove_volne"),
+                ("subcategory", "Tvrdé"),
+                ("item_name", "50 cm"),
+                ("price", "2 400 Kč"),
             ],
         )
         .await;
@@ -379,10 +355,7 @@ async fn the_price_list_is_edited_row_by_row() {
 
     // Moving up numbers the category afresh; the category itself can't change.
     browser
-        .post(
-            &format!("/admin/pricelist_items/{new_id}/move_up"),
-            &[("_method", "patch")],
-        )
+        .post(&format!("/admin/pricelist_items/{new_id}/move_up"), &[])
         .await;
     let order: Vec<i64> =
         sqlx::query_scalar("SELECT id FROM pricelist_items WHERE category = 'palivove_volne' ORDER BY position, id")
@@ -393,11 +366,7 @@ async fn the_price_list_is_edited_row_by_row() {
     browser
         .post(
             &format!("/admin/pricelist_items/{new_id}"),
-            &[
-                ("_method", "patch"),
-                ("pricelist_item[category]", "zbytky"),
-                ("pricelist_item[price_de]", "96 €"),
-            ],
+            &[("category", "zbytky"), ("price_de", "96 €")],
         )
         .await;
     assert_eq!(
@@ -418,11 +387,7 @@ async fn quote_form_choices_are_added_checked_and_moved() {
     let page = browser
         .post(
             "/admin/inquiry_form_options",
-            &[
-                ("inquiry_form_option[category]", "palivove"),
-                ("inquiry_form_option[field]", "polozka"),
-                ("inquiry_form_option[value]", ""),
-            ],
+            &[("category", "palivove"), ("field", "polozka"), ("value", "")],
         )
         .await;
     assert_eq!(page.location(), "/admin/inquiry_form_options");
@@ -434,11 +399,7 @@ async fn quote_form_choices_are_added_checked_and_moved() {
     let page = browser
         .post(
             "/admin/inquiry_form_options",
-            &[
-                ("inquiry_form_option[category]", "palivove"),
-                ("inquiry_form_option[field]", "druh"),
-                ("inquiry_form_option[value]", "Habr"),
-            ],
+            &[("category", "palivove"), ("field", "druh"), ("value", "Habr")],
         )
         .await;
     assert_eq!(page.location(), "/admin/inquiry_form_options#palivove-druh");
@@ -453,10 +414,7 @@ async fn quote_form_choices_are_added_checked_and_moved() {
     );
 
     browser
-        .post(
-            &format!("/admin/inquiry_form_options/{habr}/move_up"),
-            &[("_method", "patch")],
-        )
+        .post(&format!("/admin/inquiry_form_options/{habr}/move_up"), &[])
         .await;
     let order: Vec<String> =
         sqlx::query_scalar("SELECT value FROM inquiry_form_options WHERE field = 'druh' ORDER BY position, id")
@@ -468,11 +426,7 @@ async fn quote_form_choices_are_added_checked_and_moved() {
     browser
         .post(
             &format!("/admin/inquiry_form_options/{habr}"),
-            &[
-                ("_method", "patch"),
-                ("inquiry_form_option[field]", "delka"),
-                ("inquiry_form_option[value_de]", "Hainbuche"),
-            ],
+            &[("field", "delka"), ("value_de", "Hainbuche")],
         )
         .await;
     assert_eq!(

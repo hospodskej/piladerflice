@@ -29,7 +29,7 @@
           <td>{{ "✓ Aktivní" if promo.this_week }}</td>
           <td>
             <a href="/admin/promos/{{ promo.id }}/edit">Upravit</a>
-            {{ button_to("Smazat", "/admin/promos/" ~ promo.id, method="delete", class="admin-danger-btn", confirm="Opravdu smazat tuto akční nabídku?") }}
+            {{ action_button("Smazat", "/admin/promos/" ~ promo.id ~ "/delete", class="admin-danger-btn", confirm="Opravdu smazat tuto akční nabídku?") }}
           </td>
         </tr>
       {% endfor %}

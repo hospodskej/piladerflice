@@ -1,15 +1,14 @@
 //! The choices in the drop-down lists of the quote form's calculator
 //! (`inquiry_form_options`). The public side is `models/inquiry_options.rs`.
 
-use chrono::{SubsecRound, Utc};
+use chrono::Utc;
 
+use super::messages::{blank, invalid};
 use super::ordering;
 use super::record::{Table, Values, integer, text};
 use crate::db::Db;
-use crate::i18n::Translations;
-use crate::locale::Locale;
+use crate::forms::Errors;
 use crate::models::inquiry_options::INQUIRY_CATEGORIES;
-use crate::models::validation::{Errors, Validator};
 
 /// The drop-down fields of each category, in form order.
 pub fn dropdown_fields(category: &str) -> &'static [&'static str] {
@@ -43,32 +42,31 @@ pub fn field_label(field: &str) -> Option<&'static str> {
 
 pub const TABLE: Table = Table {
     name: "inquiry_form_options",
-    param: "inquiry_form_option",
     columns: &[
         text("category"),
         text("field"),
         text("value"),
         text("value_de"),
-        integer("position", Some("0")),
+        integer("position", "Pořadí", Some("0")),
     ],
 };
 
-pub const PERMITTED: [&str; 4] = ["category", "field", "value", "value_de"];
+pub const FORM_FIELDS: [&str; 4] = ["category", "field", "value", "value_de"];
 
 /// Rails' order: a known category, a value, a field of that category.
-pub fn validate(translations: &Translations, values: &Values) -> Errors {
-    let mut check = Validator::new(translations, Locale::Cs, "inquiry_form_option");
+pub fn validate(values: &Values) -> Errors {
+    let mut errors = Errors::new();
     let category = values.get("category").unwrap_or_default();
     if !INQUIRY_CATEGORIES.contains(&category) {
-        check.add("category", "inclusion");
+        errors.add("category", invalid("Kategorie"));
     }
     if !values.is_present("value") {
-        check.add("value", "blank");
+        errors.add("value", blank("Hodnota"));
     }
     if !dropdown_fields(category).contains(&values.get("field").unwrap_or_default()) {
-        check.add("field", "invalid_for_category");
+        errors.add("field", "Pole neodpovídá zvolené kategorii");
     }
-    check.finish()
+    errors
 }
 
 /// "#palivove-varianta": where the option's table is on the page.
@@ -106,7 +104,7 @@ pub async fn move_option(db: &Db, id: i64, values: &Values, direction: i64) -> s
         return Ok(());
     };
     let ((own_id, own_position), (their_id, their_position)) = (siblings[index], siblings[target]);
-    let now = Utc::now().naive_utc().trunc_subsecs(6);
+    let now = Utc::now().naive_utc();
     let mut tx = db.begin().await?;
     for (id, position) in [(own_id, their_position), (their_id, own_position)] {
         sqlx::query("UPDATE inquiry_form_options SET position = ?, updated_at = ? WHERE id = ?")

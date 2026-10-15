@@ -11,7 +11,6 @@ pub mod order;
 pub mod pricelist;
 pub mod upload;
 pub mod user;
-pub mod validation;
 
 use crate::locale::Locale;
 

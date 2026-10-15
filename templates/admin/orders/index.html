@@ -26,7 +26,7 @@
           <td>{{ "Osobní odběr" if order.pickup else "Doručení" }}</td>
           <td>{{ "Převod" if order.bank_transfer else "Hotově" }}</td>
           <td>{{ order.date }}</td>
-          <td>{{ button_to("Smazat", "/admin/orders/" ~ order.id, method="delete", class="admin-danger-btn", form_confirm="Opravdu smazat tuto objednávku?") }}</td>
+          <td>{{ action_button("Smazat", "/admin/orders/" ~ order.id ~ "/delete", class="admin-danger-btn", confirm="Opravdu smazat tuto objednávku?") }}</td>
         </tr>
       {% endfor %}
     </tbody>

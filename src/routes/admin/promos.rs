@@ -2,21 +2,21 @@
 //! turns week by week.
 
 use axum::extract::State;
-use axum::http::{Method, StatusCode};
+use axum::http::StatusCode;
 use axum::response::Response;
 use minijinja::{Value, context};
 
+use super::chosen_image;
 use super::params::RecordId;
-use super::{chosen_image, method_of};
 use crate::AppState;
 use crate::admin::images;
-use crate::admin::promos::{self, PERMITTED, TABLE};
+use crate::admin::promos::{self, FORM_FIELDS, TABLE};
 use crate::admin::record::Values;
 use crate::czech_time;
-use crate::forms::UploadForm;
+use crate::forms::Errors;
+use crate::forms::{FormData, UploadForm};
 use crate::models::content::weekly_promo;
 use crate::models::upload::{Owner, image_of};
-use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -57,9 +57,9 @@ pub async fn new(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     let mut errors = Errors::default();
-    let image = chosen_image(&form, "promo[image]", &mut errors).await;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, None, values, &errors).await?);
     }
@@ -79,29 +79,14 @@ pub async fn edit(State(state): State<AppState>, req: Req, RecordId(id): RecordI
     Ok(form_page(&state, &req, Some(id), values, &Errors::default()).await?)
 }
 
-/// POST with `_method`: "patch" saves the form, "delete" deletes.
-pub async fn change(
-    State(state): State<AppState>,
-    req: Req,
-    http: Method,
-    RecordId(id): RecordId,
-    form: UploadForm,
-) -> Result {
+/// POST /admin/promos/{id}: saves the form.
+pub async fn update(State(state): State<AppState>, req: Req, RecordId(id): RecordId, form: UploadForm) -> Result {
     let Some(mut values) = TABLE.find(&state.db, id).await? else {
         return Ok(not_found::page(State(state), req).await);
     };
-    match method_of(&http, &form).as_str() {
-        "patch" | "put" => {}
-        "delete" => {
-            promos::delete(&state.db, &state.config.storage_root, id).await?;
-            req.session.set_flash(Flash::Notice("Doporučení bylo smazáno.".into()));
-            return Ok(redirect::to("/admin/promos"));
-        }
-        _ => return Ok(not_found::page(State(state), req).await),
-    }
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     let mut errors = Errors::default();
-    let image = chosen_image(&form, "promo[image]", &mut errors).await;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, Some(id), values, &errors).await?);
     }
@@ -110,6 +95,16 @@ pub async fn change(
         images::attach(&state.db, &state.config.storage_root, promos::image(id), &image).await?;
     }
     req.session.set_flash(Flash::Notice("Doporučení bylo uloženo.".into()));
+    Ok(redirect::to("/admin/promos"))
+}
+
+/// POST /admin/promos/{id}/delete.
+pub async fn delete(State(state): State<AppState>, req: Req, RecordId(id): RecordId, _form: FormData) -> Result {
+    if TABLE.find(&state.db, id).await?.is_none() {
+        return Ok(not_found::page(State(state), req).await);
+    }
+    promos::delete(&state.db, &state.config.storage_root, id).await?;
+    req.session.set_flash(Flash::Notice("Doporučení bylo smazáno.".into()));
     Ok(redirect::to("/admin/promos"))
 }
 
@@ -129,7 +124,7 @@ async fn form_page(
         id => id,
         title => title,
         image => image,
-        f => FormModel::new(TABLE.param, values, errors),
+        f => FormModel::new(values, errors),
     };
     let template = if id.is_some() {
         "admin/promos/edit.html"

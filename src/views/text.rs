@@ -15,7 +15,17 @@ pub fn escape(text: &str) -> String {
     out
 }
 
-/// Collapses runs of whitespace, like Rails' `squish`.
+/// "1 chyba", "3 chyby", "5 chyb" (Czech plural).
+pub fn error_count(count: usize) -> String {
+    let word = match count {
+        1 => "chyba",
+        2..=4 => "chyby",
+        _ => "chyb",
+    };
+    format!("{count} {word}")
+}
+
+/// Collapses runs of whitespace.
 pub fn squish(text: &str) -> String {
     text.split_whitespace().collect::<Vec<_>>().join(" ")
 }

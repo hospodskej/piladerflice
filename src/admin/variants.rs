@@ -3,39 +3,37 @@
 
 use std::path::Path;
 
-use super::record::{Table, Values, boolean, integer, text};
+use super::messages::{blank, invalid, not_a_number, not_above, taken};
+use super::record::{Table, Values, boolean, integer, parse_integer, text};
 use crate::db::Db;
-use crate::i18n::Translations;
-use crate::locale::Locale;
+use crate::forms::Errors;
 use crate::models::upload::Owner;
-use crate::models::validation::{Errors, Validator};
 use crate::storage;
 
 pub const VARIANT_GROUPS: [&str; 2] = ["kontejner", "bedny"];
 
 pub const TABLE: Table = Table {
     name: "catalog_variants",
-    param: "catalog_variant",
     columns: &[
-        integer("catalog_product_id", None),
+        integer("catalog_product_id", "Produkt", None),
         text("key"),
         text("variant_group"),
         text("length_label"),
         text("variant_label"),
         text("variant_label_de"),
-        integer("amount_value", None),
+        integer("amount_value", "Množství", None),
         boolean("stacked", false),
-        integer("price_czk", None),
+        integer("price_czk", "Cena", None),
         boolean("in_stock", true),
-        integer("position", Some("0")),
+        integer("position", "Pořadí", Some("0")),
         text("grade"),
         text("grade_de"),
-        integer("width_mm", None),
-        integer("height_mm", None),
+        integer("width_mm", "Šířka", None),
+        integer("height_mm", "Výška", None),
     ],
 };
 
-pub const PERMITTED: [&str; 15] = [
+pub const FORM_FIELDS: [&str; 14] = [
     "key",
     "variant_group",
     "length_label",
@@ -50,7 +48,6 @@ pub const PERMITTED: [&str; 15] = [
     "grade_de",
     "width_mm",
     "height_mm",
-    "image",
 ];
 
 /// Where the record's photo is stored.
@@ -60,11 +57,11 @@ pub fn image(id: i64) -> (Owner, i64) {
 
 /// The variant's checks, in Rails' order: key given and not used by another
 /// variant of the same product, a price above zero, a known group.
-pub async fn validate(db: &Db, translations: &Translations, values: &Values, id: Option<i64>) -> sqlx::Result<Errors> {
-    let mut check = Validator::new(translations, Locale::Cs, "catalog_variant");
+pub async fn validate(db: &Db, values: &Values, id: Option<i64>) -> sqlx::Result<Errors> {
+    let mut errors = Errors::new();
     match values.get("key") {
         Some(key) if !key.trim().is_empty() => {
-            let taken: Option<i64> = sqlx::query_scalar(
+            let existing: Option<i64> = sqlx::query_scalar(
                 "SELECT id FROM catalog_variants WHERE key = ? AND catalog_product_id = ? AND id IS NOT ?",
             )
             .bind(key)
@@ -72,27 +69,28 @@ pub async fn validate(db: &Db, translations: &Translations, values: &Values, id:
             .bind(id)
             .fetch_optional(db)
             .await?;
-            if taken.is_some() {
-                check.add("key", "taken");
+            if existing.is_some() {
+                errors.add("key", taken("Klíč"));
             }
         }
-        _ => check.add("key", "blank"),
+        _ => errors.add("key", blank("Klíč")),
     }
-    // Checked as typed: "12 Kč" is not a number, though it would save as 12.
-    match values
-        .get("price_czk")
-        .and_then(|price| price.trim().parse::<f64>().ok())
-    {
-        Some(price) if price > 0.0 => {}
-        Some(_) => check.add_with_count("price_czk", "greater_than", Some(0)),
-        None => check.add("price_czk", "not_a_number"),
+    // Whole crowns, as typed: "12 Kč" or "12.5" is an error, not 12.
+    match values.get("price_czk").map(str::trim) {
+        None | Some("") => errors.add("price_czk", not_a_number("Cena")),
+        Some(price) => match parse_integer(price) {
+            Some(price) if price > 0 => {}
+            Some(_) => errors.add("price_czk", not_above("Cena", 0)),
+            None => errors.add("price_czk", "Cena musí být celé číslo v korunách"),
+        },
     }
     if let Some(group) = values.get("variant_group")
         && !VARIANT_GROUPS.contains(&group)
     {
-        check.add("variant_group", "inclusion");
+        errors.add("variant_group", invalid("Způsob dodání"));
     }
-    Ok(check.finish())
+    TABLE.check_numbers(values, &mut errors);
+    Ok(errors)
 }
 
 /// Firewood that is neatly stacked: always in crates, in a container when

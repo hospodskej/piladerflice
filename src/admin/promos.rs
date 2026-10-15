@@ -10,7 +10,6 @@ use crate::storage;
 
 pub const TABLE: Table = Table {
     name: "promos",
-    param: "promo",
     columns: &[
         text("title"),
         text("feature_1"),
@@ -26,7 +25,7 @@ pub const TABLE: Table = Table {
     ],
 };
 
-pub const PERMITTED: [&str; 11] = [
+pub const FORM_FIELDS: [&str; 11] = [
     "title",
     "feature_1",
     "feature_2",

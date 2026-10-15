@@ -3,20 +3,20 @@
 //! product's layout uses (container/crates for firewood, sizes for lumber).
 
 use axum::extract::State;
-use axum::http::{Method, StatusCode};
+use axum::http::StatusCode;
 use axum::response::Response;
 use minijinja::context;
 
+use super::chosen_image;
 use super::params::{ProductId, RecordId};
-use super::{chosen_image, method_of};
 use crate::AppState;
 use crate::admin::images;
 use crate::admin::products;
 use crate::admin::record::Values;
-use crate::admin::variants::{self, PERMITTED, TABLE};
-use crate::forms::UploadForm;
+use crate::admin::variants::{self, FORM_FIELDS, TABLE};
+use crate::forms::Errors;
+use crate::forms::{FormData, UploadForm};
 use crate::models::upload::{Owner, image_of};
-use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -63,10 +63,10 @@ pub async fn create(
         return Ok(not_found::page(State(state), req).await);
     };
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     values.set("catalog_product_id", Some(product.id.to_string()));
-    let mut errors = variants::validate(&state.db, &state.translations, &values, None).await?;
-    let image = chosen_image(&form, "catalog_variant[image]", &mut errors).await;
+    let mut errors = variants::validate(&state.db, &values, None).await?;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, &product, None, values, &errors).await?);
     }
@@ -93,11 +93,10 @@ pub async fn edit(
     Ok(form_page(&state, &req, &product, Some(id), values, &Errors::default()).await?)
 }
 
-/// POST with `_method`: "patch" saves the form, "delete" deletes.
-pub async fn change(
+/// POST /admin/catalog_products/{product_id}/catalog_variants/{id}: saves the form.
+pub async fn update(
     State(state): State<AppState>,
     req: Req,
-    http: Method,
     ProductId(product_id): ProductId,
     RecordId(id): RecordId,
     form: UploadForm,
@@ -109,18 +108,9 @@ pub async fn change(
         return Ok(not_found::page(State(state), req).await);
     };
     let back = format!("/admin/catalog_products/{}/edit", product.id);
-    match method_of(&http, &form).as_str() {
-        "patch" | "put" => {}
-        "delete" => {
-            variants::delete(&state.db, &state.config.storage_root, id).await?;
-            req.session.set_flash(Flash::Notice("Varianta byla smazána.".into()));
-            return Ok(redirect::to(&back));
-        }
-        _ => return Ok(not_found::page(State(state), req).await),
-    }
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
-    let mut errors = variants::validate(&state.db, &state.translations, &values, Some(id)).await?;
-    let image = chosen_image(&form, "catalog_variant[image]", &mut errors).await;
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
+    let mut errors = variants::validate(&state.db, &values, Some(id)).await?;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, &product, Some(id), values, &errors).await?);
     }
@@ -129,6 +119,26 @@ pub async fn change(
         images::attach(&state.db, &state.config.storage_root, variants::image(id), &image).await?;
     }
     req.session.set_flash(Flash::Notice("Varianta byla uložena.".into()));
+    Ok(redirect::to(&back))
+}
+
+/// POST .../delete: deletes the variant.
+pub async fn delete(
+    State(state): State<AppState>,
+    req: Req,
+    ProductId(product_id): ProductId,
+    RecordId(id): RecordId,
+    _form: FormData,
+) -> Result {
+    let Some(product) = product(&state, product_id).await? else {
+        return Ok(not_found::page(State(state), req).await);
+    };
+    if variant_of(&state, &product, id).await?.is_none() {
+        return Ok(not_found::page(State(state), req).await);
+    }
+    let back = format!("/admin/catalog_products/{}/edit", product.id);
+    variants::delete(&state.db, &state.config.storage_root, id).await?;
+    req.session.set_flash(Flash::Notice("Varianta byla smazána.".into()));
     Ok(redirect::to(&back))
 }
 
@@ -156,7 +166,7 @@ async fn form_page(
         action => action,
         product => context! { id => product.id, title => &product.title, template => &product.template },
         image => image,
-        f => FormModel::new(TABLE.param, values, errors),
+        f => FormModel::new(values, errors),
     };
     let template = if id.is_some() {
         "admin/catalog_variants/edit.html"

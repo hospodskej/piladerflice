@@ -1,13 +1,12 @@
 //! /admin/orders: the list, one order, deleting.
 
 use axum::extract::State;
-use axum::http::Method;
 use minijinja::{Value, context};
 
 use super::params::RecordId;
-use super::{czk, date, method_of};
+use super::{czk, date};
 use crate::AppState;
-use crate::forms::UploadForm;
+use crate::forms::FormData;
 use crate::locale::Locale;
 use crate::models::order::{Order, country_name};
 use crate::request::Req;
@@ -99,15 +98,9 @@ pub async fn show(State(state): State<AppState>, req: Req, RecordId(id): RecordI
     Ok(admin_layout::render(&state, &req, "admin/orders/show.html", data))
 }
 
-/// POST with `_method=delete` (the "Smazat" buttons).
-pub async fn change(
-    State(state): State<AppState>,
-    req: Req,
-    http: Method,
-    RecordId(id): RecordId,
-    form: UploadForm,
-) -> Result {
-    if method_of(&http, &form) != "delete" || Order::find(&state.db, id).await?.is_none() {
+/// POST /admin/orders/{id}/delete (the "Smazat" buttons).
+pub async fn delete(State(state): State<AppState>, req: Req, RecordId(id): RecordId, _form: FormData) -> Result {
+    if Order::find(&state.db, id).await?.is_none() {
         return Ok(not_found::page(State(state), req).await);
     }
     Order::delete(&state.db, id).await?;

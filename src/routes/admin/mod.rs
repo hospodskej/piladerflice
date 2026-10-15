@@ -1,7 +1,7 @@
 //! The admin area (/admin), Czech only. Every page and form is behind
-//! [`guard::require_admin`]. One file per section, like the Rails
-//! controllers; what the records are and how they are checked lives in
-//! `src/admin/`.
+//! [`guard::require_admin`]. One file per section; what the records are and
+//! how they are checked lives in `src/admin/`. Forms post to the record's
+//! URL to save it, and to `.../delete` to delete it.
 
 mod dashboard;
 mod guard;
@@ -16,7 +16,6 @@ mod variants;
 
 use axum::Router;
 use axum::extract::DefaultBodyLimit;
-use axum::http::Method;
 use axum::middleware;
 use axum::routing::{get, post};
 use chrono::NaiveDateTime;
@@ -24,30 +23,22 @@ use chrono::NaiveDateTime;
 use crate::AppState;
 use crate::admin::images::{self, Image};
 use crate::czech_time;
-use crate::forms::{MAX_ADMIN_UPLOAD_BYTES, UploadForm};
-use crate::models::validation::Errors;
+use crate::forms::{Errors, MAX_ADMIN_UPLOAD_BYTES, UploadForm};
 use crate::money::delimit;
 
 pub fn router(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/", get(dashboard::index))
         .route("/orders", get(orders::index))
-        .route(
-            "/orders/{id}",
-            get(orders::show).post(orders::change).delete(orders::change),
-        )
+        .route("/orders/{id}", get(orders::show))
+        .route("/orders/{id}/delete", post(orders::delete))
         .route("/inquiries", get(inquiries::index))
         .route("/inquiries/{id}", get(inquiries::show))
         .route("/catalog_products", get(products::index).post(products::create))
         .route("/catalog_products/new", get(products::new))
         .route("/catalog_products/{id}/edit", get(products::edit))
-        .route(
-            "/catalog_products/{id}",
-            post(products::change)
-                .patch(products::change)
-                .put(products::change)
-                .delete(products::change),
-        )
+        .route("/catalog_products/{id}", post(products::update))
+        .route("/catalog_products/{id}/delete", post(products::delete))
         .route(
             "/catalog_products/{product_id}/catalog_variants",
             post(variants::create),
@@ -62,65 +53,29 @@ pub fn router(state: AppState) -> Router<AppState> {
         )
         .route(
             "/catalog_products/{product_id}/catalog_variants/{id}",
-            post(variants::change)
-                .patch(variants::change)
-                .put(variants::change)
-                .delete(variants::change),
+            post(variants::update),
+        )
+        .route(
+            "/catalog_products/{product_id}/catalog_variants/{id}/delete",
+            post(variants::delete),
         )
         .route("/promos", get(promos::index).post(promos::create))
         .route("/promos/new", get(promos::new))
         .route("/promos/{id}/edit", get(promos::edit))
-        .route(
-            "/promos/{id}",
-            post(promos::change)
-                .patch(promos::change)
-                .put(promos::change)
-                .delete(promos::change),
-        )
+        .route("/promos/{id}", post(promos::update))
+        .route("/promos/{id}/delete", post(promos::delete))
         .route("/pricelist_items", get(pricelist::index).post(pricelist::create))
-        .route(
-            "/pricelist_items/{id}",
-            post(pricelist::change)
-                .patch(pricelist::change)
-                .put(pricelist::change)
-                .delete(pricelist::change),
-        )
-        .route(
-            "/pricelist_items/{id}/move_up",
-            post(pricelist::move_up).patch(pricelist::move_up),
-        )
-        .route(
-            "/pricelist_items/{id}/move_down",
-            post(pricelist::move_down).patch(pricelist::move_down),
-        )
+        .route("/pricelist_items/{id}", post(pricelist::update))
+        .route("/pricelist_items/{id}/delete", post(pricelist::delete))
+        .route("/pricelist_items/{id}/move_up", post(pricelist::move_up))
+        .route("/pricelist_items/{id}/move_down", post(pricelist::move_down))
         .route("/inquiry_form_options", get(options::index).post(options::create))
-        .route(
-            "/inquiry_form_options/{id}",
-            post(options::change)
-                .patch(options::change)
-                .put(options::change)
-                .delete(options::change),
-        )
-        .route(
-            "/inquiry_form_options/{id}/move_up",
-            post(options::move_up).patch(options::move_up),
-        )
-        .route(
-            "/inquiry_form_options/{id}/move_down",
-            post(options::move_down).patch(options::move_down),
-        )
+        .route("/inquiry_form_options/{id}", post(options::update))
+        .route("/inquiry_form_options/{id}/delete", post(options::delete))
+        .route("/inquiry_form_options/{id}/move_up", post(options::move_up))
+        .route("/inquiry_form_options/{id}/move_down", post(options::move_down))
         .layer(DefaultBodyLimit::max(MAX_ADMIN_UPLOAD_BYTES))
         .route_layer(middleware::from_fn_with_state(state, guard::require_admin))
-}
-
-/// What a form asks for: the HTTP method, or for a POST its Rails-style
-/// `_method` ("patch", "delete").
-fn method_of(http: &Method, form: &UploadForm) -> String {
-    if http == Method::POST {
-        form.get("_method").unwrap_or("post").to_lowercase()
-    } else {
-        http.as_str().to_ascii_lowercase()
-    }
 }
 
 /// The photo chosen in a form's `field`, checked; None when none was
@@ -129,7 +84,7 @@ async fn chosen_image(form: &UploadForm, field: &str, errors: &mut Errors) -> Op
     match images::from_form(form, field).await {
         Ok(image) => image,
         Err(_) => {
-            errors.push("image", images::NOT_AN_IMAGE.into());
+            errors.add("image", images::NOT_AN_IMAGE);
             None
         }
     }

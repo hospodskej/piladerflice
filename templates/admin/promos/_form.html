@@ -1,17 +1,17 @@
 {# The promo form (new and edit). #}
-<form class="admin-form" enctype="multipart/form-data" action="{{ '/admin/promos/' ~ id if id else '/admin/promos' }}" accept-charset="UTF-8" method="post">{% if id %}<input type="hidden" name="_method" value="patch" />{% endif %}{{ token_field() }}
+<form class="admin-form" enctype="multipart/form-data" action="{{ '/admin/promos/' ~ id if id else '/admin/promos' }}" accept-charset="UTF-8" method="post">{{ csrf_field() }}
   {% include "admin/shared/_errors.html" %}
 
   <div class="admin-form-grid">
     <div class="form-group">
-      <label for="promo_image">Obrázek</label>
+      <label for="image">Obrázek</label>
       {% if image %}<img class="admin-image-preview" src="{{ image }}" />{% endif %}
       {{ file_field(f, "image", accept="image/*") }}
       <p class="admin-form-hint">Nahrajte novou fotku pro nahrazení aktuální. Necháte-li prázdné, zůstane aktuální obrázek.</p>
     </div>
 
     <div class="form-group">
-      <label for="promo_link">Odkaz tlačítka</label>
+      <label for="link">Odkaz tlačítka</label>
       {{ text_field(f, "link", placeholder="/eshop/akat") }}
     </div>
   </div>
@@ -19,7 +19,7 @@
   <h2 class="admin-section-title">Český obsah</h2>
   <div class="admin-form-grid">
     <div class="form-group form-group-wide">
-      <label for="promo_title">Název</label>
+      <label for="title">Název</label>
       {{ text_field(f, "title") }}
     </div>
     {% for n in [1, 2, 3] %}
@@ -29,7 +29,7 @@
     </div>
     {% endfor %}
     <div class="form-group">
-      <label for="promo_price">Cena</label>
+      <label for="price">Cena</label>
       {{ text_field(f, "price", placeholder="od 1500 / 1 PRMS") }}
     </div>
   </div>
@@ -38,7 +38,7 @@
   <p class="admin-form-hint" style="margin-bottom: 14px;">Pokud necháte prázdné, zobrazí se automaticky český text.</p>
   <div class="admin-form-grid">
     <div class="form-group form-group-wide">
-      <label for="promo_title_de">Název (DE)</label>
+      <label for="title_de">Název (DE)</label>
       {{ text_field(f, "title_de") }}
     </div>
     {% for n in [1, 2, 3] %}
@@ -48,7 +48,7 @@
     </div>
     {% endfor %}
     <div class="form-group">
-      <label for="promo_price_de">Cena (DE)</label>
+      <label for="price_de">Cena (DE)</label>
       {{ text_field(f, "price_de", placeholder="ab 1500 / 1 Rm") }}
     </div>
   </div>

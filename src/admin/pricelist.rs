@@ -1,13 +1,12 @@
 //! The price list (Ceník) on the contact page, edited as one table per
 //! category. The public side is `models/pricelist.rs`.
 
+use super::messages::blank;
 use super::ordering;
 use super::record::{Table, Values, integer, text};
 use crate::db::Db;
-use crate::i18n::Translations;
-use crate::locale::Locale;
+use crate::forms::Errors;
 use crate::models::pricelist::FIREWOOD_CATEGORIES;
-use crate::models::validation::{Errors, Validator};
 
 /// The categories in page order, with the columns each table shows.
 /// Kamenivo is a single price.
@@ -25,7 +24,6 @@ pub const SINGLE_ITEM_CATEGORIES: [&str; 1] = ["kamenivo"];
 
 pub const TABLE: Table = Table {
     name: "pricelist_items",
-    param: "pricelist_item",
     columns: &[
         text("category"),
         text("item_name"),
@@ -36,11 +34,11 @@ pub const TABLE: Table = Table {
         text("subcategory_de"),
         text("price"),
         text("price_de"),
-        integer("position", Some("0")),
+        integer("position", "Pořadí", Some("0")),
     ],
 };
 
-pub const PERMITTED: [&str; 9] = [
+pub const FORM_FIELDS: [&str; 9] = [
     "category",
     "item_name",
     "item_name_de",
@@ -62,22 +60,22 @@ pub fn fields_of(category: &str) -> &'static [&'static str] {
 
 /// Rails' order: a known category, a price, a name where the table has
 /// one, the wood where it is firewood.
-pub fn validate(translations: &Translations, values: &Values) -> Errors {
-    let mut check = Validator::new(translations, Locale::Cs, "pricelist_item");
+pub fn validate(values: &Values) -> Errors {
+    let mut errors = Errors::new();
     let category = values.get("category").unwrap_or_default();
     if !CATEGORY_FIELDS.iter().any(|(name, _)| *name == category) {
-        check.add("category", "inclusion");
+        errors.add("category", "Kategorie není platná");
     }
     if !values.is_present("price") {
-        check.add("price", "blank");
+        errors.add("price", blank("Cena"));
     }
     if fields_of(category).contains(&"item_name") && !values.is_present("item_name") {
-        check.add("item_name", "blank");
+        errors.add("item_name", blank("Název"));
     }
     if FIREWOOD_CATEGORIES.contains(&category) && !values.is_present("subcategory") {
-        check.add("subcategory", "blank");
+        errors.add("subcategory", blank("Dřevina"));
     }
-    check.finish()
+    errors
 }
 
 /// The position for a new item: after the last one of its category.

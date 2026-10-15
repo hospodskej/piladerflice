@@ -2,20 +2,20 @@
 //! (with their variants listed below the form), deleting them.
 
 use axum::extract::State;
-use axum::http::{Method, StatusCode};
+use axum::http::StatusCode;
 use axum::response::Response;
 use minijinja::{Value, context};
 
 use super::params::RecordId;
-use super::{chosen_image, czk, method_of};
+use super::{chosen_image, czk};
 use crate::AppState;
 use crate::admin::images;
-use crate::admin::products::{self, PERMITTED, TABLE};
+use crate::admin::products::{self, FORM_FIELDS, TABLE};
 use crate::admin::record::Values;
 use crate::admin::variants;
-use crate::forms::UploadForm;
+use crate::forms::Errors;
+use crate::forms::{FormData, UploadForm};
 use crate::models::upload::{Owner, image_of};
-use crate::models::validation::Errors;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -47,10 +47,10 @@ pub async fn new(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     products::normalize(&mut values);
-    let mut errors = products::validate(&state.db, &state.translations, &values, None).await?;
-    let image = chosen_image(&form, "catalog_product[image]", &mut errors).await;
+    let mut errors = products::validate(&state.db, &values, None).await?;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, None, values, &errors).await?);
     }
@@ -71,30 +71,15 @@ pub async fn edit(State(state): State<AppState>, req: Req, RecordId(id): RecordI
     Ok(form_page(&state, &req, Some(id), values, &Errors::default()).await?)
 }
 
-/// POST with `_method`: "patch" saves the form, "delete" deletes.
-pub async fn change(
-    State(state): State<AppState>,
-    req: Req,
-    http: Method,
-    RecordId(id): RecordId,
-    form: UploadForm,
-) -> Result {
+/// POST /admin/catalog_products/{id}: saves the form.
+pub async fn update(State(state): State<AppState>, req: Req, RecordId(id): RecordId, form: UploadForm) -> Result {
     let Some(mut values) = TABLE.find(&state.db, id).await? else {
         return Ok(not_found::page(State(state), req).await);
     };
-    match method_of(&http, &form).as_str() {
-        "patch" | "put" => {}
-        "delete" => {
-            products::delete(&state.db, &state.config.storage_root, id).await?;
-            req.session.set_flash(Flash::Notice("Produkt byl smazán.".into()));
-            return Ok(redirect::to("/admin/catalog_products"));
-        }
-        _ => return Ok(not_found::page(State(state), req).await),
-    }
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     products::normalize(&mut values);
-    let mut errors = products::validate(&state.db, &state.translations, &values, Some(id)).await?;
-    let image = chosen_image(&form, "catalog_product[image]", &mut errors).await;
+    let mut errors = products::validate(&state.db, &values, Some(id)).await?;
+    let image = chosen_image(&form, "image", &mut errors).await;
     if !errors.is_empty() {
         return Ok(form_page(&state, &req, Some(id), values, &errors).await?);
     }
@@ -104,6 +89,16 @@ pub async fn change(
     }
     req.session.set_flash(Flash::Notice("Produkt byl uložen.".into()));
     Ok(redirect::to(&format!("/admin/catalog_products/{id}/edit")))
+}
+
+/// POST .../delete: deletes the product with its variants and pictures.
+pub async fn delete(State(state): State<AppState>, req: Req, RecordId(id): RecordId, _form: FormData) -> Result {
+    if TABLE.find(&state.db, id).await?.is_none() {
+        return Ok(not_found::page(State(state), req).await);
+    }
+    products::delete(&state.db, &state.config.storage_root, id).await?;
+    req.session.set_flash(Flash::Notice("Produkt byl smazán.".into()));
+    Ok(redirect::to("/admin/catalog_products"))
 }
 
 /// The new or edit page; with errors (422) when the form didn't save.
@@ -130,7 +125,7 @@ async fn form_page(
         title => title,
         image => image,
         variants => variants,
-        f => FormModel::new(TABLE.param, values, errors),
+        f => FormModel::new(values, errors),
     };
     let template = if id.is_some() {
         "admin/catalog_products/edit.html"

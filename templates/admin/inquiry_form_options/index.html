@@ -15,9 +15,9 @@
       <h2>{{ list.label }}</h2>
 
       {% for option in list.choices %}
-        <form id="option-{{ option.id }}-form" action="/admin/inquiry_form_options/{{ option.id }}" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" />{{ token_field() }}</form>
+        <form id="option-{{ option.id }}-form" action="/admin/inquiry_form_options/{{ option.id }}" accept-charset="UTF-8" method="post">{{ csrf_field() }}</form>
       {% endfor %}
-      <form id="{{ new_option_form_id }}" action="/admin/inquiry_form_options" accept-charset="UTF-8" method="post">{{ token_field() }}</form>
+      <form id="{{ new_option_form_id }}" action="/admin/inquiry_form_options" accept-charset="UTF-8" method="post">{{ csrf_field() }}</form>
 
       <table class="admin-table">
         <thead>
@@ -33,25 +33,25 @@
             {% set option_form_id = "option-" ~ option.id ~ "-form" %}
             <tr>
               <td class="admin-option-move">
-                {{ button_to("↑", "/admin/inquiry_form_options/" ~ option.id ~ "/move_up", method="patch", class="admin-move-btn") }}
-                {{ button_to("↓", "/admin/inquiry_form_options/" ~ option.id ~ "/move_down", method="patch", class="admin-move-btn") }}
+                {{ action_button("↑", "/admin/inquiry_form_options/" ~ option.id ~ "/move_up", class="admin-move-btn") }}
+                {{ action_button("↓", "/admin/inquiry_form_options/" ~ option.id ~ "/move_down", class="admin-move-btn") }}
               </td>
-              <td>{{ text_field_tag("inquiry_form_option[value]", option.value, form=option_form_id) }}</td>
-              <td>{{ text_field_tag("inquiry_form_option[value_de]", option.value_de, form=option_form_id) }}</td>
+              <td>{{ text_input("value", option.value, form=option_form_id) }}</td>
+              <td>{{ text_input("value_de", option.value_de, form=option_form_id) }}</td>
               <td class="admin-option-actions">
                 {{ submit("Uložit", form=option_form_id, class="btn-outline-dark") }}
-                {{ button_to("Smazat", "/admin/inquiry_form_options/" ~ option.id, method="delete", class="admin-danger-btn", confirm="Opravdu smazat tuto možnost?") }}
+                {{ action_button("Smazat", "/admin/inquiry_form_options/" ~ option.id ~ "/delete", class="admin-danger-btn", confirm="Opravdu smazat tuto možnost?") }}
               </td>
             </tr>
           {% endfor %}
           <tr>
             <td></td>
             <td>
-              {{ hidden_field_tag("inquiry_form_option[category]", category.name, form=new_option_form_id) }}
-              {{ hidden_field_tag("inquiry_form_option[field]", list.field, form=new_option_form_id) }}
-              {{ text_field_tag("inquiry_form_option[value]", none, placeholder="Nová možnost (CZ)", form=new_option_form_id) }}
+              {{ hidden_input("category", category.name, form=new_option_form_id) }}
+              {{ hidden_input("field", list.field, form=new_option_form_id) }}
+              {{ text_input("value", none, placeholder="Nová možnost (CZ)", form=new_option_form_id) }}
             </td>
-            <td>{{ text_field_tag("inquiry_form_option[value_de]", none, placeholder="Nová možnost (DE)", form=new_option_form_id) }}</td>
+            <td>{{ text_input("value_de", none, placeholder="Nová možnost (DE)", form=new_option_form_id) }}</td>
             <td>{{ submit("+ Přidat možnost", form=new_option_form_id, class="btn-primary") }}</td>
           </tr>
         </tbody>

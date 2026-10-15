@@ -2,15 +2,13 @@
 //! row its own little form; plus a row for adding and ↑/↓ for the order.
 
 use axum::extract::State;
-use axum::http::Method;
 use minijinja::context;
 
-use super::method_of;
 use super::params::RecordId;
 use crate::AppState;
-use crate::admin::pricelist::{self, CATEGORY_FIELDS, PERMITTED, SINGLE_ITEM_CATEGORIES, TABLE};
+use crate::admin::pricelist::{self, CATEGORY_FIELDS, FORM_FIELDS, SINGLE_ITEM_CATEGORIES, TABLE};
 use crate::admin::record::Values;
-use crate::forms::UploadForm;
+use crate::forms::{FormData, UploadForm};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
@@ -52,9 +50,9 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
 
 pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -> Result {
     let mut values = TABLE.new_record();
-    TABLE.assign(&mut values, &form.fields, &PERMITTED);
+    TABLE.assign(&mut values, &form.fields, &FORM_FIELDS);
     let category = values.get("category").unwrap_or_default().to_string();
-    let errors = pricelist::validate(&state.translations, &values);
+    let errors = pricelist::validate(&values);
     if !errors.is_empty() {
         req.session.set_flash(Flash::Alert(errors.messages().join(", ")));
         return Ok(redirect::to(&back_to(&category)));
@@ -68,37 +66,33 @@ pub async fn create(State(state): State<AppState>, req: Req, form: UploadForm) -
     Ok(redirect::to(&back_to(&category)))
 }
 
-/// POST with `_method`: "patch" saves the row, "delete" deletes it.
-pub async fn change(
-    State(state): State<AppState>,
-    req: Req,
-    http: Method,
-    RecordId(id): RecordId,
-    form: UploadForm,
-) -> Result {
+/// POST /admin/pricelist_items/{id}: saves a row.
+pub async fn update(State(state): State<AppState>, req: Req, RecordId(id): RecordId, form: UploadForm) -> Result {
     let Some(mut values) = TABLE.find(&state.db, id).await? else {
         return Ok(not_found::page(State(state), req).await);
     };
     let category = values.get("category").unwrap_or_default().to_string();
-    match method_of(&http, &form).as_str() {
-        "patch" | "put" => {}
-        "delete" => {
-            TABLE.delete(&state.db, id).await?;
-            req.session.set_flash(Flash::Notice("Položka byla smazána.".into()));
-            return Ok(redirect::to(&back_to(&category)));
-        }
-        _ => return Ok(not_found::page(State(state), req).await),
-    }
     // The category stays: an item doesn't move to another table.
-    let editable: Vec<&str> = PERMITTED.into_iter().filter(|name| *name != "category").collect();
+    let editable: Vec<&str> = FORM_FIELDS.into_iter().filter(|name| *name != "category").collect();
     TABLE.assign(&mut values, &form.fields, &editable);
-    let errors = pricelist::validate(&state.translations, &values);
+    let errors = pricelist::validate(&values);
     if errors.is_empty() {
         TABLE.update(&state.db, id, &values).await?;
         req.session.set_flash(Flash::Notice("Položka byla uložena.".into()));
     } else {
         req.session.set_flash(Flash::Alert(errors.messages().join(", ")));
     }
+    Ok(redirect::to(&back_to(&category)))
+}
+
+/// POST /admin/pricelist_items/{id}/delete.
+pub async fn delete(State(state): State<AppState>, req: Req, RecordId(id): RecordId, _form: FormData) -> Result {
+    let Some(values) = TABLE.find(&state.db, id).await? else {
+        return Ok(not_found::page(State(state), req).await);
+    };
+    let category = values.get("category").unwrap_or_default().to_string();
+    TABLE.delete(&state.db, id).await?;
+    req.session.set_flash(Flash::Notice("Položka byla smazána.".into()));
     Ok(redirect::to(&back_to(&category)))
 }
 

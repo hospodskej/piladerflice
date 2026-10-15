@@ -204,4 +204,19 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
 
     assert_select ".avatar-box .checkout-box-title", "Profilbild"
   end
+
+  test "without libvips an upload is refused politely and nothing is stored" do
+    sign_in
+    # As if libvips weren't installed (vips_available? remembers its answer).
+    AvatarSanitizer.instance_variable_set(:@vips_available, false)
+    begin
+      upload(image_file("png"))
+    ensure
+      AvatarSanitizer.remove_instance_variable(:@vips_available)
+    end
+
+    assert_redirected_to edit_account_path
+    assert_equal I18n.t("auth.avatar_errors.unavailable"), flash[:alert]
+    assert_not @user.reload.avatar.attached?
+  end
 end

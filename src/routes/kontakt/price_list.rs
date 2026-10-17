@@ -2,32 +2,14 @@
 
 use std::collections::HashMap;
 
-use minijinja::{Value, context};
-use serde::Serialize;
-
 use crate::AppState;
 use crate::locale::Locale;
 use crate::models::pricelist::{self, PricelistItem, pricelist_html};
 use crate::money::Money;
+use crate::ui::contact::{PriceGroup, PriceList, PriceRow};
 
-#[derive(Serialize)]
-struct PriceRow {
-    name: String,
-    details: String,
-    price: String,
-    /// "---" means "no price", shown without the "/ PRM" suffix.
-    has_price: bool,
-}
-
-#[derive(Serialize)]
-struct PriceGroup {
-    name: String,
-    items: Vec<PriceRow>,
-}
-
-/// The template variables of every table: stavebni, palivove_volne,
-/// palivove_skladane, zbytky, kamenivo, sluzby_cenik.
-pub async fn load(state: &AppState, money: &Money) -> sqlx::Result<Value> {
+/// Every table, in the page's language and currency.
+pub async fn load(state: &AppState, money: &Money) -> sqlx::Result<PriceList> {
     let locale = money.locale;
     let mut by_category: HashMap<String, Vec<PricelistItem>> = HashMap::new();
     for item in pricelist::pricelist(&state.db).await? {
@@ -39,13 +21,13 @@ pub async fn load(state: &AppState, money: &Money) -> sqlx::Result<Value> {
     let items = |category: &str| by_category.get(category).map(Vec::as_slice).unwrap_or_default();
     let kamenivo = items("kamenivo").first().map(|item| pricelist_html(&item.price(money)));
 
-    Ok(context! {
-        stavebni => rows(items("stavebni"), locale, money),
-        palivove_volne => groups(items("palivove_volne"), locale, money),
-        palivove_skladane => groups(items("palivove_skladane"), locale, money),
-        zbytky => rows(items("zbytky"), locale, money),
+    Ok(PriceList {
+        stavebni: rows(items("stavebni"), locale, money),
+        palivove_volne: groups(items("palivove_volne"), locale, money),
+        palivove_skladane: groups(items("palivove_skladane"), locale, money),
+        zbytky: rows(items("zbytky"), locale, money),
         kamenivo,
-        sluzby_cenik => rows(items("sluzby"), locale, money),
+        sluzby: rows(items("sluzby"), locale, money),
     })
 }
 

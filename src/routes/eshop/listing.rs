@@ -1,15 +1,17 @@
 //! GET /eshop?category=&wood=&sort=: the product grid.
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::super::Result;
-use super::super::components::ProductCard;
 use crate::AppState;
 use crate::models::catalog::{self, CATEGORIES, CatalogProduct};
 use crate::models::upload::{self, Owner};
 use crate::request::Req;
-use crate::views::{self, Page};
+use crate::ui::eshop::{Listing, ListingPage};
+use crate::ui::shared::ProductCard;
+use crate::ui::{self};
+use crate::views::Page;
 
 /// The default order, and the "bestsellers" order, by product key.
 const RECOMMENDED: [&str; 10] = [
@@ -74,13 +76,12 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         .collect();
 
     let page = Page::meta(&state, &req, &format!("eshop_{category}"));
-    let palivove = category_param.is_empty() || category_param == "palivove";
-    Ok(views::render(
-        &state,
-        &req,
-        "home/eshop.html",
-        page,
-        context! { cards, category_param, wood, sort, palivove },
-    )
-    .await)
+    let listing = Listing {
+        cards,
+        firewood: category_param.is_empty() || category_param == "palivove",
+        category: category_param,
+        wood,
+        sort,
+    };
+    Ok(ui::render::page(&state, &req, page, move || view! { <ListingPage listing=listing/> }).await)
 }

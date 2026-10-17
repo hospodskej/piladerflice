@@ -3,17 +3,19 @@
 
 use axum::extract::State;
 use chrono::NaiveDate;
-use minijinja::context;
-use serde::Serialize;
+use leptos::prelude::*;
 
 use super::Result;
-use super::components::{CategoryTile, ProductCard, business_schema, category_tile};
+use super::components::{business_schema, category_tile};
 use crate::AppState;
 use crate::models::upload::{self, Owner, Upload};
 use crate::models::{catalog, content};
 use crate::money::Money;
 use crate::request::Req;
-use crate::views::{self, Page};
+use crate::ui::home::{HomeData, HomePage, Promo, Review, ServiceItem, Slide};
+use crate::ui::shared::{CategoryTile, ProductCard};
+use crate::ui::{self};
+use crate::views::Page;
 
 /// The products featured as bestsellers, in this order.
 const BESTSELLER_KEYS: [&str; 3] = ["akat", "tramy", "dub"];
@@ -22,41 +24,28 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let money = state.rates.money(req.locale).await;
     let today = crate::czech_time::today();
 
-    let promo = promo(&state, &req, &money, today).await?;
-    let bestsellers = bestsellers(&state, &money).await?;
     let tiles: Vec<CategoryTile> = category_tile::all(&state, &req).await?;
-    let services = services(&state, &req).await?;
-    let slides = slides(&state, &req).await?;
-    let reviews = reviews(&state, &req, today).await?;
+    let data = HomeData {
+        promo: promo(&state, &req, &money, today).await?,
+        bestsellers: bestsellers(&state, &money).await?,
+        tiles,
+        services: services(&state, &req).await?,
+        slides: slides(&state, &req).await?,
+        reviews: reviews(&state, &req, today).await?,
+    };
 
     let mut page = Page::meta(&state, &req, "home").brand_only_title(&state, &req, "home");
-    page.head_html = Some(business_schema::tag(&state, &req));
-    Ok(views::render(
-        &state,
-        &req,
-        "home/index.html",
-        page,
-        context! { promo, bestsellers, tiles, services, slides, reviews },
-    )
-    .await)
-}
-
-#[derive(Serialize)]
-struct PromoView {
-    title: String,
-    features: [String; 3],
-    price: String,
-    link: String,
-    image: Option<String>,
+    page.json_ld = Some(business_schema::json(&state, &req));
+    Ok(ui::render::page(&state, &req, page, move || view! { <HomePage data=data/> }).await)
 }
 
 /// This week's promo; its price in euros for Austria.
-async fn promo(state: &AppState, req: &Req, money: &Money, today: NaiveDate) -> Result<Option<PromoView>> {
+async fn promo(state: &AppState, req: &Req, money: &Money, today: NaiveDate) -> Result<Option<Promo>> {
     let Some(promo) = content::weekly_promo(&state.db, today).await? else {
         return Ok(None);
     };
     let images = upload::images_of(&state.db, Owner::Promo).await?;
-    Ok(Some(PromoView {
+    Ok(Some(Promo {
         title: promo.title(req.locale),
         features: promo.features(req.locale),
         price: money.convert_text(&promo.price(req.locale)),
@@ -77,15 +66,6 @@ async fn bestsellers(state: &AppState, money: &Money) -> Result<Vec<ProductCard>
         .collect())
 }
 
-#[derive(Serialize)]
-struct ServiceItem {
-    title: String,
-    /// Trusted HTML typed in the admin (it has <br> line breaks).
-    content: String,
-    button_text: Option<String>,
-    button_path: Option<String>,
-}
-
 /// The services accordion; a button only when both its text and link are set.
 async fn services(state: &AppState, req: &Req) -> Result<Vec<ServiceItem>> {
     let present = |value: &Option<String>| value.as_deref().is_some_and(|text| !text.trim().is_empty());
@@ -97,18 +77,15 @@ async fn services(state: &AppState, req: &Req) -> Result<Vec<ServiceItem>> {
             ServiceItem {
                 title: service.title(req.locale),
                 content: service.content(req.locale),
-                button_text: has_button.then(|| service.button_text(req.locale)),
-                button_path: has_button.then(|| req.path_for(service.button_path.as_deref().unwrap_or_default())),
+                button: has_button.then(|| {
+                    (
+                        service.button_text(req.locale),
+                        req.path_for(service.button_path.as_deref().unwrap_or_default()),
+                    )
+                }),
             }
         })
         .collect())
-}
-
-#[derive(Serialize)]
-struct Slide {
-    title: String,
-    content: String,
-    image: Option<String>,
 }
 
 async fn slides(state: &AppState, req: &Req) -> Result<Vec<Slide>> {
@@ -123,22 +100,11 @@ async fn slides(state: &AppState, req: &Req) -> Result<Vec<Slide>> {
         .collect())
 }
 
-#[derive(Serialize)]
-struct ReviewView {
-    name: String,
-    avatar: Option<String>,
-    initial: String,
-    color: &'static str,
-    stars: String,
-    time_ago: String,
-    text: String,
-}
-
-async fn reviews(state: &AppState, req: &Req, today: NaiveDate) -> Result<Vec<ReviewView>> {
+async fn reviews(state: &AppState, req: &Req, today: NaiveDate) -> Result<Vec<Review>> {
     Ok(content::reviews(&state.db)
         .await?
         .iter()
-        .map(|review| ReviewView {
+        .map(|review| Review {
             name: review.name.clone(),
             avatar: review.avatar.clone().filter(|avatar| !avatar.trim().is_empty()),
             initial: review.initial(),

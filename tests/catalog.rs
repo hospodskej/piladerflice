@@ -15,7 +15,7 @@ async fn home_shows_promo_bestsellers_services_and_reviews() {
     page.assert_contains(r#"<span class="akcni-nabidka-price">od 8 500 Kč</span>"#);
     page.assert_contains(r#"<span class="nejprodavanejsi-produkty-desc"><strong>Dub</strong></span>"#);
     page.assert_contains("od 11 000 Kč");
-    page.assert_contains(r#"<a class="btn-cenik" href="/sluzby#doprava">Ceník</a>"#);
+    page.assert_contains(r#"<a href="/sluzby#doprava" class="btn-cenik">Ceník</a>"#);
     // Reviews are typed text: escaped.
     page.assert_contains("Skvělé dřevo &lt;3");
     page.assert_contains(r#"<div class="google-review-avatar" style="background-color: #EA4335;">J</div>"#);
@@ -29,7 +29,7 @@ async fn austrian_home_converts_prices_to_euros() {
     page.assert_contains(r#"<span class="akcni-nabidka-price">od ≈ 340,00 €</span>"#);
     page.assert_contains(r#"<h2 class="product-title">Fichte im Angebot</h2>"#);
     page.assert_contains("≈ 440,00 €");
-    page.assert_contains(r#"<a class="akce-btn-eshop" href="/at/eshop/smrk">"#);
+    page.assert_contains(r#"<a href="/at/eshop/smrk" class="akce-btn-eshop">"#);
     page.assert_contains(r#""@id":"http://piladerflice.test/at#business""#);
 }
 
@@ -43,7 +43,7 @@ async fn eshop_lists_a_category_with_badges_and_from_prices() {
     page.assert_lacks("Fošny");
     page.assert_lacks("Skrytý");
     page.assert_contains(
-        r#"<img alt="Smrk" class="product-img" src="/uploads/testkey0000000000000000000001/smrk%20foto.webp">"#,
+        r#"<img alt="Smrk" src="/uploads/testkey0000000000000000000001/smrk%20foto.webp" class="product-img">"#,
     );
 
     let hard = get("/eshop?category=palivove&wood=tvrde").await;
@@ -67,16 +67,16 @@ async fn firewood_page_has_the_container_grid_and_crates() {
     // 13 PRM at 50 cm is sold out
     page.assert_contains(r#"disabled="disabled""#);
     page.assert_contains(r#"<h2 class="section-title">"#);
-    page.assert_contains(r##"<a class="breadcrumb-item active" href="#">Smrk</a>"##);
-    page.assert_contains(r#"<a class="breadcrumb-item " href="/eshop?category=palivove">Palivové dřevo</a>"#);
+    page.assert_contains(r##"<a href="#" class="breadcrumb-item active">Smrk</a>"##);
+    page.assert_contains(r#"<a href="/eshop?category=palivove" class="breadcrumb-item">Palivové dřevo</a>"#);
     assert_eq!(page.body.matches(r#"class="add-to-cart-form""#).count(), 4);
 }
 
 #[tokio::test]
 async fn lumber_page_filters_by_dimension() {
     let page = get("/at/eshop/fosny").await;
-    page.assert_contains(r#"<button type="button" class="filter-btn" data-filter="200x50">200×50 mm</button>"#);
-    page.assert_contains(r#"<div class="inventory-card" data-filter-value="240x60">"#);
+    page.assert_contains(r#"<button type="button" data-filter="200x50" class="filter-btn">200×50 mm</button>"#);
+    page.assert_contains(r#"<div data-filter-value="240x60" class="inventory-card">"#);
     page.assert_contains(r#"<span class="spec-value">Qualität AB</span>"#);
     page.assert_contains("≈ 356,00 €");
 }
@@ -86,7 +86,7 @@ async fn simple_variant_page_marks_sold_out_variants() {
     let page = get("/eshop/stepka").await;
     page.assert_contains(r#"<div class="simple-grid-2">"#);
     page.assert_contains(r#"<span class="spec-value">Kontejner 5 m³</span>"#);
-    page.assert_contains(r#"<p class="spec-value text-red""#);
+    page.assert_contains(r#"class="spec-value text-red" style="#);
     // Without a description, the meta description says what the product is.
     page.assert_contains(r#"<meta name="description" content=""#);
 }
@@ -108,7 +108,7 @@ async fn contact_page_shows_the_price_list_safely() {
     // typed HTML is cleaned
     page.assert_lacks("<script>x</script>");
     page.assert_contains(r#"<option value="Buk">Buk</option>"#);
-    page.assert_contains(r#"<fieldset class="kalkulace-fields-section" data-category="stavebni" hidden disabled>"#);
+    page.assert_contains(r#"<fieldset data-category="stavebni" hidden disabled class="kalkulace-fields-section">"#);
     page.assert_contains(r#"<a target="_blank" rel="noopener" href="/zasady-ochrany-osobnich-udaju">"#);
 
     let german = get("/at/kontakt").await;
@@ -123,8 +123,8 @@ async fn contact_page_shows_the_price_list_safely() {
 #[tokio::test]
 async fn services_page_has_anchors_paragraphs_and_carousels() {
     let page = get("/sluzby").await;
-    page.assert_contains(r#"<div class="sluzba-row " id="doprava">"#);
-    page.assert_contains(r#"<div class="sluzba-row reverse-layout" id="/sluzby">"#);
+    page.assert_contains(r#"<div id="doprava" class="sluzba-row">"#);
+    page.assert_contains(r#"<div id="/sluzby" class="sluzba-row reverse-layout">"#);
     page.assert_contains("<p>Dovezeme.<br><br>Vlastním vozem.</p>");
     page.assert_contains(r#"<li class="carousel-slide active">"#);
     page.assert_lacks("Cenová kalkulace");
@@ -133,7 +133,7 @@ async fn services_page_has_anchors_paragraphs_and_carousels() {
 #[tokio::test]
 async fn sortiment_lists_the_categories() {
     let page = get("/at/sortiment").await;
-    page.assert_contains(r#"<a class="sortiment-card" href="/at/sortiment/palivove-drevo">"#);
+    page.assert_contains(r#"<a href="/at/sortiment/palivove-drevo" class="sortiment-card">"#);
     page.assert_contains("<h3>Brennholz</h3>");
 }
 

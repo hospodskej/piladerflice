@@ -6,8 +6,8 @@ use serde_json::json;
 use crate::AppState;
 use crate::request::Req;
 
-/// The <script> tag with the business data, in the page's language.
-pub fn tag(state: &AppState, req: &Req) -> String {
+/// The business data as JSON-LD, in the page's language.
+pub fn json(state: &AppState, req: &Req) -> String {
     let t = |key: &str| state.translations.text(req.locale, key, &[]);
     local_business_schema(
         req,
@@ -57,10 +57,8 @@ fn local_business_schema(req: &Req, name: &str, description: &str, logo_url: &st
         "sameAs": ["https://www.facebook.com/piladerflice/"]
     });
     // Nothing in the data may end the <script> tag early.
-    let json = data
-        .to_string()
+    data.to_string()
         .replace('<', "\\u003c")
         .replace('>', "\\u003e")
-        .replace('&', "\\u0026");
-    format!(r#"<script type="application/ld+json">{json}</script>"#)
+        .replace('&', "\\u0026")
 }

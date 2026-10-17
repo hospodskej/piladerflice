@@ -1,8 +1,6 @@
 //! The order as it would be placed now: built from the checkout details
 //! and the cart, with the delivery price when it can be calculated.
 
-use minijinja::{Value, context};
-
 use crate::AppState;
 use crate::locale::Locale;
 use crate::models::order::{Order, country_name};
@@ -10,6 +8,7 @@ use crate::request::Req;
 use crate::shop::cart_line::OrderedItem;
 use crate::shop::delivery::DeliveryQuote;
 use crate::shop::vat_in;
+use crate::ui::checkout::{DeliveryView, OrderView};
 
 pub struct Draft {
     pub order: Order,
@@ -58,34 +57,33 @@ pub async fn build(state: &AppState, req: &Req) -> anyhow::Result<Draft> {
     Ok(Draft { order, delivery })
 }
 
-/// The draft as the summary template shows it.
-pub async fn view(state: &AppState, locale: Locale, draft: &Draft) -> Value {
+/// The draft as the summary page shows it.
+pub async fn view(state: &AppState, locale: Locale, draft: &Draft) -> (OrderView, Option<DeliveryView>) {
     let money = state.rates.money(locale).await;
     let order = &draft.order;
     let text = |value: &Option<String>| value.clone().unwrap_or_default();
-    context! {
-        order => context! {
-            shipping_method => text(&order.shipping_method),
-            payment_method => text(&order.payment_method),
-            subtotal => money.display(order.subtotal_czk),
-            total => money.display(order.total_czk),
-            vat => money.display(order.vat_czk),
-            without_vat => money.display(order.total_czk - order.vat_czk),
-            full_name => order.full_name(),
-            email => text(&order.email),
-            phone => text(&order.phone),
-            billing_street => text(&order.billing_street),
-            billing_zip => text(&order.billing_zip),
-            billing_city => text(&order.billing_city),
-            billing_country => country_name(order.billing_country.as_deref(), locale),
-            company_purchase => order.company_purchase,
-            company_name => text(&order.company_name),
-            company_ico => text(&order.company_ico),
-            company_dic => text(&order.company_dic),
-        },
-        delivery => draft.delivery.map(|quote| context! {
-            price => money.display(quote.price_czk()),
-            round_trip_km => quote.round_trip_km(),
-        }),
-    }
+    let view = OrderView {
+        shipping_method: text(&order.shipping_method),
+        payment_method: text(&order.payment_method),
+        subtotal: money.display(order.subtotal_czk),
+        total: money.display(order.total_czk),
+        vat: money.display(order.vat_czk),
+        without_vat: money.display(order.total_czk - order.vat_czk),
+        full_name: order.full_name(),
+        email: text(&order.email),
+        phone: text(&order.phone),
+        billing_street: text(&order.billing_street),
+        billing_zip: text(&order.billing_zip),
+        billing_city: text(&order.billing_city),
+        billing_country: country_name(order.billing_country.as_deref(), locale),
+        company_purchase: order.company_purchase,
+        company_name: text(&order.company_name),
+        company_ico: text(&order.company_ico),
+        company_dic: text(&order.company_dic),
+    };
+    let delivery = draft.delivery.map(|quote| DeliveryView {
+        price: money.display(quote.price_czk()),
+        round_trip_km: quote.round_trip_km(),
+    });
+    (view, delivery)
 }

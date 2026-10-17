@@ -5,13 +5,14 @@ mod price_list;
 mod quote_form;
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::Result;
 use super::components::business_schema;
 use crate::AppState;
 use crate::request::Req;
-use crate::views::{self, Page};
+use crate::ui::{self, contact::ContactPage};
+use crate::views::Page;
 
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let money = state.rates.money(req.locale).await;
@@ -19,13 +20,12 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let form_sections = quote_form::sections(&state, req.locale).await?;
 
     let mut page = Page::meta(&state, &req, "kontakt");
-    page.head_html = Some(business_schema::tag(&state, &req));
-    Ok(views::render(
+    page.json_ld = Some(business_schema::json(&state, &req));
+    Ok(ui::render::page(
         &state,
         &req,
-        "home/kontakt.html",
         page,
-        context! { form_sections, ..prices },
+        move || view! { <ContactPage form_sections prices/> },
     )
     .await)
 }

@@ -1,7 +1,7 @@
 //! /kosik/doprava: delivery country, shipping method and payment method.
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::guard::{self, Step};
 use crate::AppState;
@@ -9,21 +9,21 @@ use crate::forms::FormData;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::shop::delivery::quote::CZK_PER_KM;
-use crate::views::{self, Page, redirect};
+use crate::ui::{self, checkout::ShippingPage};
+use crate::views::{Page, redirect};
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     if let Some(back) = guard::check(&req, Step::Shipping) {
         return Ok(back);
     }
-    let checkout = req.session.read(|data| data.checkout.fields().clone());
+    let checkout = req.session.read(|data| data.checkout.clone());
     let rate_per_km = state.rates.money(req.locale).await.display(CZK_PER_KM);
     let page = Page::meta(&state, &req, "checkout_shipping");
-    Ok(views::render(
+    Ok(ui::render::page(
         &state,
         &req,
-        "checkout/shipping.html",
         page,
-        context! { checkout, rate_per_km },
+        move || view! { <ShippingPage checkout rate_per_km/> },
     )
     .await)
 }

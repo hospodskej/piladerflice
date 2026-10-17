@@ -17,40 +17,117 @@ version = "0.1.0"
 edition = "2024"
 publish = false
 
+# One crate, built twice: the server (feature `ssr`, the default) and the
+# browser part, the islands compiled to WebAssembly (feature `hydrate`).
+# `cargo leptos build` does both; `cargo run` / `cargo test` build the server.
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "piladerflice"
+required-features = ["ssr"]
+
+[features]
+default = ["ssr"]
+ssr = [
+  "leptos/ssr",
+  "dep:hydration_context",
+  "dep:sapwood-i18n",
+  "dep:sapwood-assets",
+  "dep:sapwood-session",
+  "dep:sapwood-forms",
+  "dep:dotenvy",
+  "dep:axum",
+  "dep:tokio",
+  "dep:tower",
+  "dep:tower-http",
+  "dep:minijinja",
+  "dep:minijinja-autoreload",
+  "dep:rand",
+  "dep:form_urlencoded",
+  "dep:tracing",
+  "dep:tracing-subscriber",
+  "dep:anyhow",
+  "dep:sqlx",
+  "dep:chrono",
+  "dep:reqwest",
+  "dep:regex",
+  "dep:ammonia",
+  "dep:deunicode",
+  "dep:base64",
+  "dep:bcrypt",
+  "dep:image",
+  "dep:webp",
+  "dep:md-5",
+  "dep:lettre",
+]
+hydrate = [
+  "leptos/hydrate",
+  "dep:wasm-bindgen",
+  "dep:web-sys",
+  "dep:js-sys",
+  "dep:console_error_panic_hook",
+]
+
 [dependencies]
-sapwood-i18n = { path = "sapwood/sapwood-i18n" }
-sapwood-assets = { path = "sapwood/sapwood-assets" }
-sapwood-session = { path = "sapwood/sapwood-session" }
-sapwood-forms = { path = "sapwood/sapwood-forms" }
-dotenvy = "0.15"
-axum = { version = "0.8", features = ["macros", "multipart"] }
-tokio = { version = "1", features = ["full"] }
-tower = { version = "0.5", features = ["util"] }
-tower-http = { version = "0.6", features = ["trace", "compression-gzip"] }
-minijinja = { version = "2", features = ["loader", "json"] }
-minijinja-autoreload = "2"
+# Both builds
+leptos = { version = "0.8.22", features = ["islands"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
-rand = "0.9"
-form_urlencoded = "1"
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-anyhow = "1"
-sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "chrono", "macros", "migrate"] }
-chrono = { version = "0.4", features = ["serde"] }
-reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
-regex = "1"
-ammonia = "4"
-deunicode = "1"
-base64 = "0.22"
-bcrypt = "0.17"
-image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
-webp = "0.3"
-md-5 = "0.10"
-lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls-tls", "hostname"] }
+
+# The browser build
+wasm-bindgen = { version = "=0.2.129", optional = true }
+js-sys = { version = "0.3", optional = true }
+web-sys = { version = "0.3", optional = true, features = [
+  "Document", "Element", "HtmlElement", "HtmlInputElement", "HtmlSelectElement", "HtmlFormElement",
+  "HtmlDocument", "Window", "Location", "History", "DomRect", "DomTokenList", "CssStyleDeclaration",
+  "Event", "EventTarget", "KeyboardEvent", "MouseEvent", "SubmitEvent", "ScrollToOptions", "ScrollBehavior",
+  "ScrollIntoViewOptions", "ScrollLogicalPosition", "ResizeObserver", "ResizeObserverEntry", "FileList", "File",
+  "FontFaceSet", "Storage",
+] }
+console_error_panic_hook = { version = "0.1", optional = true }
+
+# The server build
+hydration_context = { version = "0.3", optional = true }
+sapwood-i18n = { path = "sapwood/sapwood-i18n", optional = true }
+sapwood-assets = { path = "sapwood/sapwood-assets", optional = true }
+sapwood-session = { path = "sapwood/sapwood-session", optional = true }
+sapwood-forms = { path = "sapwood/sapwood-forms", optional = true }
+dotenvy = { version = "0.15", optional = true }
+axum = { version = "0.8", features = ["macros", "multipart"], optional = true }
+tokio = { version = "1", features = ["full"], optional = true }
+tower = { version = "0.5", features = ["util"], optional = true }
+tower-http = { version = "0.6", features = ["trace", "compression-gzip", "compression-br", "fs", "set-header"], optional = true }
+minijinja = { version = "2", features = ["loader", "json"], optional = true }
+minijinja-autoreload = { version = "2", optional = true }
+rand = { version = "0.9", optional = true }
+form_urlencoded = { version = "1", optional = true }
+tracing = { version = "0.1", optional = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"], optional = true }
+anyhow = { version = "1", optional = true }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "chrono", "macros", "migrate"], optional = true }
+chrono = { version = "0.4", features = ["serde"], optional = true }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"], optional = true }
+regex = { version = "1", optional = true }
+ammonia = { version = "4", optional = true }
+deunicode = { version = "1", optional = true }
+base64 = { version = "0.22", optional = true }
+bcrypt = { version = "0.17", optional = true }
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"], optional = true }
+webp = { version = "0.3", optional = true }
+md-5 = { version = "0.10", optional = true }
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls-tls", "hostname"], optional = true }
 
 [dev-dependencies]
 http-body-util = "0.1"
+
+# Development builds: line numbers in backtraces, but no full debug info
+# (Leptos's deeply nested types make it huge).
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+debug = false
 
 # Fingerprinting the images (sapwood-assets) is hashing-heavy; keep it fast
 # in debug builds too.
@@ -63,3 +140,26 @@ opt-level = 3
 strip = true
 lto = true
 codegen-units = 1
+
+# The WebAssembly build (cargo-leptos): as small as possible.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = false
+
+# cargo-leptos: `cargo leptos build --release` builds the server and the
+# islands; `cargo leptos watch` rebuilds both while you edit.
+[package.metadata.leptos]
+output-name = "piladerflice"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+bin-features = ["ssr"]
+bin-default-features = false
+lib-features = ["hydrate"]
+lib-default-features = false
+lib-profile-release = "wasm-release"
+hash-files = true
+env = "DEV"

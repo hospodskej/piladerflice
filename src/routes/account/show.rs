@@ -1,23 +1,16 @@
 //! GET /muj-ucet: the account overview and the last ten orders.
 
 use axum::extract::State;
-use minijinja::context;
-use serde::Serialize;
+use leptos::prelude::*;
 
 use super::{account_view, require_login};
 use crate::AppState;
 use crate::models::order::Order;
 use crate::request::Req;
 use crate::routes::Result;
-use crate::views::{self, Page};
-
-#[derive(Serialize)]
-struct OrderCard {
-    id: i64,
-    date: String,
-    items: usize,
-    total: String,
-}
+use crate::ui::account::{AccountPage, OrderCard};
+use crate::ui::{self};
+use crate::views::Page;
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     let current = match require_login(&state, &req) {
@@ -39,5 +32,5 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
         .collect();
     let account = account_view(&req, current);
     let page = Page::meta(&state, &req, "account");
-    Ok(views::render(&state, &req, "accounts/show.html", page, context! { account, orders }).await)
+    Ok(ui::render::page(&state, &req, page, move || view! { <AccountPage account orders/> }).await)
 }

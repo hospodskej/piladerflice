@@ -1,6 +1,0 @@
-{# The cart button of a variant, or a greyed-out "sold out" one. #}
-{% if variant.in_stock %}
-{% include "shared/add_to_cart_form.html" %}
-{% else %}
-<form class="button_to" method="post" action="#"><button class="btn-primary btn-cart" disabled="disabled" style="background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" type="submit">{{ t("common.out_of_stock") }}</button><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></form>
-{% endif %}

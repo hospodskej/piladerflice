@@ -1,0 +1,28 @@
+//! The friendly 404 page.
+
+use leptos::prelude::*;
+
+use super::{asset, path, t};
+
+/// `mascot`: one of the mascot pictures.
+#[component]
+pub fn NotFoundPage(mascot: &'static str) -> impl IntoView {
+    view! {
+        <main class="main">
+            <section class="not-found">
+                <img alt=t("not_found.alt") class="not-found-mascot" width="320" height="320" src=asset(mascot)/>
+                <p class="not-found-code">"404"</p>
+                <h1>{t("not_found.heading")}</h1>
+                <p class="not-found-text">{t("not_found.text")}</p>
+                <a class="btn-primary" href=path("/")>{t("not_found.home")}</a>
+                <nav class="not-found-links">
+                    <a href=path("/eshop")>{t("not_found.eshop")}</a>
+                    " "
+                    <a href=path("/sortiment")>{t("not_found.sortiment")}</a>
+                    " "
+                    <a href=path("/kontakt")>{t("not_found.kontakt")}</a>
+                </nav>
+            </section>
+        </main>
+    }
+}

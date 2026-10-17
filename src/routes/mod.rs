@@ -36,6 +36,7 @@ use tower_http::trace::TraceLayer;
 use crate::AppState;
 use crate::assets::Assets;
 use crate::forms::MAX_UPLOAD_BYTES;
+use crate::ui::sortiment::Range;
 
 pub fn router(state: AppState) -> Router {
     Router::new()
@@ -50,11 +51,14 @@ pub fn router(state: AppState) -> Router {
         .route("/kontakt", get(kontakt::index))
         .route("/sluzby", get(sluzby::index))
         .route("/sortiment", get(sortiment::index))
-        .route("/sortiment/palivove-drevo", product_range::page("palivove_drevo"))
-        .route("/sortiment/stavebni-rezivo", product_range::page("stavebni_rezivo"))
-        .route("/sortiment/truhlarske-rezivo", product_range::page("truhlarske_rezivo"))
-        .route("/sortiment/okrasne-kamenivo", product_range::page("okrasne_kamenivo"))
-        .route("/sortiment/vyrobni-zbytky", product_range::page("vyrobni_zbytky"))
+        .route("/sortiment/palivove-drevo", product_range::page(Range::Firewood))
+        .route("/sortiment/stavebni-rezivo", product_range::page(Range::BuildingLumber))
+        .route(
+            "/sortiment/truhlarske-rezivo",
+            product_range::page(Range::JoineryLumber),
+        )
+        .route("/sortiment/okrasne-kamenivo", product_range::page(Range::Gravel))
+        .route("/sortiment/vyrobni-zbytky", product_range::page(Range::Offcuts))
         .route("/eshop", get(eshop::index))
         .route("/eshop/{key}", get(eshop::show))
         // Cart and checkout

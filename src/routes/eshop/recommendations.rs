@@ -3,11 +3,11 @@
 use rand::seq::SliceRandom;
 
 use super::super::Result;
-use super::super::components::ProductCard;
 use crate::AppState;
 use crate::models::catalog::{self, CatalogProduct};
 use crate::models::upload::{self, Owner};
 use crate::money::Money;
+use crate::ui::shared::ProductCard;
 
 pub async fn for_product(state: &AppState, current: &CatalogProduct, money: &Money) -> Result<Vec<ProductCard>> {
     let mut others: Vec<CatalogProduct> = catalog::active_products(&state.db)

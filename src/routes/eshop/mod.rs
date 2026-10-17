@@ -8,7 +8,6 @@ mod lumber;
 mod product;
 mod recommendations;
 mod simple_variant;
-mod variant_view;
 
 pub use listing::index;
 pub use product::show;

@@ -1,4 +1,0 @@
-{# The product rows of a Sortiment page, alternating sides. #}
-{% for product in products %}
-{% with reverse = loop.index is even %}{% include "shared/product_row.html" %}{% endwith %}
-{% endfor %}

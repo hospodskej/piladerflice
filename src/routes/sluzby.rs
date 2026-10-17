@@ -1,24 +1,16 @@
 //! The services page (Služby): one section per service, with photos.
 
 use axum::extract::State;
-use minijinja::context;
-use serde::Serialize;
+use leptos::prelude::*;
 
 use super::Result;
 use super::components::format::simple_format;
 use crate::AppState;
 use crate::models::{content, parameterize};
 use crate::request::Req;
-use crate::views::{self, Page};
-
-#[derive(Serialize)]
-struct ServiceSection {
-    anchor: String,
-    title: String,
-    content: String,
-    button_text: Option<String>,
-    images: Vec<String>,
-}
+use crate::ui::services::{ServiceSection, ServicesPage};
+use crate::ui::{self};
+use crate::views::Page;
 
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let locale = req.locale;
@@ -37,11 +29,15 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
                 .as_deref()
                 .is_some_and(|text| !text.trim().is_empty())
                 .then(|| service.button_text(locale)),
-            images: service.image_list(),
+            images: service
+                .image_list()
+                .iter()
+                .map(|image| state.assets.url(image))
+                .collect(),
         })
         .collect();
     let page = Page::meta(&state, &req, "sluzby");
-    Ok(views::render(&state, &req, "home/sluzby.html", page, context! { sections }).await)
+    Ok(ui::render::page(&state, &req, page, move || view! { <ServicesPage sections=sections/> }).await)
 }
 
 /// The section's id, so links like /sluzby#doprava jump to it:

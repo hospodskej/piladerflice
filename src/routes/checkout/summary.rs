@@ -3,7 +3,7 @@
 
 use axum::extract::State;
 use axum::http::StatusCode;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::guard::{self, Step};
 use super::order_draft::{self, Draft};
@@ -13,7 +13,8 @@ use crate::mail;
 use crate::models::user::{self, PROFILE_FIELDS};
 use crate::request::Req;
 use crate::routes::Result;
-use crate::views::{self, Page, redirect};
+use crate::ui::{self, checkout::SummaryPage};
+use crate::views::{Page, redirect};
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     if let Some(back) = guard::check(&req, Step::Summary) {
@@ -62,14 +63,14 @@ pub async fn confirm(State(state): State<AppState>, req: Req, form: FormData) ->
 }
 
 /// The summary page; with errors (terms not accepted, details missing) it
-/// answers 422, so Turbo shows it in place of the page.
+/// answers 422.
 async fn render(state: &AppState, req: &Req, draft: &Draft, errors: Vec<String>) -> Result {
     let mut page = Page::meta(state, req, "checkout_summary");
     if !errors.is_empty() {
         page.status = Some(StatusCode::UNPROCESSABLE_ENTITY);
     }
-    let data = order_draft::view(state, req.locale, draft).await;
-    Ok(views::render(state, req, "checkout/summary.html", page, context! { errors, ..data }).await)
+    let (order, delivery) = order_draft::view(state, req.locale, draft).await;
+    Ok(ui::render::page(state, req, page, move || view! { <SummaryPage order delivery errors/> }).await)
 }
 
 /// The details entered at checkout become the customer's saved profile.

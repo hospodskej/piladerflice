@@ -1,7 +1,0 @@
-{# The main menu, in the header and in the mobile sidebar. #}
-<a class="nav-link {{ 'active' if current_path == '/' }}" href="{{ path('/') }}">{{ t("nav.domu") }}</a>
-<a class="nav-link {{ 'active' if current_path == '/eshop' }}" href="{{ path('/eshop') }}">{{ t("nav.eshop") }}</a>
-<a class="nav-link {{ 'active' if current_path == '/sortiment' }}" href="{{ path('/sortiment') }}">{{ t("nav.sortiment") }}</a>
-<a class="nav-link {{ 'active' if current_path == '/sluzby' }}" href="{{ path('/sluzby') }}">{{ t("nav.sluzby") }}</a>
-<a class="nav-link" id="nav-cenik" href="{{ path('/kontakt#cenik') }}">{{ t("nav.cenik") }}</a>
-<a class="nav-link" id="nav-kontakt" href="{{ path('/kontakt') }}">{{ t("nav.kontakt") }}</a>

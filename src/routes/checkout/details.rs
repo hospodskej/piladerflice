@@ -2,7 +2,7 @@
 //! company and a different delivery address.
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::guard::{self, Step};
 use crate::AppState;
@@ -10,7 +10,10 @@ use crate::forms::FormData;
 use crate::models::user::{PROFILE_FIELDS, User};
 use crate::request::Req;
 use crate::routes::Result;
-use crate::views::{self, Page, redirect};
+use crate::ui::{self, checkout::DetailsPage};
+use crate::views::{Page, redirect};
+
+const CHECKBOXES: [&str; 3] = ["newsletter_opt_in", "company_purchase", "delivery_address_different"];
 
 const FIELDS: [&str; 18] = [
     "first_name",
@@ -40,7 +43,7 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     if let Some(current) = &req.user {
         prefill_from_account(&req, &current.user);
     }
-    let checkout = req.session.read(|data| data.checkout.fields().clone());
+    let checkout = req.session.read(|data| data.checkout.clone());
     let login_link = format!(
         "{}?{}",
         req.path_for("/prihlaseni"),
@@ -49,13 +52,12 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
             .finish()
     );
     let page = Page::meta(&state, &req, "checkout_details");
-    let current_user_email = req.user.as_ref().map(|current| current.user.email_address.clone());
-    Ok(views::render(
+    let user_email = req.user.as_ref().map(|current| current.user.email_address.clone());
+    Ok(ui::render::page(
         &state,
         &req,
-        "checkout/details.html",
         page,
-        context! { checkout, login_link, current_user_email },
+        move || view! { <DetailsPage checkout user_email login_link/> },
     )
     .await)
 }
@@ -64,12 +66,18 @@ pub async fn update(State(_state): State<AppState>, req: Req, form: FormData) ->
     if let Some(back) = guard::check(&req, Step::Details) {
         return Ok(back);
     }
-    let allowed: Vec<(String, String)> = form
+    let mut allowed: Vec<(String, String)> = form
         .pairs()
         .iter()
         .filter(|(name, _)| FIELDS.contains(&name.as_str()))
         .cloned()
         .collect();
+    // An unticked box sends nothing: it is "no".
+    for checkbox in CHECKBOXES {
+        if form.get(checkbox).is_none() {
+            allowed.push((checkbox.to_string(), "false".into()));
+        }
+    }
     req.session.update(|data| data.checkout.update(&allowed));
     Ok(redirect::to(&req.path_for("/kosik/souhrn")))
 }

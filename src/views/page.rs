@@ -21,8 +21,9 @@ pub struct Page {
     /// `None` = derived from the URL; `Some(vec![])` = no breadcrumbs.
     pub breadcrumbs: Option<Vec<Crumb>>,
     pub status: Option<StatusCode>,
-    /// Extra trusted HTML for <head> (the JSON-LD business data).
-    pub head_html: Option<String>,
+    /// Structured data for search engines (JSON-LD), already safe to put
+    /// inside `<script>`.
+    pub json_ld: Option<String>,
     /// A message for this very page (not the next one), e.g. a failed login.
     pub flash_now: Option<crate::session::Flash>,
 }

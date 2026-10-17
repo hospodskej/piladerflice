@@ -1,19 +1,10 @@
 //! Lumber product pages: variant cards with filter buttons by dimension
 //! (or by grade when the variants have no dimensions).
 
-use minijinja::{Value, context};
-use serde::Serialize;
-
-use super::variant_view::{VariantView, VariantViews};
 use crate::models::catalog::CatalogVariant;
+use crate::ui::eshop::{FilterOption, LumberVariants, VariantView, VariantViews};
 
-#[derive(Serialize)]
-struct FilterOption {
-    key: String,
-    label: String,
-}
-
-pub fn data(variants: &[CatalogVariant], views: &VariantViews, product_image: Option<String>) -> Value {
+pub fn data(variants: &[CatalogVariant], views: &VariantViews, product_image: Option<String>) -> LumberVariants {
     let locale = views.money.locale;
     let has_dimensions = variants.iter().any(|v| v.dimension_filter_key().is_some());
     let filter_key = |v: &CatalogVariant| {
@@ -49,5 +40,9 @@ pub fn data(variants: &[CatalogVariant], views: &VariantViews, product_image: Op
         .iter()
         .map(|v| views.view(v, product_image.clone(), filter_key(v).unwrap_or_default()))
         .collect();
-    context! { has_dimensions, filters, cards }
+    LumberVariants {
+        has_dimensions,
+        filters,
+        cards,
+    }
 }

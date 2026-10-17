@@ -2,7 +2,6 @@
 
 use axum::extract::State;
 use axum::response::IntoResponse;
-use minijinja::Value;
 
 use super::streams;
 use crate::AppState;
@@ -43,7 +42,7 @@ pub async fn add(State(state): State<AppState>, req: Req, form: FormData) -> Res
     let mut response = vec![streams::widget(&state, &req).await?];
     if let Some(line) = line {
         let item = cart_view::line(&state, &req, &line).await?;
-        response.push(streams::added_modal(&state, &req, Value::from_serialize(&item)).await?);
+        response.push(streams::added_modal(&state, &req, item).await?);
     }
     Ok(turbo::response(response).into_response())
 }

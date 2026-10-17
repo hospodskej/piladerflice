@@ -2,14 +2,16 @@
 //! number. It also reports the purchase to Google Analytics (once).
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use crate::AppState;
 use crate::models::order::Order;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::shop::describe::Describer;
-use crate::views::{self, Page, redirect};
+use crate::ui::checkout::{ConfirmationPage, Purchase};
+use crate::ui::{self};
+use crate::views::{Page, redirect};
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     let last = req.session.read(|data| data.last_order_id);
@@ -41,18 +43,16 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
         })
         .collect();
     // Nothing in the data may end the <script> early.
-    let ga_items = serde_json::to_string(&ga_items)?
+    let items_json = serde_json::to_string(&ga_items)?
         .replace('<', "\\u003c")
         .replace('>', "\\u003e")
         .replace('&', "\\u0026");
 
     let page = Page::meta(&state, &req, "checkout_confirmation");
-    Ok(views::render(
-        &state,
-        &req,
-        "checkout/confirmation.html",
-        page,
-        context! { order_id => order.id, total_czk => format!("{:.1}", order.total_czk as f64), ga_items },
-    )
-    .await)
+    let purchase = Purchase {
+        order_id: order.id,
+        total_czk: format!("{:.1}", order.total_czk as f64),
+        items_json,
+    };
+    Ok(ui::render::page(&state, &req, page, move || view! { <ConfirmationPage purchase/> }).await)
 }

@@ -2,7 +2,7 @@
 
 use axum::extract::State;
 use axum::http::StatusCode;
-use minijinja::context;
+use leptos::prelude::*;
 
 use crate::AppState;
 use crate::accounts::password;
@@ -11,7 +11,8 @@ use crate::models::user;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
-use crate::views::{self, Page, redirect};
+use crate::ui::{self, auth::LoginPage};
+use crate::views::{Page, redirect};
 
 /// GET: the form. `?return_to=/kosik/udaje` comes back there after signing
 /// in (only paths on this site).
@@ -56,7 +57,7 @@ async fn failed(state: &AppState, req: &Req) -> Result {
 async fn render(state: &AppState, req: &Req, flash: Option<Flash>) -> Result {
     let mut page = Page::meta(state, req, "login");
     page.flash_now = flash;
-    Ok(views::render(state, req, "sessions/new.html", page, context! {}).await)
+    Ok(ui::render::page(state, req, page, || view! { <LoginPage/> }).await)
 }
 
 /// Only paths of this site ("/x", not "//evil.example" or "https://...").

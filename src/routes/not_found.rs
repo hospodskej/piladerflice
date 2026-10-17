@@ -3,12 +3,13 @@
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
-use minijinja::context;
+use leptos::prelude::*;
 use rand::seq::IndexedRandom;
 
 use crate::AppState;
 use crate::request::Req;
-use crate::views::{self, Page};
+use crate::ui::{self, not_found::NotFoundPage};
+use crate::views::Page;
 
 const MASCOTS: [&str; 3] = [
     "mascot/waving.webp",
@@ -31,5 +32,5 @@ pub async fn page(State(state): State<AppState>, req: Req) -> Response {
     page.status = Some(StatusCode::NOT_FOUND);
 
     let mascot = *MASCOTS.choose(&mut rand::rng()).unwrap_or(&MASCOTS[0]);
-    views::render(&state, &req, "errors/not_found.html", page, context! { mascot }).await
+    ui::render::page(&state, &req, page, move || view! { <NotFoundPage mascot/> }).await
 }

@@ -2,7 +2,7 @@
 //! checkout fills itself from.
 
 use axum::extract::State;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::{account_view, require_login};
 use crate::AppState;
@@ -11,7 +11,8 @@ use crate::models::user::{self, PHONE_PREFIXES, PROFILE_FIELDS};
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
-use crate::views::{self, Page, redirect};
+use crate::ui::{self, account::EditPage};
+use crate::views::{Page, redirect};
 
 pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     let current = match require_login(&state, &req) {
@@ -20,7 +21,7 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
     };
     let account = account_view(&req, current);
     let page = Page::meta(&state, &req, "account_edit");
-    Ok(views::render(&state, &req, "accounts/edit.html", page, context! { account }).await)
+    Ok(ui::render::page(&state, &req, page, move || view! { <EditPage account/> }).await)
 }
 
 pub async fn update(State(state): State<AppState>, req: Req, form: FormData) -> Result {

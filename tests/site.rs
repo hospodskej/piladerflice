@@ -84,7 +84,7 @@ async fn german_page_links_stay_in_german() {
     assert_contains(&page, r#"href="/at/eshop?category=palivove&amp;""#);
     assert_contains(
         &page,
-        r#"<a class="breadcrumb-item active" href="/at/sortiment/palivove-drevo">"#,
+        r#"<a href="/at/sortiment/palivove-drevo" class="breadcrumb-item active">"#,
     );
     assert_contains(&page, r#"<meta property="og:locale" content="de_AT">"#);
     // The language switcher points at the same page in Czech.
@@ -113,7 +113,7 @@ async fn product_rows_alternate_sides() {
             .count(),
         2
     );
-    assert_eq!(page.body.matches(r#"class="product-detail-hero ""#).count(), 2);
+    assert_eq!(page.body.matches(r#"class="product-detail-hero""#).count(), 2);
 }
 
 #[tokio::test]

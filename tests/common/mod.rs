@@ -20,16 +20,20 @@ pub struct Page {
 }
 
 impl Page {
+    /// The HTML without Leptos's `<!>` markers (empty comments between
+    /// pieces of text, which browsers ignore).
+    pub fn html(&self) -> String {
+        self.body.replace("<!>", "")
+    }
+
     pub fn assert_contains(&self, needle: &str) {
-        assert!(self.body.contains(needle), "expected {needle:?} in:\n{}", self.body);
+        let html = self.html();
+        assert!(html.contains(needle), "expected {needle:?} in:\n{html}");
     }
 
     pub fn assert_lacks(&self, needle: &str) {
-        assert!(
-            !self.body.contains(needle),
-            "did not expect {needle:?} in:\n{}",
-            self.body
-        );
+        let html = self.html();
+        assert!(!html.contains(needle), "did not expect {needle:?} in:\n{html}");
     }
 }
 
@@ -129,7 +133,7 @@ impl TestApp {
 }
 
 /// A browser: keeps the session cookie between requests and sends the form
-/// token the last page carried, like a real form would.
+/// token the last page's forms carried, like a real form would.
 pub struct Browser<'a> {
     app: &'a TestApp,
     cookie: Option<String>,
@@ -158,8 +162,10 @@ impl TestApp {
 impl Browser<'_> {
     pub async fn get(&mut self, path: &str) -> Page {
         let page = self.send(Request::get(path), Body::empty()).await;
-        if let Some(start) = page.body.find(r#"<meta name="csrf-token" content=""#) {
-            let rest = &page.body[start + 33..];
+        // Every form carries the session's token in a hidden field.
+        const FIELD: &str = r#"name="csrf_token" value=""#;
+        if let Some(start) = page.body.find(FIELD) {
+            let rest = &page.body[start + FIELD.len()..];
             self.token = rest[..rest.find('"').unwrap()].to_string();
         }
         page

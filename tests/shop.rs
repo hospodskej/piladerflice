@@ -105,7 +105,7 @@ async fn quantities_change_and_lines_go() {
 async fn hidden_products_cannot_be_added() {
     let app = TestApp::new().await;
     let mut browser = app.browser();
-    browser.get("/").await;
+    browser.get("/eshop/smrk").await;
     let page = browser.post("/cart_items", &[("catalog_variant_id", "999")]).await;
     assert_eq!(page.status, StatusCode::NOT_FOUND);
 }
@@ -191,15 +191,26 @@ async fn checkout_steps_need_the_steps_before_them() {
 }
 
 #[tokio::test]
-async fn placing_an_order_saves_it_mails_both_sides_and_empties_the_cart() {
+async fn an_unticked_box_is_no() {
     let app = TestApp::new().await;
     let mut browser = with_cart(&app).await;
     through_details(
         &mut browser,
         "pickup",
-        &[("newsletter_opt_in", "0"), ("newsletter_opt_in", "1")],
+        &[("company_purchase", "1"), ("company_name", "Pila s.r.o.")],
     )
     .await;
+    browser.get("/kosik/souhrn").await.assert_contains("Pila s.r.o.<br>");
+    // The same form again, the box no longer ticked: nothing is sent for it.
+    through_details(&mut browser, "pickup", &[("company_name", "Pila s.r.o.")]).await;
+    browser.get("/kosik/souhrn").await.assert_lacks("Pila s.r.o.<br>");
+}
+
+#[tokio::test]
+async fn placing_an_order_saves_it_mails_both_sides_and_empties_the_cart() {
+    let app = TestApp::new().await;
+    let mut browser = with_cart(&app).await;
+    through_details(&mut browser, "pickup", &[("newsletter_opt_in", "1")]).await;
 
     let summary = browser.get("/kosik/souhrn").await;
     summary.assert_contains("Jana Nováková<br>");

@@ -2,7 +2,7 @@
 
 use axum::extract::State;
 use axum::http::StatusCode;
-use minijinja::context;
+use leptos::prelude::*;
 
 use crate::AppState;
 use crate::accounts::password;
@@ -12,8 +12,9 @@ use crate::models::user;
 use crate::request::Req;
 use crate::routes::Result;
 use crate::session::Flash;
+use crate::ui::{self, auth::RegisterPage};
 use crate::views::text::error_count;
-use crate::views::{self, Page, redirect};
+use crate::views::{Page, redirect};
 
 pub async fn new(State(state): State<AppState>, req: Req) -> Result {
     render(&state, &req, "", Vec::new()).await
@@ -53,12 +54,12 @@ pub async fn create(State(state): State<AppState>, req: Req, form: FormData) -> 
 async fn render(state: &AppState, req: &Req, email: &str, errors: Vec<String>) -> Result {
     let page = Page::meta(state, req, "register");
     let error_count = error_count(errors.len());
-    Ok(views::render(
+    let email = email.to_string();
+    Ok(ui::render::page(
         state,
         req,
-        "registrations/new.html",
         page,
-        context! { email, errors, error_count },
+        move || view! { <RegisterPage email errors error_count/> },
     )
     .await)
 }

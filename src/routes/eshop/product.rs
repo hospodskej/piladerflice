@@ -3,18 +3,19 @@
 //! comes from firewood.rs, lumber.rs or simple_variant.rs.
 
 use axum::extract::{Path, State};
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::super::Result;
 use super::super::components::format::strip_tags;
 use super::super::not_found;
-use super::variant_view::VariantViews;
 use super::{firewood, lumber, recommendations, simple_variant};
 use crate::AppState;
 use crate::models::catalog::{self, CatalogProduct};
 use crate::models::upload::{self, Owner, Upload};
 use crate::request::Req;
-use crate::views::{self, Crumb, Page};
+use crate::ui::eshop::{ProductInfo, ProductLayout, ProductPage, VariantViews};
+use crate::ui::{self};
+use crate::views::{Crumb, Page};
 
 pub async fn show(State(state): State<AppState>, req: Req, Path(key): Path<String>) -> Result {
     let Some(product) = catalog::active_product(&state.db, &key).await? else {
@@ -36,32 +37,27 @@ pub async fn show(State(state): State<AppState>, req: Req, Path(key): Path<Strin
 
     let container = state.assets.url("eshop/container.webp");
     let layout = match product.template.as_str() {
-        "firewood" => firewood::data(
+        "firewood" => ProductLayout::Firewood(firewood::data(
             &variants,
             &views,
             &t("common.and"),
             &container,
             &state.assets.url("eshop/bedna.webp"),
-        ),
-        "lumber" => lumber::data(&variants, &views, product_image.clone()),
-        _ => simple_variant::data(&variants, &views, &container),
+        )),
+        "lumber" => ProductLayout::Lumber(lumber::data(&variants, &views, product_image.clone())),
+        _ => ProductLayout::Simple(simple_variant::data(&variants, &views, &container)),
     };
-
-    let data = context! {
-        product => context! {
-            key => &product.key,
-            title => &title,
-            subtitle => product.subtitle(locale),
-            description => product.description(locale),
-            drying_note => product.drying_note(locale),
-            image_alt => product.image_alt(locale),
-            type_label => product.type_label(locale),
-            image => &product_image,
-        },
-        template => &product.template,
-        recommendations => recommendations::for_product(&state, &product, &money).await?,
-        ..layout
+    let info = ProductInfo {
+        key: product.key.clone(),
+        title: title.clone(),
+        subtitle: product.subtitle(locale),
+        description: product.description(locale),
+        drying_note: product.drying_note(locale),
+        image_alt: product.image_alt(locale),
+        type_label: product.type_label(locale),
+        image: product_image,
     };
+    let recommendations = recommendations::for_product(&state, &product, &views.money).await?;
 
     let mut page = Page::titled(
         &state,
@@ -70,7 +66,10 @@ pub async fn show(State(state): State<AppState>, req: Req, Path(key): Path<Strin
         Some(description(&state, &product, &title, locale)),
     );
     page.breadcrumbs = Some(breadcrumbs(&state, &req, &product, &title));
-    Ok(views::render(&state, &req, &format!("eshop/{}.html", product.template), page, data).await)
+    Ok(ui::render::page(&state, &req, page, move || {
+        view! { <ProductPage product=info layout=layout recommendations=recommendations/> }
+    })
+    .await)
 }
 
 /// "Smrk – Palivové dřevo"

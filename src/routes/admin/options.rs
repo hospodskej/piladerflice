@@ -2,7 +2,8 @@
 //! lists, one table per list; the first choice is preselected.
 
 use axum::extract::State;
-use minijinja::{Value, context};
+use axum::http::StatusCode;
+use leptos::prelude::*;
 
 use super::params::RecordId;
 use crate::AppState;
@@ -13,7 +14,11 @@ use crate::models::inquiry_options::INQUIRY_CATEGORIES;
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
-use crate::views::{admin_layout, redirect};
+use crate::ui::admin::{
+    self,
+    options::{OptionCategory, OptionList, OptionsPage},
+};
+use crate::views::redirect;
 
 const PAGE: &str = "/admin/inquiry_form_options";
 
@@ -22,28 +27,30 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         sqlx::query_as("SELECT id, category, field, value, value_de FROM inquiry_form_options ORDER BY position, id")
             .fetch_all(&state.db)
             .await?;
-    let categories: Vec<Value> = INQUIRY_CATEGORIES
+    let categories: Vec<OptionCategory> = INQUIRY_CATEGORIES
         .iter()
-        .map(|category| {
-            let lists: Vec<Value> = dropdown_fields(category)
+        .map(|category| OptionCategory {
+            name: category,
+            label: category_label(category).unwrap_or_default().to_string(),
+            lists: dropdown_fields(category)
                 .iter()
-                .map(|field| {
-                    let choices: Vec<Value> = rows
+                .map(|field| OptionList {
+                    field,
+                    label: field_label(field).unwrap_or_default().to_string(),
+                    choices: rows
                         .iter()
                         .filter(|(_, of_category, of_field, _, _)| of_category == category && of_field == field)
-                        .map(|(id, _, _, value, value_de)| context! { id, value, value_de })
-                        .collect();
-                    context! { field, label => field_label(field), choices }
+                        .map(|(id, _, _, value, value_de)| (*id, value.clone(), value_de.clone()))
+                        .collect(),
                 })
-                .collect();
-            context! { name => category, label => category_label(category), lists }
+                .collect(),
         })
         .collect();
-    Ok(admin_layout::render(
+    Ok(admin::page(
         &state,
         &req,
-        "admin/inquiry_form_options/index.html",
-        context! { categories },
+        StatusCode::OK,
+        move || view! { <OptionsPage categories/> },
     ))
 }
 

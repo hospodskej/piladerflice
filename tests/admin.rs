@@ -76,7 +76,7 @@ async fn the_overview_counts_and_lists_the_latest_orders() {
     page.assert_contains("<td>18 100 Kč</td>");
     // Stored 10:00 UTC: 12:00 Czech summer time.
     page.assert_contains("<td>01.05.2026 12:00</td>");
-    page.assert_contains(r#"<a class="admin-nav-link active" href="/admin">Přehled</a>"#);
+    page.assert_contains(r#"<a href="/admin" class="admin-nav-link active">Přehled</a>"#);
     page.assert_contains(r#"<span class="admin-current-user">admin@piladerflice.cz</span>"#);
 }
 
@@ -152,7 +152,7 @@ async fn a_product_is_checked_created_and_edited() {
     page.assert_contains("2 chyby brání uložení:");
     page.assert_contains("<li>Klíč už je použitý</li>");
     page.assert_contains("<li>Kategorie filtru má neplatnou hodnotu</li>");
-    page.assert_contains(r#"<input type="text" name="key" id="key" class="field-error" value="smrk">"#);
+    page.assert_contains(r#"<input type="text" name="key" id="key" value="smrk" class="field-error">"#);
 
     let page = browser
         .post_file(
@@ -192,7 +192,8 @@ async fn a_product_is_checked_created_and_edited() {
 
     let page = browser.get(&format!("/admin/catalog_products/{id}/edit")).await;
     page.assert_contains("Produkt byl vytvořen. Nyní k němu přidejte varianty s cenami.");
-    page.assert_contains(r#"<img class="admin-image-preview" src="/uploads/"#);
+    page.assert_contains(r#"<img src="/uploads/"#);
+    page.assert_contains(r#"class="admin-image-preview">"#);
     page.assert_contains("Tento produkt zatím nemá žádné varianty");
 
     let page = browser
@@ -202,7 +203,7 @@ async fn a_product_is_checked_created_and_edited() {
     let page = browser.get(&format!("/admin/catalog_products/{id}/edit")).await;
     page.assert_contains("Upravit produkt: Trámy na míru");
     // The picture stays when no new one is chosen.
-    page.assert_contains(r#"<img class="admin-image-preview""#);
+    page.assert_contains(r#"class="admin-image-preview">"#);
 }
 
 #[tokio::test]

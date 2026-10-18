@@ -5,7 +5,7 @@
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::response::Response;
-use minijinja::context;
+use leptos::prelude::*;
 
 use super::chosen_image;
 use super::params::{ProductId, RecordId};
@@ -20,8 +20,10 @@ use crate::models::upload::{Owner, image_of};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
-use crate::views::form_helpers::FormModel;
-use crate::views::{admin_layout, redirect};
+use crate::ui::admin;
+use crate::ui::admin::form::Form;
+use crate::ui::admin::variants::{VariantForm, VariantPage};
+use crate::views::redirect;
 
 /// The product the variant belongs to.
 struct Product {
@@ -157,26 +159,23 @@ async fn form_page(
             .map(|upload| upload.url()),
         None => None,
     };
-    let action = match id {
-        Some(id) => format!("/admin/catalog_products/{}/catalog_variants/{id}", product.id),
-        None => format!("/admin/catalog_products/{}/catalog_variants", product.id),
-    };
-    let data = context! {
-        id => id,
-        action => action,
-        product => context! { id => product.id, title => &product.title, template => &product.template },
-        image => image,
-        f => FormModel::new(values, errors),
-    };
-    let template = if id.is_some() {
-        "admin/catalog_variants/edit.html"
-    } else {
-        "admin/catalog_variants/new.html"
+    let variant = VariantForm {
+        id,
+        product_id: product.id,
+        product_title: product.title.clone(),
+        template: product.template.clone(),
+        image,
+        f: Form::new(values, errors),
     };
     let status = if errors.is_empty() {
         StatusCode::OK
     } else {
         StatusCode::UNPROCESSABLE_ENTITY
     };
-    Ok(admin_layout::render_with_status(state, req, status, template, data))
+    Ok(admin::page(
+        state,
+        req,
+        status,
+        move || view! { <VariantPage variant/> },
+    ))
 }

@@ -3,8 +3,8 @@
 //!
 //! - this file: [`Email`] and the [`Mailer`] that sends it
 //! - [`settings`]: SMTP server and addresses, from the environment
-//! - [`orders`], [`inquiries`]: building each e-mail from its templates
-//!   (`templates/mail/`)
+//! - [`orders`], [`inquiries`]: each e-mail's data and plain text; the
+//!   HTML is in `ui::mail`
 
 pub mod inquiries;
 pub mod orders;
@@ -17,6 +17,24 @@ use lettre::transport::smtp::authentication::Credentials;
 use lettre::{AsyncSmtpTransport, AsyncTransport, Message, Tokio1Executor};
 
 pub use settings::MailSettings;
+
+use crate::AppState;
+use crate::locale::Locale;
+use crate::ui::{Ui, render};
+
+/// An e-mail's HTML document, rendered in `locale`.
+fn render_html<F, V>(state: &AppState, locale: Locale, body: F) -> String
+where
+    F: FnOnce() -> V + Send + 'static,
+    V: leptos::prelude::IntoView + 'static,
+{
+    use leptos::prelude::*;
+    let ui = Ui::with(state, locale, String::new(), String::new());
+    render::document(
+        ui,
+        move || view! { <crate::ui::mail::MailLayout>{body()}</crate::ui::mail::MailLayout> },
+    )
+}
 
 /// An e-mail ready to send: HTML with a plain text alternative.
 #[derive(Clone, Debug)]

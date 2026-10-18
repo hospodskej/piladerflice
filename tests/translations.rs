@@ -1,4 +1,4 @@
-//! Every translation key the templates and the code use exists in Czech and
+//! Every translation key the components and the code use exists in Czech and
 //! in German, so no page ever shows "[missing: ...]". Only keys written out
 //! in full are checked; keys put together at run time are tested where
 //! they are used.
@@ -21,17 +21,12 @@ fn files(dir: &Path, extension: &str, found: &mut Vec<PathBuf>) {
 
 fn keys_used() -> Vec<(String, String)> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let template_call = Regex::new(r#"\bt\(\s*["']([a-z0-9_]+(?:\.[a-z0-9_]+)+)["']\s*[,)]"#).unwrap();
     let code_call = Regex::new(r#"\.text\(\s*[a-z_.]+,\s*"([a-z0-9_]+(?:\.[a-z0-9_]+)+)""#).unwrap();
     // The components: t("key"), t_html("key"), t_with("key", ...), t_list("key").
     let component_call =
         Regex::new(r#"\bt(?:_html|_with|_html_with|_list)?\(\s*"([a-z0-9_]+(?:\.[a-z0-9_]+)+)"\s*[,)]"#).unwrap();
     let mut used = Vec::new();
-    for (dir, extension, pattern) in [
-        ("templates", "html", &template_call),
-        ("src", "rs", &code_call),
-        ("src", "rs", &component_call),
-    ] {
+    for (dir, extension, pattern) in [("src", "rs", &code_call), ("src", "rs", &component_call)] {
         let mut paths = Vec::new();
         files(&root.join(dir), extension, &mut paths);
         for path in paths {

@@ -1,5 +1,5 @@
 //! Redirects after a form ("Post/Redirect/Get"): 303 See Other, so the
-//! browser (and Turbo) loads the next page with a GET.
+//! browser loads the next page with a GET.
 
 use axum::http::{StatusCode, header};
 use axum::response::{IntoResponse, Response};

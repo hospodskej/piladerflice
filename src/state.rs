@@ -1,6 +1,6 @@
-//! The state every request shares: settings, translations, assets,
-//! templates, the database, and the outside services (exchange rate,
-//! delivery distance, e-mail).
+//! The state every request shares: settings, translations, assets, the
+//! islands' WebAssembly, the database, and the outside services (exchange
+//! rate, delivery distance, e-mail).
 
 use std::ops::Deref;
 use std::sync::Arc;
@@ -8,14 +8,13 @@ use std::sync::Arc;
 use crate::session::Key;
 use anyhow::Result;
 
-use crate::assets::{self, Assets, Importmap};
+use crate::assets::{self, Assets};
 use crate::config::Config;
 use crate::db::{self, Db};
 use crate::i18n::Translations;
 use crate::mail::{MailSettings, Mailer};
 use crate::money::ExchangeRates;
 use crate::shop::delivery::RouteService;
-use crate::views::Templates;
 use crate::wasm::Wasm;
 
 pub struct Inner {
@@ -23,8 +22,6 @@ pub struct Inner {
     pub translations: Arc<Translations>,
     pub assets: Arc<Assets>,
     pub wasm: Arc<Wasm>,
-    pub importmap: Importmap,
-    pub templates: Templates,
     pub db: Db,
     pub rates: ExchangeRates,
     pub routes: RouteService,
@@ -52,7 +49,7 @@ impl Deref for AppState {
 }
 
 impl AppState {
-    /// Connects to the database and loads translations, assets and templates.
+    /// Connects to the database and loads translations and assets.
     pub async fn new(config: Config) -> Result<Self> {
         let db = db::connect(&config.database_url).await?;
         db::migrations::check(&db).await?;
@@ -72,19 +69,11 @@ impl AppState {
         let translations = Arc::new(crate::i18n::load(&config.root.join("locales"))?);
         let assets = Arc::new(assets::load(&config.root, config.development)?);
         let wasm = Arc::new(Wasm::load(&config.pkg_dir, config.development));
-        let templates = Templates::new(
-            config.root.join("templates"),
-            translations.clone(),
-            assets.clone(),
-            config.development,
-        );
         Ok(Self(Arc::new(Inner {
             config,
             translations,
             assets,
             wasm,
-            importmap: assets::importmap(),
-            templates,
             db,
             rates: services.rates,
             routes: services.routes,

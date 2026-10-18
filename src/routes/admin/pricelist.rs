@@ -2,7 +2,8 @@
 //! row its own little form; plus a row for adding and ↑/↓ for the order.
 
 use axum::extract::State;
-use minijinja::context;
+use axum::http::StatusCode;
+use leptos::prelude::*;
 
 use super::params::RecordId;
 use crate::AppState;
@@ -12,7 +13,11 @@ use crate::forms::{FormData, UploadForm};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
-use crate::views::{admin_layout, redirect};
+use crate::ui::admin::{
+    self,
+    pricelist::{PriceCategory, PricelistPage},
+};
+use crate::views::redirect;
 
 fn back_to(category: &str) -> String {
     format!("/admin/pricelist_items#{category}")
@@ -28,23 +33,23 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
         let mut items = Vec::new();
         for (id, _) in ids.iter().filter(|(_, of)| of.as_deref() == Some(category)) {
             if let Some(values) = TABLE.find(&state.db, *id).await? {
-                items.push(context! { id => id, values => values });
+                items.push((*id, values));
             }
         }
         let single = SINGLE_ITEM_CATEGORIES.contains(&category);
-        categories.push(context! {
-            name => category,
-            fields => fields,
-            movable => !single,
-            can_add => !single || items.is_empty(),
-            items => items,
+        categories.push(PriceCategory {
+            name: category,
+            fields,
+            movable: !single,
+            can_add: !single || items.is_empty(),
+            items,
         });
     }
-    Ok(admin_layout::render(
+    Ok(admin::page(
         &state,
         &req,
-        "admin/pricelist_items/index.html",
-        context! { categories },
+        StatusCode::OK,
+        move || view! { <PricelistPage categories/> },
     ))
 }
 

@@ -46,7 +46,7 @@ pub fn Head(
                 .into_iter()
                 .map(|href| view! { <link rel="stylesheet" href=href/> })
                 .collect_view()}
-            {pkg_path.map(|pkg_path| view! { <HydrationScripts options=wasm_options(pkg_path) islands=true/> })}
+            <IslandScripts pkg_path=pkg_path/>
         </head>
     }
 }
@@ -60,13 +60,18 @@ fn analytics_consent(consent: Option<&str>) -> String {
     )
 }
 
-/// Loads the islands' WebAssembly from `/{pkg_path}/`.
-fn wasm_options(pkg_path: String) -> LeptosOptions {
-    LeptosOptions::builder()
-        .output_name(OUTPUT_NAME)
-        .site_pkg_dir(pkg_path)
-        .hash_files(false)
-        .build()
+/// Loads the islands' WebAssembly from `/{pkg_path}/` (Leptos' loader);
+/// nothing without a build.
+#[component]
+pub fn IslandScripts(pkg_path: Option<String>) -> impl IntoView {
+    pkg_path.map(|pkg_path| {
+        let options = LeptosOptions::builder()
+            .output_name(OUTPUT_NAME)
+            .site_pkg_dir(pkg_path)
+            .hash_files(false)
+            .build();
+        view! { <HydrationScripts options=options islands=true/> }
+    })
 }
 
 /// Where search engines find this page in each language.

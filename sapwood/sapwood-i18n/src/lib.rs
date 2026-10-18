@@ -27,8 +27,9 @@
 //! assert_eq!(translations.text("de", "cart.added", &[("product", "Oak")]), "Oak is in your cart");
 //! ```
 //!
-//! With the `minijinja` feature (on by default), [`jinja::function`] gives
-//! templates a `t("key", name=value)` function.
+//! With the `minijinja` feature, [`jinja::function`] gives MiniJinja
+//! templates a `t("key", name=value)` function. (Components, e.g. Leptos,
+//! call [`Translations::text`] themselves.)
 
 mod error;
 mod interpolate;

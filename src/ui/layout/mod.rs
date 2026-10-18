@@ -9,6 +9,7 @@ mod header;
 mod sidebar;
 
 pub use data::{GA_MEASUREMENT_ID, LayoutData};
+pub use head::IslandScripts;
 
 use leptos::prelude::*;
 

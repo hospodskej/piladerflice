@@ -4,13 +4,14 @@
 //! It is the part of a site that isn't about your business: the visitor's
 //! session, forms that can't be forged, texts in several languages, and
 //! static files that browsers may cache forever. Your pages stay plain Axum
-//! handlers rendering HTML (with MiniJinja, or anything else).
+//! handlers rendering HTML however you like: Leptos components, MiniJinja
+//! templates, or `format!`.
 //!
 //! | Module | Crate | What it does |
 //! |--------|-------|--------------|
 //! | [`session`] | `sapwood-session` | encrypted cookie sessions with your own data type, CSRF token, flash messages, login cookie |
 //! | [`forms`] | `sapwood-forms` | form extractors that check the CSRF token first (plain, typed, uploads), validation errors |
-//! | [`i18n`] | `sapwood-i18n` | YAML translations, `{name}` placeholders, a fallback language, a MiniJinja `t()` |
+//! | [`i18n`] | `sapwood-i18n` | YAML translations, `{name}` placeholders, a fallback language, a MiniJinja `t()` (feature `minijinja`) |
 //! | [`assets`] | `sapwood-assets` | fingerprinted static files, a JavaScript import map, an Axum router |
 //!
 //! Each is also its own crate, for sites that want only one; this crate is
@@ -66,8 +67,9 @@
 //! ```
 //!
 //! A complete small app is in `examples/guestbook.rs` (`cargo run --example
-//! guestbook`). Sapwood grew out of a real shop, [Pila
-//! Derflice](https://github.com/hospodskej/piladerflice), which uses all of it.
+//! guestbook --features minijinja`). Sapwood grew out of a real shop, [Pila
+//! Derflice](https://github.com/hospodskej/piladerflice), which renders its
+//! pages with Leptos.
 
 #[cfg(feature = "assets")]
 pub use sapwood_assets as assets;

@@ -1,6 +1,6 @@
 # Putting the site online
 
-The site is one program plus a folder of files it reads (templates, translations, images). It keeps its data in one SQLite file and the uploaded photos in one folder, and runs behind Caddy, which handles HTTPS.
+The site is one program plus a folder of files it reads (translations, images, the WebAssembly of its interactive parts). It keeps its data in one SQLite file and the uploaded photos in one folder, and runs behind Caddy, which handles HTTPS.
 
 ## Before launching
 
@@ -31,7 +31,7 @@ systemctl enable pila-derflice pila-derflice-backup.timer
 
 ## Putting a release on the server
 
-On your computer (or a build machine with the same system as the server):
+On your computer (or a build machine with the same system as the server), with [cargo-leptos](https://github.com/leptos-rs/cargo-leptos) and the WebAssembly target installed once (`cargo install cargo-leptos --locked`, `rustup target add wasm32-unknown-unknown`):
 
 ```sh
 deploy/package.sh                      # -> dist/pila-derflice-<commit>.tar.gz

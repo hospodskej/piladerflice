@@ -10,6 +10,7 @@
 //! - one module per area of the site, like `routes/`
 
 pub mod account;
+pub mod admin;
 pub mod auth;
 pub mod cart;
 pub mod checkout;
@@ -20,6 +21,7 @@ pub mod home;
 pub use crate::icons;
 pub mod layout;
 pub mod legal;
+pub mod mail;
 pub mod not_found;
 pub mod render;
 pub mod services;

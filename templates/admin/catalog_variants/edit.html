@@ -1,6 +1,0 @@
-{% extends "layouts/admin.html" %}
-{% block content %}
-<a class="admin-back-link" href="/admin/catalog_products/{{ product.id }}/edit">← Zpět na produkt</a>
-<h1 class="admin-page-title">Upravit variantu: {{ product.title }}</h1>
-{% include "admin/catalog_variants/_form.html" %}
-{% endblock %}

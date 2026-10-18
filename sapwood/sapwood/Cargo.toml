@@ -21,6 +21,12 @@ assets = ["dep:sapwood-assets"]
 session = ["dep:sapwood-session"]
 ## CSRF-checked forms (sapwood-forms); needs sessions.
 forms = ["dep:sapwood-forms", "session"]
+## The `t()` function for MiniJinja templates (sapwood-i18n).
+minijinja = ["i18n", "sapwood-i18n/minijinja"]
+
+[[example]]
+name = "guestbook"
+required-features = ["minijinja"]
 
 [dependencies]
 sapwood-i18n = { version = "0.1.0", path = "../sapwood-i18n", optional = true }

@@ -4,7 +4,7 @@
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::response::Response;
-use minijinja::{Value, context};
+use leptos::prelude::*;
 
 use super::params::RecordId;
 use super::{chosen_image, czk};
@@ -19,25 +19,31 @@ use crate::models::upload::{Owner, image_of};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
-use crate::views::form_helpers::FormModel;
-use crate::views::{admin_layout, redirect};
+use crate::ui::admin;
+use crate::ui::admin::form::Form;
+use crate::ui::admin::products::{ProductForm, ProductPage, ProductRow, ProductsPage, VariantRow};
+use crate::views::redirect;
 
 pub async fn index(State(state): State<AppState>, req: Req) -> Result {
-    let products: Vec<Value> = products::list(&state.db)
+    let products: Vec<ProductRow> = products::list(&state.db)
         .await?
         .into_iter()
-        .map(|product| {
-            context! {
-                starting_price => product.starting_price_czk.map(czk),
-                ..Value::from_serialize(&product)
-            }
+        .map(|product| ProductRow {
+            id: product.id,
+            title: product.title,
+            key: product.key,
+            template: product.template,
+            category: product.category,
+            variant_count: product.variant_count,
+            starting_price: product.starting_price_czk.map(czk),
+            active: product.active,
         })
         .collect();
-    Ok(admin_layout::render(
+    Ok(admin::page(
         &state,
         &req,
-        "admin/catalog_products/index.html",
-        context! { products },
+        StatusCode::OK,
+        move || view! { <ProductsPage products/> },
     ))
 }
 
@@ -119,29 +125,28 @@ async fn form_page(
         Some(id) => variant_rows(state, id, values.get("template").unwrap_or_default()).await?,
         None => Vec::new(),
     };
-    let title = values.get("title").unwrap_or_default().to_string();
-    let data = context! {
-        id => id,
-        title => title,
-        image => image,
-        variants => variants,
-        f => FormModel::new(values, errors),
-    };
-    let template = if id.is_some() {
-        "admin/catalog_products/edit.html"
-    } else {
-        "admin/catalog_products/new.html"
+    let product = ProductForm {
+        id,
+        title: values.get("title").unwrap_or_default().to_string(),
+        image,
+        variants,
+        f: Form::new(values, errors),
     };
     let status = if errors.is_empty() {
         StatusCode::OK
     } else {
         StatusCode::UNPROCESSABLE_ENTITY
     };
-    Ok(admin_layout::render_with_status(state, req, status, template, data))
+    Ok(admin::page(
+        state,
+        req,
+        status,
+        move || view! { <ProductPage product/> },
+    ))
 }
 
 /// The product's variants as the table below the form shows them.
-async fn variant_rows(state: &AppState, product_id: i64, template: &str) -> anyhow::Result<Vec<Value>> {
+async fn variant_rows(state: &AppState, product_id: i64, template: &str) -> anyhow::Result<Vec<VariantRow>> {
     let images = crate::models::upload::images_of(&state.db, Owner::Variant).await?;
     let ids: Vec<i64> =
         sqlx::query_scalar("SELECT id FROM catalog_variants WHERE catalog_product_id = ? ORDER BY position, id")
@@ -177,15 +182,15 @@ async fn variant_rows(state: &AppState, product_id: i64, template: &str) -> anyh
                 "Sypané (kontejner)"
             }
         });
-        rows.push(context! {
-            id => id,
-            image => images.get(&id).map(|upload| upload.url()),
-            description => description,
-            group => group,
-            length_label => variant.get("length_label"),
-            amount_value => variant.get("amount_value"),
-            price => variant.integer("price_czk").map(czk),
-            in_stock => variant.is_true("in_stock"),
+        rows.push(VariantRow {
+            id,
+            image: images.get(&id).map(|upload| upload.url()),
+            description,
+            group,
+            length_label: variant.get("length_label").map(str::to_string),
+            amount_value: variant.get("amount_value").map(str::to_string),
+            price: variant.integer("price_czk").map(czk),
+            in_stock: variant.is_true("in_stock"),
         });
     }
     Ok(rows)

@@ -4,7 +4,7 @@
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::response::Response;
-use minijinja::{Value, context};
+use leptos::prelude::*;
 
 use super::chosen_image;
 use super::params::RecordId;
@@ -20,11 +20,13 @@ use crate::models::upload::{Owner, image_of};
 use crate::request::Req;
 use crate::routes::{Result, not_found};
 use crate::session::Flash;
-use crate::views::form_helpers::FormModel;
-use crate::views::{admin_layout, redirect};
+use crate::ui::admin;
+use crate::ui::admin::form::Form;
+use crate::ui::admin::promos::{PromoForm, PromoPage, PromoRow, PromosPage};
+use crate::views::redirect;
 
 /// A promo as the list shows it.
-#[derive(serde::Serialize, sqlx::FromRow)]
+#[derive(sqlx::FromRow)]
 struct Listed {
     id: i64,
     title: Option<String>,
@@ -39,15 +41,21 @@ pub async fn index(State(state): State<AppState>, req: Req) -> Result {
     let this_week = weekly_promo(&state.db, czech_time::today())
         .await?
         .map(|promo| promo.id);
-    let promos: Vec<_> = rows
-        .iter()
-        .map(|promo| context! { this_week => Some(promo.id) == this_week, ..Value::from_serialize(promo) })
+    let promos: Vec<PromoRow> = rows
+        .into_iter()
+        .map(|promo| PromoRow {
+            this_week: Some(promo.id) == this_week,
+            id: promo.id,
+            title: promo.title,
+            price: promo.price,
+            link: promo.link,
+        })
         .collect();
-    Ok(admin_layout::render(
+    Ok(admin::page(
         &state,
         &req,
-        "admin/promos/index.html",
-        context! { promos },
+        StatusCode::OK,
+        move || view! { <PromosPage promos/> },
     ))
 }
 
@@ -119,22 +127,16 @@ async fn form_page(
         Some(id) => image_of(&state.db, Owner::Promo, id).await?.map(|upload| upload.url()),
         None => None,
     };
-    let title = values.get("title").unwrap_or_default().to_string();
-    let data = context! {
-        id => id,
-        title => title,
-        image => image,
-        f => FormModel::new(values, errors),
-    };
-    let template = if id.is_some() {
-        "admin/promos/edit.html"
-    } else {
-        "admin/promos/new.html"
+    let promo = PromoForm {
+        id,
+        title: values.get("title").unwrap_or_default().to_string(),
+        image,
+        f: Form::new(values, errors),
     };
     let status = if errors.is_empty() {
         StatusCode::OK
     } else {
         StatusCode::UNPROCESSABLE_ENTITY
     };
-    Ok(admin_layout::render_with_status(state, req, status, template, data))
+    Ok(admin::page(state, req, status, move || view! { <PromoPage promo/> }))
 }

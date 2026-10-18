@@ -2,7 +2,7 @@
 
 Translations for server-rendered Rust sites. Part of [Sapwood](https://crates.io/crates/sapwood).
 
-One YAML file per language (`locales/en.yml`, `locales/de.yml`...), looked up by dotted key (`"nav.home"`), with `{name}` placeholders and a fallback language for keys a translation doesn't have yet. With the `minijinja` feature (on by default), templates get a `t("key", name=value)` function; keys ending in `_html` hold trusted HTML.
+One YAML file per language (`locales/en.yml`, `locales/de.yml`...), looked up by dotted key (`"nav.home"`), with `{name}` placeholders and a fallback language for keys a translation doesn't have yet. With the `minijinja` feature, MiniJinja templates get a `t("key", name=value)` function; keys ending in `_html` hold trusted HTML.
 
 ```yaml
 # locales/en.yml

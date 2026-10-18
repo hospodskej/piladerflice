@@ -9,10 +9,10 @@ use crate::mail::MailSettings;
 const DEVELOPMENT_SECRET: &str = "development-only-secret-key-for-the-session-cookie-of-pila-derflice-0123456789";
 
 pub struct Config {
-    /// The project folder (or, on a server, the release folder): templates,
-    /// translations, images, CSS, JavaScript and `public/` are read from it.
+    /// The project folder (or, on a server, the release folder):
+    /// translations, images, CSS and `public/` are read from it.
     pub root: PathBuf,
-    /// Development: templates and assets are re-read when they change.
+    /// Development: assets and the WebAssembly are re-read when they change.
     pub development: bool,
     /// e.g. `sqlite:storage/development.sqlite3`
     pub database_url: String,

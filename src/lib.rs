@@ -3,11 +3,12 @@
 //! The app is built from:
 //! - [`request`]: language from the URL (`/at` = German) and request info
 //! - [`i18n`]: translations from `locales/*.yml`
-//! - [`assets`]: fingerprinted static files
+//! - [`assets`]: fingerprinted static files; [`wasm`]: the islands'
+//!   WebAssembly
 //! - [`db`] and [`models`]: the SQLite database and its tables
 //! - [`money`]: crowns, and euros for the Austrian site
-//! - [`routes`]: one module per area of the site; [`ui`]: the pages as
-//!   Leptos components, rendered on the server
+//! - [`routes`]: one module per area of the site; [`ui`]: the pages (and
+//!   the admin and the e-mails) as Leptos components, rendered on the server
 //! - [`islands`]: the interactive parts, also compiled to WebAssembly for
 //!   the browser (the `hydrate` build)
 

@@ -38,7 +38,7 @@ A `Review` model already exists, currently just holding imported Google reviews.
 
 Not set up yet - nobody has done it since the site isn't live. The old verification tag was removed from the layout, so this starts from scratch once the site is live.
 
-- Add the live domain at https://search.google.com/search-console and verify ownership (the DNS TXT record option needs no code change; the HTML-tag option means adding Google's new `google-site-verification` meta tag to `templates/layouts/application.html`)
+- Add the live domain at https://search.google.com/search-console and verify ownership (the DNS TXT record option needs no code change; the HTML-tag option means adding Google's new `google-site-verification` meta tag to the `<head>` in `src/ui/layout/head.rs`)
 - Under Sitemaps, submit `sitemap.xml` (the site generates it automatically; `robots.txt` already points to it)
 - Later, check the Pages report for pages Google couldn't index
 

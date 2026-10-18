@@ -42,8 +42,6 @@ ssr = [
   "dep:tokio",
   "dep:tower",
   "dep:tower-http",
-  "dep:minijinja",
-  "dep:minijinja-autoreload",
   "dep:rand",
   "dep:form_urlencoded",
   "dep:tracing",
@@ -86,7 +84,7 @@ console_error_panic_hook = { version = "0.1", optional = true }
 # The server build
 hydration_context = { version = "0.3", optional = true }
 leptos_axum = { version = "0.8.10", optional = true }
-sapwood-i18n = { path = "sapwood/sapwood-i18n", optional = true }
+sapwood-i18n = { path = "sapwood/sapwood-i18n", default-features = false, optional = true }
 sapwood-assets = { path = "sapwood/sapwood-assets", optional = true }
 sapwood-session = { path = "sapwood/sapwood-session", optional = true }
 sapwood-forms = { path = "sapwood/sapwood-forms", optional = true }
@@ -95,8 +93,6 @@ axum = { version = "0.8", features = ["macros", "multipart"], optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
 tower = { version = "0.5", features = ["util"], optional = true }
 tower-http = { version = "0.6", features = ["trace", "compression-gzip", "compression-br", "fs", "set-header"], optional = true }
-minijinja = { version = "2", features = ["loader", "json"], optional = true }
-minijinja-autoreload = { version = "2", optional = true }
 rand = { version = "0.9", optional = true }
 form_urlencoded = { version = "1", optional = true }
 tracing = { version = "0.1", optional = true }

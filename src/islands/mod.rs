@@ -10,10 +10,12 @@
 //! - [`checkout`]: the terms box, the purchase report
 //! - [`quote`]: the quote request form's rows and lists
 //! - [`widgets`]: accordions, carousels, the fitting headline
+//! - [`admin`]: the admin's confirmations
 //! - [`account`]: the phone prefix and profile picture pickers
 //! - [`browser`]: helpers for the browser's page
 
 pub mod account;
+pub mod admin;
 mod browser;
 pub mod cart;
 pub mod checkout;

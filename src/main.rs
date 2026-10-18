@@ -7,8 +7,8 @@ use tracing_subscriber::EnvFilter;
 /// Settings come from the environment (and, on a development machine, the
 /// `.env` file):
 /// - `HOST` / `PORT`: where to listen (default 127.0.0.1:4000, behind a reverse proxy)
-/// - `APP_ENV=production`: load templates and assets once instead of watching them
-/// - `APP_ROOT`: the release folder (templates, translations, assets, public/)
+/// - `APP_ENV=production`: load the assets and the WebAssembly once instead of watching them
+/// - `APP_ROOT`: the release folder (translations, assets, pkg/, public/)
 /// - `RUST_LOG`: log detail, e.g. `info` or `piladerflice=debug`
 /// - `DATABASE_URL`: the SQLite database (default: `storage/development.sqlite3`)
 /// - `STORAGE_DIR`: uploaded images (default: `storage/`)

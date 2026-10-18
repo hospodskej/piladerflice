@@ -7,6 +7,7 @@ use crate::views::error_pages;
 
 /// A database or template failure: logged, and the visitor gets the static
 /// error page (public/500.html).
+#[derive(Debug)]
 pub struct AppError(anyhow::Error);
 
 impl<E: Into<anyhow::Error>> From<E> for AppError {

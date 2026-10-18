@@ -85,7 +85,7 @@ fn Bestsellers(products: Vec<ProductCard>) -> impl IntoView {
                         let href = path(&format!("/eshop/{}", product.key));
                         view! {
                             <div class="nejprodavanejsi-produkty-card">
-                                <a class="nejprodavanejsi-produkty-image-link" data-turbo="false" href=href.clone()>
+                                <a class="nejprodavanejsi-produkty-image-link" href=href.clone()>
                                     {product
                                         .image
                                         .map(|src| view! { <img alt=product.title.clone() class="nejprodavanejsi-produkty-image" src=src/> })}
@@ -97,7 +97,7 @@ fn Bestsellers(products: Vec<ProductCard>) -> impl IntoView {
                                     <span class="nejprodavanejsi-produkty-price">
                                         <strong>{product.price_from.unwrap_or_else(|| "---".into())}</strong>
                                     </span>
-                                    <a class="btn-prohlednout" data-turbo="false" href=href>{t("home.index.btn_prohlednout")}</a>
+                                    <a class="btn-prohlednout" href=href>{t("home.index.btn_prohlednout")}</a>
                                 </div>
                             </div>
                         }

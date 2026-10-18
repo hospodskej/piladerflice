@@ -13,9 +13,9 @@ use leptos::tachys::view::RenderHtml;
 use super::Ui;
 use super::layout::{Layout, LayoutData};
 use crate::AppState;
+use crate::islands::cart::CartView;
 use crate::request::Req;
 use crate::views::Page;
-use crate::views::cart_view::CartView;
 
 /// The session's cart, for pages that show it besides the header (the cart
 /// page, the checkout).

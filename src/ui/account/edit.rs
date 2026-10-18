@@ -4,7 +4,7 @@
 use leptos::prelude::*;
 
 use super::{AccountView, Avatar};
-use crate::ui::icons::{FlagAt, FlagCz};
+use crate::islands::account::{AvatarTexts, AvatarUpload, PhonePrefix};
 use crate::ui::{CsrfField, path, t};
 
 #[component]
@@ -23,7 +23,7 @@ pub fn EditPage(account: AccountView) -> impl IntoView {
                 <div class="account-form-header">
                     <h1>{t("auth.edit_profile_title")}</h1>
                     " "
-                    <a class="btn-outline-dark account-back-btn" data-turbo="false" href=path("/muj-ucet")>{t("auth.back_to_account")}</a>
+                    <a class="btn-outline-dark account-back-btn" href=path("/muj-ucet")>{t("auth.back_to_account")}</a>
                 </div>
                 <AvatarBox avatar_path=account.avatar_path.clone() initial=account.initial.clone()/>
                 <form class="checkout-main-col" action=path("/muj-ucet/upravit") accept-charset="UTF-8" method="post">
@@ -37,7 +37,7 @@ pub fn EditPage(account: AccountView) -> impl IntoView {
                                 <div class="form-group">
                                     <label for="phone_number">{t("kontakt.form_telefon")}</label>
                                     <div class="phone-field">
-                                        <PhonePrefix prefix=account.phone_prefix.clone()/>
+                                        <PhonePrefix prefix=account.phone_prefix.clone() label=t("auth.phone_prefix_label")/>
                                         <input type="tel" name="phone_number" id="phone_number" value=account.phone_number.clone()/>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@ pub fn EditPage(account: AccountView) -> impl IntoView {
                         </div>
                     </details>
                     <div class="checkout-nav">
-                        <a class="btn-outline-dark" data-turbo="false" href=path("/muj-ucet")>{t("checkout.back")}</a>
+                        <a class="btn-outline-dark" href=path("/muj-ucet")>{t("checkout.back")}</a>
                         " "
                         <input type="submit" value=t("auth.save_profile") class="btn-primary"/>
                     </div>
@@ -99,79 +99,24 @@ fn AvatarBox(avatar_path: Option<String>, initial: String) -> impl IntoView {
             <div class="checkout-box-body avatar-box-body">
                 <Avatar avatar_path=avatar_path initial=initial extra_class="avatar-preview"/>
                 <div class="avatar-controls">
-                    <form
-                        class="avatar-upload-form"
-                        data-turbo="false"
-                        data-controller="file-picker"
-                        data-file-picker-empty-value=t("auth.avatar_no_file")
-                        enctype="multipart/form-data"
-                        action=path("/muj-ucet/profilovy-obrazek")
-                        accept-charset="UTF-8"
-                        method="post"
-                    >
+                    <AvatarUpload texts=AvatarTexts {
+                        action: path("/muj-ucet/profilovy-obrazek"),
+                        choose: t("auth.avatar_choose"),
+                        empty: t("auth.avatar_no_file"),
+                        upload: t("auth.avatar_upload"),
+                    }>
                         <CsrfField/>
-                        <input
-                            type="file"
-                            name="avatar"
-                            id="avatar_file"
-                            class="file-picker-input"
-                            accept="image/jpeg,image/png,image/webp"
-                            required=true
-                            data-file-picker-target="input"
-                            data-action="change->file-picker#update"
-                        />
-                        <label for="avatar_file" class="btn-outline-dark file-picker-btn">{t("auth.avatar_choose")}</label>
-                        " "
-                        <span class="file-picker-name" data-file-picker-target="name">{t("auth.avatar_no_file")}</span>
-                        " "
-                        <input type="submit" value=t("auth.avatar_upload") class="btn-primary avatar-btn" data-file-picker-target="submit"/>
-                    </form>
+                    </AvatarUpload>
                     {has_avatar
                         .then(|| {
                             view! {
-                                <form data-turbo="false" class="button_to" method="post" action=path("/muj-ucet/profilovy-obrazek/smazat")>
+                                <form class="button_to" method="post" action=path("/muj-ucet/profilovy-obrazek/smazat")>
                                     <button class="btn-outline-dark avatar-btn" type="submit">{t("auth.avatar_remove")}</button>
                                     <CsrfField/>
                                 </form>
                             }
                         })}
                     <p class="avatar-hint">{t("auth.avatar_hint")}</p>
-                </div>
-            </div>
-        </div>
-    }
-}
-
-/// +420 or +43, with the flag.
-#[component]
-fn PhonePrefix(prefix: String) -> impl IntoView {
-    let austrian = prefix == "+43";
-    view! {
-        <div class="phone-prefix-dropdown" data-controller="phone-prefix" data-action="click@window->phone-prefix#closeIfOutside">
-            <button
-                type="button"
-                class="phone-prefix-btn"
-                data-phone-prefix-target="button"
-                data-action="click->phone-prefix#toggle"
-                aria-label=t("auth.phone_prefix_label")
-            >
-                <span data-phone-prefix-target="flag">
-                    {if austrian { view! { <FlagAt/> }.into_any() } else { view! { <FlagCz/> }.into_any() }}
-                </span>
-                " "
-                <span data-phone-prefix-target="label">{prefix.clone()}</span>
-                " "
-                <span class="chevron">"▼"</span>
-            </button>
-            <input type="hidden" name="phone_prefix" data-phone-prefix-target="input" value=prefix/>
-            <div class="phone-prefix-menu" data-phone-prefix-target="menu">
-                <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+420">
-                    <FlagCz/>
-                    <span>"+420"</span>
-                </div>
-                <div class="phone-prefix-option" data-action="click->phone-prefix#select" data-value="+43">
-                    <FlagAt/>
-                    <span>"+43"</span>
                 </div>
             </div>
         </div>

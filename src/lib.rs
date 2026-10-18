@@ -54,7 +54,10 @@ pub mod state;
 pub mod storage;
 #[cfg(feature = "ssr")]
 pub mod views;
+#[cfg(feature = "ssr")]
+pub mod wasm;
 
+pub mod icons;
 pub mod islands;
 #[cfg(feature = "ssr")]
 pub mod ui;
@@ -96,5 +99,6 @@ pub fn app(
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {
     console_error_panic_hook::set_once();
+    islands::page::adopt_stored_theme();
     leptos::mount::hydrate_islands();
 }

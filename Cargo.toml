@@ -32,6 +32,7 @@ default = ["ssr"]
 ssr = [
   "leptos/ssr",
   "dep:hydration_context",
+  "dep:leptos_axum",
   "dep:sapwood-i18n",
   "dep:sapwood-assets",
   "dep:sapwood-session",
@@ -61,34 +62,30 @@ ssr = [
   "dep:md-5",
   "dep:lettre",
 ]
-hydrate = [
-  "leptos/hydrate",
-  "dep:wasm-bindgen",
-  "dep:web-sys",
-  "dep:js-sys",
-  "dep:console_error_panic_hook",
-]
+hydrate = ["leptos/hydrate", "dep:console_error_panic_hook"]
 
 [dependencies]
-# Both builds
+# Both builds. The islands' code is compiled for the server too (it renders
+# there first), so the browser APIs they use must be there in both.
 leptos = { version = "0.8.22", features = ["islands"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
-
-# The browser build
-wasm-bindgen = { version = "=0.2.129", optional = true }
-js-sys = { version = "0.3", optional = true }
-web-sys = { version = "0.3", optional = true, features = [
+wasm-bindgen = "=0.2.129"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = [
   "Document", "Element", "HtmlElement", "HtmlInputElement", "HtmlSelectElement", "HtmlFormElement",
   "HtmlDocument", "Window", "Location", "History", "DomRect", "DomTokenList", "CssStyleDeclaration",
   "Event", "EventTarget", "KeyboardEvent", "MouseEvent", "SubmitEvent", "ScrollToOptions", "ScrollBehavior",
   "ScrollIntoViewOptions", "ScrollLogicalPosition", "ResizeObserver", "ResizeObserverEntry", "FileList", "File",
-  "FontFaceSet", "Storage",
+  "FontFaceSet", "Storage", "TransitionEvent", "DomRectReadOnly",
 ] }
+
+# The browser build
 console_error_panic_hook = { version = "0.1", optional = true }
 
 # The server build
 hydration_context = { version = "0.3", optional = true }
+leptos_axum = { version = "0.8.10", optional = true }
 sapwood-i18n = { path = "sapwood/sapwood-i18n", optional = true }
 sapwood-assets = { path = "sapwood/sapwood-assets", optional = true }
 sapwood-session = { path = "sapwood/sapwood-session", optional = true }
@@ -161,5 +158,5 @@ bin-default-features = false
 lib-features = ["hydrate"]
 lib-default-features = false
 lib-profile-release = "wasm-release"
-hash-files = true
+hash-files = false
 env = "DEV"

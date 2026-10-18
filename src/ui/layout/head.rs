@@ -1,14 +1,22 @@
 //! The page's `<head>`: title, search engine and share links, scripts and
 //! stylesheets.
 
+use leptos::config::LeptosOptions;
+use leptos::hydration::HydrationScripts;
 use leptos::prelude::*;
 
 use super::GA_MEASUREMENT_ID;
 use super::data::{Head as HeadData, SearchLinks, ShareCard};
 use crate::ui::asset;
+use crate::wasm::OUTPUT_NAME;
 
 #[component]
-pub fn Head(head: HeadData, stylesheets: Vec<String>, importmap_json: String, preloads: Vec<String>) -> impl IntoView {
+pub fn Head(
+    head: HeadData,
+    stylesheets: Vec<String>,
+    pkg_path: Option<String>,
+    consent: Option<String>,
+) -> impl IntoView {
     let HeadData {
         title,
         site_name,
@@ -28,8 +36,7 @@ pub fn Head(head: HeadData, stylesheets: Vec<String>, importmap_json: String, pr
             <meta name="apple-mobile-web-app-capable" content="yes"/>
             <meta name="application-name" content="Pila Derflice"/>
             <meta name="mobile-web-app-capable" content="yes"/>
-            <script inner_html=THEME_SCRIPT></script>
-            <script inner_html=CONSENT_SCRIPT></script>
+            <script inner_html=analytics_consent(consent.as_deref())></script>
             <script async src=format!("https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}")></script>
             <script inner_html=format!("gtag(\"js\", new Date());gtag(\"config\", \"{GA_MEASUREMENT_ID}\");")></script>
             {noindex.then(|| view! { <meta name="robots" content="noindex"/> })}
@@ -37,20 +44,30 @@ pub fn Head(head: HeadData, stylesheets: Vec<String>, importmap_json: String, pr
             <link rel="icon" type="image/x-icon" href=asset("icon.svg")/>
             {stylesheets
                 .into_iter()
-                .map(|href| view! { <link rel="stylesheet" href=href data-turbo-track="reload"/> })
+                .map(|href| view! { <link rel="stylesheet" href=href/> })
                 .collect_view()}
-            <script type="importmap" data-turbo-track="reload" inner_html=importmap_json></script>
-            {preloads.into_iter().map(|href| view! { <link rel="modulepreload" href=href/> }).collect_view()}
-            <script type="module" inner_html=IMPORT_APPLICATION></script>
+            {pkg_path.map(|pkg_path| view! { <HydrationScripts options=wasm_options(pkg_path) islands=true/> })}
         </head>
     }
 }
 
-const IMPORT_APPLICATION: &str = "import \"application\"";
+/// Google Analytics' consent: denied until the visitor accepts all cookies
+/// (the cookie banner island updates it when they choose).
+fn analytics_consent(consent: Option<&str>) -> String {
+    let analytics = if consent == Some("all") { "granted" } else { "denied" };
+    format!(
+        r#"window.dataLayer = window.dataLayer || []; function gtag() {{ dataLayer.push(arguments); }} gtag("consent", "default", {{ ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "{analytics}" }});"#
+    )
+}
 
-const THEME_SCRIPT: &str = r#"(function () { try { if (localStorage.getItem("theme") === "dark") { document.documentElement.classList.add("dark-mode"); } } catch (e) {} })();"#;
-
-const CONSENT_SCRIPT: &str = r#"window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } var storedConsent = (document.cookie.match(/(?:^|; )cookie_consent=([^;]*)/) || [])[1]; gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: storedConsent === "all" ? "granted" : "denied" });"#;
+/// Loads the islands' WebAssembly from `/{pkg_path}/`.
+fn wasm_options(pkg_path: String) -> LeptosOptions {
+    LeptosOptions::builder()
+        .output_name(OUTPUT_NAME)
+        .site_pkg_dir(pkg_path)
+        .hash_files(false)
+        .build()
+}
 
 /// Where search engines find this page in each language.
 #[component]

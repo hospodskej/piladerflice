@@ -3,19 +3,19 @@
 use leptos::prelude::*;
 
 use super::header::{NavLinks, ThemeToggle};
+use crate::islands::page::{MenuClose, MobileMenu};
 use crate::ui::icons::{MailIcon, PhoneIcon};
 use crate::ui::{asset, path, t};
 
 #[component]
 pub fn MobileSidebar() -> impl IntoView {
     view! {
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        <aside class="mobile-sidebar" id="mobileSidebar">
+        <MobileMenu>
             <div class="sidebar-header">
                 <a aria-label=t("nav.domu") href=path("/")>
                     <img alt=t("site.name") class="sidebar-logo" src=asset("logo-wm.webp")/>
                 </a>
-                <button class="close-sidebar" id="closeSidebar" aria-label=t("nav.close_menu")>"✕"</button>
+                <MenuClose label=t("nav.close_menu")/>
             </div>
             <nav class="sidebar-nav">
                 <NavLinks/>
@@ -38,6 +38,6 @@ pub fn MobileSidebar() -> impl IntoView {
                     </div>
                 </div>
             </div>
-        </aside>
+        </MobileMenu>
     }
 }

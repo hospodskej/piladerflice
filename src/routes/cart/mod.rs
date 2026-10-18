@@ -1,11 +1,10 @@
 //! The cart: the cart page, adding a variant, changing a quantity,
-//! removing a line. Changes answer with Turbo Streams (the widget and the
-//! cart table update in place) or, without Turbo, a redirect.
+//! removing a line. These are the plain forms, which redirect; the page's
+//! islands make the same changes through server functions.
 
 mod add;
 mod change;
 mod show;
-mod streams;
 
 pub use add::add;
 pub use change::{destroy, update};

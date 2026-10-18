@@ -3,25 +3,19 @@
 
 use leptos::prelude::*;
 
+use crate::islands::checkout::PurchaseReport;
 use crate::ui::{asset, path, t, t_with};
 
 /// The order as Google Analytics gets it.
 pub struct Purchase {
     pub order_id: i64,
-    /// "18000.0"
-    pub total_czk: String,
-    /// The items as JSON, safe inside `<script>`.
+    pub total_czk: f64,
+    /// The items as JSON.
     pub items_json: String,
 }
 
 #[component]
 pub fn ConfirmationPage(purchase: Purchase) -> impl IntoView {
-    let script = format!(
-        r#"(function () {{ var dedupeKey = "ga_purchase_fired_{id}"; try {{ if (sessionStorage.getItem(dedupeKey)) return; sessionStorage.setItem(dedupeKey, "1"); }} catch (e) {{}} if (typeof gtag === "function") {{ gtag("event", "purchase", {{ transaction_id: "{id}", value: {total}, currency: "CZK", items: {items} }}); }} }})();"#,
-        id = purchase.order_id,
-        total = purchase.total_czk,
-        items = purchase.items_json,
-    );
     view! {
         <main class="main">
             <section class="checkout-section checkout-confirmation">
@@ -36,7 +30,7 @@ pub fn ConfirmationPage(purchase: Purchase) -> impl IntoView {
                 </div>
                 <img alt="" class="checkout-confirmation-mascot" width="320" height="320" src=asset("mascot/thumbs-up.webp")/>
             </section>
-            <script inner_html=script></script>
+            <PurchaseReport order_id=purchase.order_id total_czk=purchase.total_czk items=purchase.items_json/>
         </main>
     }
 }

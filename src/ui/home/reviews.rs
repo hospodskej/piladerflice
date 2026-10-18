@@ -3,7 +3,7 @@
 use leptos::prelude::*;
 
 use super::Accented;
-use super::info::{ChevronLeft, ChevronRight};
+use crate::islands::widgets::{self, ReviewTexts, ReviewsCarousel};
 use crate::ui::{asset, t};
 
 pub struct Review {
@@ -21,6 +21,25 @@ pub struct Review {
 
 #[component]
 pub fn GoogleReviews(reviews: Vec<Review>) -> impl IntoView {
+    let reviews = reviews
+        .into_iter()
+        .map(|review| widgets::Review {
+            name: review.name,
+            avatar: review.avatar.as_deref().map(asset),
+            initial: review.initial,
+            color: review.color.to_string(),
+            stars: review.stars,
+            time_ago: review.time_ago,
+            text: review.text,
+        })
+        .collect();
+    let texts = ReviewTexts {
+        previous: t("common.previous"),
+        next: t("common.next"),
+        source: t("home.index.google_review_source"),
+        google_logo: asset("google-review.webp"),
+        like: t("home.index.google_review_like"),
+    };
     view! {
         <section class="google-reviews-section">
             <h2><Accented rest="home.index.google_reviews_title_rest" accent="home.index.google_reviews_title_accent"/></h2>
@@ -47,60 +66,7 @@ pub fn GoogleReviews(reviews: Vec<Review>) -> impl IntoView {
                     </div>
                 </div>
             </div>
-            <div class="google-reviews-carousel">
-                <button class="carousel-btn prev-btn" id="googleReviewsPrev" aria-label=t("common.previous")>
-                    <ChevronLeft/>
-                </button>
-                <div class="google-reviews-viewport">
-                    <div class="google-reviews-grid" id="googleReviewsTrack">
-                        {reviews.into_iter().map(|review| view! { <ReviewCard review=review/> }).collect_view()}
-                    </div>
-                </div>
-                <button class="carousel-btn next-btn" id="googleReviewsNext" aria-label=t("common.next")>
-                    <ChevronRight/>
-                </button>
-            </div>
+            <ReviewsCarousel reviews=reviews texts=texts/>
         </section>
-    }
-}
-
-#[component]
-fn ReviewCard(review: Review) -> impl IntoView {
-    let avatar = match review.avatar {
-        Some(avatar) => {
-            view! { <img alt=review.name.clone() class="google-review-avatar-img" src=asset(&avatar)/> }.into_any()
-        }
-        None => view! {
-            <div class="google-review-avatar" style=format!("background-color: {}", review.color)>{review.initial}</div>
-        }
-        .into_any(),
-    };
-    view! {
-        <div class="google-review-card">
-            <div class="google-review-card-header">
-                {avatar}
-                <div>
-                    <div class="google-review-name">{review.name}</div>
-                    <div class="google-review-source">
-                        <img alt="Google" class="google-review-source-icon" src=asset("google-review.webp")/>
-                        " "
-                        {t("home.index.google_review_source")}
-                    </div>
-                </div>
-            </div>
-            <div class="google-review-meta">
-                <span class="google-review-stars">{review.stars}</span>
-                " "
-                <span class="google-review-time">{review.time_ago}</span>
-            </div>
-            <p class="google-review-text">{review.text}</p>
-            <div class="google-review-like">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
-                </svg>
-                " "
-                {t("home.index.google_review_like")}
-            </div>
-        </div>
     }
 }

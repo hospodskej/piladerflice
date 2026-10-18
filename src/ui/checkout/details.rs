@@ -105,7 +105,7 @@ pub fn DetailsPage(checkout: CheckoutState, user_email: Option<String>, login_li
                             </div>
                         </details>
                         <div class="checkout-nav">
-                            <a class="btn-outline-dark" data-turbo="false" href=path("/kosik/doprava")>{t("checkout.back")}</a>
+                            <a class="btn-outline-dark" href=path("/kosik/doprava")>{t("checkout.back")}</a>
                             " "
                             <input type="submit" value=t("checkout.continue") class="btn-primary"/>
                         </div>

@@ -42,16 +42,12 @@ pub async fn show(State(state): State<AppState>, req: Req) -> Result {
             })
         })
         .collect();
-    // Nothing in the data may end the <script> early.
-    let items_json = serde_json::to_string(&ga_items)?
-        .replace('<', "\\u003c")
-        .replace('>', "\\u003e")
-        .replace('&', "\\u0026");
+    let items_json = serde_json::to_string(&ga_items)?;
 
     let page = Page::meta(&state, &req, "checkout_confirmation");
     let purchase = Purchase {
         order_id: order.id,
-        total_czk: format!("{:.1}", order.total_czk as f64),
+        total_czk: order.total_czk as f64,
         items_json,
     };
     Ok(ui::render::page(&state, &req, page, move || view! { <ConfirmationPage purchase/> }).await)

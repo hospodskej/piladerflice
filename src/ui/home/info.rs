@@ -4,6 +4,7 @@
 use leptos::prelude::*;
 
 use super::Accented;
+use crate::islands::widgets::{self, AccordionItem, CarouselTexts};
 use crate::ui::{asset, path, t};
 
 /// A service in the accordion; a button only when it has text and a link.
@@ -33,27 +34,10 @@ pub fn Services(services: Vec<ServiceItem>) -> impl IntoView {
                     .into_iter()
                     .map(|service| {
                         view! {
-                            <div class="accordion-item">
-                                <button class="accordion-header">
-                                    <span class="accordion-title">{service.title}</span>
-                                    " "
-                                    <span class="accordion-icon">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="6 9 12 15 18 9"/>
-                                        </svg>
-                                    </span>
-                                </button>
-                                <div class="accordion-content-wrapper">
-                                    <div class="accordion-content">
-                                        <div class="accordion-body">
-                                            <p inner_html=service.content></p>
-                                            {service
-                                                .button
-                                                .map(|(text, href)| view! { <a class="btn-cenik" href=href>{text}</a> })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <AccordionItem title=service.title faq=false>
+                                <p inner_html=service.content></p>
+                                {service.button.map(|(text, href)| view! { <a class="btn-cenik" href=href>{text}</a> })}
+                            </AccordionItem>
                         }
                     })
                     .collect_view()}
@@ -64,71 +48,24 @@ pub fn Services(services: Vec<ServiceItem>) -> impl IntoView {
 
 #[component]
 pub fn Slides(slides: Vec<Slide>) -> impl IntoView {
-    let count = slides.len();
+    let slides = slides
+        .into_iter()
+        .map(|slide| widgets::Slide {
+            title: slide.title,
+            content: slide.content,
+            image: slide.image.as_deref().map(asset),
+        })
+        .collect();
+    let texts = CarouselTexts {
+        previous: t("common.previous"),
+        next: t("common.next"),
+        slide: t("common.slide"),
+    };
     view! {
         <section class="co-by-vas-mohlo-zajimat">
             <h2><Accented rest="home.index.zajimat_title_rest" accent="home.index.zajimat_title_accent"/></h2>
-            <div class="carousel-wrapper" id="zajimatCarousel">
-                <button class="carousel-btn prev-btn" id="carouselPrev" aria-label=t("common.previous")>
-                    <ChevronLeft/>
-                </button>
-                <div class="carousel-container">
-                    {slides
-                        .into_iter()
-                        .enumerate()
-                        .map(|(index, slide)| {
-                            view! {
-                                <div class="carousel-slide" class:active=index == 0>
-                                    <img class="carousel-bg-img" alt=slide.title.clone() src=slide.image.as_deref().map(asset)/>
-                                    <div class="carousel-overlay"></div>
-                                    <div class="carousel-content">
-                                        <h3>{slide.title}</h3>
-                                        <div class="carousel-text">
-                                            <p inner_html=slide.content></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        })
-                        .collect_view()}
-                </div>
-                <button class="carousel-btn next-btn" id="carouselNext" aria-label=t("common.next")>
-                    <ChevronRight/>
-                </button>
-            </div>
-            <div class="carousel-dots">
-                {(1..=count)
-                    .map(|number| {
-                        view! {
-                            <button
-                                class="carousel-dot"
-                                class:active=number == 1
-                                aria-label=format!("{} {number}", t("common.slide"))
-                            ></button>
-                        }
-                    })
-                    .collect_view()}
-            </div>
+            <widgets::Slides slides=slides texts=texts/>
         </section>
-    }
-}
-
-/// The carousels' arrows.
-#[component]
-pub fn ChevronLeft() -> impl IntoView {
-    view! {
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
-        </svg>
-    }
-}
-
-#[component]
-pub fn ChevronRight() -> impl IntoView {
-    view! {
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-        </svg>
     }
 }
 
@@ -146,20 +83,9 @@ pub fn Faq() -> impl IntoView {
                             {(1..5)
                                 .map(|number| {
                                     view! {
-                                        <div class="accordion-item faq-item">
-                                            <button class="accordion-header">
-                                                <span class="accordion-title">{t(&format!("home.index.faq_{topic}_q{number}"))}</span>
-                                                " "
-                                                <span class="faq-icon"></span>
-                                            </button>
-                                            <div class="accordion-content-wrapper">
-                                                <div class="accordion-content">
-                                                    <div class="accordion-body">
-                                                        <p>{t(&format!("home.index.faq_{topic}_a{number}"))}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <AccordionItem title=t(&format!("home.index.faq_{topic}_q{number}")) faq=true>
+                                            <p>{t(&format!("home.index.faq_{topic}_a{number}"))}</p>
+                                        </AccordionItem>
                                     }
                                 })
                                 .collect_view()}

@@ -4,6 +4,7 @@
 use leptos::prelude::*;
 
 use super::Stepper;
+use crate::islands::checkout::TermsAgreement;
 use crate::ui::render::current_cart;
 use crate::ui::{CsrfField, path, t, t_html, t_with};
 
@@ -117,15 +118,9 @@ pub fn SummaryPage(order: OrderView, delivery: Option<DeliveryView>, errors: Vec
                                 </div>
                             </div>
                         </div>
-                        <label class="custom-checkbox-label checkout-checkbox">
-                            <input type="checkbox" name="terms_agreement" value="1" id="termsAgreement"/>
-                            <span class="custom-checkbox"></span>
-                            " "
-                            <span inner_html=terms></span>
-                        </label>
-                        <p class="checkout-terms-error" id="termsError" hidden=true>{t("checkout.terms_required")}</p>
+                        <TermsAgreement terms=terms error=t("checkout.terms_required")/>
                         <div class="checkout-nav">
-                            <a class="btn-outline-dark" data-turbo="false" href=path("/kosik/udaje")>{t("checkout.back")}</a>
+                            <a class="btn-outline-dark" href=path("/kosik/udaje")>{t("checkout.back")}</a>
                             " "
                             <input type="submit" value=t("checkout.continue") class="btn-primary"/>
                         </div>

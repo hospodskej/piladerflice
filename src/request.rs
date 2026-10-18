@@ -118,13 +118,17 @@ impl Req {
             .map(str::to_string)
     }
 
-    /// Whether the browser asked for a Turbo Stream (a form submitted by
-    /// Turbo), rather than a whole page.
-    pub fn wants_turbo_stream(&self) -> bool {
+    /// A cookie the browser sent (the plain ones the pages set themselves,
+    /// like the theme; the session's are read by the session layer).
+    pub fn cookie(&self, name: &str) -> Option<String> {
         self.headers
-            .get(axum::http::header::ACCEPT)
-            .and_then(|value| value.to_str().ok())
-            .is_some_and(|accept| accept.contains("text/vnd.turbo-stream.html"))
+            .get_all(header::COOKIE)
+            .iter()
+            .filter_map(|value| value.to_str().ok())
+            .flat_map(|cookies| cookies.split(';'))
+            .filter_map(|pair| pair.trim().split_once('='))
+            .find(|(key, _)| *key == name)
+            .map(|(_, value)| value.to_string())
     }
 }
 

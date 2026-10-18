@@ -2,6 +2,7 @@
 
 use leptos::prelude::*;
 
+use crate::islands::page::CookieSettingsButton;
 use crate::ui::{asset, path, t};
 
 const SERVICE_LINKS: [(&str, &str); 5] = [
@@ -59,7 +60,7 @@ pub fn Footer() -> impl IntoView {
                 <div class="footer-bottom">
                     <a class="footer-cookie-settings" href=path("/zasady-ochrany-osobnich-udaju")>{t("legal.privacy_title")}</a>
                     " "
-                    <button type="button" class="footer-cookie-settings" data-cookie-settings="">{t("cookies.settings_link")}</button>
+                    <CookieSettingsButton label=t("cookies.settings_link")/>
                 </div>
                 <div class="footer-map">
                     {map()}

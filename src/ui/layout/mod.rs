@@ -9,11 +9,12 @@ mod header;
 mod sidebar;
 
 pub use data::{GA_MEASUREMENT_ID, LayoutData};
-pub use header::CartWidget;
 
 use leptos::prelude::*;
 
 use super::{asset, path, t};
+use crate::islands::cart::{CartAddedModal, ModalTexts};
+use crate::islands::page::{self, CookieTexts};
 use crate::session::Flash;
 use crate::views::Crumb;
 
@@ -29,12 +30,17 @@ pub fn Layout(data: LayoutData, children: Children) -> impl IntoView {
         cart,
         user,
         stylesheets,
-        importmap_json,
-        preloads,
+        pkg_path,
+        dark_mode,
+        consent,
     } = data;
+    let banner = consent.is_none();
+    // The theme's class only when dark (a `class` in the view would
+    // always be written, if empty).
+    let theme = dark_mode.then_some("dark-mode");
     view! {
         <html lang=locale.code()>
-            <head::Head head=head stylesheets=stylesheets importmap_json=importmap_json preloads=preloads/>
+            <head::Head head=head stylesheets=stylesheets pkg_path=pkg_path consent=consent/>
             <body>
                 <div class="page-wrapper">
                     <header::Header user=user cart=cart switch_cs=switch_cs switch_de=switch_de/>
@@ -45,11 +51,12 @@ pub fn Layout(data: LayoutData, children: Children) -> impl IntoView {
                 </div>
                 <StickyLogo/>
                 <sidebar::MobileSidebar/>
-                <CookieBanner/>
-                <div id="cart-added-modal"></div>
+                <CookieBanner show=banner/>
+                <CartAddedModal texts=ModalTexts::translated()/>
             </body>
         </html>
     }
+    .attr("class", theme)
 }
 
 #[component]
@@ -94,38 +101,23 @@ fn Breadcrumbs(crumbs: Vec<Crumb>) -> impl IntoView {
 #[component]
 fn StickyLogo() -> impl IntoView {
     view! {
-        <div class="sticky-logo-bar" id="stickyLogoBar">
+        <page::StickyLogo>
             <a aria-label=t("nav.domu") href=path("/")>
                 <img alt=t("site.name") class="sticky-logo-img" src=asset("logo-wm.webp")/>
             </a>
-        </div>
+        </page::StickyLogo>
     }
 }
 
 #[component]
-fn CookieBanner() -> impl IntoView {
-    view! {
-        <div id="cookie-consent-banner" class="cookie-consent-banner" hidden>
-            <div class="cookie-consent-content">
-                <p class="cookie-consent-text">
-                    {t("cookies.banner_text")}
-                    " "
-                    <a class="cookie-consent-link" href=path("/zasady-cookies")>{t("cookies.learn_more")}</a>
-                </p>
-                <div class="cookie-consent-actions">
-                    <button type="button" class="btn-cookie btn-cookie-decline" data-cookie-consent="declined">
-                        {t("cookies.decline")}
-                    </button>
-                    " "
-                    <button type="button" class="btn-cookie btn-cookie-necessary" data-cookie-consent="necessary">
-                        {t("cookies.necessary_only")}
-                    </button>
-                    " "
-                    <button type="button" class="btn-cookie btn-cookie-accept" data-cookie-consent="all">
-                        {t("cookies.accept_all")}
-                    </button>
-                </div>
-            </div>
-        </div>
-    }
+fn CookieBanner(show: bool) -> impl IntoView {
+    let texts = CookieTexts {
+        text: t("cookies.banner_text"),
+        learn_more: t("cookies.learn_more"),
+        learn_more_href: path("/zasady-cookies"),
+        decline: t("cookies.decline"),
+        necessary_only: t("cookies.necessary_only"),
+        accept_all: t("cookies.accept_all"),
+    };
+    view! { <page::CookieBanner show=show texts=texts/> }
 }

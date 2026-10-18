@@ -165,6 +165,18 @@ async fn assets_are_fingerprinted_and_cached_for_good() {
     );
 
     assert_eq!(get("/assets/nope-12345678.css").await.status, StatusCode::NOT_FOUND);
-    assert_contains(&page, r#""controllers": "/assets/controllers/index-"#);
     assert_contains(&page, r#"<link rel="stylesheet" href="/assets/base/global-"#);
+
+    // The islands' WebAssembly, under the build's version.
+    let start = page.body.find("/pkg/").expect("islands build");
+    let script = &page.body[start..start + page.body[start..].find('"').unwrap()];
+    assert!(script.ends_with("/piladerflice.js"), "{script}");
+    let script = get(script).await;
+    assert_eq!(script.status, StatusCode::OK);
+    assert_eq!(script.headers[header::CONTENT_TYPE], "text/javascript");
+    assert_eq!(
+        script.headers[header::CACHE_CONTROL],
+        "public, max-age=31536000, immutable"
+    );
+    assert_eq!(get("/pkg/00000000/piladerflice.js").await.status, StatusCode::NOT_FOUND);
 }

@@ -75,8 +75,9 @@ async fn firewood_page_has_the_container_grid_and_crates() {
 #[tokio::test]
 async fn lumber_page_filters_by_dimension() {
     let page = get("/at/eshop/fosny").await;
-    page.assert_contains(r#"<button type="button" data-filter="200x50" class="filter-btn">200×50 mm</button>"#);
-    page.assert_contains(r#"<div data-filter-value="240x60" class="inventory-card">"#);
+    // The filter is an island: its buttons, and the cards it shows or hides.
+    page.assert_contains(r#"<button type="button" class="filter-btn">200×50 mm</button>"#);
+    page.assert_contains(r#"&quot;shown_for&quot;:[&quot;240x60&quot;]"#);
     page.assert_contains(r#"<span class="spec-value">Qualität AB</span>"#);
     page.assert_contains("≈ 356,00 €");
 }
@@ -108,7 +109,7 @@ async fn contact_page_shows_the_price_list_safely() {
     // typed HTML is cleaned
     page.assert_lacks("<script>x</script>");
     page.assert_contains(r#"<option value="Buk">Buk</option>"#);
-    page.assert_contains(r#"<fieldset data-category="stavebni" hidden disabled class="kalkulace-fields-section">"#);
+    page.assert_contains(r#"<fieldset hidden disabled class="kalkulace-fields-section">"#);
     page.assert_contains(r#"<a target="_blank" rel="noopener" href="/zasady-ochrany-osobnich-udaju">"#);
 
     let german = get("/at/kontakt").await;

@@ -3,10 +3,12 @@
 //! cart, the message of the previous form.
 
 use crate::AppState;
+use crate::islands::cart::CartView;
+use crate::islands::page::{CONSENT_COOKIE, THEME_COOKIE};
 use crate::locale::Locale;
 use crate::request::Req;
 use crate::session::Flash;
-use crate::views::cart_view::{self, CartView};
+use crate::views::cart_view;
 use crate::views::{Crumb, Page, breadcrumbs, seo};
 
 pub const GA_MEASUREMENT_ID: &str = "G-CMJ46E7F3G";
@@ -21,10 +23,14 @@ pub struct LayoutData {
     pub flash: Option<Flash>,
     pub cart: CartView,
     pub user: Option<UserBadge>,
-    /// Stylesheets, the JavaScript import map and its preloads.
     pub stylesheets: Vec<String>,
-    pub importmap_json: String,
-    pub preloads: Vec<String>,
+    /// Where the islands' WebAssembly is served from; None without a build.
+    pub pkg_path: Option<String>,
+    /// The visitor chose the dark theme (the `theme` cookie).
+    pub dark_mode: bool,
+    /// The visitor's cookie choice ("all", "necessary", "declined"); None
+    /// until they make one, and the banner asks.
+    pub consent: Option<String>,
 }
 
 pub struct Head {
@@ -119,13 +125,9 @@ impl LayoutData {
                 avatar_path: current.avatar_path(|path| req.path_for(path)),
             }),
             stylesheets: state.assets.urls_with_extension("css"),
-            importmap_json: state.importmap.json(&state.assets),
-            preloads: state
-                .importmap
-                .urls(&state.assets)
-                .into_iter()
-                .map(|(_, url)| url)
-                .collect(),
+            pkg_path: state.wasm.pkg_path(),
+            dark_mode: req.cookie(THEME_COOKIE).as_deref() == Some("dark"),
+            consent: req.cookie(CONSENT_COOKIE),
         })
     }
 }

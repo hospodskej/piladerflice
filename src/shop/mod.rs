@@ -1,6 +1,7 @@
 //! Shopping: the cart and checkout details (both kept in the session) and
 //! the delivery price.
 
+pub mod adding;
 pub mod cart;
 pub mod cart_image;
 pub mod cart_line;

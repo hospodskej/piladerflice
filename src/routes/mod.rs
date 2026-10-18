@@ -19,6 +19,7 @@ pub(crate) mod not_found;
 mod product_range;
 mod public_files;
 mod rejections;
+mod server_fns;
 mod sitemap;
 mod sluzby;
 mod sortiment;
@@ -37,6 +38,7 @@ use crate::AppState;
 use crate::assets::Assets;
 use crate::forms::MAX_UPLOAD_BYTES;
 use crate::ui::sortiment::Range;
+use crate::wasm::Wasm;
 
 pub fn router(state: AppState) -> Router {
     Router::new()
@@ -45,6 +47,7 @@ pub fn router(state: AppState) -> Router {
         .route("/robots.txt", get(system::robots))
         .route("/sitemap.xml", get(sitemap::show))
         .merge(Assets::router(state.assets.clone()))
+        .merge(Wasm::router(state.wasm.clone()))
         .route("/uploads/{key}/{filename}", get(uploads::serve))
         // Pages
         .route("/", get(home::index))
@@ -74,6 +77,8 @@ pub fn router(state: AppState) -> Router {
         .route("/kosik/souhrn", get(checkout::summary).post(checkout::confirm))
         .route("/kosik/dekujeme", get(checkout::confirmation))
         .route("/inquiries", post(inquiries::create))
+        // The islands' server functions
+        .route("/api/{*function}", post(server_fns::handle))
         // Accounts
         .route("/prihlaseni", get(auth::login_page).post(auth::login))
         .route("/odhlaseni", post(auth::logout))

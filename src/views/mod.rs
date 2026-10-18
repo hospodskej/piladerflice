@@ -9,7 +9,7 @@
 //! - [`page`]: per-page title, description, breadcrumbs, status
 //! - [`breadcrumbs`], [`seo`]: what the layout derives from the URL
 //! - [`cart_view`]: the cart as the pages show it (header widget, cart page, checkout)
-//! - [`turbo`]: Turbo Stream answers to forms; [`redirect`]: after a form
+//! - [`redirect`]: after a form
 //! - [`error_pages`]: the static 422 and 500 pages
 //! - [`text`]: small text helpers (escaping, squish, truncate)
 //! - [`form_helpers`]: form fields for the admin templates
@@ -26,7 +26,6 @@ pub mod redirect;
 pub mod seo;
 pub mod templates;
 pub mod text;
-pub mod turbo;
 
 pub use breadcrumbs::Crumb;
 pub use page::Page;

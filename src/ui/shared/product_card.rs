@@ -49,7 +49,7 @@ pub fn ProductCardView(product: ProductCard, #[prop(default = None)] badge: Opti
     let href = path(&format!("/eshop/{}", product.key));
     view! {
         <div class="product-card">
-            <a class="product-image-wrapper-eshop" data-turbo="false" href=href.clone()>
+            <a class="product-image-wrapper-eshop" href=href.clone()>
                 {badge.map(|badge| view! { <span class="product-badge">{format!("{badge}.")}</span> })}
                 {product.image.map(|src| view! { <img alt=product.title.clone() class="product-img" src=src/> })}
             </a>
@@ -58,7 +58,7 @@ pub fn ProductCardView(product: ProductCard, #[prop(default = None)] badge: Opti
                 <p class="product-type">{product.type_label}</p>
                 <p class="product-stock">{t("common.stock")}</p>
                 <p class="product-price">{product.price_from.unwrap_or_else(|| "---".into())}</p>
-                <a class="btn-primary btn-detail" data-turbo="false" href=href>{t("common.detail")}</a>
+                <a class="btn-primary btn-detail" href=href>{t("common.detail")}</a>
             </div>
         </div>
     }

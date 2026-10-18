@@ -111,6 +111,7 @@ impl TestApp {
     fn build(db: db::Db, services: Services, storage_root: PathBuf) -> Self {
         let mut config = Config::from_source_tree(false);
         config.storage_root = storage_root;
+        config.pkg_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/pkg");
         let state = AppState::with(config, db, services).expect("app state");
         Self { state }
     }
@@ -138,7 +139,6 @@ pub struct Browser<'a> {
     app: &'a TestApp,
     cookie: Option<String>,
     token: String,
-    pub turbo: bool,
     /// Sent as the Origin header of form posts.
     pub origin: Option<String>,
 }
@@ -149,7 +149,6 @@ impl TestApp {
             app: self,
             cookie: None,
             token: String::new(),
-            turbo: false,
             origin: None,
         }
     }
@@ -184,13 +183,21 @@ impl Browser<'_> {
             .extend_pairs(fields)
             .finish();
         let mut request = Request::post(path).header(header::CONTENT_TYPE, "application/x-www-form-urlencoded");
-        if self.turbo {
-            request = request.header(header::ACCEPT, "text/vnd.turbo-stream.html, text/html");
-        }
         if let Some(origin) = &self.origin {
             request = request.header(header::ORIGIN, origin.clone());
         }
         self.send(request, Body::from(body)).await
+    }
+
+    /// Calls an island's server function (`/api/{function}`) as the site's
+    /// own page would: from its origin, with the session's cookies.
+    pub async fn call(&mut self, function: &str, args: &[(&str, &str)]) -> Page {
+        let origin = self.origin.take();
+        self.origin = Some(origin.clone().unwrap_or_else(|| "http://piladerflice.test".into()));
+        let args: Vec<(&str, String)> = args.iter().map(|(k, v)| (*k, v.to_string())).collect();
+        let page = self.post_raw(&format!("/api/{function}"), &args).await;
+        self.origin = origin;
+        page
     }
 
     /// Submits a multipart form with one file, plus the page's token.

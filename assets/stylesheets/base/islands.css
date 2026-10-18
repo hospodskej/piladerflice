@@ -1,0 +1,7 @@
+/* The islands (the interactive parts, src/islands/) arrive wrapped in
+   <leptos-island> and <leptos-children> elements. They take no part in the
+   layout: their content lays out as if they weren't there. */
+leptos-island,
+leptos-children {
+  display: contents;
+}

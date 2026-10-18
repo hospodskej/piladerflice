@@ -3,6 +3,7 @@
 
 use leptos::prelude::*;
 
+use crate::islands::quote::{CategoryInput, CategoryToggles, ItemRows, QuoteField, QuoteTexts};
 use crate::ui::{CsrfField, path, t, t_html, t_html_with};
 
 /// The item rows of one category ("palivove", "stavebni").
@@ -43,14 +44,13 @@ pub fn QuoteForm(sections: Vec<FormSection>) -> impl IntoView {
             <div class="kalkulace-header">
                 <h2 inner_html=t_html("kontakt.kalkulace_title_html")></h2>
             </div>
-            <div class="kalkulace-toggles">
-                <button type="button" class="toggle-btn active" data-target="palivove">{t("kontakt.toggle_palivove")}</button>
-                " "
-                <button type="button" class="toggle-btn" data-target="stavebni">{t("kontakt.toggle_stavebni")}</button>
-            </div>
+            <CategoryToggles options=vec![
+                ("palivove".to_string(), t("kontakt.toggle_palivove")),
+                ("stavebni".to_string(), t("kontakt.toggle_stavebni")),
+            ]/>
             <form id="kalkulace-form" class="kalkulace-form" action=path("/inquiries") accept-charset="UTF-8" method="post">
                 <CsrfField/>
-                <input type="hidden" name="kalkulace_category" id="kalkulace-category-input" value="palivove"/>
+                <CategoryInput/>
                 <h3 class="form-section-title">{t("kontakt.form_section_kontakt")}</h3>
                 <div class="kalkulace-grid-2">
                     {CONTACT_FIELDS
@@ -95,84 +95,29 @@ fn t_html_raw_link(key: &str, link: &str) -> String {
 /// The item rows of one category; only firewood shows at first.
 #[component]
 fn Items(section: FormSection) -> impl IntoView {
-    let hidden = section.category != "palivove";
-    let grid = format!("kalkulace-grid-{}", section.fields.len());
-    view! {
-        <fieldset class="kalkulace-fields-section" data-category=section.category hidden=hidden disabled=hidden>
-            <div class="kalkulace-labels-row">
-                <div class=grid.clone()>
-                    {section
-                        .fields
-                        .iter()
-                        .map(|field| view! { <label class="grid-label">{t(&format!("kontakt.grid_{}", field.name))}</label> })
-                        .collect_view()}
-                </div>
-                <div class="delete-spacer"></div>
-            </div>
-            <div class="kalkulace-items-container">
-                <div class="kalkulace-row">
-                    <div class=grid>
-                        {section.fields.into_iter().map(|field| view! { <Field field=field/> }).collect_view()}
-                    </div>
-                    <button type="button" class="delete-item-btn" aria-label=t("kontakt.delete_item_aria")>
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="add-item-wrapper">
-                <button type="button" class="add-kalkulace-row add-item-btn" aria-label=t("kontakt.add_item_aria")>
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
-                    </svg>
-                </button>
-            </div>
-        </fieldset>
-    }
-}
-
-#[component]
-fn Field(field: FormField) -> impl IntoView {
-    let content = if field.number {
-        view! {
-            <input
-                type="number"
-                name="mnozstvi[]"
-                id="mnozstvi_"
-                min="1"
-                step="1"
-                placeholder=t("kontakt.kalkulace_mnozstvi_placeholder")
-            />
-        }
-        .into_any()
-    } else {
-        view! {
-            <select name=format!("{}[]", field.name)>
-                {field
-                    .options
-                    .into_iter()
-                    .map(|option| {
-                        let value = option.clone();
-                        view! { <option value=value>{option}</option> }
-                    })
-                    .collect_view()}
-                {field.custom.then(|| view! { <option value="__custom__">{t("kontakt.kalkulace_custom_option")}</option> })}
-            </select>
-            {field
-                .custom
-                .then(|| {
-                    view! {
-                        <input
-                            type="text"
-                            class="custom-value-input"
-                            style="display:none"
-                            placeholder=t("kontakt.kalkulace_custom_placeholder")
-                        />
-                    }
-                })}
-        }
-        .into_any()
+    let texts = QuoteTexts {
+        labels: section
+            .fields
+            .iter()
+            .map(|field| t(&format!("kontakt.grid_{}", field.name)))
+            .collect(),
+        delete: t("kontakt.delete_item_aria"),
+        add: t("kontakt.add_item_aria"),
+        custom_option: t("kontakt.kalkulace_custom_option"),
+        custom_placeholder: t("kontakt.kalkulace_custom_placeholder"),
+        quantity_placeholder: t("kontakt.kalkulace_mnozstvi_placeholder"),
     };
-    view! { <div class="form-group">{content}</div> }
+    // The wide rows' lists open as the site's own menus.
+    let dropdowns = matches!(section.fields.len(), 4 | 5);
+    let fields = section
+        .fields
+        .into_iter()
+        .map(|field| QuoteField {
+            name: field.name.to_string(),
+            options: field.options,
+            custom: field.custom,
+            number: field.number,
+        })
+        .collect();
+    view! { <ItemRows category_key=section.category.to_string() fields=fields dropdowns=dropdowns texts=texts/> }
 }

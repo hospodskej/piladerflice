@@ -52,7 +52,7 @@ pub fn ShippingPage(checkout: CheckoutState, rate_per_km: String) -> impl IntoVi
                             </div>
                         </div>
                         <div class="checkout-nav">
-                            <a class="btn-outline-dark" data-turbo="false" href=path("/kosik")>{t("checkout.back")}</a>
+                            <a class="btn-outline-dark" href=path("/kosik")>{t("checkout.back")}</a>
                             " "
                             <input type="submit" value=t("checkout.continue") class="btn-primary"/>
                         </div>

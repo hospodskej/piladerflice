@@ -25,6 +25,9 @@ pub struct Config {
     /// openrouteservice key for the delivery distance; None = no distance.
     pub ors_api_key: Option<String>,
     pub mail: MailSettings,
+    /// The islands' WebAssembly build (`cargo leptos build` writes it to
+    /// target/site/pkg; a release has it in pkg/).
+    pub pkg_dir: PathBuf,
 }
 
 impl Config {
@@ -39,6 +42,7 @@ impl Config {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let database_url = format!("sqlite:{}", root.join("storage/development.sqlite3").display());
         let storage_root = root.join("storage/uploads");
+        let pkg_dir = root.join("target/site/pkg");
         Self {
             root,
             development,
@@ -48,6 +52,7 @@ impl Config {
             secure_cookies: false,
             ors_api_key: None,
             mail: MailSettings::outbox_only(),
+            pkg_dir,
         }
     }
 
@@ -60,6 +65,7 @@ impl Config {
             config.root = PathBuf::from(&root);
             config.database_url = format!("sqlite:{}", config.root.join("storage/production.sqlite3").display());
             config.storage_root = config.root.join("storage/uploads");
+            config.pkg_dir = config.root.join("pkg");
         }
         if let Some(url) = var("DATABASE_URL") {
             config.database_url = url;

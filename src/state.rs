@@ -16,11 +16,13 @@ use crate::mail::{MailSettings, Mailer};
 use crate::money::ExchangeRates;
 use crate::shop::delivery::RouteService;
 use crate::views::Templates;
+use crate::wasm::Wasm;
 
 pub struct Inner {
     pub config: Config,
     pub translations: Arc<Translations>,
     pub assets: Arc<Assets>,
+    pub wasm: Arc<Wasm>,
     pub importmap: Importmap,
     pub templates: Templates,
     pub db: Db,
@@ -69,6 +71,7 @@ impl AppState {
         let cookie_key = Key::derive_from(config.secret_key_base.as_bytes());
         let translations = Arc::new(crate::i18n::load(&config.root.join("locales"))?);
         let assets = Arc::new(assets::load(&config.root, config.development)?);
+        let wasm = Arc::new(Wasm::load(&config.pkg_dir, config.development));
         let templates = Templates::new(
             config.root.join("templates"),
             translations.clone(),
@@ -79,6 +82,7 @@ impl AppState {
             config,
             translations,
             assets,
+            wasm,
             importmap: assets::importmap(),
             templates,
             db,

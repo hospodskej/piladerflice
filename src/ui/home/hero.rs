@@ -3,6 +3,7 @@
 
 use leptos::prelude::*;
 
+use crate::islands::widgets::FitLines;
 use crate::ui::{asset, path, t};
 
 /// This week's promo.
@@ -40,11 +41,11 @@ pub fn Hero(promo: Option<Promo>) -> impl IntoView {
         <section class="hero-section">
             <div class="hero-intro">
                 <div>
-                    <h1 data-controller="fit-lines" data-fit-lines-min-value="20">
+                    <FitLines min=20.0>
                         <span class="text-accent">{t("home.index.hero_title_accent")}</span>
                         <br/>
                         {t("home.index.hero_title_rest")}
-                    </h1>
+                    </FitLines>
                     <p>{t("home.index.hero_text")}</p>
                 </div>
                 <div class="domu-buttons">

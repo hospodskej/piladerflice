@@ -5,6 +5,7 @@ use leptos::prelude::*;
 
 use super::VariantView;
 use super::buy::BuyOrSoldOut;
+use crate::islands::widgets::{FilterButtons, Filtered};
 use crate::ui::{t, t_html};
 
 pub struct LumberVariants {
@@ -39,18 +40,12 @@ pub fn Lumber(variants: LumberVariants, title: String) -> impl IntoView {
                                 {if has_dimensions { t("common.spec_dimension") } else { t("common.spec_grade") }}
                             </span>
                             " "
-                            <div class="filter-buttons dimension-filter" data-grid-target="lumberGrid">
-                                <button type="button" class="filter-btn active" data-filter="all">{t("common.all")}</button>
-                                {filters
-                                    .into_iter()
-                                    .map(|option| {
-                                        view! {
-                                            " "
-                                            <button type="button" class="filter-btn" data-filter=option.key>{option.label}</button>
-                                        }
-                                    })
-                                    .collect_view()}
-                            </div>
+                            <FilterButtons
+                                class="filter-buttons dimension-filter".to_string()
+                                options=std::iter::once(("all".to_string(), t("common.all")))
+                                    .chain(filters.into_iter().map(|option| (option.key, option.label)))
+                                    .collect()
+                            />
                         </div>
                     }
                 })}
@@ -67,9 +62,9 @@ pub fn Lumber(variants: LumberVariants, title: String) -> impl IntoView {
 #[component]
 fn Card(variant: VariantView, title: String, price_suffix: String) -> impl IntoView {
     let mm = |value: Option<i64>| value.map(|value| format!("{value} mm"));
-    let filter_value = variant.filter_value.clone();
+    let shown_for = vec![variant.filter_value.clone()];
     view! {
-        <div class="inventory-card" data-filter-value=filter_value>
+        <Filtered shown_for=shown_for class="inventory-card".to_string()>
             {variant.image.clone().map(|src| view! { <img alt=title class="inventory-img" src=src/> })}
             <div class="inventory-specs">
                 <div class="spec-labels">
@@ -87,6 +82,6 @@ fn Card(variant: VariantView, title: String, price_suffix: String) -> impl IntoV
             </div>
             <p class="inventory-price" inner_html=format!("{} {price_suffix}", sapwood_i18n::escape_html(&variant.price))></p>
             <BuyOrSoldOut variant=variant/>
-        </div>
+        </Filtered>
     }
 }

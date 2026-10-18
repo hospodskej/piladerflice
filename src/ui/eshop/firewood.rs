@@ -5,6 +5,7 @@ use leptos::prelude::*;
 
 use super::VariantView;
 use super::buy::BuyOrSoldOut;
+use crate::islands::widgets::{FilterButtons, Filtered, FilteredRule};
 use crate::ui::{t, t_html};
 
 pub struct FirewoodVariants {
@@ -30,16 +31,17 @@ pub fn Firewood(variants: FirewoodVariants) -> impl IntoView {
             <div class="inventory-filter">
                 <span class="filter-label">{t("common.loose_type_label")}</span>
                 " "
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-target="all">{t("common.all")}</button>
-                    " "
-                    <button class="filter-btn" data-target="kontejner">{t("common.container")}</button>
-                    " "
-                    <button class="filter-btn" data-target="bedny">{t("common.crate")}</button>
-                </div>
+                <FilterButtons
+                    class="filter-buttons".to_string()
+                    options=vec![
+                        ("all".to_string(), t("common.all")),
+                        ("kontejner".to_string(), t("common.container")),
+                        ("bedny".to_string(), t("common.crate")),
+                    ]
+                />
             </div>
             <hr class="inventory-separator main-separator"/>
-            <div id="section-kontejner" class="inventory-group">
+            <Filtered shown_for=vec!["kontejner".to_string()] id="section-kontejner".to_string() class="inventory-group".to_string()>
                 <h2 class="section-title" inner_html=t_html("eshop.firewood.variants_heading_html")></h2>
                 <div class="matrix-grid">
                     <div class="matrix-cell empty"></div>
@@ -66,9 +68,9 @@ pub fn Firewood(variants: FirewoodVariants) -> impl IntoView {
                         })
                         .collect_view()}
                 </div>
-            </div>
-            <hr class="inventory-separator mid-separator"/>
-            <div id="section-bedny" class="inventory-group">
+            </Filtered>
+            <FilteredRule class="inventory-separator mid-separator".to_string()/>
+            <Filtered shown_for=vec!["bedny".to_string()] id="section-bedny".to_string() class="inventory-group".to_string()>
                 <h2 class="section-title" inner_html=t_html("eshop.firewood.crates_heading_html")></h2>
                 <div class="matrix-grid-bedny">
                     <div class="matrix-cell empty"></div>
@@ -83,13 +85,10 @@ pub fn Firewood(variants: FirewoodVariants) -> impl IntoView {
                         })
                         .collect_view()}
                 </div>
-            </div>
+            </Filtered>
         </section>
-        <script inner_html=FILTER_SCRIPT></script>
     }
 }
-
-const FILTER_SCRIPT: &str = r#"document.addEventListener("DOMContentLoaded",()=>{const buttons=document.querySelectorAll(".filter-btn");const sectionKontejner=document.getElementById("section-kontejner");const sectionBedny=document.getElementById("section-bedny");const midSeparator=document.querySelector(".mid-separator");buttons.forEach(btn=>{btn.addEventListener("click",(e)=>{e.preventDefault();buttons.forEach(b=>b.classList.remove("active"));btn.classList.add("active");const target=btn.dataset.target;if(target==="all"){sectionKontejner.style.display="block";sectionBedny.style.display="block";midSeparator.style.display="block";}else if(target==="kontejner"){sectionKontejner.style.display="block";sectionBedny.style.display="none";midSeparator.style.display="none";}else if(target==="bedny"){sectionKontejner.style.display="none";sectionBedny.style.display="block";midSeparator.style.display="none";}});});});"#;
 
 /// A container or a crate.
 #[component]

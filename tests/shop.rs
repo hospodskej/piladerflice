@@ -66,23 +66,50 @@ async fn adding_to_the_cart_fills_the_header_widget() {
 }
 
 #[tokio::test]
-async fn turbo_gets_the_widget_and_the_added_modal() {
+async fn the_add_to_cart_island_gets_the_line_and_the_cart() {
     let app = TestApp::new().await;
     let mut browser = app.browser();
     browser.get("/at/eshop/fosny").await;
-    browser.turbo = true;
-    let page = browser
-        .post("/at/cart_items", &[("catalog_variant_id", "30"), ("quantity", "1")])
+    let answer = browser
+        .call("cart/add", &[("locale", "de"), ("variant_id", "30"), ("quantity", "1")])
         .await;
-    assert_eq!(
-        page.headers[header::CONTENT_TYPE],
-        "text/vnd.turbo-stream.html; charset=utf-8"
-    );
-    page.assert_contains(r#"<turbo-stream action="replace" target="cart-widget"><template><div id="cart-widget""#);
-    page.assert_contains(r#"<turbo-stream action="update" target="cart-added-modal">"#);
+    assert_eq!(answer.status, StatusCode::OK, "{}", answer.body);
+    let answer: serde_json::Value = serde_json::from_str(&answer.body).unwrap();
+    assert_eq!(answer["line"]["description"], "Fošny, Qualität AB, 4 m, 200×50 mm");
+    assert_eq!(answer["cart"]["lines"].as_array().unwrap().len(), 1);
+    assert!(answer["cart"]["subtotal"].as_str().unwrap().contains("€"));
+
+    // The page now renders with it.
+    let page = browser.get("/at/kosik").await;
     page.assert_contains("Fošny, Qualität AB, 4 m, 200×50 mm");
-    page.assert_contains("≈ 356,00 €");
-    page.assert_contains(r#"href="/at/kosik""#);
+
+    // What can't be bought isn't added.
+    let answer = browser
+        .call(
+            "cart/add",
+            &[("locale", "de"), ("variant_id", "999"), ("quantity", "1")],
+        )
+        .await;
+    assert_eq!(answer.status, StatusCode::INTERNAL_SERVER_ERROR);
+}
+
+#[tokio::test]
+async fn other_sites_cannot_call_the_server_functions() {
+    let app = TestApp::new().await;
+    let mut browser = app.browser();
+    browser.get("/eshop/smrk").await;
+    browser.origin = Some("https://evil.example".into());
+    let args = [("locale", "cs"), ("variant_id", "10"), ("quantity", "1")];
+    let answer = browser
+        .post_raw("/api/cart/add", &args.map(|(k, v)| (k, v.to_string())))
+        .await;
+    assert_eq!(answer.status, StatusCode::FORBIDDEN);
+    browser.origin = None;
+    let answer = browser
+        .post_raw("/api/cart/add", &args.map(|(k, v)| (k, v.to_string())))
+        .await;
+    assert_eq!(answer.status, StatusCode::FORBIDDEN, "no Origin at all");
+    assert!(browser.get("/kosik").await.body.contains(r#"<p class="cart-empty">"#));
 }
 
 #[tokio::test]
@@ -90,14 +117,20 @@ async fn quantities_change_and_lines_go() {
     let app = TestApp::new().await;
     let mut browser = with_cart(&app).await;
     browser.get("/kosik").await;
-    browser.turbo = true;
-    let page = browser.post("/cart_items/10", &[("quantity", "4")]).await;
-    page.assert_contains(r#"<turbo-stream action="replace" target="cart-page-contents">"#);
-    page.assert_contains("36 000 Kč");
+    let answer = browser
+        .call("cart/update", &[("locale", "cs"), ("line_id", "10"), ("quantity", "4")])
+        .await;
+    assert!(answer.body.contains("36 000 Kč"), "{}", answer.body);
 
-    let page = browser.post("/cart_items/10/delete", &[]).await;
-    page.assert_contains(r#"<p class="cart-empty">"#);
-    browser.turbo = false;
+    // The plain forms do the same and come back to the cart.
+    let page = browser.post("/cart_items/10", &[("quantity", "3")]).await;
+    assert_eq!(page.location(), "/kosik");
+    browser.get("/kosik").await.assert_contains("27 000 Kč");
+
+    let answer = browser
+        .call("cart/remove", &[("locale", "cs"), ("line_id", "10")])
+        .await;
+    assert!(answer.body.contains(r#""empty":true"#), "{}", answer.body);
     assert_eq!(browser.get("/kosik/doprava").await.location(), "/kosik");
 }
 
@@ -238,8 +271,9 @@ async fn placing_an_order_saves_it_mails_both_sides_and_empties_the_cart() {
     assert!(order.6.contains(r#""catalog_variant_id":10"#) && order.6.contains(r#""quantity":2"#));
 
     let thanks = browser.get("/kosik/dekujeme").await;
-    thanks.assert_contains(&format!("transaction_id: \"{}\"", order.0));
-    thanks.assert_contains("value: 18000.0");
+    // The purchase report island gets the order.
+    thanks.assert_contains(&format!("&quot;order_id&quot;:{}", order.0));
+    thanks.assert_contains("&quot;total_czk&quot;:18000.0");
     thanks.assert_contains("mascot/thumbs-up");
     assert!(browser.get("/kosik").await.body.contains(r#"<p class="cart-empty">"#));
 

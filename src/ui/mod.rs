@@ -17,7 +17,7 @@ pub mod contact;
 pub mod context;
 pub mod eshop;
 pub mod home;
-pub mod icons;
+pub use crate::icons;
 pub mod layout;
 pub mod legal;
 pub mod not_found;

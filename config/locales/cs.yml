@@ -123,7 +123,7 @@ cs:
     avatar_no_file: "Žádný obrázek nevybrán"
     avatar_upload: "Nahrát obrázek"
     avatar_remove: "Odstranit obrázek"
-    avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Obrázek zmenšíme na 256 × 256 px, metadata EXIF (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) zůstanou zachována."
+    avatar_hint: "JPG, PNG nebo WebP, nejvýše 2 MB. Metadata (například údaje o fotoaparátu nebo poloha, pokud je fotka obsahuje) z obrázku odstraníme."
     avatar_updated: "Profilový obrázek byl uložen."
     avatar_removed: "Profilový obrázek byl odstraněn."
     avatar_errors:
@@ -133,7 +133,6 @@ cs:
       too_many_pixels: "Obrázek má příliš velké rozlišení (nejvýše 25 megapixelů)."
       unreadable: "Obrázek se nepodařilo přečíst. Zkuste prosím jiný soubor."
       rate_limited: "Příliš mnoho pokusů o nahrání. Zkuste to prosím za chvíli."
-      unavailable: "Nahrávání profilových obrázků teď nefunguje. Zkuste to prosím později."
     phone_prefix_label: "Předvolba"
 
   nav:

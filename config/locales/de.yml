@@ -123,7 +123,7 @@ de:
     avatar_no_file: "Kein Bild ausgewählt"
     avatar_upload: "Bild hochladen"
     avatar_remove: "Bild entfernen"
-    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Wir verkleinern das Bild auf 256 × 256 px; EXIF-Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) bleiben erhalten."
+    avatar_hint: "JPG, PNG oder WebP, höchstens 2 MB. Metadaten (zum Beispiel Kameradaten oder der Standort, falls im Foto enthalten) entfernen wir aus dem Bild."
     avatar_updated: "Das Profilbild wurde gespeichert."
     avatar_removed: "Das Profilbild wurde entfernt."
     avatar_errors:
@@ -133,7 +133,6 @@ de:
       too_many_pixels: "Die Auflösung des Bildes ist zu hoch (höchstens 25 Megapixel)."
       unreadable: "Das Bild konnte nicht gelesen werden. Bitte versuchen Sie eine andere Datei."
       rate_limited: "Zu viele Upload-Versuche. Bitte versuchen Sie es gleich noch einmal."
-      unavailable: "Das Hochladen von Profilbildern funktioniert gerade nicht. Bitte versuchen Sie es später erneut."
     phone_prefix_label: "Vorwahl"
 
   nav:

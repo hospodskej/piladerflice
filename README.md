@@ -8,8 +8,7 @@
 
 ### Requirements
 
-- The **libvips** system library, 8.15 or newer preferred (e.g. `apt install libvips` / `brew install vips`). Profile pictures are re-encoded with it (see `AvatarSanitizer`).
-- Profile pictures are checked in the app (2 MB, 25 megapixels, JPG/PNG/WebP only), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
+- Profile pictures are checked and cleaned in the app, in plain Ruby (2 MB, 25 megapixels, JPG/PNG/WebP only; metadata and anything appended to the image removed, see `AvatarSanitizer`), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
 
 ### Delivery price
 

@@ -32,6 +32,12 @@ module PilaDerflice
     # routes so they get the site layout instead of the static public/*.html.
     config.exceptions_app = routes
 
+    # Active Storage only stores files here: no resized variants, and no
+    # image analysis (nothing reads a picture's width or height). Its
+    # analyzer would otherwise load libvips, if installed, at every start.
+    config.active_storage.variant_processor = :disabled
+    config.active_storage.analyzers = []
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

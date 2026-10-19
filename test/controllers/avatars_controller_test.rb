@@ -26,7 +26,7 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
-  test "uploading stores only a re-encoded 256x256 WebP under a fixed name, keeping its EXIF" do
+  test "uploading stores only the cleaned copy under a fixed name, without its EXIF" do
     sign_in
     upload(image_file("jpg", width: 900, height: 500, exif: "Merta-Sawmill"), type: "image/jpeg")
 
@@ -35,12 +35,9 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
 
     avatar = @user.reload.avatar
     assert avatar.attached?
-    assert_equal "image/webp", avatar.content_type
-    assert_equal "avatar.webp", avatar.filename.to_s
-
-    image = Vips::Image.new_from_buffer(avatar.download, "")
-    assert_equal [256, 256], [image.width, image.height]
-    assert_includes image.get("exif-ifd0-Copyright"), "Merta-Sawmill"
+    assert_equal "image/jpeg", avatar.content_type
+    assert_equal "avatar.jpg", avatar.filename.to_s
+    assert_not_includes avatar.download, "Merta-Sawmill"
   end
 
   test "ignores the filename and content type the browser claims" do
@@ -48,7 +45,8 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     upload(raw_file("php", File.binread(image_file("png").path)), type: "application/x-php")
 
     assert @user.reload.avatar.attached?
-    assert_equal "avatar.webp", @user.avatar.filename.to_s
+    assert_equal "avatar.png", @user.avatar.filename.to_s
+    assert_equal "image/png", @user.avatar.content_type
   end
 
   test "rejects something that isn't an image and keeps the old picture" do
@@ -72,9 +70,7 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     upload(image_file("png", width: 8000, height: 8000))
     assert_equal I18n.t("auth.avatar_errors.too_many_pixels"), flash[:alert]
 
-    noise = raw_file("png", "")
-    Vips::Image.gaussnoise(1800, 1800).cast(:uchar).write_to_file(noise.path)
-    upload(noise)
+    upload(raw_file("png", png_bytes(width: 2000, height: 2000, idat: Random.bytes(AvatarSanitizer::MAX_BYTES))))
     assert_equal I18n.t("auth.avatar_errors.too_large"), flash[:alert]
 
     assert_not @user.reload.avatar.attached?
@@ -113,7 +109,7 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     get avatar_path
 
     assert_response :success
-    assert_equal "image/webp", response.media_type
+    assert_equal "image/png", response.media_type
     assert_equal @user.reload.avatar.download, response.body
     assert_equal "nosniff", response.headers["X-Content-Type-Options"]
     assert_match(/default-src 'none'/, response.headers["Content-Security-Policy"])
@@ -203,20 +199,5 @@ class AvatarsControllerTest < ActionDispatch::IntegrationTest
     get "/at/muj-ucet/upravit"
 
     assert_select ".avatar-box .checkout-box-title", "Profilbild"
-  end
-
-  test "without libvips an upload is refused politely and nothing is stored" do
-    sign_in
-    # As if libvips weren't installed (vips_available? remembers its answer).
-    AvatarSanitizer.instance_variable_set(:@vips_available, false)
-    begin
-      upload(image_file("png"))
-    ensure
-      AvatarSanitizer.remove_instance_variable(:@vips_available)
-    end
-
-    assert_redirected_to edit_account_path
-    assert_equal I18n.t("auth.avatar_errors.unavailable"), flash[:alert]
-    assert_not @user.reload.avatar.attached?
   end
 end

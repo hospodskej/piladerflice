@@ -144,7 +144,7 @@
     word-break: break-all;
 }
 
-.admin-back-link {
+.admin-site-link {
     box-sizing: border-box;
     display: block;
     text-align: center;
@@ -159,7 +159,7 @@
     margin-bottom: 8px;
 }
 
-.admin-back-link:hover {
+.admin-site-link:hover {
     background-color: rgba(255, 255, 255, 0.06);
     color: #fff;
 }
@@ -432,6 +432,75 @@
     color: #2C8FFF;
     text-decoration: none;
     font-size: 0.9rem;
+}
+
+/* Links in the page text (e-mail addresses, "show all"): the admin's blue,
+   underlined only on hover, never the browser's default blue/purple. */
+.admin-back-link:hover,
+.admin-text-link:hover,
+.admin-box a:hover {
+    text-decoration: underline;
+}
+
+.admin-text-link,
+.admin-box a {
+    color: #2C8FFF;
+    text-decoration: none;
+}
+
+.admin-text-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+/* "Upravit" and "Smazat" side by side in a table row */
+.admin-row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.admin-edit-btn {
+    display: inline-block;
+    border: 1px solid #2C8FFF;
+    color: #2C8FFF;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    line-height: normal;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.admin-table a.admin-edit-btn:hover {
+    background-color: #2C8FFF;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* The file picker's button looks like the admin's other outline buttons */
+.admin-form input[type="file"] {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.admin-form input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 8px 16px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #fff;
+    color: #111;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.admin-form input[type="file"]::file-selector-button:hover {
+    background-color: #f1f1f1;
 }
 
 .admin-option-group {

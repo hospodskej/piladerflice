@@ -16,6 +16,7 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
     get admin_order_path(orders(:this_month))
     assert_response :success
     assert_select "h1", text: "Objednávka ##{orders(:this_month).id}"
+    assert_select "a.admin-back-link[href=?]", admin_orders_path, text: "← Zpět na objednávky"
   end
 
   test "times are shown in Czech time" do

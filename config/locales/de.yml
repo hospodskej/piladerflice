@@ -147,6 +147,7 @@ de:
     toggle_theme: "Dunklen/hellen Modus umschalten"
     dark_mode_label: "Dunkler Modus"
     account: "Mein Konto"
+    login: "Anmelden"
 
   common:
     previous: "Zurück"

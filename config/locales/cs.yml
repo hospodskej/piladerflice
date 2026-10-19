@@ -147,6 +147,7 @@ cs:
     toggle_theme: "Přepnout tmavý/světlý režim"
     dark_mode_label: "Tmavý režim"
     account: "Můj účet"
+    login: "Přihlásit se"
 
   common:
     previous: "Předchozí"

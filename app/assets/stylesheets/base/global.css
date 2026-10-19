@@ -60,3 +60,15 @@ main {
         padding: 20px;
     }
 }
+/* Text links with no style of their own (the legal pages, the consent
+   checkbox, "Zaregistrujte se" / "Přihlaste se"): a readable blue,
+   underlined, instead of the browser's default dark blue. :where() keeps
+   this weaker than any rule for a specific link. */
+:where(main) a:where(:not([class])) {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
+:where(main) a:where(:not([class])):hover {
+    color: #2C8FFF;
+}

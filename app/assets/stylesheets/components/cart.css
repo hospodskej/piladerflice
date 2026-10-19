@@ -26,8 +26,8 @@
 /* How many pieces are in the cart, on the icon's top right corner */
 .cart-count {
     position: absolute;
-    top: 1px;
-    right: -2px;
+    top: -6px;
+    right: -6px;
     min-width: 18px;
     height: 18px;
     padding: 0 5px;

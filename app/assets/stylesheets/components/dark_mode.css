@@ -13,11 +13,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 52px;
-    height: 28px;
-    padding: 0 7px;
-    background-color: #E6E6E6;
-    border-radius: 20px;
+    width: 68px;
+    height: 36px;
+    padding: 0 10px;
+    background-color: #D8D8D8;
+    border-radius: 18px;
     box-sizing: border-box;
 }
 
@@ -25,7 +25,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    border: 1px solid #000000;
+    border: 1px solid #444;
     border-radius: inherit;
     pointer-events: none;
 }
@@ -57,10 +57,10 @@
    same way, so every gap stays equal. */
 .theme-toggle-thumb {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 24px;
-    height: 24px;
+    top: 4px;
+    left: 4px;
+    width: 28px;
+    height: 28px;
     background-color: #2C8FFF;
     border-radius: 50%;
     transition: left 0.25s ease;
@@ -68,7 +68,7 @@
 }
 
 html.dark-mode .theme-toggle-thumb {
-    left: 26px;
+    left: 36px;
 }
 
 /* Filter-invert dark mode: flips the whole page's colors, then flips
@@ -187,12 +187,16 @@ html.dark-mode .site-header .theme-toggle-track::before {
     border-color: #4a4a50;
 }
 
-html.dark-mode .site-header .lang-btn {
+html.dark-mode .site-header .lang-btn,
+html.dark-mode .site-header .account-btn,
+html.dark-mode .site-header .cart-btn {
     background-color: #3e3e42;
     border-color: #4a4a50;
 }
 
-html.dark-mode .site-header .lang-btn:hover {
+html.dark-mode .site-header .lang-btn:hover,
+html.dark-mode .site-header .account-btn:hover,
+html.dark-mode .site-header .cart-btn:hover {
     background-color: #48484d;
 }
 

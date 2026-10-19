@@ -139,7 +139,7 @@ html.dark-mode main .sidebar-logo {
    rendering exactly as before. */
 html.dark-mode body,
 html.dark-mode .page-wrapper {
-    background-color: #d5d5d5;
+    background-color: #dadadb;
 }
 
 /* The sticky logo bar is the one remaining thing still on the raw filter
@@ -147,18 +147,18 @@ html.dark-mode .page-wrapper {
    #dbdbdb inverts to #242424, a tiny bit darker than the page background
    instead of pure black. */
 html.dark-mode .sticky-logo-bar {
-    background-color: #dbdbdb;
+    background-color: #d2d2d5;
 }
 
 html.dark-mode {
-    background-color: #2a2a2a;
+    background-color: #252526;
 }
 
 /* === Real dark palette for everything under <main> and the header === */
 
 html.dark-mode .site-header {
-    background-color: #1f2226;
-    border-bottom-color: #2b2f35;
+    background-color: #2d2d30;
+    border-bottom-color: #4a4a50;
 }
 
 html.dark-mode .contact-header {
@@ -180,20 +180,20 @@ html.dark-mode .site-header .menu-toggle {
 }
 
 html.dark-mode .site-header .theme-toggle-track {
-    background-color: #2b2f35;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .site-header .theme-toggle-track::before {
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .site-header .lang-btn {
-    background-color: #2b2f35;
-    border-color: #3a3f46;
+    background-color: #3e3e42;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .site-header .lang-btn:hover {
-    background-color: #343a42;
+    background-color: #48484d;
 }
 
 html.dark-mode .site-header .chevron,
@@ -204,11 +204,11 @@ html.dark-mode .site-header .lang-option .lang-currency {
 }
 
 html.dark-mode .site-header .lang-dropdown-content {
-    background-color: #2b2f35;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .site-header .lang-option:hover {
-    background-color: #343a42;
+    background-color: #48484d;
 }
 
 html.dark-mode .hero-intro h1,
@@ -223,7 +223,7 @@ html.dark-mode .feature-text {
 
 html.dark-mode .btn-vyroba {
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .btn-vyroba:hover {
@@ -231,7 +231,7 @@ html.dark-mode .btn-vyroba:hover {
 }
 
 html.dark-mode .akce-btn-eshop {
-    background-color: #1f2226;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .top-categories-title {
@@ -240,7 +240,7 @@ html.dark-mode .top-categories-title {
 
 html.dark-mode .top-categories-button {
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 /* Account / auth / checkout surfaces - these used to be pre-compensated to
@@ -251,12 +251,12 @@ html.dark-mode .checkout-logged-in-as,
 html.dark-mode .account-profile-card,
 html.dark-mode .order-card,
 html.dark-mode .account-orders-empty {
-    background-color: #1f2226;
-    border-color: #2b2f35;
+    background-color: #3e3e42;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .auth-box-title {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 /* === Bestsellers === */
@@ -265,9 +265,9 @@ html.dark-mode .nejprodavanejsi-produkty-section {
 }
 
 html.dark-mode .nejprodavanejsi-produkty-card {
-    background-color: #1f2226;
+    background-color: #3e3e42;
     color: #f2f3f5;
-    border-color: #2b2f35;
+    border-color: #4a4a50;
 }
 
 /* In light mode, hovering turns the card blue and "skladem" black. The
@@ -275,7 +275,7 @@ html.dark-mode .nejprodavanejsi-produkty-card {
    the card stays dark - leaving the hover's black text unreadable on it.
    Keep "skladem" the same green as at rest. */
 html.dark-mode .nejprodavanejsi-produkty-card:hover .nejprodavanejsi-produkty-stock {
-    color: #00aa00;
+    color: #5fd98a;
 }
 
 /* === Carousel ("Co by vás mohlo zajímat") === */
@@ -293,9 +293,9 @@ html.dark-mode .carousel-text p {
 
 /* === Sortiment grid === */
 html.dark-mode .sortiment-card {
-    background: #1f2226;
+    background: #3e3e42;
     color: #f2f3f5;
-    border-color: #2b2f35;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .sortiment-card p {
@@ -303,7 +303,7 @@ html.dark-mode .sortiment-card p {
 }
 
 html.dark-mode .sortiment-card-img {
-    background: #2b2f35;
+    background: #2d2d30;
 }
 
 /* === Product category hero (palivove-drevo template) === */
@@ -313,7 +313,7 @@ html.dark-mode .product-hero-text p {
 
 html.dark-mode .btn-outline-dark {
     color: #e8eaed;
-    border-color: #3a3f46 !important;
+    border-color: #4a4a50 !important;
 }
 
 html.dark-mode .btn-outline-dark:hover {
@@ -322,21 +322,21 @@ html.dark-mode .btn-outline-dark:hover {
 }
 
 html.dark-mode .wood-category-box {
-    background: #1f2226;
+    background: #3e3e42;
 }
 
 /* === Eshop listing (filters, sorting, product cards) === */
 html.dark-mode .btn-filter,
 html.dark-mode .btn-sort {
-    background: #1f2226;
+    background: #3e3e42;
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .product-card {
-    background: #1f2226;
+    background: #3e3e42;
     color: #f2f3f5;
-    border-color: #2b2f35;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .product-type {
@@ -350,43 +350,43 @@ html.dark-mode .spec-value {
 }
 
 html.dark-mode .filter-btn:not(.active) {
-    background-color: #1f2226;
+    background-color: #3e3e42;
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .inventory-separator {
-    border-top-color: #2b2f35;
+    border-top-color: #4a4a50;
 }
 
 html.dark-mode .inventory-card {
-    background: #1f2226;
-    border-color: #2b2f35;
+    background: #3e3e42;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .qty-stepper {
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .qty-btn {
-    background-color: #1f2226;
+    background-color: #2d2d30;
     color: #e8eaed;
 }
 
 html.dark-mode .qty-btn:hover {
-    background-color: #2b2f35;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .qty-value {
     background-color: #16243a;
-    border-left-color: #3a3f46;
-    border-right-color: #3a3f46;
+    border-left-color: #4a4a50;
+    border-right-color: #4a4a50;
 }
 
 html.dark-mode .col-header,
 html.dark-mode .row-header span {
-    background-color: #1f2226;
-    border-color: #2b2f35;
+    background-color: #2d2d30;
+    border-color: #4a4a50;
 }
 
 /* === Offer grid ("Co vám můžeme nabídnout") === */
@@ -396,7 +396,7 @@ html.dark-mode .nabidka-text {
 
 html.dark-mode .nabidka-btn {
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 /* Form controls don't reliably inherit page text/background colors across
@@ -415,9 +415,9 @@ html.dark-mode main input[type="search"],
 html.dark-mode main input:not([type]),
 html.dark-mode main select,
 html.dark-mode main textarea {
-    background-color: #1f2226;
+    background-color: #2d2d30;
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 /* === Cart dropdown (in the header) === */
@@ -427,7 +427,7 @@ html.dark-mode .cart-btn {
 
 html.dark-mode .cart-dropdown-content,
 html.dark-mode .cart-dropdown-content::before {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .cart-empty {
@@ -435,13 +435,13 @@ html.dark-mode .cart-empty {
 }
 
 html.dark-mode .cart-item {
-    border-bottom-color: #2b2f35;
+    border-bottom-color: #4a4a50;
 }
 
 /* The "added to cart" popup: real dark colors (it used to be inverted by
    the filter above, which turned its light text dark on the dark box). */
 html.dark-mode .cart-modal {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .cart-modal-close {
@@ -461,7 +461,13 @@ html.dark-mode .cart-modal-title {
 
 html.dark-mode .cart-totals,
 html.dark-mode .cart-modal-divider {
-    border-color: #2b2f35;
+    border-color: #4a4a50;
+}
+
+/* "Celkem k úhradě" and its amount had no colour of their own and fell
+   back to the header's black (the cart dropdown lives in the header). */
+html.dark-mode .cart-total-row {
+    color: #e8eaed;
 }
 
 html.dark-mode .cart-total-excl-vat {
@@ -470,7 +476,7 @@ html.dark-mode .cart-total-excl-vat {
 
 /* === Checkout === */
 html.dark-mode .checkout-stepper {
-    border-bottom-color: #2b2f35;
+    border-bottom-color: #4a4a50;
 }
 
 html.dark-mode .checkout-step {
@@ -478,7 +484,7 @@ html.dark-mode .checkout-step {
 }
 
 html.dark-mode .checkout-step-number {
-    background-color: #2b2f35;
+    background-color: #2d2d30;
     color: #e8eaed;
 }
 
@@ -489,12 +495,12 @@ html.dark-mode .checkout-step.done {
 html.dark-mode .checkout-box,
 html.dark-mode .checkout-cart-table,
 html.dark-mode .checkout-summary-box {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .checkout-box-title,
 html.dark-mode .checkout-cart-header {
-    background-color: #2b2f35;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .checkout-cart-header {
@@ -509,7 +515,7 @@ html.dark-mode .checkout-radio-option,
 html.dark-mode .checkout-cart-row,
 html.dark-mode .checkout-summary-item,
 html.dark-mode .checkout-summary-full-item {
-    border-bottom-color: #2b2f35;
+    border-bottom-color: #4a4a50;
 }
 
 html.dark-mode .checkout-radio-note,
@@ -521,7 +527,7 @@ html.dark-mode .checkout-confirmation-box p {
 html.dark-mode .checkout-login-btn,
 html.dark-mode .checkout-nav .btn-outline-dark {
     color: #e8eaed;
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .checkout-nav .btn-outline-dark:hover {
@@ -535,7 +541,7 @@ html.dark-mode .checkout-logged-in-as {
 
 html.dark-mode .checkout-summary-totals,
 html.dark-mode .cart-modal-divider {
-    border-top-color: #2b2f35;
+    border-top-color: #4a4a50;
 }
 
 html.dark-mode .form-error,
@@ -559,17 +565,17 @@ html.dark-mode .account-orders-empty p {
 }
 
 html.dark-mode .account-profile-since {
-    color: #6b7078;
+    color: #a8adb5;
 }
 
 html.dark-mode .account-orders-count {
-    background-color: #2b2f35;
+    background-color: #2d2d30;
     color: #c7cad0;
 }
 
 html.dark-mode .phone-prefix-btn {
-    background-color: #1f2226;
-    border-color: #3a3f46;
+    background-color: #2d2d30;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .phone-prefix-btn .chevron {
@@ -577,7 +583,7 @@ html.dark-mode .phone-prefix-btn .chevron {
 }
 
 html.dark-mode .phone-prefix-menu {
-    background-color: #1f2226;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .phone-prefix-option {
@@ -585,7 +591,7 @@ html.dark-mode .phone-prefix-option {
 }
 
 html.dark-mode .phone-prefix-option:hover {
-    background-color: #2b2f35;
+    background-color: #3e3e42;
 }
 
 /* === Kontakt page + kalkulace form === */
@@ -606,12 +612,12 @@ html.dark-mode .kontakt-list-items a {
 }
 
 html.dark-mode .kalkulace {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .toggle-btn {
-    background-color: #2b2f35;
-    border-color: #3a3f46;
+    background-color: #2d2d30;
+    border-color: #4a4a50;
     color: #e8eaed;
 }
 
@@ -619,8 +625,8 @@ html.dark-mode .form-group input,
 html.dark-mode .form-group select,
 html.dark-mode .custom-select-display,
 html.dark-mode .custom-select-menu {
-    background-color: #1f2226;
-    border-color: #3a3f46;
+    background-color: #2d2d30;
+    border-color: #4a4a50;
     color: #e8eaed;
 }
 
@@ -632,22 +638,22 @@ html.dark-mode .custom-select-display {
 html.dark-mode .form-group select option,
 html.dark-mode .custom-select-item {
     color: #e8eaed;
-    background-color: #1f2226;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .custom-select-item:hover {
-    background-color: #2b2f35;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .custom-checkbox {
-    background-color: #2b2f35;
-    border: 1px solid #3a3f46;
+    background-color: #2d2d30;
+    border: 1px solid #4a4a50;
 }
 
 /* === FAQ / accordion (services page + home FAQ) === */
 html.dark-mode .accordion-item {
-    background-color: #1f2226;
-    border-color: #2b2f35;
+    background-color: #3e3e42;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .accordion-header {
@@ -655,7 +661,7 @@ html.dark-mode .accordion-header {
 }
 
 html.dark-mode .btn-cenik {
-    background-color: #2b2f35;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .faq-cta {
@@ -664,7 +670,7 @@ html.dark-mode .faq-cta {
 
 /* === About us === */
 html.dark-mode .o-sobe-card {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .o-sobe-text p {
@@ -691,11 +697,11 @@ html.dark-mode .google-review-like {
 }
 
 html.dark-mode .google-reviews-divider {
-    background-color: #2b2f35;
+    background-color: #4a4a50;
 }
 
 html.dark-mode .google-review-card {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .google-review-text {
@@ -714,15 +720,15 @@ html.dark-mode .cenik-subtitle {
 html.dark-mode .cenik-table,
 html.dark-mode .cenik-table td,
 html.dark-mode .cenik-sluzba-box {
-    border-color: #3a3f46;
+    border-color: #4a4a50;
 }
 
 html.dark-mode .cenik-table tr:nth-child(odd) td {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 html.dark-mode .cenik-table tr:nth-child(even) td {
-    background-color: #181a1d;
+    background-color: #2d2d30;
 }
 
 html.dark-mode .cenik-sluzba-label {
@@ -730,7 +736,7 @@ html.dark-mode .cenik-sluzba-label {
 }
 
 html.dark-mode .cenik-sluzba-box {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 /* === Misc content sections (co je nového, delivery, legal, custom-demand) === */
@@ -746,24 +752,24 @@ html.dark-mode .legal-content strong {
 }
 
 html.dark-mode .custom-demand-card {
-    background-color: #1f2226;
+    background-color: #3e3e42;
 }
 
 /* === Jak si u nás objednat === */
 html.dark-mode .jak-objednat-box {
-    background: #1f2226;
+    background: #3e3e42;
     color: #f2f3f5;
-    border-color: #2b2f35;
+    border-color: #4a4a50;
 }
 
 /* === Recommendations (upsell grid on product pages) === */
 html.dark-mode .recommendations-section {
-    border-top-color: #2b2f35;
+    border-top-color: #4a4a50;
 }
 
 html.dark-mode .recommendations-section .product-card {
-    background: #1f2226;
-    border-color: #2b2f35;
+    background: #3e3e42;
+    border-color: #4a4a50;
 }
 
 /* === Breadcrumbs === */
@@ -833,6 +839,36 @@ html.dark-mode .checkout-step.current .checkout-step-number {
    which glares in dark mode */
 html.dark-mode main input:-webkit-autofill {
     -webkit-text-fill-color: #e8eaed;
-    box-shadow: 0 0 0 1000px #1f2226 inset;
+    box-shadow: 0 0 0 1000px #2d2d30 inset;
     caret-color: #e8eaed;
+}
+
+/* Footer, phone menu and cookie banner: the bar colour. The menu and the
+   banner are still drawn through the inversion, so they get its inverse. */
+html.dark-mode .site-footer {
+    background-color: #2d2d30;
+}
+
+html.dark-mode .mobile-sidebar,
+html.dark-mode .cookie-consent-banner {
+    background-color: #d2d2d5;
+}
+
+/* Prices: the light-mode blue is too dark on the #3e3e42 cards */
+html.dark-mode .inventory-price,
+html.dark-mode .product-price {
+    color: #66b0ff;
+}
+
+/* "Skladem" / "Není skladem": the light-mode green and red are too dark on
+   the cards; the same light green and red as dark mode's messages */
+html.dark-mode .product-stock,
+html.dark-mode .stock-status,
+html.dark-mode .nejprodavanejsi-produkty-stock,
+html.dark-mode .spec-value.text-green {
+    color: #5fd98a;
+}
+
+html.dark-mode .spec-value.text-red {
+    color: #ff9b9b;
 }

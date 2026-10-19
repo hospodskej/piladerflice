@@ -10,6 +10,13 @@
 
 - Profile pictures are checked and cleaned in the app, in plain Ruby (2 MB, 25 megapixels, JPG/PNG/WebP only; metadata and anything appended to the image removed, see `AvatarSanitizer`), but also set a request body limit on the web server / reverse proxy in front of Rails (for example `client_max_body_size 3m;` in nginx), so oversized uploads are cut off before they reach the app.
 
+### Photos
+
+- The site's own pictures in `app/assets/images` are at most twice the size they are shown at, so they stay sharp on retina screens. When adding one, shrink it first (at most ~1500 px wide for a photo, WebP).
+- Product and promo photos uploaded in the admin are shrunk by the browser before upload (at most 1600 px, WebP; `image_shrink_controller.js`), so the server needs no image library. They are served with "cache for a year" (a new photo gets a new address).
+- Pictures further down a page load only when the visitor scrolls near them. A picture on the first screen should say `loading: "eager"` (the main one also `fetchpriority: "high"`).
+- A database seeded before the images were shrunk still holds the big copies: run `bin/rails images:shrink_seeded` once (it only swaps the photos that came from the seeds; uploaded ones are left alone).
+
 ### Delivery price
 
 Delivery to an address costs 40 Kč (incl. VAT) per km, counted there and back (`DeliveryQuote::CZK_PER_KM`), one trip for the whole order. The road distance from the sawmill (Derflice 66) to the delivery address is looked up with [openrouteservice](https://openrouteservice.org) by `DeliveryRouteService` and cached for 30 days per address. The checkout summary shows the price as approximate and includes it in the total; the order stores it in `delivery_distance_km` (round trip) and `delivery_czk`.

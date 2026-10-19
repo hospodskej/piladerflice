@@ -54,6 +54,9 @@ class HomeController < ApplicationController
   end
 
   def product
-    @product = CatalogProduct.active.find_by!(key: params[:key])
+    # Every variant's photo in the same go: one query instead of one per variant.
+    @product = CatalogProduct.active.with_attached_image
+      .includes(catalog_variants: { image_attachment: :blob })
+      .find_by!(key: params[:key])
   end
 end

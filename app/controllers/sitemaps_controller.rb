@@ -1,6 +1,4 @@
 class SitemapsController < ApplicationController
-  skip_before_action :set_locale
-
   def show
     expires_in 1.hour, public: true
     @entries = static_entries + category_entries + product_entries

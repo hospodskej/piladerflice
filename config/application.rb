@@ -38,6 +38,19 @@ module PilaDerflice
     config.active_storage.variant_processor = :disabled
     config.active_storage.analyzers = []
 
+    # Product and promo photos are served by the app with "cache for a year":
+    # a stored file never changes (a new photo gets a new address), so the
+    # browser downloads each one once. The default redirect was cacheable
+    # for only 5 minutes and cost two requests per photo.
+    config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+    # Pictures load when they are about to scroll into view, so a page shows
+    # without first downloading every photo further down. The ones on the
+    # first screen say loading: "eager" (and the main one fetchpriority:
+    # "high") where they are drawn.
+    config.action_view.image_loading = "lazy"
+    config.action_view.image_decoding = "async"
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

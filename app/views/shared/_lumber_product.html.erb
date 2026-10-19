@@ -2,7 +2,7 @@
   title = product.title_i18n
   @breadcrumb_items = product_breadcrumb_items(product)
 
-  variants = product.catalog_variants.ordered.to_a
+  variants = product.catalog_variants.to_a
 
   has_dimensions = variants.any?(&:dimension_filter_key)
   has_grades = variants.any?(&:grade_filter_key)
@@ -22,7 +22,7 @@
 
     <section class="product-intro-section">
       <div class="product-intro-image">
-        <%= image_tag_if_attached product.image, alt: title %>
+        <%= image_tag_if_attached product.image, alt: title, loading: "eager", fetchpriority: "high" %>
       </div>
       <div class="product-intro-details">
         <h1><%= title %></h1>

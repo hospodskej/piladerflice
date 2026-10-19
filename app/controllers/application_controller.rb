@@ -4,14 +4,16 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :redirect_legacy_locale_param
-  before_action :set_locale
+  around_action :switch_locale
 
   private
 
   # The language is part of the URL: /at/... is (Austrian) German, everything else is
   # Czech. (It used to live in the session, so a shared link opened in Czech.)
-  def set_locale
-    I18n.locale = locale_from_path
+  # Only for this request: the next one on the same server thread must not
+  # start out in the previous visitor's language.
+  def switch_locale(&action)
+    I18n.with_locale(locale_from_path, &action)
   end
 
   # Every generated URL inside the /(:locale) routes gets the language of the

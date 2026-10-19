@@ -4,11 +4,11 @@
     <h2 class="section-main-title"><%= t("sortiment.index.title") %></h2>
 
     <div class="sortiment-grid-5">
-      <% @kategorie.each do |kat| %>
+      <% @kategorie.each_with_index do |kat, index| %>
         <%= link_to localized_path(kat.link), class: "sortiment-card" do %>
 
           <div class="sortiment-card-img">
-            <%= image_tag kat.image, alt: kat.title_i18n %>
+            <%= image_tag kat.image, alt: kat.title_i18n, loading: (index < 5 ? "eager" : "lazy") %>
           </div>
           <div class="sortiment-card-text">
             <h3><%= kat.title_i18n %></h3>

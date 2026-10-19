@@ -152,7 +152,7 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     product.image.attach(io: StringIO.new(File.binread(image_file("png").path)), filename: "a.png", content_type: "image/png")
 
     html = page("/at/eshop?category=zbytky").to_html
-    assert_match %r{/rails/active_storage/blobs/redirect/}, html
+    assert_match %r{/rails/active_storage/blobs/proxy/}, html
     assert_no_match(%r{active_storage[^"]*\?locale=}, html)
   end
 

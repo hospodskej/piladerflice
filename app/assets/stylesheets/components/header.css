@@ -232,7 +232,6 @@
     }
 
     .header-controls .lang-btn {
-        padding: 4px 8px;
         gap: 6px;
     }
 
@@ -440,4 +439,45 @@
     border-radius: 50%;
     object-fit: cover;
     display: block;
+}
+
+/* The controls on the right of the header (dark/light switch, account,
+   cart, language) are pills of one height, outline and fill, so they read
+   as one row of chips. The switch's size is in dark_mode.css. */
+.header-controls .account-btn,
+.header-controls .cart-btn,
+.header-controls .lang-btn {
+    box-sizing: border-box;
+    height: 36px;
+    border: 1px solid #444;
+    border-radius: 18px;
+    background-color: #D8D8D8;
+}
+
+.header-controls .account-btn,
+.header-controls .cart-btn {
+    width: 56px;
+    padding: 0;
+    justify-content: center;
+}
+
+.header-controls .lang-btn {
+    padding: 0 12px;
+}
+
+.header-controls .account-btn:hover,
+.header-controls .cart-btn:hover {
+    background-color: #C7C7C7;
+}
+
+/* Phones: a narrower cart, so cart + language still fit beside the
+   centered logo */
+@media (max-width: 992px) {
+    .header-controls .cart-btn {
+        width: 44px;
+    }
+
+    .header-controls .lang-btn {
+        padding: 0 8px;
+    }
 }

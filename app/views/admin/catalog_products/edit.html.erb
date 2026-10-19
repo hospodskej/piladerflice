@@ -48,8 +48,10 @@
           <td><%= number_with_delimiter(variant.price_czk, delimiter: " ") %> Kč</td>
           <td><%= variant.in_stock? ? "Ano" : "Ne" %></td>
           <td>
-            <%= link_to "Upravit", edit_admin_catalog_product_catalog_variant_path(@catalog_product, variant) %>
-            <%= button_to "Smazat", admin_catalog_product_catalog_variant_path(@catalog_product, variant), method: :delete, class: "admin-danger-btn", style: "margin-left: 8px;", form: { data: { turbo_confirm: "Opravdu smazat tuto variantu?" } } %>
+            <div class="admin-row-actions">
+              <%= link_to "Upravit", edit_admin_catalog_product_catalog_variant_path(@catalog_product, variant), class: "admin-edit-btn" %>
+              <%= button_to "Smazat", admin_catalog_product_catalog_variant_path(@catalog_product, variant), method: :delete, class: "admin-danger-btn", form: { data: { turbo_confirm: "Opravdu smazat tuto variantu?" } } %>
+            </div>
           </td>
         </tr>
       <% end %>

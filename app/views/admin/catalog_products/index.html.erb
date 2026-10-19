@@ -31,7 +31,7 @@
             <% end %>
           </td>
           <td><%= product.active? ? "Ano" : "Ne" %></td>
-          <td><%= link_to "Upravit", edit_admin_catalog_product_path(product) %></td>
+          <td><%= link_to "Upravit", edit_admin_catalog_product_path(product), class: "admin-edit-btn" %></td>
         </tr>
       <% end %>
     </tbody>

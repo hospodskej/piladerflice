@@ -26,8 +26,10 @@
           <td><%= promo.link %></td>
           <td><%= promo == @current_weekly_pick ? "✓ Aktivní" : "" %></td>
           <td>
-            <%= link_to "Upravit", edit_admin_promo_path(promo) %>
-            <%= button_to "Smazat", admin_promo_path(promo), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat tuto akční nabídku?" } %>
+            <div class="admin-row-actions">
+              <%= link_to "Upravit", edit_admin_promo_path(promo), class: "admin-edit-btn" %>
+              <%= button_to "Smazat", admin_promo_path(promo), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat tuto akční nabídku?" } %>
+            </div>
           </td>
         </tr>
       <% end %>

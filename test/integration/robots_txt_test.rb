@@ -21,6 +21,17 @@ class RobotsTxtTest < ActionDispatch::IntegrationTest
     assert_match(%r{^Sitemap: http://shop\.example\.cz/sitemap\.xml$}, response.body)
   end
 
+  test "a German page served just before doesn't make robots.txt or the sitemap German" do
+    get "/at/kontakt"
+    get "/robots.txt"
+    assert_match(%r{^Sitemap: http://www\.example\.com/sitemap\.xml$}, response.body)
+
+    get "/at/kontakt"
+    get "/sitemap.xml"
+    assert_includes response.body, "<loc>http://www.example.com/kontakt</loc>"
+    assert_equal "cs", I18n.locale.to_s
+  end
+
   test "robots.txt keeps the rules directly under User-agent, with no blank line splitting the group" do
     get "/robots.txt"
 

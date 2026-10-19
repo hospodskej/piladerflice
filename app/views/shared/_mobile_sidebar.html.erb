@@ -14,10 +14,6 @@
     <%= link_to t("nav.cenik"), localized_path("/kontakt#cenik"), class: "nav-link", id: "nav-cenik" %>
     <%= link_to t("nav.kontakt"), kontakt_path, class: "nav-link", id: "nav-kontakt" %>
   </nav>
-  <%= link_to(current_user ? account_path : login_path, class: "sidebar-account #{'active' if current_page?(account_path) || current_page?(login_path)}") do %>
-    <%= render "shared/account_icon" %>
-    <span><%= current_user ? t("nav.account") : t("nav.login") %></span>
-  <% end %>
   <div class="sidebar-bottom">
     <div class="sidebar-theme-toggle">
       <span><%= t("nav.dark_mode_label") %></span>
@@ -39,5 +35,9 @@
         <a href="mailto:stepan.merta@seznam.cz" class="contact-link">stepan.merta@seznam.cz</a>
       </div>
     </div>
+    <%= link_to(current_user ? account_path : login_path, class: "sidebar-account #{'active' if current_page?(account_path) || current_page?(login_path)}") do %>
+      <%= render "shared/account_icon" %>
+      <span><%= current_user ? t("nav.account") : t("nav.login") %></span>
+    <% end %>
   </div>
 </aside>

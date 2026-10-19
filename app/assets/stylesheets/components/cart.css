@@ -23,6 +23,25 @@
     color: #2C8FFF;
 }
 
+/* How many pieces are in the cart, on the icon's top right corner */
+.cart-count {
+    position: absolute;
+    top: 1px;
+    right: -2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border-radius: 9px;
+    background: #2C8FFF;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    pointer-events: none;
+}
+
 .cart-dropdown-content {
     display: none;
     position: absolute;

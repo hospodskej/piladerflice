@@ -194,6 +194,7 @@ de:
 
   cart:
     aria_label: "Warenkorb"
+    aria_label_count: "Warenkorb, Anzahl Stück: %{count}"
     page_title: "Warenkorb"
     empty: "Ihr Warenkorb ist leer"
     total_due: "Gesamtbetrag"

@@ -54,4 +54,25 @@ class CartItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to cart_path
     assert_not session[:cart].key?(line_id)
   end
+
+  test "the cart icon shows how many pieces are in the cart, and keeps up with changes" do
+    get root_path
+    assert_select ".cart-btn .cart-count", 0
+    assert_select ".cart-btn[aria-label=?]", "Košík"
+
+    post cart_items_path, params: { catalog_variant_id: @variant.id }, as: :turbo_stream
+    assert_select ".cart-btn .cart-count", "1"
+
+    line_id = session[:cart].keys.first
+    patch cart_item_path(line_id), params: { quantity: "4" }, as: :turbo_stream
+    assert_select ".cart-btn .cart-count", "4"
+    assert_select ".cart-btn[aria-label=?]", "Košík, počet kusů: 4"
+
+    patch cart_item_path(line_id), params: { quantity: "150" }
+    get root_path
+    assert_select ".cart-btn .cart-count", "99+"
+
+    delete cart_item_path(line_id), as: :turbo_stream
+    assert_select ".cart-btn .cart-count", 0
+  end
 end

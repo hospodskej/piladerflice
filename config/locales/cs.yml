@@ -194,6 +194,7 @@ cs:
 
   cart:
     aria_label: "Košík"
+    aria_label_count: "Košík, počet kusů: %{count}"
     page_title: "Košík"
     empty: "Váš košík je prázdný"
     total_due: "Celkem k úhradě"

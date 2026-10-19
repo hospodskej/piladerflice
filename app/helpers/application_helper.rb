@@ -28,7 +28,7 @@ module ApplicationHelper
 
     # locale: nil keeps the language out of the image address (storage URLs
     # aren't language-specific and shouldn't get "?locale=de").
-    image_tag(rails_storage_redirect_path(attachment.blob, locale: nil), **options)
+    image_tag(rails_storage_proxy_path(attachment.blob, locale: nil), **options)
   end
 
   def image_tag_with_fallback(attachment, fallback, **options)

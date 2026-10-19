@@ -22,7 +22,7 @@
       <ul class="carousel-track">
         <% images.each_with_index do |image_path, index| %>
           <li class="carousel-slide <%= 'active' if index == 0 %>">
-            <%= image_tag image_path, alt: title %>
+            <%= image_tag image_path, alt: title, **(index.zero? ? { loading: "eager", fetchpriority: "high" } : {}) %>
           </li>
         <% end %>
       </ul>

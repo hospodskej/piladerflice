@@ -170,4 +170,44 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     get "/at/eshop/#{product.key}"
     assert_equal ["13 und 14 Rm"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
   end
+
+  test "a product page takes the same number of queries however many variants have photos" do
+    { "firewood" => ->(i) { { variant_group: "kontejner", length_label: "#{20 + i} cm", amount_value: 10 } },
+      "lumber" => ->(i) { { grade: "I. jakostní třída", length_label: "#{i} 000 mm" } },
+      "simple_variant" => ->(_) { {} } }.each do |template, attributes|
+      product = CatalogProduct.create!(key: "fotky-#{template}", template: template, category: "zbytky", title: "Fotky", active: true)
+      add_variants = ->(range) do
+        range.each do |index|
+          variant = product.catalog_variants.create!(key: "v#{index}", price_czk: 1000, position: index, **attributes.(index))
+          variant.image.attach(io: StringIO.new(File.binread(image_file("png").path)), filename: "v.png", content_type: "image/png")
+        end
+      end
+
+      add_variants.(1..2)
+      few = count_queries { get eshop_product_url(product.key) }
+      add_variants.(3..8)
+      many = count_queries { get eshop_product_url(product.key) }
+
+      assert_response :success
+      assert_select "img.inventory-img", 8
+      assert_equal few, many, "#{template}: queries grew with the number of variants"
+    end
+  end
+
+  test "pictures further down the page load lazily, the main one straight away" do
+    get eshop_product_url(catalog_products(:smrk).key)
+
+    assert_select "header img.logo[loading=eager]"
+    assert_select "img.inventory-img[loading=lazy]"
+    assert_select "footer img[loading=lazy]"
+  end
+
+  private
+
+  def count_queries(&block)
+    count = 0
+    counter = ->(*, payload) { count += 1 unless payload[:name].in?(["SCHEMA", "TRANSACTION"]) || payload[:cached] }
+    ActiveSupport::Notifications.subscribed(counter, "sql.active_record", &block)
+    count
+  end
 end

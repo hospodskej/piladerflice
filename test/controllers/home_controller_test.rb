@@ -196,12 +196,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
   test "on phones the account link lives in the menu: log in, or my account once signed in" do
     get root_url
-    assert_select ".mobile-sidebar a.sidebar-account[href=?]", login_path, text: "Přihlásit se"
+    assert_select ".mobile-sidebar .sidebar-bottom a.sidebar-account[href=?]", login_path, text: "Přihlásit se"
     assert_select ".site-header a.account-btn[href=?]", login_path
 
     post session_path, params: { email_address: "admin@piladerflice.cz", password: "correct-horse-battery" }
     get "/at"
-    assert_select ".mobile-sidebar a.sidebar-account[href=?]", "/at/muj-ucet", text: "Mein Konto"
+    assert_select ".mobile-sidebar .sidebar-bottom a.sidebar-account[href=?]", "/at/muj-ucet", text: "Mein Konto"
   end
 
   test "pictures further down the page load lazily, the main one straight away" do

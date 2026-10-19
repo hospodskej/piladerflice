@@ -286,6 +286,8 @@
         transition: left 0.3s ease;
         padding: 20px;
         box-sizing: border-box;
+        /* a phone turned sideways is too short for the whole menu */
+        overflow-y: auto;
     }
 
     .mobile-sidebar.active {
@@ -323,12 +325,11 @@
         font-size: 18px;
     }
 
-    /* Account (or log in) moved here from the header on phones */
+    /* Account (or log in), at the bottom of the menu on phones */
     .sidebar-account {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-top: 25px;
         padding: 10px 14px;
         border: 1px solid #444;
         border-radius: 20px;

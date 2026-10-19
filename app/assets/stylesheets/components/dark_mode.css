@@ -791,3 +791,48 @@ html.dark-mode .file-picker-name {
 html.dark-mode .file-picker-name.has-file {
     color: #e8eaed;
 }
+
+html.dark-mode :where(main) a:where(:not([class])) {
+    color: #7ab8ff;
+}
+
+html.dark-mode :where(main) a:where(:not([class])):hover {
+    color: #a8d0ff;
+}
+
+/* Selected states. The dark rules above restyle these buttons with a more
+   specific selector than their light ".active" rule, so the selected one
+   looked like all the others (the e-shop category and sort buttons, the
+   "Palivové dřevo / Stavební řezivo" switch, the open FAQ question, the
+   current checkout step). Same blue as in light mode. */
+html.dark-mode .btn-filter.active,
+html.dark-mode .btn-filter:hover,
+html.dark-mode .btn-sort.active,
+html.dark-mode .toggle-btn.active,
+html.dark-mode .accordion-item.active {
+    background: #2C8FFF;
+    border-color: #2C8FFF;
+    color: #fff;
+}
+
+html.dark-mode .accordion-item.active .accordion-header,
+html.dark-mode .accordion-item.active .accordion-icon {
+    color: #fff;
+}
+
+html.dark-mode .checkout-step.current {
+    color: #2C8FFF;
+}
+
+html.dark-mode .checkout-step.current .checkout-step-number {
+    background-color: #2C8FFF;
+    color: #fff;
+}
+
+/* Chrome paints fields it filled in itself light blue with dark text,
+   which glares in dark mode */
+html.dark-mode main input:-webkit-autofill {
+    -webkit-text-fill-color: #e8eaed;
+    box-shadow: 0 0 0 1000px #1f2226 inset;
+    caret-color: #e8eaed;
+}

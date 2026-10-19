@@ -86,21 +86,33 @@
     <%= form_with url: inquiries_path, method: :post, class: "kalkulace-form", id: "kalkulace-form" do |form| %>
       <%= hidden_field_tag :kalkulace_category, "palivove", id: "kalkulace-category-input" %>
       <h3 class="form-section-title"><%= t("kontakt.form_section_kontakt") %></h3>
+      <%# Row by row, as they are read and filled in: name, how to reach you,
+          then the address. Phones show them in this same order. %>
       <div class="kalkulace-grid-2">
 
         <div class="form-group">
           <%= form.label :jmeno, t("kontakt.form_jmeno") %>
-          <%= form.text_field :jmeno, required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :ulice, t("kontakt.form_ulice") %>
-          <%= form.text_field :ulice, required: true %>
+          <%= form.text_field :jmeno, required: true, autocomplete: "given-name" %>
         </div>
 
         <div class="form-group">
           <%= form.label :prijmeni, t("kontakt.form_prijmeni") %>
-          <%= form.text_field :prijmeni, required: true %>
+          <%= form.text_field :prijmeni, required: true, autocomplete: "family-name" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :email, t("kontakt.form_email") %>
+          <%= form.email_field :email, required: true, autocomplete: "email" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :telefon, t("kontakt.form_telefon") %>
+          <%= form.telephone_field :telefon, required: true, autocomplete: "tel" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :ulice, t("kontakt.form_ulice") %>
+          <%= form.text_field :ulice, required: true, autocomplete: "address-line1" %>
         </div>
 
         <div class="form-group">
@@ -109,23 +121,13 @@
         </div>
 
         <div class="form-group">
-          <%= form.label :telefon, t("kontakt.form_telefon") %>
-          <%= form.telephone_field :telefon, required: true %>
-        </div>
-
-        <div class="form-group">
           <%= form.label :mesto, t("kontakt.form_mesto") %>
-          <%= form.text_field :mesto, required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= form.label :email, t("kontakt.form_email") %>
-          <%= form.email_field :email, required: true %>
+          <%= form.text_field :mesto, required: true, autocomplete: "address-level2" %>
         </div>
 
         <div class="form-group">
           <%= form.label :psc, t("kontakt.form_psc") %>
-          <%= form.text_field :psc, required: true %>
+          <%= form.text_field :psc, required: true, autocomplete: "postal-code" %>
         </div>
 
       </div>

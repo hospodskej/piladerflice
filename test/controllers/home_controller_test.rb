@@ -204,6 +204,15 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".mobile-sidebar .sidebar-bottom a.sidebar-account[href=?]", "/at/muj-ucet", text: "Mein Konto"
   end
 
+  test "the inquiry form asks for name, then contact, then address, in reading order" do
+    get kontakt_url
+
+    labels = css_select("#kalkulace-form .kalkulace-grid-2 > .form-group label").map { |l| l.text.strip }
+    assert_equal ["Jméno", "Příjmení", "E-mail", "Telefon", "Ulice", "Číslo popisné", "Město", "PSČ"], labels
+    assert_select "input[name=jmeno][autocomplete=given-name]"
+    assert_select "input[name=psc][autocomplete=postal-code]"
+  end
+
   test "pictures further down the page load lazily, the main one straight away" do
     get eshop_product_url(catalog_products(:smrk).key)
 

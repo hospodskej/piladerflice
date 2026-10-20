@@ -96,7 +96,7 @@ The privacy policy (`legal.privacy_content_html` in `config/locales/cs.yml` and 
 
 ### Use the mascots elsewhere
 
-The mascot illustrations live in `app/assets/images/mascot/`. The shrugging one is on the 404 page and the thumbs-up one on the order confirmation page; the waving and hands-on-hips ones aren't used yet. They could show up on the empty cart, loading states and the "O nás" section.
+The mascot illustrations live in `app/assets/images/mascot/`. The shrugging one is on the 404 page, in front of a black and white photo, with its face filled with the page colour (`shrugging-light.webp` / `shrugging-dark.webp`; the original has a see-through face). The thumbs-up one is on the order confirmation page; the waving and hands-on-hips ones aren't used yet. They could show up on the empty cart, loading states and the "O nás" section.
 
 ### Team photo
 

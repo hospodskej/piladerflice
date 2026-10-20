@@ -1,35 +1,79 @@
 .not-found {
-    max-width: 640px;
     margin: 40px auto 80px auto;
-    padding: 0 5%;
     text-align: center;
 }
 
-.not-found-mascot {
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    margin-bottom: 16px;
+/* A wide black and white photo with the mascot standing in front of it,
+   sticking out a little above and more below. Every size is a share of
+   the width, so it scales as one piece. */
+.not-found-hero {
+    position: relative;
+    padding: 1.4% 0 3.9% 0;
+    margin-bottom: 36px;
 }
 
-.not-found-code {
-    margin: 0;
-    font-size: 4.5rem;
-    font-weight: 800;
-    line-height: 1;
-    color: #2C8FFF;
+.not-found-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1174 / 330;
+    object-fit: cover;
+    object-position: center 50%;
+    border-radius: 28px;
+}
+
+.not-found-mascot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 46%;
+    height: auto;
+    transform: translateX(-50%);
+}
+
+/* The mascot whose face matches the page: light by default, dark in dark mode */
+.not-found-mascot-dark,
+html.dark-mode .not-found-mascot-light {
+    display: none;
+}
+
+html.dark-mode .not-found-mascot-dark {
+    display: block;
+}
+
+/* Phones: a taller photo and a bigger mascot, or it would be tiny */
+@media (max-width: 768px) {
+    .not-found-photo {
+        aspect-ratio: 2.4 / 1;
+        border-radius: 18px;
+    }
+
+    .not-found-mascot {
+        width: 74%;
+    }
+
+    .not-found-hero {
+        padding: 4% 0 8% 0;
+        margin-bottom: 24px;
+    }
+}
+
+.not-found h1,
+.not-found-text,
+.not-found-links {
+    max-width: 640px;
 }
 
 .not-found h1 {
     font-size: 2rem;
-    margin: 10px 0 14px 0;
+    margin: 0 auto 14px auto;
 }
 
 .not-found-text {
     font-size: 1.05rem;
     line-height: 1.6;
     color: #333333;
-    margin: 0 0 24px 0;
+    margin: 0 auto 24px auto;
 }
 
 .not-found-links {
@@ -37,7 +81,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 8px 24px;
-    margin-top: 28px;
+    margin: 28px auto 0 auto;
 }
 
 .not-found-links a {
@@ -54,7 +98,7 @@ html.dark-mode .not-found-text {
     color: #a8adb5;
 }
 
-/* The mascot's dark blue outline nearly vanishes on the dark page. */
-html.dark-mode .not-found-mascot {
-    filter: brightness(1.35);
+/* The photo a little dimmer on the dark page */
+html.dark-mode .not-found-photo {
+    filter: brightness(0.8);
 }

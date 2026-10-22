@@ -10,7 +10,7 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
     assert_select "h1", "Tady nic není"
-    assert_select "img.not-found-mascot[src*=shrugging-light]"
+    assert_select "img.not-found-mascot[src*=shrugging]"
     assert_select "meta[name=robots][content=noindex]"
     assert_select ".not-found a.btn-primary[href=?]", root_path
     assert_select "header.site-header"

@@ -618,6 +618,7 @@ de:
       variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
 
   shared:
+    delivery_note_html: "<strong>Die Preise verstehen sich ohne Lieferung.</strong> Die Lieferkosten berechnet das System direkt in der Bestellung, sobald Sie die Adresse eingeben: derzeit %{rate} pro km, hin und zurück gerechnet. Selbstabholung in Derflice ist kostenlos."
     custom_demand:
       title_line1: "Nicht gefunden, was Sie gesucht haben?"
       title_line2: "Fragen Sie eine Maßanfertigung an"
@@ -754,7 +755,7 @@ de:
       <p>Der Käufer kann zwischen folgenden Versandarten wählen:</p>
       <ul>
         <li><strong>Persönliche Abholung</strong> – kostenlos, am Betriebssitz Derflice 66, 671 28 Znojmo, nach vorheriger Vereinbarung.</li>
-        <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis beträgt 40 CZK (inkl. MwSt.) pro gefahrenem Kilometer, berechnet hin und zurück zwischen dem Betrieb in Derflice und der Lieferadresse. Die Entfernung wird anhand der Lieferadresse automatisch berechnet; der ungefähre Lieferpreis wird in der Bestellübersicht angezeigt und ist im Gesamtpreis enthalten, den endgültigen Lieferpreis bestätigt der Verkäufer nach Eingang der Bestellung. Die gesamte bestellte Menge wird in einer Fahrt geliefert. Kann die Entfernung nicht berechnet werden, wird der Lieferpreis dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
+        <li><strong>Lieferung an die Adresse</strong> – der Lieferpreis beträgt %{delivery_rate} CZK (inkl. MwSt.) pro gefahrenem Kilometer, berechnet hin und zurück zwischen dem Betrieb in Derflice und der Lieferadresse. Die Entfernung wird anhand der Lieferadresse automatisch berechnet; der ungefähre Lieferpreis wird in der Bestellübersicht angezeigt und ist im Gesamtpreis enthalten, den endgültigen Lieferpreis bestätigt der Verkäufer nach Eingang der Bestellung. Die gesamte bestellte Menge wird in einer Fahrt geliefert. Kann die Entfernung nicht berechnet werden, wird der Lieferpreis dem Käufer nach Eingang der Bestellung individuell mitgeteilt. Der Verkäufer liefert insbesondere in Südmähren und im angrenzenden Österreich.</li>
       </ul>
       <p>Der Liefer- bzw. Abholtermin wird individuell je nach Warenverfügbarkeit und Kapazität des Verkäufers vereinbart; sofern nichts anderes vereinbart wurde, liefert der Verkäufer die Ware innerhalb einer angemessenen Frist.</p>
 

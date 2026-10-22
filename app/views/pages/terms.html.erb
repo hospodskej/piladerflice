@@ -4,7 +4,7 @@
     <h1><%= t("legal.terms_title") %></h1>
 
     <div class="legal-content">
-      <%= t("legal.terms_content_html") %>
+      <%= t("legal.terms_content_html", delivery_rate: Setting.delivery_czk_per_km) %>
     </div>
   </section>
 </main>

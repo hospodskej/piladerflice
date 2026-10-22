@@ -19,7 +19,7 @@
 
 ### Delivery price
 
-Delivery to an address costs 40 Kč (incl. VAT) per km, counted there and back (`DeliveryQuote::CZK_PER_KM`), one trip for the whole order. The road distance from the sawmill (Derflice 66) to the delivery address is looked up with [openrouteservice](https://openrouteservice.org) by `DeliveryRouteService` and cached for 30 days per address. The checkout summary shows the price as approximate and includes it in the total; the order stores it in `delivery_distance_km` (round trip) and `delivery_czk`.
+Delivery to an address costs a price per km (incl. VAT; 40 Kč to start with), counted there and back, one trip for the whole order. The admin sets the price in Admin > Doprava (`Setting.delivery_czk_per_km`); it drives the checkout formula (`DeliveryQuote`) and every text that quotes it: the note on the e-shop and product pages, the checkout and the terms. Orders already placed keep the price they were placed with. The road distance from the sawmill (Derflice 66) to the delivery address is looked up with [openrouteservice](https://openrouteservice.org) by `DeliveryRouteService` and cached for 30 days per address. The checkout summary shows the price as approximate and includes it in the total; the order stores it in `delivery_distance_km` (round trip) and `delivery_czk`.
 
 - Set the `ORS_API_KEY` environment variable (locally in the git-ignored `.env`; never commit the key). Without it, or if the lookup fails, the checkout falls back to "delivery price calculated individually" and the total contains the goods only.
 - The server must be allowed to reach `api.openrouteservice.org` over HTTPS.

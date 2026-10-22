@@ -197,3 +197,33 @@ a.product-image-wrapper-eshop {
         width: 100%;
     }
 }
+
+/* "Ceny jsou bez dopravy…" on the e-shop and every product page */
+.delivery-note {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 32px 0;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    border: 1px solid #d4d4d4;
+    border-left: 4px solid #2C8FFF;
+    border-radius: 8px;
+    color: #333333;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.delivery-note strong {
+    color: #111111;
+}
+
+.delivery-note-icon {
+    flex-shrink: 0;
+    color: #2C8FFF;
+}
+
+.product-intro-details .delivery-note {
+    margin: 16px 0 0 0;
+}

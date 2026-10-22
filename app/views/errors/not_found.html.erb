@@ -6,12 +6,11 @@
 <main class="main">
   <section class="not-found">
     <%# The shrugging mascot ("we couldn't find it") standing in front of a
-        black and white photo. Its face is filled with the page colour, so
-        there is one picture for light mode and one for dark mode. %>
+        black and white photo. Its face is filled, so it covers the photo
+        and looks the same in light and dark mode. %>
     <div class="not-found-hero">
       <%= image_tag "not-found-photo.webp", alt: "", class: "not-found-photo", width: 1600, height: 667, loading: "eager" %>
-      <%= image_tag "mascot/shrugging-light.webp", alt: t("not_found.alt"), class: "not-found-mascot not-found-mascot-light", width: 640, height: 464, loading: "eager" %>
-      <%= image_tag "mascot/shrugging-dark.webp", alt: t("not_found.alt"), class: "not-found-mascot not-found-mascot-dark", width: 640, height: 464 %>
+      <%= image_tag "mascot/shrugging.webp", alt: t("not_found.alt"), class: "not-found-mascot", width: 640, height: 475, loading: "eager" %>
     </div>
     <h1><%= t("not_found.heading") %></h1>
     <p class="not-found-text"><%= t("not_found.text") %></p>

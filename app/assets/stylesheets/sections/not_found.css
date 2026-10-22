@@ -8,7 +8,7 @@
    the width, so it scales as one piece. */
 .not-found-hero {
     position: relative;
-    padding: 1.4% 0 3.9% 0;
+    padding: 1.4% 0 4.6% 0;
     margin-bottom: 36px;
 }
 
@@ -31,16 +31,6 @@
     transform: translateX(-50%);
 }
 
-/* The mascot whose face matches the page: light by default, dark in dark mode */
-.not-found-mascot-dark,
-html.dark-mode .not-found-mascot-light {
-    display: none;
-}
-
-html.dark-mode .not-found-mascot-dark {
-    display: block;
-}
-
 /* Phones: a taller photo and a bigger mascot, or it would be tiny */
 @media (max-width: 768px) {
     .not-found-photo {
@@ -53,7 +43,7 @@ html.dark-mode .not-found-mascot-dark {
     }
 
     .not-found-hero {
-        padding: 4% 0 8% 0;
+        padding: 4% 0 9.5% 0;
         margin-bottom: 24px;
     }
 }

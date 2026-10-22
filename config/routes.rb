@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
     end
     resources :promos, except: [:show]
+    resource :delivery_settings, only: [:edit, :update], path: "doprava"
     resources :pricelist_items, only: [:index, :create, :update, :destroy] do
       member do
         patch :move_up

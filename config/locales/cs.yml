@@ -619,6 +619,7 @@ cs:
       variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
 
   shared:
+    delivery_note_html: "<strong>Ceny jsou bez dopravy.</strong> Cenu dopravy vám systém spočítá přímo v objednávce, jakmile zadáte adresu: aktuálně %{rate} za km, počítáno tam i zpět. Osobní odběr v Derflicích je zdarma."
     custom_demand:
       title_line1: "Nenašli jste, co jste hledali?"
       title_line2: "Poptejte se po výrobě na míru"
@@ -805,7 +806,7 @@ cs:
       <p>Kupující si může zvolit jeden z následujících způsobů dodání:</p>
       <ul>
         <li><strong>Osobní odběr</strong> – zdarma, na adrese provozovny Derflice 66, 671 28 Znojmo, po předchozí domluvě.</li>
-        <li><strong>Doprava na adresu</strong> – cena dopravy činí 40 Kč (včetně DPH) za každý ujetý kilometr, počítáno tam i zpět mezi provozovnou v Derflicích a doručovací adresou. Vzdálenost se počítá automaticky podle doručovací adresy a orientační cena dopravy je zobrazena v souhrnu objednávky a zahrnuta v celkové ceně; konečnou cenu dopravy prodávající potvrdí po přijetí objednávky. Celé objednané množství se doveze jednou jízdou. Nepodaří-li se vzdálenost spočítat, je cena dopravy kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
+        <li><strong>Doprava na adresu</strong> – cena dopravy činí %{delivery_rate} Kč (včetně DPH) za každý ujetý kilometr, počítáno tam i zpět mezi provozovnou v Derflicích a doručovací adresou. Vzdálenost se počítá automaticky podle doručovací adresy a orientační cena dopravy je zobrazena v souhrnu objednávky a zahrnuta v celkové ceně; konečnou cenu dopravy prodávající potvrdí po přijetí objednávky. Celé objednané množství se doveze jednou jízdou. Nepodaří-li se vzdálenost spočítat, je cena dopravy kupujícímu sdělena individuálně po přijetí objednávky. Prodávající zajišťuje rozvoz zejména v oblasti jižní Moravy a přilehlého severního Rakouska.</li>
       </ul>
       <p>Termín dodání či předání zboží k osobnímu odběru je dohodnut individuálně s ohledem na dostupnost zboží a kapacitu prodávajícího; není-li dohodnuto jinak, dodá prodávající zboží v přiměřené lhůtě.</p>
 

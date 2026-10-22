@@ -190,6 +190,20 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "a delivery price changed in the admin is what the checkout charges" do
+    Setting.create!(key: "delivery_czk_per_km", value: "50")
+    fake_route(meters: 50_000)
+
+    get checkout_shipping_path
+    assert_select ".checkout-radio-note", text: /\A50 Kč\/km/
+
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+
+    assert_equal 5000, Order.last.delivery_czk
+  end
+
   test "a different delivery address is the one the distance is measured to" do
     fake_route
     submit_shipping(shipping_method: "address", payment_method: "bank_transfer")

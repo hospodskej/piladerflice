@@ -1,0 +1,26 @@
+<h1 class="admin-page-title">Doprava</h1>
+
+<%= form_with model: @setting, url: admin_delivery_settings_path, method: :patch, class: "admin-form" do |f| %>
+  <% if @setting.errors.any? %>
+    <div class="admin-flash admin-flash-alert">
+      <strong>Cenu nelze uložit:</strong> zadejte celé číslo od 1 do 1 000.
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :value, "Cena dopravy na adresu (Kč za km, včetně DPH)" %>
+    <%= f.number_field :value, min: 1, max: 1000, step: 1, required: true %>
+    <p class="admin-form-hint">
+      Počítá se tam i zpět mezi Derflicemi a adresou zákazníka, jednou jízdou za celou objednávku.
+      Např. adresa 50 km daleko: 2 × 50 km × <%= Setting.delivery_czk_per_km %> Kč = <%= number_with_delimiter(100 * Setting.delivery_czk_per_km, delimiter: " ") %> Kč.
+    </p>
+    <p class="admin-form-hint">
+      Nová cena platí hned pro nové objednávky a ukáže se v e-shopu, v pokladně i v obchodních podmínkách.
+      Už odeslané objednávky si ponechají cenu, se kterou byly objednány.
+    </p>
+  </div>
+
+  <div class="admin-form-actions">
+    <%= f.submit "Uložit cenu dopravy", class: "btn-primary" %>
+  </div>
+<% end %>

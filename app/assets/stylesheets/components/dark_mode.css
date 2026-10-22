@@ -876,3 +876,14 @@ html.dark-mode .spec-value.text-green {
 html.dark-mode .spec-value.text-red {
     color: #ff9b9b;
 }
+
+html.dark-mode .delivery-note {
+    background-color: #3e3e42;
+    border-color: #4a4a50;
+    border-left-color: #2C8FFF;
+    color: #c7cad0;
+}
+
+html.dark-mode .delivery-note strong {
+    color: #f2f3f5;
+}

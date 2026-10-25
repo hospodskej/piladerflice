@@ -125,7 +125,7 @@ function createCustomDropdown(select) {
         const parts = text.trim().split(' ');
         if (parts.length > 1) {
             const first = parts.shift();
-            return `<span style="color: #2C8FFF;">${first}</span> <span style="color: #000000;">${parts.join(' ')}</span>`;
+            return `<span style="color: #2C8FFF;">${first}</span> <span>${parts.join(' ')}</span>`;
         }
         return `<span style="color: #2C8FFF;">${text}</span>`;
     };

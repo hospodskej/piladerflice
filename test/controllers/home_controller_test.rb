@@ -213,6 +213,31 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name=psc][autocomplete=postal-code]"
   end
 
+  test "a firewood page has a filter built from its own variants" do
+    product = CatalogProduct.create!(key: "filtr-drevo", template: "firewood", category: "palivove", title: "Filtr", active: true)
+    [["33 cm", false, 10], ["50 cm", true, 5]].each_with_index do |(length, stacked, amount), index|
+      product.catalog_variants.create!(key: "k#{index}", variant_group: "kontejner", stacked: stacked, length_label: length,
+                                       amount_value: amount, price_czk: 1000, position: index)
+    end
+    product.catalog_variants.create!(key: "b1", variant_group: "bedny", stacked: true, length_label: "25 cm", amount_value: 1, price_czk: 900, position: 9)
+
+    get eshop_product_url(product.key)
+
+    assert_select "details.variant-filter[open] summary", text: /Filtr/
+    assert_equal %w[loose stacked], css_select(".variant-filter input[name=kind]").map { |i| i["value"] }
+    assert_equal %w[1 5 10], css_select(".variant-filter input[name=amount]").map { |i| i["value"] }
+    assert_equal ["50 cm", "33 cm", "25 cm"], css_select(".variant-filter input[name=length]").map { |i| i["value"] }
+    assert_select ".inventory-card[data-kind=loose][data-amount='10'][data-length='33 cm']"
+    assert_select "#section-bedny .inventory-card[data-kind=stacked][data-amount='1'][data-length='25 cm']"
+  end
+
+  test "each box in the inquiry form carries its own name for phones" do
+    get kontakt_url
+
+    assert_equal %w[Varianta Druh Délka Množství],
+                 css_select("[data-category=palivove] .kalkulace-row .kalkulace-field-label").map { |l| l.text.strip }
+  end
+
   test "pictures further down the page load lazily, the main one straight away" do
     get eshop_product_url(catalog_products(:smrk).key)
 

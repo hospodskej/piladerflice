@@ -445,3 +445,154 @@
         scroll-snap-align: start;
     }
 }
+
+/* === "Filtr" panel on firewood pages === */
+.variant-filter {
+    margin: 0 0 32px 0;
+    border: 1px solid #cfcfcf;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.variant-filter-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+
+.variant-filter-summary::-webkit-details-marker {
+    display: none;
+}
+
+.variant-filter-chevron {
+    color: #2C8FFF;
+    transition: transform 0.2s ease;
+}
+
+.variant-filter[open] .variant-filter-chevron {
+    transform: rotate(180deg);
+}
+
+.variant-filter-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    gap: 24px 48px;
+    align-items: end;
+    padding: 4px 28px 28px 28px;
+}
+
+.variant-filter-group {
+    align-self: start;
+    margin: 0;
+    padding: 0;
+    border: none;
+    min-width: 0;
+}
+
+.variant-filter-group legend {
+    width: 100%;
+    padding: 0 0 10px 0;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #cfcfcf;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.variant-filter-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.variant-filter-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.variant-filter-box {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background-color: #e6e6e6;
+    border: 1px solid #bdbdbd;
+    box-sizing: border-box;
+}
+
+/* ticked: a blue cross */
+.variant-filter-option input:checked + .variant-filter-box {
+    background: #e6e6e6 url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232C8FFF' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M5 5l14 14M19 5L5 19'/%3E%3C/svg%3E") center / 20px no-repeat;
+    border-color: #2C8FFF;
+}
+
+.variant-filter-option input:focus-visible + .variant-filter-box {
+    outline: 2px solid #2C8FFF;
+    outline-offset: 2px;
+}
+
+.variant-filter-number {
+    color: #2C8FFF;
+    font-weight: 700;
+}
+
+.variant-filter-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.variant-filter-submit {
+    min-width: 170px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.variant-filter-reset {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #2C8FFF;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.variant-filter-reset:hover {
+    text-decoration: underline;
+}
+
+.variant-filter-empty {
+    margin: 0 0 32px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .variant-filter-summary {
+        padding: 16px 20px;
+    }
+
+    .variant-filter-form {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 24px;
+        padding: 0 20px 20px 20px;
+    }
+
+    .variant-filter-actions {
+        grid-column: 1 / -1;
+        flex-direction: column-reverse;
+    }
+}

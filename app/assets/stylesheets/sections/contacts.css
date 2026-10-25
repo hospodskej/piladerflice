@@ -415,6 +415,14 @@
     flex-shrink: 0;
 }
 
+/* A box's own name: only on phones, where the boxes stack */
+.kalkulace-field-label {
+    display: none;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
 .custom-select-menu {
     position: absolute;
     top: 100%;
@@ -462,8 +470,38 @@
     }
 
     .kalkulace-grid-2,
-    .kalkulace-grid-4 {
+    .kalkulace-grid-4,
+    .kalkulace-grid-5 {
         grid-template-columns: 1fr;
+    }
+
+    /* Item rows: the shared column headings go, each box shows its own
+       name, and each extra item is set apart with a line and its remove
+       button underneath. */
+    .kalkulace-labels-row {
+        display: none;
+    }
+
+    .kalkulace-field-label {
+        display: block;
+    }
+
+    .kalkulace-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kalkulace-items-container .kalkulace-row + .kalkulace-row {
+        padding-top: 18px;
+        border-top: 1px solid #cfcfcf;
+    }
+
+    .kalkulace-items-container .kalkulace-row:first-child .delete-item-btn {
+        display: none;
+    }
+
+    .delete-item-btn {
+        align-self: center;
     }
 
     .kalkulace-toggles {

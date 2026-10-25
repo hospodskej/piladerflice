@@ -1,0 +1,36 @@
+<%# The "Filtr" panel on a firewood page: tick variants, amounts and lengths,
+    then Filtrovat. Within a group any ticked value matches; across groups
+    all must. A group with nothing ticked doesn't filter. %>
+<details class="variant-filter" open>
+  <summary class="variant-filter-summary">
+    <span><%= t("eshop.filter.title") %></span>
+    <svg class="variant-filter-chevron" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </summary>
+
+  <form class="variant-filter-form" data-action="submit->variant-filter#apply">
+    <% groups = [
+         ["kind", t("common.spec_variant"), kinds.map { |k| [k, nil, t(k == "stacked" ? "common.stacked_variant" : "common.loose_variant")] }],
+         ["amount", t("common.spec_amount"), amounts.map { |a| [a, a, t("common.per_m3")] }],
+         ["length", t("common.spec_length"), lengths.map { |l| [l, l.to_i, l.sub(/\A\d+\s*/, "")] }]
+       ] %>
+    <% groups.each do |name, heading, options| %>
+      <fieldset class="variant-filter-group">
+        <legend><%= heading %></legend>
+        <% options.each do |value, number, unit| %>
+          <label class="variant-filter-option">
+            <input type="checkbox" name="<%= name %>" value="<%= value %>">
+            <span class="variant-filter-box" aria-hidden="true"></span>
+            <span><% if number %><span class="variant-filter-number"><%= number %></span> <% end %><%= unit %></span>
+          </label>
+        <% end %>
+      </fieldset>
+    <% end %>
+
+    <div class="variant-filter-actions">
+      <button type="button" class="variant-filter-reset" data-action="variant-filter#reset"><%= t("eshop.filter.reset") %></button>
+      <button type="submit" class="btn-primary variant-filter-submit"><%= t("eshop.filter.submit") %></button>
+    </div>
+  </form>
+</details>
+
+<p class="variant-filter-empty" data-variant-filter-target="empty" hidden><%= t("eshop.filter.no_match") %></p>

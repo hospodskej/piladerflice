@@ -6,6 +6,12 @@
   bedny_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "bedny" }
 
   grid = FirewoodGrid.new(kontejner_variants)
+
+  # The filter's choices come from this product's variants.
+  all_variants = kontejner_variants + bedny_variants
+  filter_lengths = all_variants.map(&:length_label).uniq.sort_by { |label| -label.to_i }
+  filter_amounts = all_variants.map(&:amount_value).compact.uniq.sort
+  filter_kinds = %w[loose stacked].select { |kind| all_variants.any? { |v| (v.variant_group == "bedny" || v.stacked?) == (kind == "stacked") } }
 %>
 
 <main class="product-page-main main">
@@ -27,35 +33,28 @@
       </div>
     </section>
 
-    <section class="inventory-section">
+    <section class="inventory-section" data-controller="variant-filter">
 
-      <div class="inventory-filter">
-        <span class="filter-label"><%= t("common.loose_type_label") %></span>
-        <div class="filter-buttons">
-          <button class="filter-btn active" data-target="all"><%= t("common.all") %></button>
-          <button class="filter-btn" data-target="kontejner"><%= t("common.container") %></button>
-          <button class="filter-btn" data-target="bedny"><%= t("common.crate") %></button>
-        </div>
-      </div>
+      <%= render "shared/variant_filter", kinds: filter_kinds, amounts: filter_amounts, lengths: filter_lengths %>
 
       <hr class="inventory-separator main-separator">
 
-      <div id="section-kontejner" class="inventory-group">
+      <div id="section-kontejner" class="inventory-group" data-variant-filter-target="section">
         <h2 class="section-title"><%= t("eshop.firewood.variants_heading_html") %></h2>
 
-        <div class="matrix-grid">
-          <div class="matrix-cell empty"></div>
+        <div class="matrix-grid" data-variant-filter-target="grid">
+          <div class="matrix-cell empty" data-corner></div>
           <% grid.lengths.each do |len| %>
-            <div class="matrix-cell col-header"><%= len %></div>
+            <div class="matrix-cell col-header" data-length="<%= len %>"><%= len %></div>
           <% end %>
 
           <% grid.rows.each_with_index do |amounts, row_index| %>
-            <div class="matrix-cell row-header"><span><%= amounts.join(" #{t('common.and')} ") %> <%= t("common.per_m3") %></span></div>
+            <div class="matrix-cell row-header" data-row="<%= row_index %>"><span><%= amounts.join(" #{t('common.and')} ") %> <%= t("common.per_m3") %></span></div>
             <% grid.lengths.each do |len| %>
               <% variant = grid.variant_at(row_index, len) %>
-              <div class="matrix-cell">
+              <div class="matrix-cell" data-row="<%= row_index %>" data-length="<%= len %>">
                 <% if variant %>
-                  <div class="inventory-card">
+                  <div class="inventory-card" data-kind="<%= variant.stacked? ? "stacked" : "loose" %>" data-amount="<%= variant.amount_value %>" data-length="<%= len %>">
                     <%= image_tag_with_fallback variant.image, "eshop/container.webp", alt: t("common.container"), class: "inventory-img" %>
                     <div class="inventory-specs">
                       <div class="spec-labels">
@@ -83,16 +82,16 @@
         </div>
       </div>
 
-      <hr class="inventory-separator mid-separator">
+      <hr class="inventory-separator mid-separator" data-variant-filter-target="separator">
 
-      <div id="section-bedny" class="inventory-group">
+      <div id="section-bedny" class="inventory-group" data-variant-filter-target="section">
         <h2 class="section-title"><%= t("eshop.firewood.crates_heading_html") %></h2>
 
-        <div class="matrix-grid-bedny">
-          <div class="matrix-cell empty"></div>
+        <div class="matrix-grid-bedny" data-variant-filter-target="grid">
+          <div class="matrix-cell empty" data-corner></div>
           <% bedny_variants.each do |variant| %>
-            <div class="matrix-cell">
-              <div class="inventory-card">
+            <div class="matrix-cell" data-row="crates" data-length="<%= variant.length_label %>">
+              <div class="inventory-card" data-kind="stacked" data-amount="<%= variant.amount_value %>" data-length="<%= variant.length_label %>">
                 <%= image_tag_with_fallback variant.image, "eshop/bedna.webp", alt: t("common.crate"), class: "inventory-img" %>
                 <div class="inventory-specs">
                   <div class="spec-labels">

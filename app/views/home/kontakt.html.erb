@@ -151,6 +151,9 @@
               <div class="kalkulace-grid-<%= fields.size %>">
                 <% fields.each do |field| %>
                   <div class="form-group">
+                    <%# On phones the boxes stack, so each one carries its own name
+                        (the shared heading row above is for side-by-side columns). %>
+                    <span class="kalkulace-field-label" aria-hidden="true"><%= t("kontakt.grid_#{field}") %></span>
                     <% if field == "mnozstvi" && category == "stavebni" %>
                       <%= number_field_tag "mnozstvi[]", nil, min: 1, step: 1, placeholder: t("kontakt.kalkulace_mnozstvi_placeholder") %>
                     <% else %>

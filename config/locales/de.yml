@@ -499,6 +499,11 @@ de:
         desc_1: "Feines, trockenes Sägemehl geeignet für Pellets, Briketts, Einstreu oder weitere industrielle Verarbeitung. Entsteht beim Sägen und Schleifen von Massivholz und weist eine hervorragende Rieselfähigkeit auf."
 
   eshop:
+    filter:
+      title: "Filter"
+      submit: "Filtern"
+      reset: "Filter zurücksetzen"
+      no_match: "Keine Variante entspricht diesem Filter. Versuchen Sie eine andere Auswahl."
     index:
       filters_title: "Produktkategorien"
       cat_palivove: "Brennholz"

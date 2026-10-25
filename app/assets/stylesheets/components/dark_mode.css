@@ -606,7 +606,8 @@ html.dark-mode .kalkulace-header h2,
 html.dark-mode .form-section-title,
 html.dark-mode .form-group label,
 html.dark-mode .consent-text,
-html.dark-mode .grid-label {
+html.dark-mode .grid-label,
+html.dark-mode .kalkulace-field-label {
     color: #f2f3f5;
 }
 
@@ -886,4 +887,34 @@ html.dark-mode .delivery-note {
 
 html.dark-mode .delivery-note strong {
     color: #f2f3f5;
+}
+
+html.dark-mode .kalkulace-items-container .kalkulace-row + .kalkulace-row {
+    border-top-color: #4a4a50;
+}
+
+html.dark-mode .variant-filter {
+    background-color: #3e3e42;
+    border-color: #4a4a50;
+}
+
+html.dark-mode .variant-filter-summary,
+html.dark-mode .variant-filter-group legend,
+html.dark-mode .variant-filter-option,
+html.dark-mode .variant-filter-empty {
+    color: #f2f3f5;
+}
+
+html.dark-mode .variant-filter-group legend {
+    border-bottom-color: #5a5a60;
+}
+
+html.dark-mode .variant-filter-box,
+html.dark-mode .variant-filter-option input:checked + .variant-filter-box {
+    background-color: #2d2d30;
+    border-color: #5a5a60;
+}
+
+html.dark-mode .variant-filter-option input:checked + .variant-filter-box {
+    border-color: #2C8FFF;
 }

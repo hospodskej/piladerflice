@@ -499,6 +499,11 @@ cs:
         desc_1: "Jemné suché piliny vhodné pro pelety, brikety, stelivo nebo další průmyslové zpracování. Vznikají při řezání a broušení masivního dřeva a mají výbornou sypkost."
 
   eshop:
+    filter:
+      title: "Filtr"
+      submit: "Filtrovat"
+      reset: "Zrušit filtr"
+      no_match: "Tomuto filtru neodpovídá žádná varianta. Zkuste zaškrtnout něco jiného."
     index:
       filters_title: "Kategorie produktů"
       cat_palivove: "Palivové dřevo"

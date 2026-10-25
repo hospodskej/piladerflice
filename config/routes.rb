@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     get "muj-ucet", to: "accounts#show", as: :account
     get "muj-ucet/upravit", to: "accounts#edit", as: :edit_account
     patch "muj-ucet/upravit", to: "accounts#update", as: :update_account
+    patch "muj-ucet/vzhled", to: "accounts#update_theme", as: :account_theme
     resource :avatar, path: "muj-ucet/profilovy-obrazek", only: [:show, :update, :destroy]
     post "muj-ucet/objednavky/:id/znovu-objednat", to: "accounts#reorder", as: :reorder_order
 

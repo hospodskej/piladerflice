@@ -22,6 +22,7 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true
   validates :password, length: { minimum: 8 }, allow_nil: true
   validates :role, inclusion: { in: ROLES }
+  validates :theme, inclusion: { in: %w[light dark] }, allow_nil: true
 
   def admin?
     role == "admin"

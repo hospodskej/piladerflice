@@ -202,4 +202,36 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
       locale: "cs", created_at: created_at
     }
   end
+
+  test "the dark/light choice is saved to the account and given to every page" do
+    user = User.create!(email_address: "tema@example.com", password: "supersecret", role: "customer")
+    post session_path, params: { email_address: "tema@example.com", password: "supersecret" }
+
+    get root_path
+    assert_select "meta[name=theme-preference][content=''][data-url=?]", account_theme_path
+
+    patch account_theme_path, params: { theme: "dark" }, as: :json
+    assert_response :no_content
+    assert_equal "dark", user.reload.theme
+
+    get eshop_path
+    assert_select "meta[name=theme-preference][content=dark]"
+  end
+
+  test "only light or dark can be saved" do
+    user = User.create!(email_address: "tema@example.com", password: "supersecret", role: "customer", theme: "light")
+    post session_path, params: { email_address: "tema@example.com", password: "supersecret" }
+
+    patch account_theme_path, params: { theme: "purple" }, as: :json
+    assert_response :unprocessable_entity
+    assert_equal "light", user.reload.theme
+  end
+
+  test "signed out, nothing is saved and pages carry no account choice" do
+    get root_path
+    assert_select "meta[name=theme-preference]", 0
+
+    patch account_theme_path, params: { theme: "dark" }, as: :json
+    assert_response :redirect
+  end
 end

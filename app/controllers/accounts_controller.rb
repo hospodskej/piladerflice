@@ -18,6 +18,16 @@ class AccountsController < ApplicationController
     end
   end
 
+  # The dark/light switch, saved to the account so every device the
+  # customer signs in on starts in the same mode (see theme-toggle.js).
+  def update_theme
+    if current_user.update(theme: params[:theme])
+      head :no_content
+    else
+      head :unprocessable_entity
+    end
+  end
+
   def reorder
     order = current_user.orders.find(params[:id])
     added = 0

@@ -9,6 +9,11 @@ module CartHelper
     ExchangeRateService.display_amount(amount_czk)
   end
 
+  # Why a discount code can't be used, for the customer.
+  def discount_reason_message(reason, discount)
+    t("cart.discount_errors.#{reason}", amount: discount&.min_order_czk && cart_price(discount.min_order_czk))
+  end
+
   private
 
   def catalog_product_title(product_key)

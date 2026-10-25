@@ -70,8 +70,14 @@
     transform: rotate(45deg);
 }
 
-.cart-dropdown:hover .cart-dropdown-content {
+.cart-dropdown.open .cart-dropdown-content {
     display: block;
+}
+
+@media (hover: hover) {
+    .cart-dropdown:hover .cart-dropdown-content {
+        display: block;
+    }
 }
 
 .cart-empty {

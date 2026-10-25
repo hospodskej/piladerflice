@@ -13,14 +13,13 @@
     else base_products
     end.to_a
 
-  sort_order =
+  # "Doporučujeme" is the catalogue order set in the admin (Pořadí v katalogu).
+  products =
     if params[:sort] == "nejprodavanejsi"
-      %w[buk dub smrk tramy fosny late piliny odkory stepka okrasne_kamenivo]
+      Bestsellers.sort(products, fallback: HomeController::ESHOP_BESTSELLER_FALLBACK)
     else
-      %w[smrk dub buk late tramy fosny stepka odkory piliny okrasne_kamenivo]
+      products.sort_by { |p| [p.position, p.id] }
     end
-
-  products.sort_by! { |p| sort_order.index(p.key) || 999 }
 %>
 
 <main class="eshop-main main">

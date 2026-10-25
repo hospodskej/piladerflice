@@ -478,6 +478,17 @@ html.dark-mode .cart-total-excl-vat {
     color: #a8adb5;
 }
 
+html.dark-mode .cart-total-discount,
+html.dark-mode .discount-code-chip,
+html.dark-mode .discount-code-message {
+    color: #5fd17f;
+}
+
+html.dark-mode .discount-code-message-error,
+html.dark-mode .discount-code-remove {
+    color: #ff8a7a;
+}
+
 /* === Checkout === */
 html.dark-mode .checkout-stepper {
     border-bottom-color: #4a4a50;

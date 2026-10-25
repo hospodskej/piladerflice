@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_26_120000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -85,6 +85,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_120000) do
     t.index ["catalog_product_id"], name: "index_catalog_variants_on_catalog_product_id"
   end
 
+  create_table "discount_codes", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.string "kind", default: "percent", null: false
+    t.integer "min_order_czk"
+    t.string "note"
+    t.integer "times_used", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "usage_limit"
+    t.date "valid_until"
+    t.integer "value", null: false
+    t.index ["code"], name: "index_discount_codes_on_code", unique: true
+  end
+
   create_table "faq_items", force: :cascade do |t|
     t.text "content"
     t.text "content_de"
@@ -140,6 +155,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_120000) do
     t.integer "delivery_distance_km"
     t.string "delivery_street"
     t.string "delivery_zip"
+    t.string "discount_code"
+    t.integer "discount_czk"
     t.string "email"
     t.string "first_name"
     t.text "items_snapshot", null: false

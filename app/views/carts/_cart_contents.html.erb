@@ -43,27 +43,39 @@
     </div>
 
     <div class="checkout-cart-footer">
+      <% message = @discount_message || flash[:discount_message] %>
+      <% message_error = @discount_message ? @discount_error : flash[:discount_error] %>
       <div class="discount-code-box">
-        <label for="discount-code"><%= t("cart.discount_code_label") %></label>
-        <div class="discount-code-row">
-          <input type="text" id="discount-code" name="discount-code" disabled>
-          <button type="button" class="btn-primary" disabled><%= t("cart.discount_code_verify") %></button>
-        </div>
+        <% if current_cart.discount %>
+          <span class="discount-code-label"><%= t("cart.discount_code_label") %></span>
+          <div class="discount-code-applied">
+            <span class="discount-code-chip"><%= current_cart.discount.code %> (−<%= current_cart.discount.percent? ? "#{current_cart.discount.value} %" : cart_price(current_cart.discount.value) %>)</span>
+            <%= button_to t("cart.discount_remove"), cart_discount_path, method: :delete, class: "discount-code-remove" %>
+          </div>
+          <% if (reason = current_cart.discount_unusable_reason) %>
+            <p class="discount-code-message discount-code-message-error">
+              <%= t("cart.discount_not_applied", code: current_cart.discount.code, reason: discount_reason_message(reason, current_cart.discount)) %>
+            </p>
+          <% elsif message %>
+            <p class="discount-code-message"><%= message %></p>
+          <% end %>
+        <% else %>
+          <%= form_with url: cart_discount_path, method: :post do %>
+            <label for="discount-code"><%= t("cart.discount_code_label") %></label>
+            <div class="discount-code-row">
+              <input type="text" id="discount-code" name="code" autocomplete="off" autocapitalize="characters"
+                     placeholder="<%= t("cart.discount_code_placeholder") %>" maxlength="40" required>
+              <button type="submit" class="btn-primary"><%= t("cart.discount_code_verify") %></button>
+            </div>
+          <% end %>
+          <% if message %>
+            <p class="discount-code-message<%= " discount-code-message-error" if message_error %>" role="alert"><%= message %></p>
+          <% end %>
+        <% end %>
       </div>
 
       <div class="cart-totals checkout-cart-totals">
-        <div class="cart-total-row">
-          <span><%= t("cart.total_due") %></span>
-          <strong><%= cart_price(current_cart.subtotal_czk) %></strong>
-        </div>
-        <div class="cart-total-row cart-total-excl-vat">
-          <span><%= t("cart.total_vat") %></span>
-          <span><%= cart_price(current_cart.subtotal_czk - current_cart.subtotal_excl_vat_czk) %></span>
-        </div>
-        <div class="cart-total-row cart-total-excl-vat">
-          <span><%= t("cart.without_vat") %></span>
-          <span><%= cart_price(current_cart.subtotal_excl_vat_czk) %></span>
-        </div>
+        <%= render "carts/totals" %>
       </div>
     </div>
 

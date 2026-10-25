@@ -37,7 +37,7 @@ class CheckoutController < ApplicationController
       return
     end
 
-    if @order.save
+    if save_order
       save_to_account if current_user
       deliver_order_notification(@order)
       deliver_customer_confirmation(@order)
@@ -111,6 +111,8 @@ class CheckoutController < ApplicationController
       payment_method: current_checkout["payment_method"],
       items_snapshot: cart_items_snapshot,
       subtotal_czk: current_cart.subtotal_czk,
+      discount_code: current_cart.discount_applied? ? current_cart.discount.code : nil,
+      discount_czk: current_cart.discount_applied? ? current_cart.discount_czk : nil,
       delivery_distance_km: delivery_quote&.round_trip_km,
       delivery_czk: delivery_quote&.price_czk,
       vat_czk: total_czk - (total_czk / (1 + Cart::VAT_RATE)).round,
@@ -119,9 +121,32 @@ class CheckoutController < ApplicationController
     }
   end
 
-  # Goods plus the approximate delivery price, both incl. VAT.
+  # Goods after the discount plus the approximate delivery price, both incl. VAT.
   def total_czk
-    current_cart.subtotal_czk + delivery_quote&.price_czk.to_i
+    current_cart.total_czk + delivery_quote&.price_czk.to_i
+  end
+
+  # Saves the order and counts a use of its discount code, together. When
+  # the code stopped applying since the customer saw the summary, nothing
+  # is saved and the summary says why.
+  def save_order
+    if current_cart.discount && !current_cart.discount_applied?
+      reason = helpers.discount_reason_message(current_cart.discount_unusable_reason, current_cart.discount)
+      @order.errors.add(:base, t("cart.discount_not_applied", code: current_cart.discount.code, reason: reason))
+      return false
+    end
+
+    Order.transaction do
+      raise ActiveRecord::Rollback unless @order.save
+
+      if current_cart.discount_applied? && !current_cart.discount.redeem!
+        current_cart.discount.reload
+        @order.errors.add(:base, t("cart.discount_not_applied", code: current_cart.discount.code, reason: t("cart.discount_errors.used_up")))
+        raise ActiveRecord::Rollback
+      end
+
+      true
+    end || false
   end
 
   def delivery_quote

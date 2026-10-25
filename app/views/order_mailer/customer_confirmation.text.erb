@@ -10,6 +10,9 @@
 
 <%= t("order_mailer.shipping_method") %>: <%= @order.shipping_method == "pickup" ? t("checkout.shipping_pickup") : t("checkout.shipping_address") %>
 <%= t("order_mailer.payment_method") %>: <%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %>
+<% if @order.discounted? %>
+<%= t("order_mailer.discount", code: @order.discount_code) %>: −<%= ExchangeRateService.display_amount(@order.discount_czk, locale: @locale) %>
+<% end %>
 <% if @order.delivery_quoted? %>
 <%= t("order_mailer.delivery", km: @order.delivery_distance_km) %>: <%= ExchangeRateService.display_amount(@order.delivery_czk, locale: @locale) %>
 <% end %>

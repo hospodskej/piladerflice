@@ -253,4 +253,40 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_select ".checkout-radio-note", text: /≈ 160,00 €\s*\(ungefährer Preis\)/
     assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*≈ 160,00 €/
   end
+
+  test "a discount code is taken off the order total and counted as used" do
+    code = DiscountCode.create!(code: "JARO10", kind: "percent", value: 10, usage_limit: 5)
+    post cart_discount_path, params: { code: "jaro10" }
+    submit_shipping
+    submit_details
+
+    get checkout_summary_path
+    assert_select ".cart-total-discount", text: /Sleva \(JARO10\).*850/m
+
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+    assert_redirected_to checkout_confirmation_path
+
+    order = Order.last
+    assert_equal "JARO10", order.discount_code
+    assert_equal 850, order.discount_czk
+    assert_equal 8_500, order.subtotal_czk
+    assert_equal 7_650, order.total_czk
+    assert_equal 7_650 - (7_650 / 1.21).round, order.vat_czk
+    assert_equal 1, code.reload.times_used
+    assert_includes ActionMailer::Base.deliveries.last.text_part.body.to_s, "Sleva (kód JARO10)"
+  end
+
+  test "a code used up by someone else before confirming leaves the order unsaved" do
+    code = DiscountCode.create!(code: "JEDNOU", kind: "fixed", value: 500, usage_limit: 1)
+    post cart_discount_path, params: { code: "JEDNOU" }
+    submit_shipping
+    submit_details
+    code.update!(times_used: 1)
+
+    assert_no_difference -> { Order.count } do
+      post checkout_confirm_path, params: { terms_agreement: "1" }
+    end
+    assert_response :unprocessable_entity
+    assert_select ".form-error li", text: /JEDNOU teď nelze uplatnit: Tento slevový kód už byl vyčerpán/
+  end
 end

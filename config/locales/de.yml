@@ -136,6 +136,7 @@ de:
     phone_prefix_label: "Vorwahl"
 
   nav:
+    language_currency: "Sprache und Währung"
     domu: "Startseite"
     eshop: "Onlineshop"
     sortiment: "Sortiment"
@@ -215,6 +216,19 @@ de:
     back_to_shopping: "Zurück zum Einkauf"
     discount_code_label: "Rabattcode"
     discount_code_verify: "Rabattcode prüfen"
+    discount_code_placeholder: "Code eingeben"
+    discount_line: "Rabatt (%{code})"
+    discount_remove: "Rabattcode entfernen"
+    discount_applied: "Der Rabattcode %{code} wurde eingelöst."
+    discount_not_applied: "Der Rabattcode %{code} kann gerade nicht eingelöst werden: %{reason}"
+    goods_before_discount: "Ware"
+    discount_errors:
+      blank: "Bitte geben Sie einen Rabattcode ein."
+      not_found: "Dieser Rabattcode existiert nicht."
+      inactive: "Dieser Rabattcode ist nicht mehr gültig."
+      expired: "Dieser Rabattcode ist abgelaufen."
+      used_up: "Dieser Rabattcode wurde bereits aufgebraucht."
+      min_order: "Der Code gilt für Bestellungen ab %{amount} Warenwert."
 
   checkout:
     step_cart: "Ihr Warenkorb"
@@ -720,6 +734,7 @@ de:
     payment_method: "Zahlungsart"
     total_due: "Gesamtbetrag"
     delivery: "Lieferung (%{km} km hin und zurück, ungefähr)"
+    discount: "Rabatt (Code %{code})"
     questions_text: "Bei Fragen kontaktieren Sie uns gerne telefonisch unter +420 602 446 339 oder per E-Mail an stepan.merta@seznam.cz."
     sign_off: "Mit freundlichen Grüßen,"
     signature: "Štěpán Merta, Pila Derflice"

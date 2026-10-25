@@ -30,6 +30,35 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "h4.product-title", text: catalog_products(:smrk).title
   end
 
+  test "eshop lists products in the catalogue order set in the admin" do
+    smrk = catalog_products(:smrk)
+    dub = smrk.dup.tap { |p| p.update!(key: "dub", title: "Dub test", position: 5) }
+    smrk.catalog_variants.first.dup.tap { |v| v.update!(catalog_product: dub, key: "dub-1") }
+
+    get eshop_url(category: "palivove")
+    assert_equal [smrk.title, "Dub test"], css_select("h4.product-title").map { |el| el.text.strip }
+
+    dub.update!(position: -1)
+    get eshop_url(category: "palivove")
+    assert_equal ["Dub test", smrk.title], css_select("h4.product-title").map { |el| el.text.strip }
+  end
+
+  test "the home bestsellers follow what was ordered once there are enough orders" do
+    get root_url
+    # The hand-picked akat, tramy, dub (only tramy is in the fixtures), then the rest.
+    assert_includes css_select(".nejprodavanejsi-produkty-card").first.text, catalog_products(:tramy).title
+
+    template = orders(:this_month)
+    Order.delete_all
+    5.times do
+      template.dup.tap { |o| o.update!(items_snapshot: [{ product_key: "odkory", quantity: 1 }].to_json) }
+    end
+    get root_url
+    titles = css_select(".nejprodavanejsi-produkty-card").map(&:text)
+    assert_equal 3, titles.size
+    assert_includes titles.first, catalog_products(:odkory).title
+  end
+
   test "product pages render every display template" do
     %i[smrk tramy odkory].each do |name|
       product = catalog_products(name)

@@ -1,0 +1,53 @@
+<div class="admin-toolbar">
+  <h1 class="admin-page-title">Slevové kódy</h1>
+  <%= link_to "+ Nový slevový kód", new_admin_discount_code_path, class: "btn-primary" %>
+</div>
+
+<p class="admin-form-hint">
+  Zákazník kód zadá v košíku. Sleva se počítá jen ze zboží, ne z dopravy. Na jednu objednávku jde použít jen jeden kód.
+</p>
+
+<% if @discount_codes.any? %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Kód</th>
+        <th>Sleva</th>
+        <th>Podmínky</th>
+        <th>Použito</th>
+        <th>Stav</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @discount_codes.each do |discount_code| %>
+        <% reason = discount_code.unusable_reason(Float::INFINITY) %>
+        <tr>
+          <td>
+            <strong><%= discount_code.code %></strong>
+            <% if discount_code.note.present? %><br><small><%= discount_code.note %></small><% end %>
+          </td>
+          <td><%= discount_code.label %></td>
+          <td>
+            <%= safe_join([
+              (discount_code.min_order_czk && "od #{number_with_delimiter(discount_code.min_order_czk, delimiter: ' ')} Kč"),
+              (discount_code.valid_until && "do #{l(discount_code.valid_until, format: '%-d. %-m. %Y')}")
+            ].compact.presence || ["—"], tag.br) %>
+          </td>
+          <td><%= discount_code.times_used %><%= " / #{discount_code.usage_limit}" if discount_code.usage_limit %>×</td>
+          <td>
+            <%= { nil => "✓ Platí", inactive: "Vypnutý", expired: "Vypršel", used_up: "Vyčerpaný" }.fetch(reason) %>
+          </td>
+          <td>
+            <div class="admin-row-actions">
+              <%= link_to "Upravit", edit_admin_discount_code_path(discount_code), class: "admin-edit-btn" %>
+              <%= button_to "Smazat", admin_discount_code_path(discount_code), method: :delete, class: "admin-danger-btn", data: { turbo_confirm: "Opravdu smazat slevový kód #{discount_code.code}? Odeslané objednávky si slevu ponechají." } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="admin-empty-state">Zatím žádné slevové kódy.</div>
+<% end %>

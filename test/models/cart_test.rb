@@ -113,4 +113,48 @@ class CartTest < ActiveSupport::TestCase
     other_view = Cart.new(@session)
     assert_equal line_id, other_view.find(line_id).id
   end
+
+  test "a discount code lowers the total, not the goods subtotal" do
+    @cart.add(@variant, 2)
+    DiscountCode.create!(code: "JARO10", kind: "percent", value: 10)
+
+    assert_nil @cart.apply_discount("jaro10")
+    assert @cart.discount_applied?
+    assert_equal 17_000, @cart.subtotal_czk
+    assert_equal 1_700, @cart.discount_czk
+    assert_equal 15_300, @cart.total_czk
+    assert_equal "JARO10", Cart.new(@session).discount.code
+  end
+
+  test "an unknown or unusable code is refused and not kept" do
+    @cart.add(@variant)
+    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 10_000)
+
+    assert_equal :not_found, @cart.apply_discount("NIC")
+    assert_equal :min_order, @cart.apply_discount("VELKY")
+    assert_nil @cart.discount
+    assert_equal 8_500, @cart.total_czk
+  end
+
+  test "a kept code stops applying when the goods drop under its minimum" do
+    line_id = @cart.add(@variant, 2)
+    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 10_000)
+    @cart.apply_discount("VELKY")
+
+    @cart.update_quantity(line_id, 1)
+
+    assert_equal :min_order, @cart.discount_unusable_reason
+    assert_equal 0, @cart.discount_czk
+    assert_equal 8_500, @cart.total_czk
+  end
+
+  test "clearing the cart drops the discount code" do
+    @cart.add(@variant)
+    DiscountCode.create!(code: "JARO10", kind: "percent", value: 10)
+    @cart.apply_discount("JARO10")
+
+    @cart.clear
+
+    assert_nil Cart.new(@session).discount
+  end
 end

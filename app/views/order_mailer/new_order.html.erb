@@ -69,8 +69,13 @@
 </table>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; margin-bottom:10px;">
-  <% if @order.delivery_quoted? %>
+  <% if @order.delivery_quoted? || @order.discounted? %>
     <tr><td style="padding:2px 0; color:#666;">Zboží</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.subtotal_czk, locale: :cs) %></td></tr>
+  <% end %>
+  <% if @order.discounted? %>
+    <tr><td style="padding:2px 0; color:#1a7f37;"><%= t("order_mailer.discount", code: @order.discount_code, locale: :cs) %></td><td style="padding:2px 0; text-align:right; color:#1a7f37;">−<%= ExchangeRateService.display_amount(@order.discount_czk, locale: :cs) %></td></tr>
+  <% end %>
+  <% if @order.delivery_quoted? %>
     <tr><td style="padding:2px 0; color:#666;"><%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %></td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.delivery_czk, locale: :cs) %></td></tr>
   <% elsif @order.shipping_method == "address" %>
     <tr><td colspan="2" style="padding:2px 0 8px; color:#a15c00;">Vzdálenost se nepodařilo spočítat – cenu dopravy je potřeba kalkulovat individuálně, není v celkové ceně.</td></tr>

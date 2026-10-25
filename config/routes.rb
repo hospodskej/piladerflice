@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     end
     resources :promos, except: [:show]
     resource :delivery_settings, only: [:edit, :update], path: "doprava"
+    resources :discount_codes, except: [:show], path: "slevove-kody"
     resources :pricelist_items, only: [:index, :create, :update, :destroy] do
       member do
         patch :move_up
@@ -63,6 +64,8 @@ Rails.application.routes.draw do
 
     resources :cart_items, only: [:create, :update, :destroy]
     get '/kosik', to: 'carts#show', as: :cart
+    post '/kosik/slevovy-kod', to: 'discount_codes#create', as: :cart_discount
+    delete '/kosik/slevovy-kod', to: 'discount_codes#destroy'
     resources :inquiries, only: [:create]
     get '/obchodni-podminky', to: 'pages#terms', as: :terms
     get '/zasady-cookies', to: 'pages#cookies_policy', as: :cookies_policy

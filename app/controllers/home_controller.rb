@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
-  BESTSELLER_KEYS = %w[akat tramy dub].freeze
+  # The "Nejprodávanější" order until there are enough orders to go by.
+  HOME_BESTSELLER_FALLBACK = %w[akat tramy dub].freeze
+  ESHOP_BESTSELLER_FALLBACK = %w[buk dub smrk tramy fosny late piliny odkory stepka okrasne_kamenivo].freeze
 
   def index
     @hero_promo = Promo.weekly_pick
@@ -7,7 +9,9 @@ class HomeController < ApplicationController
     @zajimavosti = FaqItem.all
     @produkty = Product.all
     @google_reviews = Review.ordered
-    @bestseller_products = CatalogProduct.active.where(key: BESTSELLER_KEYS).with_starting_price.with_attached_image.index_by(&:key).values_at(*BESTSELLER_KEYS).compact
+    @bestseller_products = Bestsellers.sort(
+      CatalogProduct.active.with_starting_price.with_attached_image.to_a, fallback: HOME_BESTSELLER_FALLBACK
+    ).first(3)
   end
 
   def kontakt

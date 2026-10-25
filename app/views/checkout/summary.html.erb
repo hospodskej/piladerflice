@@ -69,11 +69,24 @@
 
         <div class="checkout-box">
           <div class="checkout-box-body">
-            <% if @delivery %>
+            <% if current_cart.discount && !current_cart.discount_applied? && @order.errors.none? %>
+              <p class="discount-code-message discount-code-message-error">
+                <%= t("cart.discount_not_applied", code: current_cart.discount.code, reason: discount_reason_message(current_cart.discount_unusable_reason, current_cart.discount)) %>
+              </p>
+            <% end %>
+            <% if @delivery || @order.discounted? %>
               <div class="cart-total-row cart-total-excl-vat">
                 <span><%= t("checkout.goods_total") %></span>
                 <span><%= cart_price(@order.subtotal_czk) %></span>
               </div>
+            <% end %>
+            <% if @order.discounted? %>
+              <div class="cart-total-row cart-total-discount">
+                <span><%= t("cart.discount_line", code: @order.discount_code) %></span>
+                <span>−<%= cart_price(@order.discount_czk) %></span>
+              </div>
+            <% end %>
+            <% if @delivery %>
               <div class="cart-total-row cart-total-excl-vat">
                 <span><%= t("checkout.delivery_line", km: @delivery.round_trip_km) %></span>
                 <span><%= cart_price(@delivery.price_czk) %></span>

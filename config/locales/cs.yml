@@ -136,6 +136,7 @@ cs:
     phone_prefix_label: "Předvolba"
 
   nav:
+    language_currency: "Jazyk a měna"
     domu: "Domů"
     eshop: "Eshop"
     sortiment: "Sortiment"
@@ -215,6 +216,19 @@ cs:
     back_to_shopping: "Zpět k nákupu"
     discount_code_label: "Slevový kód"
     discount_code_verify: "Ověřit slevový kód"
+    discount_code_placeholder: "Zadejte kód"
+    discount_line: "Sleva (%{code})"
+    discount_remove: "Odebrat slevový kód"
+    discount_applied: "Slevový kód %{code} byl uplatněn."
+    discount_not_applied: "Slevový kód %{code} teď nelze uplatnit: %{reason}"
+    goods_before_discount: "Zboží"
+    discount_errors:
+      blank: "Zadejte slevový kód."
+      not_found: "Tento slevový kód neexistuje."
+      inactive: "Tento slevový kód už neplatí."
+      expired: "Platnost tohoto slevového kódu skončila."
+      used_up: "Tento slevový kód už byl vyčerpán."
+      min_order: "Kód platí pro objednávky zboží od %{amount}."
 
   checkout:
     step_cart: "Váš nákupní košík"
@@ -736,6 +750,13 @@ cs:
             password_confirmation:
               confirmation: "se neshoduje s heslem"
     attributes:
+      discount_code:
+        code: "Kód"
+        kind: "Typ slevy"
+        value: "Výše slevy"
+        valid_until: "Platí do"
+        usage_limit: "Počet použití"
+        min_order_czk: "Minimální hodnota zboží"
       catalog_product:
         key: "Klíč"
         template: "Šablona zobrazení"
@@ -771,6 +792,7 @@ cs:
     payment_method: "Způsob platby"
     total_due: "Celkem k úhradě"
     delivery: "Doprava (%{km} km tam i zpět, orientačně)"
+    discount: "Sleva (kód %{code})"
     questions_text: "V případě jakýchkoliv dotazů nás neváhejte kontaktovat na telefonu +420 602 446 339 nebo e-mailu stepan.merta@seznam.cz."
     sign_off: "S pozdravem,"
     signature: "Štěpán Merta, Pila Derflice"

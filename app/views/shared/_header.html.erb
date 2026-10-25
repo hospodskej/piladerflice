@@ -43,7 +43,7 @@
       <% end %>
       <%= render "shared/cart_widget" %>
       <div class="lang-dropdown">
-        <button class="btn-pill lang-btn">
+        <button type="button" class="btn-pill lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="<%= t("nav.language_currency") %>">
           <%= I18n.locale == :de ? de_flag : cs_flag %>
           <span class="lang-currency"><%= I18n.locale == :de ? "EUR" : "CZK" %></span>
           <span class="chevron">▼</span>

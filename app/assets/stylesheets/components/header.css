@@ -190,8 +190,14 @@
     background-color: #f1f1f1;
 }
 
-.lang-dropdown:hover .lang-dropdown-content {
+.lang-dropdown.open .lang-dropdown-content {
     display: block;
+}
+
+@media (hover: hover) {
+    .lang-dropdown:hover .lang-dropdown-content {
+        display: block;
+    }
 }
 
 .menu-toggle,

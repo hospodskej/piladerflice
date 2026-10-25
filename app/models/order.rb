@@ -41,6 +41,10 @@ class Order < ApplicationRecord
     shipping_method == "address" && delivery_czk.present?
   end
 
+  def discounted?
+    discount_czk.to_i.positive?
+  end
+
   def full_name
     "#{first_name} #{last_name}".strip
   end

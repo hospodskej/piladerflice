@@ -364,10 +364,58 @@
     margin-top: 0;
 }
 
-.discount-code-row input:disabled,
-.discount-code-row button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.discount-code-row input {
+    text-transform: uppercase;
+}
+
+.discount-code-row input::placeholder {
+    text-transform: none;
+}
+
+.discount-code-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.discount-code-applied {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.discount-code-chip {
+    font-weight: 700;
+    color: #1a7f37;
+    letter-spacing: 0.03em;
+}
+
+.discount-code-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #c0392b;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.discount-code-message {
+    margin: 10px 0 0;
+    font-size: 0.85rem;
+    color: #1a7f37;
+}
+
+.discount-code-message-error {
+    color: #c0392b;
+}
+
+.cart-total-discount {
+    color: #1a7f37;
+    font-size: 0.9rem;
 }
 
 .checkout-cart-totals {

@@ -1,0 +1,25 @@
+<%# Goods total of the cart, after the discount code, incl. VAT. %>
+<% if current_cart.discount_applied? %>
+  <div class="cart-total-row cart-total-excl-vat">
+    <span><%= t("cart.goods_before_discount") %></span>
+    <span><%= cart_price(current_cart.subtotal_czk) %></span>
+  </div>
+  <div class="cart-total-row cart-total-discount">
+    <span><%= t("cart.discount_line", code: current_cart.discount.code) %></span>
+    <span>−<%= cart_price(current_cart.discount_czk) %></span>
+  </div>
+<% end %>
+<div class="cart-total-row">
+  <span><%= t("cart.total_due") %></span>
+  <strong><%= cart_price(current_cart.total_czk) %></strong>
+</div>
+<% unless local_assigns[:compact] %>
+  <div class="cart-total-row cart-total-excl-vat">
+    <span><%= t("cart.total_vat") %></span>
+    <span><%= cart_price(current_cart.total_czk - current_cart.total_excl_vat_czk) %></span>
+  </div>
+<% end %>
+<div class="cart-total-row cart-total-excl-vat">
+  <span><%= t("cart.without_vat") %></span>
+  <span><%= cart_price(current_cart.total_excl_vat_czk) %></span>
+</div>

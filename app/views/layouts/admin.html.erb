@@ -18,6 +18,7 @@
         <%= link_to "Katalog a ceny", admin_catalog_products_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/catalog_products')}" %>
         <%= link_to "Ceník", admin_pricelist_items_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/pricelist_items')}" %>
         <%= link_to "Doprava", edit_admin_delivery_settings_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/doprava')}" %>
+        <%= link_to "Slevové kódy", admin_discount_codes_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/slevove-kody')}" %>
         <%= link_to "Doporučujeme", admin_promos_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/promos')}" %>
         <%= link_to "Objednávky", admin_orders_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/orders')}" %>
         <%= link_to "Poptávky", admin_inquiries_path, class: "admin-nav-link #{'active' if request.path.start_with?('/admin/inquiries')}" %>

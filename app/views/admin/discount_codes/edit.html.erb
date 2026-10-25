@@ -1,0 +1,3 @@
+<%= link_to "← Zpět na přehled", admin_discount_codes_path, class: "admin-back-link" %>
+<h1 class="admin-page-title">Slevový kód <%= @discount_code.code_was %></h1>
+<%= render "form", discount_code: @discount_code %>

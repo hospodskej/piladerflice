@@ -31,8 +31,8 @@ class BestsellersTest < ActiveSupport::TestCase
     assert_equal %w[smrk odkory tramy], Bestsellers.sort(@products, fallback: %w[tramy smrk]).map(&:key)
   end
 
-  test "orders older than a year don't count" do
-    5.times { order_with("odkory" => 1).update!(created_at: 13.months.ago) }
+  test "orders older than 3 months don't count" do
+    5.times { order_with("odkory" => 1).update!(created_at: 4.months.ago) }
 
     assert_equal({}, Bestsellers.sold_quantities)
   end

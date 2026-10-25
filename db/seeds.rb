@@ -74,7 +74,7 @@ PricelistItem.create!([
 PricelistItem.create!(category: "kamenivo", item_name: "Kamenivo", price: "1 Kč / 1 kg", item_name_de: "Ziersteine")
 
 PricelistItem.create!([
-                        { category: "sluzby", item_name: "Doprava", price: "35 Kč / km", item_name_de: "Lieferung" },
+                        { category: "sluzby", item_name: "Doprava", price: "40 Kč / km", item_name_de: "Lieferung", delivery_rate: true },
                         { category: "sluzby", item_name: "Impregnace", price: "500 Kč", item_name_de: "Imprägnierung" },
                         { category: "sluzby", item_name: "Pořez / Prodej kulatiny", price: "Po domluvě", item_name_de: "Sägen / Verkauf von Rundholz", price_de: "Nach Vereinbarung" },
                         { category: "sluzby", item_name: "Hoblování", price: "1 strana = 750 Kč / m<sup>3</sup>", item_name_de: "Hobeln", price_de: "1 Seite = 750 Kč / m<sup>3</sup>" }

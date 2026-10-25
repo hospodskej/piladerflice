@@ -1,8 +1,8 @@
 # "Nejprodávanější": products ranked by how much of them was ordered over
-# the last year. Until the shop has a few orders, the hand-picked fallback
+# the last 3 months. Until the shop has a few orders, the hand-picked fallback
 # order is used instead, so one order doesn't reshuffle the whole list.
 module Bestsellers
-  PERIOD = 1.year
+  PERIOD = 3.months
   MIN_ORDERS = 5
 
   # Product key => quantity ordered; empty while there are too few orders.

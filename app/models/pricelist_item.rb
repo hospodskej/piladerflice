@@ -24,7 +24,13 @@ class PricelistItem < ApplicationRecord
 
   scope :ordered, -> { order(:position, :id) }
 
+  # The delivery row shows what the shop charges per km (Admin > Doprava).
   def price_i18n
+    if delivery_rate?
+      cs_price = "#{Setting.delivery_czk_per_km} Kč / km"
+      return I18n.locale == :de ? ExchangeRateService.convert_price_string(cs_price) : cs_price
+    end
+
     cs_price = read_attribute(:price)
     return cs_price unless I18n.locale == :de
 

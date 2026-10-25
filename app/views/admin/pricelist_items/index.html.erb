@@ -73,8 +73,15 @@
               <% end %>
             </td>
             <% fields.each do |field| %>
-              <td><%= text_field_tag "pricelist_item[#{field}]", item.public_send(field), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (CZ)" %></td>
-              <td><%= text_field_tag "pricelist_item[#{field}_de]", item.public_send("#{field}_de"), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (DE)" %></td>
+              <% if field == "price" && item.delivery_rate? %>
+                <td colspan="2">
+                  <strong><%= item.price_i18n %></strong>
+                  <p class="admin-form-hint">Cena dopravy z e-shopu, mění se v <%= link_to "Doprava", edit_admin_delivery_settings_path %>.</p>
+                </td>
+              <% else %>
+                <td><%= text_field_tag "pricelist_item[#{field}]", item.public_send(field), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (CZ)" %></td>
+                <td><%= text_field_tag "pricelist_item[#{field}_de]", item.public_send("#{field}_de"), form: item_form_id, id: nil, "aria-label": "#{labels[field]} (DE)" %></td>
+              <% end %>
             <% end %>
             <td class="admin-option-actions">
               <%= submit_tag "Uložit", form: item_form_id, class: "btn-outline-dark" %>

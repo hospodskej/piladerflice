@@ -13,14 +13,20 @@
   <meta name="mobile-web-app-capable" content="yes">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  <% if current_user %>
+    <%# Signed in: the dark/light choice saved to the account (empty until one is picked). %>
+    <meta name="theme-preference" content="<%= current_user.theme %>" data-url="<%= account_theme_path %>">
+  <% end %>
 
   <script>
     (function () {
+      var saved = document.querySelector('meta[name="theme-preference"]');
+      var theme = saved && saved.content;
       try {
-        if (localStorage.getItem("theme") === "dark") {
-          document.documentElement.classList.add("dark-mode");
-        }
+        if (theme) localStorage.setItem("theme", theme);
+        else theme = localStorage.getItem("theme");
       } catch (e) {}
+      if (theme === "dark") document.documentElement.classList.add("dark-mode");
     })();
   </script>
 

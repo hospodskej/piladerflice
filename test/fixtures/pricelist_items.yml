@@ -29,3 +29,11 @@ kamenivo:
   item_name: Kamenivo
   item_name_de: Ziersteine
   price: "1 Kč / 1 kg"
+
+doprava:
+  category: sluzby
+  item_name: Doprava
+  item_name_de: Lieferung
+  price: "35 Kč / km"
+  delivery_rate: true
+  position: 0

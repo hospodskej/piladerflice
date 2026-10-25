@@ -105,6 +105,16 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "#cenik script", count: 0
   end
 
+  test "the kontakt ceník shows the delivery price the shop charges" do
+    get kontakt_url
+    assert_select ".cenik-sluzba-box", text: "40 Kč / km"
+
+    Setting.create!(key: "delivery_czk_per_km", value: "55")
+    get kontakt_url
+    assert_select ".cenik-sluzba-box", text: "55 Kč / km"
+    assert_select ".cenik-sluzba-box", text: /35/, count: 0
+  end
+
   test "kontakt renders the kalkulace form with both category field sets" do
     get kontakt_url
     assert_response :success

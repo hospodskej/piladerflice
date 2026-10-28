@@ -387,12 +387,6 @@ html.dark-mode .qty-value {
     border-right-color: #4a4a50;
 }
 
-html.dark-mode .col-header,
-html.dark-mode .row-header span {
-    background-color: #2d2d30;
-    border-color: #4a4a50;
-}
-
 /* === Offer grid ("Co vám můžeme nabídnout") === */
 html.dark-mode .nabidka-text {
     color: #a8adb5;

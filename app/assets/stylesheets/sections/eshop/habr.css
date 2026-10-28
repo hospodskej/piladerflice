@@ -494,6 +494,19 @@
     min-width: 0;
 }
 
+.variant-filter-group-wide {
+    grid-column: span 2;
+}
+
+.variant-filter-group-wide .variant-filter-options {
+    columns: 3;
+    column-gap: 24px;
+}
+
+.variant-filter-group-wide .variant-filter-option {
+    break-inside: avoid;
+}
+
 .variant-filter-group legend {
     width: 100%;
     padding: 0 0 10px 0;
@@ -589,6 +602,14 @@
         grid-template-columns: 1fr 1fr;
         gap: 20px 24px;
         padding: 0 20px 20px 20px;
+    }
+
+    .variant-filter-group-wide {
+        grid-column: 1 / -1;
+    }
+
+    .variant-filter-group-wide .variant-filter-options {
+        columns: 2;
     }
 
     .variant-filter-actions {

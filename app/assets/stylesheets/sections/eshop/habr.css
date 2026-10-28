@@ -423,7 +423,7 @@
 /* === "Filtr" panel on firewood pages === */
 .variant-filter {
     margin: 0 0 32px 0;
-    border: 1px solid #cfcfcf;
+    border: 1.5px solid #2C8FFF;
     border-radius: 10px;
     background-color: #ffffff;
 }

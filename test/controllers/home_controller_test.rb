@@ -286,6 +286,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".variant-filter input[name=grade]", count: 0 # one grade only: nothing to filter
     assert_select ".inventory-card[data-width='120'][data-height='40'][data-length='4 000 mm']"
     assert_select ".dimension-filter", count: 0
+
+    # Laid out like the firewood table: lengths across, sizes down.
+    assert_equal ["3 000 mm", "4 000 mm", "5 000 mm"], css_select("#lumberGrid.matrix-grid-3 .col-header").map { |c| c.text.strip }
+    assert_equal ["100×100", "120×40"], css_select("#lumberGrid .row-header").map { |c| c.text.strip }
+    assert_select "#lumberGrid .matrix-cell[data-row='120x40'][data-length='4 000 mm'] .inventory-card"
+    assert_select "#lumberGrid .matrix-cell[data-row='100x100'][data-length='4 000 mm'] .inventory-card", count: 0
   end
 
   test "a lumber page with a single variant has no filter" do

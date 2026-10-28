@@ -302,14 +302,16 @@
 
 .matrix-grid-3 {
     display: grid;
-    grid-template-columns: 90px repeat(3, minmax(0, 1fr));
+    grid-template-columns: 90px repeat(3, minmax(0, 260px));
     gap: 16px;
     margin-bottom: 40px;
 }
 
+/* At most card-sized columns, so a table with few lengths (řezivo) doesn't
+   stretch its cards across the page. */
 .matrix-grid-2 {
     display: grid;
-    grid-template-columns: 90px repeat(2, minmax(0, 1fr));
+    grid-template-columns: 90px repeat(2, minmax(0, 260px));
     gap: 16px;
     margin-bottom: 40px;
 }

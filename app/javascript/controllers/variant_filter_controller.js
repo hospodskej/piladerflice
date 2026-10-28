@@ -47,7 +47,8 @@ export default class extends Controller {
           (row === undefined || rows.has(row)) && (length === undefined || columns.has(length))
         cell.style.display = keep ? "" : "none"
       })
-      grid.style.gridTemplateColumns = columns.size ? `90px repeat(${columns.size}, minmax(0, 1fr))` : ""
+      // Columns stay card-sized: one length left shouldn't fill the page.
+      grid.style.gridTemplateColumns = columns.size ? `90px repeat(${columns.size}, minmax(0, 260px))` : ""
 
       const section = this.sectionTargets.find((s) => s.contains(grid))
       if (section) section.style.display = columns.size === 0 ? "none" : ""

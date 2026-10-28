@@ -6,16 +6,19 @@
 
   # The filter's choices come from this product's variants; a group with a
   # single choice would filter nothing, so it is left out.
-  sized = variants.select(&:dimension_filter_key)
-  dimension_options = sized.sort_by { |v| [v.width_mm, v.height_mm] }.uniq(&:dimension_filter_key)
-    .map { |v| [v.dimension_filter_key, "#{v.width_mm}×#{v.height_mm}", "mm"] }
+  # Width and height are separate groups: fošny come in ~17 sizes, but only
+  # 6 widths and 3 thicknesses.
+  size_options = ->(attribute) do
+    variants.map(&attribute).compact.uniq.sort.map { |mm| [mm.to_s, mm, "mm"] }
+  end
   length_options = variants.map(&:length_label).compact.uniq.sort_by { |label| label.delete(" ").to_i }
     .map { |label| [label, label[/\A[\d\s]+/]&.strip, label.sub(/\A[\d\s]+/, "")] }
   grade_options = variants.select(&:grade_filter_key).uniq(&:grade_filter_key)
     .map { |v| [v.grade_filter_key, nil, v.grade_i18n] }
 
   filter_groups = [
-    ["dimension", t("common.spec_dimension"), dimension_options],
+    ["width", t("common.spec_width"), size_options.(:width_mm)],
+    ["height", t("common.spec_height"), size_options.(:height_mm)],
     ["length", t("common.spec_length"), length_options],
     ["grade", t("common.spec_grade"), grade_options]
   ].select { |_name, _heading, options| options.size > 1 }
@@ -50,7 +53,7 @@
 
       <div class="simple-grid-3" id="lumberGrid" data-variant-filter-target="grid">
         <% variants.each do |variant| %>
-          <div class="inventory-card" data-dimension="<%= variant.dimension_filter_key %>" data-length="<%= variant.length_label %>" data-grade="<%= variant.grade_filter_key %>">
+          <div class="inventory-card" data-width="<%= variant.width_mm %>" data-height="<%= variant.height_mm %>" data-length="<%= variant.length_label %>" data-grade="<%= variant.grade_filter_key %>">
             <%= image_tag_with_fallback variant.image, product.image, alt: title, class: "inventory-img" %>
             <div class="inventory-specs">
               <div class="spec-labels">

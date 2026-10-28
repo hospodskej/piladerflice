@@ -16,6 +16,17 @@
   grade_options = variants.select(&:grade_filter_key).uniq(&:grade_filter_key)
     .map { |v| [v.grade_filter_key, nil, v.grade_i18n] }
 
+  # Like the firewood price table: lengths across, sizes down. Products with a
+  # variant without a size, or with more lengths than fit across, keep a
+  # plain list of cards.
+  matrix_lengths = length_options.map(&:first)
+  matrix_sizes = variants.map(&:dimension_filter_key).uniq
+  matrix = variants.all?(&:dimension_filter_key) && matrix_lengths.size.between?(2, 4) && matrix_sizes.size > 1
+  if matrix
+    matrix_rows = variants.sort_by { |v| [v.width_mm, v.height_mm] }.uniq(&:dimension_filter_key)
+    matrix_class = { 2 => "matrix-grid-2", 3 => "matrix-grid-3", 4 => "matrix-grid" }.fetch(matrix_lengths.size)
+  end
+
   filter_groups = [
     ["width", t("common.spec_width"), size_options.(:width_mm)],
     ["height", t("common.spec_height"), size_options.(:height_mm)],
@@ -51,33 +62,31 @@
         <%= render "shared/variant_filter", groups: filter_groups %>
       <% end %>
 
-      <div class="simple-grid-3" id="lumberGrid" data-variant-filter-target="grid">
-        <% variants.each do |variant| %>
-          <div class="inventory-card" data-width="<%= variant.width_mm %>" data-height="<%= variant.height_mm %>" data-length="<%= variant.length_label %>" data-grade="<%= variant.grade_filter_key %>">
-            <%= image_tag_with_fallback variant.image, product.image, alt: title, class: "inventory-img" %>
-            <div class="inventory-specs">
-              <div class="spec-labels">
-                <% if variant.grade.present? %><span><%= t("common.spec_grade") %></span><% end %>
-                <span><%= t("common.spec_length") %></span>
-                <% if variant.width_mm.present? %><span><%= t("common.spec_width") %></span><% end %>
-                <% if variant.height_mm.present? %><span><%= t("common.spec_height") %></span><% end %>
+      <% if matrix %>
+        <div class="<%= matrix_class %>" id="lumberGrid" data-variant-filter-target="grid">
+          <div class="matrix-cell empty" data-corner></div>
+          <% matrix_lengths.each do |len| %>
+            <div class="matrix-cell col-header" data-length="<%= len %>"><%= len %></div>
+          <% end %>
+
+          <% matrix_rows.each do |row_variant| %>
+            <% row = row_variant.dimension_filter_key %>
+            <div class="matrix-cell row-header" data-row="<%= row %>"><span><%= row_variant.width_mm %>×<%= row_variant.height_mm %></span></div>
+            <% matrix_lengths.each do |len| %>
+              <% variant = variants.find { |v| v.dimension_filter_key == row && v.length_label == len } %>
+              <div class="matrix-cell" data-row="<%= row %>" data-length="<%= len %>">
+                <%= render "shared/lumber_card", variant: variant, product: product, title: title if variant %>
               </div>
-              <div class="spec-values">
-                <% if variant.grade.present? %><span class="spec-value"><%= variant.grade_i18n %></span><% end %>
-                <span class="spec-value"><%= variant.length_label %></span>
-                <% if variant.width_mm.present? %><span class="spec-value"><%= variant.width_mm %> mm</span><% end %>
-                <% if variant.height_mm.present? %><span class="spec-value"><%= variant.height_mm %> mm</span><% end %>
-              </div>
-            </div>
-            <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %> <%= t("common.price_per_m3_html") %></p>
-            <% if variant.in_stock? %>
-              <%= render "shared/add_to_cart_form", catalog_variant: variant %>
-            <% else %>
-              <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
             <% end %>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="simple-grid-3" id="lumberGrid" data-variant-filter-target="grid">
+          <% variants.each do |variant| %>
+            <%= render "shared/lumber_card", variant: variant, product: product, title: title %>
+          <% end %>
+        </div>
+      <% end %>
 
     </section>
 

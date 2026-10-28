@@ -280,11 +280,11 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     get eshop_product_url(product.key)
 
     assert_select "details.variant-filter[open] summary", text: /Filtr/
-    assert_equal %w[100x100 120x40], css_select(".variant-filter input[name=dimension]").map { |i| i["value"] }
+    assert_equal %w[100 120], css_select(".variant-filter input[name=width]").map { |i| i["value"] }
+    assert_equal %w[40 100], css_select(".variant-filter input[name=height]").map { |i| i["value"] }
     assert_equal ["3 000 mm", "4 000 mm", "5 000 mm"], css_select(".variant-filter input[name=length]").map { |i| i["value"] }
-    assert_select ".variant-filter-number", text: "120×40"
     assert_select ".variant-filter input[name=grade]", count: 0 # one grade only: nothing to filter
-    assert_select ".inventory-card[data-dimension='120x40'][data-length='4 000 mm']"
+    assert_select ".inventory-card[data-width='120'][data-height='40'][data-length='4 000 mm']"
     assert_select ".dimension-filter", count: 0
   end
 

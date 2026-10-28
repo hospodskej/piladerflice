@@ -46,14 +46,8 @@
       <div id="section-kontejner" class="inventory-group" data-variant-filter-target="section">
         <h2 class="section-title"><%= t("eshop.firewood.variants_heading_html") %></h2>
 
-        <div class="matrix-grid" data-variant-filter-target="grid">
-          <div class="matrix-cell empty" data-corner></div>
-          <% grid.lengths.each do |len| %>
-            <div class="matrix-cell col-header" data-length="<%= len %>"><%= len %></div>
-          <% end %>
-
-          <% grid.rows.each_with_index do |amounts, row_index| %>
-            <div class="matrix-cell row-header" data-row="<%= row_index %>"><span><%= amounts.join(" #{t('common.and')} ") %> <%= t("common.per_m3") %></span></div>
+        <div class="matrix-grid" data-variant-filter-target="grid" data-columns="4">
+          <% grid.rows.each_index do |row_index| %>
             <% grid.lengths.each do |len| %>
               <% variant = grid.variant_at(row_index, len) %>
               <div class="matrix-cell" data-row="<%= row_index %>" data-length="<%= len %>">
@@ -91,8 +85,7 @@
       <div id="section-bedny" class="inventory-group" data-variant-filter-target="section">
         <h2 class="section-title"><%= t("eshop.firewood.crates_heading_html") %></h2>
 
-        <div class="matrix-grid-bedny" data-variant-filter-target="grid">
-          <div class="matrix-cell empty" data-corner></div>
+        <div class="matrix-grid-bedny" data-variant-filter-target="grid" data-columns="3">
           <% bedny_variants.each do |variant| %>
             <div class="matrix-cell" data-row="crates" data-length="<%= variant.length_label %>">
               <div class="inventory-card" data-kind="stacked" data-amount="<%= variant.amount_value %>" data-length="<%= variant.length_label %>">

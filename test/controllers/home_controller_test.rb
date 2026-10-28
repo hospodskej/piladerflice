@@ -192,7 +192,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "#section-bedny h2.section-title", text: "Brennholz in Kisten"
   end
 
-  test "firewood page: loose 14 prm and stacked 13 prm wood share the last row, labelled '13 a 14 PRM'" do
+  test "firewood page: loose 14 prm and stacked 13 prm wood share the last row, with no header boxes" do
     product = CatalogProduct.create!(key: "testovaci-drevo", template: "firewood", category: "palivove", title: "Testovací", active: true)
     [["100 cm", true, 13], ["50 cm", true, 13], ["33 cm", false, 14], ["25 cm", false, 14]].each_with_index do |(length, stacked, amount), index|
       product.catalog_variants.create!(key: "v#{index}", variant_group: "kontejner", stacked: stacked, length_label: length,
@@ -201,13 +201,11 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
     get eshop_product_url(product.key)
 
-    assert_equal ["13 a 14 PRM"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
+    assert_select ".row-header, .col-header, [data-corner]", count: 0
+    assert_equal ["0"], css_select("#section-kontejner .matrix-cell").map { |c| c["data-row"] }.uniq
     cards = css_select("#section-kontejner .inventory-card").map { |c| c.css(".spec-value").map { |v| v.text.strip } }
     assert_equal [["Skládané", "100 cm", "13 PRM"], ["Skládané", "50 cm", "13 PRM"],
                   ["Sypané", "33 cm", "14 PRM"], ["Sypané", "25 cm", "14 PRM"]], cards
-
-    get "/at/eshop/#{product.key}"
-    assert_equal ["13 und 14 Rm"], css_select("#section-kontejner .row-header").map { |r| r.text.strip }
   end
 
   test "a product page takes the same number of queries however many variants have photos" do
@@ -286,12 +284,8 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".variant-filter input[name=grade]", count: 0 # one grade only: nothing to filter
     assert_select ".inventory-card[data-width='120'][data-height='40'][data-length='4 000 mm']"
     assert_select ".dimension-filter", count: 0
-
-    # Laid out like the firewood table: lengths across, sizes down.
-    assert_equal ["3 000 mm", "4 000 mm", "5 000 mm"], css_select("#lumberGrid.matrix-grid-3 .col-header").map { |c| c.text.strip }
-    assert_equal ["100×100", "120×40"], css_select("#lumberGrid .row-header").map { |c| c.text.strip }
-    assert_select "#lumberGrid .matrix-cell[data-row='120x40'][data-length='4 000 mm'] .inventory-card"
-    assert_select "#lumberGrid .matrix-cell[data-row='100x100'][data-length='4 000 mm'] .inventory-card", count: 0
+    assert_select "#lumberGrid.simple-grid-3 > .inventory-card", count: 3
+    assert_select ".row-header, .col-header", count: 0
   end
 
   test "a lumber page with a single variant has no filter" do

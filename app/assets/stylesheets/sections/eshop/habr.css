@@ -295,23 +295,21 @@
 
 .matrix-grid {
     display: grid;
-    grid-template-columns: 90px repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
 
 .matrix-grid-3 {
     display: grid;
-    grid-template-columns: 90px repeat(3, minmax(0, 260px));
+    grid-template-columns: 90px repeat(3, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
 
-/* At most card-sized columns, so a table with few lengths (řezivo) doesn't
-   stretch its cards across the page. */
 .matrix-grid-2 {
     display: grid;
-    grid-template-columns: 90px repeat(2, minmax(0, 260px));
+    grid-template-columns: 90px repeat(2, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
@@ -336,7 +334,7 @@
 
 .matrix-grid-bedny {
     display: grid;
-    grid-template-columns: 90px repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
@@ -344,32 +342,6 @@
 #section-bedny .inventory-img {
     height: 150px;
     object-fit: cover;
-}
-
-.col-header {
-    background-color: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: 700;
-    padding: 4px 0;
-    margin-bottom: -5px;
-}
-
-.row-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.row-header span {
-    background-color: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    white-space: nowrap;
 }
 
 .spec-value.text-red { color: #EF4444; }

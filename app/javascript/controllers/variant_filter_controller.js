@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // The "Filtr" panel on a product page. Shows the cards matching the ticked
 // values (any value within a group, all groups together; an empty group
 // doesn't filter). A checkbox named "length" checks a card's data-length.
-// On the firewood price grid it also hides the columns, rows and sections
-// left with nothing in them; a plain card grid just closes up.
+// On the firewood grid it also hides the columns, rows and sections left
+// with nothing in them; a plain card grid just closes up.
 export default class extends Controller {
   static targets = ["grid", "section", "separator", "empty"]
 
@@ -40,15 +40,15 @@ export default class extends Controller {
       })
 
       // A cell stays (maybe empty, to keep the grid lined up) while both its
-      // row and its column still have something to show.
+      // row and its column still have something to show. The columns left
+      // keep their full-grid width (data-columns), so one length left
+      // doesn't fill the page.
       grid.querySelectorAll(".matrix-cell").forEach((cell) => {
-        const { row, length } = cell.dataset
-        const keep = cell.hasAttribute("data-corner") ? columns.size > 0 :
-          (row === undefined || rows.has(row)) && (length === undefined || columns.has(length))
-        cell.style.display = keep ? "" : "none"
+        cell.style.display = rows.has(cell.dataset.row) && columns.has(cell.dataset.length) ? "" : "none"
       })
-      // Columns stay card-sized: one length left shouldn't fill the page.
-      grid.style.gridTemplateColumns = columns.size ? `90px repeat(${columns.size}, minmax(0, 260px))` : ""
+      const fullColumns = Number(grid.dataset.columns) || columns.size
+      grid.style.gridTemplateColumns = columns.size ?
+        `repeat(${columns.size}, calc((100% - ${fullColumns - 1} * 16px) / ${fullColumns}))` : ""
 
       const section = this.sectionTargets.find((s) => s.contains(grid))
       if (section) section.style.display = columns.size === 0 ? "none" : ""

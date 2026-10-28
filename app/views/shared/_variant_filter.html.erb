@@ -1,6 +1,7 @@
-<%# The "Filtr" panel on a firewood page: tick variants, amounts and lengths,
-    then Filtrovat. Within a group any ticked value matches; across groups
-    all must. A group with nothing ticked doesn't filter. %>
+<%# The "Filtr" panel on a product page: tick values, then Filtrovat. Within
+    a group any ticked value matches; across groups all must. A group with
+    nothing ticked doesn't filter. groups: [[name, heading, options]], each
+    option [value, number, unit]; a card carries data-<name>="<value>". %>
 <details class="variant-filter" open>
   <summary class="variant-filter-summary">
     <span><%= t("eshop.filter.title") %></span>
@@ -8,21 +9,19 @@
   </summary>
 
   <form class="variant-filter-form" data-action="submit->variant-filter#apply">
-    <% groups = [
-         ["kind", t("common.spec_variant"), kinds.map { |k| [k, nil, t(k == "stacked" ? "common.stacked_variant" : "common.loose_variant")] }],
-         ["amount", t("common.spec_amount"), amounts.map { |a| [a, a, t("common.per_m3")] }],
-         ["length", t("common.spec_length"), lengths.map { |l| [l, l.to_i, l.sub(/\A\d+\s*/, "")] }]
-       ] %>
     <% groups.each do |name, heading, options| %>
-      <fieldset class="variant-filter-group">
+      <%# A long list (fošny have ~17 sizes) is laid out in columns. %>
+      <fieldset class="variant-filter-group<%= " variant-filter-group-wide" if options.size > 8 %>">
         <legend><%= heading %></legend>
-        <% options.each do |value, number, unit| %>
-          <label class="variant-filter-option">
-            <input type="checkbox" name="<%= name %>" value="<%= value %>">
-            <span class="variant-filter-box" aria-hidden="true"></span>
-            <span><% if number %><span class="variant-filter-number"><%= number %></span> <% end %><%= unit %></span>
-          </label>
-        <% end %>
+        <div class="variant-filter-options">
+          <% options.each do |value, number, unit| %>
+            <label class="variant-filter-option">
+              <input type="checkbox" name="<%= name %>" value="<%= value %>">
+              <span class="variant-filter-box" aria-hidden="true"></span>
+              <span><% if number %><span class="variant-filter-number"><%= number %></span> <% end %><%= unit %></span>
+            </label>
+          <% end %>
+        </div>
       </fieldset>
     <% end %>
 

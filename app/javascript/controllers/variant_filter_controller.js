@@ -1,23 +1,35 @@
 import { Controller } from "@hotwired/stimulus"
 
-// The firewood page's "Filtr" panel. Shows the cards matching the ticked
-// variants, amounts and lengths (any value within a group, all groups
-// together; an empty group doesn't filter), and hides the grid columns,
-// rows and sections that are left with nothing in them.
+// The "Filtr" panel on a product page. Shows the cards matching the ticked
+// values (any value within a group, all groups together; an empty group
+// doesn't filter). A checkbox named "length" checks a card's data-length.
+// On the firewood price grid it also hides the columns, rows and sections
+// left with nothing in them; a plain card grid just closes up.
 export default class extends Controller {
   static targets = ["grid", "section", "separator", "empty"]
 
   apply(event) {
     event?.preventDefault()
-    const chosen = (name) => new Set([...this.element.querySelectorAll(`input[name="${name}"]:checked`)].map((input) => input.value))
-    const kinds = chosen("kind"), amounts = chosen("amount"), lengths = chosen("length")
-    const pass = (set, value) => set.size === 0 || set.has(value)
+    const chosen = {}
+    this.element.querySelectorAll(".variant-filter input[type=checkbox]:checked").forEach((input) => {
+      (chosen[input.name] ||= new Set()).add(input.value)
+    })
+    const matches = (card) => Object.entries(chosen).every(([name, values]) => values.has(card.dataset[name]))
 
     let shownTotal = 0
     this.gridTargets.forEach((grid) => {
+      if (!grid.querySelector(".matrix-cell")) {
+        grid.querySelectorAll(".inventory-card").forEach((card) => {
+          const match = matches(card)
+          card.style.display = match ? "" : "none"
+          if (match) shownTotal++
+        })
+        return
+      }
+
       const rows = new Set(), columns = new Set()
       grid.querySelectorAll(".inventory-card").forEach((card) => {
-        const match = pass(kinds, card.dataset.kind) && pass(amounts, card.dataset.amount) && pass(lengths, card.dataset.length)
+        const match = matches(card)
         card.style.visibility = match ? "" : "hidden"
         if (match) {
           const cell = card.closest(".matrix-cell")

@@ -4,17 +4,21 @@
 
   variants = product.catalog_variants.to_a
 
-  has_dimensions = variants.any?(&:dimension_filter_key)
-  has_grades = variants.any?(&:grade_filter_key)
+  # The filter's choices come from this product's variants; a group with a
+  # single choice would filter nothing, so it is left out.
+  sized = variants.select(&:dimension_filter_key)
+  dimension_options = sized.sort_by { |v| [v.width_mm, v.height_mm] }.uniq(&:dimension_filter_key)
+    .map { |v| [v.dimension_filter_key, "#{v.width_mm}×#{v.height_mm}", "mm"] }
+  length_options = variants.map(&:length_label).compact.uniq.sort_by { |label| label.delete(" ").to_i }
+    .map { |label| [label, label[/\A[\d\s]+/]&.strip, label.sub(/\A[\d\s]+/, "")] }
+  grade_options = variants.select(&:grade_filter_key).uniq(&:grade_filter_key)
+    .map { |v| [v.grade_filter_key, nil, v.grade_i18n] }
 
-  filter_options = []
-  variants.each do |variant|
-    filter_key = has_dimensions ? variant.dimension_filter_key : variant.grade_filter_key
-    next if filter_key.blank? || filter_options.any? { |opt| opt[:key] == filter_key }
-
-    label = has_dimensions ? "#{variant.width_mm}×#{variant.height_mm} mm" : variant.grade_i18n
-    filter_options << { key: filter_key, label: label }
-  end
+  filter_groups = [
+    ["dimension", t("common.spec_dimension"), dimension_options],
+    ["length", t("common.spec_length"), length_options],
+    ["grade", t("common.spec_grade"), grade_options]
+  ].select { |_name, _heading, options| options.size > 1 }
 %>
 
 <main class="product-page-main main">
@@ -34,28 +38,19 @@
       </div>
     </section>
 
-    <section class="inventory-section">
+    <section class="inventory-section" data-controller="variant-filter">
 
       <hr class="inventory-separator main-separator">
 
       <h2 class="section-title"><%= t("eshop.lumber.variants_heading_html") %></h2>
 
-      <% if filter_options.size > 1 %>
-        <div class="inventory-filter">
-          <span class="filter-label"><%= has_dimensions ? t("common.spec_dimension") : t("common.spec_grade") %></span>
-          <div class="filter-buttons dimension-filter" data-grid-target="lumberGrid">
-            <button type="button" class="filter-btn active" data-filter="all"><%= t("common.all") %></button>
-            <% filter_options.each do |opt| %>
-              <button type="button" class="filter-btn" data-filter="<%= opt[:key] %>"><%= opt[:label] %></button>
-            <% end %>
-          </div>
-        </div>
+      <% if filter_groups.any? %>
+        <%= render "shared/variant_filter", groups: filter_groups %>
       <% end %>
 
-      <div class="simple-grid-3" id="lumberGrid">
+      <div class="simple-grid-3" id="lumberGrid" data-variant-filter-target="grid">
         <% variants.each do |variant| %>
-          <% filter_value = has_dimensions ? variant.dimension_filter_key : variant.grade_filter_key %>
-          <div class="inventory-card" data-filter-value="<%= filter_value %>">
+          <div class="inventory-card" data-dimension="<%= variant.dimension_filter_key %>" data-length="<%= variant.length_label %>" data-grade="<%= variant.grade_filter_key %>">
             <%= image_tag_with_fallback variant.image, product.image, alt: title, class: "inventory-img" %>
             <div class="inventory-specs">
               <div class="spec-labels">

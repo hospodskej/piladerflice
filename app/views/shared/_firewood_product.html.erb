@@ -35,7 +35,11 @@
 
     <section class="inventory-section" data-controller="variant-filter">
 
-      <%= render "shared/variant_filter", kinds: filter_kinds, amounts: filter_amounts, lengths: filter_lengths %>
+      <%= render "shared/variant_filter", groups: [
+            ["kind", t("common.spec_variant"), filter_kinds.map { |k| [k, nil, t(k == "stacked" ? "common.stacked_variant" : "common.loose_variant")] }],
+            ["amount", t("common.spec_amount"), filter_amounts.map { |a| [a, a, t("common.per_m3")] }],
+            ["length", t("common.spec_length"), filter_lengths.map { |l| [l, l.to_i, l.sub(/\A\d+\s*/, "")] }]
+          ] %>
 
       <hr class="inventory-separator main-separator">
 
@@ -118,40 +122,6 @@
       </div>
 
     </section>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const buttons = document.querySelectorAll(".filter-btn");
-            const sectionKontejner = document.getElementById("section-kontejner");
-            const sectionBedny = document.getElementById("section-bedny");
-            const midSeparator = document.querySelector(".mid-separator");
-
-            buttons.forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    e.preventDefault();
-
-                    buttons.forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-
-                    const target = btn.dataset.target;
-
-                    if (target === "all") {
-                        sectionKontejner.style.display = "block";
-                        sectionBedny.style.display = "block";
-                        midSeparator.style.display = "block";
-                    } else if (target === "kontejner") {
-                        sectionKontejner.style.display = "block";
-                        sectionBedny.style.display = "none";
-                        midSeparator.style.display = "none";
-                    } else if (target === "bedny") {
-                        sectionKontejner.style.display = "none";
-                        sectionBedny.style.display = "block";
-                        midSeparator.style.display = "none";
-                    }
-                });
-            });
-        });
-    </script>
 
     <%= render "shared/recommendations", current_product: product.key %>
 

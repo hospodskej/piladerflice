@@ -270,6 +270,32 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "#section-bedny .inventory-card[data-kind=stacked][data-amount='1'][data-length='25 cm']"
   end
 
+  test "a lumber page has the same filter, built from its own sizes, lengths and grades" do
+    product = CatalogProduct.create!(key: "filtr-rezivo", template: "lumber", category: "rezivo", title: "Filtr řezivo", active: true)
+    [[120, 40, "5 000 mm"], [100, 100, "3 000 mm"], [120, 40, "4 000 mm"]].each_with_index do |(width, height, length), index|
+      product.catalog_variants.create!(key: "v#{index}", width_mm: width, height_mm: height, length_label: length,
+                                       grade: "I. jakostní třída", price_czk: 8500, position: index)
+    end
+
+    get eshop_product_url(product.key)
+
+    assert_select "details.variant-filter[open] summary", text: /Filtr/
+    assert_equal %w[100x100 120x40], css_select(".variant-filter input[name=dimension]").map { |i| i["value"] }
+    assert_equal ["3 000 mm", "4 000 mm", "5 000 mm"], css_select(".variant-filter input[name=length]").map { |i| i["value"] }
+    assert_select ".variant-filter-number", text: "120×40"
+    assert_select ".variant-filter input[name=grade]", count: 0 # one grade only: nothing to filter
+    assert_select ".inventory-card[data-dimension='120x40'][data-length='4 000 mm']"
+    assert_select ".dimension-filter", count: 0
+  end
+
+  test "a lumber page with a single variant has no filter" do
+    product = CatalogProduct.create!(key: "jeden", template: "lumber", category: "rezivo", title: "Jeden", active: true)
+    product.catalog_variants.create!(key: "v", width_mm: 100, height_mm: 100, length_label: "3 000 mm", price_czk: 8500)
+
+    get eshop_product_url(product.key)
+    assert_select ".variant-filter", count: 0
+  end
+
   test "each box in the inquiry form carries its own name for phones" do
     get kontakt_url
 

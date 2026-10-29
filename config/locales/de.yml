@@ -445,6 +445,7 @@ de:
     kalkulace_title_html: "Fragen Sie unverbindlich unsere Produkte an <span style=\"color: #2C8FFF\">und wir erstellen Ihnen ein unverbindliches Angebot</span>"
     toggle_palivove: "Brennholz"
     toggle_stavebni: "Bauschnittholz"
+    toggle_hint: "Sie können eines oder beides wählen."
     form_section_kontakt: "Kontakt"
     form_jmeno: "Vorname"
     form_prijmeni: "Nachname"

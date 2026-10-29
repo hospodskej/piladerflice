@@ -4,7 +4,7 @@ class InquiryTest < ActiveSupport::TestCase
   def valid_attributes
     {
       first_name: "Jana", last_name: "Nováková", email: "jana@example.com", phone: "123456789",
-      items_snapshot: "[]", locale: "cs"
+      items_snapshot: { "palivove" => [ { "druh" => "Dub" } ] }.to_json, locale: "cs"
     }
   end
 
@@ -18,9 +18,19 @@ class InquiryTest < ActiveSupport::TestCase
     assert inquiry.errors.of_kind?(:phone, :blank)
   end
 
-  test "items parses the JSON snapshot" do
-    inquiry = Inquiry.new(valid_attributes.merge(items_snapshot: [ { "druh" => "Dub" } ].to_json))
-    assert_equal [ { "druh" => "Dub" } ], inquiry.items
+  test "items_by_category parses the snapshot, in the form's order, skipping empty and unknown categories" do
+    snapshot = { "stavebni" => [ { "polozka" => "Trám" } ], "bogus" => [ { "x" => 1 } ], "palivove" => [ { "druh" => "Dub" } ] }
+    inquiry = Inquiry.new(valid_attributes.merge(items_snapshot: snapshot.to_json))
+
+    assert_equal %w[palivove stavebni], inquiry.categories
+    assert_equal "Palivové dřevo + Stavební řezivo", inquiry.category_labels
+    assert_equal [ { "polozka" => "Trám" } ], inquiry.items_by_category["stavebni"]
+  end
+
+  test "requires at least one category with items" do
+    inquiry = Inquiry.new(valid_attributes.merge(items_snapshot: { "palivove" => [] }.to_json))
+    assert_not inquiry.valid?
+    assert inquiry.errors.of_kind?(:items_snapshot, :blank)
   end
 
   test "full_name joins first and last name" do
@@ -39,20 +49,5 @@ class InquiryTest < ActiveSupport::TestCase
 
   test "full_address is blank when nothing was provided" do
     assert_equal "", Inquiry.new(valid_attributes).full_address
-  end
-
-  test "defaults to the palivove category" do
-    assert_equal "palivove", Inquiry.new(valid_attributes).category
-  end
-
-  test "requires a known category" do
-    inquiry = Inquiry.new(valid_attributes.merge(category: "bogus"))
-    assert_not inquiry.valid?
-    assert inquiry.errors.of_kind?(:category, :inclusion)
-  end
-
-  test "fields returns the row fields for the inquiry's category" do
-    inquiry = Inquiry.new(valid_attributes.merge(category: "stavebni"))
-    assert_equal InquiryFormOption::ROW_FIELDS["stavebni"], inquiry.fields
   end
 end

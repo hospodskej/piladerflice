@@ -18,25 +18,28 @@
 </div>
 
 <div class="admin-box">
-  <h2>Požadované položky (<%= InquiryFormOption::CATEGORY_LABELS[@inquiry.category] || @inquiry.category %>)</h2>
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <% @inquiry.fields.each do |field| %>
-          <th><%= InquiryFormOption::FIELD_LABELS[field] %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @inquiry.items.each do |item| %>
+  <% @inquiry.items_by_category.each do |category, rows| %>
+    <% fields = InquiryFormOption::ROW_FIELDS.fetch(category) %>
+    <h2 class="<%= "admin-inquiry-next-category" unless category == @inquiry.categories.first %>">Požadované položky – <%= InquiryFormOption::CATEGORY_LABELS.fetch(category, category) %></h2>
+    <table class="admin-table">
+      <thead>
         <tr>
-          <% @inquiry.fields.each do |field| %>
-            <td><%= item[field] %></td>
+          <% fields.each do |field| %>
+            <th><%= InquiryFormOption::FIELD_LABELS[field] %></th>
           <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% rows.each do |item| %>
+          <tr>
+            <% fields.each do |field| %>
+              <td><%= item[field] %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 
   <% if @inquiry.notes.present? %>
     <h2 style="margin-top: 20px;">Poznámka</h2>

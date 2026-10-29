@@ -311,6 +311,11 @@
     color: #444;
 }
 
+/* An inquiry for firewood and lumber: the second table's heading. */
+.admin-box h2.admin-inquiry-next-category {
+    margin-top: 24px;
+}
+
 .admin-box p {
     margin: 0 0 10px 0;
     font-size: 0.9rem;

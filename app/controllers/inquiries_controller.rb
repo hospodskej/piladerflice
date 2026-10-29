@@ -23,23 +23,25 @@ class InquiriesController < ApplicationController
       city: params[:mesto],
       zip: params[:psc],
       notes: params[:poznamky],
-      category: category,
       items_snapshot: items_snapshot,
       locale: I18n.locale.to_s
     }
   end
 
-  def category
-    InquiryFormOption::CATEGORIES.include?(params[:kalkulace_category]) ? params[:kalkulace_category] : InquiryFormOption::CATEGORIES.first
-  end
-
+  # The form sends each category's rows column by column, e.g.
+  # items[palivove][druh][] = ["Dub", "Buk"]. A category switched off in the
+  # form isn't sent at all.
   def items_snapshot
-    fields = InquiryFormOption::ROW_FIELDS.fetch(category, [])
-    columns = fields.index_with { |field| Array(params[field]) }
-    row_count = columns.values.map(&:size).max.to_i
+    submitted = params[:items].respond_to?(:to_unsafe_h) ? params[:items].to_unsafe_h : {}
 
-    (0...row_count).map do |i|
-      fields.index_with { |field| columns[field][i] }
+    InquiryFormOption::CATEGORIES.each_with_object({}) do |category, snapshot|
+      next unless submitted[category].is_a?(Hash)
+
+      fields = InquiryFormOption::ROW_FIELDS.fetch(category)
+      columns = fields.index_with { |field| Array(submitted[category][field]).map(&:to_s) }
+      row_count = columns.values.map(&:size).max.to_i
+      rows = (0...row_count).map { |i| fields.index_with { |field| columns[field][i] } }
+      snapshot[category] = rows if rows.any?
     end.to_json
   end
 

@@ -142,7 +142,27 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 12px;
+}
+
+.kalkulace-toggles-hint {
+    margin: 0 0 38px 0;
+    text-align: center;
+    color: #666666;
+    font-size: 0.9rem;
+}
+
+/* With both categories on, each part of the form says which it is. */
+.kalkulace-category-title {
+    padding: 0;
+    margin: 0 0 14px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2C8FFF;
+}
+
+.kalkulace-fields-section + .kalkulace-fields-section {
+    margin-top: 28px;
 }
 
 .toggle-btn {

@@ -625,6 +625,10 @@ html.dark-mode .kalkulace {
     background-color: #3e3e42;
 }
 
+html.dark-mode .kalkulace-toggles-hint {
+    color: #a8adb5;
+}
+
 html.dark-mode .toggle-btn {
     background-color: #2d2d30;
     border-color: #4a4a50;

@@ -1,20 +1,23 @@
+// The category buttons switch their part of the form on and off, so one
+// inquiry can ask for firewood, lumber or both; one always stays on. A part
+// switched off is disabled, so it isn't sent.
 const initFormLogic = () => {
     const toggleBtns = document.querySelectorAll(".toggle-btn");
-    const categoryInput = document.getElementById('kalkulace-category-input');
 
     toggleBtns.forEach(btn => {
         btn.onclick = function() {
-            toggleBtns.forEach(b => b.classList.remove("active"));
-            this.classList.add("active");
+            const turningOff = this.classList.contains("active");
+            const activeCount = document.querySelectorAll(".toggle-btn.active").length;
+            if (turningOff && activeCount === 1) return;
 
-            const target = this.dataset.target;
-            if (categoryInput) categoryInput.value = target;
+            this.classList.toggle("active", !turningOff);
+            this.setAttribute("aria-pressed", String(!turningOff));
 
-            document.querySelectorAll('.kalkulace-fields-section').forEach(section => {
-                const isTarget = section.dataset.category === target;
-                section.hidden = !isTarget;
-                section.disabled = !isTarget;
-            });
+            const section = document.querySelector(`.kalkulace-fields-section[data-category="${this.dataset.target}"]`);
+            if (section) {
+                section.hidden = turningOff;
+                section.disabled = turningOff;
+            }
         };
     });
 

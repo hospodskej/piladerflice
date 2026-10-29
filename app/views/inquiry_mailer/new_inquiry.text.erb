@@ -9,9 +9,12 @@ Telefon: <%= @inquiry.phone %>
 Adresa: <%= @inquiry.full_address %>
 <% end %>
 
-POŽADOVANÉ POLOŽKY (<%= InquiryFormOption::CATEGORY_LABELS[@inquiry.category] || @inquiry.category %>)
-<% @inquiry.items.each do |item| %>
-- <%= @inquiry.fields.map { |field| item[field] }.join(" | ") %>
+<% @inquiry.items_by_category.each do |category, rows| %>
+POŽADOVANÉ POLOŽKY – <%= InquiryFormOption::CATEGORY_LABELS.fetch(category, category).upcase %>
+<% rows.each do |item| %>
+- <%= InquiryFormOption::ROW_FIELDS.fetch(category).map { |field| item[field] }.join(" | ") %>
+<% end %>
+
 <% end %>
 <% if @inquiry.notes.present? %>
 

@@ -78,13 +78,14 @@
       <h2><%= t("kontakt.kalkulace_title_html") %></h2>
     </div>
 
+    <%# Switches, not tabs: firewood, lumber, or both in one inquiry. %>
     <div class="kalkulace-toggles">
-      <button type="button" class="toggle-btn active" data-target="palivove"><%= t("kontakt.toggle_palivove") %></button>
-      <button type="button" class="toggle-btn" data-target="stavebni"><%= t("kontakt.toggle_stavebni") %></button>
+      <button type="button" class="toggle-btn active" data-target="palivove" aria-pressed="true"><%= t("kontakt.toggle_palivove") %></button>
+      <button type="button" class="toggle-btn" data-target="stavebni" aria-pressed="false"><%= t("kontakt.toggle_stavebni") %></button>
     </div>
+    <p class="kalkulace-toggles-hint"><%= t("kontakt.toggle_hint") %></p>
 
     <%= form_with url: inquiries_path, method: :post, class: "kalkulace-form", id: "kalkulace-form" do |form| %>
-      <%= hidden_field_tag :kalkulace_category, "palivove", id: "kalkulace-category-input" %>
       <h3 class="form-section-title"><%= t("kontakt.form_section_kontakt") %></h3>
       <%# Row by row, as they are read and filled in: name, how to reach you,
           then the address. Phones show them in this same order. %>
@@ -137,6 +138,7 @@
       <% InquiryFormOption::CATEGORIES.each do |category| %>
         <% fields = InquiryFormOption::ROW_FIELDS[category] %>
         <fieldset class="kalkulace-fields-section" data-category="<%= category %>" <%= "hidden disabled" unless category == "palivove" %>>
+          <legend class="kalkulace-category-title"><%= t("kontakt.toggle_#{category}") %></legend>
           <div class="kalkulace-labels-row">
             <div class="kalkulace-grid-<%= fields.size %>">
               <% fields.each do |field| %>
@@ -155,10 +157,10 @@
                         (the shared heading row above is for side-by-side columns). %>
                     <span class="kalkulace-field-label" aria-hidden="true"><%= t("kontakt.grid_#{field}") %></span>
                     <% if field == "mnozstvi" && category == "stavebni" %>
-                      <%= number_field_tag "mnozstvi[]", nil, min: 1, step: 1, placeholder: t("kontakt.kalkulace_mnozstvi_placeholder") %>
+                      <%= number_field_tag "items[#{category}][mnozstvi][]", nil, min: 1, step: 1, placeholder: t("kontakt.kalkulace_mnozstvi_placeholder"), id: nil %>
                     <% else %>
                       <% show_custom = category == "stavebni" || field == "mnozstvi" %>
-                      <select name="<%= field %>[]">
+                      <select name="items[<%= category %>][<%= field %>][]">
                         <% (@kalkulace_options.dig(category, field) || []).each do |option| %>
                           <option value="<%= option.value_i18n %>"><%= option.value_i18n %></option>
                         <% end %>

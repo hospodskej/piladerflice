@@ -445,6 +445,7 @@ cs:
     kalkulace_title_html: "Poptejte se na naše výrobky <span style=\"color: #2C8FFF\">a my Vám připravíme nezávaznou kalkulaci</span>"
     toggle_palivove: "Palivové dřevo"
     toggle_stavebni: "Stavební řezivo"
+    toggle_hint: "Můžete vybrat jedno i obojí."
     form_section_kontakt: "Kontakt"
     form_jmeno: "Jméno"
     form_prijmeni: "Příjmení"

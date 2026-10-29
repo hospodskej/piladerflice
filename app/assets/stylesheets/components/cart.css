@@ -149,6 +149,13 @@
     padding: 3px 0;
 }
 
+/* The amount stays on one line; a long label (the delivery) wraps instead. */
+.cart-total-row > :last-child {
+    flex-shrink: 0;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
 .cart-total-excl-vat {
     font-size: 0.85rem;
     color: #777;

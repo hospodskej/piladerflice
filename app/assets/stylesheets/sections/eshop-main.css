@@ -198,10 +198,11 @@ a.product-image-wrapper-eshop {
     }
 }
 
-/* "Ceny jsou bez dopravy…" on the e-shop and every product page */
+/* "Ceny jsou bez dopravy…" and "Kam vozíme?" on the e-shop, every product
+   page and the cart */
 .delivery-note {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     margin: 0 0 32px 0;
     padding: 12px 16px;
@@ -221,7 +222,86 @@ a.product-image-wrapper-eshop {
 
 .delivery-note-icon {
     flex-shrink: 0;
+    margin-top: 2px;
     color: #2C8FFF;
+}
+
+.delivery-note-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.delivery-note-body p {
+    margin: 0;
+}
+
+.delivery-estimate-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.delivery-estimate-form input,
+.delivery-estimate-form select {
+    padding: 8px 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font: inherit;
+    background-color: #ffffff;
+    color: inherit;
+}
+
+.delivery-estimate-form input {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+.delivery-estimate-form button {
+    margin: 0;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.delivery-estimate-hint {
+    margin-top: 4px !important;
+    color: #666666;
+    font-size: 0.85rem;
+}
+
+.delivery-estimate-change {
+    margin-top: 6px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: #2C8FFF;
+    font: inherit;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.delivery-estimate-error {
+    margin-top: 8px !important;
+    color: #c0392b;
+    font-size: 0.85rem;
+}
+
+.checkout-cart-footer + .delivery-note {
+    margin: 20px 0 0 0;
+}
+
+/* Phones: the place on its own line, the country and the button below it. */
+@media (max-width: 600px) {
+    .delivery-estimate-form input {
+        flex-basis: 100%;
+    }
+
+    .delivery-estimate-form select {
+        flex: 1;
+        min-width: 0;
+    }
 }
 
 .product-intro-details .delivery-note {

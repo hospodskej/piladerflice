@@ -1,5 +1,36 @@
-<%# Prices on the e-shop are for the goods only; the price per km comes from Admin > Doprava. %>
-<p class="delivery-note">
+<%# "Kam vozíme?": prices on the e-shop are for the goods only. The customer
+    types a town or PSČ and sees the approximate delivery price straight away
+    (price per km from Admin > Doprava); checkout recalculates it with the
+    full address. %>
+<% estimate = current_delivery_estimate %>
+<% error = @delivery_estimate_error || flash[:delivery_estimate_error] %>
+<div class="delivery-note" id="delivery-estimate">
   <svg class="delivery-note-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-  <span><%= t("shared.delivery_note_html", rate: cart_price(Setting.delivery_czk_per_km)) %></span>
-</p>
+  <div class="delivery-note-body">
+    <% if estimate %>
+      <p class="delivery-estimate-result">
+        <%= t("delivery_estimate.result_html", place: estimate.place, km: estimate.one_way_km, round_trip_km: estimate.round_trip_km,
+              rate: cart_price(Setting.delivery_czk_per_km), price: cart_price(estimate.price_czk)) %>
+      </p>
+      <p class="delivery-estimate-hint"><%= t("delivery_estimate.result_hint") %></p>
+      <%= button_to t("delivery_estimate.change"), delivery_estimate_path, method: :delete, class: "delivery-estimate-change" %>
+    <% else %>
+      <p><%= t("shared.delivery_note_html", rate: cart_price(Setting.delivery_czk_per_km)) %></p>
+      <%= form_with url: delivery_estimate_path, method: :post, class: "delivery-estimate-form" do %>
+        <label class="visually-hidden" for="delivery-estimate-query"><%= t("delivery_estimate.query_label") %></label>
+        <input type="text" id="delivery-estimate-query" name="query" required maxlength="80" autocomplete="address-level2"
+               placeholder="<%= t("delivery_estimate.query_placeholder") %>" value="<%= current_user&.billing_city %>">
+        <label class="visually-hidden" for="delivery-estimate-country"><%= t("checkout.country_field") %></label>
+        <select id="delivery-estimate-country" name="country">
+          <% country = current_user&.billing_country.presence || default_delivery_country %>
+          <option value="cz" <%= "selected" if country == "cz" %>><%= t("delivery_estimate.country_cz") %></option>
+          <option value="at" <%= "selected" if country == "at" %>><%= t("delivery_estimate.country_at") %></option>
+        </select>
+        <button type="submit" class="btn-primary"><%= t("delivery_estimate.submit") %></button>
+      <% end %>
+      <% if error %>
+        <p class="delivery-estimate-error" role="alert"><%= error %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>

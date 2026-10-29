@@ -11,8 +11,9 @@
           <div class="checkout-box-body">
             <label for="country"><%= t("checkout.country_field") %></label>
             <select name="country" id="country">
-              <option value="cz" <%= "selected" if current_checkout["country"].blank? || current_checkout["country"] == "cz" %>><%= t("checkout.country_cz") %></option>
-              <option value="at" <%= "selected" if current_checkout["country"] == "at" %>><%= t("checkout.country_at") %></option>
+              <% country = current_checkout["country"].presence || current_delivery_estimate&.country || "cz" %>
+              <option value="cz" <%= "selected" if country == "cz" %>><%= t("checkout.country_cz") %></option>
+              <option value="at" <%= "selected" if country == "at" %>><%= t("checkout.country_at") %></option>
             </select>
           </div>
         </div>
@@ -25,7 +26,13 @@
                 <input type="radio" name="shipping_method" value="address" <%= "checked" if current_checkout["shipping_method"] == "address" %>>
                 <%= t("checkout.shipping_address") %>
               </span>
-              <span class="checkout-radio-note"><%= t("checkout.shipping_address_rate_note", rate: cart_price(Setting.delivery_czk_per_km)) %></span>
+              <span class="checkout-radio-note">
+                <% if current_delivery_estimate %>
+                  <%= t("delivery_estimate.shipping_note", place: current_delivery_estimate.place, price: cart_price(current_delivery_estimate.price_czk)) %>
+                <% else %>
+                  <%= t("checkout.shipping_address_rate_note", rate: cart_price(Setting.delivery_czk_per_km)) %>
+                <% end %>
+              </span>
             </label>
             <label class="checkout-radio-option">
               <span>

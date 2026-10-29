@@ -59,4 +59,33 @@ class DeliveryRouteServiceTest < ActiveSupport::TestCase
     fake_route
     assert_equal 50, lookup
   end
+
+  test "estimates the distance to a town or PSČ, looking only for places in that country" do
+    fake_route(meters: 23_400, place: "Znojmo")
+
+    assert_equal({ km: 23, place: "Znojmo", zip: "669 02" }, DeliveryRouteService.estimate(query: " Znojmo ", country: "cz"))
+
+    geocode_url = @fake_route_urls.first
+    assert_includes geocode_url, "/geocode/search?"
+    assert_includes geocode_url, "text=Znojmo"
+    assert_includes geocode_url, "boundary.country=CZ"
+    assert_includes geocode_url, "layers=locality"
+  end
+
+  test "an estimate is cached per place, whatever the spelling of spaces and case" do
+    fake_route
+
+    DeliveryRouteService.estimate(query: "Znojmo", country: "cz")
+    DeliveryRouteService.estimate(query: " znojmo", country: "cz")
+    assert_equal 2, @fake_route_urls.size
+  end
+
+  test "no estimate without a place, outside CZ and AT, or when the place isn't found" do
+    fake_route
+    assert_nil DeliveryRouteService.estimate(query: " ", country: "cz")
+    assert_nil DeliveryRouteService.estimate(query: "Bratislava", country: "sk")
+
+    fake_route(coordinates: nil)
+    assert_nil DeliveryRouteService.estimate(query: "Neexistuje", country: "cz")
+  end
 end

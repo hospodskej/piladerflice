@@ -894,6 +894,21 @@ html.dark-mode .delivery-note strong {
     color: #f2f3f5;
 }
 
+html.dark-mode .delivery-estimate-form input,
+html.dark-mode .delivery-estimate-form select {
+    background-color: #2d2d30;
+    border-color: #4a4a50;
+    color: #e8eaed;
+}
+
+html.dark-mode .delivery-estimate-hint {
+    color: #a8adb5;
+}
+
+html.dark-mode .delivery-estimate-error {
+    color: #ff8a7a;
+}
+
 html.dark-mode .kalkulace-items-container .kalkulace-row + .kalkulace-row {
     border-top-color: #4a4a50;
 }

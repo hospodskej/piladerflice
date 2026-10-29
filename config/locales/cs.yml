@@ -193,6 +193,20 @@ cs:
     per_m3: "PRM"
     close: "Zavřít"
 
+  delivery_estimate:
+    query_label: "Obec nebo PSČ doručení"
+    query_placeholder: "Obec nebo PSČ, např. Znojmo"
+    submit: "Spočítat dopravu"
+    country_cz: "Česko"
+    country_at: "Rakousko"
+    result_html: "Doprava – <strong>%{place}</strong>: cca %{km} km, tam i zpět %{round_trip_km} km × %{rate} = <strong>≈ %{price}</strong>"
+    result_hint: "Orientační cena podle obce. Přesnou cenu spočítáme v objednávce podle adresy."
+    change: "Změnit místo"
+    cart_line: "Doprava – %{place} (%{km} km, orientačně)"
+    shipping_note: "%{place}: ≈ %{price} (orientačně, přesně podle adresy v souhrnu)"
+    blank: "Zadejte obec nebo PSČ."
+    not_found: "Místo „%{query}“ jsme nenašli, nebo se k němu nepodařilo spočítat trasu. Zkuste jiný zápis nebo PSČ – případně cenu dopravy spočítáme v objednávce."
+
   cart:
     aria_label: "Košík"
     aria_label_count: "Košík, počet kusů: %{count}"
@@ -637,7 +651,7 @@ cs:
       variants_heading_html: "<span class=\"text-blue\">Dostupné</span> varianty"
 
   shared:
-    delivery_note_html: "<strong>Ceny jsou bez dopravy.</strong> Cenu dopravy vám systém spočítá přímo v objednávce, jakmile zadáte adresu: aktuálně %{rate} za km, počítáno tam i zpět. Osobní odběr v Derflicích je zdarma."
+    delivery_note_html: "<strong>Ceny jsou bez dopravy.</strong> Doprava stojí aktuálně %{rate} za km, počítáno tam i zpět. Zadejte obec nebo PSČ a cenu vám spočítáme hned. Osobní odběr v Derflicích je zdarma."
     custom_demand:
       title_line1: "Nenašli jste, co jste hledali?"
       title_line2: "Poptejte se po výrobě na míru"

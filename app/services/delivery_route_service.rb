@@ -11,6 +11,9 @@ class DeliveryRouteService
   COUNTRIES = %w[cz at].freeze
   TIMEOUT = 4
   CACHE_TTL = 30.days
+  # What the e-shop estimate looks for: towns, parts of towns and postcodes,
+  # so "Znojmo" doesn't find a street or a shop of that name elsewhere.
+  PLACE_LAYERS = "locality,localadmin,borough,neighbourhood,postalcode".freeze
 
   # Fetches a JSON document; swapped out in tests.
   class_attribute :fetcher, default: lambda { |url|
@@ -47,7 +50,42 @@ class DeliveryRouteService
       nil
     end
 
+    # The estimate in the e-shop, before the customer gives a full address:
+    # the distance to a town or PSČ. Returns { km:, place:, zip: } (place is
+    # the town as found, e.g. "Znojmo"), or nil.
+    def estimate(query:, country:)
+      country = country.to_s.downcase
+      query = query.to_s.squish
+      return nil if api_key.blank? || query.blank? || query.length > 80 || !COUNTRIES.include?(country)
+
+      cache_key = ["delivery_estimate", country, query.downcase].join("|")
+      cached = Rails.cache.read(cache_key)
+      return cached if cached
+
+      place = geocode_place(query, country)
+      return nil unless place
+
+      meters = route_meters(place[:coordinates])
+      return nil unless meters
+
+      { km: (meters / 1000.0).round, place: place[:name], zip: place[:zip] }
+        .tap { |found| Rails.cache.write(cache_key, found, expires_in: CACHE_TTL) }
+    rescue StandardError => e
+      Rails.logger.warn("[DeliveryRouteService] no estimate for #{query} (#{country}): #{e.class}: #{e.message}")
+      nil
+    end
+
     private
+
+    def geocode_place(query, country)
+      params = { :api_key => api_key, :text => query, "boundary.country" => country.upcase, :layers => PLACE_LAYERS, :size => 1 }
+      feature = fetcher.call("#{BASE_URL}/geocode/search?#{params.to_query}").dig("features", 0)
+      coordinates = feature&.dig("geometry", "coordinates")
+      return nil unless coordinates.is_a?(Array) && coordinates.size == 2
+
+      properties = feature["properties"] || {}
+      { coordinates: coordinates, name: properties["locality"].presence || properties["name"].presence || query, zip: properties["postalcode"] }
+    end
 
     def api_key
       Rails.application.config.x.ors_api_key

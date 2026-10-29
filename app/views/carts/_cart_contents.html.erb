@@ -74,10 +74,10 @@
         <% end %>
       </div>
 
-      <div class="cart-totals checkout-cart-totals">
-        <%= render "carts/totals" %>
-      </div>
+      <%= render "carts/page_totals" %>
     </div>
+
+    <%= render "shared/delivery_note" %>
 
     <div class="checkout-nav">
       <%= link_to t("cart.back_to_shopping"), eshop_path, class: "btn-outline-dark", data: { turbo: false } %>

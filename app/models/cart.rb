@@ -78,10 +78,6 @@ class Cart
     subtotal_czk - discount_czk
   end
 
-  def total_excl_vat_czk
-    (total_czk / (1 + VAT_RATE)).round
-  end
-
   # Applies a code typed in the cart. Returns nil, or why it can't be used
   # (a key under cart.discount_errors); an unusable code isn't kept.
   def apply_discount(code)

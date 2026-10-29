@@ -193,6 +193,20 @@ de:
     per_m3: "Rm"
     close: "Schließen"
 
+  delivery_estimate:
+    query_label: "Lieferort oder PLZ"
+    query_placeholder: "Ort oder PLZ, z. B. Retz"
+    submit: "Lieferung berechnen"
+    country_cz: "Tschechien"
+    country_at: "Österreich"
+    result_html: "Lieferung nach <strong>%{place}</strong>: ca. %{km} km, hin und zurück %{round_trip_km} km × %{rate} = <strong>≈ %{price}</strong>"
+    result_hint: "Ungefährer Preis nach Ort. Den genauen Preis berechnen wir in der Bestellung nach der Adresse."
+    change: "Ort ändern"
+    cart_line: "Lieferung nach %{place} (%{km} km, ungefähr)"
+    shipping_note: "nach %{place} ≈ %{price} (ungefähr, genau nach Adresse in der Übersicht)"
+    blank: "Bitte geben Sie einen Ort oder eine PLZ ein."
+    not_found: "„%{query}“ haben wir nicht gefunden oder keine Route berechnen können. Versuchen Sie eine andere Schreibweise oder die PLZ – sonst berechnen wir die Lieferung in der Bestellung."
+
   cart:
     aria_label: "Warenkorb"
     aria_label_count: "Warenkorb, Anzahl Stück: %{count}"
@@ -636,7 +650,7 @@ de:
       variants_heading_html: "<span class=\"text-blue\">Verfügbare</span> Varianten"
 
   shared:
-    delivery_note_html: "<strong>Die Preise verstehen sich ohne Lieferung.</strong> Die Lieferkosten berechnet das System direkt in der Bestellung, sobald Sie die Adresse eingeben: derzeit %{rate} pro km, hin und zurück gerechnet. Selbstabholung in Derflice ist kostenlos."
+    delivery_note_html: "<strong>Die Preise verstehen sich ohne Lieferung.</strong> Die Lieferung kostet derzeit %{rate} pro km, hin und zurück gerechnet. Geben Sie Ort oder PLZ ein und wir berechnen den Preis sofort. Selbstabholung in Derflice ist kostenlos."
     custom_demand:
       title_line1: "Nicht gefunden, was Sie gesucht haben?"
       title_line2: "Fragen Sie eine Maßanfertigung an"

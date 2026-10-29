@@ -15,6 +15,7 @@ class CheckoutController < ApplicationController
 
   def details
     prefill_from_account if current_user
+    prefill_from_delivery_estimate
   end
 
   def update_details
@@ -176,6 +177,15 @@ class CheckoutController < ApplicationController
         email: current_user.email_address
       )
     )
+  end
+
+  # The town and PSČ the customer gave in "Kam vozíme?", unless they already
+  # filled in an address.
+  def prefill_from_delivery_estimate
+    estimate = current_delivery_estimate
+    return unless estimate && current_checkout["billing_city"].blank?
+
+    current_checkout.update(billing_city: estimate.place, billing_zip: estimate.zip)
   end
 
   def save_to_account

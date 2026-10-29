@@ -1,25 +1,37 @@
-<%# Goods total of the cart, after the discount code, incl. VAT. %>
-<% if current_cart.discount_applied? %>
+<%# Goods total of the cart, after the discount code, incl. VAT. With a place
+    from "Kam vozíme?" (local delivery:) the approximate delivery is added. %>
+<% delivery = local_assigns[:delivery] %>
+<% total = current_cart.total_czk + (delivery ? delivery.price_czk : 0) %>
+<% total_excl_vat = (total / (1 + Cart::VAT_RATE)).round %>
+<% if current_cart.discount_applied? || delivery %>
   <div class="cart-total-row cart-total-excl-vat">
     <span><%= t("cart.goods_before_discount") %></span>
     <span><%= cart_price(current_cart.subtotal_czk) %></span>
   </div>
+<% end %>
+<% if current_cart.discount_applied? %>
   <div class="cart-total-row cart-total-discount">
     <span><%= t("cart.discount_line", code: current_cart.discount.code) %></span>
     <span>−<%= cart_price(current_cart.discount_czk) %></span>
   </div>
 <% end %>
+<% if delivery %>
+  <div class="cart-total-row cart-total-excl-vat cart-total-delivery">
+    <span><%= t("delivery_estimate.cart_line", place: delivery.place, km: delivery.round_trip_km) %></span>
+    <span>≈ <%= cart_price(delivery.price_czk) %></span>
+  </div>
+<% end %>
 <div class="cart-total-row">
   <span><%= t("cart.total_due") %></span>
-  <strong><%= cart_price(current_cart.total_czk) %></strong>
+  <strong><%= "≈ " if delivery %><%= cart_price(total) %></strong>
 </div>
 <% unless local_assigns[:compact] %>
   <div class="cart-total-row cart-total-excl-vat">
     <span><%= t("cart.total_vat") %></span>
-    <span><%= cart_price(current_cart.total_czk - current_cart.total_excl_vat_czk) %></span>
+    <span><%= cart_price(total - total_excl_vat) %></span>
   </div>
 <% end %>
 <div class="cart-total-row cart-total-excl-vat">
   <span><%= t("cart.without_vat") %></span>
-  <span><%= cart_price(current_cart.total_excl_vat_czk) %></span>
+  <span><%= cart_price(total_excl_vat) %></span>
 </div>

@@ -77,4 +77,18 @@ class ApplicationController < ActionController::Base
     @current_checkout ||= CheckoutState.new(session)
   end
   helper_method :current_checkout
+
+  # The place the customer gave in "Kam vozíme?", or nil.
+  def current_delivery_estimate
+    return @current_delivery_estimate if defined?(@current_delivery_estimate)
+
+    @current_delivery_estimate = DeliveryEstimate.from_session(session)
+  end
+  helper_method :current_delivery_estimate
+
+  # The German site delivers to Austria by default.
+  def default_delivery_country
+    I18n.locale == :de ? "at" : "cz"
+  end
+  helper_method :default_delivery_country
 end

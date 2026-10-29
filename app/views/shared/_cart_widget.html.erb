@@ -29,7 +29,7 @@
       </ul>
 
       <div class="cart-totals">
-        <%= render "carts/totals", compact: true %>
+        <%= render "carts/totals", compact: true, delivery: current_delivery_estimate %>
       </div>
 
       <%= link_to t("cart.view_cart"), cart_path, class: "btn-primary full-width cart-dropdown-view-cart" %>

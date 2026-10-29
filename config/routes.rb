@@ -64,6 +64,8 @@ Rails.application.routes.draw do
 
     resources :cart_items, only: [:create, :update, :destroy]
     get '/kosik', to: 'carts#show', as: :cart
+    post '/doprava-odhad', to: 'delivery_estimates#create', as: :delivery_estimate
+    delete '/doprava-odhad', to: 'delivery_estimates#destroy'
     post '/kosik/slevovy-kod', to: 'discount_codes#create', as: :cart_discount
     delete '/kosik/slevovy-kod', to: 'discount_codes#destroy'
     resources :inquiries, only: [:create]

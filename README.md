@@ -4,6 +4,7 @@
 - `bundle install`
 - `rails db:migrate`
 - `rails db:seed`
+- `rails admin:create_user`
 - `rails server`
 
 ### Requirements

@@ -102,7 +102,7 @@ The tracking code is already in the layout (measurement ID `G-CMJ46E7F3G`, loade
 
 ### SEO
 
-The basics are in place (robots.txt and sitemap.xml), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Local business schema (JSON-LD on the home and contact pages) and canonical/`hreflang` links are done too. Still open: the social share image entry below (a designer is making the image). Once that is done, also:
+The basics are in place (robots.txt, sitemap.xml, and `/llms.txt`: a Markdown overview for AI assistants with the business facts, every active product with its "from" price and the delivery price per km, generated from the catalogue), but the on-page SEO work is still open. Meta descriptions and unique page titles are done (`page_meta` helper, texts under `meta:` in the locale files). Local business schema (JSON-LD on the home and contact pages) and canonical/`hreflang` links are done too. Still open: the social share image entry below (a designer is making the image). Once that is done, also:
 
 - Check heading structure (one `h1` per page) and image `alt` texts on the main pages
 - Run Lighthouse/PageSpeed on the live site and fix whatever it flags

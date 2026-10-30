@@ -1,0 +1,46 @@
+# Pila Derflice
+
+> Family-run sawmill in Derflice near Znojmo (South Moravia, Czech Republic). Sells firewood, construction and joinery lumber, sawmill by-products (sawdust, wood chips, slabs) and decorative stone, and does custom sawing, planing and impregnation. Delivers with its own truck across South Moravia and northern Austria; pickup at the sawmill is free. Orders through the online shop or an inquiry form; the site is in Czech, with a German version for Austria under /at.
+
+Key facts:
+
+- Address: Derflice 66, 671 28 Znojmo, Czech Republic (business owner Štěpán Merta, IČ 45665451, DIČ CZ6909094742)
+- Phone: +420 602 446 339, +420 515 235 527; e-mail: stepan.merta@seznam.cz
+- Opening hours: Monday to Friday 7:00–15:30, other times by arrangement
+- Prices are in Czech crowns (CZK) and include VAT. The German site shows them converted to euros.
+- Delivery to an address costs <%= Setting.delivery_czk_per_km %> Kč per km, counted there and back, one trip per order; the shop calculates it from the delivery address (customers can also type a town or postcode in the e-shop to see it before ordering). Pickup at the sawmill is free.
+- Payment: cash on pickup, or bank transfer against a proforma invoice.
+- For quantities, sizes or products not in the shop, customers send an inquiry from the contact page and get a quote.
+
+## Online shop
+
+<%- LlmsController::CATEGORY_NAMES.each do |category, name| -%>
+<%- next unless @products[category] -%>
+### <%= name %>
+
+<%- @products[category].each do |product| -%>
+<%- note = price_note(product) -%>
+- [<%= product.title %>](<%= eshop_product_url(product.key, locale: nil) %>): <%= product.type_label %><%= "; #{note}" if note %>
+<%- end -%>
+
+<%- end -%>
+Prices include VAT. Product pages list every size, length and amount with its price and an add-to-cart button; the contact page's price list has the rest (by-products, stone, services).
+
+## Pages
+
+- [Contact, price list and inquiry form](<%= kontakt_url(locale: nil) %>): phone, e-mail, map, the full price list (lumber, firewood, by-products, services, delivery) and the form for a free quote
+- [Online shop](<%= eshop_url(locale: nil) %>): all products by category
+- [Services](<%= sluzby_url(locale: nil) %>): custom sawing, planing, impregnation, delivery
+- [Range overview](<%= sortiment_url(locale: nil) %>): firewood, construction and joinery lumber, by-products, decorative stone
+- [Terms and conditions](<%= terms_url(locale: nil) %>): ordering, delivery, payment, returns
+
+## German version (for Austria)
+
+- [Startseite](<%= root_url(locale: "at") %>)
+- [Onlineshop](<%= eshop_url(locale: "at") %>)
+- [Kontakt, Preisliste und Anfrage](<%= kontakt_url(locale: "at") %>)
+
+## Optional
+
+- [Privacy policy](<%= privacy_policy_url(locale: nil) %>)
+- [Sitemap](<%= sitemap_url %>): every page in Czech and German

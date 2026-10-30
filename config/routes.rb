@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get "robots.txt", to: "robots#show", defaults: { format: :text }
   get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: :xml }
+  get "llms.txt", to: "llms#show", as: :llms, defaults: { format: :text }
 
   # The admin area is Czech only.
   namespace :admin do

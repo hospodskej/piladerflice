@@ -9,6 +9,9 @@ module ActiveSupport
     include ImageFixtures
     include FakeRouteService
 
+    # Attempt counters (rate_limit) and cached lookups live in the cache:
+    # every test starts without them.
+    setup { Rails.cache.clear }
     teardown { restore_route_service }
 
     # Run tests in parallel with specified workers

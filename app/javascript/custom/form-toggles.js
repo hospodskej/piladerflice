@@ -1,3 +1,19 @@
+// Shows an option's text with its number in blue ("5" + " PRM"), as
+// elements with textContent: the text comes from the admin or from what the
+// customer typed, and must never be read as HTML.
+function showOptionText(element, text) {
+    const parts = text.trim().split(' ');
+    const number = document.createElement('span');
+    number.className = 'custom-select-number';
+    number.textContent = parts.shift();
+    element.replaceChildren(number);
+    if (parts.length) {
+        const rest = document.createElement('span');
+        rest.textContent = parts.join(' ');
+        element.append(' ', rest);
+    }
+}
+
 // The category buttons switch their part of the form on and off, so one
 // inquiry can ask for firewood, lumber or both; one always stays on. A part
 // switched off is disabled, so it isn't sent.
@@ -124,26 +140,18 @@ function createCustomDropdown(select) {
     menu.className = 'custom-select-menu';
     wrapper.appendChild(menu);
 
-    const formatText = (text) => {
-        const parts = text.trim().split(' ');
-        if (parts.length > 1) {
-            const first = parts.shift();
-            return `<span style="color: #2C8FFF;">${first}</span> <span>${parts.join(' ')}</span>`;
-        }
-        return `<span style="color: #2C8FFF;">${text}</span>`;
-    };
 
     Array.from(select.options).forEach((opt, index) => {
         const item = document.createElement('div');
         item.className = 'custom-select-item';
-        item.innerHTML = formatText(opt.text);
+        showOptionText(item, opt.text);
         item.onclick = (e) => {
             e.stopPropagation();
             if (opt.value === '__custom__' && select.value !== '__custom__') {
                 select.dataset.restoreIndex = select.selectedIndex;
             }
             select.selectedIndex = index;
-            display.innerHTML = formatText(opt.text);
+            showOptionText(display, opt.text);
             menu.classList.remove('open');
             display.classList.remove('open');
             handleCustomOption(select, opt.value);
@@ -151,7 +159,7 @@ function createCustomDropdown(select) {
         menu.appendChild(item);
     });
 
-    display.innerHTML = formatText(select.options[select.selectedIndex].text);
+    showOptionText(display, select.options[select.selectedIndex].text);
 
     const customInput = select.closest('.form-group')?.querySelector('.custom-value-input');
     if (customInput) {
@@ -179,7 +187,7 @@ function createCustomDropdown(select) {
             if (!value) {
                 const restoreIndex = parseInt(select.dataset.restoreIndex ?? '0', 10);
                 select.selectedIndex = restoreIndex;
-                display.innerHTML = formatText(select.options[restoreIndex].text);
+                showOptionText(display, select.options[restoreIndex].text);
                 handleCustomOption(select, select.options[restoreIndex].value);
                 return;
             }
@@ -192,7 +200,7 @@ function createCustomDropdown(select) {
 
             customInput.value = value;
             customInput.style.display = 'none';
-            display.innerHTML = formatText(value);
+            showOptionText(display, value);
         };
     }
 

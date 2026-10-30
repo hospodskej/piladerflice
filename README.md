@@ -31,6 +31,15 @@ Before checkout, "Kam vozíme?" (the delivery note on the e-shop, product pages 
 
 The German (Austrian) site lives under `/at` (`/at/kontakt`, `/at/eshop/tramy`, ...), Czech has no prefix. Translations are German (`de` locale); `LocalizedPath::SEGMENTS` maps the locale to the URL prefix, and the alternates are announced as `de-AT`. The language comes from the URL only, so a shared link opens in the language it was shared in. Old `?locale=de` links redirect (301) to the `/at` URL. In views, link with the route helpers (language is added automatically) or, for stored or hand-written paths, with `localized_path("/kontakt#cenik")`. The admin area is Czech only.
 
+## Security
+
+- **Repeated attempts** are limited per address (`rate_limit`): login 10 per 3 minutes (and 20 per hour against one account from any address), registration 5 per hour, discount codes 10 and delivery lookups 20 per 10 minutes, inquiries and orders 5 per 10 minutes. Counters live in the Rails cache.
+- **Access control:** the admin needs an admin login (`Admin::BaseController`); customers only ever reach their own orders and profile picture; the cart and the last order live in the browser session. `test/integration/idor_test.rb` tries every admin route as a guest and a customer. Active Storage's direct uploads are closed (`config/routes.rb`). After signing in, only a path on this site is followed (`?return_to`).
+- **Authentication:** bcrypt passwords (8+ characters); login answers equally fast for unknown e-mails (`authenticate_by`); the browser session gets a new ID at sign-in (cart kept) and is emptied at sign-out; admin logins expire after 30 days, customers stay signed in.
+- **Headers:** a strict Content-Security-Policy (`config/initializers/content_security_policy.rb`; inline scripts carry the nonce, only Google Analytics and the footer map are allowed from outside), Permissions-Policy, HSTS via `force_ssl`, `Cache-Control: no-store` on the admin, account and checkout, `noindex` on the admin. In production set `APP_HOSTS` (e.g. `piladerflice.cz,www.piladerflice.cz`) so other Host headers are refused.
+- **Injection:** queries go through Active Record only; texts from the database pass an allow-list of formatting tags (`formatted_text`, `pricelist_html`); the custom dropdowns build options with `textContent`.
+- **Checks:** `brakeman` (no warnings) and `bundler-audit check --update` (no known vulnerable gems) before a release.
+
 ## Roadmap
 
 Bigger things we've talked about but haven't built yet.

@@ -1,4 +1,6 @@
 class RegistrationsController < ApplicationController
+  rate_limit to: 5, within: 1.hour, only: :create, with: -> { too_many_attempts }
+
   def new
     @user = User.new
   end

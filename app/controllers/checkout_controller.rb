@@ -1,6 +1,10 @@
 class CheckoutController < ApplicationController
+  # Every order sends two e-mails.
+  rate_limit to: 5, within: 10.minutes, only: :confirm, with: -> { too_many_attempts }
+
   PROFILE_ATTRIBUTES = User::PROFILE_ATTRIBUTES
 
+  before_action :no_store
   before_action :redirect_if_cart_empty, except: [:confirmation]
   before_action :redirect_unless_shipping_selected, only: [:details, :update_details, :summary, :confirm]
   before_action :redirect_unless_details_complete, only: [:summary, :confirm]

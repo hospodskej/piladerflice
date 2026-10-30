@@ -44,6 +44,12 @@ module PilaDerflice
     # for only 5 minutes and cost two requests per photo.
     config.active_storage.resolve_model_to_route = :rails_storage_proxy
 
+    # Browser features the site doesn't use are off for every page (and for
+    # anything injected into one). Rails' own permissions_policy still sends
+    # the old Feature-Policy header, which browsers no longer read.
+    config.action_dispatch.default_headers["Permissions-Policy"] =
+      "camera=(), microphone=(), geolocation=(), usb=(), payment=(), gyroscope=(), magnetometer=()"
+
     # Pictures load when they are about to scroll into view, so a page shows
     # without first downloading every photo further down. The ones on the
     # first screen say loading: "eager" (and the main one fetchpriority:

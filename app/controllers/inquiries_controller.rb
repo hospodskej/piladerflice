@@ -1,4 +1,7 @@
 class InquiriesController < ApplicationController
+  # Every inquiry sends an e-mail.
+  rate_limit to: 5, within: 10.minutes, only: :create, with: -> { too_many_attempts }
+
   def create
     @inquiry = Inquiry.new(inquiry_attributes)
 

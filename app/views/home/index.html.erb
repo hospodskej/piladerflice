@@ -76,7 +76,7 @@
             <div class="feature-item">
               <%= image_tag "features/#{feature[:img]}", alt: feature[:name] %>
             </div>
-            <span class="feature-text"><%= feature[:name].html_safe %></span>
+            <span class="feature-text"><%= formatted_text(feature[:name]) %></span>
           </div>
         <% end %>
       </div>
@@ -193,7 +193,7 @@
           <div class="accordion-content-wrapper">
             <div class="accordion-content">
               <div class="accordion-body">
-                <p><%= sluzba.content_i18n.html_safe %></p>
+                <p><%= formatted_text(sluzba.content_i18n) %></p>
 
                 <% if sluzba.button_text.present? && sluzba.button_path.present? %>
                   <%= link_to sluzba.button_text_i18n, localized_path(sluzba.button_path), class: "btn-cenik" %>
@@ -261,7 +261,7 @@
             <div class="carousel-content">
               <h3><%= slide.title_i18n %></h3>
               <div class="carousel-text">
-                <p><%= slide.content_i18n.html_safe %></p>
+                <p><%= formatted_text(slide.content_i18n) %></p>
               </div>
             </div>
           </div>

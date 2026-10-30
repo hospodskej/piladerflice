@@ -1,3 +1,19 @@
+// Shows an option's text with its number in blue ("5" + " PRM"), as
+// elements with textContent: the text comes from the admin or from what the
+// customer typed, and must never be read as HTML.
+function showOptionText(element, text) {
+    const parts = text.trim().split(' ');
+    const number = document.createElement('span');
+    number.className = 'custom-select-number';
+    number.textContent = parts.shift();
+    element.replaceChildren(number);
+    if (parts.length) {
+        const rest = document.createElement('span');
+        rest.textContent = parts.join(' ');
+        element.append(' ', rest);
+    }
+}
+
 function extractUnit(text) {
     const match = text.trim().match(/^\d+(?:[.,]\d+)?\s*(.*)$/);
     return match ? match[1].trim() : '';
@@ -44,19 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
         menu.className = 'custom-select-menu';
         wrapper.appendChild(menu);
 
-        const formatText = (text) => {
-            const parts = text.trim().split(' ');
-            if (parts.length > 1) {
-                const first = parts.shift();
-                return `<span style="color: #2C8FFF;">${first}</span> <span>${parts.join(' ')}</span>`;
-            }
-            return `<span style="color: #2C8FFF;">${text}</span>`;
-        };
 
         Array.from(originalSelect.options).forEach((opt, index) => {
             const item = document.createElement('div');
             item.className = 'custom-select-item';
-            item.innerHTML = formatText(opt.text);
+            showOptionText(item, opt.text);
 
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -64,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     originalSelect.dataset.restoreIndex = originalSelect.selectedIndex;
                 }
                 originalSelect.selectedIndex = index;
-                display.innerHTML = formatText(opt.text);
+                showOptionText(display, opt.text);
                 menu.classList.remove('open');
                 display.classList.remove('open');
                 handleCustomOption(originalSelect, opt.value);
@@ -72,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             menu.appendChild(item);
         });
 
-        display.innerHTML = formatText(originalSelect.options[originalSelect.selectedIndex].text);
+        showOptionText(display, originalSelect.options[originalSelect.selectedIndex].text);
 
         const customInput = originalSelect.closest('.form-group')?.querySelector('.custom-value-input');
         if (customInput) {
@@ -100,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!value) {
                     const restoreIndex = parseInt(originalSelect.dataset.restoreIndex ?? '0', 10);
                     originalSelect.selectedIndex = restoreIndex;
-                    display.innerHTML = formatText(originalSelect.options[restoreIndex].text);
+                    showOptionText(display, originalSelect.options[restoreIndex].text);
                     handleCustomOption(originalSelect, originalSelect.options[restoreIndex].value);
                     return;
                 }
@@ -113,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 customInput.value = value;
                 customInput.style.display = 'none';
-                display.innerHTML = formatText(value);
+                showOptionText(display, value);
             });
         }
 

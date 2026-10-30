@@ -1,5 +1,8 @@
 # "Kam vozíme?" in the e-shop: the approximate delivery price before checkout.
 class DeliveryEstimatesController < ApplicationController
+  # Every new place is a lookup at openrouteservice (a daily quota).
+  rate_limit to: 20, within: 10.minutes, only: :create, with: -> { too_many_attempts }
+
   def create
     query = params[:query].to_s.squish
     country = params[:country].presence || default_delivery_country

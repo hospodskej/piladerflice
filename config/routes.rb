@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  # Active Storage's direct uploads would let anyone store files on the
+  # server; this app uploads only through its own forms, so they're closed.
+  # (Drawn first, so these win over Active Storage's own routes.)
+  closed = ->(_env) { [404, { "content-type" => "text/plain" }, ["Not Found"]] }
+  post "/rails/active_storage/direct_uploads", to: closed
+  put "/rails/active_storage/disk/:encoded_token", to: closed
+
   # The (Austrian) German site lives under /at (the Czech default has no prefix), so a
   # link always opens in the language it was shared in. Controllers add the
   # current locale to every generated URL (see default_url_options in

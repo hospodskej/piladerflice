@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
   before_action :require_login
+  before_action :no_store
 
   def show
     @orders = current_user.orders.order(created_at: :desc).limit(10)

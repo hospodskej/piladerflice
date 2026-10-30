@@ -16,7 +16,7 @@
     <%= image_tag "mascot/thumbs-up.webp", alt: "", class: "checkout-confirmation-mascot", width: 320, height: 320, loading: "eager" %>
   </section>
 
-  <script>
+  <script nonce="<%= content_security_policy_nonce %>">
     (function () {
       var dedupeKey = "ga_purchase_fired_<%= @order.id %>";
       try {

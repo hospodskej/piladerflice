@@ -84,6 +84,9 @@ cs:
       title: "Zásady ochrany osobních údajů"
       description: "Jaké osobní údaje pila Derflice zpracovává, proč, komu je předává a jaká máte práva."
 
+  security:
+    too_many_attempts: "Příliš mnoho pokusů za krátkou dobu. Zkuste to prosím za pár minut znovu."
+
   auth:
     login_title: "Přihlášení"
     password: "Heslo"

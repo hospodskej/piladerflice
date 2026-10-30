@@ -8,6 +8,18 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Pages with personal data: the browser keeps no copy, so after signing
+  # out on a shared computer, Back doesn't bring them up again.
+  def no_store
+    response.headers["Cache-Control"] = "no-store"
+  end
+
+  # Answer to too many attempts in a short time (see rate_limit in the
+  # controllers): back to the page they came from, with a message.
+  def too_many_attempts
+    redirect_back fallback_location: root_path, alert: t("security.too_many_attempts"), status: :see_other
+  end
+
   # The language is part of the URL: /at/... is (Austrian) German, everything else is
   # Czech. (It used to live in the session, so a shared link opened in Czech.)
   # Only for this request: the next one on the same server thread must not

@@ -12,6 +12,10 @@ module HomeHelper
     sanitize(text, tags: %w[sup sub br strong em], attributes: [])
   end
 
+  # Texts from the database with simple formatting (line breaks, bold): the
+  # same short list of tags, so a stored text can never carry a script.
+  alias_method :formatted_text, :pricelist_html
+
   def product_breadcrumb_items(product)
     title = product.title_i18n
     category = t(CATEGORY_BREADCRUMB_KEYS.fetch(product.category))

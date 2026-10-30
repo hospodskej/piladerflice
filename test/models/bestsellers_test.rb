@@ -14,14 +14,18 @@ class BestsellersTest < ActiveSupport::TestCase
     end
   end
 
-  test "with too few orders the fallback order is used" do
-    order_with("odkory" => 50)
-
+  test "without orders the hand-picked order is used" do
     assert_equal({}, Bestsellers.sold_quantities)
     assert_equal %w[tramy smrk odkory], Bestsellers.sort(@products, fallback: %w[tramy smrk]).map(&:key)
   end
 
-  test "with enough orders the products that sold most come first" do
+  test "a single order already puts what it sold first, the rest keep the hand-picked order" do
+    order_with("odkory" => 2)
+
+    assert_equal %w[odkory tramy smrk], Bestsellers.sort(@products, fallback: %w[tramy smrk]).map(&:key)
+  end
+
+  test "the products that sold most come first" do
     order_with("odkory" => 3, "smrk" => 1)
     order_with("odkory" => 2)
     4.times { order_with("smrk" => 1) }
@@ -32,7 +36,7 @@ class BestsellersTest < ActiveSupport::TestCase
   end
 
   test "orders older than 3 months don't count" do
-    5.times { order_with("odkory" => 1).update!(created_at: 4.months.ago) }
+    order_with("odkory" => 1).update!(created_at: 4.months.ago)
 
     assert_equal({}, Bestsellers.sold_quantities)
   end

@@ -18,6 +18,11 @@
     font-size: 1.1rem;
     transition: background-color 0.3s ease;
     margin-top: 10px;
+    /* On a <button> or <input type="submit"> the browser would otherwise
+       draw its own 3D border, use Arial and an arrow cursor. */
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .btn-primary:hover {

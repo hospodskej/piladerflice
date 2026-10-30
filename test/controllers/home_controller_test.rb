@@ -43,20 +43,30 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_equal ["Dub test", smrk.title], css_select("h4.product-title").map { |el| el.text.strip }
   end
 
-  test "the home bestsellers follow what was ordered once there are enough orders" do
+  test "the home bestsellers follow what was ordered" do
     get root_url
     # The hand-picked akat, tramy, dub (only tramy is in the fixtures), then the rest.
     assert_includes css_select(".nejprodavanejsi-produkty-card").first.text, catalog_products(:tramy).title
 
-    template = orders(:this_month)
-    Order.delete_all
-    5.times do
-      template.dup.tap { |o| o.update!(items_snapshot: [{ product_key: "odkory", quantity: 1 }].to_json) }
-    end
+    orders(:this_month).update!(items_snapshot: [{ product_key: "odkory", quantity: 1 }].to_json)
     get root_url
     titles = css_select(".nejprodavanejsi-produkty-card").map(&:text)
     assert_equal 3, titles.size
     assert_includes titles.first, catalog_products(:odkory).title
+  end
+
+  test "the e-shop's Nejprodávanější tab puts what sold most first" do
+    smrk = catalog_products(:smrk)
+    dub = smrk.dup.tap { |p| p.update!(key: "dub", title: "Dub test", position: 5) }
+    smrk.catalog_variants.first.dup.tap { |v| v.update!(catalog_product: dub, key: "dub-1") }
+
+    get eshop_url(category: "palivove", sort: "nejprodavanejsi")
+    # Nothing sold: the hand-picked order (dub before smrk).
+    assert_equal ["Dub test", smrk.title], css_select("h4.product-title").map { |el| el.text.strip }
+
+    orders(:this_month).update!(items_snapshot: [{ product_key: "smrk", quantity: 3 }].to_json)
+    get eshop_url(category: "palivove", sort: "nejprodavanejsi")
+    assert_equal [smrk.title, "Dub test"], css_select("h4.product-title").map { |el| el.text.strip }
   end
 
   test "product pages render every display template" do
@@ -260,7 +270,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
     get eshop_product_url(product.key)
 
-    assert_select "details.variant-filter[open] summary", text: /Filtr/
+    assert_select "details.variant-filter:not([open]) summary", text: /Filtr/ # closed until clicked
     assert_equal %w[loose stacked], css_select(".variant-filter input[name=kind]").map { |i| i["value"] }
     assert_equal %w[1 5 10], css_select(".variant-filter input[name=amount]").map { |i| i["value"] }
     assert_equal ["50 cm", "33 cm", "25 cm"], css_select(".variant-filter input[name=length]").map { |i| i["value"] }
@@ -277,7 +287,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
     get eshop_product_url(product.key)
 
-    assert_select "details.variant-filter[open] summary", text: /Filtr/
+    assert_select "details.variant-filter:not([open]) summary", text: /Filtr/ # closed until clicked
     assert_equal %w[100 120], css_select(".variant-filter input[name=width]").map { |i| i["value"] }
     assert_equal %w[40 100], css_select(".variant-filter input[name=height]").map { |i| i["value"] }
     assert_equal ["3 000 mm", "4 000 mm", "5 000 mm"], css_select(".variant-filter input[name=length]").map { |i| i["value"] }

@@ -16,6 +16,10 @@
           <%= submit_tag t("auth.login_submit"), class: "btn-primary auth-submit" %>
         <% end %>
 
+        <p class="auth-forgot">
+          <%= link_to t("auth.reset.forgot_link"), new_password_path %>
+        </p>
+
         <p class="auth-switch">
           <%= t("auth.no_account") %> <%= link_to t("auth.register_link"), new_registration_path %>
         </p>

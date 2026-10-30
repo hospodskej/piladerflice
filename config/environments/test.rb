@@ -47,4 +47,7 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+
+  # Links in e-mails (password reset) need a host.
+  config.action_mailer.default_url_options = { host: "www.example.com" }
 end

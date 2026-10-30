@@ -1,0 +1,20 @@
+# Dependabot: weekly pull requests that update the Ruby gems (Turbo and
+# Stimulus come as gems too). Minor and patch updates arrive together in one
+# pull request; major versions come one by one, as they may need changes.
+# Security fixes come as soon as an advisory is published, once "Dependabot
+# security updates" is on in the repository's settings (Code security).
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Prague"
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"

@@ -5,6 +5,8 @@ module Admin
     layout "admin"
 
     before_action :require_admin
+    before_action :no_store
+    before_action { response.headers["X-Robots-Tag"] = "noindex, nofollow" }
 
     private
 

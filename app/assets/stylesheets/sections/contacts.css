@@ -400,6 +400,11 @@
     width: 100%;
 }
 
+/* The number in a custom dropdown's option, e.g. the "5" of "5 PRM". */
+.custom-select-number {
+    color: #2C8FFF;
+}
+
 .custom-select-display {
     width: 100%;
     padding: 12px 15px;

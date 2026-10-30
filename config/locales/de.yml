@@ -84,6 +84,9 @@ de:
       title: "Datenschutzerklärung"
       description: "Welche personenbezogenen Daten das Sägewerk Derflice verarbeitet, warum, an wen sie weitergegeben werden und welche Rechte Sie haben."
 
+  security:
+    too_many_attempts: "Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten erneut."
+
   auth:
     login_title: "Anmeldung"
     password: "Passwort"

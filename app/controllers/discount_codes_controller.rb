@@ -1,5 +1,8 @@
 # The discount code box in the cart.
 class DiscountCodesController < ApplicationController
+  # Guessing codes one after another.
+  rate_limit to: 10, within: 10.minutes, only: :create, with: -> { too_many_attempts }
+
   def create
     code = params[:code].to_s.strip
 

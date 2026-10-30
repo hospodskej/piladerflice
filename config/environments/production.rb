@@ -73,6 +73,15 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "localhost") }
+
+  # Answer only for our own domain(s), e.g. APP_HOSTS="piladerflice.cz,www.piladerflice.cz"
+  # (falls back to APP_HOST): a forged Host header can't make the app build
+  # links or redirects to another site. The health check answers any host.
+  allowed_hosts = ENV.fetch("APP_HOSTS", ENV.fetch("APP_HOST", "")).split(",").map(&:strip).compact_blank
+  if allowed_hosts.any?
+    config.hosts.concat(allowed_hosts)
+    config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  end
   config.action_mailer.delivery_method = :smtp
   smtp_port = ENV.fetch("SMTP_PORT", 587).to_i
   config.action_mailer.smtp_settings = {

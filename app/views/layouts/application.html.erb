@@ -18,7 +18,7 @@
     <meta name="theme-preference" content="<%= current_user.theme %>" data-url="<%= account_theme_path %>">
   <% end %>
 
-  <script>
+  <script nonce="<%= content_security_policy_nonce %>">
     (function () {
       var saved = document.querySelector('meta[name="theme-preference"]');
       var theme = saved && saved.content;
@@ -31,7 +31,7 @@
   </script>
 
   <% ga_measurement_id = "G-CMJ46E7F3G" %>
-  <script>
+  <script nonce="<%= content_security_policy_nonce %>">
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
 
@@ -43,8 +43,8 @@
       analytics_storage: storedConsent === "all" ? "granted" : "denied"
     });
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_measurement_id %>"></script>
-  <script>
+  <script async nonce="<%= content_security_policy_nonce %>" src="https://www.googletagmanager.com/gtag/js?id=<%= ga_measurement_id %>"></script>
+  <script nonce="<%= content_security_policy_nonce %>">
     gtag("js", new Date());
     gtag("config", "<%= ga_measurement_id %>");
   </script>

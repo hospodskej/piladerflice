@@ -1,29 +1,38 @@
-# Be sure to restart your server when you modify this file.
+# Content-Security-Policy: the browser runs only our own scripts (and Google
+# Analytics), so injected HTML can't run a script or send data elsewhere.
+# See https://guides.rubyonrails.org/security.html#content-security-policy-header
 
-# Define an application-wide content security policy.
-# See the Securing Rails Applications Guide for more information:
-# https://guides.rubyonrails.org/security.html#content-security-policy-header
+Rails.application.configure do
+  # Where Google Analytics sends its measurements (www.google.com/g/collect
+  # with consent mode).
+  google_analytics = %w[https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com]
 
-# Rails.application.configure do
-#   config.content_security_policy do |policy|
-#     policy.default_src :self, :https
-#     policy.font_src    :self, :https, :data
-#     policy.img_src     :self, :https, :data
-#     policy.object_src  :none
-#     policy.script_src  :self, :https
-#     policy.style_src   :self, :https
-#     # Specify URI for violation reports
-#     # policy.report_uri "/csp-violation-report-endpoint"
-#   end
-#
-#   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
-#   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-#   config.content_security_policy_nonce_directives = %w(script-src style-src)
-#
-#   # Automatically add `nonce` to `javascript_tag`, `javascript_include_tag`, and `stylesheet_link_tag`
-#   # if the corresponding directives are specified in `content_security_policy_nonce_directives`.
-#   # config.content_security_policy_nonce_auto = true
-#
-#   # Report violations without enforcing the policy.
-#   # config.content_security_policy_report_only = true
-# end
+  config.content_security_policy do |policy|
+    policy.default_src :self
+    policy.script_src  :self, "https://www.googletagmanager.com"
+    policy.connect_src :self, *google_analytics
+    policy.img_src     :self, :data, *google_analytics
+    # style="" attributes are used throughout; styles can't run code.
+    policy.style_src   :self, :unsafe_inline
+    policy.font_src    :self, :data
+    policy.frame_src   "https://www.google.com" # the map in the footer
+    policy.object_src  :none
+    policy.base_uri    :self
+    policy.form_action :self
+    policy.frame_ancestors :self
+  end
+
+  # Our few inline scripts (theme, Google Analytics, the purchase event) carry
+  # this nonce. On pages it is random and stays the same for the whole visit,
+  # because Turbo keeps the first page's policy while it swaps pages. Other
+  # responses (sitemap, robots.txt, images) get a one-off one, so they don't
+  # start a session.
+  config.content_security_policy_nonce_generator = lambda do |request|
+    if request.format.html?
+      request.session[:csp_nonce] ||= SecureRandom.base64(18)
+    else
+      SecureRandom.base64(18)
+    end
+  end
+  config.content_security_policy_nonce_directives = %w[script-src]
+end

@@ -92,7 +92,6 @@ de:
     too_many_attempts: "Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten erneut."
 
   auth:
-    registration_combination_invalid: "Diese Kombination aus E-Mail und Passwort ist nicht korrekt. Wenn Sie bereits ein Konto haben, melden Sie sich an oder setzen Sie Ihr Passwort zurück."
     reset:
       forgot_link: "Passwort vergessen?"
       forgot_title: "Passwort vergessen"
@@ -113,13 +112,6 @@ de:
       mail_button: "Neues Passwort festlegen"
       mail_expiry: "Der Link ist 15 Minuten und nur einmal gültig."
       mail_ignore: "Wenn Sie kein neues Passwort angefordert haben, ignorieren Sie diese E-Mail – Ihr Passwort bleibt unverändert."
-    account_exists:
-      mail_subject: "Registrierungsversuch – Pila Derflice"
-      mail_title: "Mit dieser E-Mail-Adresse haben Sie bereits ein Konto"
-      mail_intro: "Jemand (vermutlich Sie) hat gerade versucht, sich mit dieser E-Mail-Adresse zu registrieren. Das Konto existiert bereits, Sie können sich einfach anmelden."
-      mail_login: "Anmelden"
-      mail_reset: "Passwort vergessen? Neues festlegen"
-      mail_ignore: "Wenn Sie das nicht waren, ignorieren Sie diese E-Mail – ohne Passwort kommt niemand in Ihr Konto."
     login_title: "Anmeldung"
     password: "Passwort"
     password_confirmation: "Passwort wiederholen"

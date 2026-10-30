@@ -1,16 +1,12 @@
 # "Nejprodávanější": products ranked by how much of them was ordered over
-# the last 3 months. Until the shop has a few orders, the hand-picked fallback
-# order is used instead, so one order doesn't reshuffle the whole list.
+# the last 3 months. Products that sold nothing yet keep the hand-picked
+# order below the ones that did.
 module Bestsellers
   PERIOD = 3.months
-  MIN_ORDERS = 5
 
-  # Product key => quantity ordered; empty while there are too few orders.
+  # Product key => quantity ordered in the last 3 months.
   def self.sold_quantities
-    orders = Order.where(created_at: PERIOD.ago..)
-    return {} if orders.count < MIN_ORDERS
-
-    orders.pluck(:items_snapshot).each_with_object(Hash.new(0)) do |snapshot, sold|
+    Order.where(created_at: PERIOD.ago..).pluck(:items_snapshot).each_with_object(Hash.new(0)) do |snapshot, sold|
       JSON.parse(snapshot).each { |item| sold[item["product_key"]] += item["quantity"].to_i }
     rescue JSON::ParserError
       next

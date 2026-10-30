@@ -60,6 +60,10 @@ Rails.application.routes.draw do
     get "prihlaseni", to: "sessions#new", as: :login
     post "prihlaseni", to: "sessions#create", as: :session
     delete "odhlaseni", to: "sessions#destroy", as: :logout
+    get "zapomenute-heslo", to: "passwords#new", as: :new_password
+    post "zapomenute-heslo", to: "passwords#create", as: :passwords
+    get "nove-heslo", to: "passwords#edit", as: :edit_password
+    patch "nove-heslo", to: "passwords#update", as: :password
     get "registrace", to: "registrations#new", as: :new_registration
     post "registrace", to: "registrations#create", as: :registrations
     get "muj-ucet", to: "accounts#show", as: :account

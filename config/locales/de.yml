@@ -68,6 +68,10 @@ de:
       title: "Danke für Ihre Bestellung"
     login:
       title: "Anmeldung"
+    forgot_password:
+      title: "Passwort vergessen"
+    reset_password:
+      title: "Neues Passwort"
     register:
       title: "Registrierung"
     account:
@@ -88,6 +92,34 @@ de:
     too_many_attempts: "Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten erneut."
 
   auth:
+    registration_combination_invalid: "Diese Kombination aus E-Mail und Passwort ist nicht korrekt. Wenn Sie bereits ein Konto haben, melden Sie sich an oder setzen Sie Ihr Passwort zurück."
+    reset:
+      forgot_link: "Passwort vergessen?"
+      forgot_title: "Passwort vergessen"
+      forgot_intro: "Geben Sie die E-Mail-Adresse Ihres Kontos ein. Wir senden Ihnen einen Link zum Festlegen eines neuen Passworts."
+      forgot_submit: "Link senden"
+      back_to_login: "Zurück zur Anmeldung"
+      sent: "Falls ein Konto mit dieser E-Mail-Adresse existiert, haben wir Ihnen einen Link für ein neues Passwort gesendet. Er ist 15 Minuten gültig."
+      invalid: "Der Link ist nicht mehr gültig. Er gilt 15 Minuten und nur einmal – lassen Sie sich einen neuen senden."
+      new_title: "Neues Passwort"
+      new_intro: "Legen Sie ein neues Passwort für das Konto %{email} fest."
+      new_password: "Neues Passwort (mind. 8 Zeichen)"
+      new_submit: "Neues Passwort speichern"
+      blank: "Bitte geben Sie ein neues Passwort ein."
+      done: "Das Passwort wurde geändert. Melden Sie sich mit dem neuen Passwort an – auf anderen Geräten wurden Sie abgemeldet."
+      mail_subject: "Neues Passwort – Pila Derflice"
+      mail_title: "Neues Passwort festlegen"
+      mail_intro: "Jemand (vermutlich Sie) hat ein neues Passwort für Ihr Konto auf piladerflice.cz angefordert. Über diesen Link legen Sie es fest:"
+      mail_button: "Neues Passwort festlegen"
+      mail_expiry: "Der Link ist 15 Minuten und nur einmal gültig."
+      mail_ignore: "Wenn Sie kein neues Passwort angefordert haben, ignorieren Sie diese E-Mail – Ihr Passwort bleibt unverändert."
+    account_exists:
+      mail_subject: "Registrierungsversuch – Pila Derflice"
+      mail_title: "Mit dieser E-Mail-Adresse haben Sie bereits ein Konto"
+      mail_intro: "Jemand (vermutlich Sie) hat gerade versucht, sich mit dieser E-Mail-Adresse zu registrieren. Das Konto existiert bereits, Sie können sich einfach anmelden."
+      mail_login: "Anmelden"
+      mail_reset: "Passwort vergessen? Neues festlegen"
+      mail_ignore: "Wenn Sie das nicht waren, ignorieren Sie diese E-Mail – ohne Passwort kommt niemand in Ihr Konto."
     login_title: "Anmeldung"
     password: "Passwort"
     password_confirmation: "Passwort wiederholen"

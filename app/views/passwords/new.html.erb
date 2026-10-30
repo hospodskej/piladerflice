@@ -1,0 +1,22 @@
+<% page_meta :forgot_password %>
+<main class="main">
+  <section class="auth-section">
+    <div class="auth-box">
+      <h1 class="auth-box-title"><%= t("auth.reset.forgot_title") %></h1>
+      <div class="auth-box-body">
+        <p class="auth-privacy-note"><%= t("auth.reset.forgot_intro") %></p>
+        <%= form_with url: passwords_path, method: :post, class: "auth-form" do %>
+          <div class="form-group">
+            <label for="email_address"><%= t("kontakt.form_email") %></label>
+            <input type="email" name="email_address" id="email_address" required autofocus autocomplete="email">
+          </div>
+          <%= submit_tag t("auth.reset.forgot_submit"), class: "btn-primary auth-submit" %>
+        <% end %>
+
+        <p class="auth-switch">
+          <%= link_to t("auth.reset.back_to_login"), login_path %>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>

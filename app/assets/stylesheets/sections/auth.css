@@ -45,6 +45,12 @@
     color: #666666;
 }
 
+.auth-forgot {
+    margin: 12px 0 0;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 .auth-switch {
     margin: 20px 0 0;
     font-size: 0.95rem;

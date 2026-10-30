@@ -92,7 +92,6 @@ cs:
     too_many_attempts: "Příliš mnoho pokusů za krátkou dobu. Zkuste to prosím za pár minut znovu."
 
   auth:
-    registration_combination_invalid: "Tato kombinace e-mailu a hesla není správná. Pokud už u nás účet máte, přihlaste se nebo si obnovte heslo."
     reset:
       forgot_link: "Zapomněli jste heslo?"
       forgot_title: "Zapomenuté heslo"
@@ -113,13 +112,6 @@ cs:
       mail_button: "Nastavit nové heslo"
       mail_expiry: "Odkaz platí 15 minut a jen jednou."
       mail_ignore: "Pokud jste o nové heslo nežádali, e-mail ignorujte – vaše heslo zůstává beze změny."
-    account_exists:
-      mail_subject: "Pokus o registraci – Pila Derflice"
-      mail_title: "S tímto e-mailem už u nás účet máte"
-      mail_intro: "Někdo (nejspíš vy) se právě pokusil zaregistrovat s tímto e-mailem. Účet už ale existuje, takže se stačí přihlásit."
-      mail_login: "Přihlásit se"
-      mail_reset: "Nepamatujete si heslo? Nastavte si nové"
-      mail_ignore: "Pokud jste to nebyli vy, e-mail ignorujte – k účtu se bez hesla nikdo nedostane."
     login_title: "Přihlášení"
     password: "Heslo"
     password_confirmation: "Heslo znovu"

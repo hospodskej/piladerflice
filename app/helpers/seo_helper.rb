@@ -1,3 +1,6 @@
+# TODO: SEO still open, once the site is live: one h1 per page (some pages have
+# none, the home page has several) and image alt texts on the main pages; run
+# Lighthouse / PageSpeed on the live site and fix what it flags.
 module SeoHelper
   # The German version is for Austria.
   HREFLANG = { "cs" => "cs", "de" => "de-AT" }.freeze

@@ -14,6 +14,9 @@ class SessionsController < ApplicationController
     # password, so the answer time doesn't tell which e-mails have accounts.
     user = User.authenticate_by(email_address: params[:email_address].to_s, password: params[:password].to_s)
 
+    # TODO: Two-step login for admin accounts. After the password, a second step:
+    # a 6-digit code from an authenticator app (Google / Microsoft Authenticator)
+    # with one-time recovery codes, or a code sent by e-mail. Not decided yet which.
     if user
       start_new_session_for(user)
       redirect_to(session.delete(:return_to_after_authenticating) || account_path)

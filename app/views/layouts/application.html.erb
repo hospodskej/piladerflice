@@ -30,6 +30,17 @@
     })();
   </script>
 
+  <%# TODO: Google Search Console, once the site is live: add the live domain at
+      https://search.google.com/search-console and verify it (the DNS TXT record
+      needs no code; the HTML-tag option means adding Google's
+      google-site-verification meta tag here), submit sitemap.xml, and later
+      check the Pages report for pages Google couldn't index. %>
+  <%# TODO: Google Analytics has never been checked against live traffic. Once
+      live: confirm G-CMJ46E7F3G belongs to the right property and its data
+      stream points at the live domain; accept cookies and check the Realtime
+      report; place a test order and check the purchase event arrives (mark it
+      as a key event if wanted); set Data retention to match the privacy policy
+      (up to 14 months); link the property to Search Console. %>
   <% ga_measurement_id = "G-CMJ46E7F3G" %>
   <script nonce="<%= content_security_policy_nonce %>">
     window.dataLayer = window.dataLayer || [];
@@ -77,5 +88,9 @@
 <%= render "shared/mobile_sidebar" %>
 <%= render "shared/cookie_consent" %>
 <div id="cart-added-modal"></div>
+<%# TODO: AI chatbot answering customers' product/order questions. Leaning
+    towards Python (Django) as its own separate app, embedded here; scope (what
+    it answers, whether it can place orders) still undecided. /llms.txt already
+    describes the business and catalogue for AI assistants. %>
 </body>
 </html>

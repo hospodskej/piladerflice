@@ -1,3 +1,6 @@
+# TODO: On-site customer reviews. Today this only holds imported Google reviews.
+# Let buyers leave their own review, tied to their account and an order for
+# that product, with light moderation before it goes public.
 class Review < ApplicationRecord
   AVATAR_COLORS = [ "#4285F4", "#EA4335", "#9C27B0", "#0F9D58", "#F4B400", "#FF7043", "#00ACC1", "#8E24AA" ].freeze
 

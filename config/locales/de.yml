@@ -429,6 +429,14 @@ de:
       faq_doprava_q1: "Wie läuft die Lieferung ab?"
       faq_doprava_a1: "Wir liefern das Holz mit eigenen Fahrzeugen direkt zu Ihnen nach Hause oder auf die Baustelle. Der Lieferpreis richtet sich nach Entfernung und bestellter Menge, damit er für Sie möglichst günstig ist."
       faq_doprava_q2: "Wie hoch ist die Mindestmenge für eine Bestellung mit Lieferung?"
+      # TODO: Three delivery FAQ answers on the home page are still Lorem ipsum
+      # (a2, a3, a4, in cs.yml and de.yml):
+      #   a2 minimum order with delivery: the owner decides (none, e.g. 5 PRM,
+      #      or depending on the distance)
+      #   a3 how long delivery takes: the owner decides (e.g. "usually within a
+      #      week of confirming the order")
+      #   a4 payment: cash when picking up at the sawmill, or bank transfer
+      #      against a proforma invoice
       faq_doprava_a2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       faq_doprava_q3: "Wie lange dauert es, bis das Holz ankommt?"
       faq_doprava_a3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
@@ -859,6 +867,10 @@ de:
       <p>Sie können Ihre Auswahl jederzeit über den Link „Cookie-Einstellungen" in der Fußzeile ändern.</p>
 
     privacy_title: "Datenschutzerklärung"
+    # TODO: The privacy policy was written before the site was live. Once it is,
+    # add the real hosting and e-mail providers, confirm the retention periods
+    # and the Google Analytics retention setting, and have it reviewed (ideally
+    # by a lawyer).
     privacy_content_html: |
       <p>Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir beim Betrieb der Website piladerflice.cz verarbeiten, zu welchem Zweck und auf welcher Rechtsgrundlage, an wen wir sie weitergeben und welche Rechte Sie haben. Wir verarbeiten Ihre Daten gemäß der Verordnung (EU) 2016/679 (DSGVO) und dem tschechischen Gesetz Nr. 110/2019 Slg. über die Verarbeitung personenbezogener Daten.</p>
       <p>Zuletzt aktualisiert: 14. 10. 2026.</p>

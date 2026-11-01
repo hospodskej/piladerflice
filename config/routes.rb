@@ -22,6 +22,13 @@ Rails.application.routes.draw do
   get "llms.txt", to: "llms#show", as: :llms, defaults: { format: :text }
 
   # The admin area is Czech only.
+  # TODO: Internal team app - a separate tool for the team, connected to the live
+  # orders, catalogue and stock (not a synced copy):
+  #   - team communication + a task list
+  #   - tablet-friendly quick order entry by product number, for orders in person
+  #     or over the phone
+  # Leaning towards Rails (same stack, shares the models and business logic
+  # directly), as its own app or a subdomain of this one.
   namespace :admin do
     root to: "dashboard#index"
     resources :orders, only: [:index, :show, :destroy]

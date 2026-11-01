@@ -1,5 +1,9 @@
 <div id="cart-page-contents">
   <% if current_cart.empty? %>
+    <%# TODO: Use the unused mascots (app/assets/images/mascot/: waving,
+        hands-on-hips) here on the empty cart, in loading states and in the
+        "O nás" section. The shrugging one is on the 404 page, thumbs-up on the
+        order confirmation. %>
     <p class="cart-empty"><%= t("cart.empty") %></p>
     <%= link_to t("nav.eshop"), eshop_path, class: "btn-primary" %>
   <% else %>

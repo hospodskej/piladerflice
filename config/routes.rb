@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "robots.txt", to: "robots#show", defaults: { format: :text }
   get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: :xml }
   get "llms.txt", to: "llms#show", as: :llms, defaults: { format: :text }
+  get "naseptavac-adres", to: "address_suggestions#index", as: :address_suggestions, defaults: { format: :json }
 
   # The admin area is Czech only.
   # TODO: Internal team app - a separate tool for the team, connected to the live

@@ -75,7 +75,36 @@ class DeliveryRouteService
       nil
     end
 
+    # Suggestions while typing: towns ("place", the "Kam vozíme?" box) or
+    # addresses ("address", the checkout). Nearest to the sawmill first.
+    # Returns up to 8 of { label:, street:, city:, zip:, country: }, or [] on
+    # any problem (no key, too short, service down), so typing still works.
+    def suggest(text:, country:, kind:)
+      country = country.to_s.downcase
+      text = text.to_s.squish
+      return [] if api_key.blank? || text.length < 3 || text.length > 80 || !COUNTRIES.include?(country)
+
+      layers = kind.to_s == "address" ? "address,street" : PLACE_LAYERS
+      Rails.cache.fetch(["delivery_suggest", kind, country, text.downcase].join("|"), expires_in: 1.day) do
+        params = { :api_key => api_key, :text => text, "boundary.country" => country.upcase, :layers => layers,
+                   "focus.point.lon" => ORIGIN[0], "focus.point.lat" => ORIGIN[1] }
+        features = fetcher.call("#{BASE_URL}/geocode/autocomplete?#{params.to_query}").fetch("features", [])
+        features.first(8).filter_map { |feature| suggestion(feature["properties"] || {}, country) }.uniq { |found| found[:label] }
+      end
+    rescue StandardError => e
+      Rails.logger.warn("[DeliveryRouteService] no suggestions for #{text} (#{country}): #{e.class}: #{e.message}")
+      []
+    end
+
     private
+
+    def suggestion(properties, country)
+      city = properties["locality"].presence || properties["localadmin"].presence || properties["name"].presence
+      return unless city
+
+      street = [properties["street"], properties["housenumber"]].compact_blank.join(" ").presence
+      { label: properties["label"].presence || city, street: street, city: city, zip: properties["postalcode"], country: country }
+    end
 
     def geocode_place(query, country)
       params = { :api_key => api_key, :text => query, "boundary.country" => country.upcase, :layers => PLACE_LAYERS, :size => 1 }

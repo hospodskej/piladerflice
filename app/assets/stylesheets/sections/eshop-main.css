@@ -252,9 +252,15 @@ a.product-image-wrapper-eshop {
     color: inherit;
 }
 
-.delivery-estimate-form input {
+/* The town field and its suggestions list (.address-suggestions). */
+.delivery-estimate-place {
     flex: 1 1 200px;
     min-width: 0;
+}
+
+.delivery-estimate-form input {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .delivery-estimate-form button {
@@ -294,7 +300,7 @@ a.product-image-wrapper-eshop {
 
 /* Phones: the place on its own line, the country and the button below it. */
 @media (max-width: 600px) {
-    .delivery-estimate-form input {
+    .delivery-estimate-place {
         flex-basis: 100%;
     }
 

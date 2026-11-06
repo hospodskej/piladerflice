@@ -46,10 +46,13 @@
         <div class="checkout-box">
           <h3 class="checkout-box-title"><%= t("checkout.billing_details") %></h3>
           <div class="checkout-box-body">
-            <div class="checkout-form-grid">
+            <div class="checkout-form-grid"
+                 data-controller="address-autocomplete" data-address-autocomplete-url-value="<%= address_suggestions_path %>"
+                 data-address-autocomplete-city-value="#billing_city" data-address-autocomplete-zip-value="#billing_zip"
+                 data-address-autocomplete-country-value="#billing_country">
               <div class="form-group form-group-wide">
                 <label for="billing_street"><%= t("checkout.street_and_number") %></label>
-                <input type="text" name="billing_street" id="billing_street" value="<%= current_checkout["billing_street"] %>" required>
+                <input type="text" name="billing_street" id="billing_street" value="<%= current_checkout["billing_street"] %>" required data-address-autocomplete-target="input">
               </div>
               <div class="form-group">
                 <label for="billing_city"><%= t("kontakt.form_mesto") %></label>
@@ -106,10 +109,13 @@
               <span class="custom-checkbox"></span>
               <span><%= t("checkout.delivery_address_different") %></span>
             </label>
-            <div class="checkout-form-grid">
+            <div class="checkout-form-grid"
+                 data-controller="address-autocomplete" data-address-autocomplete-url-value="<%= address_suggestions_path %>"
+                 data-address-autocomplete-city-value="#delivery_city" data-address-autocomplete-zip-value="#delivery_zip"
+                 data-address-autocomplete-country-value="#delivery_country">
               <div class="form-group form-group-wide">
                 <label for="delivery_street"><%= t("checkout.street_and_number") %></label>
-                <input type="text" name="delivery_street" id="delivery_street" value="<%= current_checkout["delivery_street"] %>">
+                <input type="text" name="delivery_street" id="delivery_street" value="<%= current_checkout["delivery_street"] %>" data-address-autocomplete-target="input">
               </div>
               <div class="form-group">
                 <label for="delivery_city"><%= t("kontakt.form_mesto") %></label>

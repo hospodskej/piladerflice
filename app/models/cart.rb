@@ -73,6 +73,14 @@ class Cart
     (subtotal_czk / (1 + VAT_RATE)).round
   end
 
+  # TODO: Minimum order with a progress bar in the cart ("Zbývá 701,20 Kč do
+  # minimálního nákupu"). Štěpán wants it but says it still needs thinking
+  # through. Open questions before building it:
+  # - Is the minimum in Kč or in PRM / m³?
+  # - Does it depend on distance (bands by km from Derflice)? If so, the bar
+  #   can only show once the customer has typed a place in "Kam vozíme?".
+  # - Does personal pickup in Derflice have a minimum?
+  # - Under the minimum: block "Pokračovat", or just warn?
   # Goods after the discount code, incl. VAT.
   def total_czk
     subtotal_czk - discount_czk

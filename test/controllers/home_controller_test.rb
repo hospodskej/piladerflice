@@ -69,6 +69,15 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_equal [smrk.title, "Dub test"], css_select("h4.product-title").map { |el| el.text.strip }
   end
 
+  test "the hero buttons read Do eshopu and Objednávka" do
+    get root_url
+    assert_select ".btn-eshop", text: "DO ESHOPU"
+    assert_select ".btn-vyroba[href='/kontakt#kalkulace']", text: "OBJEDNÁVKA"
+
+    get "/at"
+    assert_select ".btn-vyroba", text: "BESTELLUNG"
+  end
+
   test "product pages render every display template" do
     %i[smrk tramy odkory].each do |name|
       product = catalog_products(name)

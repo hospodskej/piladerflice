@@ -289,4 +289,30 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_select ".form-error li", text: /JEDNOU teď nelze uplatnit: Tento slevový kód už byl vyčerpán/
   end
+
+  test "the customer is asked not to pay before the order is confirmed: summary, thank-you page and e-mail" do
+    submit_shipping(payment_method: "bank_transfer")
+    submit_details
+
+    get checkout_summary_path
+    assert_select ".pay-later-note", text: /Nic neplaťte, dokud se vám neozveme/
+
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+    follow_redirect!
+    assert_select ".pay-later-notice strong", text: "Zatím prosím nic neplaťte"
+    assert_select ".pay-later-notice p", text: /pošleme proformu/
+
+    mail = ActionMailer::Base.deliveries.last.text_part.body.to_s
+    assert_includes mail, "ZATÍM PROSÍM NIC NEPLAŤTE"
+    assert_includes mail, "pošleme proformu"
+  end
+
+  test "paying cash, the notice says payment is on handover" do
+    submit_shipping(payment_method: "cash")
+    submit_details
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+    follow_redirect!
+
+    assert_select ".pay-later-notice p", text: /Platíte až hotově při převzetí/
+  end
 end

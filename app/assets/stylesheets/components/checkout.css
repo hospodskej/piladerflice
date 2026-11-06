@@ -623,6 +623,29 @@
     line-height: 1.5;
 }
 
+/* "Zatím prosím nic neplaťte" on the thank-you page. */
+.pay-later-notice {
+    margin: -10px 0 30px 0;
+    padding: 14px 18px;
+    text-align: left;
+    background-color: #FFF8E1;
+    border-left: 4px solid #F5A623;
+    border-radius: 6px;
+}
+
+.checkout-confirmation-box .pay-later-notice p {
+    margin: 6px 0 0 0;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+/* The same, short, above the "I agree" box on the summary page. */
+.pay-later-note {
+    margin: 0 0 14px 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
 @media (max-width: 900px) {
     .checkout-layout {
         grid-template-columns: 1fr;
@@ -682,4 +705,39 @@
         width: 100%;
         box-sizing: border-box;
     }
+}
+
+/* Address / town suggestions while typing (address_autocomplete_controller.js). */
+.address-autocomplete {
+    position: relative;
+}
+
+.address-suggestions {
+    position: absolute;
+    z-index: 50;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 4px 0 0 0;
+    padding: 4px 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-height: 320px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.address-suggestions li {
+    padding: 9px 14px;
+    font-size: 0.95rem;
+    color: #222222;
+    cursor: pointer;
+}
+
+.address-suggestions li:hover,
+.address-suggestions li[aria-selected="true"] {
+    background-color: #EEF5FF;
 }

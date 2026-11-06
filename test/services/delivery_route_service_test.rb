@@ -88,4 +88,46 @@ class DeliveryRouteServiceTest < ActiveSupport::TestCase
     fake_route(coordinates: nil)
     assert_nil DeliveryRouteService.estimate(query: "Neexistuje", country: "cz")
   end
+
+  def fake_autocomplete(features)
+    fake_route do |url|
+      @fake_route_urls << url
+      { "features" => features.map { |properties| { "properties" => properties } } }
+    end
+  end
+
+  test "suggests addresses near the sawmill first, with street, town and postcode" do
+    fake_autocomplete([
+      { "label" => "Hlavní 12, Znojmo, Czechia", "street" => "Hlavní", "housenumber" => "12", "locality" => "Znojmo", "postalcode" => "669 02" },
+      { "label" => "Hlavní, Brno, Czechia", "street" => "Hlavní", "locality" => "Brno" }
+    ])
+
+    found = DeliveryRouteService.suggest(text: "Hlavní", country: "cz", kind: "address")
+
+    assert_equal({ label: "Hlavní 12, Znojmo, Czechia", street: "Hlavní 12", city: "Znojmo", zip: "669 02", country: "cz" }, found.first)
+    assert_equal "Hlavní", found.second[:street]
+    url = @fake_route_urls.first
+    assert_includes url, "/geocode/autocomplete?"
+    assert_includes url, "layers=address%2Cstreet"
+    assert_includes url, "boundary.country=CZ"
+    assert_includes url, "focus.point.lat=48.80958"
+  end
+
+  test "town suggestions look for places only and are cached" do
+    fake_autocomplete([{ "label" => "Brno, Czechia", "locality" => "Brno" }])
+
+    2.times { assert_equal "Brno", DeliveryRouteService.suggest(text: "Brn", country: "cz", kind: "place").first[:city] }
+    assert_includes @fake_route_urls.first, "layers=locality"
+    assert_equal 1, @fake_route_urls.size
+  end
+
+  test "no suggestions for fewer than 3 letters, outside CZ and AT, or when the service fails" do
+    fake_autocomplete([{ "label" => "Brno", "locality" => "Brno" }])
+    assert_empty DeliveryRouteService.suggest(text: "Br", country: "cz", kind: "place")
+    assert_empty DeliveryRouteService.suggest(text: "Bratislava", country: "sk", kind: "place")
+    assert_empty @fake_route_urls
+
+    fake_route { |_url| raise "openrouteservice answered 503" }
+    assert_empty DeliveryRouteService.suggest(text: "Brno", country: "cz", kind: "place")
+  end
 end

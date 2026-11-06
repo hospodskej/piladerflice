@@ -942,3 +942,33 @@ html.dark-mode .variant-filter-option input:checked + .variant-filter-box {
 html.dark-mode .variant-filter-option input:checked + .variant-filter-box {
     border-color: #2C8FFF;
 }
+
+/* "Zatím prosím nic neplaťte" */
+html.dark-mode .pay-later-notice {
+    background-color: #3a3424;
+    border-left-color: #F5A623;
+}
+
+html.dark-mode .pay-later-notice strong {
+    color: #f2f3f5;
+}
+
+html.dark-mode .checkout-confirmation-box .pay-later-notice p,
+html.dark-mode .pay-later-note {
+    color: #c8ccd2;
+}
+
+/* Address suggestions */
+html.dark-mode .address-suggestions {
+    background-color: #2d2d30;
+    border-color: #4a4a50;
+}
+
+html.dark-mode .address-suggestions li {
+    color: #e8eaed;
+}
+
+html.dark-mode .address-suggestions li:hover,
+html.dark-mode .address-suggestions li[aria-selected="true"] {
+    background-color: #3e3e42;
+}

@@ -4,6 +4,9 @@
 
 <%= t("order_mailer.order_number") %>: #<%= @order.id %>
 
+<%= t("checkout.pay_later_title").upcase %>
+<%= t(@order.payment_method == "bank_transfer" ? "checkout.pay_later_bank_transfer" : "checkout.pay_later_cash") %>
+
 <% @lines.each do |line| %>
 - <%= line[:description] %> | <%= line[:quantity] %>x | <%= line[:unit_price] %> | <%= line[:line_total] %>
 <% end %>

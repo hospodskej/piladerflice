@@ -16,10 +16,15 @@
       <%= button_to t("delivery_estimate.change"), delivery_estimate_path, method: :delete, class: "delivery-estimate-change" %>
     <% else %>
       <p><%= t("shared.delivery_note_html", rate: cart_price(Setting.delivery_czk_per_km)) %></p>
-      <%= form_with url: delivery_estimate_path, method: :post, class: "delivery-estimate-form" do %>
+      <%= form_with url: delivery_estimate_path, method: :post, class: "delivery-estimate-form",
+                    data: { controller: "address-autocomplete", address_autocomplete_url_value: address_suggestions_path,
+                            address_autocomplete_kind_value: "place", address_autocomplete_country_value: "#delivery-estimate-country",
+                            address_autocomplete_submit_on_pick_value: true } do %>
         <label class="visually-hidden" for="delivery-estimate-query"><%= t("delivery_estimate.query_label") %></label>
-        <input type="text" id="delivery-estimate-query" name="query" required maxlength="80" autocomplete="address-level2"
-               placeholder="<%= t("delivery_estimate.query_placeholder") %>" value="<%= current_user&.billing_city %>">
+        <div class="delivery-estimate-place">
+          <input type="text" id="delivery-estimate-query" name="query" required maxlength="80" data-address-autocomplete-target="input"
+                 placeholder="<%= t("delivery_estimate.query_placeholder") %>" value="<%= current_user&.billing_city %>">
+        </div>
         <label class="visually-hidden" for="delivery-estimate-country"><%= t("checkout.country_field") %></label>
         <select id="delivery-estimate-country" name="country">
           <% country = current_user&.billing_country.presence || default_delivery_country %>

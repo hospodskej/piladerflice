@@ -655,17 +655,64 @@
         position: static;
     }
 
+    /* Each cart line becomes a card: product + remove on top, then
+       labelled rows (label left, value right), the total last and bold. */
     .checkout-cart-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "item remove"
+            "avail avail"
+            "qty qty"
+            "unit unit"
+            "excl excl"
+            "incl incl";
+        gap: 0 8px;
+        padding: 16px;
     }
 
     .checkout-cart-header {
         display: none;
     }
 
-    .col-item {
-        flex-wrap: wrap;
+    .checkout-cart-row .col-item { grid-area: item; margin-bottom: 8px; }
+    .checkout-cart-row .col-remove { grid-area: remove; align-self: start; }
+    .checkout-cart-row .col-avail { grid-area: avail; }
+    .checkout-cart-row .col-qty { grid-area: qty; }
+    .checkout-cart-row .col-unit-price { grid-area: unit; }
+    .checkout-cart-row .col-price-excl { grid-area: excl; }
+    .checkout-cart-row .col-price-incl { grid-area: incl; }
+
+    .checkout-cart-row [data-label] {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 0;
+        border-top: 1px solid #EEE;
+        font-size: 0.9rem;
+    }
+
+    .checkout-cart-row [data-label]::before {
+        content: attr(data-label);
+        color: #666;
+    }
+
+    .checkout-cart-row .col-price-incl {
+        font-size: 1rem;
+    }
+
+    .checkout-cart-row .col-price-incl::before {
+        color: #111;
+        font-weight: 700;
+    }
+
+    .checkout-cart-row .col-qty form {
+        display: contents;
+    }
+
+    .checkout-cart-row .qty-input {
+        width: 90px;
+        text-align: center;
     }
 
     .checkout-cart-footer {

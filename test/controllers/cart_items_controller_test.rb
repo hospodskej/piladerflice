@@ -15,6 +15,17 @@ class CartItemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @variant.price_czk, added["unit_price_czk"]
   end
 
+  test "cart lines carry labels for the phone layout" do
+    post cart_items_path, params: { catalog_variant_id: @variant.id }
+    get cart_path
+    assert_select ".checkout-cart-row:not(.checkout-cart-header)" do
+      assert_select ".col-qty[data-label=?]", "Množství"
+      assert_select ".col-unit-price[data-label=?]", "Jednotková cena"
+      assert_select ".col-price-excl[data-label=?]", "Cena bez DPH"
+      assert_select ".col-price-incl[data-label=?]", "Cena s DPH"
+    end
+  end
+
   test "create 404s for a variant belonging to an inactive product" do
     post cart_items_path, params: { catalog_variant_id: catalog_variants(:inactive_variant).id }
     assert_response :not_found

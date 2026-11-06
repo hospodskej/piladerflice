@@ -527,6 +527,20 @@ html.dark-mode .checkout-summary-full-item {
     border-bottom-color: #4a4a50;
 }
 
+@media (max-width: 900px) {
+    html.dark-mode .checkout-cart-row [data-label] {
+        border-top-color: #4a4a50;
+    }
+
+    html.dark-mode .checkout-cart-row [data-label]::before {
+        color: #a8adb5;
+    }
+
+    html.dark-mode .checkout-cart-row .col-price-incl::before {
+        color: #f2f3f5;
+    }
+}
+
 html.dark-mode .checkout-radio-note,
 html.dark-mode .checkout-billing-summary,
 html.dark-mode .checkout-confirmation-box p {

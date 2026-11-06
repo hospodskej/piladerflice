@@ -26,7 +26,7 @@
             <span class="cart-item-desc"><%= cart_line_description(item) %></span>
           </div>
 
-          <div class="col-qty">
+          <div class="col-qty" data-label="<%= t("cart.table_quantity") %>">
             <%= form_with url: cart_item_path(item.id), method: :patch, data: { controller: "auto-submit" } do %>
               <input type="number" name="quantity" value="<%= item.quantity %>" min="1" step="1"
                      class="qty-input" data-action="change->auto-submit#submit"
@@ -34,10 +34,10 @@
             <% end %>
           </div>
 
-          <div class="col-avail"><span class="text-green"><%= t("common.in_stock") %></span></div>
-          <div class="col-unit-price"><%= cart_price(item.unit_price_czk) %></div>
-          <div class="col-price-excl"><%= cart_price(line_excl_vat) %></div>
-          <div class="col-price-incl"><strong><%= cart_price(item.line_total_czk) %></strong></div>
+          <div class="col-avail" data-label="<%= t("cart.table_availability") %>"><span class="text-green"><%= t("common.in_stock") %></span></div>
+          <div class="col-unit-price" data-label="<%= t("cart.table_unit_price") %>"><%= cart_price(item.unit_price_czk) %></div>
+          <div class="col-price-excl" data-label="<%= t("cart.table_price_excl_vat") %>"><%= cart_price(line_excl_vat) %></div>
+          <div class="col-price-incl" data-label="<%= t("cart.table_price_incl_vat") %>"><strong><%= cart_price(item.line_total_czk) %></strong></div>
 
           <div class="col-remove">
             <%= button_to "×", cart_item_path(item.id), method: :delete, class: "cart-remove-btn", aria: { label: t("cart.remove_aria") } %>

@@ -1,0 +1,90 @@
+# Kamal: builds the Docker image, pushes it to GitHub's registry and runs it on
+# our server behind kamal-proxy, which gets the HTTPS certificate (Let's
+# Encrypt) and swaps containers with no downtime. See LAUNCH.md.
+#
+# Deploys normally run from GitHub (Actions → Deploy), which fills in the
+# variables below from the repository's settings. Nothing secret is in this file.
+#   SERVER_IP  the server's IPv4 address
+#   APP_HOSTS  the domains the site answers on, comma-separated, the main one
+#              first, e.g. "piladerflice.cz,www.piladerflice.cz"
+
+<% hosts = ENV.fetch("APP_HOSTS") { abort "Set APP_HOSTS, e.g. piladerflice.cz,www.piladerflice.cz" }.split(",").map(&:strip).reject(&:empty?) %>
+<% server_ip = ENV.fetch("SERVER_IP") { abort "Set SERVER_IP to the server's IP address" } %>
+
+service: piladerflice
+image: hospodskej/piladerflice
+
+servers:
+  web:
+    - <%= server_ip %>
+
+proxy:
+  ssl: true
+  hosts: <%= hosts.to_json %>
+  app_port: 80
+  healthcheck:
+    path: /up
+
+registry:
+  server: ghcr.io
+  username: hospodskej
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+ssh:
+  user: root
+
+env:
+  clear:
+    APP_HOST: <%= hosts.first %>
+    APP_HOSTS: <%= hosts.join(",") %>
+    RAILS_LOG_LEVEL: info
+    SMTP_ADDRESS: <%= ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com") %>
+    SMTP_PORT: "<%= ENV.fetch("SMTP_PORT", "587") %>"
+    MAIL_FROM_ADDRESS: <%= ENV.fetch("MAIL_FROM_ADDRESS", "objednavky@piladerflice.cz") %>
+  secret:
+    - SECRET_KEY_BASE
+    - SMTP_USERNAME
+    - SMTP_PASSWORD
+    - ORDER_NOTIFICATION_EMAIL
+    - ORS_API_KEY
+
+# The databases (orders, catalogue, cache) and uploaded photos live here and
+# survive deploys. Never delete this volume: it IS the shop.
+volumes:
+  - "piladerflice_storage:/rails/storage"
+
+# Old asset files stay available for a while after a deploy, so pages already
+# open in someone's browser don't lose their CSS and JS.
+asset_path: /rails/public/assets
+
+accessories:
+  # Nightly at 03:15 (Prague time): a copy of the database and the photos into
+  # /var/backups/piladerflice on the server, the last 14 days kept.
+  # See config/backup/backup.sh.
+  backup:
+    image: alpine:3.20
+    host: <%= server_ip %>
+    env:
+      clear:
+        TZ: Europe/Prague
+    files:
+      - config/backup/backup.sh:/backup.sh
+    volumes:
+      - "piladerflice_storage:/data"
+      - "/var/backups/piladerflice:/backups"
+    cmd: >-
+      sh -c "apk add --no-cache sqlite tzdata >/dev/null &&
+      echo '15 3 * * * TZ=Europe/Prague sh /backup.sh >> /backups/backup.log 2>&1' | crontab - &&
+      exec crond -f -l 8"
+
+# Shortcuts: bundle exec kamal console / shell / logs / dbconsole / backup-now
+aliases:
+  console: app exec --interactive --reuse "ruby bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbconsole: app exec --interactive --reuse "sqlite3 storage/production.sqlite3"
+  backup-now: accessory exec backup "sh /backup.sh"

@@ -7,3 +7,9 @@ db/schema.rb linguist-generated
 vendor/* linguist-vendored
 config/credentials/*.yml.enc diff=rails_credentials
 config/credentials.yml.enc diff=rails_credentials
+
+# Scripts that run inside the Linux container must keep Unix line endings,
+# even when checked out on Windows.
+bin/* text eol=lf
+Dockerfile text eol=lf
+config/backup/* text eol=lf

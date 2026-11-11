@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post "/rails/active_storage/direct_uploads", to: closed
   put "/rails/active_storage/disk/:encoded_token", to: closed
 
+  # Redirects from the old WordPress site's addresses and from www.
+  draw :legacy
+
   # The (Austrian) German site lives under /at (the Czech default has no prefix), so a
   # link always opens in the language it was shared in. Controllers add the
   # current locale to every generated URL (see default_url_options in

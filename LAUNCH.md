@@ -21,7 +21,8 @@ PowerShell (for one SSH key).
 
 ## 1. Server
 
-1. Create an account at [OVHcloud](https://www.ovhcloud.com/en/vps/) and order a **VPS-1** (2 vCores, 4 GB RAM, 40 GB NVMe, daily backup included). Hetzner's CX23 works the same way when it's in stock.
+1. Create an account at **European** [OVHcloud](https://www.ovhcloud.com/cs/vps/) and order a **VPS-1** (2 vCores, 4 GB RAM, 40 GB NVMe, daily backup included). Hetzner's CX23 works the same way when it's in stock.
+   Use the European site (`ovhcloud.com/cs/` or `/en-ie/`), not `ovhcloud.com/en/` with dollar prices: that's OVHcloud US, a separate company with US data centres only, and its accounts can't order European servers.
 2. Make an SSH key for deploys. In PowerShell on your computer:
    ```powershell
    ssh-keygen -t ed25519 -C "piladerflice deploy" -f $HOME\.ssh\piladerflice_deploy

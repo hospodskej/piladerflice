@@ -32,6 +32,12 @@ Before checkout, "Kam vozíme?" (the delivery note on the e-shop, product pages 
 
 The German (Austrian) site lives under `/at` (`/at/kontakt`, `/at/eshop/tramy`, ...), Czech has no prefix. Translations are German (`de` locale); `LocalizedPath::SEGMENTS` maps the locale to the URL prefix, and the alternates are announced as `de-AT`. The language comes from the URL only, so a shared link opens in the language it was shared in. Old `?locale=de` links redirect (301) to the `/at` URL. In views, link with the route helpers (language is added automatically) or, for stored or hand-written paths, with `localized_path("/kontakt#cenik")`. The admin area is Czech only.
 
+## Deployment
+
+The site runs on its own server in a Docker container, deployed with
+[Kamal](https://kamal-deploy.org) from GitHub Actions (Actions → Deploy).
+Step-by-step setup, the DNS switch and backups: [LAUNCH.md](LAUNCH.md).
+
 ## Security
 
 - **Repeated attempts** are limited per address (`rate_limit`): login 10 per 3 minutes (and 20 per hour against one account from any address), registration 5 per hour, discount codes 10 and delivery lookups 20 per 10 minutes, inquiries, orders and password-reset requests 5 per 10 minutes. Counters live in the Rails cache, which in production is a file store in `tmp/cache` shared by all server processes on the machine.

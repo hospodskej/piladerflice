@@ -1,3 +1,10 @@
+# The seeds start by deleting the catalogue, price list, promos and the rest.
+# On the live site that would wipe everything the admin has edited, so they
+# only run on an empty production database (or with FORCE_SEED=1).
+if Rails.env.production? && (Product.exists? || CatalogProduct.exists?) && ENV["FORCE_SEED"] != "1"
+  abort "The production database already has content; refusing to re-seed. Set FORCE_SEED=1 to wipe it and seed anyway."
+end
+
 puts "Clearing old records..."
 Product.destroy_all
 

@@ -1,0 +1,65 @@
+# Puts the current main branch on the live server. Start it by hand:
+# GitHub → Actions → Deploy → Run workflow. It runs the tests first and
+# deploys only if they pass. Setup (secrets, variables, SSH key): LAUNCH.md.
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+# One deploy at a time; a second one waits for the first to finish.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write # push the image to ghcr.io
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.6"
+          bundler-cache: true
+      - name: Tests
+        run: ruby bin/rails db:test:prepare test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-24.04
+    env:
+      SERVER_IP: ${{ vars.SERVER_IP }}
+      APP_HOSTS: ${{ vars.APP_HOSTS }}
+      SMTP_ADDRESS: ${{ vars.SMTP_ADDRESS }}
+      SMTP_PORT: ${{ vars.SMTP_PORT }}
+      MAIL_FROM_ADDRESS: ${{ vars.MAIL_FROM_ADDRESS }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      ORDER_NOTIFICATION_EMAIL: ${{ secrets.ORDER_NOTIFICATION_EMAIL }}
+      ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.6"
+          bundler-cache: true
+      - uses: docker/setup-buildx-action@v3
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Optional: with the server's host key saved in the SERVER_SSH_HOST_KEY
+      # variable, the deploy refuses to talk to any other machine.
+      - name: Trust the server's SSH key
+        if: vars.SERVER_SSH_HOST_KEY != ''
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ vars.SERVER_SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
+      # "setup" = install Docker if missing, start the backup job if it isn't
+      # running yet, then deploy. On later runs the first two are no-ops.
+      - name: Deploy
+        run: bundle exec kamal setup

@@ -42,11 +42,16 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     assert_nil session[:locale]
   end
 
-  test "an unknown language prefix is not a page, and /de isn't one: the German site is the Austrian one" do
-    %w[/fr/kontakt /de/kontakt /de].each do |path|
-      get path
-      assert_response :not_found, path
-    end
+  test "an unknown language prefix is not a page" do
+    get "/fr/kontakt"
+    assert_response :not_found
+  end
+
+  test "/de (the old WordPress site's German section) redirects to the Austrian site" do
+    get "/de/kontakt"
+    assert_redirected_to "/at/kontakt"
+    get "/de"
+    assert_redirected_to "/at"
   end
 
   # -- links stay in the language --------------------------------------------

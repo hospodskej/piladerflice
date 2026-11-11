@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+# Runs in the container before the server: creates the databases on the very
+# first start and applies any new migrations on every deploy.
+if [ "${1}" == "ruby" ] && [ "${2}" == "bin/rails" ] && [ "${3}" == "server" ]; then
+  ruby bin/rails db:prepare
+fi
+
+exec "${@}"

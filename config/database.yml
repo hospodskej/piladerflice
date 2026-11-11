@@ -26,6 +26,15 @@ test:
 #
 # Similarly, if you deploy your application as a Docker container, you must
 # ensure the database is located in a persisted volume.
+# In production storage/ is a Docker volume on the server (see config/deploy.yml),
+# so both databases survive deploys and restarts.
 production:
-  <<: *default
-  # database: path/to/persistent/storage/production.sqlite3
+  primary:
+    <<: *default
+    database: storage/production.sqlite3
+  # Solid Cache: sessions (carts, logins), rate limits and cached delivery
+  # estimates, kept apart so a full cache never touches the orders.
+  cache:
+    <<: *default
+    database: storage/production_cache.sqlite3
+    migrations_paths: db/cache_migrate

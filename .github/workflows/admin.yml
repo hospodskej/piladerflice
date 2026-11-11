@@ -20,6 +20,7 @@ jobs:
     env:
       SERVER_IP: ${{ vars.SERVER_IP }}
       APP_HOSTS: ${{ vars.APP_HOSTS }}
+      SSH_USER: ${{ vars.SSH_USER }}
       KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
     steps:

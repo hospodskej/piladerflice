@@ -7,9 +7,12 @@
 #   SERVER_IP  the server's IPv4 address
 #   APP_HOSTS  the domains the site answers on, comma-separated, the main one
 #              first, e.g. "piladerflice.cz,www.piladerflice.cz"
+#   SSH_USER   the server login, "root" if not set ("ubuntu" on OVH)
 
 <% hosts = ENV.fetch("APP_HOSTS") { abort "Set APP_HOSTS, e.g. piladerflice.cz,www.piladerflice.cz" }.split(",").map(&:strip).reject(&:empty?) %>
 <% server_ip = ENV.fetch("SERVER_IP") { abort "Set SERVER_IP to the server's IP address" } %>
+<%# An unset GitHub variable arrives as an empty string, so empty counts as unset. %>
+<% setting = ->(name, default) { value = ENV[name].to_s.strip; value.empty? ? default : value } %>
 
 service: piladerflice
 image: hospodskej/piladerflice
@@ -35,16 +38,16 @@ builder:
   arch: amd64
 
 ssh:
-  user: root
+  user: <%= setting.("SSH_USER", "root") %>
 
 env:
   clear:
     APP_HOST: <%= hosts.first %>
     APP_HOSTS: <%= hosts.join(",") %>
     RAILS_LOG_LEVEL: info
-    SMTP_ADDRESS: <%= ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com") %>
-    SMTP_PORT: "<%= ENV.fetch("SMTP_PORT", "587") %>"
-    MAIL_FROM_ADDRESS: <%= ENV.fetch("MAIL_FROM_ADDRESS", "objednavky@piladerflice.cz") %>
+    SMTP_ADDRESS: <%= setting.("SMTP_ADDRESS", "smtp.gmail.com") %>
+    SMTP_PORT: "<%= setting.("SMTP_PORT", "587") %>"
+    MAIL_FROM_ADDRESS: <%= setting.("MAIL_FROM_ADDRESS", "objednavky@piladerflice.cz") %>
   secret:
     - SECRET_KEY_BASE
     - SMTP_USERNAME

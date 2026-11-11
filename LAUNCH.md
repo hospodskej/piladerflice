@@ -6,7 +6,7 @@ PowerShell (for one SSH key).
 
 **How it fits together**
 
-- One small Linux server (Hetzner or OVH, ~150 Kč a month) runs the site in a
+- One small Linux server (OVHcloud VPS-1, ~110 Kč a month) runs the site in a
   Docker container.
 - **Deploy:** GitHub → Actions → **Deploy** → Run workflow.
   - It runs the tests first. If they pass, Kamal builds the image, uploads it to GitHub's registry, and swaps it in on the server with no downtime.
@@ -21,7 +21,7 @@ PowerShell (for one SSH key).
 
 ## 1. Server
 
-1. Create an account at [Hetzner Cloud](https://console.hetzner.cloud) (or OVHcloud).
+1. Create an account at [OVHcloud](https://www.ovhcloud.com/en/vps/) and order a **VPS-1** (2 vCores, 4 GB RAM, 40 GB NVMe, daily backup included). Hetzner's CX23 works the same way when it's in stock.
 2. Make an SSH key for deploys. In PowerShell on your computer:
    ```powershell
    ssh-keygen -t ed25519 -C "piladerflice deploy" -f $HOME\.ssh\piladerflice_deploy
@@ -30,14 +30,17 @@ PowerShell (for one SSH key).
    It makes two files:
    - `piladerflice_deploy.pub` is the **public** half. It goes on the server.
    - `piladerflice_deploy` is the **private** half. It goes into GitHub secrets and nowhere else.
-3. Create the server:
+3. Configure the server:
    - **Image:** Ubuntu 24.04.
-   - **Type:** x86 (Intel/AMD), 2 vCPU / 4 GB RAM, e.g. Hetzner **CX23**. Not ARM (CAX): the image is built for x86.
-   - **Location:** Nuremberg or Falkenstein (Germany), closest to us.
+   - **Location:** Frankfurt (Germany), closest to us; Warsaw or Strasbourg also fine.
    - **SSH key:** paste the contents of `piladerflice_deploy.pub`.
-   - **Backups:** turn them on (Hetzner: +20 %). They're the off-server copy if the whole machine dies.
-   - **Firewall:** allow inbound ports 22, 80 and 443 only.
-4. Note the server's **IPv4 address**.
+   - **Backups:** VPS-1 includes a daily backup of the whole server. It's the
+     off-server copy if the machine itself dies, on top of our own nightly
+     backups.
+   - **Firewall** (optional, in the OVH panel): allow inbound ports 22, 80 and 443 only.
+   - **Type:** if you ever pick another plan, it must be x86 (Intel/AMD), not ARM (e.g. Hetzner CAX), because the image is built for x86.
+4. Note the server's **IPv4 address**. On OVH's Ubuntu you log in as
+   **`ubuntu`**, not `root`. That's why `SSH_USER` is set to `ubuntu` below.
 
 Docker doesn't need installing on the server. Kamal does that on the first deploy.
 
@@ -50,6 +53,7 @@ Go to the repository → **Settings → Secrets and variables → Actions**.
 | Name | Value |
 |---|---|
 | `SERVER_IP` | the server's IPv4, e.g. `116.203.10.20` |
+| `SSH_USER` | `ubuntu` on OVH (leave unset for servers that log in as `root`) |
 | `APP_HOSTS` | **for testing:** `116-203-10-20.sslip.io` (the IP with dashes, see step 4); **after the DNS switch:** `piladerflice.cz,www.piladerflice.cz` |
 | `SMTP_ADDRESS` | the mail provider's SMTP server (see step 3) |
 | `SMTP_PORT` | usually `587` |
@@ -133,7 +137,7 @@ This needs Štěpán to be the domain's owner ("Držitel") at WEDOS first.
      `docker volume inspect piladerflice_storage` shows the volume's folder on the server.
   3. Start the app again: `kamal app boot`.
 - **Copy a backup to your computer:**
-  `scp -i ~/.ssh/piladerflice_deploy -r root@SERVER_IP:/var/backups/piladerflice/<date> .`
+  `scp -i ~/.ssh/piladerflice_deploy -r ubuntu@SERVER_IP:/var/backups/piladerflice/<date> .`
 
 ### Running Kamal commands
 

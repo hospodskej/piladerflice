@@ -33,6 +33,7 @@ jobs:
     env:
       SERVER_IP: ${{ vars.SERVER_IP }}
       APP_HOSTS: ${{ vars.APP_HOSTS }}
+      SSH_USER: ${{ vars.SSH_USER }}
       SMTP_ADDRESS: ${{ vars.SMTP_ADDRESS }}
       SMTP_PORT: ${{ vars.SMTP_PORT }}
       MAIL_FROM_ADDRESS: ${{ vars.MAIL_FROM_ADDRESS }}

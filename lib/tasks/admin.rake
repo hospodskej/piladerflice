@@ -11,7 +11,8 @@ namespace :admin do
     if user.save
       puts "Admin user ready: #{user.email_address}"
     else
-      puts "Could not save admin user: #{user.errors.full_messages.join(', ')}"
+      # abort (exit status 1), so a deploy job or workflow shows it failed.
+      abort "Could not save admin user: #{user.errors.full_messages.join(', ')}"
     end
   end
 end

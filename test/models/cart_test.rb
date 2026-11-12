@@ -24,7 +24,8 @@ class CartTest < ActiveSupport::TestCase
 
     assert_equal product.key, item.product_key
     assert_equal Rails.application.routes.url_helpers.rails_blob_path(product.image, only_path: true), item.image
-    assert_equal @variant.price_czk, item.unit_price_czk
+    assert_equal @variant.customer_price_czk, item.unit_price_czk
+    assert_equal "rezivo", item.category
     assert_equal @variant.to_cart_specs, item.specs
     assert_equal 1, item.quantity
   end
@@ -90,14 +91,25 @@ class CartTest < ActiveSupport::TestCase
     @cart.update_quantity(line_id, 2)
     @cart.add(other)
 
-    assert_equal (@variant.price_czk * 2) + other.price_czk, @cart.subtotal_czk
+    assert_equal (@variant.customer_price_czk * 2) + other.customer_price_czk, @cart.subtotal_czk
   end
 
-  test "subtotal_excl_vat_czk backs the 21% VAT rate out of the total" do
+  test "lumber entered without VAT costs the customer the price plus 21 %" do
     @cart.add(@variant)
 
-    expected = (@cart.subtotal_czk / (1 + Cart::VAT_RATE)).round
-    assert_equal expected, @cart.subtotal_excl_vat_czk
+    assert_equal 8_500, @variant.price_czk
+    assert_equal 10_285, @cart.subtotal_czk
+    assert_equal({ 21 => 1_785 }, @cart.vat_breakdown(country: "cz").by_rate)
+  end
+
+  test "to Austria the price stays the same and only the VAT split changes" do
+    @cart.add(@variant) # lumber, 10 285 Kč: 20 % in Austria
+    @cart.add(catalog_variants(:smrk_kontejner_100cm)) # firewood, entered with VAT: 13 % in Austria
+
+    vat = @cart.vat_breakdown(country: "at")
+    firewood = catalog_variants(:smrk_kontejner_100cm).price_czk
+    assert_equal 10_285 + firewood, vat.total_czk
+    assert_equal({ 20 => VatBreakdown.vat_in(10_285, 20), 13 => VatBreakdown.vat_in(firewood, 13) }, vat.by_rate)
   end
 
   test "clear empties the cart" do
@@ -120,32 +132,32 @@ class CartTest < ActiveSupport::TestCase
 
     assert_nil @cart.apply_discount("jaro10")
     assert @cart.discount_applied?
-    assert_equal 17_000, @cart.subtotal_czk
-    assert_equal 1_700, @cart.discount_czk
-    assert_equal 15_300, @cart.total_czk
+    assert_equal 20_570, @cart.subtotal_czk
+    assert_equal 2_057, @cart.discount_czk
+    assert_equal 18_513, @cart.total_czk
     assert_equal "JARO10", Cart.new(@session).discount.code
   end
 
   test "an unknown or unusable code is refused and not kept" do
     @cart.add(@variant)
-    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 10_000)
+    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 11_000)
 
     assert_equal :not_found, @cart.apply_discount("NIC")
     assert_equal :min_order, @cart.apply_discount("VELKY")
     assert_nil @cart.discount
-    assert_equal 8_500, @cart.total_czk
+    assert_equal 10_285, @cart.total_czk
   end
 
   test "a kept code stops applying when the goods drop under its minimum" do
     line_id = @cart.add(@variant, 2)
-    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 10_000)
+    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 11_000)
     @cart.apply_discount("VELKY")
 
     @cart.update_quantity(line_id, 1)
 
     assert_equal :min_order, @cart.discount_unusable_reason
     assert_equal 0, @cart.discount_czk
-    assert_equal 8_500, @cart.total_czk
+    assert_equal 10_285, @cart.total_czk
   end
 
   test "clearing the cart drops the discount code" do

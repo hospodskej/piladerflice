@@ -253,6 +253,7 @@ cs:
     table_price_excl_vat: "Cena bez DPH"
     table_price_incl_vat: "Cena s DPH"
     total_vat: "Celkem DPH"
+    vat_at_rate: "DPH %{rate} %"
     back_to_shopping: "Zpět k nákupu"
     discount_code_label: "Slevový kód"
     discount_code_verify: "Ověřit slevový kód"

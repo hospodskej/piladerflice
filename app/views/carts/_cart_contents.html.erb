@@ -19,7 +19,7 @@
       </div>
 
       <% current_cart.items.each do |item| %>
-        <% line_excl_vat = (item.line_total_czk / (1 + Cart::VAT_RATE)).round %>
+        <% line_excl_vat = VatBreakdown.excl_vat(item.line_total_czk, category: item.category, country: current_vat_country) %>
         <div class="checkout-cart-row">
           <div class="col-item">
             <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" if item.image %>

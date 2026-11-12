@@ -103,4 +103,21 @@ class ApplicationController < ActionController::Base
     I18n.locale == :de ? "at" : "cz"
   end
   helper_method :default_delivery_country
+
+  # Whose VAT rates apply (VatRule): pickup in Derflice is always Czech;
+  # otherwise the country the goods go to, as far as we know it yet - the
+  # checkout's address, then "Kam vozíme?", then the site's language.
+  def current_vat_country
+    VatRule.country(vat_country_from_checkout || current_delivery_estimate&.country || default_delivery_country)
+  end
+  helper_method :current_vat_country
+
+  def vat_country_from_checkout
+    checkout = current_checkout
+    return "cz" if checkout["shipping_method"] == "pickup"
+    return nil unless checkout["shipping_method"] == "address"
+
+    prefix = checkout.delivery_address_different? ? "delivery" : "billing"
+    checkout["#{prefix}_country"].presence || checkout["country"].presence
+  end
 end

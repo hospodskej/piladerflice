@@ -12,7 +12,7 @@ class CartItemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, session[:cart].size
     added = session[:cart].values.first
     assert_equal @variant.catalog_product.key, added["product_key"]
-    assert_equal @variant.price_czk, added["unit_price_czk"]
+    assert_equal @variant.customer_price_czk, added["unit_price_czk"]
   end
 
   test "cart lines carry labels for the phone layout" do

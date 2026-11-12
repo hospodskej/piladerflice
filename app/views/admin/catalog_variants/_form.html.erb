@@ -25,9 +25,16 @@
     </div>
 
     <div class="form-group">
-      <label for="catalog_variant_price_czk">Cena (Kč)</label>
+      <% vat_rule = VatRule.for(catalog_product.category) %>
+      <label for="catalog_variant_price_czk">Cena (Kč, <%= vat_rule.prices_include_vat? ? "včetně DPH" : "bez DPH" %>)</label>
       <%= f.number_field :price_czk %>
-      <p class="admin-form-hint">Cena v eurech se dopočítává automaticky podle aktuálního kurzu.</p>
+      <p class="admin-form-hint">
+        <% unless vat_rule.prices_include_vat? %>
+          Zákazník uvidí cenu s <%= vat_rule.rate_cz %> % DPH (např. 1 000 Kč → <%= number_with_delimiter(vat_rule.customer_price(1000), delimiter: " ") %> Kč).
+        <% end %>
+        Jak se zadávají ceny a sazby DPH pro Česko a Rakousko, se nastavuje v <%= link_to "DPH", admin_vat_rules_path %>.
+        Cena v eurech se dopočítává automaticky podle aktuálního kurzu.
+      </p>
     </div>
 
     <% if catalog_product.template == "firewood" %>

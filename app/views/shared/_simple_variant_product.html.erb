@@ -43,7 +43,7 @@
                 </div>
               </div>
 
-              <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
+              <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %></p>
 
               <p class="spec-value <%= variant.in_stock? ? 'text-green' : 'text-red' %>" style="margin-bottom: 12px; font-size: 0.95rem;">
                 <%= variant.in_stock? ? t("common.in_stock") : t("common.out_of_stock") %>

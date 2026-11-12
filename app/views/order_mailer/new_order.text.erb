@@ -44,7 +44,12 @@ Zboží: <%= ExchangeRateService.display_amount(@order.subtotal_czk, locale: :cs
 Vzdálenost se nepodařilo spočítat – cenu dopravy je potřeba kalkulovat individuálně, není v celkové ceně.
 <% end %>
 Celková cena bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %>
+<% @order.vat_by_rate.each do |rate, amount| -%>
+DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= ExchangeRateService.display_amount(amount, locale: :cs) %>
+<% end -%>
+<% if @order.vat_by_rate.size > 1 -%>
 Celkem DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %>
+<% end -%>
 CELKEM K ÚHRADĚ (včetně DPH): <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %>
 
 Jazyk zákazníka při objednávce: <%= @order.locale == "de" ? "němčina" : "čeština" %>

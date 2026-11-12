@@ -4,8 +4,6 @@ class Cart
   SESSION_KEY = :cart
   DISCOUNT_KEY = :discount_code
 
-  VAT_RATE = 0.21
-
   def initialize(session)
     @session = session
     @session[SESSION_KEY] ||= {}
@@ -25,7 +23,8 @@ class Cart
         "catalog_variant_id" => catalog_variant.id,
         "product_key" => catalog_variant.catalog_product.key,
         "image" => image_url_for(catalog_variant),
-        "unit_price_czk" => catalog_variant.price_czk,
+        "unit_price_czk" => catalog_variant.customer_price_czk,
+        "category" => catalog_variant.catalog_product.category,
         "specs" => catalog_variant.to_cart_specs,
         "quantity" => quantity
       }
@@ -69,8 +68,13 @@ class Cart
     items.sum(&:line_total_czk)
   end
 
-  def subtotal_excl_vat_czk
-    (subtotal_czk / (1 + VAT_RATE)).round
+  # How much of the cart (after the discount, plus delivery) is VAT, at the
+  # rates of the country the goods go to.
+  def vat_breakdown(country:, delivery_czk: 0)
+    VatBreakdown.new(
+      lines: items.map { |item| [item.category, item.line_total_czk] },
+      country: country, discount_czk: discount_czk, delivery_czk: delivery_czk
+    )
   end
 
   # TODO: Minimum order with a progress bar in the cart ("Zbývá 701,20 Kč do

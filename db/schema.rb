@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_12_120000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -169,7 +169,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
     t.integer "total_czk", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.json "vat_breakdown"
     t.integer "vat_czk", null: false
+    t.string "vat_country"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -283,6 +285,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
     t.string "theme"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
+  create_table "vat_rules", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.boolean "prices_include_vat", default: true, null: false
+    t.integer "rate_at", default: 20, null: false
+    t.integer "rate_cz", default: 21, null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_vat_rules_on_category", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

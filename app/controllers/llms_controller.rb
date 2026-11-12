@@ -24,7 +24,7 @@ class LlmsController < ApplicationController
     cheapest = variants.min_by(&:price_czk)
     return unless cheapest
 
-    price = "#{helpers.number_with_delimiter(cheapest.price_czk, delimiter: ' ')} Kč"
+    price = "#{helpers.number_with_delimiter(cheapest.customer_price_czk, delimiter: ' ')} Kč"
     case product.template
     when "firewood" then "from #{price} for #{cheapest.amount_value} PRM (prostorový metr, a cubic metre of piled wood)" if cheapest.amount_value
     when "lumber" then "from #{price} per m³"

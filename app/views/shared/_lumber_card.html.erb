@@ -15,7 +15,7 @@
       <% if variant.height_mm.present? %><span class="spec-value"><%= variant.height_mm %> mm</span><% end %>
     </div>
   </div>
-  <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %> <%= t("common.price_per_m3_html") %></p>
+  <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %> <%= t("common.price_per_m3_html") %></p>
   <% if variant.in_stock? %>
     <%= render "shared/add_to_cart_form", catalog_variant: variant %>
   <% else %>

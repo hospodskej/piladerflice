@@ -66,7 +66,7 @@
                         <span class="spec-value"><%= variant.amount_value %> <%= t("common.per_m3") %></span>
                       </div>
                     </div>
-                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
+                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %></p>
                     <% if variant.in_stock? %>
                       <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
                     <% else %>
@@ -102,7 +102,7 @@
                     <span class="spec-value"><%= variant.amount_value %> <%= t("common.per_m3") %></span>
                   </div>
                 </div>
-                <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.price_czk) %></p>
+                <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %></p>
                 <% if variant.in_stock? %>
                   <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
                 <% else %>

@@ -45,6 +45,18 @@ class Order < ApplicationRecord
     shipping_method == "address" && delivery_czk.present?
   end
 
+  # { rate in % => VAT in Kč } as it was when ordered; older orders (before
+  # VAT by country) were all 21 %.
+  def vat_by_rate
+    return { 21 => vat_czk.to_i } if vat_breakdown.blank?
+
+    vat_breakdown.to_h { |rate, amount| [rate.to_i, amount.to_i] }.sort_by { |rate, _| -rate }.to_h
+  end
+
+  def vat_country_name(locale: I18n.locale)
+    country_name(vat_country.presence || "cz", locale: locale)
+  end
+
   def discounted?
     discount_czk.to_i.positive?
   end

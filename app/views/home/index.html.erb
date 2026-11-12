@@ -119,7 +119,7 @@
             <span class="nejprodavanejsi-produkty-price">
               <strong>
                 <% if product.starting_price_czk %>
-                  <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.starting_price_czk) %>
+                  <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.customer_starting_price_czk) %>
                 <% else %>
                   ---
                 <% end %>

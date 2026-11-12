@@ -237,3 +237,15 @@ puts "Successfully created #{FaqItem.count} FAQ!"
 load Rails.root.join("db/seeds_catalog.rb")
 load Rails.root.join("db/seeds_inquiry_form_options.rb")
 load Rails.root.join("db/seeds_reviews.rb")
+
+# VAT by category (Admin > DPH); the live database got these from the
+# 20261112120000 migration.
+[
+  { category: "palivove", prices_include_vat: true, rate_cz: 21, rate_at: 13 },
+  { category: "rezivo", prices_include_vat: false, rate_cz: 21, rate_at: 20 },
+  { category: "zbytky", prices_include_vat: false, rate_cz: 21, rate_at: 13 },
+  { category: "kamenivo", prices_include_vat: true, rate_cz: 21, rate_at: 20 }
+].each do |rule|
+  VatRule.find_or_create_by!(category: rule[:category]) { |r| r.assign_attributes(rule) }
+end
+puts "VAT rules: #{VatRule.count}"

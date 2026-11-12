@@ -88,7 +88,12 @@
       <p>Doprava: vzdálenost se nepodařilo spočítat, cena dopravy není v celkové ceně.</p>
     <% end %>
     <p>Bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></p>
-    <p>DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></p>
+    <% @order.vat_by_rate.each do |rate, amount| %>
+      <p>DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= ExchangeRateService.display_amount(amount, locale: :cs) %></p>
+    <% end %>
+    <% if @order.vat_by_rate.size > 1 %>
+      <p>DPH celkem: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></p>
+    <% end %>
     <p><strong>Celkem k úhradě: <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></strong></p>
   </div>
 </div>

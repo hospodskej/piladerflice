@@ -81,7 +81,12 @@
     <tr><td colspan="2" style="padding:2px 0 8px; color:#a15c00;">Vzdálenost se nepodařilo spočítat – cenu dopravy je potřeba kalkulovat individuálně, není v celkové ceně.</td></tr>
   <% end %>
   <tr><td style="padding:2px 0; color:#666;">Celková cena bez DPH</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></td></tr>
-  <tr><td style="padding:2px 0; color:#666;">Celkem DPH</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></td></tr>
+  <% @order.vat_by_rate.each do |rate, amount| %>
+    <tr><td style="padding:2px 0; color:#666;">DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>)</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(amount, locale: :cs) %></td></tr>
+  <% end %>
+  <% if @order.vat_by_rate.size > 1 %>
+    <tr><td style="padding:2px 0; color:#666;">Celkem DPH</td><td style="padding:2px 0; text-align:right;"><%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></td></tr>
+  <% end %>
   <tr><td style="padding:6px 0; font-weight:bold; font-size:16px;">Celkem k úhradě (včetně DPH)</td><td style="padding:6px 0; text-align:right; font-weight:bold; font-size:16px;"><%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></td></tr>
 </table>
 

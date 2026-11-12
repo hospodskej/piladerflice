@@ -25,6 +25,12 @@ class CatalogVariant < ApplicationRecord
     variant_group == "bedny" || super
   end
 
+  # What the customer pays (with VAT): price_czk is what the admin typed,
+  # with or without VAT depending on the category (VatRule).
+  def customer_price_czk
+    VatRule.for(catalog_product.category).customer_price(price_czk)
+  end
+
   def dimension_filter_key
     return nil unless width_mm.present? && height_mm.present?
 

@@ -41,11 +41,11 @@ class DeliveryEstimatesControllerTest < ActionDispatch::IntegrationTest
     post delivery_estimate_path, params: { query: "Znojmo", country: "cz" }, as: :turbo_stream
 
     assert_select "#cart-page-totals .cart-total-delivery", text: /Znojmo.*46 km.*1.840 Kč/m
-    assert_select "#cart-page-totals .cart-total-row strong", text: /≈ 10.340 Kč/
+    assert_select "#cart-page-totals .cart-total-row strong", text: /≈ 12.125 Kč/
     assert_select "#cart-widget .cart-total-delivery", text: /1.840 Kč/
 
     get cart_path
-    assert_select "#cart-page-totals .cart-total-row strong", text: /≈ 10.340 Kč/
+    assert_select "#cart-page-totals .cart-total-row strong", text: /≈ 12.125 Kč/
   end
 
   test "a place that can't be found says so and keeps nothing" do

@@ -17,8 +17,8 @@ class DiscountCodesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".discount-code-chip", text: "JARO10 (−10 %)"
     assert_select ".discount-code-message", text: "Slevový kód JARO10 byl uplatněn."
-    assert_select "#cart-widget .cart-total-discount", text: /850/
-    assert_select "#cart-page-contents .cart-total-row strong", text: /7.650/
+    assert_select "#cart-widget .cart-total-discount", text: /1.029/
+    assert_select "#cart-page-contents .cart-total-row strong", text: /9.256/
   end
 
   test "an unknown code shows why without keeping it" do
@@ -29,10 +29,10 @@ class DiscountCodesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "a code under its minimum says from what amount it applies" do
-    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 10_000)
+    DiscountCode.create!(code: "VELKY", kind: "fixed", value: 500, min_order_czk: 11_000)
     post cart_discount_path, params: { code: "VELKY" }, as: :turbo_stream
 
-    assert_select ".discount-code-message-error", text: /od 10.000 Kč/
+    assert_select ".discount-code-message-error", text: /od 11.000 Kč/
   end
 
   test "without Turbo the cart page shows the result after a redirect" do

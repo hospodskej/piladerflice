@@ -120,7 +120,9 @@ class CheckoutController < ApplicationController
       discount_czk: current_cart.discount_applied? ? current_cart.discount_czk : nil,
       delivery_distance_km: delivery_quote&.round_trip_km,
       delivery_czk: delivery_quote&.price_czk,
-      vat_czk: total_czk - (total_czk / (1 + Cart::VAT_RATE)).round,
+      vat_czk: vat_breakdown.vat_czk,
+      vat_breakdown: vat_breakdown.by_rate.transform_keys(&:to_s),
+      vat_country: vat_breakdown.country,
       total_czk: total_czk,
       locale: I18n.locale.to_s
     }
@@ -129,6 +131,10 @@ class CheckoutController < ApplicationController
   # Goods after the discount plus the approximate delivery price, both incl. VAT.
   def total_czk
     current_cart.total_czk + delivery_quote&.price_czk.to_i
+  end
+
+  def vat_breakdown
+    @vat_breakdown ||= current_cart.vat_breakdown(country: current_vat_country, delivery_czk: delivery_quote&.price_czk.to_i)
   end
 
   # Saves the order and counts a use of its discount code, together. When
@@ -167,6 +173,7 @@ class CheckoutController < ApplicationController
         product_key: item.product_key,
         image: item.image,
         unit_price_czk: item.unit_price_czk,
+        category: item.category,
         specs: item.specs,
         quantity: item.quantity
       }

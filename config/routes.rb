@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     end
     resources :promos, except: [:show]
     resource :delivery_settings, only: [:edit, :update], path: "doprava"
+    resources :vat_rules, only: [:index, :update], path: "dph"
     resources :discount_codes, except: [:show], path: "slevove-kody"
     resources :pricelist_items, only: [:index, :create, :update, :destroy] do
       member do

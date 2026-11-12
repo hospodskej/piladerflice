@@ -67,7 +67,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
 
     order = Order.last
     assert_equal "Jana", order.first_name
-    assert_equal @variant.price_czk, order.subtotal_czk
+    assert_equal @variant.customer_price_czk, order.subtotal_czk
     assert_equal [ { "product_key" => @variant.catalog_product.key } ], order.items.map { |i| i.slice("product_key") }
     assert session[:cart].empty?
 
@@ -173,7 +173,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".checkout-radio-note", text: /4 000 Kč\s*\(orientační cena\)/
     assert_select ".cart-total-row", text: /Doprava \(100 km, orientačně\)\s*4 000 Kč/
-    assert_select ".cart-total-row strong", text: ActiveSupport::NumberHelper.number_to_delimited(@variant.price_czk + 4000, delimiter: " ") + " Kč"
+    assert_select ".cart-total-row strong", text: ActiveSupport::NumberHelper.number_to_delimited(@variant.customer_price_czk + 4000, delimiter: " ") + " Kč"
 
     assert_emails 2 do
       post checkout_confirm_path, params: { terms_agreement: "1" }
@@ -182,8 +182,8 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     order = Order.last
     assert_equal 100, order.delivery_distance_km
     assert_equal 4000, order.delivery_czk
-    assert_equal @variant.price_czk, order.subtotal_czk
-    assert_equal @variant.price_czk + 4000, order.total_czk
+    assert_equal @variant.customer_price_czk, order.subtotal_czk
+    assert_equal @variant.customer_price_czk + 4000, order.total_czk
     assert_equal order.total_czk - (order.total_czk / 1.21).round, order.vat_czk
     ActionMailer::Base.deliveries.last(2).each do |mail|
       assert_includes mail.text_part.body.to_s, "Doprava (100 km tam i zpět, orientačně): 4 000 Kč"
@@ -228,7 +228,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     post checkout_confirm_path, params: { terms_agreement: "1" }
     order = Order.last
     assert_nil order.delivery_czk
-    assert_equal @variant.price_czk, order.total_czk
+    assert_equal @variant.customer_price_czk, order.total_czk
     assert_includes ActionMailer::Base.deliveries.last(2).first.text_part.body.to_s, "Vzdálenost se nepodařilo spočítat"
   end
 
@@ -254,6 +254,33 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*≈ 160,00 €/
   end
 
+  test "delivered to Austria the order costs the same but carries Austrian VAT, delivery included" do
+    fake_route(meters: 50_000)
+    submit_shipping(shipping_method: "address", payment_method: "bank_transfer")
+    submit_details(billing_street: "Hauptplatz 1", billing_city: "Retz", billing_zip: "2070", billing_country: "at")
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+
+    order = Order.last
+    total = @variant.customer_price_czk + 4000 # lumber: 20 % in Austria, and so is its delivery
+    assert_equal total, order.total_czk
+    assert_equal "at", order.vat_country
+    assert_equal({ 20 => VatBreakdown.vat_in(total, 20) }, order.vat_by_rate)
+    assert_equal VatBreakdown.vat_in(total, 20), order.vat_czk
+    assert_includes ActionMailer::Base.deliveries.last(2).first.text_part.body.to_s, "DPH 20 % (Rakousko)"
+  end
+
+  test "an Austrian picking up in Derflice pays Czech VAT" do
+    submit_shipping
+    submit_details(billing_street: "Hauptplatz 1", billing_city: "Retz", billing_zip: "2070", billing_country: "at")
+
+    get checkout_summary_path
+    assert_select ".cart-total-row", text: /DPH 21 %/
+
+    post checkout_confirm_path, params: { terms_agreement: "1" }
+    assert_equal "cz", Order.last.vat_country
+    assert_equal({ 21 => VatBreakdown.vat_in(@variant.customer_price_czk, 21) }, Order.last.vat_by_rate)
+  end
+
   test "a discount code is taken off the order total and counted as used" do
     code = DiscountCode.create!(code: "JARO10", kind: "percent", value: 10, usage_limit: 5)
     post cart_discount_path, params: { code: "jaro10" }
@@ -261,17 +288,17 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     submit_details
 
     get checkout_summary_path
-    assert_select ".cart-total-discount", text: /Sleva \(JARO10\).*850/m
+    assert_select ".cart-total-discount", text: /Sleva \(JARO10\).*1.029/m
 
     post checkout_confirm_path, params: { terms_agreement: "1" }
     assert_redirected_to checkout_confirmation_path
 
     order = Order.last
     assert_equal "JARO10", order.discount_code
-    assert_equal 850, order.discount_czk
-    assert_equal 8_500, order.subtotal_czk
-    assert_equal 7_650, order.total_czk
-    assert_equal 7_650 - (7_650 / 1.21).round, order.vat_czk
+    assert_equal 1_029, order.discount_czk
+    assert_equal 10_285, order.subtotal_czk
+    assert_equal 9_256, order.total_czk
+    assert_equal 9_256 - (9_256 / 1.21).round, order.vat_czk
     assert_equal 1, code.reload.times_used
     assert_includes ActionMailer::Base.deliveries.last.text_part.body.to_s, "Sleva (kód JARO10)"
   end

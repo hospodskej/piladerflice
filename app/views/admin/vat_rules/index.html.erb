@@ -1,0 +1,42 @@
+<h1 class="admin-page-title">DPH</h1>
+
+<p class="admin-form-hint">
+  Zákazník platí v Česku i v Rakousku stejnou konečnou cenu. Liší se jen to, kolik z ní je DPH:
+  při dovozu do Rakouska se počítá rakouská sazba, při dovozu po Česku a při osobním odběru v Derflicích česká.
+  Doprava a sleva se rozpočítají podle podílu zboží (u palivového dřeva tedy doprava do Rakouska také 13 %).
+</p>
+<p class="admin-form-hint">
+  „Ceny v katalogu bez DPH“ znamená, že k ceně zadané v Katalogu se pro zákazníka přičte česká DPH
+  (8 500 Kč → <%= number_with_delimiter((8500 * 1.21).round, delimiter: " ") %> Kč při 21 %).
+  Změna platí hned pro nové objednávky; odeslané objednávky si ponechají DPH, se kterou byly objednány.
+</p>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Kategorie</th>
+      <th>Ceny v katalogu</th>
+      <th>DPH Česko</th>
+      <th>DPH Rakousko</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vat_rules.each do |rule| %>
+      <tr>
+        <%= form_with model: rule, url: admin_vat_rule_path(rule.category), method: :patch do |f| %>
+          <td>
+            <strong><%= rule.label %></strong>
+            <% if rule.errors.any? %><br><small class="admin-error"><%= rule.errors.full_messages.to_sentence %></small><% end %>
+          </td>
+          <td>
+            <%= f.select :prices_include_vat, [["včetně DPH", true], ["bez DPH", false]], {}, "aria-label": "Ceny v katalogu – #{rule.label}" %>
+          </td>
+          <td><%= f.number_field :rate_cz, min: 0, max: 99, step: 1, required: true, "aria-label": "DPH Česko – #{rule.label}" %> %</td>
+          <td><%= f.number_field :rate_at, min: 0, max: 99, step: 1, required: true, "aria-label": "DPH Rakousko – #{rule.label}" %> %</td>
+          <td><%= f.submit "Uložit", class: "btn-primary" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

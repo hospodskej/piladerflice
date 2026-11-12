@@ -35,9 +35,19 @@ class CatalogProduct < ApplicationRecord
   # queries per product card.
   scope :with_starting_price, -> { select(arel_table[Arel.star], Arel.sql("#{STARTING_PRICE_SQL} AS starting_price_czk")) }
 
+  # The cheapest variant's admin price (with or without VAT, see VatRule).
   def starting_price_czk
     return self[:starting_price_czk] if has_attribute?(:starting_price_czk)
 
     self.class.where(id: id).pick(Arel.sql(STARTING_PRICE_SQL))
+  end
+
+  # The "from" price the customer sees, with VAT.
+  def customer_starting_price_czk
+    vat_rule.customer_price(starting_price_czk)
+  end
+
+  def vat_rule
+    VatRule.for(category)
   end
 end

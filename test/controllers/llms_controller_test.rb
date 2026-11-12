@@ -13,7 +13,7 @@ class LlmsControllerTest < ActionDispatch::IntegrationTest
     assert_includes body, "45 Kč per km"
     assert_includes body, "stepan.merta@seznam.cz"
     assert_includes body, "[#{catalog_products(:tramy).title}](http://www.example.com/eshop/tramy)"
-    assert_includes body, "from 10 285 Kč per m³"
+    assert_includes body, "from 10 285 Kč per piece"
     assert_includes body, "(http://www.example.com/at/kontakt)"
     assert_not_includes body, catalog_products(:inactive_product).title
   end

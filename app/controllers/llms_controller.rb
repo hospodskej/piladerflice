@@ -16,7 +16,7 @@ class LlmsController < ApplicationController
 
   private
 
-  # "from 21 500 Kč for 5 PRM", "from 8 500 Kč per m³" - only where the
+  # "from 21 500 Kč for 5 PRM", "from 10 285 Kč per piece" - only where the
   # catalogue knows the unit (by-products and stone don't store one, so
   # their price is left to the product page and the price list).
   def price_note(product)
@@ -27,7 +27,7 @@ class LlmsController < ApplicationController
     price = "#{helpers.number_with_delimiter(cheapest.customer_price_czk, delimiter: ' ')} Kč"
     case product.template
     when "firewood" then "from #{price} for #{cheapest.amount_value} PRM (prostorový metr, a cubic metre of piled wood)" if cheapest.amount_value
-    when "lumber" then "from #{price} per m³"
+    when "lumber" then "from #{price} per piece"
     end
   end
   helper_method :price_note

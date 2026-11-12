@@ -92,6 +92,15 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.breadcrumb-item[href='/eshop?category=rezivo']", text: "Stavební řezivo"
   end
 
+  test "lumber is priced per piece, not per m³" do
+    get eshop_product_url(catalog_products(:tramy).key)
+    assert_select ".inventory-price", text: /10 285 Kč \/ ks/
+    assert_select ".inventory-price", text: /m3|m³/, count: 0
+
+    get "/at/eshop/#{catalog_products(:tramy).key}"
+    assert_select ".inventory-price", text: /Stk\./
+  end
+
   test "icon-only add-to-cart button keeps an accessible label" do
     get eshop_product_url(catalog_products(:tramy).key)
     assert_select "form.add-to-cart-form button[type=submit][aria-label=?][title=?] svg", "Do košíku", "Do košíku"

@@ -216,7 +216,7 @@ cs:
     spec_grade: "Třída"
     spec_width: "Šířka"
     spec_height: "Výška"
-    price_per_m3_html: "/ m<sup>3</sup>"
+    price_per_piece: "/ ks"
     per_m3: "PRM"
     close: "Zavřít"
 

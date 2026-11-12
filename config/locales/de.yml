@@ -216,7 +216,7 @@ de:
     spec_grade: "Klasse"
     spec_width: "Breite"
     spec_height: "Höhe"
-    price_per_m3_html: "/ m<sup>3</sup>"
+    price_per_piece: "/ Stk."
     per_m3: "Rm"
     close: "Schließen"
 

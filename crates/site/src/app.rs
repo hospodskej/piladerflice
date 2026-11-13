@@ -86,7 +86,7 @@ pub fn App() -> impl IntoView {
 
 /// Every public page; mounted at the root (Czech) and under /at (German).
 #[component(transparent)]
-fn Pages() -> impl MatchNestedRoutes + Clone {
+fn Pages() -> impl leptos_router::MatchNestedRoutes + Clone {
     view! {
         <Route path=path!("") view=HomePage ssr=SsrMode::Async/>
     }

@@ -86,7 +86,7 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
         return Ok(None);
     };
     let row = sqlx::query!(
-        r#"SELECT id AS "id!", email_address, first_name, role, theme, avatar_path, session_epoch FROM users WHERE id = ?"#,
+        r#"SELECT id AS "id!", email_address, first_name, role, theme, avatar_path, session_epoch, billing_city, billing_country FROM users WHERE id = ?"#,
         sign_in.user_id
     )
     .fetch_optional(&state.db)
@@ -106,6 +106,8 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
         admin: u.role == "admin",
         theme: u.theme.as_deref().and_then(Theme::parse),
         avatar: u.avatar_path,
+        billing_city: u.billing_city,
+        billing_country: u.billing_country,
     }))
 }
 
@@ -123,16 +125,55 @@ pub async fn load_visitor(State(state): State<AppState>, session: Session, mut r
         tracing::warn!("could not load the shop settings: {e}");
         crate::shop::Shop::default()
     });
+    let cart = cart(&session).await;
+    let discount = match &cart.discount_code {
+        Some(code) => discount_code(&state.db, code).await.unwrap_or_else(|e| {
+            tracing::warn!("could not load the discount code: {e}");
+            None
+        }),
+        None => None,
+    };
     let visitor = Visitor {
         shop,
+        discount,
         locale: Locale::of_path(&path),
         query: request.uri().query().map(str::to_owned),
         path,
         user,
-        cart: cart(&session).await,
+        cart,
         delivery: delivery_estimate(&session).await,
         flash: session.remove::<Flash>(FLASH).await.ok().flatten(),
+        discount_note: session.remove(crate::forms::cart::DISCOUNT_NOTE).await.ok().flatten(),
+        delivery_error: session.remove(crate::forms::cart::DELIVERY_ERROR).await.ok().flatten(),
     };
     request.extensions_mut().insert(visitor);
     next.run(request).await
+}
+
+/// A discount code as saved in the admin (any letter case), or `None`.
+pub async fn discount_code(db: &sqlx::SqlitePool, code: &str) -> Result<Option<domain::discount::DiscountCode>, sqlx::Error> {
+    use domain::discount::{DiscountCode, DiscountKind};
+    let code = code.trim();
+    let Some(row) = sqlx::query!(
+        "SELECT code, kind, value, active, valid_until, usage_limit, times_used, min_order_czk FROM discount_codes WHERE code = ? COLLATE NOCASE",
+        code
+    )
+    .fetch_optional(db)
+    .await?
+    else {
+        return Ok(None);
+    };
+    Ok(Some(DiscountCode {
+        code: row.code,
+        kind: row.kind.parse().unwrap_or(DiscountKind::Percent),
+        value: row.value,
+        active: row.active != 0,
+        valid_until: row
+            .valid_until
+            .as_deref()
+            .and_then(|d| time::Date::parse(d, &time::format_description::well_known::Iso8601::DATE).ok()),
+        usage_limit: row.usage_limit,
+        times_used: row.times_used,
+        min_order: row.min_order_czk.map(domain::money::Czk),
+    }))
 }

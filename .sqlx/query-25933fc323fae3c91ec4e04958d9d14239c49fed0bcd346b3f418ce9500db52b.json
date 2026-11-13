@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT id AS \"id!\", email_address, first_name, role, theme, avatar_path, session_epoch FROM users WHERE id = ?",
+  "query": "SELECT id AS \"id!\", email_address, first_name, role, theme, avatar_path, session_epoch, billing_city, billing_country FROM users WHERE id = ?",
   "describe": {
     "columns": [
       {
@@ -79,6 +79,28 @@
             "name": "session_epoch"
           }
         }
+      },
+      {
+        "name": "billing_city",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_city"
+          }
+        }
+      },
+      {
+        "name": "billing_country",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_country"
+          }
+        }
       }
     ],
     "parameters": {
@@ -91,8 +113,10 @@
       false,
       true,
       true,
-      false
+      false,
+      true,
+      true
     ]
   },
-  "hash": "b759800b4bbe01325af7b14a1155e0ded80f070bfe9b65a76731be3c1bfdfe97"
+  "hash": "25933fc323fae3c91ec4e04958d9d14239c49fed0bcd346b3f418ce9500db52b"
 }

@@ -1,0 +1,110 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT code, kind, value, active, valid_until, usage_limit, times_used, min_order_czk FROM discount_codes WHERE code = ? COLLATE NOCASE",
+  "describe": {
+    "columns": [
+      {
+        "name": "code",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "code"
+          }
+        }
+      },
+      {
+        "name": "kind",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "kind"
+          }
+        }
+      },
+      {
+        "name": "value",
+        "ordinal": 2,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "value"
+          }
+        }
+      },
+      {
+        "name": "active",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "active"
+          }
+        }
+      },
+      {
+        "name": "valid_until",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "valid_until"
+          }
+        }
+      },
+      {
+        "name": "usage_limit",
+        "ordinal": 5,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "usage_limit"
+          }
+        }
+      },
+      {
+        "name": "times_used",
+        "ordinal": 6,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "times_used"
+          }
+        }
+      },
+      {
+        "name": "min_order_czk",
+        "ordinal": 7,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "min_order_czk"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true
+    ]
+  },
+  "hash": "94c10d101ef54ce901bc7688cb432112885be28ac21b86434c72d1d8a595fba9"
+}

@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position,\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))\n                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\"\n           FROM catalog_products p WHERE p.active = 1",
+  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position, p.hardness,\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))\n                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\"\n           FROM catalog_products p WHERE p.active = 1",
   "describe": {
     "columns": [
       {
@@ -103,8 +103,19 @@
         }
       },
       {
-        "name": "starting_price: i64",
+        "name": "hardness",
         "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "hardness"
+          }
+        }
+      },
+      {
+        "name": "starting_price: i64",
+        "ordinal": 10,
         "type_info": "Integer",
         "origin": "Expression"
       }
@@ -122,8 +133,9 @@
       true,
       false,
       false,
+      true,
       true
     ]
   },
-  "hash": "3b9c9fe68a90f3cece517fe1e38aef68afdbc4c00f4056ae7ad625c92361a28b"
+  "hash": "0b3d96d197ecd9ce0cbd3133c8318d2cbd25479d0ba1e51049d149aed1b3eb28"
 }

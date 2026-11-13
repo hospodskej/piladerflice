@@ -1,4 +1,6 @@
 use crate::i18n::t;
+use crate::pages::cart::CartPage;
+use crate::pages::eshop::{EshopPage, ProductPage};
 use crate::pages::home::HomePage;
 use crate::pages::info::*;
 use crate::pages::kontakt::KontaktPage;
@@ -96,6 +98,9 @@ fn Pages() -> impl leptos_router::MatchNestedRoutes + Clone {
         <ParentRoute path=path!("") view=leptos_router::components::Outlet>
         <Route path=path!("") view=HomePage ssr=SsrMode::Async/>
         <Route path=path!("/kontakt") view=KontaktPage ssr=SsrMode::Async/>
+        <Route path=path!("/eshop") view=EshopPage ssr=SsrMode::Async/>
+        <Route path=path!("/kosik") view=CartPage ssr=SsrMode::Async/>
+        <Route path=path!("/eshop/:key") view=ProductPage ssr=SsrMode::Async/>
         <Route path=path!("/sluzby") view=SluzbyPage ssr=SsrMode::Async/>
         <Route path=path!("/obchodni-podminky") view=TermsPage/>
         <Route path=path!("/zasady-cookies") view=CookiesPage/>

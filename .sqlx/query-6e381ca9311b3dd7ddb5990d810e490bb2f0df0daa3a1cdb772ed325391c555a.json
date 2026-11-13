@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT result FROM route_cache WHERE query = ? AND expires_at > strftime('%Y-%m-%dT%H:%M:%fZ', 'now')",
+  "describe": {
+    "columns": [
+      {
+        "name": "result",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "route_cache",
+            "name": "result"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      true
+    ]
+  },
+  "hash": "6e381ca9311b3dd7ddb5990d810e490bb2f0df0daa3a1cdb772ed325391c555a"
+}

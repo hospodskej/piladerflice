@@ -36,6 +36,7 @@ tower-sessions-sqlx-store = { version = "0.16", features = ["sqlite"] }
 # Our own crates (hospodskej/rust-crates); move to crates.io versions once published.
 codon = { git = "https://github.com/hospodskej/rust-crates", branch = "codon", features = ["serde"] }
 refractory = { git = "https://github.com/hospodskej/rust-crates", branch = "refractory" }
+chemotaxis = { git = "https://github.com/hospodskej/rust-crates", branch = "chemotaxis" }
 cuticle = { git = "https://github.com/hospodskej/rust-crates", branch = "cuticle", features = ["leptos"] }
 
 [workspace.lints.rust]

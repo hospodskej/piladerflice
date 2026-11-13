@@ -5,7 +5,10 @@
 
 pub mod app;
 pub mod assets;
+pub mod autocomplete;
 pub mod cart_totals;
+pub mod cart_islands;
+pub mod cart_view;
 pub mod catalog;
 pub mod i18n;
 pub mod inquiry_form;
@@ -16,8 +19,11 @@ pub mod seo;
 pub mod server_fns;
 pub mod shop;
 pub mod time_fmt;
+pub mod variant_filter;
 pub mod visitor;
 
+#[cfg(feature = "ssr")]
+pub mod cart_ops;
 #[cfg(feature = "ssr")]
 pub mod forms;
 #[cfg(feature = "ssr")]
@@ -26,6 +32,8 @@ pub mod limits;
 pub mod mail;
 #[cfg(feature = "ssr")]
 pub mod plain;
+#[cfg(feature = "ssr")]
+pub mod routing;
 #[cfg(feature = "ssr")]
 pub mod session;
 #[cfg(feature = "ssr")]

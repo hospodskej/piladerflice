@@ -29,7 +29,11 @@ struct Promo {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Bestseller {
+    pub id: i64,
     pub key: String,
+    pub category: String,
+    pub hardness: Option<String>,
+    pub position: i64,
     pub title: String,
     pub type_label: String,
     pub image: Option<String>,

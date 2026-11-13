@@ -11,11 +11,15 @@ pub struct AppState {
     pub eur: Arc<RwLock<EurRate>>,
     /// Counts repeated attempts (sign-in, forms) per address or account.
     pub limiter: refractory::Limiter,
+    /// Road distances (openrouteservice); `None` without ORS_API_KEY, and
+    /// then delivery is "calculated individually".
+    pub routes: Option<Arc<crate::routing::Routes>>,
 }
 
 impl AppState {
     pub fn new(db: SqlitePool) -> AppState {
-        AppState { db, eur: Arc::new(RwLock::new(EurRate::FALLBACK)), limiter: refractory::Limiter::new() }
+        let routes = crate::routing::client(db.clone()).map(Arc::new);
+        AppState { db, eur: Arc::new(RwLock::new(EurRate::FALLBACK)), limiter: refractory::Limiter::new(), routes }
     }
 
     pub fn eur_rate(&self) -> EurRate {

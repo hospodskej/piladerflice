@@ -30,6 +30,8 @@ ammonia = { version = "4", optional = true }
 lettre = { version = "0.11", optional = true, default-features = false, features = ["builder", "smtp-transport", "pool", "tokio1", "tokio1-rustls", "ring", "webpki-roots", "hostname"] }
 serde_urlencoded = { version = "0.7", optional = true }
 refractory = { workspace = true, optional = true }
+chemotaxis = { workspace = true, optional = true }
+rand = { version = "0.9", optional = true }
 
 [build-dependencies]
 codon = { workspace = true, features = ["build"] }
@@ -51,6 +53,8 @@ ssr = [
   "dep:lettre",
   "dep:serde_urlencoded",
   "dep:refractory",
+  "dep:chemotaxis",
+  "dep:rand",
 ]
 
 [lints]

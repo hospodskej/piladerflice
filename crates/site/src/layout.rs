@@ -174,52 +174,15 @@ fn LanguageSwitch(v: Visitor) -> impl IntoView {
 
 #[component]
 fn CartWidget(v: Visitor) -> impl IntoView {
-    let l = v.locale;
-    let count = v.cart.total_quantity();
-    let content = if v.cart.is_empty() {
-        view! { <p class="cart-empty">{t::cart::empty(l)}</p> }.into_any()
-    } else {
-        let items = v
-            .cart
-            .lines
-            .iter()
-            .map(|line| {
-                let description = v.shop.line_description(l, line);
-                view! {
-                    <li class="cart-item">
-                        {line.image.clone().map(|src| view! { <img src=src alt=description.clone() class="cart-item-img"/> })}
-                        <div class="cart-item-details">
-                            <span class="cart-item-desc">{description.clone()}</span>
-                        </div>
-                        <span class="cart-item-price">{v.shop.price(l, line.total())}</span>
-                    </li>
-                }
-            })
-            .collect_view();
-        view! {
-            <ul class="cart-items-list">{items}</ul>
-            <div class="cart-totals">
-                <crate::cart_totals::CartTotals v=v.clone() compact=true/>
-            </div>
-            <a href=v.link("/kosik") class="btn-primary full-width cart-dropdown-view-cart">{t::cart::view_cart(l)}</a>
-        }
-        .into_any()
+    // Worked out on the server; the island keeps it current in the browser.
+    #[cfg(feature = "ssr")]
+    let summary = crate::cart_view::summary(&v);
+    #[cfg(not(feature = "ssr"))]
+    let summary = {
+        let _ = v;
+        crate::cart_view::CartSummary::default()
     };
-    view! {
-        <Dropdown class="cart-dropdown".to_owned() id="cart-widget".to_owned()>
-            <button type="button" class="btn-pill cart-btn" aria-haspopup="true" aria-expanded="false" aria-label=crate::shop::cart_label(l, count)>
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                {(count > 0).then(|| view! {
-                    <span class="cart-count" aria-hidden="true">{if count > 99 { "99+".to_owned() } else { count.to_string() }}</span>
-                })}
-            </button>
-            <div class="cart-dropdown-content">{content}</div>
-        </Dropdown>
-    }
+    view! { <crate::cart_islands::CartWidget summary=summary/> }
 }
 
 /// The crumbs come from the address: /sortiment/palivove-drevo → Sortiment › Palivové dřevo.

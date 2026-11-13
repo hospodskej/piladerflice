@@ -105,6 +105,13 @@ fn forms(state: AppState) -> Router {
     };
     let router = Router::new();
     let router = both(router, "/inquiries", post(site::forms::inquiry::create));
+    let router = both(router, "/cart_items", post(site::forms::cart::add));
+    let router = both(router, "/cart_items/{id}", post(site::forms::cart::update));
+    let router = both(router, "/cart_items/{id}/odebrat", post(site::forms::cart::remove));
+    let router = both(router, "/kosik/slevovy-kod", post(site::forms::cart::apply_discount));
+    let router = both(router, "/kosik/slevovy-kod/zrusit", post(site::forms::cart::remove_discount));
+    let router = both(router, "/doprava-odhad", post(site::forms::cart::estimate_delivery));
+    let router = both(router, "/doprava-odhad/zrusit", post(site::forms::cart::clear_delivery));
     router.with_state(state)
 }
 

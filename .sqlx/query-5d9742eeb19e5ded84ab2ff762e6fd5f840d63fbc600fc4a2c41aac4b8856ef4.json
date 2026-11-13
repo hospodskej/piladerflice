@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT OR REPLACE INTO route_cache (query, result, expires_at) VALUES (?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "5d9742eeb19e5ded84ab2ff762e6fd5f840d63fbc600fc4a2c41aac4b8856ef4"
+}

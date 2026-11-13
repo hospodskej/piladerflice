@@ -18,6 +18,21 @@ pub fn Dropdown(
     let open = RwSignal::new(false);
     let root = NodeRef::<leptos::html::Div>::new();
 
+    dropdown_behaviour(root, open, true);
+
+    view! {
+        <div class=class id=id class:open=open node_ref=root>
+            {children()}
+        </div>
+    }
+}
+
+/// The dropdown behaviour of a header dropdown whose root is `root`: a
+/// click or focus outside, or Escape, closes it; with `toggle_on_button`, a
+/// click on its button toggles `open` (and the button's aria-expanded), for
+/// dropdowns whose button is plain server-rendered markup.
+#[allow(unused_variables)]
+pub fn dropdown_behaviour(root: NodeRef<leptos::html::Div>, open: RwSignal<bool>, toggle_on_button: bool) {
     #[cfg(feature = "hydrate")]
     {
         use leptos::ev;
@@ -43,7 +58,9 @@ pub fn Dropdown(
         };
         let _ = window_event_listener(ev::click, move |e| {
             if on_button(e.target()) {
-                open.update(|o| *o = !*o);
+                if toggle_on_button {
+                    open.update(|o| *o = !*o);
+                }
             } else if open.get_untracked() && !inside(e.target()) {
                 open.set(false);
             }
@@ -61,12 +78,6 @@ pub fn Dropdown(
                 }
             }
         });
-    }
-
-    view! {
-        <div class=class id=id class:open=open node_ref=root>
-            {children()}
-        </div>
     }
 }
 
@@ -117,7 +128,7 @@ pub fn PageBehaviour() -> impl IntoView {
 }
 
 #[cfg(feature = "hydrate")]
-pub(crate) mod browser {
+pub mod browser {
     use leptos::ev;
     use leptos::prelude::*;
     use wasm_bindgen::JsCast;

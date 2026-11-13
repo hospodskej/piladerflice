@@ -16,6 +16,8 @@ pub struct SignedInUser {
     pub theme: Option<Theme>,
     /// The profile picture's address, if there is one.
     pub avatar: Option<String>,
+    pub billing_city: Option<String>,
+    pub billing_country: Option<String>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -58,7 +60,13 @@ pub struct Visitor {
     pub user: Option<SignedInUser>,
     pub cart: Cart,
     pub delivery: Option<DeliveryEstimate>,
+    /// The discount code in the cart, as saved in the admin.
+    pub discount: Option<domain::discount::DiscountCode>,
     pub flash: Option<Flash>,
+    /// What happened to the discount code just entered: (text, is an error).
+    pub discount_note: Option<(String, bool)>,
+    /// Why the delivery estimate just asked for failed.
+    pub delivery_error: Option<String>,
     pub shop: crate::shop::Shop,
 }
 

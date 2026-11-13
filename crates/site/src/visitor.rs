@@ -84,6 +84,8 @@ pub struct Visitor {
     pub flash: Option<Flash>,
     /// Why the order couldn't be placed (shown on the summary step).
     pub checkout_errors: Vec<String>,
+    /// The registration form after a refusal: (e-mail typed, problems).
+    pub registration_form: Option<(String, Vec<String>)>,
     /// The order this browser placed last (the thank-you page).
     pub last_order: Option<i64>,
     /// What happened to the discount code just entered: (text, is an error).

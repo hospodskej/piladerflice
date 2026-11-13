@@ -1,4 +1,5 @@
 use crate::i18n::t;
+use crate::pages::account::{AccountEditPage, AccountPage, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage};
 use crate::pages::cart::CartPage;
 use crate::pages::checkout::{ConfirmationPage, DetailsPage, ShippingPage, SummaryPage};
 use crate::pages::eshop::{EshopPage, ProductPage};
@@ -101,6 +102,12 @@ fn Pages() -> impl leptos_router::MatchNestedRoutes + Clone {
         <Route path=path!("/kontakt") view=KontaktPage ssr=SsrMode::Async/>
         <Route path=path!("/eshop") view=EshopPage ssr=SsrMode::Async/>
         <Route path=path!("/kosik") view=CartPage ssr=SsrMode::Async/>
+        <Route path=path!("/prihlaseni") view=LoginPage ssr=SsrMode::Async/>
+        <Route path=path!("/registrace") view=RegisterPage ssr=SsrMode::Async/>
+        <Route path=path!("/zapomenute-heslo") view=ForgotPasswordPage ssr=SsrMode::Async/>
+        <Route path=path!("/nove-heslo") view=ResetPasswordPage ssr=SsrMode::Async/>
+        <Route path=path!("/muj-ucet") view=AccountPage ssr=SsrMode::Async/>
+        <Route path=path!("/muj-ucet/upravit") view=AccountEditPage ssr=SsrMode::Async/>
         <Route path=path!("/kosik/doprava") view=ShippingPage ssr=SsrMode::Async/>
         <Route path=path!("/kosik/udaje") view=DetailsPage ssr=SsrMode::Async/>
         <Route path=path!("/kosik/souhrn") view=SummaryPage ssr=SsrMode::Async/>

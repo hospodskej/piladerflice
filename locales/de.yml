@@ -92,6 +92,19 @@ de:
     too_many_attempts: "Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten erneut."
 
   auth:
+    login_failed: "Falsche E-Mail-Adresse oder falsches Passwort."
+    logged_out: "Sie wurden abgemeldet."
+    registered: "Das Konto wurde erstellt."
+    login_required: "Bitte melden Sie sich an, um Ihr Konto zu sehen."
+    errors:
+      email_blank: "E-Mail muss ausgefüllt werden"
+      email_taken: "E-Mail ist bereits registriert"
+      password_blank: "Passwort muss ausgefüllt werden"
+      password_too_short: "Passwort ist zu kurz (mindestens %{min} Zeichen)"
+      password_confirmation: "Passwort-Wiederholung stimmt nicht mit dem Passwort überein"
+      prevent_registration:
+        one: "%{count} Fehler verhindert das Erstellen des Kontos:"
+        other: "%{count} Fehler verhindern das Erstellen des Kontos:"
     reset:
       forgot_link: "Passwort vergessen?"
       forgot_title: "Passwort vergessen"

@@ -1,6 +1,7 @@
 //! The pages. Each loads its data through a server function, so the same
 //! component renders on the server and the islands in it get plain props.
 
+pub mod account;
 pub mod cart;
 pub mod checkout;
 pub mod eshop;
@@ -202,5 +203,14 @@ mod tests {
     fn admin_html_keeps_only_simple_formatting() {
         let html = SafeHtml::from_admin(r#"9 800 Kč / m<sup>3</sup><br><script>x()</script><a href="x" onclick="y">link</a> <strong class="c">tučně</strong>"#);
         assert_eq!(html.as_str(), "9 800 Kč / m<sup>3</sup><br>link <strong>tučně</strong>");
+    }
+}
+
+/// The site's address for links in e-mails (APP_HOST in production).
+#[cfg(feature = "ssr")]
+pub fn base_url_for_mail() -> String {
+    match std::env::var("APP_HOST") {
+        Ok(host) if !host.is_empty() => format!("https://{host}"),
+        _ => "http://localhost:3000".into(),
     }
 }

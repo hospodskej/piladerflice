@@ -115,6 +115,23 @@ fn forms(state: AppState) -> Router {
     let router = both(router, "/kosik/doprava", post(site::forms::checkout::update_shipping));
     let router = both(router, "/kosik/udaje", post(site::forms::checkout::update_details));
     let router = both(router, "/kosik/souhrn", post(site::forms::checkout::confirm));
+    let router = both(router, "/prihlaseni", post(site::forms::auth::sign_in));
+    let router = both(router, "/odhlaseni", post(site::forms::auth::sign_out));
+    let router = both(router, "/registrace", post(site::forms::auth::register));
+    let router = both(router, "/zapomenute-heslo", post(site::forms::auth::request_reset));
+    let router = both(router, "/nove-heslo", post(site::forms::auth::set_new_password));
+    let router = both(router, "/nove-heslo/odkaz", get(site::forms::auth::open_reset_link));
+    let router = both(router, "/muj-ucet/upravit", post(site::forms::auth::update_account));
+    let router = both(router, "/muj-ucet/objednavky/{id}/znovu-objednat", post(site::forms::auth::reorder));
+    let router = both(
+        router,
+        "/muj-ucet/profilovy-obrazek",
+        get(site::forms::auth::show_avatar)
+            .post(site::forms::auth::upload_avatar)
+            // Pictures over 2 MB are refused anyway; stop reading well before that.
+            .layer(axum::extract::DefaultBodyLimit::max(3 * 1024 * 1024)),
+    );
+    let router = both(router, "/muj-ucet/profilovy-obrazek/smazat", post(site::forms::auth::remove_avatar));
     router.with_state(state)
 }
 

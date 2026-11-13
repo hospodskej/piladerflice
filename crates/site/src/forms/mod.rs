@@ -1,6 +1,7 @@
 //! Plain HTML form posts (they work without the WebAssembly too): each
 //! handler does its work, leaves a one-off message and redirects.
 
+pub mod auth;
 pub mod cart;
 pub mod checkout;
 pub mod inquiry;

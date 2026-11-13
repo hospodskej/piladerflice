@@ -37,6 +37,8 @@ tower-sessions-sqlx-store = { version = "0.16", features = ["sqlite"] }
 codon = { git = "https://github.com/hospodskej/rust-crates", branch = "codon", features = ["serde"] }
 refractory = { git = "https://github.com/hospodskej/rust-crates", branch = "refractory" }
 chemotaxis = { git = "https://github.com/hospodskej/rust-crates", branch = "chemotaxis" }
+thymus = { git = "https://github.com/hospodskej/rust-crates", branch = "thymus" }
+spliceosome = { git = "https://github.com/hospodskej/rust-crates", branch = "spliceosome" }
 cuticle = { git = "https://github.com/hospodskej/rust-crates", branch = "cuticle", features = ["leptos"] }
 
 [workspace.lints.rust]

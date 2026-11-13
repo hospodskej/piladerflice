@@ -92,6 +92,20 @@ cs:
     too_many_attempts: "Příliš mnoho pokusů za krátkou dobu. Zkuste to prosím za pár minut znovu."
 
   auth:
+    login_failed: "Nesprávný e-mail nebo heslo."
+    logged_out: "Byli jste odhlášeni."
+    registered: "Účet byl vytvořen."
+    login_required: "Pro zobrazení účtu se musíte přihlásit."
+    errors:
+      email_blank: "E-mail musí být vyplněn"
+      email_taken: "E-mail je již zaregistrován"
+      password_blank: "Heslo musí být vyplněno"
+      password_too_short: "Heslo je příliš krátké (nejméně %{min} znaků)"
+      password_confirmation: "Heslo znovu se neshoduje s heslem"
+      prevent_registration:
+        one: "%{count} chyba brání vytvoření účtu:"
+        few: "%{count} chyby brání vytvoření účtu:"
+        other: "%{count} chyb brání vytvoření účtu:"
     reset:
       forgot_link: "Zapomněli jste heslo?"
       forgot_title: "Zapomenuté heslo"

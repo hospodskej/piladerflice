@@ -172,6 +172,7 @@ pub async fn load_visitor(State(state): State<AppState>, session: Session, mut r
         checkout: session.get(CHECKOUT).await.ok().flatten().unwrap_or_default(),
         delivery: delivery_estimate(&session).await,
         flash: session.remove::<Flash>(FLASH).await.ok().flatten(),
+        registration_form: session.remove(crate::forms::auth::REGISTRATION_FORM).await.ok().flatten(),
         checkout_errors: session.remove(CHECKOUT_ERRORS).await.ok().flatten().unwrap_or_default(),
         last_order: session.get(LAST_ORDER).await.ok().flatten(),
         discount_note: session.remove(crate::forms::cart::DISCOUNT_NOTE).await.ok().flatten(),

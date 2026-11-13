@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT avatar_path FROM users WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "avatar_path",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "avatar_path"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      true
+    ]
+  },
+  "hash": "e02c6553cbbf1284944388432007d09bb37ccff72779ea604fc2fb78b48965ae"
+}

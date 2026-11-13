@@ -2,7 +2,10 @@
 //! component renders on the server and the islands in it get plain props.
 
 pub mod home;
+pub mod info;
+pub mod kontakt;
 pub mod not_found;
+pub mod sortiment;
 
 use crate::i18n::{t, Locale};
 use crate::visitor::visitor;

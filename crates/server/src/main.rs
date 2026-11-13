@@ -1,6 +1,6 @@
 //! The Pila Derflice web server.
 
-use axum::{middleware, routing::get, Router};
+use axum::{middleware, routing::{get, post}, Router};
 use cuticle::{Csp, Cuticle, Hsts, PermissionsPolicy, Source, XFrameOptions};
 use leptos::prelude::*;
 use leptos_axum::{generate_route_list, LeptosRoutes};
@@ -73,6 +73,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // The pictures and the WASM bundle, or else the 404 page.
         .fallback(leptos_axum::file_and_error_handler_with_context(context, shell))
         .with_state(leptos_options)
+        .merge(forms(state.clone()))
         .layer(middleware::from_fn_with_state(state.clone(), site::session::load_visitor))
         .layer(
             SessionManagerLayer::new(sessions)
@@ -87,6 +88,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let listener = tokio::net::TcpListener::bind(&addr).await?;
     axum::serve(listener, app.into_make_service_with_connect_info::<std::net::SocketAddr>()).await?;
     Ok(())
+}
+
+/// The HTML forms' handlers (the same in both languages).
+fn forms(state: AppState) -> Router {
+    let both = |router: Router<AppState>, path: &str, handler: axum::routing::MethodRouter<AppState>| {
+        router.route(path, handler.clone()).route(&format!("/at{path}"), handler)
+    };
+    let router = Router::new();
+    let router = both(router, "/inquiries", post(site::forms::inquiry::create));
+    router.with_state(state)
 }
 
 /// The Content-Security-Policy and the other security headers: the browser

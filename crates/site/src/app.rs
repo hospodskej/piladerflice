@@ -1,5 +1,8 @@
 use crate::i18n::t;
 use crate::pages::home::HomePage;
+use crate::pages::info::*;
+use crate::pages::kontakt::KontaktPage;
+use crate::pages::sortiment::*;
 use crate::visitor::visitor;
 use leptos::nonce::use_nonce;
 use leptos::prelude::*;
@@ -87,8 +90,23 @@ pub fn App() -> impl IntoView {
 /// Every public page; mounted at the root (Czech) and under /at (German).
 #[component(transparent)]
 fn Pages() -> impl leptos_router::MatchNestedRoutes + Clone {
+    // One parent around them all, so this is a single route whether or not
+    // the dev build erases component types.
     view! {
+        <ParentRoute path=path!("") view=leptos_router::components::Outlet>
         <Route path=path!("") view=HomePage ssr=SsrMode::Async/>
+        <Route path=path!("/kontakt") view=KontaktPage ssr=SsrMode::Async/>
+        <Route path=path!("/sluzby") view=SluzbyPage ssr=SsrMode::Async/>
+        <Route path=path!("/obchodni-podminky") view=TermsPage/>
+        <Route path=path!("/zasady-cookies") view=CookiesPage/>
+        <Route path=path!("/zasady-ochrany-osobnich-udaju") view=PrivacyPage/>
+        <Route path=path!("/sortiment") view=SortimentPage ssr=SsrMode::Async/>
+        <Route path=path!("/sortiment/palivove-drevo") view=PalivoveDrevoPage/>
+        <Route path=path!("/sortiment/stavebni-rezivo") view=StavebniRezivoPage/>
+        <Route path=path!("/sortiment/truhlarske-rezivo") view=TruhlarskeRezivoPage/>
+        <Route path=path!("/sortiment/okrasne-kamenivo") view=OkrasneKamenivoPage/>
+        <Route path=path!("/sortiment/vyrobni-zbytky") view=VyrobniZbytkyPage/>
+        </ParentRoute>
     }
     .into_inner()
 }

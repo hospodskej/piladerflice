@@ -3,6 +3,7 @@ name = "front"
 description = "The browser side of Pila Derflice: hydrates the islands (WASM)."
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 publish.workspace = true
 
 [lib]

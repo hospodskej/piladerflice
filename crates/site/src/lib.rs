@@ -8,14 +8,20 @@ pub mod assets;
 pub mod cart_totals;
 pub mod catalog;
 pub mod i18n;
+pub mod inquiry_form;
 pub mod islands;
 pub mod layout;
 pub mod pages;
 pub mod seo;
 pub mod server_fns;
 pub mod shop;
+pub mod time_fmt;
 pub mod visitor;
 
+#[cfg(feature = "ssr")]
+pub mod forms;
+#[cfg(feature = "ssr")]
+pub mod mail;
 #[cfg(feature = "ssr")]
 pub mod session;
 #[cfg(feature = "ssr")]

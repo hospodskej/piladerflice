@@ -2,7 +2,7 @@
 
 use super::{loaded, PageMeta, SafeHtml};
 use crate::i18n::t;
-use crate::islands::{Carousel, ReviewsCarousel};
+use crate::islands::{ReviewsCarousel, SlideShow};
 use crate::layout::Layout;
 use crate::visitor::visitor;
 use leptos::prelude::*;
@@ -448,24 +448,33 @@ pub fn HomePage() -> impl IntoView {
                         </section>
                         <section class="co-by-vas-mohlo-zajimat">
                             <h2>{accent(h::zajimat_title_rest(l), h::zajimat_title_accent(l))}</h2>
-                            <Carousel
-                                id="zajimatCarousel".to_owned()
-                                count=data.faq.len()
-                                previous=t::common::previous(l).to_owned()
-                                next=t::common::next(l).to_owned()
-                                slide_label=t::common::slide(l).to_owned()
-                            >
-                                {data.faq.into_iter().enumerate().map(|(i, slide)| view! {
-                                    <div class=if i == 0 { "carousel-slide active" } else { "carousel-slide" }>
-                                        <img src=slide.image class="carousel-bg-img" alt=slide.title.clone() loading="lazy"/>
-                                        <div class="carousel-overlay"></div>
-                                        <div class="carousel-content">
-                                            <h3>{slide.title}</h3>
-                                            <div class="carousel-text"><p inner_html=slide.content.into_string()></p></div>
-                                        </div>
+                            <SlideShow>
+                                <div class="carousel-wrapper" id="zajimatCarousel">
+                                    <button class="carousel-btn prev-btn" id="carouselPrev" aria-label=t::common::previous(l)>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                    </button>
+                                    <div class="carousel-container">
+                                        {data.faq.iter().cloned().enumerate().map(|(i, slide)| view! {
+                                            <div class=if i == 0 { "carousel-slide active" } else { "carousel-slide" }>
+                                                <img src=slide.image class="carousel-bg-img" alt=slide.title.clone() loading="lazy"/>
+                                                <div class="carousel-overlay"></div>
+                                                <div class="carousel-content">
+                                                    <h3>{slide.title}</h3>
+                                                    <div class="carousel-text"><p inner_html=slide.content.into_string()></p></div>
+                                                </div>
+                                            </div>
+                                        }).collect_view()}
                                     </div>
-                                }).collect_view()}
-                            </Carousel>
+                                    <button class="carousel-btn next-btn" id="carouselNext" aria-label=t::common::next(l)>
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    </button>
+                                </div>
+                                <div class="carousel-dots">
+                                    {(0..data.faq.len()).map(|i| view! {
+                                        <button class=if i == 0 { "carousel-dot active" } else { "carousel-dot" } aria-label=format!("{} {}", t::common::slide(l), i + 1)></button>
+                                    }).collect_view()}
+                                </div>
+                            </SlideShow>
                         </section>
                         <section class="faq-section">
                             <h2 class="faq-main-title">{accent(h::faq_title_rest(l), h::faq_title_accent(l))}</h2>

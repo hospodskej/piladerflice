@@ -3,6 +3,7 @@ name = "domain"
 description = "Pila Derflice business rules: prices, VAT, cart, delivery, discounts. No I/O."
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 publish.workspace = true
 
 [dependencies]

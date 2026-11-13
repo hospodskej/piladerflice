@@ -126,6 +126,18 @@ pub(crate) mod browser {
     const CONSENT_COOKIE: &str = "cookie_consent";
     const CONSENT_MAX_AGE: u32 = 180 * 24 * 60 * 60;
 
+    /// The elements under `root` matching `selector`.
+    pub fn all(root: &Element, selector: &str) -> Vec<Element> {
+        let Ok(list) = root.query_selector_all(selector) else { return Vec::new() };
+        (0..list.length()).filter_map(|i| list.item(i)?.dyn_into::<Element>().ok()).collect()
+    }
+
+    /// The element matching `selector` that the event happened in, if it's inside `root`.
+    pub fn closest_within(event: &web_sys::Event, root: &Element, selector: &str) -> Option<Element> {
+        let found = target_closest(event, selector)?;
+        root.contains(Some(&found)).then_some(found)
+    }
+
     fn document() -> web_sys::Document {
         leptos::prelude::document()
     }
@@ -422,62 +434,78 @@ pub(crate) mod browser {
     }
 }
 
-/// A slide show: one slide at a time, arrows, dots, and the next slide
-/// every 15 seconds. The slides come from the server as children.
+/// A slide show around server-rendered markup: one `.carousel-slide` at a
+/// time, `.prev-btn`/`.next-btn` arrows, optional `.carousel-dot`s, and the
+/// next slide every 15 seconds (restarted by every click).
 #[island]
-pub fn Carousel(id: String, count: usize, previous: String, next: String, slide_label: String, children: Children) -> impl IntoView {
-    let current = RwSignal::new(0usize);
+pub fn SlideShow(children: Children) -> impl IntoView {
     let root = NodeRef::<leptos::html::Div>::new();
-    let count = count.max(1);
-
     #[cfg(feature = "hydrate")]
     {
-        use wasm_bindgen::JsCast;
-        Effect::new(move |_| {
-            let index = current.get();
-            let Some(root) = root.get() else { return };
-            if let Ok(slides) = root.query_selector_all(".carousel-slide") {
-                for i in 0..slides.length() {
-                    if let Some(slide) = slides.item(i).and_then(|n| n.dyn_into::<web_sys::Element>().ok()) {
-                        let _ = slide.class_list().toggle_with_force("active", i as usize == index);
-                    }
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        use std::sync::Arc;
+        let current = Arc::new(AtomicUsize::new(0));
+        let timer = StoredValue::new(None::<IntervalHandle>);
+        let show = {
+            let current = current.clone();
+            move |index: usize| {
+                let Some(root) = root.get_untracked() else { return };
+                let slides = browser::all(&root, ".carousel-slide");
+                if slides.is_empty() {
+                    return;
+                }
+                let index = index % slides.len();
+                for (i, slide) in slides.iter().enumerate() {
+                    let _ = slide.class_list().toggle_with_force("active", i == index);
+                }
+                for (i, dot) in browser::all(&root, ".carousel-dot").iter().enumerate() {
+                    let _ = dot.class_list().toggle_with_force("active", i == index);
+                }
+                current.store(index, Ordering::Relaxed);
+            }
+        };
+        let restart = {
+            let (show, current) = (show.clone(), current.clone());
+            move || {
+                if let Some(handle) = timer.get_value() {
+                    handle.clear();
+                }
+                let (show, current) = (show.clone(), current.clone());
+                timer.set_value(
+                    set_interval_with_handle(move || show(current.load(Ordering::Relaxed) + 1), std::time::Duration::from_secs(15)).ok(),
+                );
+            }
+        };
+        Effect::new({
+            let restart = restart.clone();
+            move |_| {
+                if root.get().is_some() {
+                    restart();
                 }
             }
         });
+        let on_click = move |event: leptos::ev::MouseEvent| {
+            let Some(root) = root.get_untracked() else { return };
+            let count = browser::all(&root, ".carousel-slide").len().max(1);
+            let now = current.load(Ordering::Relaxed);
+            if browser::closest_within(&event, &root, ".next-btn").is_some() {
+                show(now + 1);
+            } else if browser::closest_within(&event, &root, ".prev-btn").is_some() {
+                show(now + count - 1);
+            } else if let Some(dot) = browser::closest_within(&event, &root, ".carousel-dot") {
+                let dots = browser::all(&root, ".carousel-dot");
+                if let Some(i) = dots.iter().position(|d| *d == dot) {
+                    show(i);
+                }
+            } else {
+                return;
+            }
+            restart();
+        };
+        return view! { <div class="slide-show" node_ref=root on:click=on_click>{children()}</div> };
     }
-    // Restarted on every click, like the old timer.
-    let timer = StoredValue::new(None::<leptos::prelude::IntervalHandle>);
-    let restart_timer = move || {
-        if let Some(handle) = timer.get_value() {
-            handle.clear();
-        }
-        timer.set_value(
-            set_interval_with_handle(move || current.update(|c| *c = (*c + 1) % count), std::time::Duration::from_secs(15)).ok(),
-        );
-    };
-    #[cfg(feature = "hydrate")]
-    restart_timer();
-    let go = move |index: usize| {
-        current.set(index % count);
-        restart_timer();
-    };
-
-    view! {
-        <div class="carousel-wrapper" id=id node_ref=root>
-            <button class="carousel-btn prev-btn" aria-label=previous on:click=move |_| go(current.get_untracked() + count - 1)>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <div class="carousel-container">{children()}</div>
-            <button class="carousel-btn next-btn" aria-label=next on:click=move |_| go(current.get_untracked() + 1)>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-        </div>
-        <div class="carousel-dots">
-            {(0..count).map(|i| view! {
-                <button class="carousel-dot" class:active=move || current.get() == i aria-label=format!("{slide_label} {}", i + 1) on:click=move |_| go(i)></button>
-            }).collect_view()}
-        </div>
-    }
+    #[cfg(not(feature = "hydrate"))]
+    view! { <div class="slide-show" node_ref=root>{children()}</div> }
 }
 
 /// The Google reviews strip: endless in both directions, sliding one card

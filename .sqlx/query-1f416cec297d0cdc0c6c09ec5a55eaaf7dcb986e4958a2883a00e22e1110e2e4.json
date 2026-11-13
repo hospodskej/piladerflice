@@ -1,0 +1,62 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT category, field, value, value_de FROM inquiry_form_options ORDER BY position, id",
+  "describe": {
+    "columns": [
+      {
+        "name": "category",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "field",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "field"
+          }
+        }
+      },
+      {
+        "name": "value",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "value"
+          }
+        }
+      },
+      {
+        "name": "value_de",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "value_de"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "1f416cec297d0cdc0c6c09ec5a55eaaf7dcb986e4958a2883a00e22e1110e2e4"
+}

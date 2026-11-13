@@ -5,3 +5,8 @@ leptos-island,
 leptos-children {
   display: contents;
 }
+
+/* The slide-show island's own wrapper is layout-neutral too. */
+.slide-show {
+  display: contents;
+}

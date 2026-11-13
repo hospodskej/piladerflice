@@ -32,7 +32,6 @@ web-sys = "0.3"
 console_error_panic_hook = "0.1"
 tower-sessions = "0.15"
 tower-sessions-sqlx-store = { version = "0.16", features = ["sqlite"] }
-rand = "0.9"
 
 # Our own crates (hospodskej/rust-crates); move to crates.io versions once published.
 codon = { git = "https://github.com/hospodskej/rust-crates", branch = "codon", features = ["serde"] }

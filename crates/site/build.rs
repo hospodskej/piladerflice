@@ -1,12 +1,32 @@
-//! Bundles the stylesheets listed in `style/main.css` (its `@import` lines, in
-//! order) into one file, and names it after a hash of its content so browsers
-//! can keep it for a year.
+//! Build steps for the site:
+//! - the translations in `locales/*.yml` become typed Rust functions (codon);
+//! - the stylesheets listed in `style/main.css` (its `@import` lines, in
+//!   order) are bundled into one file, named after a hash of its content so
+//!   browsers can keep it for a year.
 
 use std::fmt::Write as _;
 use std::path::Path;
 use std::{env, fs};
 
 fn main() {
+    translations();
+    stylesheet();
+}
+
+/// Typed functions for every key in locales/*.yml (see the codon crate).
+fn translations() {
+    let locales = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../locales");
+    if let Err(e) = codon::Build::new()
+        .locale("cs", locales.join("cs.yml"))
+        .locale("de", locales.join("de.yml"))
+        .url_prefix("de", "at")
+        .generate()
+    {
+        panic!("translations: {e}");
+    }
+}
+
+fn stylesheet() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../style");
     let manifest = root.join("main.css");
     println!("cargo:rerun-if-changed={}", manifest.display());

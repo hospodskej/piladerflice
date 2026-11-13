@@ -50,8 +50,17 @@ fn category_label(category: &str) -> &'static str {
     }
 }
 
-pub async fn create(State(state): State<AppState>, session: Session, uri: Uri, Form(fields): Form<Fields>) -> Response {
+pub async fn create(
+    State(state): State<AppState>,
+    session: Session,
+    ip: refractory::RemoteIp,
+    uri: Uri,
+    Form(fields): Form<Fields>,
+) -> Response {
     let l = locale_of(&uri);
+    if let Some(refused) = super::too_many_attempts(&state, &session, &ip, &crate::limits::INQUIRY, l, "/kontakt#kalkulace").await {
+        return refused;
+    }
     let items = items_snapshot(&fields);
     let required = ["jmeno", "prijmeni", "email", "telefon"].map(|name| field(&fields, name));
     let ([Some(first_name), Some(last_name), Some(email), Some(phone)], false) = (required, items.is_empty()) else {

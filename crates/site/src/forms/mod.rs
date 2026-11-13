@@ -36,3 +36,20 @@ pub fn field<'a>(fields: &'a Fields, name: &str) -> Option<&'a str> {
 pub fn all<'a>(fields: &'a Fields, name: &'a str) -> impl Iterator<Item = &'a str> + 'a {
     fields.iter().filter(move |(k, _)| k == name).map(|(_, v)| v.as_str())
 }
+
+/// Leaves "too many attempts" and redirects to `path` when `rule` is
+/// exhausted for this visitor's address; `None` when the attempt may go on.
+pub async fn too_many_attempts(
+    state: &crate::state::AppState,
+    session: &Session,
+    ip: &refractory::RemoteIp,
+    rule: &refractory::Rule,
+    locale: Locale,
+    path: &str,
+) -> Option<Response> {
+    if state.limiter.check(rule, ip.key()).await.is_ok() {
+        return None;
+    }
+    let message = crate::i18n::t::security::too_many_attempts(locale).to_owned();
+    Some(redirect_with(session, locale, path, Some(Flash::Alert(message))).await)
+}

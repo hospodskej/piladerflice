@@ -21,6 +21,7 @@ tracing-subscriber.workspace = true
 tower-sessions.workspace = true
 tower-sessions-sqlx-store.workspace = true
 cuticle.workspace = true
+refractory.workspace = true
 time.workspace = true
 
 [lints]

@@ -74,6 +74,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .fallback(leptos_axum::file_and_error_handler_with_context(context, shell))
         .with_state(leptos_options)
         .merge(forms(state.clone()))
+        .merge(site::plain::routes(state.clone()))
         .layer(middleware::from_fn_with_state(state.clone(), site::session::load_visitor))
         .layer(
             SessionManagerLayer::new(sessions)
@@ -82,7 +83,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_same_site(SameSite::Lax)
                 .with_expiry(Expiry::OnInactivity(Duration::days(365))),
         )
-        .layer(security_headers(production).into_layer());
+        .layer(security_headers(production).into_layer())
+        .layer(middleware::from_fn(site::plain::redirects))
+        // The site runs behind kamal-proxy, which says who the visitor is.
+        .layer(axum::Extension(if production {
+            refractory::ClientIp::behind_proxy()
+        } else {
+            refractory::ClientIp::direct()
+        }));
 
     tracing::info!("listening on http://{addr}");
     let listener = tokio::net::TcpListener::bind(&addr).await?;

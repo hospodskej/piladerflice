@@ -21,7 +21,11 @@ pub mod visitor;
 #[cfg(feature = "ssr")]
 pub mod forms;
 #[cfg(feature = "ssr")]
+pub mod limits;
+#[cfg(feature = "ssr")]
 pub mod mail;
+#[cfg(feature = "ssr")]
+pub mod plain;
 #[cfg(feature = "ssr")]
 pub mod session;
 #[cfg(feature = "ssr")]

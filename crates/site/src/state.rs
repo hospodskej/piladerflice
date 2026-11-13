@@ -9,11 +9,13 @@ pub struct AppState {
     pub db: SqlitePool,
     /// Crowns per euro, refreshed in the background.
     pub eur: Arc<RwLock<EurRate>>,
+    /// Counts repeated attempts (sign-in, forms) per address or account.
+    pub limiter: refractory::Limiter,
 }
 
 impl AppState {
     pub fn new(db: SqlitePool) -> AppState {
-        AppState { db, eur: Arc::new(RwLock::new(EurRate::FALLBACK)) }
+        AppState { db, eur: Arc::new(RwLock::new(EurRate::FALLBACK)), limiter: refractory::Limiter::new() }
     }
 
     pub fn eur_rate(&self) -> EurRate {

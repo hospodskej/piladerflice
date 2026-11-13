@@ -2278,6 +2278,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "refractory"
+version = "0.1.0"
+source = "git+https://github.com/hospodskej/rust-crates?branch=refractory#4bf706c4e71cddc37594eff54eb113476e699502"
+dependencies = [
+ "axum",
+ "http",
+ "siphasher",
+ "tower-layer",
+ "tower-service",
+]
+
+[[package]]
 name = "regex"
 version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2540,6 +2552,7 @@ dependencies = [
  "domain",
  "leptos",
  "leptos_axum",
+ "refractory",
  "site",
  "sqlx",
  "time",
@@ -2718,6 +2731,7 @@ dependencies = [
  "leptos_meta",
  "leptos_router",
  "lettre",
+ "refractory",
  "serde",
  "serde_json",
  "serde_urlencoded",

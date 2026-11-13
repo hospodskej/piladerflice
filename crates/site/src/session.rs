@@ -17,6 +17,9 @@ const CART: &str = "cart";
 const DELIVERY: &str = "delivery_estimate";
 const FLASH: &str = "flash";
 const SIGN_IN: &str = "sign_in";
+const CHECKOUT: &str = "checkout";
+pub const LAST_ORDER: &str = "last_order_id";
+pub const CHECKOUT_ERRORS: &str = "checkout_errors";
 pub const RETURN_TO: &str = "return_to";
 
 /// Admins sign in again after this; customers stay signed in.
@@ -86,7 +89,10 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
         return Ok(None);
     };
     let row = sqlx::query!(
-        r#"SELECT id AS "id!", email_address, first_name, role, theme, avatar_path, session_epoch, billing_city, billing_country FROM users WHERE id = ?"#,
+        r#"SELECT id AS "id!", email_address, first_name, last_name, phone, role, theme, avatar_path, session_epoch,
+                  billing_street, billing_city, billing_zip, billing_country, company_purchase, company_name, company_ico, company_dic,
+                  delivery_address_different, delivery_street, delivery_city, delivery_zip, delivery_country
+           FROM users WHERE id = ?"#,
         sign_in.user_id
     )
     .fetch_optional(&state.db)
@@ -102,6 +108,28 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
     Ok(row.map(|u| SignedInUser {
         id: u.id,
         email: u.email_address,
+        profile: crate::visitor::Profile {
+            first_name: u.first_name.clone(),
+            last_name: u.last_name,
+            phone: u.phone,
+            billing: domain::checkout::PostalAddress {
+                street: u.billing_street,
+                city: u.billing_city.clone(),
+                zip: u.billing_zip,
+                country: u.billing_country.clone(),
+            },
+            company_purchase: u.company_purchase != 0,
+            company_name: u.company_name,
+            company_ico: u.company_ico,
+            company_dic: u.company_dic,
+            delivery_address_different: u.delivery_address_different != 0,
+            delivery: domain::checkout::PostalAddress {
+                street: u.delivery_street,
+                city: u.delivery_city,
+                zip: u.delivery_zip,
+                country: u.delivery_country,
+            },
+        },
         first_name: u.first_name,
         admin: u.role == "admin",
         theme: u.theme.as_deref().and_then(Theme::parse),
@@ -141,8 +169,11 @@ pub async fn load_visitor(State(state): State<AppState>, session: Session, mut r
         path,
         user,
         cart,
+        checkout: session.get(CHECKOUT).await.ok().flatten().unwrap_or_default(),
         delivery: delivery_estimate(&session).await,
         flash: session.remove::<Flash>(FLASH).await.ok().flatten(),
+        checkout_errors: session.remove(CHECKOUT_ERRORS).await.ok().flatten().unwrap_or_default(),
+        last_order: session.get(LAST_ORDER).await.ok().flatten(),
         discount_note: session.remove(crate::forms::cart::DISCOUNT_NOTE).await.ok().flatten(),
         delivery_error: session.remove(crate::forms::cart::DELIVERY_ERROR).await.ok().flatten(),
     };
@@ -176,4 +207,8 @@ pub async fn discount_code(db: &sqlx::SqlitePool, code: &str) -> Result<Option<d
         times_used: row.times_used,
         min_order: row.min_order_czk.map(domain::money::Czk),
     }))
+}
+
+pub async fn save_checkout(session: &Session, checkout: &domain::checkout::CheckoutState) -> Result<(), SessionError> {
+    Ok(session.insert(CHECKOUT, checkout).await?)
 }

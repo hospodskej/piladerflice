@@ -552,3 +552,47 @@ pub fn ReviewsCarousel(previous: String, next: String, children: Children) -> im
         </div>
     }
 }
+
+/// The terms checkbox on the order summary: the order can't be sent
+/// unticked; the message shows and the box turns red until it's ticked.
+#[island]
+pub fn TermsAgreement(label_html: String, error: String) -> impl IntoView {
+    let invalid = RwSignal::new(false);
+    let checkbox = NodeRef::<leptos::html::Input>::new();
+    let message = NodeRef::<leptos::html::P>::new();
+    #[cfg(feature = "hydrate")]
+    Effect::new(move |_| {
+        use wasm_bindgen::JsCast;
+        let Some(input) = checkbox.get() else { return };
+        let Some(form) = input.form() else { return };
+        let handler = wasm_bindgen::closure::Closure::<dyn Fn(web_sys::Event)>::new(move |event: web_sys::Event| {
+            if checkbox.get_untracked().is_some_and(|c| !c.checked()) {
+                event.prevent_default();
+                invalid.set(true);
+                if let Some(p) = message.get_untracked() {
+                    let options = web_sys::ScrollIntoViewOptions::new();
+                    options.set_behavior(web_sys::ScrollBehavior::Smooth);
+                    options.set_block(web_sys::ScrollLogicalPosition::Center);
+                    p.scroll_into_view_with_scroll_into_view_options(&options);
+                }
+            }
+        });
+        let _ = form.add_event_listener_with_callback("submit", handler.as_ref().unchecked_ref());
+        handler.forget();
+    });
+    view! {
+        <label class="custom-checkbox-label checkout-checkbox" class:checkout-checkbox-invalid=invalid>
+            <input
+                type="checkbox"
+                name="terms_agreement"
+                value="1"
+                id="termsAgreement"
+                node_ref=checkbox
+                on:change=move |e| if event_target_checked(&e) { invalid.set(false) }
+            />
+            <span class="custom-checkbox"></span>
+            <span inner_html=label_html></span>
+        </label>
+        <p class="checkout-terms-error" id="termsError" hidden=move || !invalid.get() node_ref=message>{error}</p>
+    }
+}

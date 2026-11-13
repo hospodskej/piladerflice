@@ -1,0 +1,278 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id AS \"id!\", email_address, first_name, last_name, phone, role, theme, avatar_path, session_epoch,\n                  billing_street, billing_city, billing_zip, billing_country, company_purchase, company_name, company_ico, company_dic,\n                  delivery_address_different, delivery_street, delivery_city, delivery_zip, delivery_country\n           FROM users WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "email_address",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "email_address"
+          }
+        }
+      },
+      {
+        "name": "first_name",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "first_name"
+          }
+        }
+      },
+      {
+        "name": "last_name",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "last_name"
+          }
+        }
+      },
+      {
+        "name": "phone",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "phone"
+          }
+        }
+      },
+      {
+        "name": "role",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "role"
+          }
+        }
+      },
+      {
+        "name": "theme",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "theme"
+          }
+        }
+      },
+      {
+        "name": "avatar_path",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "avatar_path"
+          }
+        }
+      },
+      {
+        "name": "session_epoch",
+        "ordinal": 8,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "session_epoch"
+          }
+        }
+      },
+      {
+        "name": "billing_street",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_street"
+          }
+        }
+      },
+      {
+        "name": "billing_city",
+        "ordinal": 10,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_city"
+          }
+        }
+      },
+      {
+        "name": "billing_zip",
+        "ordinal": 11,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_zip"
+          }
+        }
+      },
+      {
+        "name": "billing_country",
+        "ordinal": 12,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "billing_country"
+          }
+        }
+      },
+      {
+        "name": "company_purchase",
+        "ordinal": 13,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "company_purchase"
+          }
+        }
+      },
+      {
+        "name": "company_name",
+        "ordinal": 14,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "company_name"
+          }
+        }
+      },
+      {
+        "name": "company_ico",
+        "ordinal": 15,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "company_ico"
+          }
+        }
+      },
+      {
+        "name": "company_dic",
+        "ordinal": 16,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "company_dic"
+          }
+        }
+      },
+      {
+        "name": "delivery_address_different",
+        "ordinal": 17,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "delivery_address_different"
+          }
+        }
+      },
+      {
+        "name": "delivery_street",
+        "ordinal": 18,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "delivery_street"
+          }
+        }
+      },
+      {
+        "name": "delivery_city",
+        "ordinal": 19,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "delivery_city"
+          }
+        }
+      },
+      {
+        "name": "delivery_zip",
+        "ordinal": 20,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "delivery_zip"
+          }
+        }
+      },
+      {
+        "name": "delivery_country",
+        "ordinal": 21,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "delivery_country"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "fdbddbbd8ab14796a5b72ad72d707fa1d8c42ed432a936a3d6addc11b11c9408"
+}

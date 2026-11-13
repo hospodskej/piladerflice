@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE users SET first_name = ?, last_name = ?, phone = ?, billing_street = ?, billing_city = ?, billing_zip = ?, billing_country = ?,\n                          company_purchase = ?, company_name = ?, company_ico = ?, company_dic = ?,\n                          delivery_address_different = ?, delivery_street = ?, delivery_city = ?, delivery_zip = ?, delivery_country = ?,\n                          updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n         WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 17
+    },
+    "nullable": []
+  },
+  "hash": "d7b7df1160d981b3cf4abab424b1b7a7a8f5b388b059f3641457ea3fd35749fd"
+}

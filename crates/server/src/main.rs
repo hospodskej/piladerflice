@@ -112,6 +112,9 @@ fn forms(state: AppState) -> Router {
     let router = both(router, "/kosik/slevovy-kod/zrusit", post(site::forms::cart::remove_discount));
     let router = both(router, "/doprava-odhad", post(site::forms::cart::estimate_delivery));
     let router = both(router, "/doprava-odhad/zrusit", post(site::forms::cart::clear_delivery));
+    let router = both(router, "/kosik/doprava", post(site::forms::checkout::update_shipping));
+    let router = both(router, "/kosik/udaje", post(site::forms::checkout::update_details));
+    let router = both(router, "/kosik/souhrn", post(site::forms::checkout::confirm));
     router.with_state(state)
 }
 

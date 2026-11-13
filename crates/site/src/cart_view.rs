@@ -53,9 +53,17 @@ mod build {
     use domain::money::Czk;
     use domain::vat::Country;
 
-    /// The VAT country before checkout: the estimate's country, else Czech.
+    /// Whose VAT applies, as far as we know yet: checkout's (pickup is
+    /// Czech; else where the goods go), then "Kam vozíme?", then the site's
+    /// language (the German site delivers to Austria by default).
     pub fn vat_country(v: &Visitor) -> Country {
-        v.delivery.as_ref().map_or(Country::Cz, |d| d.country)
+        v.checkout
+            .vat_country()
+            .or_else(|| v.delivery.as_ref().map(|d| d.country))
+            .unwrap_or(match v.locale {
+                crate::i18n::Locale::De => Country::At,
+                crate::i18n::Locale::Cs => Country::Cz,
+            })
     }
 
     /// The cart's code and what it takes off now, if it can be used.
@@ -88,10 +96,16 @@ mod build {
     /// The rows under the cart: goods before discount, discount, delivery
     /// estimate, total, VAT per rate (not in `compact`), total without VAT.
     pub fn totals(v: &Visitor, compact: bool) -> Vec<TotalRow> {
+        totals_with(v, compact, true)
+    }
+
+    /// As [`totals`]; `with_estimate: false` leaves out the "Kam vozíme?"
+    /// estimate (the checkout sidebar).
+    pub fn totals_with(v: &Visitor, compact: bool, with_estimate: bool) -> Vec<TotalRow> {
         let l = v.locale;
         let price = |amount: Czk| v.shop.price(l, amount);
         let discount = applied_discount(v);
-        let delivery = v.delivery.as_ref().map(|d| (d.place.clone(), d.quote(v.shop.czk_per_km)));
+        let delivery = v.delivery.as_ref().filter(|_| with_estimate).map(|d| (d.place.clone(), d.quote(v.shop.czk_per_km)));
         let vat = v.shop.breakdown(
             &v.cart,
             vat_country(v),

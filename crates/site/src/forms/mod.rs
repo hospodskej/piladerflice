@@ -2,6 +2,7 @@
 //! handler does its work, leaves a one-off message and redirects.
 
 pub mod cart;
+pub mod checkout;
 pub mod inquiry;
 
 use crate::i18n::Locale;

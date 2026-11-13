@@ -18,6 +18,23 @@ pub struct SignedInUser {
     pub avatar: Option<String>,
     pub billing_city: Option<String>,
     pub billing_country: Option<String>,
+    /// The details saved from the last order (prefill checkout).
+    pub profile: Profile,
+}
+
+/// A customer's saved details.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Profile {
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
+    pub phone: Option<String>,
+    pub billing: domain::checkout::PostalAddress,
+    pub company_purchase: bool,
+    pub company_name: Option<String>,
+    pub company_ico: Option<String>,
+    pub company_dic: Option<String>,
+    pub delivery_address_different: bool,
+    pub delivery: domain::checkout::PostalAddress,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -60,9 +77,15 @@ pub struct Visitor {
     pub user: Option<SignedInUser>,
     pub cart: Cart,
     pub delivery: Option<DeliveryEstimate>,
+    /// What checkout has so far.
+    pub checkout: domain::checkout::CheckoutState,
     /// The discount code in the cart, as saved in the admin.
     pub discount: Option<domain::discount::DiscountCode>,
     pub flash: Option<Flash>,
+    /// Why the order couldn't be placed (shown on the summary step).
+    pub checkout_errors: Vec<String>,
+    /// The order this browser placed last (the thank-you page).
+    pub last_order: Option<i64>,
     /// What happened to the discount code just entered: (text, is an error).
     pub discount_note: Option<(String, bool)>,
     /// Why the delivery estimate just asked for failed.

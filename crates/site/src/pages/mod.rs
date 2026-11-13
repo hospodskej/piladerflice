@@ -2,6 +2,7 @@
 //! component renders on the server and the islands in it get plain props.
 
 pub mod cart;
+pub mod checkout;
 pub mod eshop;
 pub mod home;
 pub mod info;

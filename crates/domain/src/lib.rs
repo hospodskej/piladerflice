@@ -6,6 +6,7 @@
 
 pub mod cart;
 pub mod catalog;
+pub mod checkout;
 pub mod delivery;
 pub mod discount;
 pub mod money;

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE discount_codes SET times_used = times_used + 1 WHERE code = ? AND (usage_limit IS NULL OR times_used < usage_limit)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "71e122ef51339496d2e9e7cd6f4219c6f110858c0598ba6f531f8619ee5cb7cb"
+}

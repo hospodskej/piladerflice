@@ -17,7 +17,7 @@ serde_json.workspace = true
 thiserror.workspace = true
 time.workspace = true
 wasm-bindgen.workspace = true
-web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "HtmlInputElement", "DomTokenList", "Storage", "Window", "Location", "Node", "NodeList", "Event", "EventTarget", "KeyboardEvent", "CssStyleDeclaration", "HtmlCollection", "DomRect", "AddEventListenerOptions"] }
+web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "HtmlInputElement", "DomTokenList", "Storage", "Window", "Location", "Node", "NodeList", "Event", "EventTarget", "KeyboardEvent", "CssStyleDeclaration", "HtmlCollection", "DomRect", "AddEventListenerOptions", "HtmlFormElement", "HtmlSelectElement", "ScrollIntoViewOptions", "ScrollBehavior", "ScrollLogicalPosition"] }
 js-sys = "0.3"
 
 leptos_axum = { workspace = true, optional = true }

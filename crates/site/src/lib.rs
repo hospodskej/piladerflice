@@ -6,6 +6,8 @@
 pub mod app;
 pub mod assets;
 pub mod i18n;
+pub mod islands;
+pub mod server_fns;
 pub mod visitor;
 
 #[cfg(feature = "ssr")]

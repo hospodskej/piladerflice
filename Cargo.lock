@@ -2404,6 +2404,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "domain",
+ "js-sys",
  "leptos",
  "leptos_axum",
  "leptos_meta",

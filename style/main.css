@@ -1,6 +1,7 @@
 /* All the site's styles, in the order the Rails app loaded them. */
 @import "base/buttons.css";
 @import "base/global.css";
+@import "base/leptos.css";
 @import "components/admin.css";
 @import "components/breadcrumbs.css";
 @import "components/cart.css";

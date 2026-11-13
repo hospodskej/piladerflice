@@ -24,7 +24,7 @@ pub fn Dropdown(
         use wasm_bindgen::JsCast;
         let button = move || {
             root.get_untracked()
-                .and_then(|r| r.query_selector(":scope > button").ok().flatten())
+                .and_then(|r| r.query_selector(":scope > button, :scope > leptos-children > button").ok().flatten())
                 .and_then(|b| b.dyn_into::<web_sys::HtmlElement>().ok())
         };
         Effect::new(move |_| {
@@ -225,8 +225,12 @@ pub(crate) mod browser {
         update_sticky_logo();
         update_nav_highlight();
 
+        fit_lines();
         let _ = window_event_listener(ev::scroll, |_| update_sticky_logo());
-        let _ = window_event_listener(ev::resize, |_| update_sticky_logo());
+        let _ = window_event_listener(ev::resize, |_| {
+            update_sticky_logo();
+            fit_lines();
+        });
         let _ = window_event_listener(ev::hashchange, |_| update_nav_highlight());
         let _ = window_event_listener(ev::click, |event| {
             let event: &web_sys::Event = &event;
@@ -268,6 +272,137 @@ pub(crate) mod browser {
         input.set_value(&next.to_string());
     }
 
+    /// Where the cards are: inside the island's <leptos-children> wrapper
+    /// (`display: contents`, so the track still lays them out).
+    fn cards_parent(track: &Element) -> Element {
+        track.query_selector(":scope > leptos-children").ok().flatten().unwrap_or_else(|| track.clone())
+    }
+
+    fn real_cards(track: &Element) -> Vec<Element> {
+        let children = cards_parent(track).children();
+        (0..children.length())
+            .filter_map(|i| children.item(i))
+            .filter(|c| !c.has_attribute("data-clone"))
+            .collect()
+    }
+
+    fn card_step(track: &Element) -> f64 {
+        let Some(first) = real_cards(track).into_iter().next() else { return 0.0 };
+        let gap = window()
+            .get_computed_style(track)
+            .ok()
+            .flatten()
+            .and_then(|s| s.get_property_value("column-gap").ok())
+            .and_then(|g| g.trim_end_matches("px").parse::<f64>().ok())
+            .unwrap_or(0.0);
+        first.get_bounding_client_rect().width() + gap
+    }
+
+    fn style(track: &Element) -> Option<web_sys::CssStyleDeclaration> {
+        track.clone().dyn_into::<HtmlElement>().ok().map(|t| t.style())
+    }
+
+    fn rebuild_reviews(track: &Element, cards: &[Element]) {
+        let parent = cards_parent(track);
+        if let Ok(clones) = parent.query_selector_all("[data-clone]") {
+            for i in 0..clones.length() {
+                if let Some(c) = clones.item(i).and_then(|n| n.dyn_into::<Element>().ok()) {
+                    c.remove();
+                }
+            }
+        }
+        for card in cards {
+            let _ = parent.append_child(card);
+        }
+        let clone = |card: &Element| {
+            let copy = card.clone_node_with_deep(true).ok()?.dyn_into::<Element>().ok()?;
+            let _ = copy.set_attribute("data-clone", "");
+            let _ = copy.set_attribute("aria-hidden", "true");
+            Some(copy)
+        };
+        if let (Some(first), Some(last)) = (cards.first().and_then(clone), cards.last().and_then(clone)) {
+            let _ = parent.insert_before(&last, parent.first_child().as_ref());
+            let _ = parent.append_child(&first);
+        }
+        // Back to rest (showing the first real card) without animating.
+        if let Some(style) = style(track) {
+            let _ = style.set_property("transition", "none");
+            let _ = style.set_property("transform", &format!("translateX(-{}px)", card_step(track)));
+            let _ = track.get_bounding_client_rect();
+            let _ = style.set_property("transition", "");
+        }
+    }
+
+    pub fn setup_reviews(track: &Element) {
+        let cards = real_cards(track);
+        if cards.len() >= 2 {
+            rebuild_reviews(track, &cards);
+        }
+    }
+
+    pub fn slide_reviews(track: &Element, forward: bool) {
+        let mut cards = real_cards(track);
+        if cards.len() < 2 || track.has_attribute("data-animating") {
+            return;
+        }
+        let _ = track.set_attribute("data-animating", "");
+        if let Some(style) = style(track) {
+            let _ = style.set_property("transition", "transform 0.4s ease");
+            let offset = if forward { format!("translateX(-{}px)", 2.0 * card_step(track)) } else { "translateX(0)".to_owned() };
+            let _ = style.set_property("transform", &offset);
+        }
+        let track_after = track.clone();
+        let done = wasm_bindgen::closure::Closure::once_into_js(move || {
+            if forward {
+                cards.rotate_left(1);
+            } else {
+                cards.rotate_right(1);
+            }
+            rebuild_reviews(&track_after, &cards);
+            let _ = track_after.remove_attribute("data-animating");
+        });
+        let options = web_sys::AddEventListenerOptions::new();
+        options.set_once(true);
+        let _ = track.add_event_listener_with_callback_and_add_event_listener_options("transitionend", done.unchecked_ref(), &options);
+    }
+
+    /// Shrinks the font of `.fit-lines` headings just enough that each
+    /// <br>-separated line fits without wrapping (line lengths differ per
+    /// language and font). Below `data-fit-min` px the lines wrap instead.
+    fn fit_lines() {
+        let Ok(headings) = document().query_selector_all(".fit-lines") else { return };
+        for i in 0..headings.length() {
+            let Some(el) = headings.item(i).and_then(|n| n.dyn_into::<HtmlElement>().ok()) else { continue };
+            let min: f64 = el.get_attribute("data-fit-min").and_then(|m| m.parse().ok()).unwrap_or(0.0);
+            let style = el.style();
+            let _ = style.set_property("contain", "inline-size");
+            let _ = style.set_property("font-size", "");
+            let _ = style.set_property("white-space", "nowrap");
+            let available = f64::from(el.client_width());
+            let needed = f64::from(el.scroll_width());
+            if needed <= available || available <= 0.0 {
+                continue;
+            }
+            let current = window()
+                .get_computed_style(&el)
+                .ok()
+                .flatten()
+                .and_then(|s| s.get_property_value("font-size").ok())
+                .and_then(|f| f.trim_end_matches("px").parse::<f64>().ok())
+                .unwrap_or(16.0);
+            let mut size = current * available / needed;
+            if size < min {
+                let _ = style.set_property("white-space", "");
+                continue;
+            }
+            let _ = style.set_property("font-size", &format!("{size}px"));
+            while f64::from(el.scroll_width()) > available && size > 1.0 {
+                size -= 0.5;
+                let _ = style.set_property("font-size", &format!("{size}px"));
+            }
+        }
+    }
+
     /// A signed-in account without a saved choice takes this device's.
     fn sync_theme_with_account() {
         let Some(meta) = document().query_selector(r#"meta[name="theme-preference"]"#).ok().flatten() else {
@@ -284,5 +419,97 @@ pub(crate) mod browser {
                 let _ = crate::server_fns::save_theme(theme).await;
             });
         }
+    }
+}
+
+/// A slide show: one slide at a time, arrows, dots, and the next slide
+/// every 15 seconds. The slides come from the server as children.
+#[island]
+pub fn Carousel(id: String, count: usize, previous: String, next: String, slide_label: String, children: Children) -> impl IntoView {
+    let current = RwSignal::new(0usize);
+    let root = NodeRef::<leptos::html::Div>::new();
+    let count = count.max(1);
+
+    #[cfg(feature = "hydrate")]
+    {
+        use wasm_bindgen::JsCast;
+        Effect::new(move |_| {
+            let index = current.get();
+            let Some(root) = root.get() else { return };
+            if let Ok(slides) = root.query_selector_all(".carousel-slide") {
+                for i in 0..slides.length() {
+                    if let Some(slide) = slides.item(i).and_then(|n| n.dyn_into::<web_sys::Element>().ok()) {
+                        let _ = slide.class_list().toggle_with_force("active", i as usize == index);
+                    }
+                }
+            }
+        });
+    }
+    // Restarted on every click, like the old timer.
+    let timer = StoredValue::new(None::<leptos::prelude::IntervalHandle>);
+    let restart_timer = move || {
+        if let Some(handle) = timer.get_value() {
+            handle.clear();
+        }
+        timer.set_value(
+            set_interval_with_handle(move || current.update(|c| *c = (*c + 1) % count), std::time::Duration::from_secs(15)).ok(),
+        );
+    };
+    #[cfg(feature = "hydrate")]
+    restart_timer();
+    let go = move |index: usize| {
+        current.set(index % count);
+        restart_timer();
+    };
+
+    view! {
+        <div class="carousel-wrapper" id=id node_ref=root>
+            <button class="carousel-btn prev-btn" aria-label=previous on:click=move |_| go(current.get_untracked() + count - 1)>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="carousel-container">{children()}</div>
+            <button class="carousel-btn next-btn" aria-label=next on:click=move |_| go(current.get_untracked() + 1)>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+        <div class="carousel-dots">
+            {(0..count).map(|i| view! {
+                <button class="carousel-dot" class:active=move || current.get() == i aria-label=format!("{slide_label} {}", i + 1) on:click=move |_| go(i)></button>
+            }).collect_view()}
+        </div>
+    }
+}
+
+/// The Google reviews strip: endless in both directions, sliding one card
+/// at a time. A copy of the last card waits before the first and of the
+/// first after the last, so the incoming card slides in instead of popping.
+#[island]
+pub fn ReviewsCarousel(previous: String, next: String, children: Children) -> impl IntoView {
+    let track = NodeRef::<leptos::html::Div>::new();
+    #[allow(unused_variables)]
+    let slide = move |forward: bool| {
+        #[cfg(feature = "hydrate")]
+        if let Some(track) = track.get_untracked() {
+            browser::slide_reviews(&track, forward);
+        }
+    };
+    #[cfg(feature = "hydrate")]
+    Effect::new(move |_| {
+        if let Some(track) = track.get() {
+            browser::setup_reviews(&track);
+        }
+    });
+    view! {
+        <div class="google-reviews-carousel">
+            <button class="carousel-btn prev-btn" id="googleReviewsPrev" aria-label=previous on:click=move |_| slide(false)>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="google-reviews-viewport">
+                <div class="google-reviews-grid" id="googleReviewsTrack" node_ref=track>{children()}</div>
+            </div>
+            <button class="carousel-btn next-btn" id="googleReviewsNext" aria-label=next on:click=move |_| slide(true)>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
     }
 }

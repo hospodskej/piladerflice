@@ -1,7 +1,7 @@
 //! The Pila Derflice web server.
 
 use axum::{middleware, routing::get, Router};
-use cuticle::{Csp, Cuticle, Hsts, Source};
+use cuticle::{Csp, Cuticle, Hsts, PermissionsPolicy, Source, XFrameOptions};
 use leptos::prelude::*;
 use leptos_axum::{generate_route_list, LeptosRoutes};
 use site::app::{shell, App};
@@ -32,31 +32,46 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let sessions = SqliteStore::new(db.clone());
     sessions.migrate().await?;
-    let state = AppState { db };
+    let state = AppState::new(db);
 
     let conf = get_configuration(None)?;
     let leptos_options = conf.leptos_options;
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(App);
 
+    // What every page and server function can reach: the database and the
+    // request's CSP nonce.
+    let context = {
+        let state = state.clone();
+        move || {
+            provide_context(state.clone());
+            cuticle::leptos::provide_nonce();
+        }
+    };
+
     let app = Router::new()
         .route(site::assets::STYLESHEET_HREF, get(stylesheet))
+        .route(
+            "/api/{*fn_name}",
+            axum::routing::post({
+                let state = state.clone();
+                move |request: axum::extract::Request| {
+                    let state = state.clone();
+                    leptos_axum::handle_server_fns_with_context(move || provide_context(state.clone()), request)
+                }
+            }),
+        )
         .leptos_routes_with_context(
             &leptos_options,
             routes,
-            {
-                let state = state.clone();
-                move || {
-                    provide_context(state.clone());
-                    cuticle::leptos::provide_nonce();
-                }
-            },
+            context.clone(),
             {
                 let options = leptos_options.clone();
                 move || shell(options.clone())
             },
         )
-        .fallback(leptos_axum::file_and_error_handler(shell))
+        // The pictures and the WASM bundle, or else the 404 page.
+        .fallback(leptos_axum::file_and_error_handler_with_context(context, shell))
         .with_state(leptos_options)
         .layer(middleware::from_fn_with_state(state.clone(), site::session::load_visitor))
         .layer(
@@ -74,23 +89,45 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-/// The Content-Security-Policy and the other security headers. Only Google
-/// Analytics and the footer's map come from outside.
+/// The Content-Security-Policy and the other security headers: the browser
+/// runs only the site's own scripts (and Google Analytics), so injected HTML
+/// can't run a script or send data elsewhere.
 fn security_headers(production: bool) -> Cuticle {
-    let google_analytics = [
-        Source::host("https://www.googletagmanager.com"),
-        Source::host("https://*.google-analytics.com"),
-        Source::host("https://*.analytics.google.com"),
-    ];
+    // Where Google Analytics sends its measurements (www.google.com/g/collect
+    // with consent mode).
+    let google_analytics = || {
+        ["https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com", "https://www.google.com"]
+            .map(Source::host)
+    };
+    let csp = Csp::new()
+        .default_src([Source::SelfOrigin])
+        // The few inline scripts (theme, Analytics, hydration) carry the
+        // nonce; the islands are WebAssembly.
+        .script_src([
+            Source::SelfOrigin,
+            Source::host("https://www.googletagmanager.com"),
+            Source::Nonce,
+            Source::WasmUnsafeEval,
+        ])
+        .connect_src([Source::SelfOrigin].into_iter().chain(google_analytics()))
+        .img_src([Source::SelfOrigin, Source::Data, Source::Blob].into_iter().chain(google_analytics()))
+        // style="" attributes are used throughout; styles can't run code.
+        .style_src([Source::SelfOrigin, Source::UnsafeInline])
+        .font_src([Source::SelfOrigin, Source::Data])
+        .frame_src([Source::host("https://www.google.com")]) // the map in the footer
+        .object_src([Source::None])
+        .base_uri([Source::SelfOrigin])
+        .form_action([Source::SelfOrigin])
+        .frame_ancestors([Source::SelfOrigin]);
+    let permissions = ["camera", "microphone", "geolocation", "usb", "payment", "gyroscope", "magnetometer"]
+        .into_iter()
+        .fold(PermissionsPolicy::new(), PermissionsPolicy::deny);
     Cuticle::new()
-        .csp(
-            Csp::leptos()
-                .extend("script-src", google_analytics.clone())
-                .extend("connect-src", google_analytics.clone())
-                .extend("img-src", [Source::Data, Source::Blob].into_iter().chain(google_analytics))
-                .frame_src([Source::host("https://www.google.com")]),
-        )
-        .hsts(production.then(|| Hsts::new(std::time::Duration::from_secs(63_072_000)).include_subdomains()))
+        .csp(csp)
+        .permissions_policy(permissions)
+        .x_frame_options(XFrameOptions::SameOrigin)
+        // Rails' force_ssl: two years, with subdomains.
+        .hsts(production.then(|| Hsts::new(std::time::Duration::from_secs(2 * 365 * 24 * 60 * 60)).include_subdomains()))
 }
 
 /// The bundled stylesheet. Its address carries a hash of the content, so it

@@ -119,7 +119,12 @@ pub async fn load_visitor(State(state): State<AppState>, session: Session, mut r
             None
         }
     };
+    let shop = crate::shop::load(&state).await.unwrap_or_else(|e| {
+        tracing::warn!("could not load the shop settings: {e}");
+        crate::shop::Shop::default()
+    });
     let visitor = Visitor {
+        shop,
         locale: Locale::of_path(&path),
         query: request.uri().query().map(str::to_owned),
         path,

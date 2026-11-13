@@ -16,7 +16,7 @@ serde_json.workspace = true
 thiserror.workspace = true
 time.workspace = true
 wasm-bindgen.workspace = true
-web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "HtmlInputElement", "DomTokenList", "Storage", "Window", "Location", "Node", "NodeList", "Event", "EventTarget", "KeyboardEvent", "CssStyleDeclaration"] }
+web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "HtmlInputElement", "DomTokenList", "Storage", "Window", "Location", "Node", "NodeList", "Event", "EventTarget", "KeyboardEvent", "CssStyleDeclaration", "HtmlCollection", "DomRect", "AddEventListenerOptions"] }
 js-sys = "0.3"
 
 leptos_axum = { workspace = true, optional = true }
@@ -25,6 +25,7 @@ sqlx = { workspace = true, optional = true }
 tokio = { workspace = true, optional = true }
 tracing = { workspace = true, optional = true }
 tower-sessions = { workspace = true, optional = true }
+ammonia = { version = "4", optional = true }
 
 [build-dependencies]
 codon = { workspace = true, features = ["build"] }
@@ -42,6 +43,7 @@ ssr = [
   "dep:tokio",
   "dep:tracing",
   "dep:tower-sessions",
+  "dep:ammonia",
 ]
 
 [lints]

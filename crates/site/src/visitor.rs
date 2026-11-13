@@ -59,6 +59,7 @@ pub struct Visitor {
     pub cart: Cart,
     pub delivery: Option<DeliveryEstimate>,
     pub flash: Option<Flash>,
+    pub shop: crate::shop::Shop,
 }
 
 impl Visitor {

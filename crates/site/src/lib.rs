@@ -5,9 +5,15 @@
 
 pub mod app;
 pub mod assets;
+pub mod cart_totals;
+pub mod catalog;
 pub mod i18n;
 pub mod islands;
+pub mod layout;
+pub mod pages;
+pub mod seo;
 pub mod server_fns;
+pub mod shop;
 pub mod visitor;
 
 #[cfg(feature = "ssr")]

@@ -1,0 +1,110 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT title, title_de, content, content_de, images, button_text, button_text_de, button_path FROM services ORDER BY id",
+  "describe": {
+    "columns": [
+      {
+        "name": "title",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "title"
+          }
+        }
+      },
+      {
+        "name": "title_de",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "title_de"
+          }
+        }
+      },
+      {
+        "name": "content",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "content"
+          }
+        }
+      },
+      {
+        "name": "content_de",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "content_de"
+          }
+        }
+      },
+      {
+        "name": "images",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "images"
+          }
+        }
+      },
+      {
+        "name": "button_text",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "button_text"
+          }
+        }
+      },
+      {
+        "name": "button_text_de",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "button_text_de"
+          }
+        }
+      },
+      {
+        "name": "button_path",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "services",
+            "name": "button_path"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "f0b0736138780cb6c33af7673d48ee5f16b1fc9cf1cef2e20119f639e4582da2"
+}

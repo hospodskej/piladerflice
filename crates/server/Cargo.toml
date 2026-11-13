@@ -17,6 +17,10 @@ tower-http.workspace = true
 sqlx.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+tower-sessions.workspace = true
+tower-sessions-sqlx-store.workspace = true
+cuticle.workspace = true
+time.workspace = true
 
 [lints]
 workspace = true

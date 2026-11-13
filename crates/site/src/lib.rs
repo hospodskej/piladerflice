@@ -5,5 +5,10 @@
 
 pub mod app;
 pub mod assets;
+pub mod i18n;
+pub mod visitor;
+
+#[cfg(feature = "ssr")]
+pub mod session;
 #[cfg(feature = "ssr")]
 pub mod state;

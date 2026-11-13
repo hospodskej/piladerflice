@@ -34,3 +34,6 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+
+# Rust build output.
+/target

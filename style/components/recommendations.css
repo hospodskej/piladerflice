@@ -1,0 +1,115 @@
+.recommendations-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #D1D1D1;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-blue {
+    color: #3B82F6;
+}
+
+.recommendations-section .eshop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.recommendations-section .product-card {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px 10px 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.recommendations-section .product-image-wrapper-eshop {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.recommendations-section .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.recommendations-section .product-info-eshop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.recommendations-section .product-title {
+    margin: 0 0 6px 0;
+    font-size: 1.1rem;
+}
+
+.recommendations-section .product-type {
+    margin: 0 0 6px 0;
+    font-size: 0.95rem;
+}
+
+.recommendations-section .product-stock {
+    color: #16A34A;
+    margin: 0 0 6px 0;
+    font-size: 0.95rem;
+}
+
+.recommendations-section .product-price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #3B82F6;
+    margin: auto 0 12px 0;
+}
+
+.recommendations-section .btn-detail {
+    width: 80%;
+    padding: 8px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .recommendations-section .eshop-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        margin: 0 -20px;
+        padding: 0 20px 12px 20px;
+        scrollbar-width: none;
+    }
+
+    .recommendations-section .eshop-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .recommendations-section .product-card {
+        flex: 0 0 160px;
+        scroll-snap-align: start;
+    }
+}

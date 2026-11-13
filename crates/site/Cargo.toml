@@ -1,0 +1,41 @@
+[package]
+name = "site"
+description = "The Pila Derflice website: pages, islands and server functions (Leptos)."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+domain.workspace = true
+leptos.workspace = true
+leptos_meta.workspace = true
+leptos_router.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+time.workspace = true
+wasm-bindgen.workspace = true
+web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "DomTokenList", "Storage", "Window", "MediaQueryList"] }
+
+leptos_axum = { workspace = true, optional = true }
+axum = { workspace = true, optional = true }
+sqlx = { workspace = true, optional = true }
+tokio = { workspace = true, optional = true }
+tracing = { workspace = true, optional = true }
+
+[features]
+default = []
+hydrate = ["leptos/hydrate"]
+ssr = [
+  "leptos/ssr",
+  "leptos_meta/ssr",
+  "leptos_router/ssr",
+  "dep:leptos_axum",
+  "dep:axum",
+  "dep:sqlx",
+  "dep:tokio",
+  "dep:tracing",
+]
+
+[lints]
+workspace = true

@@ -1,5 +1,7 @@
 //! The Pila Derflice web server.
 
+#![recursion_limit = "512"]
+
 use axum::{
     Router, middleware,
     routing::{get, post},

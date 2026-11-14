@@ -55,6 +55,10 @@ jobs:
           echo "${{ vars.SERVER_SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
       # "setup" = install Docker if missing, start the backup job if it isn't
       # running yet, then deploy. On later runs the first two are no-ops.
+      # GitHub runs one deploy at a time (concurrency above), so a Kamal lock
+      # still on the server was left by a deploy that lost its connection.
+      - name: Clear a stale deploy lock
+        run: kamal lock release
       - name: Deploy
         run: kamal setup
       # The backup job reads its script when it starts; restart it so it

@@ -2,13 +2,16 @@
 //! interactive parts are islands that hydrate in the browser as WASM.
 
 #![recursion_limit = "512"]
+// Guards return `Err(Response)` to end a handler early: the Axum way. A
+// response is large, but it is only built once per request.
+#![allow(clippy::result_large_err)]
 
 pub mod admin;
 pub mod app;
 pub mod assets;
 pub mod autocomplete;
-pub mod cart_totals;
 pub mod cart_islands;
+pub mod cart_totals;
 pub mod cart_view;
 pub mod catalog;
 pub mod i18n;

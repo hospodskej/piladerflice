@@ -1,13 +1,13 @@
 //! Changing the cart: adding a variant (with its price and description as
 //! they are now), quantities, removing, discount codes, delivery estimates.
 
-use crate::session::{save_cart, SessionError};
+use crate::session::{SessionError, save_cart};
 use crate::state::AppState;
 use crate::visitor::Visitor;
+use domain::Category;
 use domain::cart::{CartLine, Spec};
 use domain::catalog::Template;
 use domain::money::Czk;
-use domain::Category;
 use tower_sessions::Session;
 
 #[derive(Debug, thiserror::Error)]
@@ -33,25 +33,55 @@ fn specs(
     let mut specs = Vec::new();
     match template {
         Template::Firewood => {
-            let key = if stacked { "common.stacked_variant" } else { "common.loose_variant" };
+            let key = if stacked {
+                "common.stacked_variant"
+            } else {
+                "common.loose_variant"
+            };
             specs.push(Spec::Key { value: key.into() });
-            specs.extend(length.filter(|l| !l.is_empty()).map(|value| Spec::Raw { value }));
-            specs.extend(amount.map(|value| Spec::Amount { value, unit_key: "common.per_m3".into() }));
+            specs.extend(
+                length
+                    .filter(|l| !l.is_empty())
+                    .map(|value| Spec::Raw { value }),
+            );
+            specs.extend(amount.map(|value| Spec::Amount {
+                value,
+                unit_key: "common.per_m3".into(),
+            }));
         }
         Template::Lumber => {
-            specs.extend(grade.filter(|(g, _)| !g.is_empty()).map(|(value, value_de)| Spec::Bilingual { value, value_de }));
-            specs.extend(length.filter(|l| !l.is_empty()).map(|value| Spec::Raw { value }));
-            specs.extend(size.map(|(w, h)| Spec::Raw { value: format!("{w}×{h} mm") }));
+            specs.extend(
+                grade
+                    .filter(|(g, _)| !g.is_empty())
+                    .map(|(value, value_de)| Spec::Bilingual { value, value_de }),
+            );
+            specs.extend(
+                length
+                    .filter(|l| !l.is_empty())
+                    .map(|value| Spec::Raw { value }),
+            );
+            specs.extend(size.map(|(w, h)| Spec::Raw {
+                value: format!("{w}×{h} mm"),
+            }));
         }
         Template::SimpleVariant => {
-            specs.push(Spec::Bilingual { value: label.0.unwrap_or_default(), value_de: label.1 });
+            specs.push(Spec::Bilingual {
+                value: label.0.unwrap_or_default(),
+                value_de: label.1,
+            });
         }
     }
     specs
 }
 
 /// Adds `quantity` of a variant on sale (its product is active) and saves the cart.
-pub async fn add(state: &AppState, session: &Session, v: &mut Visitor, variant_id: i64, quantity: u32) -> Result<(), CartError> {
+pub async fn add(
+    state: &AppState,
+    session: &Session,
+    v: &mut Visitor,
+    variant_id: i64,
+    quantity: u32,
+) -> Result<(), CartError> {
     let row = sqlx::query!(
         r#"SELECT v.price_czk, v.stacked, v.variant_group, v.length_label, v.amount_value, v.grade, v.grade_de,
                   v.width_mm, v.height_mm, v.variant_label, v.variant_label_de, v.image AS variant_image,
@@ -88,20 +118,34 @@ pub async fn add(state: &AppState, session: &Session, v: &mut Visitor, variant_i
     Ok(())
 }
 
-pub async fn set_quantity(session: &Session, v: &mut Visitor, variant_id: i64, quantity: u32) -> Result<(), CartError> {
+pub async fn set_quantity(
+    session: &Session,
+    v: &mut Visitor,
+    variant_id: i64,
+    quantity: u32,
+) -> Result<(), CartError> {
     v.cart.set_quantity(variant_id, quantity);
     Ok(save_cart(session, &v.cart).await?)
 }
 
 /// Why a discount code wasn't taken, or `None` when it was.
-pub async fn apply_discount(state: &AppState, session: &Session, v: &mut Visitor, code: &str) -> Result<Option<(domain::discount::Unusable, Option<Czk>)>, CartError> {
+pub async fn apply_discount(
+    state: &AppState,
+    session: &Session,
+    v: &mut Visitor,
+    code: &str,
+) -> Result<Option<(domain::discount::Unusable, Option<Czk>)>, CartError> {
     use domain::discount::Unusable;
     let found = match domain::discount::normalize_code(code) {
         Some(code) => crate::session::discount_code(&state.db, &code).await?,
         None => None,
     };
-    let Some(found) = found else { return Ok(Some((Unusable::NotFound, None))) };
-    if let Some(reason) = found.unusable_reason(v.cart.subtotal(), time::OffsetDateTime::now_utc().date()) {
+    let Some(found) = found else {
+        return Ok(Some((Unusable::NotFound, None)));
+    };
+    if let Some(reason) =
+        found.unusable_reason(v.cart.subtotal(), time::OffsetDateTime::now_utc().date())
+    {
         return Ok(Some((reason, found.min_order)));
     }
     v.cart.discount_code = Some(found.code.clone());

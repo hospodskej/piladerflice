@@ -3,8 +3,8 @@
 //! already in them or without (then the customer pays the Czech rate on top).
 //! Discounts and delivery are split across the VAT rates by the goods' share.
 
-use crate::catalog::{text_enum, Category};
-use crate::money::{round_div, Czk};
+use crate::catalog::{Category, text_enum};
+use crate::money::{Czk, round_div};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -39,7 +39,12 @@ impl VatRule {
 
     /// The rule when the admin hasn't set one: prices with VAT, standard rates.
     pub fn default_for(category: Category) -> VatRule {
-        VatRule { category, rate_cz: Self::DEFAULT_RATE_CZ, rate_at: Self::DEFAULT_RATE_AT, prices_include_vat: true }
+        VatRule {
+            category,
+            rate_cz: Self::DEFAULT_RATE_CZ,
+            rate_at: Self::DEFAULT_RATE_AT,
+            prices_include_vat: true,
+        }
     }
 
     pub fn rate_for(&self, country: Country) -> u8 {
@@ -52,7 +57,11 @@ impl VatRule {
     /// The price the customer sees, from the price the admin entered.
     /// It's the same in both countries; only the VAT inside it differs.
     pub fn customer_price(&self, admin_price: Czk) -> Czk {
-        if self.prices_include_vat { admin_price } else { admin_price.plus_vat(self.rate_cz) }
+        if self.prices_include_vat {
+            admin_price
+        } else {
+            admin_price.plus_vat(self.rate_cz)
+        }
     }
 }
 
@@ -66,7 +75,10 @@ impl VatRules {
     }
 
     pub fn get(&self, category: Category) -> VatRule {
-        self.0.get(&category).copied().unwrap_or_else(|| VatRule::default_for(category))
+        self.0
+            .get(&category)
+            .copied()
+            .unwrap_or_else(|| VatRule::default_for(category))
     }
 
     pub fn customer_price(&self, category: Category, admin_price: Czk) -> Czk {
@@ -131,9 +143,15 @@ impl VatBreakdown {
             .filter(|(_, amount)| *amount != Czk::ZERO)
             .map(|(rate, amount)| (rate, amount.vat_in(rate)))
             .collect();
-        by_rate.sort_by(|a, b| b.0.cmp(&a.0));
+        by_rate.sort_by_key(|b| std::cmp::Reverse(b.0));
 
-        VatBreakdown { country, by_rate, goods, discount, delivery }
+        VatBreakdown {
+            country,
+            by_rate,
+            goods,
+            discount,
+            delivery,
+        }
     }
 
     pub fn vat(&self) -> Czk {
@@ -150,7 +168,11 @@ impl VatBreakdown {
 
     /// {"21": 174, ...}, the form stored on the order.
     pub fn to_json(&self) -> String {
-        let map: BTreeMap<String, i64> = self.by_rate.iter().map(|(r, v)| (r.to_string(), v.get())).collect();
+        let map: BTreeMap<String, i64> = self
+            .by_rate
+            .iter()
+            .map(|(r, v)| (r.to_string(), v.get()))
+            .collect();
         serde_json::to_string(&map).unwrap_or_else(|_| "{}".into())
     }
 }
@@ -161,8 +183,18 @@ mod tests {
 
     fn rules() -> VatRules {
         VatRules::new([
-            VatRule { category: Category::Firewood, rate_cz: 21, rate_at: 13, prices_include_vat: true },
-            VatRule { category: Category::Lumber, rate_cz: 21, rate_at: 20, prices_include_vat: false },
+            VatRule {
+                category: Category::Firewood,
+                rate_cz: 21,
+                rate_at: 13,
+                prices_include_vat: true,
+            },
+            VatRule {
+                category: Category::Lumber,
+                rate_cz: 21,
+                rate_at: 20,
+                prices_include_vat: false,
+            },
         ])
     }
 
@@ -179,7 +211,10 @@ mod tests {
     fn czech_order_is_one_rate() {
         let b = VatBreakdown::new(
             &rules(),
-            [(Category::Firewood, Czk(1210)), (Category::Lumber, Czk(1210))],
+            [
+                (Category::Firewood, Czk(1210)),
+                (Category::Lumber, Czk(1210)),
+            ],
             Country::Cz,
             Czk::ZERO,
             Czk::ZERO,
@@ -195,14 +230,27 @@ mod tests {
         // 13 % share = round(200 * 3000 / 4000) = 150, 20 % takes the remaining 50
         let b = VatBreakdown::new(
             &rules(),
-            [(Category::Firewood, Czk(3000)), (Category::Lumber, Czk(1000))],
+            [
+                (Category::Firewood, Czk(3000)),
+                (Category::Lumber, Czk(1000)),
+            ],
             Country::At,
             Czk(200),
             Czk(400),
         );
-        assert_eq!(b.by_rate, vec![(20, Czk(1050).vat_in(20)), (13, Czk(3150).vat_in(13))]);
+        assert_eq!(
+            b.by_rate,
+            vec![(20, Czk(1050).vat_in(20)), (13, Czk(3150).vat_in(13))]
+        );
         assert_eq!(b.total(), Czk(4200));
-        assert_eq!(b.to_json(), format!("{{\"13\":{},\"20\":{}}}", Czk(3150).vat_in(13).get(), Czk(1050).vat_in(20).get()));
+        assert_eq!(
+            b.to_json(),
+            format!(
+                "{{\"13\":{},\"20\":{}}}",
+                Czk(3150).vat_in(13).get(),
+                Czk(1050).vat_in(20).get()
+            )
+        );
     }
 
     #[test]

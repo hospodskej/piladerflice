@@ -32,14 +32,22 @@ pub fn Dropdown(
 /// click on its button toggles `open` (and the button's aria-expanded), for
 /// dropdowns whose button is plain server-rendered markup.
 #[allow(unused_variables)]
-pub fn dropdown_behaviour(root: NodeRef<leptos::html::Div>, open: RwSignal<bool>, toggle_on_button: bool) {
+pub fn dropdown_behaviour(
+    root: NodeRef<leptos::html::Div>,
+    open: RwSignal<bool>,
+    toggle_on_button: bool,
+) {
     #[cfg(feature = "hydrate")]
     {
         use leptos::ev;
         use wasm_bindgen::JsCast;
         let button = move || {
             root.get_untracked()
-                .and_then(|r| r.query_selector(":scope > button, :scope > leptos-children > button").ok().flatten())
+                .and_then(|r| {
+                    r.query_selector(":scope > button, :scope > leptos-children > button")
+                        .ok()
+                        .flatten()
+                })
                 .and_then(|b| b.dyn_into::<web_sys::HtmlElement>().ok())
         };
         Effect::new(move |_| {
@@ -50,7 +58,8 @@ pub fn dropdown_behaviour(root: NodeRef<leptos::html::Div>, open: RwSignal<bool>
         });
         let inside = move |target: Option<web_sys::EventTarget>| {
             let node = target.and_then(|t| t.dyn_into::<web_sys::Node>().ok());
-            root.get_untracked().is_some_and(|r| r.contains(node.as_ref()))
+            root.get_untracked()
+                .is_some_and(|r| r.contains(node.as_ref()))
         };
         let on_button = move |target: Option<web_sys::EventTarget>| {
             let node = target.and_then(|t| t.dyn_into::<web_sys::Node>().ok());
@@ -95,7 +104,11 @@ pub fn ThemeToggle(
     let toggle = move |_| {
         #[cfg(feature = "hydrate")]
         {
-            let theme = if browser::html_has_class("dark-mode") { "light" } else { "dark" };
+            let theme = if browser::html_has_class("dark-mode") {
+                "light"
+            } else {
+                "dark"
+            };
             browser::apply_theme(theme);
             if signed_in {
                 leptos::task::spawn_local(async move {
@@ -139,12 +152,20 @@ pub mod browser {
 
     /// The elements under `root` matching `selector`.
     pub fn all(root: &Element, selector: &str) -> Vec<Element> {
-        let Ok(list) = root.query_selector_all(selector) else { return Vec::new() };
-        (0..list.length()).filter_map(|i| list.item(i)?.dyn_into::<Element>().ok()).collect()
+        let Ok(list) = root.query_selector_all(selector) else {
+            return Vec::new();
+        };
+        (0..list.length())
+            .filter_map(|i| list.item(i)?.dyn_into::<Element>().ok())
+            .collect()
     }
 
     /// The element matching `selector` that the event happened in, if it's inside `root`.
-    pub fn closest_within(event: &web_sys::Event, root: &Element, selector: &str) -> Option<Element> {
+    pub fn closest_within(
+        event: &web_sys::Event,
+        root: &Element,
+        selector: &str,
+    ) -> Option<Element> {
         let found = target_closest(event, selector)?;
         root.contains(Some(&found)).then_some(found)
     }
@@ -158,16 +179,26 @@ pub mod browser {
     }
 
     fn target_closest(event: &web_sys::Event, selector: &str) -> Option<Element> {
-        event.target()?.dyn_into::<Element>().ok()?.closest(selector).ok().flatten()
+        event
+            .target()?
+            .dyn_into::<Element>()
+            .ok()?
+            .closest(selector)
+            .ok()
+            .flatten()
     }
 
     pub fn html_has_class(class: &str) -> bool {
-        document().document_element().is_some_and(|e| e.class_list().contains(class))
+        document()
+            .document_element()
+            .is_some_and(|e| e.class_list().contains(class))
     }
 
     pub fn apply_theme(theme: &str) {
         if let Some(html) = document().document_element() {
-            let _ = html.class_list().toggle_with_force("dark-mode", theme == "dark");
+            let _ = html
+                .class_list()
+                .toggle_with_force("dark-mode", theme == "dark");
         }
         if let Ok(Some(storage)) = window().local_storage() {
             let _ = storage.set_item("theme", theme);
@@ -181,25 +212,46 @@ pub mod browser {
     }
 
     fn consent_cookie() -> Option<String> {
-        let cookies = document().dyn_into::<web_sys::HtmlDocument>().ok()?.cookie().ok()?;
-        cookies
-            .split("; ")
-            .find_map(|c| c.strip_prefix(CONSENT_COOKIE)?.strip_prefix('=').map(str::to_owned))
+        let cookies = document()
+            .dyn_into::<web_sys::HtmlDocument>()
+            .ok()?
+            .cookie()
+            .ok()?;
+        cookies.split("; ").find_map(|c| {
+            c.strip_prefix(CONSENT_COOKIE)?
+                .strip_prefix('=')
+                .map(str::to_owned)
+        })
     }
 
     fn set_consent_cookie(choice: &str) {
         if let Ok(doc) = document().dyn_into::<web_sys::HtmlDocument>() {
-            let _ = doc.set_cookie(&format!("{CONSENT_COOKIE}={choice}; path=/; max-age={CONSENT_MAX_AGE}; SameSite=Lax"));
+            let _ = doc.set_cookie(&format!(
+                "{CONSENT_COOKIE}={choice}; path=/; max-age={CONSENT_MAX_AGE}; SameSite=Lax"
+            ));
         }
     }
 
     /// `gtag("consent", "update", {analytics_storage: ...})`, if Analytics loaded.
     fn update_analytics_consent(granted: bool) {
-        let Ok(gtag) = js_sys::Reflect::get(&window(), &"gtag".into()) else { return };
-        let Ok(gtag) = gtag.dyn_into::<js_sys::Function>() else { return };
+        let Ok(gtag) = js_sys::Reflect::get(&window(), &"gtag".into()) else {
+            return;
+        };
+        let Ok(gtag) = gtag.dyn_into::<js_sys::Function>() else {
+            return;
+        };
         let settings = js_sys::Object::new();
-        let _ = js_sys::Reflect::set(&settings, &"analytics_storage".into(), &(if granted { "granted" } else { "denied" }).into());
-        let _ = gtag.call3(&wasm_bindgen::JsValue::NULL, &"consent".into(), &"update".into(), &settings);
+        let _ = js_sys::Reflect::set(
+            &settings,
+            &"analytics_storage".into(),
+            &(if granted { "granted" } else { "denied" }).into(),
+        );
+        let _ = gtag.call3(
+            &wasm_bindgen::JsValue::NULL,
+            &"consent".into(),
+            &"update".into(),
+            &settings,
+        );
     }
 
     fn set_sidebar_open(open: bool) {
@@ -209,17 +261,27 @@ pub mod browser {
             }
         }
         if let Some(body) = document().body() {
-            let _ = body.style().set_property("overflow", if open { "hidden" } else { "" });
+            let _ = body
+                .style()
+                .set_property("overflow", if open { "hidden" } else { "" });
         }
     }
 
     fn update_sticky_logo() {
-        let (Some(bar), Some(header)) = (by_id("stickyLogoBar"), document().query_selector(".site-header").ok().flatten()) else {
+        let (Some(bar), Some(header)) = (
+            by_id("stickyLogoBar"),
+            document().query_selector(".site-header").ok().flatten(),
+        ) else {
             return;
         };
-        let header_height = header.dyn_into::<HtmlElement>().map(|h| h.offset_height()).unwrap_or(0);
+        let header_height = header
+            .dyn_into::<HtmlElement>()
+            .map(|h| h.offset_height())
+            .unwrap_or(0);
         let scrolled = window().scroll_y().unwrap_or(0.0);
-        let _ = bar.class_list().toggle_with_force("is-visible", scrolled > f64::from(header_height));
+        let _ = bar
+            .class_list()
+            .toggle_with_force("is-visible", scrolled > f64::from(header_height));
     }
 
     /// On the contact page the Ceník link is active when the price list is
@@ -234,7 +296,9 @@ pub mod browser {
             for i in 0..links.length() {
                 if let Some(link) = links.item(i).and_then(|n| n.dyn_into::<Element>().ok()) {
                     let is_cenik = link.id() == "nav-cenik";
-                    let _ = link.class_list().toggle_with_force("active", is_cenik == on_pricelist);
+                    let _ = link
+                        .class_list()
+                        .toggle_with_force("active", is_cenik == on_pricelist);
                 }
             }
         }
@@ -262,7 +326,9 @@ pub mod browser {
             } else if target_closest(event, "#closeSidebar, #sidebarOverlay").is_some() {
                 set_sidebar_open(false);
             } else if let Some(choice) = target_closest(event, "[data-cookie-consent]") {
-                let choice = choice.get_attribute("data-cookie-consent").unwrap_or_default();
+                let choice = choice
+                    .get_attribute("data-cookie-consent")
+                    .unwrap_or_default();
                 set_consent_cookie(&choice);
                 set_hidden("cookie-consent-banner", true);
                 update_analytics_consent(choice == "all");
@@ -291,14 +357,22 @@ pub mod browser {
         };
         let min: i64 = input.min().parse().unwrap_or(1);
         let current: i64 = input.value().parse().unwrap_or(min);
-        let next = if button.class_list().contains("qty-plus") { current + 1 } else { (current - 1).max(min) };
+        let next = if button.class_list().contains("qty-plus") {
+            current + 1
+        } else {
+            (current - 1).max(min)
+        };
         input.set_value(&next.to_string());
     }
 
     /// Where the cards are: inside the island's <leptos-children> wrapper
     /// (`display: contents`, so the track still lays them out).
     fn cards_parent(track: &Element) -> Element {
-        track.query_selector(":scope > leptos-children").ok().flatten().unwrap_or_else(|| track.clone())
+        track
+            .query_selector(":scope > leptos-children")
+            .ok()
+            .flatten()
+            .unwrap_or_else(|| track.clone())
     }
 
     fn real_cards(track: &Element) -> Vec<Element> {
@@ -310,7 +384,9 @@ pub mod browser {
     }
 
     fn card_step(track: &Element) -> f64 {
-        let Some(first) = real_cards(track).into_iter().next() else { return 0.0 };
+        let Some(first) = real_cards(track).into_iter().next() else {
+            return 0.0;
+        };
         let gap = window()
             .get_computed_style(track)
             .ok()
@@ -322,7 +398,11 @@ pub mod browser {
     }
 
     fn style(track: &Element) -> Option<web_sys::CssStyleDeclaration> {
-        track.clone().dyn_into::<HtmlElement>().ok().map(|t| t.style())
+        track
+            .clone()
+            .dyn_into::<HtmlElement>()
+            .ok()
+            .map(|t| t.style())
     }
 
     fn rebuild_reviews(track: &Element, cards: &[Element]) {
@@ -338,19 +418,26 @@ pub mod browser {
             let _ = parent.append_child(card);
         }
         let clone = |card: &Element| {
-            let copy = card.clone_node_with_deep(true).ok()?.dyn_into::<Element>().ok()?;
+            let copy = card
+                .clone_node_with_deep(true)
+                .ok()?
+                .dyn_into::<Element>()
+                .ok()?;
             let _ = copy.set_attribute("data-clone", "");
             let _ = copy.set_attribute("aria-hidden", "true");
             Some(copy)
         };
-        if let (Some(first), Some(last)) = (cards.first().and_then(clone), cards.last().and_then(clone)) {
+        if let (Some(first), Some(last)) =
+            (cards.first().and_then(clone), cards.last().and_then(clone))
+        {
             let _ = parent.insert_before(&last, parent.first_child().as_ref());
             let _ = parent.append_child(&first);
         }
         // Back to rest (showing the first real card) without animating.
         if let Some(style) = style(track) {
             let _ = style.set_property("transition", "none");
-            let _ = style.set_property("transform", &format!("translateX(-{}px)", card_step(track)));
+            let _ =
+                style.set_property("transform", &format!("translateX(-{}px)", card_step(track)));
             let _ = track.get_bounding_client_rect();
             let _ = style.set_property("transition", "");
         }
@@ -371,7 +458,11 @@ pub mod browser {
         let _ = track.set_attribute("data-animating", "");
         if let Some(style) = style(track) {
             let _ = style.set_property("transition", "transform 0.4s ease");
-            let offset = if forward { format!("translateX(-{}px)", 2.0 * card_step(track)) } else { "translateX(0)".to_owned() };
+            let offset = if forward {
+                format!("translateX(-{}px)", 2.0 * card_step(track))
+            } else {
+                "translateX(0)".to_owned()
+            };
             let _ = style.set_property("transform", &offset);
         }
         let track_after = track.clone();
@@ -386,17 +477,31 @@ pub mod browser {
         });
         let options = web_sys::AddEventListenerOptions::new();
         options.set_once(true);
-        let _ = track.add_event_listener_with_callback_and_add_event_listener_options("transitionend", done.unchecked_ref(), &options);
+        let _ = track.add_event_listener_with_callback_and_add_event_listener_options(
+            "transitionend",
+            done.unchecked_ref(),
+            &options,
+        );
     }
 
     /// Shrinks the font of `.fit-lines` headings just enough that each
     /// <br>-separated line fits without wrapping (line lengths differ per
     /// language and font). Below `data-fit-min` px the lines wrap instead.
     fn fit_lines() {
-        let Ok(headings) = document().query_selector_all(".fit-lines") else { return };
+        let Ok(headings) = document().query_selector_all(".fit-lines") else {
+            return;
+        };
         for i in 0..headings.length() {
-            let Some(el) = headings.item(i).and_then(|n| n.dyn_into::<HtmlElement>().ok()) else { continue };
-            let min: f64 = el.get_attribute("data-fit-min").and_then(|m| m.parse().ok()).unwrap_or(0.0);
+            let Some(el) = headings
+                .item(i)
+                .and_then(|n| n.dyn_into::<HtmlElement>().ok())
+            else {
+                continue;
+            };
+            let min: f64 = el
+                .get_attribute("data-fit-min")
+                .and_then(|m| m.parse().ok())
+                .unwrap_or(0.0);
             let style = el.style();
             let _ = style.set_property("contain", "inline-size");
             let _ = style.set_property("font-size", "");
@@ -428,7 +533,11 @@ pub mod browser {
 
     /// A signed-in account without a saved choice takes this device's.
     fn sync_theme_with_account() {
-        let Some(meta) = document().query_selector(r#"meta[name="theme-preference"]"#).ok().flatten() else {
+        let Some(meta) = document()
+            .query_selector(r#"meta[name="theme-preference"]"#)
+            .ok()
+            .flatten()
+        else {
             return;
         };
         let saved = meta.get_attribute("content").unwrap_or_default();
@@ -436,7 +545,11 @@ pub mod browser {
             apply_theme(&saved);
             return;
         }
-        let local = window().local_storage().ok().flatten().and_then(|s| s.get_item("theme").ok().flatten());
+        let local = window()
+            .local_storage()
+            .ok()
+            .flatten()
+            .and_then(|s| s.get_item("theme").ok().flatten());
         if let Some(theme) = local {
             leptos::task::spawn_local(async move {
                 let _ = crate::server_fns::save_theme(theme).await;
@@ -453,14 +566,16 @@ pub fn SlideShow(children: Children) -> impl IntoView {
     let root = NodeRef::<leptos::html::Div>::new();
     #[cfg(feature = "hydrate")]
     {
-        use std::sync::atomic::{AtomicUsize, Ordering};
         use std::sync::Arc;
+        use std::sync::atomic::{AtomicUsize, Ordering};
         let current = Arc::new(AtomicUsize::new(0));
         let timer = StoredValue::new(None::<IntervalHandle>);
         let show = {
             let current = current.clone();
             move |index: usize| {
-                let Some(root) = root.get_untracked() else { return };
+                let Some(root) = root.get_untracked() else {
+                    return;
+                };
                 let slides = browser::all(&root, ".carousel-slide");
                 if slides.is_empty() {
                     return;
@@ -483,7 +598,11 @@ pub fn SlideShow(children: Children) -> impl IntoView {
                 }
                 let (show, current) = (show.clone(), current.clone());
                 timer.set_value(
-                    set_interval_with_handle(move || show(current.load(Ordering::Relaxed) + 1), std::time::Duration::from_secs(15)).ok(),
+                    set_interval_with_handle(
+                        move || show(current.load(Ordering::Relaxed) + 1),
+                        std::time::Duration::from_secs(15),
+                    )
+                    .ok(),
                 );
             }
         };
@@ -496,7 +615,9 @@ pub fn SlideShow(children: Children) -> impl IntoView {
             }
         });
         let on_click = move |event: leptos::ev::MouseEvent| {
-            let Some(root) = root.get_untracked() else { return };
+            let Some(root) = root.get_untracked() else {
+                return;
+            };
             let count = browser::all(&root, ".carousel-slide").len().max(1);
             let now = current.load(Ordering::Relaxed);
             if browser::closest_within(&event, &root, ".next-btn").is_some() {
@@ -513,7 +634,7 @@ pub fn SlideShow(children: Children) -> impl IntoView {
             }
             restart();
         };
-        return view! { <div class="slide-show" node_ref=root on:click=on_click>{children()}</div> };
+        view! { <div class="slide-show" node_ref=root on:click=on_click>{children()}</div> }
     }
     #[cfg(not(feature = "hydrate"))]
     view! { <div class="slide-show" node_ref=root>{children()}</div> }
@@ -565,18 +686,20 @@ pub fn TermsAgreement(label_html: String, error: String) -> impl IntoView {
         use wasm_bindgen::JsCast;
         let Some(input) = checkbox.get() else { return };
         let Some(form) = input.form() else { return };
-        let handler = wasm_bindgen::closure::Closure::<dyn Fn(web_sys::Event)>::new(move |event: web_sys::Event| {
-            if checkbox.get_untracked().is_some_and(|c| !c.checked()) {
-                event.prevent_default();
-                invalid.set(true);
-                if let Some(p) = message.get_untracked() {
-                    let options = web_sys::ScrollIntoViewOptions::new();
-                    options.set_behavior(web_sys::ScrollBehavior::Smooth);
-                    options.set_block(web_sys::ScrollLogicalPosition::Center);
-                    p.scroll_into_view_with_scroll_into_view_options(&options);
+        let handler = wasm_bindgen::closure::Closure::<dyn Fn(web_sys::Event)>::new(
+            move |event: web_sys::Event| {
+                if checkbox.get_untracked().is_some_and(|c| !c.checked()) {
+                    event.prevent_default();
+                    invalid.set(true);
+                    if let Some(p) = message.get_untracked() {
+                        let options = web_sys::ScrollIntoViewOptions::new();
+                        options.set_behavior(web_sys::ScrollBehavior::Smooth);
+                        options.set_block(web_sys::ScrollLogicalPosition::Center);
+                        p.scroll_into_view_with_scroll_into_view_options(&options);
+                    }
                 }
-            }
-        });
+            },
+        );
         let _ = form.add_event_listener_with_callback("submit", handler.as_ref().unchecked_ref());
         handler.forget();
     });
@@ -605,11 +728,16 @@ pub fn AdminBehaviour() -> impl IntoView {
     {
         let _ = window_event_listener(leptos::ev::submit, |event| {
             use wasm_bindgen::JsCast;
-            let Some(form) = event.target().and_then(|t| t.dyn_into::<web_sys::Element>().ok()) else { return };
-            if let Some(question) = form.get_attribute("data-confirm") {
-                if !window().confirm_with_message(&question).unwrap_or(false) {
-                    event.prevent_default();
-                }
+            let Some(form) = event
+                .target()
+                .and_then(|t| t.dyn_into::<web_sys::Element>().ok())
+            else {
+                return;
+            };
+            if let Some(question) = form.get_attribute("data-confirm")
+                && !window().confirm_with_message(&question).unwrap_or(false)
+            {
+                event.prevent_default();
             }
         });
     }

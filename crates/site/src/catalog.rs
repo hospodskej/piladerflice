@@ -12,8 +12,8 @@ pub async fn bestsellers(
     fallback: &[&str],
 ) -> Result<Vec<Bestseller>, sqlx::Error> {
     use crate::shop::translated as tr;
-    use domain::money::Czk;
     use domain::Category;
+    use domain::money::Czk;
     use std::collections::HashMap;
 
     let since = (time::OffsetDateTime::now_utc() - time::Duration::days(91))
@@ -44,7 +44,10 @@ pub async fn bestsellers(
     products.sort_by_key(|p| {
         (
             -sold.get(&p.key).copied().unwrap_or(0),
-            fallback.iter().position(|k| *k == p.key).unwrap_or(fallback.len()),
+            fallback
+                .iter()
+                .position(|k| *k == p.key)
+                .unwrap_or(fallback.len()),
             p.position,
             p.id,
         )
@@ -54,16 +57,25 @@ pub async fn bestsellers(
     Ok(products
         .into_iter()
         .map(|p| {
-            let price_from = p.starting_price.zip(p.category.parse::<Category>().ok()).map(|(price, category)| {
-                v.shop.price(l, v.shop.vat.customer_price(category, Czk(price)))
-            });
+            let price_from = p
+                .starting_price
+                .zip(p.category.parse::<Category>().ok())
+                .map(|(price, category)| {
+                    v.shop
+                        .price(l, v.shop.vat.customer_price(category, Czk(price)))
+                });
             Bestseller {
                 id: p.id,
                 category: p.category.clone(),
                 hardness: p.hardness.clone(),
                 position: p.position,
                 title: tr(l, &p.title, p.title_de.as_deref()).to_owned(),
-                type_label: tr(l, p.type_label.as_deref().unwrap_or_default(), p.type_label_de.as_deref()).to_owned(),
+                type_label: tr(
+                    l,
+                    p.type_label.as_deref().unwrap_or_default(),
+                    p.type_label_de.as_deref(),
+                )
+                .to_owned(),
                 image: p.image,
                 price_from,
                 key: p.key,

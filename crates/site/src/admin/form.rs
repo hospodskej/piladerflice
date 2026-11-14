@@ -38,11 +38,13 @@ pub fn error_count(n: usize) -> String {
 
 #[component]
 pub fn Errors(errors: Vec<String>) -> impl IntoView {
-    (!errors.is_empty()).then(|| view! {
-        <div class="admin-flash admin-flash-alert">
-            <strong>{error_count(errors.len())}" brání uložení:"</strong>
-            <ul>{errors.into_iter().map(|e| view! { <li>{e}</li> }).collect_view()}</ul>
-        </div>
+    (!errors.is_empty()).then(|| {
+        view! {
+            <div class="admin-flash admin-flash-alert">
+                <strong>{error_count(errors.len())}" brání uložení:"</strong>
+                <ul>{errors.into_iter().map(|e| view! { <li>{e}</li> }).collect_view()}</ul>
+            </div>
+        }
     })
 }
 
@@ -65,16 +67,34 @@ impl Form<'_> {
         self.values.get(field).cloned().unwrap_or_default()
     }
 
-
-    pub fn text(&self, field: &str, label: &'static str, hint: Option<&'static str>, wide: bool) -> impl IntoView + use<> {
+    pub fn text(
+        &self,
+        field: &str,
+        label: &'static str,
+        hint: Option<&'static str>,
+        wide: bool,
+    ) -> impl IntoView + use<> {
         self.input("text", field, label, hint, wide, None)
     }
 
-    pub fn number(&self, field: &str, label: &'static str, hint: Option<&'static str>) -> impl IntoView + use<> {
+    pub fn number(
+        &self,
+        field: &str,
+        label: &'static str,
+        hint: Option<&'static str>,
+    ) -> impl IntoView + use<> {
         self.input("number", field, label, hint, false, None)
     }
 
-    pub fn input(&self, kind: &'static str, field: &str, label: &'static str, hint: Option<&'static str>, wide: bool, placeholder: Option<&'static str>) -> impl IntoView + use<> {
+    pub fn input(
+        &self,
+        kind: &'static str,
+        field: &str,
+        label: &'static str,
+        hint: Option<&'static str>,
+        wide: bool,
+        placeholder: Option<&'static str>,
+    ) -> impl IntoView + use<> {
         let (id, name) = names(self.model, field);
         let value = self.value(field);
         view! {
@@ -97,7 +117,13 @@ impl Form<'_> {
         }
     }
 
-    pub fn select(&self, field: &str, label: &'static str, options: &[(&'static str, &'static str)], hint: Option<&'static str>) -> impl IntoView + use<> {
+    pub fn select(
+        &self,
+        field: &str,
+        label: &'static str,
+        options: &[(&'static str, &'static str)],
+        hint: Option<&'static str>,
+    ) -> impl IntoView + use<> {
         let (id, name) = names(self.model, field);
         let current = self.value(field);
         let options: Vec<_> = options.to_vec();
@@ -128,7 +154,13 @@ impl Form<'_> {
 
     /// A photo field: the current picture and a file input that shrinks the
     /// chosen photo in the browser first (attenuator).
-    pub fn image(&self, field: &str, label: &'static str, current: Option<String>, hint: &'static str) -> impl IntoView + use<> {
+    pub fn image(
+        &self,
+        field: &str,
+        label: &'static str,
+        current: Option<String>,
+        hint: &'static str,
+    ) -> impl IntoView + use<> {
         let (id, name) = names(self.model, field);
         view! {
             <div class="form-group">
@@ -153,7 +185,12 @@ pub mod parse {
         let prefix = format!("{model}[");
         pairs
             .iter()
-            .filter_map(|(k, v)| Some((k.strip_prefix(&prefix)?.strip_suffix(']')?.to_owned(), v.trim().to_owned())))
+            .filter_map(|(k, v)| {
+                Some((
+                    k.strip_prefix(&prefix)?.strip_suffix(']')?.to_owned(),
+                    v.trim().to_owned(),
+                ))
+            })
             .collect()
     }
 
@@ -166,24 +203,28 @@ pub mod parse {
         matches!(values.get(field).map(String::as_str), Some("1" | "true"))
     }
 
-    /// A whole number; `Err` with `message` when it's there but not one.
-    pub fn int(values: &Values, field: &str) -> Result<Option<i64>, ()> {
-        match values.get(field).filter(|v| !v.is_empty()) {
-            None => Ok(None),
-            Some(v) => v.parse().map(Some).map_err(|_| ()),
-        }
+    /// A whole number, `None` when the field is empty; `Err` when it's
+    /// there but not a number.
+    pub fn int(values: &Values, field: &str) -> Result<Option<i64>, std::num::ParseIntError> {
+        values
+            .get(field)
+            .filter(|v| !v.is_empty())
+            .map(|v| v.parse())
+            .transpose()
     }
 
     /// A multipart form: its text fields, and the bytes of file fields.
-    pub async fn multipart(mut form: axum::extract::Multipart) -> (Vec<(String, String)>, Vec<(String, Vec<u8>)>) {
+    pub async fn multipart(
+        mut form: axum::extract::Multipart,
+    ) -> (Vec<(String, String)>, Vec<(String, Vec<u8>)>) {
         let (mut fields, mut files) = (Vec::new(), Vec::new());
         while let Ok(Some(part)) = form.next_field().await {
             let name = part.name().unwrap_or_default().to_owned();
             if part.file_name().is_some() {
-                if let Ok(bytes) = part.bytes().await {
-                    if !bytes.is_empty() {
-                        files.push((name, bytes.to_vec()));
-                    }
+                if let Ok(bytes) = part.bytes().await
+                    && !bytes.is_empty()
+                {
+                    files.push((name, bytes.to_vec()));
                 }
             } else if let Ok(text) = part.text().await {
                 fields.push((name, text));

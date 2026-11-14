@@ -63,7 +63,9 @@ pub struct PostalAddress {
 
 impl PostalAddress {
     pub fn is_complete(&self) -> bool {
-        [&self.street, &self.city, &self.zip, &self.country].iter().all(|p| p.as_deref().is_some_and(|v| !v.trim().is_empty()))
+        [&self.street, &self.city, &self.zip, &self.country]
+            .iter()
+            .all(|p| p.as_deref().is_some_and(|v| !v.trim().is_empty()))
     }
 }
 
@@ -89,7 +91,9 @@ pub struct CheckoutState {
 
 /// A form value: trimmed, `None` when blank.
 fn value(v: Option<&str>) -> Option<String> {
-    v.map(str::trim).filter(|v| !v.is_empty()).map(str::to_owned)
+    v.map(str::trim)
+        .filter(|v| !v.is_empty())
+        .map(str::to_owned)
 }
 
 /// A checkbox: "1" (or "true"/"on") is ticked.
@@ -114,13 +118,23 @@ impl CheckoutState {
         self.email = v("email");
         self.phone = v("phone");
         self.newsletter_opt_in = ticked(get("newsletter_opt_in").as_deref());
-        self.billing = PostalAddress { street: v("billing_street"), city: v("billing_city"), zip: v("billing_zip"), country: v("billing_country") };
+        self.billing = PostalAddress {
+            street: v("billing_street"),
+            city: v("billing_city"),
+            zip: v("billing_zip"),
+            country: v("billing_country"),
+        };
         self.company_purchase = ticked(get("company_purchase").as_deref());
         self.company_name = v("company_name");
         self.company_ico = v("company_ico");
         self.company_dic = v("company_dic");
         self.delivery_address_different = ticked(get("delivery_address_different").as_deref());
-        self.delivery = PostalAddress { street: v("delivery_street"), city: v("delivery_city"), zip: v("delivery_zip"), country: v("delivery_country") };
+        self.delivery = PostalAddress {
+            street: v("delivery_street"),
+            city: v("delivery_city"),
+            zip: v("delivery_zip"),
+            country: v("delivery_country"),
+        };
     }
 
     pub fn shipping_selected(&self) -> bool {
@@ -128,12 +142,19 @@ impl CheckoutState {
     }
 
     pub fn details_complete(&self) -> bool {
-        [&self.first_name, &self.last_name, &self.email, &self.phone].iter().all(|p| p.is_some()) && self.billing.is_complete()
+        [&self.first_name, &self.last_name, &self.email, &self.phone]
+            .iter()
+            .all(|p| p.is_some())
+            && self.billing.is_complete()
     }
 
     /// Where the goods go: the delivery address when different, else billing.
     pub fn destination(&self) -> &PostalAddress {
-        if self.delivery_address_different { &self.delivery } else { &self.billing }
+        if self.delivery_address_different {
+            &self.delivery
+        } else {
+            &self.billing
+        }
     }
 
     /// Whose VAT applies, as far as checkout knows: pickup is Czech; for an
@@ -160,27 +181,51 @@ mod tests {
     use super::*;
 
     fn form<'a>(pairs: &'a [(&'a str, &'a str)]) -> impl Fn(&str) -> Option<String> + 'a {
-        move |name| pairs.iter().rev().find(|(k, _)| *k == name).map(|(_, v)| (*v).to_owned())
+        move |name| {
+            pairs
+                .iter()
+                .rev()
+                .find(|(k, _)| *k == name)
+                .map(|(_, v)| (*v).to_owned())
+        }
     }
 
     #[test]
     fn steps() {
         let mut c = CheckoutState::default();
         assert!(!c.shipping_selected());
-        c.update_shipping(form(&[("shipping_method", "address"), ("payment_method", "cash"), ("country", "at")]));
+        c.update_shipping(form(&[
+            ("shipping_method", "address"),
+            ("payment_method", "cash"),
+            ("country", "at"),
+        ]));
         assert!(c.shipping_selected());
         assert_eq!(c.vat_country(), Some(Country::At));
         c.update_details(form(&[
-            ("first_name", "Jan"), ("last_name", "Novák"), ("email", "jan@example.cz"), ("phone", "1"),
-            ("billing_street", "Hlavní 1"), ("billing_city", "Znojmo"), ("billing_zip", "66902"), ("billing_country", "cz"),
-            ("company_purchase", "0"), ("delivery_address_different", "0"), ("delivery_address_different", "1"),
-            ("delivery_street", "Wiener 2"), ("delivery_city", "Retz"), ("delivery_zip", "2070"), ("delivery_country", "at"),
+            ("first_name", "Jan"),
+            ("last_name", "Novák"),
+            ("email", "jan@example.cz"),
+            ("phone", "1"),
+            ("billing_street", "Hlavní 1"),
+            ("billing_city", "Znojmo"),
+            ("billing_zip", "66902"),
+            ("billing_country", "cz"),
+            ("company_purchase", "0"),
+            ("delivery_address_different", "0"),
+            ("delivery_address_different", "1"),
+            ("delivery_street", "Wiener 2"),
+            ("delivery_city", "Retz"),
+            ("delivery_zip", "2070"),
+            ("delivery_country", "at"),
         ]));
         assert!(c.details_complete());
         assert!(c.delivery_address_different);
         assert!(!c.company_purchase);
         assert_eq!(c.vat_country(), Some(Country::At));
-        c.update_shipping(form(&[("shipping_method", "pickup"), ("payment_method", "cash")]));
+        c.update_shipping(form(&[
+            ("shipping_method", "pickup"),
+            ("payment_method", "cash"),
+        ]));
         assert_eq!(c.vat_country(), Some(Country::Cz));
     }
 

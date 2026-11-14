@@ -4,7 +4,7 @@
 //! attribute. On the firewood grid, columns, rows and sections left empty
 //! disappear; a plain card grid just closes up.
 
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -101,17 +101,28 @@ mod browser {
 
     /// Filters the cards of the section around `panel`; returns how many show.
     pub fn apply(panel: &Element) -> usize {
-        let Some(section) = panel.closest(".inventory-section").ok().flatten() else { return 0 };
+        let Some(section) = panel.closest(".inventory-section").ok().flatten() else {
+            return 0;
+        };
         let mut chosen: HashMap<String, HashSet<String>> = HashMap::new();
         for input in all(panel, "input[type=checkbox]") {
-            if let Ok(input) = input.dyn_into::<HtmlInputElement>() {
-                if input.checked() {
-                    chosen.entry(input.name()).or_default().insert(input.value());
-                }
+            if let Ok(input) = input.dyn_into::<HtmlInputElement>()
+                && input.checked()
+            {
+                chosen
+                    .entry(input.name())
+                    .or_default()
+                    .insert(input.value());
             }
         }
         let matches = |card: &Element| {
-            chosen.iter().all(|(name, values)| values.contains(&card.get_attribute(&format!("data-{name}")).unwrap_or_default()))
+            chosen.iter().all(|(name, values)| {
+                values.contains(
+                    &card
+                        .get_attribute(&format!("data-{name}"))
+                        .unwrap_or_default(),
+                )
+            })
         };
         let mut shown_total = 0;
         let sections = all(&section, "[data-filter-section]");
@@ -151,22 +162,37 @@ mod browser {
                     let _ = s.set_property("display", if keep { "" } else { "none" });
                 }
             }
-            let full: usize = grid.get_attribute("data-columns").and_then(|c| c.parse().ok()).unwrap_or(columns.len());
+            let full: usize = grid
+                .get_attribute("data-columns")
+                .and_then(|c| c.parse().ok())
+                .unwrap_or(columns.len());
             if let Some(s) = style(&grid) {
                 let template = if columns.is_empty() {
                     String::new()
                 } else {
-                    format!("repeat({}, calc((100% - {} * 16px) / {full}))", columns.len(), full.saturating_sub(1))
+                    format!(
+                        "repeat({}, calc((100% - {} * 16px) / {full}))",
+                        columns.len(),
+                        full.saturating_sub(1)
+                    )
                 };
                 let _ = s.set_property("grid-template-columns", &template);
             }
-            if let Some(owner) = sections.iter().find(|s| s.contains(Some(&grid))) {
-                if let Some(s) = style(owner) {
-                    let _ = s.set_property("display", if columns.is_empty() { "none" } else { "" });
-                }
+            if let Some(owner) = sections.iter().find(|s| s.contains(Some(&grid)))
+                && let Some(s) = style(owner)
+            {
+                let _ = s.set_property("display", if columns.is_empty() { "none" } else { "" });
             }
         }
-        let shown_sections = sections.iter().filter(|s| style(s).and_then(|st| st.get_property_value("display").ok()).as_deref() != Some("none")).count();
+        let shown_sections = sections
+            .iter()
+            .filter(|s| {
+                style(s)
+                    .and_then(|st| st.get_property_value("display").ok())
+                    .as_deref()
+                    != Some("none")
+            })
+            .count();
         for separator in all(&section, "[data-filter-separator]") {
             if let Some(s) = style(&separator) {
                 let _ = s.set_property("display", if shown_sections < 2 { "none" } else { "" });

@@ -9,7 +9,10 @@ use sqlx::SqlitePool;
 use std::time::Duration;
 
 /// Pila Derflice, Derflice 66.
-pub const SAWMILL: LatLon = LatLon { lat: 48.80958, lon: 16.12111 };
+pub const SAWMILL: LatLon = LatLon {
+    lat: 48.80958,
+    lon: 16.12111,
+};
 
 /// openrouteservice answers kept in the `route_cache` table.
 #[derive(Clone, Debug)]
@@ -29,10 +32,17 @@ impl Cache for SqliteCache {
     }
 
     async fn put(&self, key: &str, value: String, ttl: Duration) {
-        let expires = (time::OffsetDateTime::now_utc() + ttl).format(&time::format_description::well_known::Rfc3339).unwrap_or_default();
-        if let Err(e) = sqlx::query!("INSERT OR REPLACE INTO route_cache (query, result, expires_at) VALUES (?, ?, ?)", key, value, expires)
-            .execute(&self.0)
-            .await
+        let expires = (time::OffsetDateTime::now_utc() + ttl)
+            .format(&time::format_description::well_known::Rfc3339)
+            .unwrap_or_default();
+        if let Err(e) = sqlx::query!(
+            "INSERT OR REPLACE INTO route_cache (query, result, expires_at) VALUES (?, ?, ?)",
+            key,
+            value,
+            expires
+        )
+        .execute(&self.0)
+        .await
         {
             tracing::warn!("route not cached: {e}");
         }
@@ -43,8 +53,14 @@ pub type Routes = Client<SqliteCache>;
 
 /// The client, when ORS_API_KEY is set.
 pub fn client(db: SqlitePool) -> Option<Routes> {
-    let key = std::env::var("ORS_API_KEY").ok().filter(|k| !k.trim().is_empty())?;
-    match Client::builder(key, SAWMILL).countries(["cz", "at"]).cache(SqliteCache(db)).build() {
+    let key = std::env::var("ORS_API_KEY")
+        .ok()
+        .filter(|k| !k.trim().is_empty())?;
+    match Client::builder(key, SAWMILL)
+        .countries(["cz", "at"])
+        .cache(SqliteCache(db))
+        .build()
+    {
         Ok(client) => Some(client),
         Err(e) => {
             tracing::error!("openrouteservice client not set up: {e}");
@@ -74,9 +90,23 @@ pub async fn estimate(state: &AppState, query: &str, country: Country) -> Option
 }
 
 /// The one-way road distance to a full address, for checkout.
-pub async fn one_way_km(state: &AppState, street: &str, city: &str, zip: &str, country: Country) -> Option<i64> {
+pub async fn one_way_km(
+    state: &AppState,
+    street: &str,
+    city: &str,
+    zip: &str,
+    country: Country,
+) -> Option<i64> {
     let routes = state.routes.as_ref()?;
-    match routes.one_way_km(&Address { street, city, zip, country: country.as_str() }).await {
+    match routes
+        .one_way_km(&Address {
+            street,
+            city,
+            zip,
+            country: country.as_str(),
+        })
+        .await
+    {
         Ok(km) => Some(i64::from(km)),
         Err(e) => {
             if !e.is_not_found() {

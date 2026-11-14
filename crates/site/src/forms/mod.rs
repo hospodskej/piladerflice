@@ -18,11 +18,16 @@ pub fn locale_of(uri: &Uri) -> Locale {
 }
 
 /// Leaves `flash` for the next page and redirects (303) to `path` in `locale`.
-pub async fn redirect_with(session: &Session, locale: Locale, path: &str, flash: Option<Flash>) -> Response {
-    if let Some(flash) = flash {
-        if let Err(e) = crate::session::flash(session, flash).await {
-            tracing::warn!("could not keep the message: {e}");
-        }
+pub async fn redirect_with(
+    session: &Session,
+    locale: Locale,
+    path: &str,
+    flash: Option<Flash>,
+) -> Response {
+    if let Some(flash) = flash
+        && let Err(e) = crate::session::flash(session, flash).await
+    {
+        tracing::warn!("could not keep the message: {e}");
     }
     Redirect::to(&locale.path(path)).into_response()
 }
@@ -32,12 +37,19 @@ pub type Fields = Vec<(String, String)>;
 
 /// The first value of `name`, trimmed; `None` when missing or blank.
 pub fn field<'a>(fields: &'a Fields, name: &str) -> Option<&'a str> {
-    fields.iter().find(|(k, _)| k == name).map(|(_, v)| v.trim()).filter(|v| !v.is_empty())
+    fields
+        .iter()
+        .find(|(k, _)| k == name)
+        .map(|(_, v)| v.trim())
+        .filter(|v| !v.is_empty())
 }
 
 /// Every value of `name` (`items[palivove][druh][]`), in order.
 pub fn all<'a>(fields: &'a Fields, name: &'a str) -> impl Iterator<Item = &'a str> + 'a {
-    fields.iter().filter(move |(k, _)| k == name).map(|(_, v)| v.as_str())
+    fields
+        .iter()
+        .filter(move |(k, _)| k == name)
+        .map(|(_, v)| v.as_str())
 }
 
 /// Leaves "too many attempts" and redirects to `path` when `rule` is

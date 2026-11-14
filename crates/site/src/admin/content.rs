@@ -1,8 +1,8 @@
 //! Admin: the price list, the inquiry form's options and the promos.
 
-use super::form::{values_for, Errors, Form, Values};
+use super::form::{Errors, Form, Values, values_for};
 use super::{AdminLayout, ConfirmButton};
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use crate::pages::loaded;
 use crate::visitor::visitor;
 use leptos::prelude::*;
@@ -182,7 +182,10 @@ pub fn PricelistPage() -> impl IntoView {
 }
 
 /// The inquiry form's dropdowns, per category.
-pub const INQUIRY_FIELDS: [(&str, &[&str]); 2] = [("palivove", &["varianta", "druh", "delka", "mnozstvi"]), ("stavebni", &["polozka", "delka", "vyska", "sirka"])];
+pub const INQUIRY_FIELDS: [(&str, &[&str]); 2] = [
+    ("palivove", &["varianta", "druh", "delka", "mnozstvi"]),
+    ("stavebni", &["polozka", "delka", "vyska", "sirka"]),
+];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct OptionRow {
@@ -277,7 +280,10 @@ pub struct PromoRow {
 pub async fn load_promos() -> Result<Vec<PromoRow>, ServerFnError> {
     super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
-    let rows = sqlx::query!("SELECT id, title, price, link FROM promos ORDER BY id").fetch_all(db).await.map_err(|e| ServerFnError::new(e.to_string()))?;
+    let rows = sqlx::query!("SELECT id, title, price, link FROM promos ORDER BY id")
+        .fetch_all(db)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?;
     // The home page shows promo number (ISO week % count), as before.
     let week = time::OffsetDateTime::now_utc().date().iso_week() as usize;
     let pick = (!rows.is_empty()).then(|| week % rows.len());
@@ -340,28 +346,63 @@ pub struct PromoForm {
 }
 
 #[cfg(feature = "ssr")]
-const PROMO_FIELDS: [&str; 11] = ["title", "title_de", "feature_1", "feature_1_de", "feature_2", "feature_2_de", "feature_3", "feature_3_de", "price", "price_de", "link"];
+const PROMO_FIELDS: [&str; 11] = [
+    "title",
+    "title_de",
+    "feature_1",
+    "feature_1_de",
+    "feature_2",
+    "feature_2_de",
+    "feature_3",
+    "feature_3_de",
+    "price",
+    "price_de",
+    "link",
+];
 
 #[server(endpoint = "admin/promo")]
 pub async fn load_promo(id: Option<i64>) -> Result<Option<PromoForm>, ServerFnError> {
     super::require_admin()?;
-    let Some(id) = id else { return Ok(Some(PromoForm::default())) };
+    let Some(id) = id else {
+        return Ok(Some(PromoForm::default()));
+    };
     let db = &expect_context::<crate::state::AppState>().db;
-    let Some(p) = sqlx::query!("SELECT * FROM promos WHERE id = ?", id).fetch_optional(db).await.map_err(|e| ServerFnError::new(e.to_string()))? else {
+    let Some(p) = sqlx::query!("SELECT * FROM promos WHERE id = ?", id)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?
+    else {
         return Ok(None);
     };
     let o = |s: Option<String>| s.unwrap_or_default();
     let values = PROMO_FIELDS
         .iter()
-        .zip([o(p.title), o(p.title_de), o(p.feature_1), o(p.feature_1_de), o(p.feature_2), o(p.feature_2_de), o(p.feature_3), o(p.feature_3_de), o(p.price), o(p.price_de), o(p.link)])
+        .zip([
+            o(p.title),
+            o(p.title_de),
+            o(p.feature_1),
+            o(p.feature_1_de),
+            o(p.feature_2),
+            o(p.feature_2_de),
+            o(p.feature_3),
+            o(p.feature_3_de),
+            o(p.price),
+            o(p.price_de),
+            o(p.link),
+        ])
         .map(|(k, v)| ((*k).to_owned(), v))
         .collect();
-    Ok(Some(PromoForm { id: Some(id), values, image: p.image }))
+    Ok(Some(PromoForm {
+        id: Some(id),
+        values,
+        image: p.image,
+    }))
 }
 
 #[component]
 pub fn PromoPage() -> impl IntoView {
-    let id: Option<i64> = use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
+    let id: Option<i64> =
+        use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
     view! {
         <AdminLayout>
             <a href="/admin/promos" class="admin-back-link">"← Zpět na přehled"</a>
@@ -435,7 +476,10 @@ pub mod handlers {
     /// Why a price list row can't be saved (as the old validations said it).
     fn pricelist_problems(category: &str, values: &super::Values) -> Vec<String> {
         let mut problems = Vec::new();
-        let fields = PRICELIST.iter().find(|(c, _)| *c == category).map_or(&[][..], |(_, f)| *f);
+        let fields = PRICELIST
+            .iter()
+            .find(|(c, _)| *c == category)
+            .map_or(&[][..], |(_, f)| *f);
         if fields.contains(&"item_name") && text(values, "item_name").is_none() {
             problems.push("Název je povinné pole".to_owned());
         }
@@ -445,13 +489,23 @@ pub mod handlers {
         problems
     }
 
-    pub async fn create_price(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn create_price(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         admin!(session, v);
         let values = fields(&pairs, "pricelist_item");
         let category = text(&values, "category").unwrap_or_default();
         let back = format!("/admin/pricelist_items#{category}");
         if !PRICELIST.iter().any(|(c, _)| *c == category) {
-            return failed(&session, "/admin/pricelist_items", "Kategorie má neplatnou hodnotu").await;
+            return failed(
+                &session,
+                "/admin/pricelist_items",
+                "Kategorie má neplatnou hodnotu",
+            )
+            .await;
         }
         let mut problems = pricelist_problems(&category, &values);
         let price = text(&values, "price");
@@ -462,7 +516,15 @@ pub mod handlers {
             return failed(&session, &back, problems.join(", ")).await;
         }
         let t = |f: &str| text(&values, f);
-        let (name, name_de, details, details_de, sub, sub_de, price_de) = (t("item_name"), t("item_name_de"), t("details"), t("details_de"), t("subcategory"), t("subcategory_de"), t("price_de"));
+        let (name, name_de, details, details_de, sub, sub_de, price_de) = (
+            t("item_name"),
+            t("item_name_de"),
+            t("details"),
+            t("details_de"),
+            t("subcategory"),
+            t("subcategory_de"),
+            t("price_de"),
+        );
         let _ = sqlx::query!(
             "INSERT INTO pricelist_items (category, position, item_name, item_name_de, details, details_de, subcategory, subcategory_de, price, price_de)
              VALUES (?, (SELECT COALESCE(MAX(position), 0) + 1 FROM pricelist_items WHERE category = ?), ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -473,16 +535,33 @@ pub mod handlers {
         done(&session, &back, "Položka byla přidána.").await
     }
 
-    pub async fn update_price(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn update_price(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         admin!(session, v);
-        let Some(row) = sqlx::query!("SELECT category, delivery_rate, price FROM pricelist_items WHERE id = ?", id).fetch_optional(&state.db).await.ok().flatten() else {
+        let Some(row) = sqlx::query!(
+            "SELECT category, delivery_rate, price FROM pricelist_items WHERE id = ?",
+            id
+        )
+        .fetch_optional(&state.db)
+        .await
+        .ok()
+        .flatten() else {
             return failed(&session, "/admin/pricelist_items", "Položka nenalezena.").await;
         };
         let values = fields(&pairs, "pricelist_item");
         let back = format!("/admin/pricelist_items#{}", row.category);
         let mut problems = pricelist_problems(&row.category, &values);
         // The delivery row's price isn't in the form (it's the e-shop's).
-        let price = if row.delivery_rate != 0 { Some(row.price) } else { text(&values, "price") };
+        let price = if row.delivery_rate != 0 {
+            Some(row.price)
+        } else {
+            text(&values, "price")
+        };
         if price.is_none() {
             problems.push("Cena je povinné pole".to_owned());
         }
@@ -490,7 +569,15 @@ pub mod handlers {
             return failed(&session, &back, problems.join(", ")).await;
         }
         let t = |f: &str| text(&values, f);
-        let (name, name_de, details, details_de, sub, sub_de, price_de) = (t("item_name"), t("item_name_de"), t("details"), t("details_de"), t("subcategory"), t("subcategory_de"), t("price_de"));
+        let (name, name_de, details, details_de, sub, sub_de, price_de) = (
+            t("item_name"),
+            t("item_name_de"),
+            t("details"),
+            t("details_de"),
+            t("subcategory"),
+            t("subcategory_de"),
+            t("price_de"),
+        );
         let _ = sqlx::query!(
             "UPDATE pricelist_items SET item_name = ?, item_name_de = ?, details = ?, details_de = ?, subcategory = ?, subcategory_de = ?, price = ?, price_de = ?,
                     updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
@@ -501,17 +588,37 @@ pub mod handlers {
         done(&session, &back, "Položka byla uložena.").await
     }
 
-    pub async fn delete_price(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete_price(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         admin!(session, v);
-        let category = sqlx::query_scalar!("DELETE FROM pricelist_items WHERE id = ? RETURNING category", id).fetch_optional(&state.db).await.ok().flatten().unwrap_or_default();
-        done(&session, &format!("/admin/pricelist_items#{category}"), "Položka byla smazána.").await
+        let category = sqlx::query_scalar!(
+            "DELETE FROM pricelist_items WHERE id = ? RETURNING category",
+            id
+        )
+        .fetch_optional(&state.db)
+        .await
+        .ok()
+        .flatten()
+        .unwrap_or_default();
+        done(
+            &session,
+            &format!("/admin/pricelist_items#{category}"),
+            "Položka byla smazána.",
+        )
+        .await
     }
 
     /// The ids of a group in order, with `id` swapped with its neighbour
     /// (`step` -1 up, +1 down); `None` when there's nowhere to move.
     fn swapped(mut ids: Vec<i64>, id: i64, step: i64) -> Option<Vec<i64>> {
         let index = ids.iter().position(|x| *x == id)?;
-        let target = usize::try_from(i64::try_from(index).ok()? + step).ok().filter(|t| *t < ids.len())?;
+        let target = usize::try_from(i64::try_from(index).ok()? + step)
+            .ok()
+            .filter(|t| *t < ids.len())?;
         ids.swap(index, target);
         Some(ids)
     }
@@ -524,10 +631,18 @@ pub mod handlers {
         )
         .fetch_all(&state.db)
         .await?;
-        let Some(ids) = swapped(ids, id, step) else { return Ok(()) };
+        let Some(ids) = swapped(ids, id, step) else {
+            return Ok(());
+        };
         let mut tx = state.db.begin().await?;
         for (position, row) in (0_i64..).zip(ids) {
-            sqlx::query!("UPDATE pricelist_items SET position = ? WHERE id = ?", position, row).execute(&mut *tx).await?;
+            sqlx::query!(
+                "UPDATE pricelist_items SET position = ? WHERE id = ?",
+                position,
+                row
+            )
+            .execute(&mut *tx)
+            .await?;
         }
         tx.commit().await
     }
@@ -541,31 +656,65 @@ pub mod handlers {
         )
         .fetch_all(&state.db)
         .await?;
-        let Some(ids) = swapped(ids, id, step) else { return Ok(()) };
+        let Some(ids) = swapped(ids, id, step) else {
+            return Ok(());
+        };
         let mut tx = state.db.begin().await?;
         for (position, row) in (0_i64..).zip(ids) {
-            sqlx::query!("UPDATE inquiry_form_options SET position = ? WHERE id = ?", position, row).execute(&mut *tx).await?;
+            sqlx::query!(
+                "UPDATE inquiry_form_options SET position = ? WHERE id = ?",
+                position,
+                row
+            )
+            .execute(&mut *tx)
+            .await?;
         }
         tx.commit().await
     }
 
-    pub async fn move_price(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path((id, direction)): Path<(i64, String)>) -> Response {
+    pub async fn move_price(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path((id, direction)): Path<(i64, String)>,
+    ) -> Response {
         admin!(session, v);
         let step = if direction == "move_up" { -1 } else { 1 };
-        let category = sqlx::query_scalar!("SELECT category FROM pricelist_items WHERE id = ?", id).fetch_optional(&state.db).await.ok().flatten().unwrap_or_default();
+        let category = sqlx::query_scalar!("SELECT category FROM pricelist_items WHERE id = ?", id)
+            .fetch_optional(&state.db)
+            .await
+            .ok()
+            .flatten()
+            .unwrap_or_default();
         if let Err(e) = move_price_row(&state, id, step).await {
             tracing::warn!("not moved: {e}");
         }
-        axum::response::IntoResponse::into_response(axum::response::Redirect::to(&format!("/admin/pricelist_items#{category}")))
+        axum::response::IntoResponse::into_response(axum::response::Redirect::to(&format!(
+            "/admin/pricelist_items#{category}"
+        )))
     }
 
-    pub async fn create_option(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn create_option(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         admin!(session, v);
         let values = fields(&pairs, "inquiry_form_option");
-        let (category, field) = (text(&values, "category").unwrap_or_default(), text(&values, "field").unwrap_or_default());
-        let valid = INQUIRY_FIELDS.iter().any(|(c, fs)| *c == category && fs.contains(&field.as_str()));
+        let (category, field) = (
+            text(&values, "category").unwrap_or_default(),
+            text(&values, "field").unwrap_or_default(),
+        );
+        let valid = INQUIRY_FIELDS
+            .iter()
+            .any(|(c, fs)| *c == category && fs.contains(&field.as_str()));
         let Some(value) = text(&values, "value").filter(|_| valid) else {
-            let problem = if valid { "Hodnota je povinné pole" } else { "Pole nepatří k této kategorii" };
+            let problem = if valid {
+                "Hodnota je povinné pole"
+            } else {
+                "Pole nepatří k této kategorii"
+            };
             return failed(&session, "/admin/inquiry_form_options", problem).await;
         };
         let value_de = text(&values, "value_de");
@@ -576,17 +725,42 @@ pub mod handlers {
         )
         .execute(&state.db)
         .await;
-        done(&session, &format!("/admin/inquiry_form_options#{category}-{field}"), "Možnost byla přidána.").await
+        done(
+            &session,
+            &format!("/admin/inquiry_form_options#{category}-{field}"),
+            "Možnost byla přidána.",
+        )
+        .await
     }
 
-    pub async fn update_option(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn update_option(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         admin!(session, v);
-        let Some(row) = sqlx::query!("SELECT category, field FROM inquiry_form_options WHERE id = ?", id).fetch_optional(&state.db).await.ok().flatten() else {
-            return failed(&session, "/admin/inquiry_form_options", "Možnost nenalezena.").await;
+        let Some(row) = sqlx::query!(
+            "SELECT category, field FROM inquiry_form_options WHERE id = ?",
+            id
+        )
+        .fetch_optional(&state.db)
+        .await
+        .ok()
+        .flatten() else {
+            return failed(
+                &session,
+                "/admin/inquiry_form_options",
+                "Možnost nenalezena.",
+            )
+            .await;
         };
         let back = format!("/admin/inquiry_form_options#{}-{}", row.category, row.field);
         let values = fields(&pairs, "inquiry_form_option");
-        let Some(value) = text(&values, "value") else { return failed(&session, &back, "Hodnota je povinné pole").await };
+        let Some(value) = text(&values, "value") else {
+            return failed(&session, &back, "Hodnota je povinné pole").await;
+        };
         let value_de = text(&values, "value_de");
         let _ = sqlx::query!("UPDATE inquiry_form_options SET value = ?, value_de = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?", value, value_de, id)
             .execute(&state.db)
@@ -594,32 +768,62 @@ pub mod handlers {
         done(&session, &back, "Možnost byla uložena.").await
     }
 
-    pub async fn delete_option(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete_option(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         admin!(session, v);
-        let _ = sqlx::query!("DELETE FROM inquiry_form_options WHERE id = ?", id).execute(&state.db).await;
-        done(&session, "/admin/inquiry_form_options", "Možnost byla smazána.").await
+        let _ = sqlx::query!("DELETE FROM inquiry_form_options WHERE id = ?", id)
+            .execute(&state.db)
+            .await;
+        done(
+            &session,
+            "/admin/inquiry_form_options",
+            "Možnost byla smazána.",
+        )
+        .await
     }
 
-    pub async fn move_option(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path((id, direction)): Path<(i64, String)>) -> Response {
+    pub async fn move_option(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path((id, direction)): Path<(i64, String)>,
+    ) -> Response {
         admin!(session, v);
         let step = if direction == "move_up" { -1 } else { 1 };
         if let Err(e) = move_option_row(&state, id, step).await {
             tracing::warn!("not moved: {e}");
         }
-        let group = sqlx::query!("SELECT category, field FROM inquiry_form_options WHERE id = ?", id)
-            .fetch_optional(&state.db)
-            .await
-            .ok()
-            .flatten()
-            .map(|o| format!("{}-{}", o.category, o.field))
-            .unwrap_or_default();
-        axum::response::IntoResponse::into_response(axum::response::Redirect::to(&format!("/admin/inquiry_form_options#{group}")))
+        let group = sqlx::query!(
+            "SELECT category, field FROM inquiry_form_options WHERE id = ?",
+            id
+        )
+        .fetch_optional(&state.db)
+        .await
+        .ok()
+        .flatten()
+        .map(|o| format!("{}-{}", o.category, o.field))
+        .unwrap_or_default();
+        axum::response::IntoResponse::into_response(axum::response::Redirect::to(&format!(
+            "/admin/inquiry_form_options#{group}"
+        )))
     }
 
-    async fn save_promo(state: &AppState, session: &Session, id: Option<i64>, form: Multipart) -> Response {
+    async fn save_promo(
+        state: &AppState,
+        session: &Session,
+        id: Option<i64>,
+        form: Multipart,
+    ) -> Response {
         let (pairs, files) = multipart(form).await;
         let values = fields(&pairs, "promo");
-        let form_path = id.map_or_else(|| "/admin/promos/new".to_owned(), |id| format!("/admin/promos/{id}/edit"));
+        let form_path = id.map_or_else(
+            || "/admin/promos/new".to_owned(),
+            |id| format!("/admin/promos/{id}/edit"),
+        );
         let mut image = None;
         if let Some((_, bytes)) = files.iter().find(|(name, _)| name == "promo[image]") {
             match save_upload(state, bytes).await {
@@ -628,8 +832,19 @@ pub mod handlers {
             }
         }
         let t = |f: &str| text(&values, f);
-        let (title, title_de, f1, f1_de, f2, f2_de, f3, f3_de, price, price_de, link) =
-            (t("title"), t("title_de"), t("feature_1"), t("feature_1_de"), t("feature_2"), t("feature_2_de"), t("feature_3"), t("feature_3_de"), t("price"), t("price_de"), t("link"));
+        let (title, title_de, f1, f1_de, f2, f2_de, f3, f3_de, price, price_de, link) = (
+            t("title"),
+            t("title_de"),
+            t("feature_1"),
+            t("feature_1_de"),
+            t("feature_2"),
+            t("feature_2_de"),
+            t("feature_3"),
+            t("feature_3_de"),
+            t("price"),
+            t("price_de"),
+            t("link"),
+        );
         let saved = match id {
             Some(id) => sqlx::query!(
                 "UPDATE promos SET title = ?, title_de = ?, feature_1 = ?, feature_1_de = ?, feature_2 = ?, feature_2_de = ?, feature_3 = ?, feature_3_de = ?,
@@ -647,24 +862,53 @@ pub mod handlers {
             .await,
         };
         match saved {
-            Ok(_) => done(session, "/admin/promos", if id.is_some() { "Doporučení bylo uloženo." } else { "Doporučení bylo vytvořeno." }).await,
+            Ok(_) => {
+                done(
+                    session,
+                    "/admin/promos",
+                    if id.is_some() {
+                        "Doporučení bylo uloženo."
+                    } else {
+                        "Doporučení bylo vytvořeno."
+                    },
+                )
+                .await
+            }
             Err(e) => refused(session, &form_path, values, vec![e.to_string()]).await,
         }
     }
 
-    pub async fn create_promo(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, form: Multipart) -> Response {
+    pub async fn create_promo(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        form: Multipart,
+    ) -> Response {
         admin!(session, v);
         save_promo(&state, &session, None, form).await
     }
 
-    pub async fn update_promo(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>, form: Multipart) -> Response {
+    pub async fn update_promo(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+        form: Multipart,
+    ) -> Response {
         admin!(session, v);
         save_promo(&state, &session, Some(id), form).await
     }
 
-    pub async fn delete_promo(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete_promo(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         admin!(session, v);
-        let _ = sqlx::query!("DELETE FROM promos WHERE id = ?", id).execute(&state.db).await;
+        let _ = sqlx::query!("DELETE FROM promos WHERE id = ?", id)
+            .execute(&state.db)
+            .await;
         done(&session, "/admin/promos", "Doporučení bylo smazáno.").await
     }
 }

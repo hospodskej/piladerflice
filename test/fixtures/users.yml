@@ -1,4 +1,0 @@
-admin:
-  email_address: admin@piladerflice.cz
-  password_digest: <%= BCrypt::Password.create("correct-horse-battery") %>
-  role: admin

@@ -7,7 +7,9 @@ use std::iter::Sum;
 use std::ops::{Add, AddAssign, Mul, Neg, Sub};
 
 /// An amount in whole Czech crowns. Can be negative (a discount line).
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(
+    Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
+)]
 #[serde(transparent)]
 pub struct Czk(pub i64);
 
@@ -53,7 +55,7 @@ fn group_thousands(value: i64, separator: char) -> String {
         out.push('-');
     }
     for (i, c) in digits.chars().enumerate() {
-        if i > 0 && (digits.len() - i) % 3 == 0 {
+        if i > 0 && (digits.len() - i).is_multiple_of(3) {
             out.push(separator);
         }
         out.push(c);
@@ -217,7 +219,10 @@ mod tests {
     fn converts_price_texts() {
         let rate = EurRate::new(25.0).unwrap();
         assert_eq!(rate.convert_price_text("1 740 Kč"), "≈ 69,60 €");
-        assert_eq!(rate.convert_price_text("od 9 800 Kč / m<sup>3</sup>"), "od ≈ 392,00 € / m<sup>3</sup>");
+        assert_eq!(
+            rate.convert_price_text("od 9 800 Kč / m<sup>3</sup>"),
+            "od ≈ 392,00 € / m<sup>3</sup>"
+        );
         assert_eq!(rate.convert_price_text("40 CZK / km"), "≈ 1,60 € / km");
         assert_eq!(rate.convert_price_text("4m, 5m"), "4m, 5m");
         assert_eq!(rate.convert_price_text("---"), "---");

@@ -2,7 +2,6 @@
 //! parsed into these enums at the edge, so the rest of the code can't hold an
 //! unknown category.
 
-
 macro_rules! text_enum {
     ($(#[$meta:meta])* $name:ident { $($variant:ident => $text:literal),+ $(,)? }) => {
         $(#[$meta])*
@@ -114,8 +113,17 @@ mod tests {
             assert_eq!(c.as_str().parse::<Category>().unwrap(), *c);
         }
         assert!("nabytek".parse::<Category>().is_err());
-        assert_eq!(serde_json::to_string(&Template::SimpleVariant).unwrap(), "\"simple_variant\"");
-        assert_eq!(serde_json::to_string(&Category::Firewood).unwrap(), "\"palivove\"");
-        assert_eq!(serde_json::from_str::<Category>("\"rezivo\"").unwrap(), Category::Lumber);
+        assert_eq!(
+            serde_json::to_string(&Template::SimpleVariant).unwrap(),
+            "\"simple_variant\""
+        );
+        assert_eq!(
+            serde_json::to_string(&Category::Firewood).unwrap(),
+            "\"palivove\""
+        );
+        assert_eq!(
+            serde_json::from_str::<Category>("\"rezivo\"").unwrap(),
+            Category::Lumber
+        );
     }
 }

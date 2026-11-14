@@ -7,7 +7,7 @@ pub mod form;
 pub mod orders;
 pub mod settings;
 
-use crate::visitor::{visitor, Flash, Visitor};
+use crate::visitor::{Flash, Visitor, visitor};
 use leptos::prelude::*;
 
 /// The shop's money in admin, always in crowns: "1 740 Kč".
@@ -37,7 +37,13 @@ pub fn AdminLayout(children: Children) -> impl IntoView {
     if !allowed {
         return ().into_any();
     }
-    let at = |prefix: &str| if v.path.starts_with(prefix) { "admin-nav-link active" } else { "admin-nav-link" };
+    let at = |prefix: &str| {
+        if v.path.starts_with(prefix) {
+            "admin-nav-link active"
+        } else {
+            "admin-nav-link"
+        }
+    };
     let link = |href: &'static str, prefix: &'static str, text: &'static str| view! { <a href=href class=at(prefix)>{text}</a> };
     view! {
         <leptos_meta::Title text="Administrace | Pila Derflice"/>
@@ -109,7 +115,12 @@ pub fn ShrinkingFileInput(id: String, name: String) -> impl IntoView {
 
 /// A delete (or other) button that asks first.
 #[component]
-pub fn ConfirmButton(action: String, text: &'static str, #[prop(into)] confirm: String, #[prop(optional)] class: Option<&'static str>) -> impl IntoView {
+pub fn ConfirmButton(
+    action: String,
+    text: &'static str,
+    #[prop(into)] confirm: String,
+    #[prop(optional)] class: Option<&'static str>,
+) -> impl IntoView {
     view! {
         <form class="button_to" method="post" action=action data-confirm=confirm>
             <button class=class.unwrap_or("admin-danger-btn") type="submit">{text}</button>
@@ -125,7 +136,11 @@ pub fn is_admin(v: &Visitor) -> bool {
 #[cfg(feature = "ssr")]
 pub fn require_admin() -> Result<Visitor, ServerFnError> {
     let v = visitor();
-    if is_admin(&v) { Ok(v) } else { Err(ServerFnError::new("admins only")) }
+    if is_admin(&v) {
+        Ok(v)
+    } else {
+        Err(ServerFnError::new("admins only"))
+    }
 }
 
 #[cfg(feature = "ssr")]
@@ -142,7 +157,12 @@ pub mod handlers {
 
     /// Middleware for everything under /admin: admins only (others go to
     /// the home page with a message); never cached or indexed.
-    pub async fn admin_only(axum::Extension(v): axum::Extension<Visitor>, session: Session, request: axum::extract::Request, next: axum::middleware::Next) -> Response {
+    pub async fn admin_only(
+        axum::Extension(v): axum::Extension<Visitor>,
+        session: Session,
+        request: axum::extract::Request,
+        next: axum::middleware::Next,
+    ) -> Response {
         let path = request.uri().path();
         if path != "/admin" && !path.starts_with("/admin/") {
             return next.run(request).await;
@@ -152,8 +172,14 @@ pub mod handlers {
         }
         let mut response = next.run(request).await;
         let headers = response.headers_mut();
-        headers.insert(axum::http::header::CACHE_CONTROL, axum::http::HeaderValue::from_static("no-store"));
-        headers.insert(axum::http::HeaderName::from_static("x-robots-tag"), axum::http::HeaderValue::from_static("noindex, nofollow"));
+        headers.insert(
+            axum::http::header::CACHE_CONTROL,
+            axum::http::HeaderValue::from_static("no-store"),
+        );
+        headers.insert(
+            axum::http::HeaderName::from_static("x-robots-tag"),
+            axum::http::HeaderValue::from_static("noindex, nofollow"),
+        );
         response
     }
 
@@ -162,7 +188,11 @@ pub mod handlers {
         if super::is_admin(v) {
             Ok(())
         } else {
-            let _ = crate::session::flash(session, Flash::Alert("Nemáte oprávnění k přístupu do administrace.".into())).await;
+            let _ = crate::session::flash(
+                session,
+                Flash::Alert("Nemáte oprávnění k přístupu do administrace.".into()),
+            )
+            .await;
             Err(Redirect::to("/").into_response())
         }
     }
@@ -176,27 +206,53 @@ pub mod handlers {
     pub const REFUSED: &str = "admin_refused";
 
     /// Back to the form with what was typed and why it can't be saved.
-    pub async fn refused(session: &Session, path: &str, values: super::form::Values, errors: Vec<String>) -> Response {
-        let _ = session.insert(REFUSED, super::form::Refused { path: path.to_owned(), values, errors }).await;
+    pub async fn refused(
+        session: &Session,
+        path: &str,
+        values: super::form::Values,
+        errors: Vec<String>,
+    ) -> Response {
+        let _ = session
+            .insert(
+                REFUSED,
+                super::form::Refused {
+                    path: path.to_owned(),
+                    values,
+                    errors,
+                },
+            )
+            .await;
         Redirect::to(path).into_response()
     }
 
     /// Saves an uploaded photo (checked and stripped of metadata by
     /// spliceosome) under a name made from its content; returns its address.
-    pub async fn save_upload(state: &crate::state::AppState, bytes: &[u8]) -> Result<String, String> {
+    pub async fn save_upload(
+        state: &crate::state::AppState,
+        bytes: &[u8],
+    ) -> Result<String, String> {
         use sha2::Digest;
-        let limits = spliceosome::Limits { max_bytes: 15 * 1024 * 1024, max_pixels: 50_000_000 };
+        let limits = spliceosome::Limits {
+            max_bytes: 15 * 1024 * 1024,
+            max_pixels: 50_000_000,
+        };
         let clean = spliceosome::sanitize(bytes, &limits).map_err(|e| match e {
             spliceosome::Error::TooLarge { .. } => "Obrázek je příliš velký.".to_owned(),
-            spliceosome::Error::UnsupportedFormat => "Obrázek musí být JPG, PNG nebo WebP.".to_owned(),
+            spliceosome::Error::UnsupportedFormat => {
+                "Obrázek musí být JPG, PNG nebo WebP.".to_owned()
+            }
             _ => "Obrázek se nepodařilo přečíst.".to_owned(),
         })?;
         let digest = sha2::Sha256::digest(clean.bytes());
         let name: String = digest.iter().take(12).map(|b| format!("{b:02x}")).collect();
         let file = format!("{name}.{}", clean.extension());
         let dir = state.storage.join("uploads");
-        tokio::fs::create_dir_all(&dir).await.map_err(|e| e.to_string())?;
-        tokio::fs::write(dir.join(&file), clean.bytes()).await.map_err(|e| e.to_string())?;
+        tokio::fs::create_dir_all(&dir)
+            .await
+            .map_err(|e| e.to_string())?;
+        tokio::fs::write(dir.join(&file), clean.bytes())
+            .await
+            .map_err(|e| e.to_string())?;
         Ok(format!("/uploads/{file}"))
     }
 

@@ -56,7 +56,10 @@ pub async fn delivery_estimate(session: &Session) -> Option<DeliveryEstimate> {
     session.get(DELIVERY).await.ok().flatten()
 }
 
-pub async fn save_delivery_estimate(session: &Session, estimate: Option<&DeliveryEstimate>) -> Result<(), SessionError> {
+pub async fn save_delivery_estimate(
+    session: &Session,
+    estimate: Option<&DeliveryEstimate>,
+) -> Result<(), SessionError> {
     match estimate {
         Some(e) => session.insert(DELIVERY, e).await?,
         None => {
@@ -74,7 +77,16 @@ pub async fn flash(session: &Session, flash: Flash) -> Result<(), SessionError> 
 /// sign-in is useless) but keeps the cart and everything else.
 pub async fn sign_in(session: &Session, user_id: i64, epoch: i64) -> Result<(), SessionError> {
     session.cycle_id().await?;
-    session.insert(SIGN_IN, SignIn { user_id, epoch, at: OffsetDateTime::now_utc() }).await?;
+    session
+        .insert(
+            SIGN_IN,
+            SignIn {
+                user_id,
+                epoch,
+                at: OffsetDateTime::now_utc(),
+            },
+        )
+        .await?;
     Ok(())
 }
 
@@ -84,7 +96,10 @@ pub async fn sign_out(session: &Session) -> Result<(), SessionError> {
 }
 
 /// The signed-in user, if the sign-in is still valid.
-async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<SignedInUser>, SessionError> {
+async fn signed_in_user(
+    session: &Session,
+    state: &AppState,
+) -> Result<Option<SignedInUser>, SessionError> {
     let Some(sign_in) = session.get::<SignIn>(SIGN_IN).await? else {
         return Ok(None);
     };
@@ -99,7 +114,9 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
     .await?;
 
     let valid = row.as_ref().is_some_and(|u| {
-        u.session_epoch == sign_in.epoch && (u.role != "admin" || sign_in.at + ADMIN_SESSION_LIFETIME > OffsetDateTime::now_utc())
+        u.session_epoch == sign_in.epoch
+            && (u.role != "admin"
+                || sign_in.at + ADMIN_SESSION_LIFETIME > OffsetDateTime::now_utc())
     });
     if !valid {
         session.remove::<SignIn>(SIGN_IN).await?;
@@ -140,7 +157,12 @@ async fn signed_in_user(session: &Session, state: &AppState) -> Result<Option<Si
 }
 
 /// Axum middleware: puts the [`Visitor`] into the request for the pages.
-pub async fn load_visitor(State(state): State<AppState>, session: Session, mut request: Request, next: Next) -> Response {
+pub async fn load_visitor(
+    State(state): State<AppState>,
+    session: Session,
+    mut request: Request,
+    next: Next,
+) -> Response {
     let path = request.uri().path().to_owned();
     let user = match signed_in_user(&session, &state).await {
         Ok(user) => user,
@@ -169,22 +191,51 @@ pub async fn load_visitor(State(state): State<AppState>, session: Session, mut r
         path,
         user,
         cart,
-        checkout: session.get(CHECKOUT).await.ok().flatten().unwrap_or_default(),
+        checkout: session
+            .get(CHECKOUT)
+            .await
+            .ok()
+            .flatten()
+            .unwrap_or_default(),
         delivery: delivery_estimate(&session).await,
         flash: session.remove::<Flash>(FLASH).await.ok().flatten(),
-        registration_form: session.remove(crate::forms::auth::REGISTRATION_FORM).await.ok().flatten(),
-        admin_refused: session.remove(crate::admin::handlers::REFUSED).await.ok().flatten(),
-        checkout_errors: session.remove(CHECKOUT_ERRORS).await.ok().flatten().unwrap_or_default(),
+        registration_form: session
+            .remove(crate::forms::auth::REGISTRATION_FORM)
+            .await
+            .ok()
+            .flatten(),
+        admin_refused: session
+            .remove(crate::admin::handlers::REFUSED)
+            .await
+            .ok()
+            .flatten(),
+        checkout_errors: session
+            .remove(CHECKOUT_ERRORS)
+            .await
+            .ok()
+            .flatten()
+            .unwrap_or_default(),
         last_order: session.get(LAST_ORDER).await.ok().flatten(),
-        discount_note: session.remove(crate::forms::cart::DISCOUNT_NOTE).await.ok().flatten(),
-        delivery_error: session.remove(crate::forms::cart::DELIVERY_ERROR).await.ok().flatten(),
+        discount_note: session
+            .remove(crate::forms::cart::DISCOUNT_NOTE)
+            .await
+            .ok()
+            .flatten(),
+        delivery_error: session
+            .remove(crate::forms::cart::DELIVERY_ERROR)
+            .await
+            .ok()
+            .flatten(),
     };
     request.extensions_mut().insert(visitor);
     next.run(request).await
 }
 
 /// A discount code as saved in the admin (any letter case), or `None`.
-pub async fn discount_code(db: &sqlx::SqlitePool, code: &str) -> Result<Option<domain::discount::DiscountCode>, sqlx::Error> {
+pub async fn discount_code(
+    db: &sqlx::SqlitePool,
+    code: &str,
+) -> Result<Option<domain::discount::DiscountCode>, sqlx::Error> {
     use domain::discount::{DiscountCode, DiscountKind};
     let code = code.trim();
     let Some(row) = sqlx::query!(
@@ -201,16 +252,18 @@ pub async fn discount_code(db: &sqlx::SqlitePool, code: &str) -> Result<Option<d
         kind: row.kind.parse().unwrap_or(DiscountKind::Percent),
         value: row.value,
         active: row.active != 0,
-        valid_until: row
-            .valid_until
-            .as_deref()
-            .and_then(|d| time::Date::parse(d, &time::format_description::well_known::Iso8601::DATE).ok()),
+        valid_until: row.valid_until.as_deref().and_then(|d| {
+            time::Date::parse(d, &time::format_description::well_known::Iso8601::DATE).ok()
+        }),
         usage_limit: row.usage_limit,
         times_used: row.times_used,
         min_order: row.min_order_czk.map(domain::money::Czk),
     }))
 }
 
-pub async fn save_checkout(session: &Session, checkout: &domain::checkout::CheckoutState) -> Result<(), SessionError> {
+pub async fn save_checkout(
+    session: &Session,
+    checkout: &domain::checkout::CheckoutState,
+) -> Result<(), SessionError> {
     Ok(session.insert(CHECKOUT, checkout).await?)
 }

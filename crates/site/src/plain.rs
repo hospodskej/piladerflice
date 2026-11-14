@@ -3,25 +3,38 @@
 
 use crate::i18n::Locale;
 use crate::state::AppState;
+use axum::Router;
 use axum::extract::{Request, State};
-use axum::http::{header, HeaderMap, StatusCode};
+use axum::http::{HeaderMap, StatusCode, header};
 use axum::middleware::Next;
 use axum::response::{IntoResponse, Response};
 use axum::routing::get;
-use axum::Router;
 use std::fmt::Write as _;
 
 /// "https://piladerflice.cz": APP_HOST in production, else the request's host.
 fn base_url(headers: &HeaderMap) -> String {
     match std::env::var("APP_HOST") {
         Ok(host) if !host.is_empty() => format!("https://{host}"),
-        _ => format!("http://{}", headers.get(header::HOST).and_then(|h| h.to_str().ok()).unwrap_or("localhost")),
+        _ => format!(
+            "http://{}",
+            headers
+                .get(header::HOST)
+                .and_then(|h| h.to_str().ok())
+                .unwrap_or("localhost")
+        ),
     }
 }
 
 /// Cached by browsers and proxies for an hour.
 fn hourly(content_type: &'static str, body: String) -> Response {
-    ([(header::CONTENT_TYPE, content_type), (header::CACHE_CONTROL, "max-age=3600, public")], body).into_response()
+    (
+        [
+            (header::CONTENT_TYPE, content_type),
+            (header::CACHE_CONTROL, "max-age=3600, public"),
+        ],
+        body,
+    )
+        .into_response()
 }
 
 async fn robots(headers: HeaderMap) -> Response {
@@ -39,21 +52,38 @@ async fn robots(headers: HeaderMap) -> Response {
 }
 
 const STATIC_PAGES: [&str; 12] = [
-    "/", "/kontakt", "/sluzby", "/sortiment", "/sortiment/palivove-drevo", "/sortiment/stavebni-rezivo",
-    "/sortiment/truhlarske-rezivo", "/sortiment/okrasne-kamenivo", "/sortiment/vyrobni-zbytky",
-    "/obchodni-podminky", "/zasady-cookies", "/zasady-ochrany-osobnich-udaju",
+    "/",
+    "/kontakt",
+    "/sluzby",
+    "/sortiment",
+    "/sortiment/palivove-drevo",
+    "/sortiment/stavebni-rezivo",
+    "/sortiment/truhlarske-rezivo",
+    "/sortiment/okrasne-kamenivo",
+    "/sortiment/vyrobni-zbytky",
+    "/obchodni-podminky",
+    "/zasady-cookies",
+    "/zasady-ochrany-osobnich-udaju",
 ];
 
 async fn sitemap(State(state): State<AppState>, headers: HeaderMap) -> Response {
     let base = base_url(&headers);
-    let mut entries: Vec<(String, Option<String>)> = STATIC_PAGES.iter().map(|p| ((*p).to_owned(), None)).collect();
+    let mut entries: Vec<(String, Option<String>)> = STATIC_PAGES
+        .iter()
+        .map(|p| ((*p).to_owned(), None))
+        .collect();
     entries.push(("/eshop".into(), None));
     // Firewood is the shop's first tab, so its category address isn't listed.
-    let categories = sqlx::query_scalar!("SELECT DISTINCT category FROM catalog_products WHERE active = 1")
-        .fetch_all(&state.db)
-        .await
-        .unwrap_or_default();
-    for category in domain::Category::ALL.iter().map(|c| c.as_str()).filter(|c| *c != "palivove" && categories.iter().any(|x| x == c)) {
+    let categories =
+        sqlx::query_scalar!("SELECT DISTINCT category FROM catalog_products WHERE active = 1")
+            .fetch_all(&state.db)
+            .await
+            .unwrap_or_default();
+    for category in domain::Category::ALL
+        .iter()
+        .map(|c| c.as_str())
+        .filter(|c| *c != "palivove" && categories.iter().any(|x| x == c))
+    {
         entries.push((format!("/eshop?category={category}"), None));
     }
     let products = sqlx::query!(
@@ -63,9 +93,18 @@ async fn sitemap(State(state): State<AppState>, headers: HeaderMap) -> Response 
     .fetch_all(&state.db)
     .await
     .unwrap_or_default();
-    entries.extend(products.into_iter().map(|p| (format!("/eshop/{}", p.key), Some(p.lastmod.chars().take(19).collect::<String>() + "Z"))));
+    entries.extend(products.into_iter().map(|p| {
+        (
+            format!("/eshop/{}", p.key),
+            Some(p.lastmod.chars().take(19).collect::<String>() + "Z"),
+        )
+    }));
 
-    let escape = |s: &str| s.replace('&', "&amp;").replace('<', "&lt;").replace('"', "&quot;");
+    let escape = |s: &str| {
+        s.replace('&', "&amp;")
+            .replace('<', "&lt;")
+            .replace('"', "&quot;")
+    };
     let mut xml = String::from(
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n",
     );
@@ -90,23 +129,29 @@ async fn sitemap(State(state): State<AppState>, headers: HeaderMap) -> Response 
 /// A summary of the business and the catalogue for AI assistants.
 async fn llms(State(state): State<AppState>, headers: HeaderMap) -> Response {
     let base = base_url(&headers);
-    let per_km = sqlx::query_scalar!("SELECT value FROM settings WHERE key = 'delivery_czk_per_km'")
-        .fetch_optional(&state.db)
+    let per_km =
+        sqlx::query_scalar!("SELECT value FROM settings WHERE key = 'delivery_czk_per_km'")
+            .fetch_optional(&state.db)
+            .await
+            .ok()
+            .flatten()
+            .unwrap_or_else(|| domain::delivery::DEFAULT_CZK_PER_KM.to_string());
+    let rules = crate::shop::load(&state)
         .await
-        .ok()
-        .flatten()
-        .unwrap_or_else(|| domain::delivery::DEFAULT_CZK_PER_KM.to_string());
-    let rules = crate::shop::load(&state).await.map(|s| s.vat).unwrap_or_default();
+        .map(|s| s.vat)
+        .unwrap_or_default();
     let products = sqlx::query!(
         r#"SELECT p.id AS "id!", p.key, p.title, p.type_label, p.category, p.template FROM catalog_products p WHERE p.active = 1 ORDER BY p.position, p.id"#
     )
     .fetch_all(&state.db)
     .await
     .unwrap_or_default();
-    let variants = sqlx::query!("SELECT catalog_product_id, price_czk, in_stock, amount_value FROM catalog_variants")
-        .fetch_all(&state.db)
-        .await
-        .unwrap_or_default();
+    let variants = sqlx::query!(
+        "SELECT catalog_product_id, price_czk, in_stock, amount_value FROM catalog_variants"
+    )
+    .fetch_all(&state.db)
+    .await
+    .unwrap_or_default();
 
     let mut text = format!(
         "# Pila Derflice\n\n\
@@ -134,7 +179,10 @@ Key facts:\n\n\
         }
         let _ = write!(text, "### {name}\n\n");
         for p in in_category {
-            let own: Vec<_> = variants.iter().filter(|v| v.catalog_product_id == p.id).collect();
+            let own: Vec<_> = variants
+                .iter()
+                .filter(|v| v.catalog_product_id == p.id)
+                .collect();
             let in_stock: Vec<_> = own.iter().filter(|v| v.in_stock != 0).copied().collect();
             let candidates = if in_stock.is_empty() { own } else { in_stock };
             let note = candidates.into_iter().min_by_key(|v| v.price_czk).and_then(|cheapest| {
@@ -179,7 +227,10 @@ Key facts:\n\n\
 
 /// 200 when the app is up and the database answers (for the proxy's health checks).
 async fn up(State(state): State<AppState>) -> StatusCode {
-    match sqlx::query_scalar!("SELECT 1 AS \"one!: i64\"").fetch_one(&state.db).await {
+    match sqlx::query_scalar!("SELECT 1 AS \"one!: i64\"")
+        .fetch_one(&state.db)
+        .await
+    {
         Ok(_) => StatusCode::OK,
         Err(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
@@ -218,12 +269,24 @@ pub const OLD_ADDRESSES: [(&str, &str); 37] = [
     ("/de/sortiment", "/at/sortiment"),
     ("/de/sortiment/brennholz", "/at/sortiment/palivove-drevo"),
     ("/de/sortiment/bauholz", "/at/sortiment/stavebni-rezivo"),
-    ("/de/sortiment/tischlerholz", "/at/sortiment/truhlarske-rezivo"),
-    ("/de/sortiment/produktionsreste", "/at/sortiment/vyrobni-zbytky"),
-    ("/de/sortiment/ornamentale-aggregate", "/at/sortiment/okrasne-kamenivo"),
+    (
+        "/de/sortiment/tischlerholz",
+        "/at/sortiment/truhlarske-rezivo",
+    ),
+    (
+        "/de/sortiment/produktionsreste",
+        "/at/sortiment/vyrobni-zbytky",
+    ),
+    (
+        "/de/sortiment/ornamentale-aggregate",
+        "/at/sortiment/okrasne-kamenivo",
+    ),
     ("/de/eshop/brennholz-eshop", "/at/eshop?category=palivove"),
     ("/de/eshop/bauholz-eshop", "/at/eshop?category=rezivo"),
-    ("/de/eshop/produktionsreste-eshop", "/at/eshop?category=zbytky"),
+    (
+        "/de/eshop/produktionsreste-eshop",
+        "/at/eshop?category=zbytky",
+    ),
     ("/de/eshop/ziersteine-eshop", "/at/eshop?category=kamenivo"),
     ("/de/massanfertigung", "/at/kontakt#kalkulace"),
     ("/de/dienstleistungen", "/at/sluzby"),
@@ -240,7 +303,11 @@ const OLD_GERMAN_ADDRESSES: [(&str, &str); 4] = [
 /// The redirect for an old address, if `path` is one: the known ones first,
 /// then anything else under /produkt, /obchod or /de.
 pub fn old_address(path: &str) -> Option<&'static str> {
-    if let Some((_, new)) = OLD_ADDRESSES.iter().chain(OLD_GERMAN_ADDRESSES.iter()).find(|(old, _)| *old == path) {
+    if let Some((_, new)) = OLD_ADDRESSES
+        .iter()
+        .chain(OLD_GERMAN_ADDRESSES.iter())
+        .find(|(old, _)| *old == path)
+    {
         return Some(new);
     }
     if path.starts_with("/produkt/") || path.starts_with("/obchod/") {
@@ -254,7 +321,11 @@ pub fn old_address(path: &str) -> Option<&'static str> {
 
 /// A 301 (Moved Permanently), as the old site's redirects were.
 fn moved(location: &str) -> Response {
-    (StatusCode::MOVED_PERMANENTLY, [(header::LOCATION, location.to_owned())]).into_response()
+    (
+        StatusCode::MOVED_PERMANENTLY,
+        [(header::LOCATION, location.to_owned())],
+    )
+        .into_response()
 }
 
 /// Middleware: www.<APP_HOST> → <APP_HOST> (same path), old addresses → new
@@ -262,7 +333,11 @@ fn moved(location: &str) -> Response {
 pub async fn redirects(request: Request, next: Next) -> Response {
     let uri = request.uri();
     if let Ok(host) = std::env::var("APP_HOST") {
-        let asked = request.headers().get(header::HOST).and_then(|h| h.to_str().ok()).unwrap_or_default();
+        let asked = request
+            .headers()
+            .get(header::HOST)
+            .and_then(|h| h.to_str().ok())
+            .unwrap_or_default();
         if !host.is_empty() && asked == format!("www.{host}") {
             let path = uri.path_and_query().map_or("/", |p| p.as_str());
             return moved(&format!("https://{host}{path}"));
@@ -272,13 +347,24 @@ pub async fn redirects(request: Request, next: Next) -> Response {
         return moved(new);
     }
     // Links from before the /at prefix: ?locale=de on an unprefixed address.
-    let is_get = matches!(*request.method(), axum::http::Method::GET | axum::http::Method::HEAD);
+    let is_get = matches!(
+        *request.method(),
+        axum::http::Method::GET | axum::http::Method::HEAD
+    );
     if let (true, Some(query)) = (is_get, uri.query()) {
-        let (locale, rest): (Vec<&str>, Vec<&str>) = query.split('&').partition(|p| p.starts_with("locale="));
-        let target = locale.first().and_then(|p| p.strip_prefix("locale=")).and_then(|l| l.parse::<Locale>().ok());
+        let (locale, rest): (Vec<&str>, Vec<&str>) =
+            query.split('&').partition(|p| p.starts_with("locale="));
+        let target = locale
+            .first()
+            .and_then(|p| p.strip_prefix("locale="))
+            .and_then(|l| l.parse::<Locale>().ok());
         if let (Some(target), Locale::Cs) = (target, Locale::of_path(uri.path())) {
             let path = target.path(uri.path());
-            let location = if rest.is_empty() { path } else { format!("{path}?{}", rest.join("&")) };
+            let location = if rest.is_empty() {
+                path
+            } else {
+                format!("{path}?{}", rest.join("&"))
+            };
             return moved(&location);
         }
     }

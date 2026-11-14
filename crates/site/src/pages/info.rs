@@ -1,9 +1,9 @@
 //! The services page and the legal pages.
 
+use super::home::Service;
 #[cfg(feature = "ssr")]
 use super::home::load_services;
-use super::home::Service;
-use super::{loaded, PageMeta, SafeHtml};
+use super::{PageMeta, SafeHtml, loaded};
 use crate::i18n::t;
 use crate::islands::SlideShow;
 use crate::layout::Layout;
@@ -26,7 +26,9 @@ pub fn simple_format(html: &SafeHtml) -> String {
 pub async fn services_page_data() -> Result<Vec<Service>, ServerFnError> {
     let v = visitor();
     let db = &expect_context::<crate::state::AppState>().db;
-    load_services(db, &v, Some("/sluzby")).await.map_err(|e| ServerFnError::new(e.to_string()))
+    load_services(db, &v, Some("/sluzby"))
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))
 }
 
 /// The anchor of a service section: what its button points to after "#"
@@ -46,10 +48,21 @@ pub fn parameterize(text: &str) -> String {
     let ascii: String = text
         .chars()
         .map(|c| match c {
-            'á' | 'Á' => 'a', 'č' | 'Č' => 'c', 'ď' | 'Ď' => 'd', 'é' | 'ě' | 'É' | 'Ě' => 'e',
-            'í' | 'Í' => 'i', 'ň' | 'Ň' => 'n', 'ó' | 'Ó' | 'ö' | 'Ö' => 'o', 'ř' | 'Ř' => 'r',
-            'š' | 'Š' => 's', 'ť' | 'Ť' => 't', 'ú' | 'ů' | 'Ú' | 'Ů' | 'ü' | 'Ü' => 'u',
-            'ý' | 'Ý' => 'y', 'ž' | 'Ž' => 'z', 'ä' | 'Ä' => 'a', 'ß' => 's',
+            'á' | 'Á' => 'a',
+            'č' | 'Č' => 'c',
+            'ď' | 'Ď' => 'd',
+            'é' | 'ě' | 'É' | 'Ě' => 'e',
+            'í' | 'Í' => 'i',
+            'ň' | 'Ň' => 'n',
+            'ó' | 'Ó' | 'ö' | 'Ö' => 'o',
+            'ř' | 'Ř' => 'r',
+            'š' | 'Š' => 's',
+            'ť' | 'Ť' => 't',
+            'ú' | 'ů' | 'Ú' | 'Ů' | 'ü' | 'Ü' => 'u',
+            'ý' | 'Ý' => 'y',
+            'ž' | 'Ž' => 'z',
+            'ä' | 'Ä' => 'a',
+            'ß' => 's',
             c => c.to_ascii_lowercase(),
         })
         .collect();
@@ -116,7 +129,12 @@ pub fn SluzbyPage() -> impl IntoView {
     }
 }
 
-fn legal_page(title: &'static str, meta_title: &'static str, description: &'static str, content: codon::Html) -> impl IntoView {
+fn legal_page(
+    title: &'static str,
+    meta_title: &'static str,
+    description: &'static str,
+    content: codon::Html,
+) -> impl IntoView {
     view! {
         <PageMeta title=meta_title.to_owned() description=description/>
         <Layout>
@@ -134,19 +152,34 @@ fn legal_page(title: &'static str, meta_title: &'static str, description: &'stat
 pub fn TermsPage() -> impl IntoView {
     let v = visitor();
     let l = v.locale;
-    legal_page(t::legal::terms_title(l), t::meta::terms::title(l), t::meta::terms::description(l), t::legal::terms_content(l, v.shop.czk_per_km))
+    legal_page(
+        t::legal::terms_title(l),
+        t::meta::terms::title(l),
+        t::meta::terms::description(l),
+        t::legal::terms_content(l, v.shop.czk_per_km),
+    )
 }
 
 #[component]
 pub fn CookiesPage() -> impl IntoView {
     let l = visitor().locale;
-    legal_page(t::legal::cookies_title(l), t::meta::cookies::title(l), t::meta::cookies::description(l), t::legal::cookies_content(l))
+    legal_page(
+        t::legal::cookies_title(l),
+        t::meta::cookies::title(l),
+        t::meta::cookies::description(l),
+        t::legal::cookies_content(l),
+    )
 }
 
 #[component]
 pub fn PrivacyPage() -> impl IntoView {
     let l = visitor().locale;
-    legal_page(t::legal::privacy_title(l), t::meta::privacy::title(l), t::meta::privacy::description(l), t::legal::privacy_content(l))
+    legal_page(
+        t::legal::privacy_title(l),
+        t::meta::privacy::title(l),
+        t::meta::privacy::description(l),
+        t::legal::privacy_content(l),
+    )
 }
 
 #[cfg(test)]
@@ -155,6 +188,9 @@ mod tests {
 
     #[test]
     fn parameterizes_czech() {
-        assert_eq!(parameterize("Pořez / Prodej kulatiny"), "porez-prodej-kulatiny");
+        assert_eq!(
+            parameterize("Pořez / Prodej kulatiny"),
+            "porez-prodej-kulatiny"
+        );
     }
 }

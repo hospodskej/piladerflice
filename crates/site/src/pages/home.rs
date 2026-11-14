@@ -1,6 +1,6 @@
 //! The home page.
 
-use super::{loaded, PageMeta, SafeHtml};
+use super::{PageMeta, SafeHtml, loaded};
 use crate::i18n::t;
 use crate::islands::{ReviewsCarousel, SlideShow};
 use crate::layout::Layout;
@@ -78,7 +78,11 @@ struct Review {
 /// A picture path from the database: the site's own pictures are stored
 /// relative to /img ("sortiment/x.webp"), uploads as a full path.
 pub fn asset(path: &str) -> String {
-    if path.starts_with('/') { path.to_owned() } else { format!("/img/{path}") }
+    if path.starts_with('/') {
+        path.to_owned()
+    } else {
+        format!("/img/{path}")
+    }
 }
 
 #[server(endpoint = "page/home")]
@@ -89,49 +93,85 @@ pub async fn home_data() -> Result<HomeContent, ServerFnError> {
     let db = &expect_context::<crate::state::AppState>().db;
     let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
 
-    let promos = sqlx::query!("SELECT * FROM promos ORDER BY id").fetch_all(db).await.map_err(err)?;
-    let week = time::OffsetDateTime::now_utc().date().iso_week() as usize;
-    let promo = (!promos.is_empty()).then(|| &promos[week % promos.len()]).map(|p| {
-        let text = |cs: &Option<String>, de: &Option<String>| tr(l, cs.as_deref().unwrap_or_default(), de.as_deref()).to_owned();
-        Promo {
-            image: p.image.clone(),
-            title: text(&p.title, &p.title_de),
-            features: [text(&p.feature_1, &p.feature_1_de), text(&p.feature_2, &p.feature_2_de), text(&p.feature_3, &p.feature_3_de)],
-            price: v.shop.price_text(l, &text(&p.price, &p.price_de)),
-            link: v.link(p.link.as_deref().unwrap_or("/eshop")),
-        }
-    });
-
-    let bestsellers = crate::catalog::bestsellers(db, &v, &["akat", "tramy", "dub"]).await.map_err(err)?.into_iter().take(3).collect();
-
-    let products = sqlx::query!("SELECT title, title_de, text, text_de, image, link FROM products ORDER BY id")
+    let promos = sqlx::query!("SELECT * FROM promos ORDER BY id")
         .fetch_all(db)
+        .await
+        .map_err(err)?;
+    let week = time::OffsetDateTime::now_utc().date().iso_week() as usize;
+    let promo = (!promos.is_empty())
+        .then(|| &promos[week % promos.len()])
+        .map(|p| {
+            let text = |cs: &Option<String>, de: &Option<String>| {
+                tr(l, cs.as_deref().unwrap_or_default(), de.as_deref()).to_owned()
+            };
+            Promo {
+                image: p.image.clone(),
+                title: text(&p.title, &p.title_de),
+                features: [
+                    text(&p.feature_1, &p.feature_1_de),
+                    text(&p.feature_2, &p.feature_2_de),
+                    text(&p.feature_3, &p.feature_3_de),
+                ],
+                price: v.shop.price_text(l, &text(&p.price, &p.price_de)),
+                link: v.link(p.link.as_deref().unwrap_or("/eshop")),
+            }
+        });
+
+    let bestsellers = crate::catalog::bestsellers(db, &v, &["akat", "tramy", "dub"])
         .await
         .map_err(err)?
         .into_iter()
-        .map(|p| Tile {
-            title: tr(l, &p.title, p.title_de.as_deref()).to_owned(),
-            text: tr(l, p.text.as_deref().unwrap_or_default(), p.text_de.as_deref()).to_owned(),
-            image: asset(p.image.as_deref().unwrap_or_default()),
-            link: v.link(p.link.as_deref().unwrap_or("/")),
-        })
+        .take(3)
         .collect();
+
+    let products = sqlx::query!(
+        "SELECT title, title_de, text, text_de, image, link FROM products ORDER BY id"
+    )
+    .fetch_all(db)
+    .await
+    .map_err(err)?
+    .into_iter()
+    .map(|p| Tile {
+        title: tr(l, &p.title, p.title_de.as_deref()).to_owned(),
+        text: tr(
+            l,
+            p.text.as_deref().unwrap_or_default(),
+            p.text_de.as_deref(),
+        )
+        .to_owned(),
+        image: asset(p.image.as_deref().unwrap_or_default()),
+        link: v.link(p.link.as_deref().unwrap_or("/")),
+    })
+    .collect();
 
     let services = load_services(db, &v, None).await.map_err(err)?;
 
-    let faq = sqlx::query!("SELECT title, title_de, content, content_de, image FROM faq_items ORDER BY id")
-        .fetch_all(db)
-        .await
-        .map_err(err)?
-        .into_iter()
-        .map(|f| Slide {
-            title: tr(l, f.title.as_deref().unwrap_or_default(), f.title_de.as_deref()).to_owned(),
-            content: SafeHtml::from_admin(tr(l, f.content.as_deref().unwrap_or_default(), f.content_de.as_deref())),
-            image: asset(f.image.as_deref().unwrap_or_default()),
-        })
-        .collect();
+    let faq = sqlx::query!(
+        "SELECT title, title_de, content, content_de, image FROM faq_items ORDER BY id"
+    )
+    .fetch_all(db)
+    .await
+    .map_err(err)?
+    .into_iter()
+    .map(|f| Slide {
+        title: tr(
+            l,
+            f.title.as_deref().unwrap_or_default(),
+            f.title_de.as_deref(),
+        )
+        .to_owned(),
+        content: SafeHtml::from_admin(tr(
+            l,
+            f.content.as_deref().unwrap_or_default(),
+            f.content_de.as_deref(),
+        )),
+        image: asset(f.image.as_deref().unwrap_or_default()),
+    })
+    .collect();
 
-    const AVATAR_COLORS: [&str; 8] = ["#4285F4", "#EA4335", "#9C27B0", "#0F9D58", "#F4B400", "#FF7043", "#00ACC1", "#8E24AA"];
+    const AVATAR_COLORS: [&str; 8] = [
+        "#4285F4", "#EA4335", "#9C27B0", "#0F9D58", "#F4B400", "#FF7043", "#00ACC1", "#8E24AA",
+    ];
     let today = time::OffsetDateTime::now_utc().date();
     let reviews = sqlx::query!(r#"SELECT id AS "id!", name, text, stars, reviewed_on, avatar FROM reviews ORDER BY position, id"#)
         .fetch_all(db)
@@ -151,13 +191,24 @@ pub async fn home_data() -> Result<HomeContent, ServerFnError> {
         })
         .collect();
 
-    Ok(HomeContent { promo, bestsellers, products, services, faq, reviews })
+    Ok(HomeContent {
+        promo,
+        bestsellers,
+        products,
+        services,
+        faq,
+        reviews,
+    })
 }
 
 /// The services (accordion on the home page, sections on the services
 /// page), optionally only those whose button points somewhere under `prefix`.
 #[cfg(feature = "ssr")]
-pub async fn load_services(db: &sqlx::SqlitePool, v: &crate::visitor::Visitor, prefix: Option<&str>) -> Result<Vec<Service>, sqlx::Error> {
+pub async fn load_services(
+    db: &sqlx::SqlitePool,
+    v: &crate::visitor::Visitor,
+    prefix: Option<&str>,
+) -> Result<Vec<Service>, sqlx::Error> {
     use crate::shop::translated as tr;
     let l = v.locale;
     Ok(sqlx::query!("SELECT title, title_de, content, content_de, images, button_text, button_text_de, button_path FROM services ORDER BY id")
@@ -191,7 +242,8 @@ fn time_ago(l: crate::i18n::Locale, then: time::Date, today: time::Date) -> Stri
     let (count, cs_one, cs_many, de_one, de_many) = if years >= 1 {
         (years, "rokem", "lety", "Jahr", "Jahren")
     } else {
-        let mut months = (today.year() - then.year()) * 12 + i32::from(today.month() as u8) - i32::from(then.month() as u8);
+        let mut months = (today.year() - then.year()) * 12 + i32::from(today.month() as u8)
+            - i32::from(then.month() as u8);
         if today.day() < then.day() {
             months -= 1;
         }
@@ -238,7 +290,11 @@ pub fn HowToOrder() -> impl IntoView {
 
 /// An accordion item: the header opens and closes it (see PageBehaviour).
 #[component]
-pub fn AccordionItem(title: String, #[prop(optional)] faq: bool, children: Children) -> impl IntoView {
+pub fn AccordionItem(
+    title: String,
+    #[prop(optional)] faq: bool,
+    children: Children,
+) -> impl IntoView {
     view! {
         <div class=if faq { "accordion-item faq-item" } else { "accordion-item" }>
             <button class="accordion-header">

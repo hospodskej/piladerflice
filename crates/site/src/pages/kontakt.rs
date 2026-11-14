@@ -1,10 +1,10 @@
 //! The contact page: contact details, the inquiry form and the price list.
 
-use super::{loaded, PageMeta, SafeHtml};
+use super::{PageMeta, SafeHtml, loaded};
 use crate::i18n::t;
-use crate::inquiry_form::{InquiryForm, InquiryFormData};
 #[cfg(feature = "ssr")]
 use crate::inquiry_form::{FormCategory, FormField, FormTexts};
+use crate::inquiry_form::{InquiryForm, InquiryFormData};
 use crate::layout::Layout;
 use crate::visitor::visitor;
 use leptos::prelude::*;
@@ -14,7 +14,10 @@ use serde::{Deserialize, Serialize};
 /// lumber quantity box).
 pub const ROW_FIELDS: [(&str, &[&str]); 2] = [
     ("palivove", &["varianta", "druh", "delka", "mnozstvi"]),
-    ("stavebni", &["polozka", "delka", "vyska", "sirka", "mnozstvi"]),
+    (
+        "stavebni",
+        &["polozka", "delka", "vyska", "sirka", "mnozstvi"],
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -66,21 +69,38 @@ pub async fn load_kontakt() -> Result<KontaktContent, ServerFnError> {
     for item in items {
         let firewood = item.category.starts_with("palivove");
         let price = if item.delivery_rate != 0 {
-            v.shop.price_text(l, &format!("{} Kč / km", v.shop.czk_per_km))
+            v.shop
+                .price_text(l, &format!("{} Kč / km", v.shop.czk_per_km))
         } else if l == Locale::De && firewood {
             // German firewood prices are typed in by hand, in euros.
             tr(l, &item.price, item.price_de.as_deref()).to_owned()
         } else {
-            v.shop.price_text(l, tr(l, &item.price, item.price_de.as_deref()))
+            v.shop
+                .price_text(l, tr(l, &item.price, item.price_de.as_deref()))
         };
         let row = PriceRow {
-            name: SafeHtml::from_admin(tr(l, item.item_name.as_deref().unwrap_or_default(), item.item_name_de.as_deref())),
-            details: SafeHtml::from_admin(tr(l, item.details.as_deref().unwrap_or_default(), item.details_de.as_deref())),
+            name: SafeHtml::from_admin(tr(
+                l,
+                item.item_name.as_deref().unwrap_or_default(),
+                item.item_name_de.as_deref(),
+            )),
+            details: SafeHtml::from_admin(tr(
+                l,
+                item.details.as_deref().unwrap_or_default(),
+                item.details_de.as_deref(),
+            )),
             priced: price != "---",
             price: SafeHtml::from_admin(&price),
         };
-        let subcategory = SafeHtml::from_admin(tr(l, item.subcategory.as_deref().unwrap_or_default(), item.subcategory_de.as_deref()));
-        let group = |groups: &mut Vec<(SafeHtml, Vec<PriceRow>)>, row: PriceRow| match groups.iter_mut().find(|(s, _)| *s == subcategory) {
+        let subcategory = SafeHtml::from_admin(tr(
+            l,
+            item.subcategory.as_deref().unwrap_or_default(),
+            item.subcategory_de.as_deref(),
+        ));
+        let group = |groups: &mut Vec<(SafeHtml, Vec<PriceRow>)>, row: PriceRow| match groups
+            .iter_mut()
+            .find(|(s, _)| *s == subcategory)
+        {
             Some((_, rows)) => rows.push(row),
             None => groups.push((subcategory.clone(), vec![row])),
         };
@@ -98,12 +118,17 @@ pub async fn load_kontakt() -> Result<KontaktContent, ServerFnError> {
 }
 
 #[cfg(feature = "ssr")]
-async fn inquiry_form(db: &sqlx::SqlitePool, v: &crate::visitor::Visitor) -> Result<InquiryFormData, sqlx::Error> {
+async fn inquiry_form(
+    db: &sqlx::SqlitePool,
+    v: &crate::visitor::Visitor,
+) -> Result<InquiryFormData, sqlx::Error> {
     use crate::shop::translated as tr;
     let l = v.locale;
-    let options = sqlx::query!("SELECT category, field, value, value_de FROM inquiry_form_options ORDER BY position, id")
-        .fetch_all(db)
-        .await?;
+    let options = sqlx::query!(
+        "SELECT category, field, value, value_de FROM inquiry_form_options ORDER BY position, id"
+    )
+    .fetch_all(db)
+    .await?;
     let label = |field: &str| match field {
         "varianta" => t::kontakt::grid_varianta(l),
         "druh" => t::kontakt::grid_druh(l),
@@ -117,7 +142,12 @@ async fn inquiry_form(db: &sqlx::SqlitePool, v: &crate::visitor::Visitor) -> Res
         .iter()
         .map(|(category, fields)| FormCategory {
             key: (*category).to_owned(),
-            title: if *category == "palivove" { t::kontakt::toggle_palivove(l) } else { t::kontakt::toggle_stavebni(l) }.to_owned(),
+            title: if *category == "palivove" {
+                t::kontakt::toggle_palivove(l)
+            } else {
+                t::kontakt::toggle_stavebni(l)
+            }
+            .to_owned(),
             fields: fields
                 .iter()
                 .map(|field| FormField {
@@ -158,7 +188,12 @@ async fn inquiry_form(db: &sqlx::SqlitePool, v: &crate::visitor::Visitor) -> Res
     })
 }
 
-fn price_table(rows: Vec<PriceRow>, columns: usize, per_m3: Option<&'static str>, left_name: bool) -> impl IntoView {
+fn price_table(
+    rows: Vec<PriceRow>,
+    columns: usize,
+    per_m3: Option<&'static str>,
+    left_name: bool,
+) -> impl IntoView {
     view! {
         <table class=if columns == 2 { "cenik-table two-cols" } else { "cenik-table" }>
             <tbody>
@@ -189,11 +224,13 @@ fn price_group(title: &'static str, body: impl IntoView) -> impl IntoView {
 fn firewood_groups(groups: Vec<(SafeHtml, Vec<PriceRow>)>, per_m3: &'static str) -> impl IntoView {
     groups
         .into_iter()
-        .map(|(name, rows)| view! {
-            <div class="cenik-subgroup">
-                <h4 class="cenik-subtitle" inner_html=name.into_string()></h4>
-                {price_table(rows, 2, Some(per_m3), false)}
-            </div>
+        .map(|(name, rows)| {
+            view! {
+                <div class="cenik-subgroup">
+                    <h4 class="cenik-subtitle" inner_html=name.into_string()></h4>
+                    {price_table(rows, 2, Some(per_m3), false)}
+                </div>
+            }
         })
         .collect_view()
 }
@@ -202,11 +239,13 @@ fn firewood_groups(groups: Vec<(SafeHtml, Vec<PriceRow>)>, per_m3: &'static str)
 pub fn KontaktPage() -> impl IntoView {
     let l = visitor().locale;
     use t::kontakt as k;
-    let info = |icon: &'static str, text: AnyView| view! {
-        <li>
-            <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon" inner_html=icon></svg>
-            {text}
-        </li>
+    let info = |icon: &'static str, text: AnyView| {
+        view! {
+            <li>
+                <svg viewBox="0 0 24 24" fill="currentColor" class="kontakt-icon" inner_html=icon></svg>
+                {text}
+            </li>
+        }
     };
     view! {
         <PageMeta title=t::meta::kontakt::title(l).to_owned() description=t::meta::kontakt::description(l)/>

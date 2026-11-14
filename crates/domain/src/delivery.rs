@@ -16,7 +16,10 @@ pub struct DeliveryQuote {
 
 impl DeliveryQuote {
     pub fn new(one_way_km: i64, czk_per_km: i64) -> DeliveryQuote {
-        DeliveryQuote { one_way_km: one_way_km.max(0), czk_per_km }
+        DeliveryQuote {
+            one_way_km: one_way_km.max(0),
+            czk_per_km,
+        }
     }
 
     pub fn round_trip_km(self) -> i64 {

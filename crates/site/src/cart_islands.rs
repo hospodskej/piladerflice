@@ -9,7 +9,8 @@ use serde::{Deserialize, Serialize};
 
 /// The newest cart, once something changed it in this page (browser only).
 #[cfg(feature = "hydrate")]
-static LATEST: std::sync::LazyLock<ArcRwSignal<Option<CartSummary>>> = std::sync::LazyLock::new(|| ArcRwSignal::new(None));
+static LATEST: std::sync::LazyLock<ArcRwSignal<Option<CartSummary>>> =
+    std::sync::LazyLock::new(|| ArcRwSignal::new(None));
 
 /// The cart in the header: a button with the count and a dropdown with the
 /// lines and totals.
@@ -102,9 +103,17 @@ pub async fn add_to_cart(variant_id: i64, quantity: u32) -> Result<Added, Server
     let state = expect_context::<crate::state::AppState>();
     let session: tower_sessions::Session = leptos_axum::extract().await?;
     let mut v = crate::visitor::visitor();
-    crate::cart_ops::add(&state, &session, &mut v, variant_id, quantity).await.map_err(|e| ServerFnError::new(e.to_string()))?;
-    let line = crate::cart_view::lines(&v).into_iter().find(|l| l.variant_id == variant_id).ok_or_else(|| ServerFnError::new("not added"))?;
-    Ok(Added { line, summary: crate::cart_view::summary(&v) })
+    crate::cart_ops::add(&state, &session, &mut v, variant_id, quantity)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?;
+    let line = crate::cart_view::lines(&v)
+        .into_iter()
+        .find(|l| l.variant_id == variant_id)
+        .ok_or_else(|| ServerFnError::new("not added"))?;
+    Ok(Added {
+        line,
+        summary: crate::cart_view::summary(&v),
+    })
 }
 
 /// The add-to-cart form of one variant. Without the WebAssembly it posts as
@@ -138,10 +147,12 @@ pub fn AddToCart(variant_id: i64, show_qty: bool, texts: AddTexts) -> impl IntoV
                     }
                     Err(_) => {
                         // Fall back to the plain form post.
-                        if let Some(form) = leptos::prelude::document().get_element_by_id(&format!("add-to-cart-{variant_id}")) {
-                            if let Ok(form) = wasm_bindgen::JsCast::dyn_into::<web_sys::HtmlFormElement>(form) {
-                                let _ = form.submit();
-                            }
+                        if let Some(form) = leptos::prelude::document()
+                            .get_element_by_id(&format!("add-to-cart-{variant_id}"))
+                            && let Ok(form) =
+                                wasm_bindgen::JsCast::dyn_into::<web_sys::HtmlFormElement>(form)
+                        {
+                            let _ = form.submit();
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 //! Admin: delivery price, VAT rules and discount codes.
 
-use super::form::{values_for, Errors, Form, Values};
-use super::{czk, AdminLayout, ConfirmButton};
+use super::form::{Errors, Form, Values, values_for};
+use super::{AdminLayout, ConfirmButton, czk};
 use crate::pages::loaded;
 use crate::visitor::visitor;
 use domain::Category;
@@ -13,8 +13,15 @@ use serde::{Deserialize, Serialize};
 pub fn DeliveryPage() -> impl IntoView {
     let v = visitor();
     let per_km = v.shop.czk_per_km;
-    let refused = v.admin_refused.as_ref().filter(|r| r.path == v.path).cloned();
-    let value = refused.as_ref().and_then(|r| r.values.get("value").cloned()).unwrap_or_else(|| per_km.to_string());
+    let refused = v
+        .admin_refused
+        .as_ref()
+        .filter(|r| r.path == v.path)
+        .cloned();
+    let value = refused
+        .as_ref()
+        .and_then(|r| r.values.get("value").cloned())
+        .unwrap_or_else(|| per_km.to_string());
     view! {
         <AdminLayout>
             <h1 class="admin-page-title">"Doprava"</h1>
@@ -45,7 +52,10 @@ pub fn DeliveryPage() -> impl IntoView {
 #[component]
 pub fn VatPage() -> impl IntoView {
     let v = visitor();
-    let refused = v.admin_refused.clone().filter(|r| r.path.starts_with("/admin/dph#"));
+    let refused = v
+        .admin_refused
+        .clone()
+        .filter(|r| r.path.starts_with("/admin/dph#"));
     let rows = Category::ALL
         .iter()
         .map(|category| {
@@ -113,18 +123,29 @@ pub async fn load_codes() -> Result<Vec<CodeRow>, ServerFnError> {
     super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
     let today = time::OffsetDateTime::now_utc().date();
-    let rows = sqlx::query!(r#"SELECT id AS "id!", code FROM discount_codes ORDER BY created_at DESC"#)
-        .fetch_all(db)
-        .await
-        .map_err(|e| ServerFnError::new(e.to_string()))?;
+    let rows =
+        sqlx::query!(r#"SELECT id AS "id!", code FROM discount_codes ORDER BY created_at DESC"#)
+            .fetch_all(db)
+            .await
+            .map_err(|e| ServerFnError::new(e.to_string()))?;
     let mut out = Vec::new();
     for row in rows {
-        let Some(code) = crate::session::discount_code(db, &row.code).await.map_err(|e| ServerFnError::new(e.to_string()))? else { continue };
-        let note = sqlx::query_scalar!("SELECT note FROM discount_codes WHERE id = ?", row.id).fetch_one(db).await.ok().flatten();
+        let Some(code) = crate::session::discount_code(db, &row.code)
+            .await
+            .map_err(|e| ServerFnError::new(e.to_string()))?
+        else {
+            continue;
+        };
+        let note = sqlx::query_scalar!("SELECT note FROM discount_codes WHERE id = ?", row.id)
+            .fetch_one(db)
+            .await
+            .ok()
+            .flatten();
         use domain::discount::Unusable;
         let mut conditions: Vec<String> = [
             code.min_order.map(|m| format!("od {m}")),
-            code.valid_until.map(|d| format!("do {}. {}. {}", d.day(), d.month() as u8, d.year())),
+            code.valid_until
+                .map(|d| format!("do {}. {}. {}", d.day(), d.month() as u8, d.year())),
         ]
         .into_iter()
         .flatten()
@@ -136,7 +157,13 @@ pub async fn load_codes() -> Result<Vec<CodeRow>, ServerFnError> {
             id: row.id,
             note: note.filter(|n| !n.is_empty()),
             label: code.label(),
-            used: format!("{}{}×", code.times_used, code.usage_limit.map(|l| format!(" / {l}")).unwrap_or_default()),
+            used: format!(
+                "{}{}×",
+                code.times_used,
+                code.usage_limit
+                    .map(|l| format!(" / {l}"))
+                    .unwrap_or_default()
+            ),
             state: match code.unusable_reason(domain::Czk(i64::MAX), today) {
                 None => "✓ Platí",
                 Some(Unusable::Inactive) => "Vypnutý",
@@ -206,11 +233,21 @@ pub struct CodeForm {
 pub async fn load_code(id: Option<i64>) -> Result<Option<CodeForm>, ServerFnError> {
     super::require_admin()?;
     let Some(id) = id else {
-        let values = [("kind", "percent"), ("active", "1")].into_iter().map(|(k, v)| (k.to_owned(), v.to_owned())).collect();
-        return Ok(Some(CodeForm { values, ..CodeForm::default() }));
+        let values = [("kind", "percent"), ("active", "1")]
+            .into_iter()
+            .map(|(k, v)| (k.to_owned(), v.to_owned()))
+            .collect();
+        return Ok(Some(CodeForm {
+            values,
+            ..CodeForm::default()
+        }));
     };
     let db = &expect_context::<crate::state::AppState>().db;
-    let Some(c) = sqlx::query!("SELECT * FROM discount_codes WHERE id = ?", id).fetch_optional(db).await.map_err(|e| ServerFnError::new(e.to_string()))? else {
+    let Some(c) = sqlx::query!("SELECT * FROM discount_codes WHERE id = ?", id)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?
+    else {
         return Ok(None);
     };
     let n = |x: Option<i64>| x.map(|n| n.to_string()).unwrap_or_default();
@@ -227,12 +264,18 @@ pub async fn load_code(id: Option<i64>) -> Result<Option<CodeForm>, ServerFnErro
     .into_iter()
     .map(|(k, v)| (k.to_owned(), v))
     .collect();
-    Ok(Some(CodeForm { id: Some(id), code: c.code, times_used: c.times_used, values }))
+    Ok(Some(CodeForm {
+        id: Some(id),
+        code: c.code,
+        times_used: c.times_used,
+        values,
+    }))
 }
 
 #[component]
 pub fn CodePage() -> impl IntoView {
-    let id: Option<i64> = use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
+    let id: Option<i64> =
+        use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
     view! {
         <AdminLayout>
             <a href="/admin/slevove-kody" class="admin-back-link">"← Zpět na přehled"</a>
@@ -295,7 +338,12 @@ pub mod handlers {
 
     type Pairs = Vec<(String, String)>;
 
-    pub async fn update_delivery(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn update_delivery(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
@@ -310,17 +358,38 @@ pub mod handlers {
                 )
                 .execute(&state.db)
                 .await;
-                done(&session, "/admin/doprava/edit", "Cena dopravy byla uložena.").await
+                done(
+                    &session,
+                    "/admin/doprava/edit",
+                    "Cena dopravy byla uložena.",
+                )
+                .await
             }
-            _ => refused(&session, "/admin/doprava/edit", values, vec!["value".into()]).await,
+            _ => {
+                refused(
+                    &session,
+                    "/admin/doprava/edit",
+                    values,
+                    vec!["value".into()],
+                )
+                .await
+            }
         }
     }
 
-    pub async fn update_vat(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(category): Path<String>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn update_vat(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(category): Path<String>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
-        let Ok(category) = category.parse::<domain::Category>() else { return done(&session, "/admin/dph", "").await };
+        let Ok(category) = category.parse::<domain::Category>() else {
+            return done(&session, "/admin/dph", "").await;
+        };
         let values = fields(&pairs, "vat_rule");
         let rate = |field: &str, label: &str, errors: &mut Vec<String>| match int(&values, field) {
             Ok(Some(r)) if (0..100).contains(&r) => Some(r),
@@ -340,7 +409,8 @@ pub mod handlers {
         let (Some(rate_cz), Some(rate_at), true) = (rate_cz, rate_at, errors.is_empty()) else {
             return refused(&session, &path, values, errors).await;
         };
-        let includes = i64::from(values.get("prices_include_vat").map(String::as_str) != Some("false"));
+        let includes =
+            i64::from(values.get("prices_include_vat").map(String::as_str) != Some("false"));
         let category_text = category.as_str();
         let _ = sqlx::query!(
             "INSERT INTO vat_rules (category, rate_cz, rate_at, prices_include_vat) VALUES (?, ?, ?, ?)
@@ -353,20 +423,41 @@ pub mod handlers {
         )
         .execute(&state.db)
         .await;
-        done(&session, "/admin/dph", format!("DPH pro „{}“ bylo uloženo.", category.admin_label())).await
+        done(
+            &session,
+            "/admin/dph",
+            format!("DPH pro „{}“ bylo uloženo.", category.admin_label()),
+        )
+        .await
     }
 
-    async fn save_code(state: &AppState, session: &Session, id: Option<i64>, pairs: Pairs) -> Response {
+    async fn save_code(
+        state: &AppState,
+        session: &Session,
+        id: Option<i64>,
+        pairs: Pairs,
+    ) -> Response {
         let values = fields(&pairs, "discount_code");
-        let form_path = id.map_or_else(|| "/admin/slevove-kody/new".to_owned(), |id| format!("/admin/slevove-kody/{id}/edit"));
+        let form_path = id.map_or_else(
+            || "/admin/slevove-kody/new".to_owned(),
+            |id| format!("/admin/slevove-kody/{id}/edit"),
+        );
         let mut errors = Vec::new();
         let raw_code = text(&values, "code").unwrap_or_default();
         let code = domain::discount::normalize_code(&raw_code);
         match &code {
             None if raw_code.is_empty() => errors.push("Kód je povinné pole".to_owned()),
-            None => errors.push("Kód smí obsahovat jen písmena bez diakritiky, číslice, - a _".to_owned()),
+            None => errors
+                .push("Kód smí obsahovat jen písmena bez diakritiky, číslice, - a _".to_owned()),
             Some(code) => {
-                let taken = sqlx::query_scalar!("SELECT id FROM discount_codes WHERE code = ? COLLATE NOCASE", code).fetch_optional(&state.db).await.ok().flatten();
+                let taken = sqlx::query_scalar!(
+                    "SELECT id FROM discount_codes WHERE code = ? COLLATE NOCASE",
+                    code
+                )
+                .fetch_optional(&state.db)
+                .await
+                .ok()
+                .flatten();
                 if taken.is_some_and(|other| Some(other) != id) {
                     errors.push("Kód už je použitý".to_owned());
                 }
@@ -391,24 +482,31 @@ pub mod handlers {
                 None
             }
         };
-        let positive = |field: &str, label: &str, errors: &mut Vec<String>| match int(&values, field) {
-            Ok(Some(v)) if v > 0 => Some(v),
-            Ok(None) => None,
-            _ => {
-                errors.push(format!("{label} musí být větší než 0"));
-                None
-            }
-        };
+        let positive =
+            |field: &str, label: &str, errors: &mut Vec<String>| match int(&values, field) {
+                Ok(Some(v)) if v > 0 => Some(v),
+                Ok(None) => None,
+                _ => {
+                    errors.push(format!("{label} musí být větší než 0"));
+                    None
+                }
+            };
         let min_order = positive("min_order_czk", "Minimální hodnota zboží", &mut errors);
         let usage_limit = positive("usage_limit", "Počet použití", &mut errors);
         let valid_until = text(&values, "valid_until");
-        if valid_until.as_deref().is_some_and(|d| time::Date::parse(d, &time::format_description::well_known::Iso8601::DATE).is_err()) {
+        if valid_until.as_deref().is_some_and(|d| {
+            time::Date::parse(d, &time::format_description::well_known::Iso8601::DATE).is_err()
+        }) {
             errors.push("Platí do má neplatnou hodnotu".to_owned());
         }
         if !errors.is_empty() {
             return refused(session, &form_path, values, errors).await;
         }
-        let (code, kind, value) = (code.unwrap_or_default(), kind.unwrap_or_default(), value.unwrap_or(1));
+        let (code, kind, value) = (
+            code.unwrap_or_default(),
+            kind.unwrap_or_default(),
+            value.unwrap_or(1),
+        );
         let active = i64::from(checked(&values, "active"));
         let note = text(&values, "note");
         let saved = match id {
@@ -429,30 +527,67 @@ pub mod handlers {
             .map(|_| ()),
         };
         match saved {
-            Ok(()) => done(session, "/admin/slevove-kody", format!("Slevový kód {code} byl {}.", if id.is_some() { "uložen" } else { "vytvořen" })).await,
+            Ok(()) => {
+                done(
+                    session,
+                    "/admin/slevove-kody",
+                    format!(
+                        "Slevový kód {code} byl {}.",
+                        if id.is_some() { "uložen" } else { "vytvořen" }
+                    ),
+                )
+                .await
+            }
             Err(e) => refused(session, &form_path, values, vec![e.to_string()]).await,
         }
     }
 
-    pub async fn create_code(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn create_code(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_code(&state, &session, None, pairs).await
     }
 
-    pub async fn update_code(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>, Form(pairs): Form<Pairs>) -> Response {
+    pub async fn update_code(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_code(&state, &session, Some(id), pairs).await
     }
 
-    pub async fn delete_code(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete_code(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
-        let code = sqlx::query_scalar!("DELETE FROM discount_codes WHERE id = ? RETURNING code", id).fetch_optional(&state.db).await.ok().flatten().unwrap_or_default();
-        done(&session, "/admin/slevove-kody", format!("Slevový kód {code} byl smazán.")).await
+        let code =
+            sqlx::query_scalar!("DELETE FROM discount_codes WHERE id = ? RETURNING code", id)
+                .fetch_optional(&state.db)
+                .await
+                .ok()
+                .flatten()
+                .unwrap_or_default();
+        done(
+            &session,
+            "/admin/slevove-kody",
+            format!("Slevový kód {code} byl smazán."),
+        )
+        .await
     }
 }

@@ -2,12 +2,12 @@
 //! thank-you page.
 
 use super::cart::CheckoutStepper;
-use super::{loaded, PageMeta};
+use super::{PageMeta, loaded};
 use crate::cart_totals::TotalRows;
 use crate::cart_view::{LineView, TotalRow};
 use crate::i18n::t;
 use crate::layout::Layout;
-use crate::visitor::{visitor, Visitor};
+use crate::visitor::{Visitor, visitor};
 use domain::checkout::{Payment, Shipping};
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -36,7 +36,10 @@ fn redirect(v: &Visitor, path: &str) {
 fn no_store() {
     #[cfg(feature = "ssr")]
     if let Some(response) = use_context::<leptos_axum::ResponseOptions>() {
-        response.insert_header(axum::http::header::CACHE_CONTROL, axum::http::HeaderValue::from_static("no-store"));
+        response.insert_header(
+            axum::http::header::CACHE_CONTROL,
+            axum::http::HeaderValue::from_static("no-store"),
+        );
     }
 }
 
@@ -45,7 +48,10 @@ fn no_store() {
 fn CheckoutSidebar(v: Visitor) -> impl IntoView {
     let l = v.locale;
     #[cfg(feature = "ssr")]
-    let (lines, totals) = (crate::cart_view::lines(&v), crate::cart_view::totals_with(&v, false, false));
+    let (lines, totals) = (
+        crate::cart_view::lines(&v),
+        crate::cart_view::totals_with(&v, false, false),
+    );
     #[cfg(not(feature = "ssr"))]
     let (lines, totals): (Vec<LineView>, Vec<TotalRow>) = (vec![], vec![]);
     view! {
@@ -64,7 +70,13 @@ fn CheckoutSidebar(v: Visitor) -> impl IntoView {
     }
 }
 
-fn radio(name: &'static str, value: &'static str, checked: bool, label: &'static str, note: String) -> impl IntoView {
+fn radio(
+    name: &'static str,
+    value: &'static str,
+    checked: bool,
+    label: &'static str,
+    note: String,
+) -> impl IntoView {
     view! {
         <label class="checkout-radio-option">
             <span>
@@ -92,10 +104,21 @@ pub fn ShippingPage() -> impl IntoView {
         redirect(&v, path);
     }
     let c = v.checkout.clone();
-    let country = c.country.clone().or_else(|| v.delivery.as_ref().map(|d| d.country.as_str().to_owned())).unwrap_or_else(|| "cz".into());
+    let country = c
+        .country
+        .clone()
+        .or_else(|| v.delivery.as_ref().map(|d| d.country.as_str().to_owned()))
+        .unwrap_or_else(|| "cz".into());
     let address_note = match &v.delivery {
-        Some(d) => t::delivery_estimate::shipping_note(l, &d.place, &v.shop.price(l, d.quote(v.shop.czk_per_km).price())),
-        None => t::checkout::shipping_address_rate_note(l, &v.shop.price(l, domain::Czk(v.shop.czk_per_km))),
+        Some(d) => t::delivery_estimate::shipping_note(
+            l,
+            &d.place,
+            v.shop.price(l, d.quote(v.shop.czk_per_km).price()),
+        ),
+        None => t::checkout::shipping_address_rate_note(
+            l,
+            v.shop.price(l, domain::Czk(v.shop.czk_per_km)),
+        ),
     };
     let free = t::checkout::free(l).to_owned();
     let body = view! {
@@ -151,60 +174,81 @@ pub fn DetailsPage() -> impl IntoView {
     }
     // Filled in from the account (first time) and from "Kam vozíme?".
     let mut c = v.checkout.clone();
-    if c.first_name.is_none() {
-        if let Some(profile) = v.user.as_ref().map(|u| u.profile.clone()) {
-            c.first_name = profile.first_name;
-            c.last_name = profile.last_name;
-            c.phone = profile.phone;
-            c.email = v.user.as_ref().map(|u| u.email.clone());
-            c.billing = profile.billing;
-            c.company_purchase = profile.company_purchase;
-            c.company_name = profile.company_name;
-            c.company_ico = profile.company_ico;
-            c.company_dic = profile.company_dic;
-            c.delivery_address_different = profile.delivery_address_different;
-            c.delivery = profile.delivery;
-        }
+    if c.first_name.is_none()
+        && let Some(profile) = v.user.as_ref().map(|u| u.profile.clone())
+    {
+        c.first_name = profile.first_name;
+        c.last_name = profile.last_name;
+        c.phone = profile.phone;
+        c.email = v.user.as_ref().map(|u| u.email.clone());
+        c.billing = profile.billing;
+        c.company_purchase = profile.company_purchase;
+        c.company_name = profile.company_name;
+        c.company_ico = profile.company_ico;
+        c.company_dic = profile.company_dic;
+        c.delivery_address_different = profile.delivery_address_different;
+        c.delivery = profile.delivery;
     }
-    if c.billing.city.is_none() {
-        if let Some(d) = &v.delivery {
-            c.billing.city = Some(d.place.clone());
-            c.billing.zip = d.zip.clone();
-        }
+    if c.billing.city.is_none()
+        && let Some(d) = &v.delivery
+    {
+        c.billing.city = Some(d.place.clone());
+        c.billing.zip = d.zip.clone();
     }
     let val = |o: &Option<String>| o.clone().unwrap_or_default();
-    let billing_country = c.billing.country.clone().or_else(|| c.country.clone()).unwrap_or_else(|| "cz".into());
+    let billing_country = c
+        .billing
+        .country
+        .clone()
+        .or_else(|| c.country.clone())
+        .unwrap_or_else(|| "cz".into());
     let delivery_country = c.delivery.country.clone().unwrap_or_else(|| "cz".into());
-    let field = move |name: &'static str, label: &'static str, kind: &'static str, value: String, required: bool, wide: bool| view! {
-        <div class=if wide { "form-group form-group-wide" } else { "form-group" }>
-            <label for=name>{label}</label>
-            <input type=kind name=name id=name value=value required=required/>
-        </div>
+    let field = move |name: &'static str,
+                      label: &'static str,
+                      kind: &'static str,
+                      value: String,
+                      required: bool,
+                      wide: bool| {
+        view! {
+            <div class=if wide { "form-group form-group-wide" } else { "form-group" }>
+                <label for=name>{label}</label>
+                <input type=kind name=name id=name value=value required=required/>
+            </div>
+        }
     };
-    let street = move |name: &'static str, value: String, required: bool, city: &'static str, zip: &'static str, country: &'static str| view! {
-        <div class="form-group form-group-wide address-autocomplete">
-            <label for=name>{t::checkout::street_and_number(l)}</label>
-            <crate::autocomplete::AutocompleteInput
-                id=name.to_owned()
-                name=name.to_owned()
-                value=value
-                placeholder=String::new()
-                address=true
-                required=required
-                country_select=country.to_owned()
-                city_field=city.to_owned()
-                zip_field=zip.to_owned()
-                submit_on_pick=false
-            />
-        </div>
+    let street = move |name: &'static str,
+                       value: String,
+                       required: bool,
+                       city: &'static str,
+                       zip: &'static str,
+                       country: &'static str| {
+        view! {
+            <div class="form-group form-group-wide address-autocomplete">
+                <label for=name>{t::checkout::street_and_number(l)}</label>
+                <crate::autocomplete::AutocompleteInput
+                    id=name.to_owned()
+                    name=name.to_owned()
+                    value=value
+                    placeholder=String::new()
+                    address=true
+                    required=required
+                    country_select=country.to_owned()
+                    city_field=city.to_owned()
+                    zip_field=zip.to_owned()
+                    submit_on_pick=false
+                />
+            </div>
+        }
     };
-    let checkbox = move |name: &'static str, checked: bool, label: &'static str| view! {
-        <label class="custom-checkbox-label checkout-checkbox">
-            <input type="hidden" name=name value="0"/>
-            <input type="checkbox" name=name value="1" checked=checked/>
-            <span class="custom-checkbox"></span>
-            <span>{label}</span>
-        </label>
+    let checkbox = move |name: &'static str, checked: bool, label: &'static str| {
+        view! {
+            <label class="custom-checkbox-label checkout-checkbox">
+                <input type="hidden" name=name value="0"/>
+                <input type="checkbox" name=name value="1" checked=checked/>
+                <span class="custom-checkbox"></span>
+                <span>{label}</span>
+            </label>
+        }
     };
     let login = match &v.user {
         Some(user) => view! { <p class="checkout-logged-in-as">{t::checkout::logged_in_as(l, &user.email)}</p> }.into_any(),
@@ -320,34 +364,71 @@ pub async fn load_summary() -> Result<Summary, ServerFnError> {
                 quantity: line.quantity,
                 unit_price: price(cart_line.unit_price),
                 total: price(cart_line.total()),
-                total_excl_vat: price(v.shop.vat.excl_vat(line.category, cart_line.total(), d.vat_country)),
+                total_excl_vat: price(v.shop.vat.excl_vat(
+                    line.category,
+                    cart_line.total(),
+                    d.vat_country,
+                )),
             }
         })
         .collect();
     let (shipping_note, shipping_note_strong) = match (v.checkout.shipping, d.delivery) {
-        (Some(Shipping::Address), Some(q)) => (t::checkout::delivery_approximate(l).to_owned(), Some(price(q.price()))),
+        (Some(Shipping::Address), Some(q)) => (
+            t::checkout::delivery_approximate(l).to_owned(),
+            Some(price(q.price())),
+        ),
         (Some(Shipping::Address), None) => (t::checkout::shipping_address_note(l).to_owned(), None),
         _ => (t::checkout::free(l).to_owned(), None),
     };
     let mut rows = Vec::new();
     if d.delivery.is_some() || d.discount.is_some() {
-        rows.push(Row { label: t::checkout::goods_total(l).into(), value: price(d.subtotal), kind: RowKind::Muted });
+        rows.push(Row {
+            label: t::checkout::goods_total(l).into(),
+            value: price(d.subtotal),
+            kind: RowKind::Muted,
+        });
     }
     if let Some((code, amount)) = &d.discount {
-        rows.push(Row { label: t::cart::discount_line(l, code), value: format!("−{}", price(*amount)), kind: RowKind::Discount });
+        rows.push(Row {
+            label: t::cart::discount_line(l, code),
+            value: format!("−{}", price(*amount)),
+            kind: RowKind::Discount,
+        });
     }
     if let Some(q) = d.delivery {
-        rows.push(Row { label: t::checkout::delivery_line(l, q.round_trip_km()), value: price(q.price()), kind: RowKind::Muted });
+        rows.push(Row {
+            label: t::checkout::delivery_line(l, q.round_trip_km()),
+            value: price(q.price()),
+            kind: RowKind::Muted,
+        });
     }
-    rows.push(Row { label: t::cart::total_due(l).into(), value: price(d.total), kind: RowKind::Total });
+    rows.push(Row {
+        label: t::cart::total_due(l).into(),
+        value: price(d.total),
+        kind: RowKind::Total,
+    });
     rows.extend(crate::cart_view::vat_rows(&v, &d.vat.by_rate));
-    rows.push(Row { label: t::cart::without_vat(l).into(), value: price(d.total - d.vat.vat()), kind: RowKind::Muted });
+    rows.push(Row {
+        label: t::cart::without_vat(l).into(),
+        value: price(d.total - d.vat.vat()),
+        kind: RowKind::Muted,
+    });
 
     let c = &v.checkout;
     let o = |s: &Option<String>| s.clone().unwrap_or_default();
     let mut billing = vec![
-        vec![format!("{} {}", o(&c.first_name), o(&c.last_name)).trim().to_owned(), o(&c.email), format!("{}: {}", t::kontakt::form_telefon(l), o(&c.phone))],
-        vec![o(&c.billing.street), format!("{} {}", o(&c.billing.zip), o(&c.billing.city)), crate::orders::country_name(l, c.billing.country.as_deref())],
+        vec![
+            format!("{} {}", o(&c.first_name), o(&c.last_name))
+                .trim()
+                .to_owned(),
+            o(&c.email),
+            format!("{}: {}", t::kontakt::form_telefon(l), o(&c.phone)),
+        ],
+        vec![
+            o(&c.billing.street),
+            format!("{} {}", o(&c.billing.zip), o(&c.billing.city)),
+            crate::orders::country_name(l, c.billing.country.as_deref()),
+        ],
     ];
     if c.company_purchase {
         billing.push(vec![
@@ -356,7 +437,14 @@ pub async fn load_summary() -> Result<Summary, ServerFnError> {
             format!("{}: {}", t::checkout::company_dic(l), o(&c.company_dic)),
         ]);
     }
-    Ok(Summary { lines, shipping_note, shipping_note_strong, rows, discount_problem: d.discount_problem, billing })
+    Ok(Summary {
+        lines,
+        shipping_note,
+        shipping_note_strong,
+        rows,
+        discount_problem: d.discount_problem,
+        billing,
+    })
 }
 
 #[component]
@@ -369,13 +457,30 @@ pub fn SummaryPage() -> impl IntoView {
         redirect(&v, path);
     }
     let errors = v.checkout_errors.clone();
-    let shipping = if v.checkout.shipping == Some(Shipping::Address) { t::checkout::shipping_address(l) } else { t::checkout::shipping_pickup(l) };
-    let payment = if v.checkout.payment == Some(Payment::BankTransfer) { t::checkout::payment_bank_transfer(l) } else { t::checkout::payment_cash(l) };
-    let link = |path: &str, text: &str| format!(r#"<a target="_blank" rel="noopener" href="{}">{}</a>"#, v.link(path), codon::Html::escape(text));
+    let shipping = if v.checkout.shipping == Some(Shipping::Address) {
+        t::checkout::shipping_address(l)
+    } else {
+        t::checkout::shipping_pickup(l)
+    };
+    let payment = if v.checkout.payment == Some(Payment::BankTransfer) {
+        t::checkout::payment_bank_transfer(l)
+    } else {
+        t::checkout::payment_cash(l)
+    };
+    let link = |path: &str, text: &str| {
+        format!(
+            r#"<a target="_blank" rel="noopener" href="{}">{}</a>"#,
+            v.link(path),
+            codon::Html::escape(text)
+        )
+    };
     let terms = t::checkout::terms_agreement(
         l,
-        &codon::Html::from_trusted(link("/zasady-ochrany-osobnich-udaju", t::checkout::privacy_link_text(l))),
-        &codon::Html::from_trusted(link("/obchodni-podminky", t::checkout::terms_link_text(l))),
+        codon::Html::from_trusted(link(
+            "/zasady-ochrany-osobnich-udaju",
+            t::checkout::privacy_link_text(l),
+        )),
+        codon::Html::from_trusted(link("/obchodni-podminky", t::checkout::terms_link_text(l))),
     )
     .into_string();
     let has_errors = !errors.is_empty();
@@ -490,16 +595,22 @@ pub struct Confirmation {
 #[server(endpoint = "page/checkout-confirmation")]
 pub async fn load_confirmation() -> Result<Option<Confirmation>, ServerFnError> {
     let v = visitor();
-    let Some(id) = v.last_order else { return Ok(None) };
+    let Some(id) = v.last_order else {
+        return Ok(None);
+    };
     let db = &expect_context::<crate::state::AppState>().db;
-    let Some(order) = sqlx::query!("SELECT id, items, total_czk, payment_method FROM orders WHERE id = ?", id)
-        .fetch_optional(db)
-        .await
-        .map_err(|e| ServerFnError::new(e.to_string()))?
+    let Some(order) = sqlx::query!(
+        "SELECT id, items, total_czk, payment_method FROM orders WHERE id = ?",
+        id
+    )
+    .fetch_optional(db)
+    .await
+    .map_err(|e| ServerFnError::new(e.to_string()))?
     else {
         return Ok(None);
     };
-    let lines: Vec<crate::orders::OrderLine> = serde_json::from_str(&order.items).unwrap_or_default();
+    let lines: Vec<crate::orders::OrderLine> =
+        serde_json::from_str(&order.items).unwrap_or_default();
     let items: Vec<serde_json::Value> = lines
         .iter()
         .map(|line| {
@@ -519,7 +630,8 @@ pub async fn load_confirmation() -> Result<Option<Confirmation>, ServerFnError> 
     });
     Ok(Some(Confirmation {
         id: order.id,
-        pay_later: crate::orders::pay_later_text(v.locale, Payment::parse(&order.payment_method)).to_owned(),
+        pay_later: crate::orders::pay_later_text(v.locale, Payment::parse(&order.payment_method))
+            .to_owned(),
         purchase: purchase.to_string().replace('<', "\\u003c"),
     }))
 }

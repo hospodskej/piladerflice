@@ -1,11 +1,11 @@
 //! Shop settings every page needs: VAT rules, the price per km, the euro
 //! rate and the product names, loaded once per request.
 
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
+use domain::cart::Cart;
 use domain::cart::{CartLine, Spec};
 use domain::money::{Czk, EurRate};
 use domain::vat::{Country, VatBreakdown, VatRules};
-use domain::cart::Cart;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
@@ -61,7 +61,10 @@ impl Shop {
             None => {
                 let text = key.replace(['_', '-'], " ");
                 let mut chars = text.chars();
-                chars.next().map(|c| c.to_uppercase().chain(chars).collect()).unwrap_or_default()
+                chars
+                    .next()
+                    .map(|c| c.to_uppercase().chain(chars).collect())
+                    .unwrap_or_default()
             }
         }
     }
@@ -74,31 +77,48 @@ impl Shop {
             .join(", ")
     }
 
-    pub fn breakdown(&self, cart: &Cart, country: Country, discount: Czk, delivery: Czk) -> VatBreakdown {
+    pub fn breakdown(
+        &self,
+        cart: &Cart,
+        country: Country,
+        discount: Czk,
+        delivery: Czk,
+    ) -> VatBreakdown {
         VatBreakdown::new(&self.vat, cart.vat_lines(), country, discount, delivery)
     }
 }
 
 pub fn spec_text(locale: Locale, spec: &Spec) -> String {
     match spec {
-        Spec::Key { value } => crate::i18n::lookup(locale, value).unwrap_or(value).to_owned(),
+        Spec::Key { value } => crate::i18n::lookup(locale, value)
+            .unwrap_or(value)
+            .to_owned(),
         Spec::Raw { value } => value.clone(),
         Spec::Amount { value, unit_key } => {
-            format!("{value} {}", crate::i18n::lookup(locale, unit_key).unwrap_or(unit_key))
+            format!(
+                "{value} {}",
+                crate::i18n::lookup(locale, unit_key).unwrap_or(unit_key)
+            )
         }
-        Spec::Bilingual { value, value_de } => translated(locale, value, value_de.as_deref()).to_owned(),
+        Spec::Bilingual { value, value_de } => {
+            translated(locale, value, value_de.as_deref()).to_owned()
+        }
     }
 }
 
 /// "Košík" or "Košík, počet kusů: 3".
 pub fn cart_label(locale: Locale, count: u32) -> String {
-    if count > 0 { t::cart::aria_label_count(locale, count) } else { t::cart::aria_label(locale).to_owned() }
+    if count > 0 {
+        t::cart::aria_label_count(locale, count)
+    } else {
+        t::cart::aria_label(locale).to_owned()
+    }
 }
 
 #[cfg(feature = "ssr")]
 pub async fn load(state: &crate::state::AppState) -> Result<Shop, sqlx::Error> {
-    use domain::vat::VatRule;
     use domain::Category;
+    use domain::vat::VatRule;
 
     let vat = sqlx::query!("SELECT category, rate_cz, rate_at, prices_include_vat FROM vat_rules")
         .fetch_all(&state.db)
@@ -112,16 +132,22 @@ pub async fn load(state: &crate::state::AppState) -> Result<Shop, sqlx::Error> {
                 prices_include_vat: r.prices_include_vat != 0,
             })
         });
-    let czk_per_km = sqlx::query_scalar!("SELECT value FROM settings WHERE key = 'delivery_czk_per_km'")
-        .fetch_optional(&state.db)
-        .await?
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(domain::delivery::DEFAULT_CZK_PER_KM);
+    let czk_per_km =
+        sqlx::query_scalar!("SELECT value FROM settings WHERE key = 'delivery_czk_per_km'")
+            .fetch_optional(&state.db)
+            .await?
+            .and_then(|v| v.parse().ok())
+            .unwrap_or(domain::delivery::DEFAULT_CZK_PER_KM);
     let titles = sqlx::query!("SELECT key, title, title_de FROM catalog_products")
         .fetch_all(&state.db)
         .await?
         .into_iter()
         .map(|r| (r.key, (r.title, r.title_de)))
         .collect();
-    Ok(Shop { vat: VatRules::new(vat), czk_per_km, eur: state.eur_rate(), titles })
+    Ok(Shop {
+        vat: VatRules::new(vat),
+        czk_per_km,
+        eur: state.eur_rate(),
+        titles,
+    })
 }

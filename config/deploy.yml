@@ -24,7 +24,7 @@ servers:
 proxy:
   ssl: true
   hosts: <%= hosts.to_json %>
-  app_port: 80
+  app_port: 3000
   healthcheck:
     path: /up
 
@@ -44,7 +44,7 @@ env:
   clear:
     APP_HOST: <%= hosts.first %>
     APP_HOSTS: <%= hosts.join(",") %>
-    RAILS_LOG_LEVEL: info
+    RUST_LOG: info
     SMTP_ADDRESS: <%= setting.("SMTP_ADDRESS", "smtp.gmail.com") %>
     SMTP_PORT: "<%= setting.("SMTP_PORT", "587") %>"
     MAIL_FROM_ADDRESS: <%= setting.("MAIL_FROM_ADDRESS", "objednavky@piladerflice.cz") %>
@@ -55,14 +55,14 @@ env:
     - ORDER_NOTIFICATION_EMAIL
     - ORS_API_KEY
 
-# The databases (orders, catalogue, cache) and uploaded photos live here and
-# survive deploys. Never delete this volume: it IS the shop.
+# The database (orders, catalogue, sessions, cache) and uploaded photos live
+# here and survive deploys. Never delete this volume: it IS the shop.
 volumes:
-  - "piladerflice_storage:/rails/storage"
+  - "piladerflice_storage:/app/storage"
 
-# Old asset files stay available for a while after a deploy, so pages already
-# open in someone's browser don't lose their CSS and JS.
-asset_path: /rails/public/assets
+# Old site files (the WebAssembly bundle) stay available for a while after a
+# deploy, so pages already open in someone's browser keep working.
+asset_path: /app/site/pkg
 
 accessories:
   # Nightly at 03:15 (Prague time): a copy of the database and the photos into
@@ -84,10 +84,9 @@ accessories:
       echo '15 3 * * * TZ=Europe/Prague sh /backup.sh >> /backups/backup.log 2>&1' | crontab - &&
       exec crond -f -l 8"
 
-# Shortcuts: bundle exec kamal console / shell / logs / dbconsole / backup-now
+# Shortcuts: kamal shell / logs / dbconsole / backup-now
 aliases:
-  console: app exec --interactive --reuse "ruby bin/rails console"
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
-  dbconsole: app exec --interactive --reuse "sqlite3 storage/production.sqlite3"
+  dbconsole: app exec --interactive --reuse "sqlite3 /app/storage/production.db"
   backup-now: accessory exec backup "sh /backup.sh"

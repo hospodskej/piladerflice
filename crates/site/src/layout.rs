@@ -1,9 +1,9 @@
 //! The parts every page shares: header, breadcrumbs, messages, footer,
 //! sticky logo, mobile menu and cookie banner.
 
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use crate::islands::{Dropdown, PageBehaviour, ThemeToggle};
-use crate::visitor::{visitor, Flash, Visitor};
+use crate::visitor::{Flash, Visitor, visitor};
 use leptos::prelude::*;
 
 const PHONE_ICON: &str = r#"<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>"#;
@@ -39,7 +39,12 @@ pub fn Layout(children: Children) -> impl IntoView {
 }
 
 #[component]
-fn ContactItem(icon: &'static str, size: u32, href: &'static str, text: &'static str) -> impl IntoView {
+fn ContactItem(
+    icon: &'static str,
+    size: u32,
+    href: &'static str,
+    text: &'static str,
+) -> impl IntoView {
     view! {
         <div class="contact-item">
             <svg width=size height=size fill="none" stroke="#30b109" stroke-width="2" viewBox="0 0 24 24" inner_html=icon></svg>
@@ -53,7 +58,11 @@ fn ContactItem(icon: &'static str, size: u32, href: &'static str, text: &'static
 fn NavLinks(v: Visitor) -> impl IntoView {
     let l = v.locale;
     let link = |path: &'static str, text: &'static str| {
-        let class = if v.is_at(path) { "nav-link active" } else { "nav-link" };
+        let class = if v.is_at(path) {
+            "nav-link active"
+        } else {
+            "nav-link"
+        };
         view! { <a href=v.link(path) class=class>{text}</a> }
     };
     view! {
@@ -69,7 +78,11 @@ fn NavLinks(v: Visitor) -> impl IntoView {
 #[component]
 fn Header(v: Visitor) -> impl IntoView {
     let l = v.locale;
-    let account_href = v.link(if v.user.is_some() { "/muj-ucet" } else { "/prihlaseni" });
+    let account_href = v.link(if v.user.is_some() {
+        "/muj-ucet"
+    } else {
+        "/prihlaseni"
+    });
     view! {
         <header class="site-header">
             <div class="contact-header">
@@ -148,7 +161,11 @@ fn flag(locale: Locale) -> AnyView {
 fn LanguageSwitch(v: Visitor) -> impl IntoView {
     let l = v.locale;
     let option = |locale: Locale| {
-        let class = if locale == l { "lang-option active" } else { "lang-option" };
+        let class = if locale == l {
+            "lang-option active"
+        } else {
+            "lang-option"
+        };
         view! {
             <a href=v.switch_language_link(locale) class=class>
                 {flag(locale)}<span class="lang-currency">{locale.currency()}</span>
@@ -213,7 +230,10 @@ fn crumb_name(l: Locale, segment: &str) -> String {
         || {
             let text = segment.replace('-', " ");
             let mut chars = text.chars();
-            chars.next().map(|c| c.to_uppercase().chain(chars).collect()).unwrap_or_default()
+            chars
+                .next()
+                .map(|c| c.to_uppercase().chain(chars).collect())
+                .unwrap_or_default()
         },
         str::to_owned,
     )
@@ -353,7 +373,11 @@ fn StickyLogo(v: Visitor) -> impl IntoView {
 fn MobileSidebar(v: Visitor) -> impl IntoView {
     let l = v.locale;
     let signed_in = v.user.is_some();
-    let account_class = if v.is_at("/muj-ucet") || v.is_at("/prihlaseni") { "sidebar-account active" } else { "sidebar-account" };
+    let account_class = if v.is_at("/muj-ucet") || v.is_at("/prihlaseni") {
+        "sidebar-account active"
+    } else {
+        "sidebar-account"
+    };
     view! {
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <aside class="mobile-sidebar" id="mobileSidebar">

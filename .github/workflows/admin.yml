@@ -27,13 +27,14 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.6"
-          bundler-cache: true
+          ruby-version: "3.3"
+      - name: Install Kamal
+        run: gem install kamal -v 2.12.0 --no-document
       - uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Create or update the admin
         # The command goes before -e: everything after -e is read as KEY:VALUE pairs.
         run: >-
-          bundle exec kamal app exec --reuse "ruby bin/rails admin:create_user"
+          kamal app exec --reuse "/app/server admin:create_user"
           -e "ADMIN_EMAIL:${{ secrets.ADMIN_EMAIL }}" "ADMIN_PASSWORD:${{ secrets.ADMIN_PASSWORD }}"

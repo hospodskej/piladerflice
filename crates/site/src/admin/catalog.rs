@@ -1,7 +1,7 @@
 //! Admin: the catalogue (products and their variants with prices).
 
-use super::form::{values_for, Errors, Form, Values};
-use super::{czk, AdminLayout, ConfirmButton};
+use super::form::{Errors, Form, Values, values_for};
+use super::{AdminLayout, ConfirmButton, czk};
 use crate::pages::loaded;
 use crate::visitor::visitor;
 use leptos::prelude::*;
@@ -13,7 +13,12 @@ const TEMPLATES: [(&str, &str); 3] = [
     ("Řezivo (jedna matice rozměr × délka)", "lumber"),
     ("Jednoduché varianty (bez matice)", "simple_variant"),
 ];
-const CATEGORIES: [(&str, &str); 4] = [("Palivové dřevo", "palivove"), ("Stavební řezivo", "rezivo"), ("Výrobní zbytky", "zbytky"), ("Okrasné kamenivo", "kamenivo")];
+const CATEGORIES: [(&str, &str); 4] = [
+    ("Palivové dřevo", "palivove"),
+    ("Stavební řezivo", "rezivo"),
+    ("Výrobní zbytky", "zbytky"),
+    ("Okrasné kamenivo", "kamenivo"),
+];
 const HARDNESS: [(&str, &str); 3] = [("— nepoužito —", ""), ("Tvrdé", "hard"), ("Měkké", "soft")];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -117,15 +122,27 @@ pub struct ProductForm {
 pub async fn load_product(id: Option<i64>) -> Result<Option<ProductForm>, ServerFnError> {
     super::require_admin()?;
     let Some(id) = id else {
-        let values = [("template", "firewood"), ("category", "palivove"), ("active", "1"), ("position", "0")]
-            .into_iter()
-            .map(|(k, v)| (k.to_owned(), v.to_owned()))
-            .collect();
-        return Ok(Some(ProductForm { values, ..ProductForm::default() }));
+        let values = [
+            ("template", "firewood"),
+            ("category", "palivove"),
+            ("active", "1"),
+            ("position", "0"),
+        ]
+        .into_iter()
+        .map(|(k, v)| (k.to_owned(), v.to_owned()))
+        .collect();
+        return Ok(Some(ProductForm {
+            values,
+            ..ProductForm::default()
+        }));
     };
     let db = &expect_context::<crate::state::AppState>().db;
     let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
-    let Some(p) = sqlx::query!("SELECT * FROM catalog_products WHERE id = ?", id).fetch_optional(db).await.map_err(err)? else {
+    let Some(p) = sqlx::query!("SELECT * FROM catalog_products WHERE id = ?", id)
+        .fetch_optional(db)
+        .await
+        .map_err(err)?
+    else {
         return Ok(None);
     };
     let o = |s: Option<String>| s.unwrap_or_default();
@@ -153,40 +170,62 @@ pub async fn load_product(id: Option<i64>) -> Result<Option<ProductForm>, Server
     .map(|(k, v)| (k.to_owned(), v))
     .collect();
     let lumber = p.template == "lumber";
-    let variants = sqlx::query!("SELECT * FROM catalog_variants WHERE catalog_product_id = ? ORDER BY position, id", id)
-        .fetch_all(db)
-        .await
-        .map_err(err)?
-        .into_iter()
-        .map(|v| VariantRow {
-            id: v.id,
-            image: v.image,
-            description: if lumber {
-                [v.grade.clone().filter(|g| !g.is_empty()), v.width_mm.zip(v.height_mm).map(|(w, h)| format!("{w}×{h} mm"))]
-                    .into_iter()
-                    .flatten()
-                    .collect::<Vec<_>>()
-                    .join(" / ")
-            } else {
-                o(v.variant_label)
-            },
-            group: v.variant_group.as_deref().map(|g| match (g, v.stacked != 0) {
+    let variants = sqlx::query!(
+        "SELECT * FROM catalog_variants WHERE catalog_product_id = ? ORDER BY position, id",
+        id
+    )
+    .fetch_all(db)
+    .await
+    .map_err(err)?
+    .into_iter()
+    .map(|v| VariantRow {
+        id: v.id,
+        image: v.image,
+        description: if lumber {
+            [
+                v.grade.clone().filter(|g| !g.is_empty()),
+                v.width_mm
+                    .zip(v.height_mm)
+                    .map(|(w, h)| format!("{w}×{h} mm")),
+            ]
+            .into_iter()
+            .flatten()
+            .collect::<Vec<_>>()
+            .join(" / ")
+        } else {
+            o(v.variant_label)
+        },
+        group: v.variant_group.as_deref().map(|g| {
+            match (g, v.stacked != 0) {
                 ("bedny", _) => "Skládané (bedny)",
                 (_, true) => "Skládané (kontejner)",
                 _ => "Sypané (kontejner)",
-            }.to_owned()),
-            length: o(v.length_label),
-            amount: v.amount_value.map(|a| a.to_string()).unwrap_or_default(),
-            price: v.price_czk,
-            in_stock: v.in_stock != 0,
-        })
-        .collect();
-    Ok(Some(ProductForm { id: Some(id), values, image: p.image, variants }))
+            }
+            .to_owned()
+        }),
+        length: o(v.length_label),
+        amount: v.amount_value.map(|a| a.to_string()).unwrap_or_default(),
+        price: v.price_czk,
+        in_stock: v.in_stock != 0,
+    })
+    .collect();
+    Ok(Some(ProductForm {
+        id: Some(id),
+        values,
+        image: p.image,
+        variants,
+    }))
 }
 
 fn product_form(f: &ProductForm, values: &Values, errors: Vec<String>) -> impl IntoView + use<> {
-    let form = Form { model: "catalog_product", values };
-    let action = f.id.map_or_else(|| "/admin/catalog_products".to_owned(), |id| format!("/admin/catalog_products/{id}"));
+    let form = Form {
+        model: "catalog_product",
+        values,
+    };
+    let action = f.id.map_or_else(
+        || "/admin/catalog_products".to_owned(),
+        |id| format!("/admin/catalog_products/{id}"),
+    );
     view! {
         <form action=action method="post" enctype="multipart/form-data" class="admin-form">
             <Errors errors=errors/>
@@ -228,7 +267,8 @@ fn product_form(f: &ProductForm, values: &Values, errors: Vec<String>) -> impl I
 
 #[component]
 pub fn ProductPage() -> impl IntoView {
-    let id: Option<i64> = use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
+    let id: Option<i64> =
+        use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()));
     view! {
         <AdminLayout>
             <a href="/admin/catalog_products" class="admin-back-link">"← Zpět na katalog"</a>
@@ -300,22 +340,61 @@ pub struct VariantForm {
 }
 
 #[server(endpoint = "admin/catalog-variant")]
-pub async fn load_variant(product_id: i64, id: Option<i64>) -> Result<Option<VariantForm>, ServerFnError> {
+pub async fn load_variant(
+    product_id: i64,
+    id: Option<i64>,
+) -> Result<Option<VariantForm>, ServerFnError> {
     let v = super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
     let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
-    let Some(p) = sqlx::query!("SELECT title, template, category FROM catalog_products WHERE id = ?", product_id).fetch_optional(db).await.map_err(err)? else {
+    let Some(p) = sqlx::query!(
+        "SELECT title, template, category FROM catalog_products WHERE id = ?",
+        product_id
+    )
+    .fetch_optional(db)
+    .await
+    .map_err(err)?
+    else {
         return Ok(None);
     };
-    let rule = v.shop.vat.get(p.category.parse().unwrap_or(domain::Category::Firewood));
-    let vat_note = (rule.prices_include_vat, rule.rate_cz, rule.customer_price(domain::Czk(1000)).get());
-    let mut form = VariantForm { product_id, product_title: p.title, template: p.template, vat_note, id, ..VariantForm::default() };
+    let rule = v
+        .shop
+        .vat
+        .get(p.category.parse().unwrap_or(domain::Category::Firewood));
+    let vat_note = (
+        rule.prices_include_vat,
+        rule.rate_cz,
+        rule.customer_price(domain::Czk(1000)).get(),
+    );
+    let mut form = VariantForm {
+        product_id,
+        product_title: p.title,
+        template: p.template,
+        vat_note,
+        id,
+        ..VariantForm::default()
+    };
     match id {
         None => {
-            form.values = [("variant_group", "kontejner"), ("in_stock", "1"), ("position", "0")].into_iter().map(|(k, v)| (k.to_owned(), v.to_owned())).collect();
+            form.values = [
+                ("variant_group", "kontejner"),
+                ("in_stock", "1"),
+                ("position", "0"),
+            ]
+            .into_iter()
+            .map(|(k, v)| (k.to_owned(), v.to_owned()))
+            .collect();
         }
         Some(id) => {
-            let Some(x) = sqlx::query!("SELECT * FROM catalog_variants WHERE id = ? AND catalog_product_id = ?", id, product_id).fetch_optional(db).await.map_err(err)? else {
+            let Some(x) = sqlx::query!(
+                "SELECT * FROM catalog_variants WHERE id = ? AND catalog_product_id = ?",
+                id,
+                product_id
+            )
+            .fetch_optional(db)
+            .await
+            .map_err(err)?
+            else {
                 return Ok(None);
             };
             let o = |s: Option<String>| s.unwrap_or_default();
@@ -348,7 +427,12 @@ pub async fn load_variant(product_id: i64, id: Option<i64>) -> Result<Option<Var
 #[component]
 pub fn VariantPage() -> impl IntoView {
     let (product_id, id) = use_params_map().with_untracked(|p| {
-        (p.get("product_id").and_then(|i| i.parse().ok()).unwrap_or(0), p.get("id").and_then(|i| i.parse::<i64>().ok()))
+        (
+            p.get("product_id")
+                .and_then(|i| i.parse().ok())
+                .unwrap_or(0),
+            p.get("id").and_then(|i| i.parse::<i64>().ok()),
+        )
     });
     view! {
         <AdminLayout>
@@ -420,45 +504,68 @@ pub mod handlers {
     use super::super::handlers::{done, guard, refused, save_upload};
     use crate::state::AppState;
     use crate::visitor::Visitor;
+    use axum::Extension;
     use axum::extract::{Multipart, Path, State};
     use axum::response::Response;
-    use axum::Extension;
     use tower_sessions::Session;
 
     fn is_key(key: &str) -> bool {
-        !key.is_empty() && key.chars().all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-')
+        !key.is_empty()
+            && key
+                .chars()
+                .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-')
     }
 
-    async fn save_product(state: &AppState, session: &Session, id: Option<i64>, form: Multipart) -> Response {
+    async fn save_product(
+        state: &AppState,
+        session: &Session,
+        id: Option<i64>,
+        form: Multipart,
+    ) -> Response {
         let (pairs, files) = multipart(form).await;
         let values = fields(&pairs, "catalog_product");
-        let form_path = id.map_or_else(|| "/admin/catalog_products/new".to_owned(), |id| format!("/admin/catalog_products/{id}/edit"));
+        let form_path = id.map_or_else(
+            || "/admin/catalog_products/new".to_owned(),
+            |id| format!("/admin/catalog_products/{id}/edit"),
+        );
         let mut errors = Vec::new();
         let key = text(&values, "key").unwrap_or_default();
         if key.is_empty() {
             errors.push("Klíč je povinné pole".to_owned());
         } else {
-            let taken = sqlx::query_scalar!("SELECT id FROM catalog_products WHERE key = ?", key).fetch_optional(&state.db).await.ok().flatten();
+            let taken = sqlx::query_scalar!("SELECT id FROM catalog_products WHERE key = ?", key)
+                .fetch_optional(&state.db)
+                .await
+                .ok()
+                .flatten();
             if taken.is_some_and(|other| Some(other) != id) {
                 errors.push("Klíč už je použitý".to_owned());
             }
         }
-        let template = text(&values, "template").filter(|t| ["firewood", "lumber", "simple_variant"].contains(&t.as_str()));
+        let template = text(&values, "template")
+            .filter(|t| ["firewood", "lumber", "simple_variant"].contains(&t.as_str()));
         if template.is_none() {
             errors.push("Šablona zobrazení má neplatnou hodnotu".to_owned());
         }
-        let category = text(&values, "category").filter(|c| domain::Category::ALL.iter().any(|x| x.as_str() == c));
+        let category = text(&values, "category")
+            .filter(|c| domain::Category::ALL.iter().any(|x| x.as_str() == c));
         if category.is_none() {
             errors.push("Kategorie filtru má neplatnou hodnotu".to_owned());
         }
         let hardness = text(&values, "hardness");
-        if hardness.as_deref().is_some_and(|h| h != "hard" && h != "soft") {
+        if hardness
+            .as_deref()
+            .is_some_and(|h| h != "hard" && h != "soft")
+        {
             errors.push("Tvrdost dřeva má neplatnou hodnotu".to_owned());
         }
         let title = text(&values, "title").unwrap_or_default();
         let position = int(&values, "position").unwrap_or(None).unwrap_or(0);
         let mut image = None;
-        if let Some((_, bytes)) = files.iter().find(|(name, _)| name == "catalog_product[image]") {
+        if let Some((_, bytes)) = files
+            .iter()
+            .find(|(name, _)| name == "catalog_product[image]")
+        {
             match save_upload(state, bytes).await {
                 Ok(path) => image = Some(path),
                 Err(problem) => errors.push(problem),
@@ -470,9 +577,21 @@ pub mod handlers {
         let t = |f: &str| text(&values, f);
         let active = i64::from(checked(&values, "active"));
         let (template, category) = (template.unwrap_or_default(), category.unwrap_or_default());
-        let (title_de, type_label, type_label_de, subtitle, subtitle_de) = (t("title_de"), t("type_label"), t("type_label_de"), t("subtitle"), t("subtitle_de"));
-        let (description, description_de, drying_note, drying_note_de, image_alt, image_alt_de) =
-            (t("description"), t("description_de"), t("drying_note"), t("drying_note_de"), t("image_alt"), t("image_alt_de"));
+        let (title_de, type_label, type_label_de, subtitle, subtitle_de) = (
+            t("title_de"),
+            t("type_label"),
+            t("type_label_de"),
+            t("subtitle"),
+            t("subtitle_de"),
+        );
+        let (description, description_de, drying_note, drying_note_de, image_alt, image_alt_de) = (
+            t("description"),
+            t("description_de"),
+            t("drying_note"),
+            t("drying_note_de"),
+            t("image_alt"),
+            t("image_alt_de"),
+        );
         let saved = match id {
             Some(id) => sqlx::query!(
                 "UPDATE catalog_products SET key = ?, template = ?, category = ?, hardness = ?, active = ?, position = ?, title = ?, title_de = ?,
@@ -497,36 +616,69 @@ pub mod handlers {
         };
         match saved {
             Ok(saved_id) => {
-                let notice = if id.is_some() { "Produkt byl uložen." } else { "Produkt byl vytvořen. Nyní k němu přidejte varianty s cenami." };
-                done(session, &format!("/admin/catalog_products/{saved_id}/edit"), notice).await
+                let notice = if id.is_some() {
+                    "Produkt byl uložen."
+                } else {
+                    "Produkt byl vytvořen. Nyní k němu přidejte varianty s cenami."
+                };
+                done(
+                    session,
+                    &format!("/admin/catalog_products/{saved_id}/edit"),
+                    notice,
+                )
+                .await
             }
             Err(e) => refused(session, &form_path, values, vec![e.to_string()]).await,
         }
     }
 
-    pub async fn create_product(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, form: Multipart) -> Response {
+    pub async fn create_product(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        form: Multipart,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_product(&state, &session, None, form).await
     }
 
-    pub async fn update_product(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>, form: Multipart) -> Response {
+    pub async fn update_product(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+        form: Multipart,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_product(&state, &session, Some(id), form).await
     }
 
-    pub async fn delete_product(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete_product(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
-        let _ = sqlx::query!("DELETE FROM catalog_products WHERE id = ?", id).execute(&state.db).await;
+        let _ = sqlx::query!("DELETE FROM catalog_products WHERE id = ?", id)
+            .execute(&state.db)
+            .await;
         done(&session, "/admin/catalog_products", "Produkt byl smazán.").await
     }
 
-    async fn save_variant(state: &AppState, session: &Session, product_id: i64, id: Option<i64>, form: Multipart) -> Response {
+    async fn save_variant(
+        state: &AppState,
+        session: &Session,
+        product_id: i64,
+        id: Option<i64>,
+        form: Multipart,
+    ) -> Response {
         let (pairs, files) = multipart(form).await;
         let values = fields(&pairs, "catalog_variant");
         let form_path = id.map_or_else(
@@ -537,7 +689,12 @@ pub mod handlers {
         let key = text(&values, "key").unwrap_or_default();
         if key.is_empty() {
             errors.push("Klíč je povinné pole".to_owned());
-        } else if !is_key(&key) || sqlx::query_scalar!("SELECT id FROM catalog_variants WHERE catalog_product_id = ? AND key = ?", product_id, key)
+        } else if !is_key(&key)
+            || sqlx::query_scalar!(
+                "SELECT id FROM catalog_variants WHERE catalog_product_id = ? AND key = ?",
+                product_id,
+                key
+            )
             .fetch_optional(&state.db)
             .await
             .ok()
@@ -552,18 +709,22 @@ pub mod handlers {
                 errors.push("Cena musí být větší než 0".to_owned());
                 None
             }
-            Ok(None) | Err(()) => {
+            Ok(None) | Err(_) => {
                 errors.push("Cena musí být číslo".to_owned());
                 None
             }
         };
         let group = text(&values, "variant_group");
-        if group.as_deref().is_some_and(|g| g != "kontejner" && g != "bedny") {
+        if group
+            .as_deref()
+            .is_some_and(|g| g != "kontejner" && g != "bedny")
+        {
             errors.push("Dodání v má neplatnou hodnotu".to_owned());
         }
-        let number = |field: &str, label: &str, errors: &mut Vec<String>| match int(&values, field) {
+        let number = |field: &str, label: &str, errors: &mut Vec<String>| match int(&values, field)
+        {
             Ok(n) => n,
-            Err(()) => {
+            Err(_) => {
                 errors.push(format!("{label} musí být číslo"));
                 None
             }
@@ -573,7 +734,10 @@ pub mod handlers {
         let height = number("height_mm", "Výška", &mut errors);
         let position = number("position", "Pořadí", &mut errors).unwrap_or(0);
         let mut image = None;
-        if let Some((_, bytes)) = files.iter().find(|(name, _)| name == "catalog_variant[image]") {
+        if let Some((_, bytes)) = files
+            .iter()
+            .find(|(name, _)| name == "catalog_variant[image]")
+        {
             match save_upload(state, bytes).await {
                 Ok(path) => image = Some(path),
                 Err(problem) => errors.push(problem),
@@ -583,9 +747,18 @@ pub mod handlers {
             return refused(session, &form_path, values, errors).await;
         }
         let t = |f: &str| text(&values, f);
-        let (stacked, in_stock) = (i64::from(checked(&values, "stacked")), i64::from(checked(&values, "in_stock")));
+        let (stacked, in_stock) = (
+            i64::from(checked(&values, "stacked")),
+            i64::from(checked(&values, "in_stock")),
+        );
         let price = price.unwrap_or(1);
-        let (length, label, label_de, grade, grade_de) = (t("length_label"), t("variant_label"), t("variant_label_de"), t("grade"), t("grade_de"));
+        let (length, label, label_de, grade, grade_de) = (
+            t("length_label"),
+            t("variant_label"),
+            t("variant_label_de"),
+            t("grade"),
+            t("grade_de"),
+        );
         let saved = match id {
             Some(id) => sqlx::query!(
                 "UPDATE catalog_variants SET key = ?, variant_group = ?, length_label = ?, variant_label = ?, variant_label_de = ?, amount_value = ?,
@@ -608,30 +781,69 @@ pub mod handlers {
             .map(|_| ()),
         };
         match saved {
-            Ok(()) => done(session, &format!("/admin/catalog_products/{product_id}/edit"), if id.is_some() { "Varianta byla uložena." } else { "Varianta byla přidána." }).await,
+            Ok(()) => {
+                done(
+                    session,
+                    &format!("/admin/catalog_products/{product_id}/edit"),
+                    if id.is_some() {
+                        "Varianta byla uložena."
+                    } else {
+                        "Varianta byla přidána."
+                    },
+                )
+                .await
+            }
             Err(e) => refused(session, &form_path, values, vec![e.to_string()]).await,
         }
     }
 
-    pub async fn create_variant(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(product_id): Path<i64>, form: Multipart) -> Response {
+    pub async fn create_variant(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(product_id): Path<i64>,
+        form: Multipart,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_variant(&state, &session, product_id, None, form).await
     }
 
-    pub async fn update_variant(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path((product_id, id)): Path<(i64, i64)>, form: Multipart) -> Response {
+    pub async fn update_variant(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path((product_id, id)): Path<(i64, i64)>,
+        form: Multipart,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
         save_variant(&state, &session, product_id, Some(id), form).await
     }
 
-    pub async fn delete_variant(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path((product_id, id)): Path<(i64, i64)>) -> Response {
+    pub async fn delete_variant(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path((product_id, id)): Path<(i64, i64)>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
-        let _ = sqlx::query!("DELETE FROM catalog_variants WHERE id = ? AND catalog_product_id = ?", id, product_id).execute(&state.db).await;
-        done(&session, &format!("/admin/catalog_products/{product_id}/edit"), "Varianta byla smazána.").await
+        let _ = sqlx::query!(
+            "DELETE FROM catalog_variants WHERE id = ? AND catalog_product_id = ?",
+            id,
+            product_id
+        )
+        .execute(&state.db)
+        .await;
+        done(
+            &session,
+            &format!("/admin/catalog_products/{product_id}/edit"),
+            "Varianta byla smazána.",
+        )
+        .await
     }
 }

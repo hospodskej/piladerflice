@@ -123,10 +123,10 @@ impl Visitor {
 pub fn visitor() -> Visitor {
     #[cfg(feature = "ssr")]
     {
-        if let Some(parts) = leptos::prelude::use_context::<axum::http::request::Parts>() {
-            if let Some(v) = parts.extensions.get::<Visitor>() {
-                return v.clone();
-            }
+        if let Some(parts) = leptos::prelude::use_context::<axum::http::request::Parts>()
+            && let Some(v) = parts.extensions.get::<Visitor>()
+        {
+            return v.clone();
         }
     }
     Visitor::default()

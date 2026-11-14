@@ -71,7 +71,9 @@ fn OptionText(#[prop(into)] text: Signal<String>) -> impl IntoView {
 /// The unit after a leading number: "5 PRM" → "PRM", "Jiná" → "".
 fn unit_of(text: &str) -> &str {
     let text = text.trim();
-    let digits = text.find(|c: char| !(c.is_ascii_digit() || c == '.' || c == ',')).unwrap_or(text.len());
+    let digits = text
+        .find(|c: char| !(c.is_ascii_digit() || c == '.' || c == ','))
+        .unwrap_or(text.len());
     if digits == 0 || !text.starts_with(|c: char| c.is_ascii_digit()) {
         return "";
     }
@@ -80,13 +82,23 @@ fn unit_of(text: &str) -> &str {
 
 fn is_number(text: &str) -> bool {
     let text = text.trim();
-    !text.is_empty() && text.starts_with(|c: char| c.is_ascii_digit()) && unit_of(text).is_empty() && text.chars().all(|c| c.is_ascii_digit() || c == '.' || c == ',')
+    !text.is_empty()
+        && text.starts_with(|c: char| c.is_ascii_digit())
+        && unit_of(text).is_empty()
+        && text
+            .chars()
+            .all(|c| c.is_ascii_digit() || c == '.' || c == ',')
 }
 
 /// A dropdown styled like the rest of the form. The chosen value travels in
 /// a hidden input named like the old <select>.
 #[component]
-fn CustomSelect(name: String, options: Vec<String>, custom: bool, texts: FormTexts) -> impl IntoView {
+fn CustomSelect(
+    name: String,
+    options: Vec<String>,
+    custom: bool,
+    texts: FormTexts,
+) -> impl IntoView {
     let selected = RwSignal::new(0usize);
     let restore = RwSignal::new(0usize);
     let custom_value = RwSignal::new(String::new());
@@ -121,7 +133,11 @@ fn CustomSelect(name: String, options: Vec<String>, custom: bool, texts: FormTex
     let value = {
         let options = options.clone();
         move || {
-            if selected.get() == custom_index { custom_value.get() } else { options.get(selected.get()).cloned().unwrap_or_default() }
+            if selected.get() == custom_index {
+                custom_value.get()
+            } else {
+                options.get(selected.get()).cloned().unwrap_or_default()
+            }
         }
     };
     let options_for_finish = options.clone();
@@ -133,7 +149,12 @@ fn CustomSelect(name: String, options: Vec<String>, custom: bool, texts: FormTex
             return;
         }
         if is_number(&text) {
-            let unit = unit_of(options_for_finish.get(restore.get_untracked()).map_or("", String::as_str)).to_owned();
+            let unit = unit_of(
+                options_for_finish
+                    .get(restore.get_untracked())
+                    .map_or("", String::as_str),
+            )
+            .to_owned();
             if !unit.is_empty() {
                 text = format!("{text} {unit}");
             }
@@ -154,7 +175,11 @@ fn CustomSelect(name: String, options: Vec<String>, custom: bool, texts: FormTex
         if i == custom_index {
             if numeric {
                 let current = custom_value.get_untracked();
-                let number: String = current.trim().chars().take_while(|c| c.is_ascii_digit() || *c == '.' || *c == ',').collect();
+                let number: String = current
+                    .trim()
+                    .chars()
+                    .take_while(|c| c.is_ascii_digit() || *c == '.' || *c == ',')
+                    .collect();
                 custom_value.set(number);
             }
             editing.set(true);
@@ -252,7 +277,13 @@ fn ItemRow(category: FormCategory, texts: FormTexts, on_delete: Callback<()>) ->
 pub fn InquiryForm(data: InquiryFormData, children: Children) -> impl IntoView {
     let texts = data.texts.clone();
     // Switches, not tabs: firewood, lumber or both in one inquiry; one stays on.
-    let active: RwSignal<Vec<bool>> = RwSignal::new(data.categories.iter().enumerate().map(|(i, _)| i == 0).collect());
+    let active: RwSignal<Vec<bool>> = RwSignal::new(
+        data.categories
+            .iter()
+            .enumerate()
+            .map(|(i, _)| i == 0)
+            .collect(),
+    );
     let toggle = move |i: usize| {
         active.update(|a| {
             let turning_off = a[i];

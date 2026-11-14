@@ -11,7 +11,7 @@ pub mod kontakt;
 pub mod not_found;
 pub mod sortiment;
 
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use crate::visitor::visitor;
 use leptos::prelude::*;
 use leptos_meta::{Link, Meta, Title};
@@ -52,7 +52,10 @@ impl From<codon::Html> for SafeHtml {
 
 /// Renders `render(data)` once the server function `load` has the data, or
 /// an error page when it fails.
-pub fn loaded<T, Fut, V>(load: Fut, render: impl Fn(T) -> V + Send + Sync + 'static) -> impl IntoView
+pub fn loaded<T, Fut, V>(
+    load: Fut,
+    render: impl Fn(T) -> V + Send + Sync + 'static,
+) -> impl IntoView
 where
     T: Clone + Send + Sync + Serialize + for<'de> Deserialize<'de> + 'static,
     Fut: std::future::Future<Output = Result<T, ServerFnError>> + Send + 'static,
@@ -108,7 +111,11 @@ pub fn PageMeta(
 ) -> impl IntoView {
     let v = visitor();
     let l = v.locale;
-    let title = if brand_only { title } else { format!("{title} | {}", t::site::name(l)) };
+    let title = if brand_only {
+        title
+    } else {
+        format!("{title} | {}", t::site::name(l))
+    };
     let description = description.map(|d| truncate_words(&squish(&d), 160));
     let base = base_url();
     let path = crate::i18n::strip_prefix(&v.path).into_owned();
@@ -124,11 +131,22 @@ pub fn PageMeta(
     let suffix = if query.is_empty() {
         String::new()
     } else {
-        format!("?{}", query.iter().map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join("&"))
+        format!(
+            "?{}",
+            query
+                .iter()
+                .map(|(k, v)| format!("{k}={v}"))
+                .collect::<Vec<_>>()
+                .join("&")
+        )
     };
     let url = move |locale: Locale| format!("{base}{}{suffix}", locale.path(&path));
     let indexable = description.is_some();
-    let og_url = if indexable { url(l) } else { format!("{}{}", base_url(), v.path) };
+    let og_url = if indexable {
+        url(l)
+    } else {
+        format!("{}{}", base_url(), v.path)
+    };
     let share_image = format!("{}/img/share/{}.webp", base_url(), l.as_str());
 
     view! {
@@ -160,15 +178,18 @@ pub fn PageMeta(
 pub fn base_url() -> String {
     #[cfg(feature = "ssr")]
     {
-        if let Ok(host) = std::env::var("APP_HOST") {
-            if !host.is_empty() {
-                return format!("https://{host}");
-            }
+        if let Ok(host) = std::env::var("APP_HOST")
+            && !host.is_empty()
+        {
+            return format!("https://{host}");
         }
-        if let Some(parts) = use_context::<axum::http::request::Parts>() {
-            if let Some(host) = parts.headers.get(axum::http::header::HOST).and_then(|h| h.to_str().ok()) {
-                return format!("http://{host}");
-            }
+        if let Some(parts) = use_context::<axum::http::request::Parts>()
+            && let Some(host) = parts
+                .headers
+                .get(axum::http::header::HOST)
+                .and_then(|h| h.to_str().ok())
+        {
+            return format!("http://{host}");
         }
     }
     String::new()
@@ -201,8 +222,13 @@ mod tests {
     #[cfg(feature = "ssr")]
     #[test]
     fn admin_html_keeps_only_simple_formatting() {
-        let html = SafeHtml::from_admin(r#"9 800 Kč / m<sup>3</sup><br><script>x()</script><a href="x" onclick="y">link</a> <strong class="c">tučně</strong>"#);
-        assert_eq!(html.as_str(), "9 800 Kč / m<sup>3</sup><br>link <strong>tučně</strong>");
+        let html = SafeHtml::from_admin(
+            r#"9 800 Kč / m<sup>3</sup><br><script>x()</script><a href="x" onclick="y">link</a> <strong class="c">tučně</strong>"#,
+        );
+        assert_eq!(
+            html.as_str(),
+            "9 800 Kč / m<sup>3</sup><br>link <strong>tučně</strong>"
+        );
     }
 }
 

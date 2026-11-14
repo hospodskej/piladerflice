@@ -1,7 +1,7 @@
 //! Discount codes: a percentage or a fixed amount off the goods.
 
 use crate::catalog::text_enum;
-use crate::money::{round_div, Czk};
+use crate::money::{Czk, round_div};
 use serde::{Deserialize, Serialize};
 use time::Date;
 
@@ -52,7 +52,9 @@ pub fn normalize_code(code: &str) -> Option<String> {
     let code = code.trim().to_uppercase();
     let valid = !code.is_empty()
         && code.len() <= 40
-        && code.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || c == '-' || c == '_');
+        && code
+            .chars()
+            .all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || c == '-' || c == '_');
     valid.then_some(code)
 }
 
@@ -62,7 +64,10 @@ impl DiscountCode {
             Some(Unusable::Inactive)
         } else if self.valid_until.is_some_and(|d| d < today) {
             Some(Unusable::Expired)
-        } else if self.usage_limit.is_some_and(|limit| self.times_used >= limit) {
+        } else if self
+            .usage_limit
+            .is_some_and(|limit| self.times_used >= limit)
+        {
             Some(Unusable::UsedUp)
         } else if self.min_order.is_some_and(|min| subtotal < min) {
             Some(Unusable::MinOrder)
@@ -108,8 +113,14 @@ mod tests {
 
     #[test]
     fn amounts() {
-        assert_eq!(code(DiscountKind::Percent, 10).amount_for(Czk(1745)), Czk(175));
-        assert_eq!(code(DiscountKind::Fixed, 500).amount_for(Czk(300)), Czk(300));
+        assert_eq!(
+            code(DiscountKind::Percent, 10).amount_for(Czk(1745)),
+            Czk(175)
+        );
+        assert_eq!(
+            code(DiscountKind::Fixed, 500).amount_for(Czk(300)),
+            Czk(300)
+        );
         assert_eq!(code(DiscountKind::Fixed, 500).label(), "500 Kč");
         assert_eq!(code(DiscountKind::Percent, 15).label(), "15 %");
     }
@@ -130,7 +141,10 @@ mod tests {
         c.min_order = Some(Czk(1000));
         assert_eq!(c.unusable_reason(Czk(999), today), Some(Unusable::MinOrder));
         c.active = false;
-        assert_eq!(c.unusable_reason(Czk(5000), today), Some(Unusable::Inactive));
+        assert_eq!(
+            c.unusable_reason(Czk(5000), today),
+            Some(Unusable::Inactive)
+        );
     }
 
     #[test]

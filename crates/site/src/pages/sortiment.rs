@@ -3,7 +3,7 @@
 #[cfg(feature = "ssr")]
 use super::home::asset;
 use super::home::{HowToOrder, Tile};
-use super::{loaded, PageMeta};
+use super::{PageMeta, loaded};
 use crate::i18n::t;
 use crate::islands::SlideShow;
 use crate::layout::Layout;
@@ -16,18 +16,27 @@ pub async fn sortiment_tiles() -> Result<Vec<Tile>, ServerFnError> {
     let v = visitor();
     let l = v.locale;
     let db = &expect_context::<crate::state::AppState>().db;
-    Ok(sqlx::query!("SELECT title, title_de, text, text_de, image, link FROM products ORDER BY id")
+    Ok(
+        sqlx::query!(
+            "SELECT title, title_de, text, text_de, image, link FROM products ORDER BY id"
+        )
         .fetch_all(db)
         .await
         .map_err(|e| ServerFnError::new(e.to_string()))?
         .into_iter()
         .map(|p| Tile {
             title: tr(l, &p.title, p.title_de.as_deref()).to_owned(),
-            text: tr(l, p.text.as_deref().unwrap_or_default(), p.text_de.as_deref()).to_owned(),
+            text: tr(
+                l,
+                p.text.as_deref().unwrap_or_default(),
+                p.text_de.as_deref(),
+            )
+            .to_owned(),
             image: asset(p.image.as_deref().unwrap_or_default()),
             link: v.link(p.link.as_deref().unwrap_or("/")),
         })
-        .collect())
+        .collect(),
+    )
 }
 
 #[component]
@@ -117,11 +126,13 @@ fn ProductRow(row: Row, reverse: bool) -> impl IntoView {
 fn WoodTypes() -> impl IntoView {
     let l = visitor().locale;
     use t::shared::wood_types as w;
-    let item = |img: &'static str, name: &'static str| view! {
-        <div class="wood-item">
-            <img src=format!("/img/sortiment/palivove-drevo/{img}.webp") class="wood-texture" alt=name loading="lazy"/>
-            <span>{name}</span>
-        </div>
+    let item = |img: &'static str, name: &'static str| {
+        view! {
+            <div class="wood-item">
+                <img src=format!("/img/sortiment/palivove-drevo/{img}.webp") class="wood-texture" alt=name loading="lazy"/>
+                <span>{name}</span>
+            </div>
+        }
     };
     view! {
         <section class="wood-types-section">
@@ -151,7 +162,13 @@ fn WoodTypes() -> impl IntoView {
 }
 
 /// A category page: its products, then (for wood) the wood types, then how to order.
-fn category_page(title: &'static str, description: &'static str, rows: Vec<Row>, wood_types: bool, how_to_order_wrapper: bool) -> impl IntoView {
+fn category_page(
+    title: &'static str,
+    description: &'static str,
+    rows: Vec<Row>,
+    wood_types: bool,
+    how_to_order_wrapper: bool,
+) -> impl IntoView {
     view! {
         <PageMeta title=title.to_owned() description=description/>
         <Layout>
@@ -178,7 +195,10 @@ pub fn PalivoveDrevoPage() -> impl IntoView {
         vec![Row {
             title: s::title(l),
             descriptions: vec![s::desc_1(l), s::desc_2(l)],
-            images: &["sortiment/palivove-drevo1.webp", "sortiment/palivove-drevo2.webp"],
+            images: &[
+                "sortiment/palivove-drevo1.webp",
+                "sortiment/palivove-drevo2.webp",
+            ],
             eshop_link: "/eshop?category=palivove&",
         }],
         true,
@@ -194,10 +214,30 @@ pub fn StavebniRezivoPage() -> impl IntoView {
         t::meta::stavebni_rezivo::title(l),
         t::meta::stavebni_rezivo::description(l),
         vec![
-            Row { title: s::tramy::title(l), descriptions: vec![s::tramy::desc_1(l), s::tramy::desc_2(l)], images: &["sortiment/tramy1.webp", "sortiment/tramy2.webp"], eshop_link: "/eshop/tramy" },
-            Row { title: s::prkna::title(l), descriptions: vec![s::prkna::desc_1(l), s::prkna::desc_2(l)], images: &["sortiment/prkna1.webp", "sortiment/prkna2.webp"], eshop_link: "/eshop/prkna" },
-            Row { title: s::late::title(l), descriptions: vec![s::late::desc_1(l), s::late::desc_2(l)], images: &["sortiment/late1.webp", "sortiment/late2.webp"], eshop_link: "/eshop/late" },
-            Row { title: s::fosny::title(l), descriptions: vec![s::fosny::desc_1(l), s::fosny::desc_2(l)], images: &["sortiment/fosny1.webp", "sortiment/fosny2.webp"], eshop_link: "/eshop/fosny" },
+            Row {
+                title: s::tramy::title(l),
+                descriptions: vec![s::tramy::desc_1(l), s::tramy::desc_2(l)],
+                images: &["sortiment/tramy1.webp", "sortiment/tramy2.webp"],
+                eshop_link: "/eshop/tramy",
+            },
+            Row {
+                title: s::prkna::title(l),
+                descriptions: vec![s::prkna::desc_1(l), s::prkna::desc_2(l)],
+                images: &["sortiment/prkna1.webp", "sortiment/prkna2.webp"],
+                eshop_link: "/eshop/prkna",
+            },
+            Row {
+                title: s::late::title(l),
+                descriptions: vec![s::late::desc_1(l), s::late::desc_2(l)],
+                images: &["sortiment/late1.webp", "sortiment/late2.webp"],
+                eshop_link: "/eshop/late",
+            },
+            Row {
+                title: s::fosny::title(l),
+                descriptions: vec![s::fosny::desc_1(l), s::fosny::desc_2(l)],
+                images: &["sortiment/fosny1.webp", "sortiment/fosny2.webp"],
+                eshop_link: "/eshop/fosny",
+            },
         ],
         true,
         false,
@@ -211,7 +251,12 @@ pub fn TruhlarskeRezivoPage() -> impl IntoView {
     category_page(
         t::meta::truhlarske_rezivo::title(l),
         t::meta::truhlarske_rezivo::description(l),
-        vec![Row { title: s::fosny::title(l), descriptions: vec![s::fosny::desc_1(l)], images: &["sortiment/fosny3.webp", "sortiment/fosny1.webp"], eshop_link: "/eshop/fosny" }],
+        vec![Row {
+            title: s::fosny::title(l),
+            descriptions: vec![s::fosny::desc_1(l)],
+            images: &["sortiment/fosny3.webp", "sortiment/fosny1.webp"],
+            eshop_link: "/eshop/fosny",
+        }],
         true,
         false,
     )
@@ -243,9 +288,24 @@ pub fn VyrobniZbytkyPage() -> impl IntoView {
         t::meta::vyrobni_zbytky::title(l),
         t::meta::vyrobni_zbytky::description(l),
         vec![
-            Row { title: s::odkory::title(l), descriptions: vec![s::odkory::desc_1(l)], images: &["sortiment/odrezky1.webp", "sortiment/odrezky2.webp"], eshop_link: "/eshop/odkory" },
-            Row { title: s::stepka::title(l), descriptions: vec![s::stepka::desc_1(l)], images: &["sortiment/stepka1.webp", "sortiment/stepka2.webp"], eshop_link: "/eshop/stepka" },
-            Row { title: s::piliny::title(l), descriptions: vec![s::piliny::desc_1(l)], images: &["sortiment/piliny1.webp", "sortiment/piliny2.webp"], eshop_link: "/eshop/piliny" },
+            Row {
+                title: s::odkory::title(l),
+                descriptions: vec![s::odkory::desc_1(l)],
+                images: &["sortiment/odrezky1.webp", "sortiment/odrezky2.webp"],
+                eshop_link: "/eshop/odkory",
+            },
+            Row {
+                title: s::stepka::title(l),
+                descriptions: vec![s::stepka::desc_1(l)],
+                images: &["sortiment/stepka1.webp", "sortiment/stepka2.webp"],
+                eshop_link: "/eshop/stepka",
+            },
+            Row {
+                title: s::piliny::title(l),
+                descriptions: vec![s::piliny::desc_1(l)],
+                images: &["sortiment/piliny1.webp", "sortiment/piliny2.webp"],
+                eshop_link: "/eshop/piliny",
+            },
         ],
         true,
         false,

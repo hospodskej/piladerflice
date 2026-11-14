@@ -88,7 +88,9 @@ mod build {
                 quantity: line.quantity,
                 unit_price: v.shop.price(l, line.unit_price),
                 total: v.shop.price(l, line.total()),
-                total_excl_vat: v.shop.price(l, v.shop.vat.excl_vat(line.category, line.total(), country)),
+                total_excl_vat: v
+                    .shop
+                    .price(l, v.shop.vat.excl_vat(line.category, line.total(), country)),
             })
             .collect()
     }
@@ -105,7 +107,11 @@ mod build {
         let l = v.locale;
         let price = |amount: Czk| v.shop.price(l, amount);
         let discount = applied_discount(v);
-        let delivery = v.delivery.as_ref().filter(|_| with_estimate).map(|d| (d.place.clone(), d.quote(v.shop.czk_per_km)));
+        let delivery = v
+            .delivery
+            .as_ref()
+            .filter(|_| with_estimate)
+            .map(|d| (d.place.clone(), d.quote(v.shop.czk_per_km)));
         let vat = v.shop.breakdown(
             &v.cart,
             vat_country(v),
@@ -115,20 +121,40 @@ mod build {
         let mut rows = Vec::new();
         let row = |label: String, value: String, kind| TotalRow { label, value, kind };
         if discount.is_some() || delivery.is_some() {
-            rows.push(row(t::cart::goods_before_discount(l).into(), price(v.cart.subtotal()), RowKind::Muted));
+            rows.push(row(
+                t::cart::goods_before_discount(l).into(),
+                price(v.cart.subtotal()),
+                RowKind::Muted,
+            ));
         }
         if let Some((code, amount)) = &discount {
-            rows.push(row(t::cart::discount_line(l, code), format!("−{}", price(*amount)), RowKind::Discount));
+            rows.push(row(
+                t::cart::discount_line(l, code),
+                format!("−{}", price(*amount)),
+                RowKind::Discount,
+            ));
         }
         if let Some((place, quote)) = &delivery {
-            rows.push(row(t::delivery_estimate::cart_line(l, quote.round_trip_km(), place), format!("≈ {}", price(quote.price())), RowKind::Delivery));
+            rows.push(row(
+                t::delivery_estimate::cart_line(l, quote.round_trip_km(), place),
+                format!("≈ {}", price(quote.price())),
+                RowKind::Delivery,
+            ));
         }
         let approx = if delivery.is_some() { "≈ " } else { "" };
-        rows.push(row(t::cart::total_due(l).into(), format!("{approx}{}", price(vat.total())), RowKind::Total));
+        rows.push(row(
+            t::cart::total_due(l).into(),
+            format!("{approx}{}", price(vat.total())),
+            RowKind::Total,
+        ));
         if !compact {
             rows.extend(vat_rows(v, &vat.by_rate));
         }
-        rows.push(row(t::cart::without_vat(l).into(), price(vat.total_excl_vat()), RowKind::Muted));
+        rows.push(row(
+            t::cart::without_vat(l).into(),
+            price(vat.total_excl_vat()),
+            RowKind::Muted,
+        ));
         rows
     }
 
@@ -137,11 +163,19 @@ mod build {
         let l = v.locale;
         let mut rows: Vec<TotalRow> = by_rate
             .iter()
-            .map(|(rate, amount)| TotalRow { label: t::cart::vat_at_rate(l, rate), value: v.shop.price(l, *amount), kind: RowKind::Muted })
+            .map(|(rate, amount)| TotalRow {
+                label: t::cart::vat_at_rate(l, rate),
+                value: v.shop.price(l, *amount),
+                kind: RowKind::Muted,
+            })
             .collect();
         if by_rate.len() > 1 {
             let sum: Czk = by_rate.iter().map(|(_, a)| *a).sum();
-            rows.push(TotalRow { label: t::cart::total_vat(l).into(), value: v.shop.price(l, sum), kind: RowKind::Muted });
+            rows.push(TotalRow {
+                label: t::cart::total_vat(l).into(),
+                value: v.shop.price(l, sum),
+                kind: RowKind::Muted,
+            });
         }
         rows
     }
@@ -153,7 +187,11 @@ mod build {
             count,
             label: crate::shop::cart_label(l, count),
             lines: lines(v),
-            totals: if v.cart.is_empty() { Vec::new() } else { totals(v, true) },
+            totals: if v.cart.is_empty() {
+                Vec::new()
+            } else {
+                totals(v, true)
+            },
             empty_text: t::cart::empty(l).into(),
             view_cart_text: t::cart::view_cart(l).into(),
             view_cart_href: v.link("/kosik"),

@@ -1,7 +1,7 @@
 //! The checkout steps' forms.
 
-use super::{locale_of, Fields};
-use crate::session::{save_checkout, CHECKOUT_ERRORS, LAST_ORDER};
+use super::{Fields, locale_of};
+use crate::session::{CHECKOUT_ERRORS, LAST_ORDER, save_checkout};
 use crate::state::AppState;
 use crate::visitor::Visitor;
 use axum::extract::State;
@@ -12,10 +12,21 @@ use tower_sessions::Session;
 
 /// The last value of a field (a ticked checkbox comes after its hidden "0").
 fn last(fields: &Fields) -> impl Fn(&str) -> Option<String> + '_ {
-    |name| fields.iter().rev().find(|(k, _)| k == name).map(|(_, v)| v.clone())
+    |name| {
+        fields
+            .iter()
+            .rev()
+            .find(|(k, _)| k == name)
+            .map(|(_, v)| v.clone())
+    }
 }
 
-pub async fn update_shipping(session: Session, Extension(mut v): Extension<Visitor>, uri: Uri, Form(fields): Form<Fields>) -> Response {
+pub async fn update_shipping(
+    session: Session,
+    Extension(mut v): Extension<Visitor>,
+    uri: Uri,
+    Form(fields): Form<Fields>,
+) -> Response {
     let l = locale_of(&uri);
     if v.cart.is_empty() {
         return Redirect::to(&l.path("/kosik")).into_response();
@@ -27,7 +38,12 @@ pub async fn update_shipping(session: Session, Extension(mut v): Extension<Visit
     Redirect::to(&l.path("/kosik/udaje")).into_response()
 }
 
-pub async fn update_details(session: Session, Extension(mut v): Extension<Visitor>, uri: Uri, Form(fields): Form<Fields>) -> Response {
+pub async fn update_details(
+    session: Session,
+    Extension(mut v): Extension<Visitor>,
+    uri: Uri,
+    Form(fields): Form<Fields>,
+) -> Response {
     let l = locale_of(&uri);
     if v.cart.is_empty() {
         return Redirect::to(&l.path("/kosik")).into_response();
@@ -48,7 +64,16 @@ pub async fn confirm(
     Form(fields): Form<Fields>,
 ) -> Response {
     let l = locale_of(&uri);
-    if let Some(refused) = super::too_many_attempts(&state, &session, &ip, &crate::limits::ORDER, l, "/kosik/souhrn").await {
+    if let Some(refused) = super::too_many_attempts(
+        &state,
+        &session,
+        &ip,
+        &crate::limits::ORDER,
+        l,
+        "/kosik/souhrn",
+    )
+    .await
+    {
         return refused;
     }
     if v.cart.is_empty() {
@@ -76,10 +101,10 @@ pub async fn confirm(
             return refuse(crate::i18n::t::checkout::submit_error(l).to_owned()).await;
         }
     };
-    if let Some(user) = &v.user {
-        if let Err(e) = crate::orders::save_to_account(&state, user.id, &v.checkout).await {
-            tracing::warn!("details not kept on the account: {e}");
-        }
+    if let Some(user) = &v.user
+        && let Err(e) = crate::orders::save_to_account(&state, user.id, &v.checkout).await
+    {
+        tracing::warn!("details not kept on the account: {e}");
     }
     crate::orders::send_emails(&v, &draft, id);
     v.cart.clear();

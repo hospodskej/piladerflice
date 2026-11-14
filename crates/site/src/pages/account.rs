@@ -1,9 +1,9 @@
 //! Signing in, registering, the forgotten password and the customer's account.
 
-use super::{loaded, PageMeta};
+use super::{PageMeta, loaded};
 use crate::i18n::t;
 use crate::layout::{FlagAt, FlagCz, Layout};
-use crate::visitor::{visitor, Visitor};
+use crate::visitor::{Visitor, visitor};
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -11,7 +11,10 @@ use serde::{Deserialize, Serialize};
 fn no_store() {
     #[cfg(feature = "ssr")]
     if let Some(response) = use_context::<leptos_axum::ResponseOptions>() {
-        response.insert_header(axum::http::header::CACHE_CONTROL, axum::http::HeaderValue::from_static("no-store"));
+        response.insert_header(
+            axum::http::header::CACHE_CONTROL,
+            axum::http::HeaderValue::from_static("no-store"),
+        );
     }
 }
 
@@ -141,8 +144,12 @@ pub fn ForgotPasswordPage() -> impl IntoView {
 pub async fn load_reset() -> Result<Option<String>, ServerFnError> {
     let session: tower_sessions::Session = leptos_axum::extract().await?;
     let state = expect_context::<crate::state::AppState>();
-    let Some(token) = crate::forms::auth::reset_token(&session).await else { return Ok(None) };
-    Ok(crate::forms::auth::reset_user(&state, &token).await.map(|(_, email)| email))
+    let Some(token) = crate::forms::auth::reset_token(&session).await else {
+        return Ok(None);
+    };
+    Ok(crate::forms::auth::reset_user(&state, &token)
+        .await
+        .map(|(_, email)| email))
 }
 
 #[component]
@@ -201,11 +208,18 @@ pub async fn load_account() -> Result<Option<AccountContent>, ServerFnError> {
     let Some(user) = &v.user else { return Ok(None) };
     let db = &expect_context::<crate::state::AppState>().db;
     let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
-    let since = sqlx::query_scalar!("SELECT created_at FROM users WHERE id = ?", user.id).fetch_one(db).await.map_err(err)?;
+    let since = sqlx::query_scalar!("SELECT created_at FROM users WHERE id = ?", user.id)
+        .fetch_one(db)
+        .await
+        .map_err(err)?;
     let date = |iso: &str| {
         let date = iso.get(..10).unwrap_or_default();
         let mut parts = date.split('-');
-        let (y, m, d) = (parts.next().unwrap_or_default(), parts.next().unwrap_or_default(), parts.next().unwrap_or_default());
+        let (y, m, d) = (
+            parts.next().unwrap_or_default(),
+            parts.next().unwrap_or_default(),
+            parts.next().unwrap_or_default(),
+        );
         format!("{d}.{m}.{y}")
     };
     let orders = sqlx::query!("SELECT id, created_at, items, total_czk FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT 10", user.id)
@@ -223,15 +237,25 @@ pub async fn load_account() -> Result<Option<AccountContent>, ServerFnError> {
             }
         })
         .collect();
-    Ok(Some(AccountContent { since: date(&since), orders }))
+    Ok(Some(AccountContent {
+        since: date(&since),
+        orders,
+    }))
 }
 
 /// The profile picture, or the e-mail's first letter.
 fn avatar(v: &Visitor) -> AnyView {
     let user = v.user.as_ref();
     match user.and_then(|u| u.avatar.clone()) {
-        Some(src) => view! { <img src=src alt=t::auth::avatar_alt(v.locale) width="64" height="64"/> }.into_any(),
-        None => user.and_then(|u| u.email.chars().next()).map(|c| c.to_uppercase().to_string()).unwrap_or_default().into_any(),
+        Some(src) => {
+            view! { <img src=src alt=t::auth::avatar_alt(v.locale) width="64" height="64"/> }
+                .into_any()
+        }
+        None => user
+            .and_then(|u| u.email.chars().next())
+            .map(|c| c.to_uppercase().to_string())
+            .unwrap_or_default()
+            .into_any(),
     }
 }
 
@@ -245,8 +269,12 @@ pub fn AccountPage() -> impl IntoView {
     }
     let body = loaded(load_account(), move |content: Option<AccountContent>| {
         let v = visitor();
-        let Some(content) = content else { return ().into_any() };
-        let Some(user) = v.user.clone() else { return ().into_any() };
+        let Some(content) = content else {
+            return ().into_any();
+        };
+        let Some(user) = v.user.clone() else {
+            return ().into_any();
+        };
         let count = content.orders.len();
         view! {
             <main class="main">
@@ -354,15 +382,26 @@ fn PhonePrefix(prefix: String, label: String) -> impl IntoView {
     let _ = window_event_listener(leptos::ev::click, move |e| {
         use wasm_bindgen::JsCast;
         let node = e.target().and_then(|t| t.dyn_into::<web_sys::Node>().ok());
-        if !root.get_untracked().is_some_and(|r| r.contains(node.as_ref())) {
+        if !root
+            .get_untracked()
+            .is_some_and(|r| r.contains(node.as_ref()))
+        {
             open.set(false);
         }
     });
-    let flag = move |p: &str| if p == "+43" { view! { <FlagAt/> }.into_any() } else { view! { <FlagCz/> }.into_any() };
-    let option = move |value: &'static str| view! {
-        <div class="phone-prefix-option" data-value=value on:click=move |e| { e.stop_propagation(); chosen.set(value.to_owned()); open.set(false); }>
-            {flag(value)}<span>{value}</span>
-        </div>
+    let flag = move |p: &str| {
+        if p == "+43" {
+            view! { <FlagAt/> }.into_any()
+        } else {
+            view! { <FlagCz/> }.into_any()
+        }
+    };
+    let option = move |value: &'static str| {
+        view! {
+            <div class="phone-prefix-option" data-value=value on:click=move |e| { e.stop_propagation(); chosen.set(value.to_owned()); open.set(false); }>
+                {flag(value)}<span>{value}</span>
+            </div>
+        }
     };
     view! {
         <div class="phone-prefix-dropdown" node_ref=root>
@@ -409,13 +448,22 @@ pub fn AccountEditPage() -> impl IntoView {
     let p = user.profile.clone();
     let val = |o: &Option<String>| o.clone().unwrap_or_default();
     let phone = p.phone.clone().unwrap_or_default();
-    let prefix = ["+420", "+43"].into_iter().find(|x| phone.starts_with(x)).unwrap_or("+420");
-    let number = phone.strip_prefix(prefix).unwrap_or(&phone).trim().to_owned();
-    let field = move |name: &'static str, label: &'static str, value: String, wide: bool| view! {
-        <div class=if wide { "form-group form-group-wide" } else { "form-group" }>
-            <label for=format!("user_{name}")>{label}</label>
-            <input type="text" name=format!("user[{name}]") id=format!("user_{name}") value=value/>
-        </div>
+    let prefix = ["+420", "+43"]
+        .into_iter()
+        .find(|x| phone.starts_with(x))
+        .unwrap_or("+420");
+    let number = phone
+        .strip_prefix(prefix)
+        .unwrap_or(&phone)
+        .trim()
+        .to_owned();
+    let field = move |name: &'static str, label: &'static str, value: String, wide: bool| {
+        view! {
+            <div class=if wide { "form-group form-group-wide" } else { "form-group" }>
+                <label for=format!("user_{name}")>{label}</label>
+                <input type="text" name=format!("user[{name}]") id=format!("user_{name}") value=value/>
+            </div>
+        }
     };
     let country = move |name: &'static str, value: Option<String>| {
         let at = value.as_deref() == Some("at");
@@ -429,13 +477,15 @@ pub fn AccountEditPage() -> impl IntoView {
             </div>
         }
     };
-    let checkbox = move |name: &'static str, checked: bool, label: &'static str| view! {
-        <label class="custom-checkbox-label checkout-checkbox">
-            <input type="hidden" name=format!("user[{name}]") value="0"/>
-            <input type="checkbox" name=format!("user[{name}]") value="1" checked=checked/>
-            <span class="custom-checkbox"></span>
-            <span>{label}</span>
-        </label>
+    let checkbox = move |name: &'static str, checked: bool, label: &'static str| {
+        view! {
+            <label class="custom-checkbox-label checkout-checkbox">
+                <input type="hidden" name=format!("user[{name}]") value="0"/>
+                <input type="checkbox" name=format!("user[{name}]") value="1" checked=checked/>
+                <span class="custom-checkbox"></span>
+                <span>{label}</span>
+            </label>
+        }
     };
     let body = view! {
         <main class="main">

@@ -2,19 +2,30 @@
 //! (firewood grid, lumber cards, simple variants).
 
 use super::home::Bestseller;
-use super::{loaded, PageMeta};
+use super::{PageMeta, loaded};
 use crate::cart_islands::{AddTexts, AddToCart};
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use crate::layout::{Crumbs, Layout};
-use crate::variant_filter::{filter_texts, FilterGroup, FilterPanel};
-use crate::visitor::{visitor, Visitor};
+use crate::variant_filter::{FilterGroup, FilterPanel, filter_texts};
+use crate::visitor::{Visitor, visitor};
 use leptos::prelude::*;
 use leptos_router::hooks::use_params_map;
 use serde::{Deserialize, Serialize};
 
 /// Shop order when nothing has sold yet: the fallback for "Nejprodávanější".
 #[cfg(feature = "ssr")]
-const BESTSELLER_FALLBACK: [&str; 10] = ["buk", "dub", "smrk", "tramy", "fosny", "late", "piliny", "odkory", "stepka", "okrasne_kamenivo"];
+const BESTSELLER_FALLBACK: [&str; 10] = [
+    "buk",
+    "dub",
+    "smrk",
+    "tramy",
+    "fosny",
+    "late",
+    "piliny",
+    "odkory",
+    "stepka",
+    "okrasne_kamenivo",
+];
 const CATEGORIES: [&str; 4] = ["palivove", "rezivo", "zbytky", "kamenivo"];
 
 /// A query parameter of the current address.
@@ -22,7 +33,11 @@ fn param(v: &Visitor, name: &str) -> Option<String> {
     v.query
         .as_deref()?
         .split('&')
-        .find_map(|pair| pair.strip_prefix(name)?.strip_prefix('=').map(|value| value.replace('+', " ")))
+        .find_map(|pair| {
+            pair.strip_prefix(name)?
+                .strip_prefix('=')
+                .map(|value| value.replace('+', " "))
+        })
         .filter(|value| !value.is_empty())
 }
 
@@ -30,15 +45,25 @@ fn param(v: &Visitor, name: &str) -> Option<String> {
 pub async fn load_eshop() -> Result<Vec<Bestseller>, ServerFnError> {
     let v = visitor();
     let db = &expect_context::<crate::state::AppState>().db;
-    let category = param(&v, "category").filter(|c| CATEGORIES.contains(&c.as_str())).unwrap_or_else(|| "palivove".into());
+    let category = param(&v, "category")
+        .filter(|c| CATEGORIES.contains(&c.as_str()))
+        .unwrap_or_else(|| "palivove".into());
     let hardness = match param(&v, "wood").as_deref() {
         Some("tvrde") => Some("hard"),
         Some("mekke") => Some("soft"),
         _ => None,
     };
-    let fallback: &[&str] = if param(&v, "sort").as_deref() == Some("nejprodavanejsi") { &BESTSELLER_FALLBACK } else { &[] };
-    let mut products = crate::catalog::bestsellers(db, &v, fallback).await.map_err(|e| ServerFnError::new(e.to_string()))?;
-    products.retain(|p| p.category == category && hardness.is_none_or(|h| p.hardness.as_deref() == Some(h)));
+    let fallback: &[&str] = if param(&v, "sort").as_deref() == Some("nejprodavanejsi") {
+        &BESTSELLER_FALLBACK
+    } else {
+        &[]
+    };
+    let mut products = crate::catalog::bestsellers(db, &v, fallback)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?;
+    products.retain(|p| {
+        p.category == category && hardness.is_none_or(|h| p.hardness.as_deref() == Some(h))
+    });
     if fallback.is_empty() {
         // "Doporučujeme" is the order set in the admin.
         products.sort_by_key(|p| (p.position, p.id));
@@ -74,23 +99,51 @@ pub fn EshopPage() -> impl IntoView {
     let v = visitor();
     let l = v.locale;
     let category_param = param(&v, "category");
-    let category = category_param.clone().filter(|c| CATEGORIES.contains(&c.as_str())).unwrap_or_else(|| "palivove".into());
+    let category = category_param
+        .clone()
+        .filter(|c| CATEGORIES.contains(&c.as_str()))
+        .unwrap_or_else(|| "palivove".into());
     let (title, description) = match category.as_str() {
-        "rezivo" => (t::meta::eshop_rezivo::title(l), t::meta::eshop_rezivo::description(l)),
-        "zbytky" => (t::meta::eshop_zbytky::title(l), t::meta::eshop_zbytky::description(l)),
-        "kamenivo" => (t::meta::eshop_kamenivo::title(l), t::meta::eshop_kamenivo::description(l)),
-        _ => (t::meta::eshop_palivove::title(l), t::meta::eshop_palivove::description(l)),
+        "rezivo" => (
+            t::meta::eshop_rezivo::title(l),
+            t::meta::eshop_rezivo::description(l),
+        ),
+        "zbytky" => (
+            t::meta::eshop_zbytky::title(l),
+            t::meta::eshop_zbytky::description(l),
+        ),
+        "kamenivo" => (
+            t::meta::eshop_kamenivo::title(l),
+            t::meta::eshop_kamenivo::description(l),
+        ),
+        _ => (
+            t::meta::eshop_palivove::title(l),
+            t::meta::eshop_palivove::description(l),
+        ),
     };
     // The links keep the other choices, as the old ones did (empty when unset).
     let raw_category = category_param.unwrap_or_default();
     let wood = param(&v, "wood");
     let sort = param(&v, "sort");
-    let (wood_q, sort_q) = (wood.clone().unwrap_or_default(), sort.clone().unwrap_or_default());
-    let is = |current: &Option<String>, value: &str, default: bool| current.as_deref() == Some(value) || (default && current.is_none());
-    let category_now = if raw_category.is_empty() { None } else { Some(raw_category.clone()) };
+    let (wood_q, sort_q) = (
+        wood.clone().unwrap_or_default(),
+        sort.clone().unwrap_or_default(),
+    );
+    let is = |current: &Option<String>, value: &str, default: bool| {
+        current.as_deref() == Some(value) || (default && current.is_none())
+    };
+    let category_now = if raw_category.is_empty() {
+        None
+    } else {
+        Some(raw_category.clone())
+    };
     use t::eshop::index as e;
     let link = |href: String, text: &'static str, class: &'static str, active: bool| {
-        let class = if active { format!("{class} active") } else { class.to_owned() };
+        let class = if active {
+            format!("{class} active")
+        } else {
+            class.to_owned()
+        };
         view! { <a href=v.link(&href) class=class>{text}</a> }
     };
     let category_links = [
@@ -100,22 +153,50 @@ pub fn EshopPage() -> impl IntoView {
         ("kamenivo", e::cat_kamenivo(l), false),
     ]
     .into_iter()
-    .map(|(value, text, default)| link(format!("/eshop?category={value}&sort={sort_q}"), text, "btn-filter", is(&category_now, value, default)))
+    .map(|(value, text, default)| {
+        link(
+            format!("/eshop?category={value}&sort={sort_q}"),
+            text,
+            "btn-filter",
+            is(&category_now, value, default),
+        )
+    })
     .collect_view();
     let wood_links = (category == "palivove").then(|| {
-        let links = [("vse", e::wood_all(l), true), ("tvrde", e::wood_hard(l), false), ("mekke", e::wood_soft(l), false)]
-            .into_iter()
-            .map(|(value, text, default)| link(format!("/eshop?category={raw_category}&wood={value}&sort={sort_q}"), text, "btn-filter btn-filter-sm", is(&wood, value, default)))
-            .collect_view();
+        let links = [
+            ("vse", e::wood_all(l), true),
+            ("tvrde", e::wood_hard(l), false),
+            ("mekke", e::wood_soft(l), false),
+        ]
+        .into_iter()
+        .map(|(value, text, default)| {
+            link(
+                format!("/eshop?category={raw_category}&wood={value}&sort={sort_q}"),
+                text,
+                "btn-filter btn-filter-sm",
+                is(&wood, value, default),
+            )
+        })
+        .collect_view();
         view! {
             <h3 class="mt-40">{e::wood_type_title(l)}</h3>
             <div class="filter-group">{links}</div>
         }
     });
-    let sort_links = [("doporucujeme", e::sort_recommended(l), true), ("nejprodavanejsi", e::sort_bestsellers(l), false)]
-        .into_iter()
-        .map(|(value, text, default)| link(format!("/eshop?category={raw_category}&wood={wood_q}&sort={value}"), text, "btn-sort", is(&sort, value, default)))
-        .collect_view();
+    let sort_links = [
+        ("doporucujeme", e::sort_recommended(l), true),
+        ("nejprodavanejsi", e::sort_bestsellers(l), false),
+    ]
+    .into_iter()
+    .map(|(value, text, default)| {
+        link(
+            format!("/eshop?category={raw_category}&wood={wood_q}&sort={value}"),
+            text,
+            "btn-sort",
+            is(&sort, value, default),
+        )
+    })
+    .collect_view();
     view! {
         <PageMeta title=title.to_owned() description=description keep_query=vec!["category"]/>
         <Layout>
@@ -184,7 +265,7 @@ pub fn DeliveryNote() -> impl IntoView {
         Some(estimate) => {
             let quote = estimate.quote(v.shop.czk_per_km);
             view! {
-                <p class="delivery-estimate-result" inner_html=d::result(l, quote.one_way_km, &estimate.place, &v.shop.price(l, quote.price()), &rate, quote.round_trip_km()).into_string()></p>
+                <p class="delivery-estimate-result" inner_html=d::result(l, quote.one_way_km, &estimate.place, v.shop.price(l, quote.price()), &rate, quote.round_trip_km()).into_string()></p>
                 <p class="delivery-estimate-hint">{d::result_hint(l)}</p>
                 <form class="button_to" method="post" action={v.link("/doprava-odhad/zrusit")}>
                     <button class="delivery-estimate-change" type="submit">{d::change(l)}</button>
@@ -193,7 +274,18 @@ pub fn DeliveryNote() -> impl IntoView {
             .into_any()
         }
         None => {
-            let country = v.user.as_ref().and_then(|u| u.billing_country.clone()).filter(|c| !c.is_empty()).unwrap_or_else(|| if l == Locale::De { "at".into() } else { "cz".into() });
+            let country = v
+                .user
+                .as_ref()
+                .and_then(|u| u.billing_country.clone())
+                .filter(|c| !c.is_empty())
+                .unwrap_or_else(|| {
+                    if l == Locale::De {
+                        "at".into()
+                    } else {
+                        "cz".into()
+                    }
+                });
             view! {
                 <p inner_html=t::shared::delivery_note(l, &rate).into_string()></p>
                 <form action={v.link("/doprava-odhad")} method="post" class="delivery-estimate-form">
@@ -280,7 +372,10 @@ pub async fn load_product(key: String) -> Result<Option<Product>, ServerFnError>
     else {
         return Ok(None);
     };
-    let category: domain::Category = p.category.parse().map_err(|_| ServerFnError::new("bad category"))?;
+    let category: domain::Category = p
+        .category
+        .parse()
+        .map_err(|_| ServerFnError::new("bad category"))?;
     let text = |cs: Option<&str>, de: Option<&str>| tr(l, cs.unwrap_or_default(), de).to_owned();
     let variants = sqlx::query!(
         r#"SELECT id AS "id!", price_czk, in_stock, stacked, variant_group, length_label, amount_value, grade, grade_de,
@@ -309,7 +404,9 @@ pub async fn load_product(key: String) -> Result<Option<Product>, ServerFnError>
     })
     .collect();
     // Four others, picked at random each time.
-    let mut others = crate::catalog::bestsellers(db, &v, &[]).await.map_err(err)?;
+    let mut others = crate::catalog::bestsellers(db, &v, &[])
+        .await
+        .map_err(err)?;
     others.retain(|o| o.key != p.key);
     {
         use rand::seq::SliceRandom;
@@ -380,10 +477,18 @@ fn ProductView(product: Product) -> impl IntoView {
     let v = visitor();
     let l = v.locale;
     let title = product.title.clone();
-    let meta_title = [product.title.as_str(), product.type_label.as_str()].into_iter().filter(|s| !s.is_empty()).collect::<Vec<_>>().join(" – ");
+    let meta_title = [product.title.as_str(), product.type_label.as_str()]
+        .into_iter()
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join(" – ");
     let description = {
         let plain = strip_tags(&product.description);
-        if plain.trim().is_empty() { t::meta::product_fallback(l, &product.title) } else { plain }
+        if plain.trim().is_empty() {
+            t::meta::product_fallback(l, &product.title)
+        } else {
+            plain
+        }
     };
     // E-shop › category › product (the category is left out when it's the product's own name).
     let category_name = match product.category.as_str() {
@@ -394,13 +499,20 @@ fn ProductView(product: Product) -> impl IntoView {
     };
     let mut crumbs = vec![(t::breadcrumbs::eshop(l).to_owned(), "/eshop".to_owned())];
     if category_name != title {
-        crumbs.push((category_name.to_owned(), format!("/eshop?category={}", product.category)));
+        crumbs.push((
+            category_name.to_owned(),
+            format!("/eshop?category={}", product.category),
+        ));
     }
     crumbs.push((title.clone(), "#".to_owned()));
     provide_context(Crumbs(crumbs));
 
     let intro = {
-        let alt = if product.template == "firewood" { product.image_alt.clone() } else { title.clone() };
+        let alt = if product.template == "firewood" {
+            product.image_alt.clone()
+        } else {
+            title.clone()
+        };
         let firewood = product.template == "firewood";
         let stock = match product.template.as_str() {
             "firewood" => Some(t::eshop::firewood::stock_status(l)),
@@ -474,15 +586,29 @@ fn spec_rows(labels: Vec<&'static str>, values: Vec<String>) -> impl IntoView {
 
 /// The leading number of "33 cm" (for sorting and the filter): 33.
 fn leading_number(label: &str) -> i64 {
-    label.chars().filter(|c| !c.is_whitespace()).take_while(char::is_ascii_digit).collect::<String>().parse().unwrap_or(0)
+    label
+        .chars()
+        .filter(|c| !c.is_whitespace())
+        .take_while(char::is_ascii_digit)
+        .collect::<String>()
+        .parse()
+        .unwrap_or(0)
 }
 
 /// Firewood: loose/stacked in containers as a grid (rows of amounts ×
 /// columns of lengths), then crates.
 fn firewood_inventory(v: &Visitor, product: &Product) -> impl IntoView {
     let l = v.locale;
-    let containers: Vec<&Variant> = product.variants.iter().filter(|x| x.group.as_deref() == Some("kontejner")).collect();
-    let crates: Vec<&Variant> = product.variants.iter().filter(|x| x.group.as_deref() == Some("bedny")).collect();
+    let containers: Vec<&Variant> = product
+        .variants
+        .iter()
+        .filter(|x| x.group.as_deref() == Some("kontejner"))
+        .collect();
+    let crates: Vec<&Variant> = product
+        .variants
+        .iter()
+        .filter(|x| x.group.as_deref() == Some("bedny"))
+        .collect();
 
     // The grid: lengths in order of first appearance; each row holds the
     // n-th smallest amount of each kind (loose / stacked).
@@ -502,10 +628,10 @@ fn firewood_inventory(v: &Visitor, product: &Product) -> impl IntoView {
                 kinds.last_mut().unwrap_or_else(|| unreachable!())
             }
         };
-        if let Some(a) = x.amount {
-            if !entry.1.contains(&a) {
-                entry.1.push(a);
-            }
+        if let Some(a) = x.amount
+            && !entry.1.contains(&a)
+        {
+            entry.1.push(a);
         }
     }
     for (_, amounts) in &mut kinds {
@@ -515,7 +641,12 @@ fn firewood_inventory(v: &Visitor, product: &Product) -> impl IntoView {
     let variant_at = |row: usize, length: &str| {
         containers.iter().copied().find(|x| {
             x.length.as_deref().unwrap_or_default() == length
-                && kinds.iter().find(|(k, _)| *k == x.stacked).and_then(|(_, a)| a.get(row)).copied() == x.amount
+                && kinds
+                    .iter()
+                    .find(|(k, _)| *k == x.stacked)
+                    .and_then(|(_, a)| a.get(row))
+                    .copied()
+                    == x.amount
         })
     };
 
@@ -531,28 +662,66 @@ fn firewood_inventory(v: &Visitor, product: &Product) -> impl IntoView {
     let mut amounts: Vec<i64> = all.iter().filter_map(|x| x.amount).collect();
     amounts.sort_unstable();
     amounts.dedup();
-    let kinds_present: Vec<&str> = ["loose", "stacked"].into_iter().filter(|k| all.iter().any(|x| x.stacked == (*k == "stacked"))).collect();
+    let kinds_present: Vec<&str> = ["loose", "stacked"]
+        .into_iter()
+        .filter(|k| all.iter().any(|x| x.stacked == (*k == "stacked")))
+        .collect();
     let groups: Vec<FilterGroup> = vec![
         (
             "kind".into(),
             t::common::spec_variant(l).into(),
             kinds_present
                 .into_iter()
-                .map(|k| (k.to_owned(), None, if k == "stacked" { t::common::stacked_variant(l) } else { t::common::loose_variant(l) }.to_owned()))
+                .map(|k| {
+                    (
+                        k.to_owned(),
+                        None,
+                        if k == "stacked" {
+                            t::common::stacked_variant(l)
+                        } else {
+                            t::common::loose_variant(l)
+                        }
+                        .to_owned(),
+                    )
+                })
                 .collect(),
         ),
-        ("amount".into(), t::common::spec_amount(l).into(), amounts.iter().map(|a| (a.to_string(), Some(a.to_string()), t::common::per_m3(l).to_owned())).collect()),
+        (
+            "amount".into(),
+            t::common::spec_amount(l).into(),
+            amounts
+                .iter()
+                .map(|a| {
+                    (
+                        a.to_string(),
+                        Some(a.to_string()),
+                        t::common::per_m3(l).to_owned(),
+                    )
+                })
+                .collect(),
+        ),
         (
             "length".into(),
             t::common::spec_length(l).into(),
             filter_lengths
                 .iter()
-                .map(|len| (len.clone(), Some(leading_number(len).to_string()), len.trim_start_matches(|c: char| c.is_ascii_digit() || c.is_whitespace()).to_owned()))
+                .map(|len| {
+                    (
+                        len.clone(),
+                        Some(leading_number(len).to_string()),
+                        len.trim_start_matches(|c: char| c.is_ascii_digit() || c.is_whitespace())
+                            .to_owned(),
+                    )
+                })
                 .collect(),
         ),
     ];
 
-    let card = |x: &Variant, length: &str, stacked: bool, fallback: &'static str, alt: &'static str| {
+    let card = |x: &Variant,
+                length: &str,
+                stacked: bool,
+                fallback: &'static str,
+                alt: &'static str| {
         let kind = if stacked { "stacked" } else { "loose" };
         let amount = x.amount.map(|a| a.to_string()).unwrap_or_default();
         view! {
@@ -611,36 +780,57 @@ fn lumber_inventory(v: &Visitor, product: &Product) -> impl IntoView {
         let mut mm: Vec<i64> = product.variants.iter().filter_map(pick).collect();
         mm.sort_unstable();
         mm.dedup();
-        mm.into_iter().map(|m| (m.to_string(), Some(m.to_string()), "mm".to_owned())).collect::<Vec<_>>()
+        mm.into_iter()
+            .map(|m| (m.to_string(), Some(m.to_string()), "mm".to_owned()))
+            .collect::<Vec<_>>()
     };
     let mut lengths: Vec<String> = Vec::new();
     for x in &product.variants {
-        if let Some(len) = &x.length {
-            if !lengths.contains(len) {
-                lengths.push(len.clone());
-            }
+        if let Some(len) = &x.length
+            && !lengths.contains(len)
+        {
+            lengths.push(len.clone());
         }
     }
     lengths.sort_by_key(|len| leading_number(len));
     let length_options = lengths
         .iter()
         .map(|len| {
-            let digits: String = len.chars().take_while(|c| c.is_ascii_digit() || c.is_whitespace()).collect();
-            (len.clone(), Some(digits.trim().to_owned()).filter(|d| !d.is_empty()), len[digits.len()..].to_owned())
+            let digits: String = len
+                .chars()
+                .take_while(|c| c.is_ascii_digit() || c.is_whitespace())
+                .collect();
+            (
+                len.clone(),
+                Some(digits.trim().to_owned()).filter(|d| !d.is_empty()),
+                len[digits.len()..].to_owned(),
+            )
         })
         .collect::<Vec<_>>();
     let mut grades: Vec<(String, Option<String>, String)> = Vec::new();
     for x in &product.variants {
-        if let (Some(key), Some(grade)) = (&x.grade_key, &x.grade) {
-            if !grades.iter().any(|(k, _, _)| k == key) {
-                grades.push((key.clone(), None, grade.clone()));
-            }
+        if let (Some(key), Some(grade)) = (&x.grade_key, &x.grade)
+            && !grades.iter().any(|(k, _, _)| k == key)
+        {
+            grades.push((key.clone(), None, grade.clone()));
         }
     }
     let groups: Vec<FilterGroup> = vec![
-        ("width".into(), t::common::spec_width(l).into(), sizes(|x| x.width)),
-        ("height".into(), t::common::spec_height(l).into(), sizes(|x| x.height)),
-        ("length".into(), t::common::spec_length(l).into(), length_options),
+        (
+            "width".into(),
+            t::common::spec_width(l).into(),
+            sizes(|x| x.width),
+        ),
+        (
+            "height".into(),
+            t::common::spec_height(l).into(),
+            sizes(|x| x.height),
+        ),
+        (
+            "length".into(),
+            t::common::spec_length(l).into(),
+            length_options,
+        ),
         ("grade".into(), t::common::spec_grade(l).into(), grades),
     ]
     .into_iter()
@@ -696,7 +886,11 @@ fn lumber_inventory(v: &Visitor, product: &Product) -> impl IntoView {
 /// Simple products (by-products, stone): a card per variant.
 fn simple_inventory(v: &Visitor, product: &Product) -> impl IntoView {
     let l = v.locale;
-    let grid = if product.variants.len() <= 2 { "simple-grid-2" } else { "simple-grid-3" };
+    let grid = if product.variants.len() <= 2 {
+        "simple-grid-2"
+    } else {
+        "simple-grid-3"
+    };
     view! {
         <section class="inventory-section">
             <hr class="inventory-separator main-separator"/>

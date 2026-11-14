@@ -1,6 +1,0 @@
-<%# "Don't pay yet": the price is confirmed after the order is checked (the
-    delivery price can still change with the exact address). %>
-<div class="pay-later-notice" role="note">
-  <strong><%= t("checkout.pay_later_title") %></strong>
-  <p><%= t(order.payment_method == "bank_transfer" ? "checkout.pay_later_bank_transfer" : "checkout.pay_later_cash") %></p>
-</div>

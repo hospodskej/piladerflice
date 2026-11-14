@@ -1,7 +1,7 @@
 //! Data for search engines.
 
 use crate::i18n::t;
-use crate::layout::{EMAIL, PHONE_HREF, PHONE_2_HREF};
+use crate::layout::{EMAIL, PHONE_2_HREF, PHONE_HREF};
 use crate::pages::base_url;
 use crate::visitor::visitor;
 use leptos::prelude::*;
@@ -46,6 +46,10 @@ pub fn LocalBusinessSchema() -> impl IntoView {
         "sameAs": ["https://www.facebook.com/piladerflice/"]
     });
     // `<`, `>` and `&` escaped, so nothing in the data can end the script early.
-    let json = data.to_string().replace('<', "\\u003c").replace('>', "\\u003e").replace('&', "\\u0026");
+    let json = data
+        .to_string()
+        .replace('<', "\\u003c")
+        .replace('>', "\\u003e")
+        .replace('&', "\\u0026");
     view! { <leptos_meta::Script type_="application/ld+json">{json}</leptos_meta::Script> }
 }

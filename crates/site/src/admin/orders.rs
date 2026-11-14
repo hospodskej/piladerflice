@@ -1,6 +1,6 @@
 //! Admin: the overview, orders and inquiries.
 
-use super::{czk, when, AdminLayout, ConfirmButton};
+use super::{AdminLayout, ConfirmButton, czk, when};
 use crate::pages::loaded;
 use leptos::prelude::*;
 use leptos_router::hooks::use_params_map;
@@ -52,25 +52,53 @@ pub async fn load_dashboard() -> Result<Dashboard, ServerFnError> {
     super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
     let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
-    let products = sqlx::query_scalar!("SELECT COUNT(*) FROM catalog_products").fetch_one(db).await.map_err(err)?;
-    let orders = sqlx::query_scalar!("SELECT COUNT(*) FROM orders").fetch_one(db).await.map_err(err)?;
+    let products = sqlx::query_scalar!("SELECT COUNT(*) FROM catalog_products")
+        .fetch_one(db)
+        .await
+        .map_err(err)?;
+    let orders = sqlx::query_scalar!("SELECT COUNT(*) FROM orders")
+        .fetch_one(db)
+        .await
+        .map_err(err)?;
     // Months by Prague time.
     let now = time::OffsetDateTime::now_utc();
     let local = now.to_offset(crate::time_fmt::prague_offset(now));
     let month_start = |year: i32, month: time::Month| {
         let date = time::Date::from_calendar_date(year, month, 1).unwrap_or(local.date());
-        let start = date.midnight().assume_offset(crate::time_fmt::prague_offset(date.midnight().assume_utc()));
-        start.to_offset(time::UtcOffset::UTC).format(&time::format_description::well_known::Rfc3339).unwrap_or_default()
+        let start = date
+            .midnight()
+            .assume_offset(crate::time_fmt::prague_offset(date.midnight().assume_utc()));
+        start
+            .to_offset(time::UtcOffset::UTC)
+            .format(&time::format_description::well_known::Rfc3339)
+            .unwrap_or_default()
     };
     let this = month_start(local.year(), local.month());
-    let (prev_year, prev_month) = if local.month() == time::Month::January { (local.year() - 1, time::Month::December) } else { (local.year(), local.month().previous()) };
+    let (prev_year, prev_month) = if local.month() == time::Month::January {
+        (local.year() - 1, time::Month::December)
+    } else {
+        (local.year(), local.month().previous())
+    };
     let previous = month_start(prev_year, prev_month);
-    let this_month = sqlx::query_scalar!("SELECT COUNT(*) FROM orders WHERE created_at >= ?", this).fetch_one(db).await.map_err(err)?;
-    let last_month = sqlx::query_scalar!("SELECT COUNT(*) FROM orders WHERE created_at >= ? AND created_at < ?", previous, this)
+    let this_month = sqlx::query_scalar!("SELECT COUNT(*) FROM orders WHERE created_at >= ?", this)
         .fetch_one(db)
         .await
         .map_err(err)?;
-    Ok(Dashboard { products, orders, this_month, last_month, recent: order_rows(db, 5).await.map_err(err)? })
+    let last_month = sqlx::query_scalar!(
+        "SELECT COUNT(*) FROM orders WHERE created_at >= ? AND created_at < ?",
+        previous,
+        this
+    )
+    .fetch_one(db)
+    .await
+    .map_err(err)?;
+    Ok(Dashboard {
+        products,
+        orders,
+        this_month,
+        last_month,
+        recent: order_rows(db, 5).await.map_err(err)?,
+    })
 }
 
 #[component]
@@ -127,7 +155,9 @@ pub fn DashboardPage() -> impl IntoView {
 pub async fn load_orders() -> Result<Vec<OrderRow>, ServerFnError> {
     super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
-    order_rows(db, i64::MAX).await.map_err(|e| ServerFnError::new(e.to_string()))
+    order_rows(db, i64::MAX)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))
 }
 
 #[component]
@@ -184,10 +214,14 @@ pub struct OrderDetail {
 
 #[server(endpoint = "admin/order")]
 pub async fn load_order(id: i64) -> Result<Option<OrderDetail>, ServerFnError> {
-    use crate::i18n::{t, Locale};
+    use crate::i18n::{Locale, t};
     let v = super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
-    let Some(o) = sqlx::query!("SELECT * FROM orders WHERE id = ?", id).fetch_optional(db).await.map_err(|e| ServerFnError::new(e.to_string()))? else {
+    let Some(o) = sqlx::query!("SELECT * FROM orders WHERE id = ?", id)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?
+    else {
         return Ok(None);
     };
     let cs = Locale::Cs;
@@ -197,7 +231,12 @@ pub async fn load_order(id: i64) -> Result<Option<OrderDetail>, ServerFnError> {
         .iter()
         .map(|line| {
             let cart_line = line.as_cart_line();
-            (v.shop.line_description(cs, &cart_line), line.quantity, czk(line.unit_price_czk), czk(cart_line.total().get()))
+            (
+                v.shop.line_description(cs, &cart_line),
+                line.quantity,
+                czk(line.unit_price_czk),
+                czk(cart_line.total().get()),
+            )
         })
         .collect();
     let mut totals = Vec::new();
@@ -207,21 +246,35 @@ pub async fn load_order(id: i64) -> Result<Option<OrderDetail>, ServerFnError> {
         totals.push(format!("Zboží: {}", czk(o.subtotal_czk)));
     }
     if discounted {
-        totals.push(format!("{}: −{}", t::order_mailer::discount(cs, o.discount_code.as_deref().unwrap_or_default()), czk(o.discount_czk.unwrap_or(0))));
+        totals.push(format!(
+            "{}: −{}",
+            t::order_mailer::discount(cs, o.discount_code.as_deref().unwrap_or_default()),
+            czk(o.discount_czk.unwrap_or(0))
+        ));
     }
     if quoted {
-        totals.push(format!("{}: {}", t::order_mailer::delivery(cs, o.delivery_distance_km.unwrap_or(0)), czk(o.delivery_czk.unwrap_or(0))));
+        totals.push(format!(
+            "{}: {}",
+            t::order_mailer::delivery(cs, o.delivery_distance_km.unwrap_or(0)),
+            czk(o.delivery_czk.unwrap_or(0))
+        ));
     } else if o.shipping_method == "address" {
-        totals.push("Doprava: vzdálenost se nepodařilo spočítat, cena dopravy není v celkové ceně.".into());
+        totals.push(
+            "Doprava: vzdálenost se nepodařilo spočítat, cena dopravy není v celkové ceně.".into(),
+        );
     }
     totals.push(format!("Bez DPH: {}", czk(o.total_czk - o.vat_czk)));
     let mut by_rate: Vec<(i64, i64)> = o
         .vat_breakdown
         .as_deref()
         .and_then(|j| serde_json::from_str::<std::collections::BTreeMap<String, i64>>(j).ok())
-        .map(|m| m.into_iter().filter_map(|(r, a)| Some((r.parse().ok()?, a))).collect())
+        .map(|m| {
+            m.into_iter()
+                .filter_map(|(r, a)| Some((r.parse().ok()?, a)))
+                .collect()
+        })
         .unwrap_or_else(|| vec![(21, o.vat_czk)]);
-    by_rate.sort_by(|a, b| b.0.cmp(&a.0));
+    by_rate.sort_by_key(|b| std::cmp::Reverse(b.0));
     let vat_country = country(&Some(o.vat_country.clone().unwrap_or_else(|| "cz".into())));
     for (rate, amount) in &by_rate {
         totals.push(format!("DPH {rate} % ({vat_country}): {}", czk(*amount)));
@@ -233,14 +286,25 @@ pub async fn load_order(id: i64) -> Result<Option<OrderDetail>, ServerFnError> {
     Ok(Some(OrderDetail {
         id: o.id,
         created_at: o.created_at,
-        name: format!("{} {}", o.first_name, o.last_name).trim().to_owned(),
+        name: format!("{} {}", o.first_name, o.last_name)
+            .trim()
+            .to_owned(),
         email: o.email,
         phone: o.phone,
         newsletter: o.newsletter_opt_in != 0,
-        billing: [o.billing_street, format!("{} {}", o.billing_zip, o.billing_city), country(&Some(o.billing_country))],
-        company: (o.company_purchase != 0).then(|| [opt(o.company_name), opt(o.company_ico), opt(o.company_dic)]),
+        billing: [
+            o.billing_street,
+            format!("{} {}", o.billing_zip, o.billing_city),
+            country(&Some(o.billing_country)),
+        ],
+        company: (o.company_purchase != 0)
+            .then(|| [opt(o.company_name), opt(o.company_ico), opt(o.company_dic)]),
         delivery: (o.delivery_address_different != 0).then(|| {
-            [opt(o.delivery_street), format!("{} {}", opt(o.delivery_zip), opt(o.delivery_city)), country(&o.delivery_country)]
+            [
+                opt(o.delivery_street),
+                format!("{} {}", opt(o.delivery_zip), opt(o.delivery_city)),
+                country(&o.delivery_country),
+            ]
         }),
         pickup: o.shipping_method == "pickup",
         bank_transfer: o.payment_method == "bank_transfer",
@@ -258,7 +322,8 @@ fn lines3(lines: [String; 3]) -> impl IntoView {
 
 #[component]
 pub fn OrderPage() -> impl IntoView {
-    let id = use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()).unwrap_or(0));
+    let id = use_params_map()
+        .with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()).unwrap_or(0));
     view! {
         <AdminLayout>
             {loaded(load_order(id), |o: Option<OrderDetail>| match o {
@@ -315,7 +380,11 @@ pub fn OrderPage() -> impl IntoView {
 /// Inquiry categories and fields as the admin names them.
 #[cfg(feature = "ssr")]
 fn category_label(category: &str) -> &'static str {
-    if category == "palivove" { "Palivové dřevo" } else { "Stavební řezivo" }
+    if category == "palivove" {
+        "Palivové dřevo"
+    } else {
+        "Stavební řezivo"
+    }
 }
 
 pub fn field_label(field: &str) -> &'static str {
@@ -415,10 +484,15 @@ pub struct InquiryDetail {
 pub async fn load_inquiry(id: i64) -> Result<Option<InquiryDetail>, ServerFnError> {
     super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
-    let Some(i) = sqlx::query!("SELECT * FROM inquiries WHERE id = ?", id).fetch_optional(db).await.map_err(|e| ServerFnError::new(e.to_string()))? else {
+    let Some(i) = sqlx::query!("SELECT * FROM inquiries WHERE id = ?", id)
+        .fetch_optional(db)
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?
+    else {
         return Ok(None);
     };
-    let items: serde_json::Map<String, serde_json::Value> = serde_json::from_str(&i.items).unwrap_or_default();
+    let items: serde_json::Map<String, serde_json::Value> =
+        serde_json::from_str(&i.items).unwrap_or_default();
     let categories = crate::pages::kontakt::ROW_FIELDS
         .iter()
         .filter_map(|(category, fields)| {
@@ -426,21 +500,45 @@ pub async fn load_inquiry(id: i64) -> Result<Option<InquiryDetail>, ServerFnErro
             Some((
                 category_label(category).to_owned(),
                 fields.iter().map(|f| field_label(f).to_owned()).collect(),
-                rows.iter().map(|row| fields.iter().map(|f| row.get(*f).and_then(|v| v.as_str()).unwrap_or_default().to_owned()).collect()).collect(),
+                rows.iter()
+                    .map(|row| {
+                        fields
+                            .iter()
+                            .map(|f| {
+                                row.get(*f)
+                                    .and_then(|v| v.as_str())
+                                    .unwrap_or_default()
+                                    .to_owned()
+                            })
+                            .collect()
+                    })
+                    .collect(),
             ))
         })
         .collect();
-    let join = |parts: [Option<&str>; 2]| parts.into_iter().flatten().filter(|p| !p.is_empty()).collect::<Vec<_>>().join(" ");
-    let address = [join([i.street.as_deref(), i.house_number.as_deref()]), join([i.zip.as_deref(), i.city.as_deref()])]
-        .into_iter()
-        .filter(|p| !p.is_empty())
-        .collect::<Vec<_>>()
-        .join(", ");
+    let join = |parts: [Option<&str>; 2]| {
+        parts
+            .into_iter()
+            .flatten()
+            .filter(|p| !p.is_empty())
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
+    let address = [
+        join([i.street.as_deref(), i.house_number.as_deref()]),
+        join([i.zip.as_deref(), i.city.as_deref()]),
+    ]
+    .into_iter()
+    .filter(|p| !p.is_empty())
+    .collect::<Vec<_>>()
+    .join(", ");
     Ok(Some(InquiryDetail {
         id: i.id,
         created_at: i.created_at,
         german: i.locale == "de",
-        name: format!("{} {}", i.first_name, i.last_name).trim().to_owned(),
+        name: format!("{} {}", i.first_name, i.last_name)
+            .trim()
+            .to_owned(),
         email: i.email,
         phone: i.phone,
         address,
@@ -451,7 +549,8 @@ pub async fn load_inquiry(id: i64) -> Result<Option<InquiryDetail>, ServerFnErro
 
 #[component]
 pub fn InquiryPage() -> impl IntoView {
-    let id = use_params_map().with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()).unwrap_or(0));
+    let id = use_params_map()
+        .with_untracked(|p| p.get("id").and_then(|id| id.parse().ok()).unwrap_or(0));
     view! {
         <AdminLayout>
             {loaded(load_inquiry(id), |i: Option<InquiryDetail>| match i {
@@ -493,16 +592,23 @@ pub mod handlers {
     use super::super::handlers::{done, guard};
     use crate::state::AppState;
     use crate::visitor::Visitor;
+    use axum::Extension;
     use axum::extract::{Path, State};
     use axum::response::Response;
-    use axum::Extension;
     use tower_sessions::Session;
 
-    pub async fn delete(State(state): State<AppState>, session: Session, Extension(v): Extension<Visitor>, Path(id): Path<i64>) -> Response {
+    pub async fn delete(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Path(id): Path<i64>,
+    ) -> Response {
         if let Err(r) = guard(&session, &v).await {
             return r;
         }
-        let _ = sqlx::query!("DELETE FROM orders WHERE id = ?", id).execute(&state.db).await;
+        let _ = sqlx::query!("DELETE FROM orders WHERE id = ?", id)
+            .execute(&state.db)
+            .await;
         done(&session, "/admin/orders", "Objednávka byla smazána.").await
     }
 }

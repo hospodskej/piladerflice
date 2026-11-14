@@ -1,14 +1,14 @@
 //! The inquiry form on the contact page.
 
-use super::{field, locale_of, redirect_with, Fields};
-use crate::i18n::{t, Locale};
+use super::{Fields, field, locale_of, redirect_with};
+use crate::i18n::{Locale, t};
 use crate::pages::kontakt::ROW_FIELDS;
 use crate::state::AppState;
 use crate::visitor::Flash;
+use axum::Form;
 use axum::extract::State;
 use axum::http::Uri;
 use axum::response::Response;
-use axum::Form;
 use serde_json::{Map, Value};
 use tower_sessions::Session;
 
@@ -21,16 +21,34 @@ pub fn items_snapshot(fields: &Fields) -> Map<String, Value> {
             .iter()
             .map(|name| {
                 let key = format!("items[{category}][{name}][]");
-                (*name, fields.iter().filter(|(k, _)| *k == key).map(|(_, v)| v.as_str()).collect())
+                (
+                    *name,
+                    fields
+                        .iter()
+                        .filter(|(k, _)| *k == key)
+                        .map(|(_, v)| v.as_str())
+                        .collect(),
+                )
             })
             .collect();
-        let row_count = columns.iter().map(|(_, values)| values.len()).max().unwrap_or(0);
+        let row_count = columns
+            .iter()
+            .map(|(_, values)| values.len())
+            .max()
+            .unwrap_or(0);
         let rows: Vec<Value> = (0..row_count)
             .map(|i| {
                 Value::Object(
                     columns
                         .iter()
-                        .map(|(name, values)| ((*name).to_owned(), values.get(i).map_or(Value::Null, |v| Value::String((*v).to_owned()))))
+                        .map(|(name, values)| {
+                            (
+                                (*name).to_owned(),
+                                values
+                                    .get(i)
+                                    .map_or(Value::Null, |v| Value::String((*v).to_owned())),
+                            )
+                        })
                         .collect(),
                 )
             })
@@ -58,16 +76,38 @@ pub async fn create(
     Form(fields): Form<Fields>,
 ) -> Response {
     let l = locale_of(&uri);
-    if let Some(refused) = super::too_many_attempts(&state, &session, &ip, &crate::limits::INQUIRY, l, "/kontakt#kalkulace").await {
+    if let Some(refused) = super::too_many_attempts(
+        &state,
+        &session,
+        &ip,
+        &crate::limits::INQUIRY,
+        l,
+        "/kontakt#kalkulace",
+    )
+    .await
+    {
         return refused;
     }
     let items = items_snapshot(&fields);
     let required = ["jmeno", "prijmeni", "email", "telefon"].map(|name| field(&fields, name));
-    let ([Some(first_name), Some(last_name), Some(email), Some(phone)], false) = (required, items.is_empty()) else {
-        return redirect_with(&session, l, "/kontakt#kalkulace", Some(Flash::Alert(t::kontakt::inquiry_error(l).to_owned()))).await;
+    let ([Some(first_name), Some(last_name), Some(email), Some(phone)], false) =
+        (required, items.is_empty())
+    else {
+        return redirect_with(
+            &session,
+            l,
+            "/kontakt#kalkulace",
+            Some(Flash::Alert(t::kontakt::inquiry_error(l).to_owned())),
+        )
+        .await;
     };
-    let (street, house_number, city, zip, notes) =
-        (field(&fields, "ulice"), field(&fields, "cislo_popisne"), field(&fields, "mesto"), field(&fields, "psc"), field(&fields, "poznamky"));
+    let (street, house_number, city, zip, notes) = (
+        field(&fields, "ulice"),
+        field(&fields, "cislo_popisne"),
+        field(&fields, "mesto"),
+        field(&fields, "psc"),
+        field(&fields, "poznamky"),
+    );
     let items_json = Value::Object(items.clone()).to_string();
     let locale = l.as_str();
     let saved = sqlx::query_scalar!(
@@ -81,7 +121,13 @@ pub async fn create(
         Ok(id) => id,
         Err(e) => {
             tracing::error!("inquiry not saved: {e}");
-            return redirect_with(&session, l, "/kontakt#kalkulace", Some(Flash::Alert(t::kontakt::inquiry_error(l).to_owned()))).await;
+            return redirect_with(
+                &session,
+                l,
+                "/kontakt#kalkulace",
+                Some(Flash::Alert(t::kontakt::inquiry_error(l).to_owned())),
+            )
+            .await;
         }
     };
 
@@ -89,8 +135,16 @@ pub async fn create(
     if let Some(to) = crate::mail::notification_address(true) {
         let full_name = format!("{first_name} {last_name}");
         let address = [
-            [street, house_number].into_iter().flatten().collect::<Vec<_>>().join(" "),
-            [zip, city].into_iter().flatten().collect::<Vec<_>>().join(" "),
+            [street, house_number]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>()
+                .join(" "),
+            [zip, city]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>()
+                .join(" "),
         ]
         .into_iter()
         .filter(|p| !p.is_empty())
@@ -99,16 +153,28 @@ pub async fn create(
         let mut text = format!(
             "NOVÁ POPTÁVKA #{id}\n{} (jazyk formuláře: {})\n\nKONTAKT\nJméno: {full_name}\nE-mail: {email}\nTelefon: {phone}\n",
             crate::time_fmt::now_cz(),
-            if l == Locale::De { "němčina" } else { "čeština" }
+            if l == Locale::De {
+                "němčina"
+            } else {
+                "čeština"
+            }
         );
         if !address.is_empty() {
             text.push_str(&format!("Adresa: {address}\n"));
         }
         for (category, names) in ROW_FIELDS {
-            let Some(Value::Array(rows)) = items.get(category) else { continue };
-            text.push_str(&format!("\nPOŽADOVANÉ POLOŽKY – {}\n", category_label(category).to_uppercase()));
+            let Some(Value::Array(rows)) = items.get(category) else {
+                continue;
+            };
+            text.push_str(&format!(
+                "\nPOŽADOVANÉ POLOŽKY – {}\n",
+                category_label(category).to_uppercase()
+            ));
             for row in rows {
-                let cells: Vec<&str> = names.iter().map(|n| row.get(*n).and_then(Value::as_str).unwrap_or_default()).collect();
+                let cells: Vec<&str> = names
+                    .iter()
+                    .map(|n| row.get(*n).and_then(Value::as_str).unwrap_or_default())
+                    .collect();
                 text.push_str(&format!("- {}\n", cells.join(" | ")));
             }
         }
@@ -122,7 +188,13 @@ pub async fn create(
             html: None,
         }));
     }
-    redirect_with(&session, l, "/kontakt#kalkulace", Some(Flash::Notice(t::kontakt::inquiry_success(l).to_owned()))).await
+    redirect_with(
+        &session,
+        l,
+        "/kontakt#kalkulace",
+        Some(Flash::Notice(t::kontakt::inquiry_success(l).to_owned())),
+    )
+    .await
 }
 
 #[cfg(test)]

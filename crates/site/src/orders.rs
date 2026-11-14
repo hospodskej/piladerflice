@@ -2,7 +2,7 @@
 //! page and the order itself), saving it with its discount code, and the
 //! e-mails to the customer and the sawmill.
 
-use crate::i18n::{t, Locale};
+use crate::i18n::{Locale, t};
 use crate::state::AppState;
 use crate::visitor::Visitor;
 use domain::cart::{CartLine, Spec};
@@ -92,12 +92,20 @@ pub async fn draft(state: &AppState, v: &Visitor) -> OrderDraft {
     let discount = crate::cart_view::applied_discount(v);
     let discount_problem = v.discount.as_ref().and_then(|d| {
         d.unusable_reason(v.cart.subtotal(), time::OffsetDateTime::now_utc().date())
-            .map(|reason| t::cart::discount_not_applied(v.locale, &d.code, &crate::forms::cart::discount_reason(v, reason, d.min_order)))
+            .map(|reason| {
+                t::cart::discount_not_applied(
+                    v.locale,
+                    &d.code,
+                    crate::forms::cart::discount_reason(v, reason, d.min_order),
+                )
+            })
     });
     let vat_country = crate::cart_view::vat_country(v);
     let discount_czk = discount.as_ref().map_or(Czk::ZERO, |(_, a)| *a);
     let delivery_czk = delivery.map_or(Czk::ZERO, DeliveryQuote::price);
-    let vat = v.shop.breakdown(&v.cart, vat_country, discount_czk, delivery_czk);
+    let vat = v
+        .shop
+        .breakdown(&v.cart, vat_country, discount_czk, delivery_czk);
     OrderDraft {
         lines: v.cart.lines.iter().map(OrderLine::from).collect(),
         subtotal: v.cart.subtotal(),
@@ -126,7 +134,10 @@ pub async fn place(state: &AppState, v: &Visitor, d: &OrderDraft) -> Result<i64,
         return Err(PlaceError::Refused(problem.clone()));
     }
     let c = &v.checkout;
-    let (shipping, payment) = (c.shipping.unwrap_or(Shipping::Pickup).as_str(), c.payment.unwrap_or(Payment::Cash).as_str());
+    let (shipping, payment) = (
+        c.shipping.unwrap_or(Shipping::Pickup).as_str(),
+        c.payment.unwrap_or(Payment::Cash).as_str(),
+    );
     let items = serde_json::to_string(&d.lines).unwrap_or_else(|_| "[]".into());
     let user_id = v.user.as_ref().map(|u| u.id);
     let locale = v.locale.as_str();
@@ -137,7 +148,10 @@ pub async fn place(state: &AppState, v: &Visitor, d: &OrderDraft) -> Result<i64,
     let delivery_czk = d.delivery.map(|q| q.price().get());
     let vat_breakdown = d.vat.to_json();
     let vat_country = d.vat_country.as_str();
-    let (company, different) = (i64::from(c.company_purchase), i64::from(c.delivery_address_different));
+    let (company, different) = (
+        i64::from(c.company_purchase),
+        i64::from(c.delivery_address_different),
+    );
     let newsletter = i64::from(c.newsletter_opt_in);
 
     let mut tx = state.db.begin().await?;
@@ -167,7 +181,11 @@ pub async fn place(state: &AppState, v: &Visitor, d: &OrderDraft) -> Result<i64,
         .rows_affected();
         if counted != 1 {
             tx.rollback().await?;
-            return Err(PlaceError::Refused(t::cart::discount_not_applied(v.locale, code, t::cart::discount_errors::used_up(v.locale))));
+            return Err(PlaceError::Refused(t::cart::discount_not_applied(
+                v.locale,
+                code,
+                t::cart::discount_errors::used_up(v.locale),
+            )));
         }
     }
     tx.commit().await?;
@@ -175,8 +193,15 @@ pub async fn place(state: &AppState, v: &Visitor, d: &OrderDraft) -> Result<i64,
 }
 
 /// Keeps the customer's details on their account for next time.
-pub async fn save_to_account(state: &AppState, user_id: i64, c: &domain::checkout::CheckoutState) -> Result<(), sqlx::Error> {
-    let (company, different) = (i64::from(c.company_purchase), i64::from(c.delivery_address_different));
+pub async fn save_to_account(
+    state: &AppState,
+    user_id: i64,
+    c: &domain::checkout::CheckoutState,
+) -> Result<(), sqlx::Error> {
+    let (company, different) = (
+        i64::from(c.company_purchase),
+        i64::from(c.delivery_address_different),
+    );
     sqlx::query!(
         "UPDATE users SET first_name = ?, last_name = ?, phone = ?, billing_street = ?, billing_city = ?, billing_zip = ?, billing_country = ?,
                           company_purchase = ?, company_name = ?, company_ico = ?, company_dic = ?,
@@ -204,15 +229,27 @@ pub fn country_name(l: Locale, code: Option<&str>) -> String {
 }
 
 fn shipping_name(l: Locale, shipping: Option<Shipping>) -> &'static str {
-    if shipping == Some(Shipping::Pickup) { t::checkout::shipping_pickup(l) } else { t::checkout::shipping_address(l) }
+    if shipping == Some(Shipping::Pickup) {
+        t::checkout::shipping_pickup(l)
+    } else {
+        t::checkout::shipping_address(l)
+    }
 }
 
 fn payment_name(l: Locale, payment: Option<Payment>) -> &'static str {
-    if payment == Some(Payment::BankTransfer) { t::checkout::payment_bank_transfer(l) } else { t::checkout::payment_cash(l) }
+    if payment == Some(Payment::BankTransfer) {
+        t::checkout::payment_bank_transfer(l)
+    } else {
+        t::checkout::payment_cash(l)
+    }
 }
 
 pub fn pay_later_text(l: Locale, payment: Option<Payment>) -> &'static str {
-    if payment == Some(Payment::BankTransfer) { t::checkout::pay_later_bank_transfer(l) } else { t::checkout::pay_later_cash(l) }
+    if payment == Some(Payment::BankTransfer) {
+        t::checkout::pay_later_bank_transfer(l)
+    } else {
+        t::checkout::pay_later_cash(l)
+    }
 }
 
 /// The confirmation to the customer (in their language) and the
@@ -228,14 +265,26 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
                 let unit = shop.price(l, cart_line.unit_price);
                 let total = shop.price(l, cart_line.total());
                 if per_piece {
-                    format!("- {} | {}x | {unit} / ks | celkem {total}\n", shop.line_description(l, &cart_line), line.quantity)
+                    format!(
+                        "- {} | {}x | {unit} / ks | celkem {total}\n",
+                        shop.line_description(l, &cart_line),
+                        line.quantity
+                    )
                 } else {
-                    format!("- {} | {}x | {unit} | {total}\n", shop.line_description(l, &cart_line), line.quantity)
+                    format!(
+                        "- {} | {}x | {unit} | {total}\n",
+                        shop.line_description(l, &cart_line),
+                        line.quantity
+                    )
                 }
             })
             .collect::<String>()
     };
-    let name = format!("{} {}", c.first_name.as_deref().unwrap_or_default(), c.last_name.as_deref().unwrap_or_default());
+    let name = format!(
+        "{} {}",
+        c.first_name.as_deref().unwrap_or_default(),
+        c.last_name.as_deref().unwrap_or_default()
+    );
 
     // To the customer.
     let l = v.locale;
@@ -254,10 +303,18 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
         payment_name(l, c.payment),
     );
     if let Some((code, amount)) = &d.discount {
-        text.push_str(&format!("{}: −{}\n", t::order_mailer::discount(l, code), shop.price(l, *amount)));
+        text.push_str(&format!(
+            "{}: −{}\n",
+            t::order_mailer::discount(l, code),
+            shop.price(l, *amount)
+        ));
     }
     if let Some(q) = d.delivery {
-        text.push_str(&format!("{}: {}\n", t::order_mailer::delivery(l, q.round_trip_km()), shop.price(l, q.price())));
+        text.push_str(&format!(
+            "{}: {}\n",
+            t::order_mailer::delivery(l, q.round_trip_km()),
+            shop.price(l, q.price())
+        ));
     }
     text.push_str(&format!(
         "\n{}: {}\n\n{}\n\n{}\n{}\n",
@@ -272,7 +329,12 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
         Locale::Cs => format!("Potvrzení objednávky č. {id} – Pila Derflice"),
     };
     if let Some(email) = c.email.clone() {
-        tokio::spawn(crate::mail::send(crate::mail::Mail { to: email, subject, text, html: None }));
+        tokio::spawn(crate::mail::send(crate::mail::Mail {
+            to: email,
+            subject,
+            text,
+            html: None,
+        }));
     }
 
     // To the sawmill, in Czech.
@@ -295,7 +357,12 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
         country_name(cs, c.billing.country.as_deref()),
     );
     if c.company_purchase {
-        text.push_str(&format!("FIREMNÍ ÚDAJE\nNázev firmy: {}\nIČO: {}\nDIČ: {}\n", opt(&c.company_name), opt(&c.company_ico), opt(&c.company_dic)));
+        text.push_str(&format!(
+            "FIREMNÍ ÚDAJE\nNázev firmy: {}\nIČO: {}\nDIČ: {}\n",
+            opt(&c.company_name),
+            opt(&c.company_ico),
+            opt(&c.company_dic)
+        ));
     }
     if c.delivery_address_different {
         text.push_str(&format!(
@@ -308,26 +375,49 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
     }
     text.push_str(&format!(
         "DOPRAVA A PLATBA\nZpůsob dopravy: {}\nZpůsob platby: {}\n\nOBSAH OBJEDNÁVKY\n{}\n",
-        if c.shipping == Some(Shipping::Pickup) { "Osobní odběr na adrese skladu" } else { "Doručení na adresu" },
-        if c.payment == Some(Payment::Cash) { "Hotově při vyzvednutí" } else { "Bankovním převodem - proforma" },
+        if c.shipping == Some(Shipping::Pickup) {
+            "Osobní odběr na adrese skladu"
+        } else {
+            "Doručení na adresu"
+        },
+        if c.payment == Some(Payment::Cash) {
+            "Hotově při vyzvednutí"
+        } else {
+            "Bankovním převodem - proforma"
+        },
         line_text(cs, true)
     ));
     if d.delivery.is_some() || d.discount.is_some() {
         text.push_str(&format!("Zboží: {}\n", shop.price(cs, d.subtotal)));
     }
     if let Some((code, amount)) = &d.discount {
-        text.push_str(&format!("{}: −{}\n", t::order_mailer::discount(cs, code), shop.price(cs, *amount)));
+        text.push_str(&format!(
+            "{}: −{}\n",
+            t::order_mailer::discount(cs, code),
+            shop.price(cs, *amount)
+        ));
     }
     match d.delivery {
-        Some(q) => text.push_str(&format!("{}: {}\n", t::order_mailer::delivery(cs, q.round_trip_km()), shop.price(cs, q.price()))),
+        Some(q) => text.push_str(&format!(
+            "{}: {}\n",
+            t::order_mailer::delivery(cs, q.round_trip_km()),
+            shop.price(cs, q.price())
+        )),
         None if c.shipping == Some(Shipping::Address) => {
             text.push_str("Vzdálenost se nepodařilo spočítat – cenu dopravy je potřeba kalkulovat individuálně, není v celkové ceně.\n");
         }
         None => {}
     }
-    text.push_str(&format!("Celková cena bez DPH: {}\n", shop.price(cs, d.vat.total_excl_vat())));
+    text.push_str(&format!(
+        "Celková cena bez DPH: {}\n",
+        shop.price(cs, d.vat.total_excl_vat())
+    ));
     for (rate, amount) in &d.vat.by_rate {
-        text.push_str(&format!("DPH {rate} % ({}): {}\n", country_name(cs, Some(d.vat_country.as_str())), shop.price(cs, *amount)));
+        text.push_str(&format!(
+            "DPH {rate} % ({}): {}\n",
+            country_name(cs, Some(d.vat_country.as_str())),
+            shop.price(cs, *amount)
+        ));
     }
     if d.vat.by_rate.len() > 1 {
         text.push_str(&format!("Celkem DPH: {}\n", shop.price(cs, d.vat.vat())));
@@ -335,7 +425,16 @@ pub fn send_emails(v: &Visitor, d: &OrderDraft, id: i64) {
     text.push_str(&format!(
         "CELKEM K ÚHRADĚ (včetně DPH): {}\n\nJazyk zákazníka při objednávce: {}\n",
         shop.price(cs, d.total),
-        if l == Locale::De { "němčina" } else { "čeština" }
+        if l == Locale::De {
+            "němčina"
+        } else {
+            "čeština"
+        }
     ));
-    tokio::spawn(crate::mail::send(crate::mail::Mail { to, subject: format!("Nová objednávka #{id} – {}", name.trim()), text, html: None }));
+    tokio::spawn(crate::mail::send(crate::mail::Mail {
+        to,
+        subject: format!("Nová objednávka #{id} – {}", name.trim()),
+        text,
+        html: None,
+    }));
 }

@@ -1,7 +1,7 @@
 //! The cart page (step 1 of checkout).
 
-use super::eshop::DeliveryNote;
 use super::PageMeta;
+use super::eshop::DeliveryNote;
 use crate::cart_totals::TotalRows;
 use crate::i18n::t;
 use crate::layout::Layout;
@@ -12,7 +12,12 @@ use leptos::prelude::*;
 #[component]
 pub fn CheckoutStepper(current: usize) -> impl IntoView {
     let l = visitor().locale;
-    let steps = [t::checkout::step_cart(l), t::checkout::step_shipping(l), t::checkout::step_details(l), t::checkout::step_summary(l)];
+    let steps = [
+        t::checkout::step_cart(l),
+        t::checkout::step_shipping(l),
+        t::checkout::step_details(l),
+        t::checkout::step_summary(l),
+    ];
     let count = steps.len();
     view! {
         <nav class="checkout-stepper" aria-label=t::checkout::step_summary(l)>
@@ -76,10 +81,18 @@ pub fn CartPage() -> impl IntoView {
             d.unusable_reason(v.cart.subtotal(), time::OffsetDateTime::now_utc().date())
                 .map(|r| crate::forms::cart::discount_reason(&v, r, d.min_order))
         });
-        (crate::cart_view::lines(&v), crate::cart_view::totals(&v, false), reason)
+        (
+            crate::cart_view::lines(&v),
+            crate::cart_view::totals(&v, false),
+            reason,
+        )
     };
     #[cfg(not(feature = "ssr"))]
-    let (lines, totals, discount_reason): (Vec<crate::cart_view::LineView>, Vec<crate::cart_view::TotalRow>, Option<String>) = (vec![], vec![], None);
+    let (lines, totals, discount_reason): (
+        Vec<crate::cart_view::LineView>,
+        Vec<crate::cart_view::TotalRow>,
+        Option<String>,
+    ) = (vec![], vec![], None);
 
     let content = if v.cart.is_empty() {
         view! {

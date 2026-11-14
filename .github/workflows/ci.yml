@@ -1,22 +1,41 @@
-# Runs the test suite on every pull request and every push to main.
+# Checks every pull request and every push to main: formatting, lints, tests
+# and a full release build of the site (server and WebAssembly).
 name: CI
 
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_call:
 
 permissions:
   contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  # Queries are checked against .sqlx at compile time; no database needed.
+  SQLX_OFFLINE: "true"
 
 jobs:
   test:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          ruby-version: "3.3.6"
-          bundler-cache: true
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-leptos@0.3.12
+      - name: Formatting
+        run: cargo fmt --all --check
+      - name: Lints (server)
+        run: cargo clippy -p server --all-targets -- -D warnings
+      - name: Lints (browser)
+        run: cargo clippy -p front --target wasm32-unknown-unknown -- -D warnings
       - name: Tests
-        run: ruby bin/rails db:test:prepare test
+        run: cargo test -p domain -p site --features site/ssr
+      - name: Release build
+        run: cargo leptos build --release

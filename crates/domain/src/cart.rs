@@ -16,7 +16,10 @@ pub enum Spec {
     /// A number followed by a translated unit (`unit_key`).
     Amount { value: i64, unit_key: String },
     /// Text the admin wrote in Czech and (optionally) German.
-    Bilingual { value: String, value_de: Option<String> },
+    Bilingual {
+        value: String,
+        value_de: Option<String>,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -52,7 +55,11 @@ impl Cart {
     /// in the cart.
     pub fn add(&mut self, line: CartLine) {
         let quantity = line.quantity.clamp(1, MAX_QUANTITY);
-        match self.lines.iter_mut().find(|l| l.variant_id == line.variant_id) {
+        match self
+            .lines
+            .iter_mut()
+            .find(|l| l.variant_id == line.variant_id)
+        {
             Some(existing) => existing.quantity = (existing.quantity + quantity).min(MAX_QUANTITY),
             None => self.lines.push(CartLine { quantity, ..line }),
         }
@@ -108,7 +115,9 @@ mod tests {
             image: None,
             category: Category::Firewood,
             unit_price: Czk(price),
-            specs: vec![Spec::Raw { value: "33 cm".into() }],
+            specs: vec![Spec::Raw {
+                value: "33 cm".into(),
+            }],
             quantity,
         }
     }
@@ -134,7 +143,13 @@ mod tests {
 
     #[test]
     fn spec_json_matches_old_snapshots() {
-        let spec = Spec::Amount { value: 4, unit_key: "common.per_m3".into() };
-        assert_eq!(serde_json::to_string(&spec).unwrap(), r#"{"type":"amount","value":4,"unit_key":"common.per_m3"}"#);
+        let spec = Spec::Amount {
+            value: 4,
+            unit_key: "common.per_m3".into(),
+        };
+        assert_eq!(
+            serde_json::to_string(&spec).unwrap(),
+            r#"{"type":"amount","value":4,"unit_key":"common.per_m3"}"#
+        );
     }
 }

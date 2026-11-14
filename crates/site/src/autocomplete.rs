@@ -19,18 +19,39 @@ pub struct AddressSuggestion {
 /// addresses, else towns. Nothing when there's no openrouteservice key or
 /// the service fails (the field still works as a plain text box).
 #[server(endpoint = "naseptavac-adres", input = server_fn::codec::GetUrl)]
-pub async fn suggest_addresses(text: String, country: String, address: bool) -> Result<Vec<AddressSuggestion>, ServerFnError> {
+pub async fn suggest_addresses(
+    text: String,
+    country: String,
+    address: bool,
+) -> Result<Vec<AddressSuggestion>, ServerFnError> {
     let state = expect_context::<crate::state::AppState>();
     let ip: refractory::RemoteIp = leptos_axum::extract().await?;
-    if state.limiter.check(&crate::limits::ADDRESS_SUGGESTIONS, ip.key()).await.is_err() {
+    if state
+        .limiter
+        .check(&crate::limits::ADDRESS_SUGGESTIONS, ip.key())
+        .await
+        .is_err()
+    {
         return Ok(Vec::new());
     }
-    let Some(routes) = state.routes.as_ref() else { return Ok(Vec::new()) };
-    let kind = if address { chemotaxis::SuggestKind::Address } else { chemotaxis::SuggestKind::Place };
+    let Some(routes) = state.routes.as_ref() else {
+        return Ok(Vec::new());
+    };
+    let kind = if address {
+        chemotaxis::SuggestKind::Address
+    } else {
+        chemotaxis::SuggestKind::Place
+    };
     match routes.suggest(&text, &country, kind).await {
         Ok(found) => Ok(found
             .into_iter()
-            .map(|s| AddressSuggestion { label: s.label, street: s.street, city: s.city, zip: s.zip, country: s.country })
+            .map(|s| AddressSuggestion {
+                label: s.label,
+                street: s.street,
+                city: s.city,
+                zip: s.zip,
+                country: s.country,
+            })
             .collect()),
         Err(e) => {
             tracing::warn!("no address suggestions: {e}");
@@ -74,12 +95,18 @@ pub fn AutocompleteInput(
     #[allow(unused_variables)]
     let set_field = move |field_id: &Option<String>, value: &Option<String>| {
         #[cfg(feature = "hydrate")]
-        if let (Some(field_id), Some(value)) = (field_id, value.as_ref().filter(|v| !v.is_empty())) {
+        if let (Some(field_id), Some(value)) = (field_id, value.as_ref().filter(|v| !v.is_empty()))
+        {
             use wasm_bindgen::JsCast;
             let field = document().get_element_by_id(field_id);
-            if let Some(input) = field.clone().and_then(|f| f.dyn_into::<web_sys::HtmlInputElement>().ok()) {
+            if let Some(input) = field
+                .clone()
+                .and_then(|f| f.dyn_into::<web_sys::HtmlInputElement>().ok())
+            {
                 input.set_value(value);
-            } else if let Some(select) = field.and_then(|f| f.dyn_into::<web_sys::HtmlSelectElement>().ok()) {
+            } else if let Some(select) =
+                field.and_then(|f| f.dyn_into::<web_sys::HtmlSelectElement>().ok())
+            {
                 select.set_value(value);
             }
         }
@@ -106,9 +133,15 @@ pub fn AutocompleteInput(
         }
     };
     let pick = {
-        let (city_field, zip_field, country_select) = (city_field.clone(), zip_field.clone(), country_select.clone());
+        let (city_field, zip_field, country_select) = (
+            city_field.clone(),
+            zip_field.clone(),
+            country_select.clone(),
+        );
         move |index: usize| {
-            let Some(s) = suggestions.get_untracked().get(index).cloned() else { return };
+            let Some(s) = suggestions.get_untracked().get(index).cloned() else {
+                return;
+            };
             close();
             if let Some(input) = input_ref.get_untracked() {
                 if address {
@@ -121,10 +154,8 @@ pub fn AutocompleteInput(
                 set_field(&city_field, &address.then(|| s.city.clone()));
                 set_field(&zip_field, &if address { s.zip.clone() } else { None });
                 set_field(&country_select, &Some(s.country.clone()));
-                if submit_on_pick {
-                    if let Some(form) = input.form() {
-                        let _ = form.request_submit();
-                    }
+                if submit_on_pick && let Some(form) = input.form() {
+                    let _ = form.request_submit();
                 }
             }
         }
@@ -135,7 +166,12 @@ pub fn AutocompleteInput(
             if let Some(handle) = timer.get_value() {
                 handle.clear();
             }
-            let text = input_ref.get_untracked().map(|i| i.value()).unwrap_or_default().trim().to_owned();
+            let text = input_ref
+                .get_untracked()
+                .map(|i| i.value())
+                .unwrap_or_default()
+                .trim()
+                .to_owned();
             if text.chars().count() < 3 {
                 close();
                 return;
@@ -145,7 +181,9 @@ pub fn AutocompleteInput(
                 let mine = generation.get_value() + 1;
                 generation.set_value(mine);
                 leptos::task::spawn_local(async move {
-                    let found = suggest_addresses(text, country, address).await.unwrap_or_default();
+                    let found = suggest_addresses(text, country, address)
+                        .await
+                        .unwrap_or_default();
                     if generation.get_value() == mine {
                         open.set(!found.is_empty());
                         active.set(None);
@@ -153,7 +191,9 @@ pub fn AutocompleteInput(
                     }
                 });
             };
-            timer.set_value(set_timeout_with_handle(fetch, std::time::Duration::from_millis(250)).ok());
+            timer.set_value(
+                set_timeout_with_handle(fetch, std::time::Duration::from_millis(250)).ok(),
+            );
         }
     };
     let on_keydown = {
@@ -167,7 +207,13 @@ pub fn AutocompleteInput(
                 "ArrowDown" | "ArrowUp" if count > 0 => {
                     e.prevent_default();
                     let step = if e.key() == "ArrowDown" { 1 } else { count - 1 };
-                    active.set(Some(active.get_untracked().map_or(if step == 1 { 0 } else { count - 1 }, |a| (a + step) % count)));
+                    active.set(Some(
+                        active
+                            .get_untracked()
+                            .map_or(if step == 1 { 0 } else { count - 1 }, |a| {
+                                (a + step) % count
+                            }),
+                    ));
                 }
                 "Enter" => {
                     if let Some(index) = active.get_untracked() {
@@ -229,7 +275,13 @@ pub fn AutocompleteInput(
 
 /// The town field of "Kam vozíme?".
 #[component]
-pub fn PlaceInput(id: String, value: String, placeholder: String, country_select: String, #[allow(unused)] suggestions_url: String) -> impl IntoView {
+pub fn PlaceInput(
+    id: String,
+    value: String,
+    placeholder: String,
+    country_select: String,
+    #[allow(unused)] suggestions_url: String,
+) -> impl IntoView {
     view! {
         <AutocompleteInput
             id=id

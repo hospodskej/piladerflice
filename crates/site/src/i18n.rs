@@ -11,7 +11,10 @@ codon::include!();
 impl Locale {
     /// The language a site path is in.
     pub fn of_path(path: &str) -> Locale {
-        Locale::PATHS.detect(path).map(|(locale, _)| locale).unwrap_or_default()
+        Locale::PATHS
+            .detect(path)
+            .map(|(locale, _)| locale)
+            .unwrap_or_default()
     }
 
     /// `path` in this language: "/kontakt#cenik" → "/at/kontakt#cenik".

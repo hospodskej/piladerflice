@@ -29,7 +29,9 @@ impl AppState {
             limiter: refractory::Limiter::new(),
             routes,
             reset_tokens: thymus::ResetTokens::new(&secret_key()),
-            storage: std::env::var("STORAGE_DIR").unwrap_or_else(|_| "storage".into()).into(),
+            storage: std::env::var("STORAGE_DIR")
+                .unwrap_or_else(|_| "storage".into())
+                .into(),
         }
     }
 

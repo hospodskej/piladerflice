@@ -1,5 +1,7 @@
 use crate::i18n::t;
-use crate::pages::account::{AccountEditPage, AccountPage, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage};
+use crate::pages::account::{
+    AccountEditPage, AccountPage, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage,
+};
 use crate::pages::cart::CartPage;
 use crate::pages::checkout::{ConfirmationPage, DetailsPage, ShippingPage, SummaryPage};
 use crate::pages::eshop::{EshopPage, ProductPage};
@@ -10,10 +12,11 @@ use crate::pages::sortiment::*;
 use crate::visitor::visitor;
 use leptos::nonce::use_nonce;
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags};
+use leptos_meta::{MetaTags, provide_meta_context};
 use leptos_router::{
+    SsrMode,
     components::{ParentRoute, Route, Router, Routes},
-    path, SsrMode,
+    path,
 };
 
 /// The Google Analytics property.
@@ -46,7 +49,10 @@ gtag("consent", "default", {
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     let v = visitor();
     let l = v.locale;
-    let theme = v.user.as_ref().map(|u| u.theme.map(|t| t.as_str()).unwrap_or_default());
+    let theme = v
+        .user
+        .as_ref()
+        .map(|u| u.theme.map(|t| t.as_str()).unwrap_or_default());
     let nonce = use_nonce();
     view! {
         <!DOCTYPE html>

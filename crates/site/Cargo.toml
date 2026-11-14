@@ -19,6 +19,8 @@ time.workspace = true
 wasm-bindgen.workspace = true
 web-sys = { workspace = true, features = ["Document", "Element", "HtmlElement", "HtmlDocument", "HtmlInputElement", "DomTokenList", "Storage", "Window", "Location", "Node", "NodeList", "Event", "EventTarget", "KeyboardEvent", "CssStyleDeclaration", "HtmlCollection", "DomRect", "AddEventListenerOptions", "HtmlFormElement", "HtmlSelectElement", "ScrollIntoViewOptions", "ScrollBehavior", "ScrollLogicalPosition", "FileList", "File", "Blob"] }
 js-sys = "0.3"
+attenuator = { workspace = true, optional = true }
+wasm-bindgen-futures = { version = "0.4", optional = true }
 
 leptos_axum = { workspace = true, optional = true }
 axum = { workspace = true, optional = true }
@@ -41,7 +43,7 @@ codon = { workspace = true, features = ["build"] }
 
 [features]
 default = []
-hydrate = ["leptos/hydrate"]
+hydrate = ["leptos/hydrate", "dep:attenuator", "dep:wasm-bindgen-futures"]
 ssr = [
   "leptos/ssr",
   "leptos_meta/ssr",

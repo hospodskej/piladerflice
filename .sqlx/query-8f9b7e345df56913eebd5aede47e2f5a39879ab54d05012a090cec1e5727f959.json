@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE catalog_products SET key = ?, template = ?, category = ?, hardness = ?, active = ?, position = ?, title = ?, title_de = ?,\n                        type_label = ?, type_label_de = ?, subtitle = ?, subtitle_de = ?, description = ?, description_de = ?,\n                        drying_note = ?, drying_note_de = ?, image_alt = ?, image_alt_de = ?, image = COALESCE(?, image),\n                        updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 20
+    },
+    "nullable": []
+  },
+  "hash": "8f9b7e345df56913eebd5aede47e2f5a39879ab54d05012a090cec1e5727f959"
+}

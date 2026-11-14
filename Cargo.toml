@@ -39,6 +39,7 @@ refractory = { git = "https://github.com/hospodskej/rust-crates", branch = "refr
 chemotaxis = { git = "https://github.com/hospodskej/rust-crates", branch = "chemotaxis" }
 thymus = { git = "https://github.com/hospodskej/rust-crates", branch = "thymus" }
 spliceosome = { git = "https://github.com/hospodskej/rust-crates", branch = "spliceosome" }
+attenuator = { git = "https://github.com/hospodskej/rust-crates", branch = "attenuator" }
 cuticle = { git = "https://github.com/hospodskej/rust-crates", branch = "cuticle", features = ["leptos"] }
 
 [workspace.lints.rust]

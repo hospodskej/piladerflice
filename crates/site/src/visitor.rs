@@ -84,6 +84,8 @@ pub struct Visitor {
     pub flash: Option<Flash>,
     /// Why the order couldn't be placed (shown on the summary step).
     pub checkout_errors: Vec<String>,
+    /// An admin form that couldn't be saved (shown again with its errors).
+    pub admin_refused: Option<crate::admin::form::Refused>,
     /// The registration form after a refusal: (e-mail typed, problems).
     pub registration_form: Option<(String, Vec<String>)>,
     /// The order this browser placed last (the thank-you page).

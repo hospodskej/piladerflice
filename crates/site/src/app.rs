@@ -83,6 +83,7 @@ pub fn App() -> impl IntoView {
         <Router>
             <Routes fallback=crate::pages::not_found::NotFoundPage>
                 <Pages/>
+                <AdminPages/>
                 <ParentRoute path=path!("/at") view=leptos_router::components::Outlet>
                     <Pages/>
                 </ParentRoute>
@@ -123,6 +124,37 @@ fn Pages() -> impl leptos_router::MatchNestedRoutes + Clone {
         <Route path=path!("/sortiment/truhlarske-rezivo") view=TruhlarskeRezivoPage/>
         <Route path=path!("/sortiment/okrasne-kamenivo") view=OkrasneKamenivoPage/>
         <Route path=path!("/sortiment/vyrobni-zbytky") view=VyrobniZbytkyPage/>
+        </ParentRoute>
+    }
+    .into_inner()
+}
+
+/// The administration (Czech only, no /at).
+#[component(transparent)]
+fn AdminPages() -> impl leptos_router::MatchNestedRoutes + Clone {
+    use crate::admin::{catalog, content, orders, settings};
+    view! {
+        <ParentRoute path=path!("/admin") view=leptos_router::components::Outlet>
+            <Route path=path!("") view=orders::DashboardPage ssr=SsrMode::Async/>
+            <Route path=path!("/orders") view=orders::OrdersPage ssr=SsrMode::Async/>
+            <Route path=path!("/orders/:id") view=orders::OrderPage ssr=SsrMode::Async/>
+            <Route path=path!("/inquiries") view=orders::InquiriesPage ssr=SsrMode::Async/>
+            <Route path=path!("/inquiries/:id") view=orders::InquiryPage ssr=SsrMode::Async/>
+            <Route path=path!("/catalog_products") view=catalog::ProductsPage ssr=SsrMode::Async/>
+            <Route path=path!("/catalog_products/new") view=catalog::ProductPage ssr=SsrMode::Async/>
+            <Route path=path!("/catalog_products/:id/edit") view=catalog::ProductPage ssr=SsrMode::Async/>
+            <Route path=path!("/catalog_products/:product_id/catalog_variants/new") view=catalog::VariantPage ssr=SsrMode::Async/>
+            <Route path=path!("/catalog_products/:product_id/catalog_variants/:id/edit") view=catalog::VariantPage ssr=SsrMode::Async/>
+            <Route path=path!("/pricelist_items") view=content::PricelistPage ssr=SsrMode::Async/>
+            <Route path=path!("/inquiry_form_options") view=content::OptionsPage ssr=SsrMode::Async/>
+            <Route path=path!("/promos") view=content::PromosPage ssr=SsrMode::Async/>
+            <Route path=path!("/promos/new") view=content::PromoPage ssr=SsrMode::Async/>
+            <Route path=path!("/promos/:id/edit") view=content::PromoPage ssr=SsrMode::Async/>
+            <Route path=path!("/doprava/edit") view=settings::DeliveryPage ssr=SsrMode::Async/>
+            <Route path=path!("/dph") view=settings::VatPage ssr=SsrMode::Async/>
+            <Route path=path!("/slevove-kody") view=settings::CodesPage ssr=SsrMode::Async/>
+            <Route path=path!("/slevove-kody/new") view=settings::CodePage ssr=SsrMode::Async/>
+            <Route path=path!("/slevove-kody/:id/edit") view=settings::CodePage ssr=SsrMode::Async/>
         </ParentRoute>
     }
     .into_inner()

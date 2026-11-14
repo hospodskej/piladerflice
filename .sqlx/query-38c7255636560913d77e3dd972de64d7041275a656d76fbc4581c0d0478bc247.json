@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO inquiry_form_options (category, field, value, value_de, position)\n             VALUES (?, ?, ?, ?, (SELECT COALESCE(MAX(position), 0) + 1 FROM inquiry_form_options WHERE category = ? AND field = ?))",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 6
+    },
+    "nullable": []
+  },
+  "hash": "38c7255636560913d77e3dd972de64d7041275a656d76fbc4581c0d0478bc247"
+}

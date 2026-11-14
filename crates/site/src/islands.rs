@@ -596,3 +596,21 @@ pub fn TermsAgreement(label_html: String, error: String) -> impl IntoView {
         <p class="checkout-terms-error" id="termsError" hidden=move || !invalid.get() node_ref=message>{error}</p>
     }
 }
+
+/// The admin's page behaviour: forms with `data-confirm` ask first (as
+/// Turbo's confirm did).
+#[island]
+pub fn AdminBehaviour() -> impl IntoView {
+    #[cfg(feature = "hydrate")]
+    {
+        let _ = window_event_listener(leptos::ev::submit, |event| {
+            use wasm_bindgen::JsCast;
+            let Some(form) = event.target().and_then(|t| t.dyn_into::<web_sys::Element>().ok()) else { return };
+            if let Some(question) = form.get_attribute("data-confirm") {
+                if !window().confirm_with_message(&question).unwrap_or(false) {
+                    event.prevent_default();
+                }
+            }
+        });
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE catalog_variants SET key = ?, variant_group = ?, length_label = ?, variant_label = ?, variant_label_de = ?, amount_value = ?,\n                        stacked = ?, price_czk = ?, in_stock = ?, position = ?, grade = ?, grade_de = ?, width_mm = ?, height_mm = ?,\n                        image = COALESCE(?, image), updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n                 WHERE id = ? AND catalog_product_id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 17
+    },
+    "nullable": []
+  },
+  "hash": "4e25b81c3a6e6e1d7580b51d69909d64d79971c4bc479be9ec5d854416f34642"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE pricelist_items SET item_name = ?, item_name_de = ?, details = ?, details_de = ?, subcategory = ?, subcategory_de = ?, price = ?, price_de = ?,\n                    updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 9
+    },
+    "nullable": []
+  },
+  "hash": "16b0b8004fe64f7e8528dd62f388146a7a47d611b26bcadc2e178357ae8a03e3"
+}

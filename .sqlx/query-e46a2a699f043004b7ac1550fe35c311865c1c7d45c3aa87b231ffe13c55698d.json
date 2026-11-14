@@ -1,0 +1,194 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT * FROM promos WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "title",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "title"
+          }
+        }
+      },
+      {
+        "name": "title_de",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "title_de"
+          }
+        }
+      },
+      {
+        "name": "feature_1",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_1"
+          }
+        }
+      },
+      {
+        "name": "feature_1_de",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_1_de"
+          }
+        }
+      },
+      {
+        "name": "feature_2",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_2"
+          }
+        }
+      },
+      {
+        "name": "feature_2_de",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_2_de"
+          }
+        }
+      },
+      {
+        "name": "feature_3",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_3"
+          }
+        }
+      },
+      {
+        "name": "feature_3_de",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "feature_3_de"
+          }
+        }
+      },
+      {
+        "name": "price",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "price"
+          }
+        }
+      },
+      {
+        "name": "price_de",
+        "ordinal": 10,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "price_de"
+          }
+        }
+      },
+      {
+        "name": "link",
+        "ordinal": 11,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "link"
+          }
+        }
+      },
+      {
+        "name": "image",
+        "ordinal": 12,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "image"
+          }
+        }
+      },
+      {
+        "name": "created_at",
+        "ordinal": 13,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "created_at"
+          }
+        }
+      },
+      {
+        "name": "updated_at",
+        "ordinal": 14,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "promos",
+            "name": "updated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "e46a2a699f043004b7ac1550fe35c311865c1c7d45c3aa87b231ffe13c55698d"
+}

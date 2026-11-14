@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM catalog_variants WHERE id = ? AND catalog_product_id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "a9128b7969f958ffe32d9a6b9e9f5d5ad3a6149a7f82f00e44bf48d698ccfd64"
+}

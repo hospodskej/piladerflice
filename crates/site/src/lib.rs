@@ -3,6 +3,7 @@
 
 #![recursion_limit = "512"]
 
+pub mod admin;
 pub mod app;
 pub mod assets;
 pub mod autocomplete;

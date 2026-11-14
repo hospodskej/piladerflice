@@ -30,6 +30,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     sqlx::migrate!("../../migrations").run(&db).await?;
 
+    // One-off commands: `server admin:create_user`, `server db:seed`.
+    match std::env::args().nth(1).as_deref() {
+        Some("admin:create_user") => return tasks::create_admin(&db).await,
+        Some("db:seed") => return tasks::seed(&db, production).await,
+        Some(other) => return Err(format!("unknown command {other:?} (admin:create_user, db:seed)").into()),
+        None => {}
+    }
+
     let sessions = SqliteStore::new(db.clone());
     sessions.migrate().await?;
     let state = AppState::new(db);
@@ -75,6 +83,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_state(leptos_options)
         .merge(forms(state.clone()))
         .merge(site::plain::routes(state.clone()))
+        // Photos uploaded in the admin: named after their content, so cached for a year.
+        .nest_service(
+            "/uploads",
+            tower::ServiceBuilder::new()
+                .layer(tower_http::set_header::SetResponseHeaderLayer::overriding(
+                    axum::http::header::CACHE_CONTROL,
+                    axum::http::HeaderValue::from_static("public, max-age=31536000, immutable"),
+                ))
+                .service(tower_http::services::ServeDir::new(state.storage.join("uploads"))),
+        )
+        .layer(middleware::from_fn(site::admin::handlers::admin_only))
         .layer(middleware::from_fn_with_state(state.clone(), site::session::load_visitor))
         .layer(
             SessionManagerLayer::new(sessions)
@@ -132,7 +151,39 @@ fn forms(state: AppState) -> Router {
             .layer(axum::extract::DefaultBodyLimit::max(3 * 1024 * 1024)),
     );
     let router = both(router, "/muj-ucet/profilovy-obrazek/smazat", post(site::forms::auth::remove_avatar));
-    router.with_state(state)
+    router.merge(admin(state.clone())).with_state(state)
+}
+
+/// What the admin's forms post to (Czech only; admins only, see `admin_only`).
+fn admin(state: AppState) -> Router<AppState> {
+    use site::admin::handlers::{catalog, content, orders, settings};
+    let _ = state;
+    Router::new()
+        .route("/admin/orders/{id}/smazat", post(orders::delete))
+        .route("/admin/catalog_products", post(catalog::create_product))
+        .route("/admin/catalog_products/{id}", post(catalog::update_product))
+        .route("/admin/catalog_products/{id}/smazat", post(catalog::delete_product))
+        .route("/admin/catalog_products/{product_id}/catalog_variants", post(catalog::create_variant))
+        .route("/admin/catalog_products/{product_id}/catalog_variants/{id}", post(catalog::update_variant))
+        .route("/admin/catalog_products/{product_id}/catalog_variants/{id}/smazat", post(catalog::delete_variant))
+        .route("/admin/pricelist_items", post(content::create_price))
+        .route("/admin/pricelist_items/{id}", post(content::update_price))
+        .route("/admin/pricelist_items/{id}/smazat", post(content::delete_price))
+        .route("/admin/pricelist_items/{id}/{direction}", post(content::move_price))
+        .route("/admin/inquiry_form_options", post(content::create_option))
+        .route("/admin/inquiry_form_options/{id}", post(content::update_option))
+        .route("/admin/inquiry_form_options/{id}/smazat", post(content::delete_option))
+        .route("/admin/inquiry_form_options/{id}/{direction}", post(content::move_option))
+        .route("/admin/promos", post(content::create_promo))
+        .route("/admin/promos/{id}", post(content::update_promo))
+        .route("/admin/promos/{id}/smazat", post(content::delete_promo))
+        .route("/admin/doprava", post(settings::update_delivery))
+        .route("/admin/dph/{category}", post(settings::update_vat))
+        .route("/admin/slevove-kody", post(settings::create_code))
+        .route("/admin/slevove-kody/{id}", post(settings::update_code))
+        .route("/admin/slevove-kody/{id}/smazat", post(settings::delete_code))
+        // Photos are shrunk in the browser; this is the ceiling for the rest.
+        .layer(axum::extract::DefaultBodyLimit::max(16 * 1024 * 1024))
 }
 
 /// The Content-Security-Policy and the other security headers: the browser
@@ -186,4 +237,54 @@ async fn stylesheet() -> impl axum::response::IntoResponse {
         ],
         site::assets::STYLESHEET,
     )
+}
+
+mod tasks {
+    //! Commands run by hand (or from GitHub Actions through Kamal).
+
+    use sqlx::SqlitePool;
+    use std::error::Error;
+
+    /// Creates the admin, or resets its password, from ADMIN_EMAIL and
+    /// ADMIN_PASSWORD. Fails (exit status 1) when it can't, so a workflow
+    /// running it shows red.
+    pub async fn create_admin(db: &SqlitePool) -> Result<(), Box<dyn Error>> {
+        let email = std::env::var("ADMIN_EMAIL").map_err(|_| "Set ADMIN_EMAIL first.")?;
+        let password = std::env::var("ADMIN_PASSWORD").map_err(|_| "Set ADMIN_PASSWORD first.")?;
+        let email = thymus::normalize_email(&email);
+        let password = thymus::Password::new(password).map_err(|e| format!("Could not save admin user: {e}"))?;
+        let hash = tokio::task::spawn_blocking(move || thymus::PasswordHash::new(&password)).await??.into_string();
+        // A new password signs the account out everywhere.
+        sqlx::query!(
+            "INSERT INTO users (email_address, password_hash, role) VALUES (?, ?, 'admin')
+             ON CONFLICT (email_address) DO UPDATE SET password_hash = excluded.password_hash, role = 'admin',
+                 session_epoch = session_epoch + 1, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')",
+            email,
+            hash
+        )
+        .execute(db)
+        .await?;
+        println!("Admin user ready: {email}");
+        Ok(())
+    }
+
+    /// Loads seeds/seed.sql (the catalogue, price list, promos, texts). It
+    /// replaces that content, so on a live site with content it only runs
+    /// with FORCE_SEED=1.
+    pub async fn seed(db: &SqlitePool, production: bool) -> Result<(), Box<dyn Error>> {
+        let has_content = sqlx::query_scalar!(r#"SELECT EXISTS (SELECT 1 FROM catalog_products) OR EXISTS (SELECT 1 FROM products) AS "x!: bool""#)
+            .fetch_one(db)
+            .await?;
+        if production && has_content && std::env::var("FORCE_SEED").as_deref() != Ok("1") {
+            return Err("The production database already has content; refusing to re-seed. Set FORCE_SEED=1 to wipe it and seed anyway.".into());
+        }
+        let mut tx = db.begin().await?;
+        for table in ["catalog_variants", "catalog_products", "products", "pricelist_items", "promos", "reviews", "services", "faq_items", "inquiry_form_options", "vat_rules"] {
+            sqlx::raw_sql(sqlx::AssertSqlSafe(format!("DELETE FROM {table}"))).execute(&mut *tx).await?;
+        }
+        sqlx::raw_sql(include_str!("../../../seeds/seed.sql")).execute(&mut *tx).await?;
+        tx.commit().await?;
+        println!("Seeded.");
+        Ok(())
+    }
 }

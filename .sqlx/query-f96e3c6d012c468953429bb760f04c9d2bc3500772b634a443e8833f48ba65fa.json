@@ -1,0 +1,182 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT * FROM pricelist_items ORDER BY position, id",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "category",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "position",
+        "ordinal": 2,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "position"
+          }
+        }
+      },
+      {
+        "name": "delivery_rate",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "delivery_rate"
+          }
+        }
+      },
+      {
+        "name": "subcategory",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "subcategory"
+          }
+        }
+      },
+      {
+        "name": "subcategory_de",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "subcategory_de"
+          }
+        }
+      },
+      {
+        "name": "item_name",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "item_name"
+          }
+        }
+      },
+      {
+        "name": "item_name_de",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "item_name_de"
+          }
+        }
+      },
+      {
+        "name": "details",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "details"
+          }
+        }
+      },
+      {
+        "name": "details_de",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "details_de"
+          }
+        }
+      },
+      {
+        "name": "price",
+        "ordinal": 10,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "price"
+          }
+        }
+      },
+      {
+        "name": "price_de",
+        "ordinal": 11,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "price_de"
+          }
+        }
+      },
+      {
+        "name": "created_at",
+        "ordinal": 12,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "created_at"
+          }
+        }
+      },
+      {
+        "name": "updated_at",
+        "ordinal": 13,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "updated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "f96e3c6d012c468953429bb760f04c9d2bc3500772b634a443e8833f48ba65fa"
+}

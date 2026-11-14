@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO pricelist_items (category, position, item_name, item_name_de, details, details_de, subcategory, subcategory_de, price, price_de)\n             VALUES (?, (SELECT COALESCE(MAX(position), 0) + 1 FROM pricelist_items WHERE category = ?), ?, ?, ?, ?, ?, ?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 10
+    },
+    "nullable": []
+  },
+  "hash": "ee162d8d7c6af7b9a30117d249592b3f3eb645d2596a45a80fd07d639abacd42"
+}

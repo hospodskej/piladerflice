@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE inquiry_form_options SET position = ? WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "7411cf6e45e4c2d41b634835c221efad02229e72cdd95b65ee5cf515fe5c4428"
+}

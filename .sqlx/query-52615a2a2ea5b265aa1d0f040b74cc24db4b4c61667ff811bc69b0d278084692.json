@@ -1,0 +1,62 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT category, rate_cz, rate_at, prices_include_vat FROM vat_rules",
+  "describe": {
+    "columns": [
+      {
+        "name": "category",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "vat_rules",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "rate_cz",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "vat_rules",
+            "name": "rate_cz"
+          }
+        }
+      },
+      {
+        "name": "rate_at",
+        "ordinal": 2,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "vat_rules",
+            "name": "rate_at"
+          }
+        }
+      },
+      {
+        "name": "prices_include_vat",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "vat_rules",
+            "name": "prices_include_vat"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "52615a2a2ea5b265aa1d0f040b74cc24db4b4c61667ff811bc69b0d278084692"
+}

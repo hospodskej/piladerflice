@@ -1,0 +1,62 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT catalog_product_id, price_czk, in_stock, amount_value FROM catalog_variants",
+  "describe": {
+    "columns": [
+      {
+        "name": "catalog_product_id",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "catalog_product_id"
+          }
+        }
+      },
+      {
+        "name": "price_czk",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "price_czk"
+          }
+        }
+      },
+      {
+        "name": "in_stock",
+        "ordinal": 2,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "in_stock"
+          }
+        }
+      },
+      {
+        "name": "amount_value",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "amount_value"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "f424715da6be9b7da342328c79509fe43ae76801968ecbb8f32ff4b9b990a711"
+}

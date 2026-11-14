@@ -1,0 +1,12 @@
+/* Leptos wraps each island (and the server-rendered children inside one) in
+   its own element. They mustn't change the layout, so the page's CSS keeps
+   working as if they weren't there. */
+leptos-island,
+leptos-children {
+  display: contents;
+}
+
+/* The slide-show island's own wrapper is layout-neutral too. */
+.slide-show {
+  display: contents;
+}

@@ -1,0 +1,33 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT p.key, MAX(p.updated_at, COALESCE((SELECT MAX(v.updated_at) FROM catalog_variants v WHERE v.catalog_product_id = p.id), '')) AS \"lastmod!: String\"\n           FROM catalog_products p WHERE p.active = 1 ORDER BY p.position, p.id",
+  "describe": {
+    "columns": [
+      {
+        "name": "key",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "key"
+          }
+        }
+      },
+      {
+        "name": "lastmod!: String",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      null
+    ]
+  },
+  "hash": "5304740163a512dae870c1a3a7766d93435f9dc81300de1fbd8fd28a56ad6401"
+}

@@ -17,15 +17,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.3.6"
-          bundler-cache: true
-      - name: Tests
-        run: ruby bin/rails db:test:prepare test
+    uses: ./.github/workflows/ci.yml
 
   deploy:
     needs: test
@@ -47,8 +39,9 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.6"
-          bundler-cache: true
+          ruby-version: "3.3"
+      - name: Install Kamal
+        run: gem install kamal -v 2.12.0 --no-document
       - uses: docker/setup-buildx-action@v4
       - uses: webfactory/ssh-agent@v0.10.0
         with:
@@ -62,5 +55,13 @@ jobs:
           echo "${{ vars.SERVER_SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
       # "setup" = install Docker if missing, start the backup job if it isn't
       # running yet, then deploy. On later runs the first two are no-ops.
+      # GitHub runs one deploy at a time (concurrency above), so a Kamal lock
+      # still on the server was left by a deploy that lost its connection.
+      - name: Clear a stale deploy lock
+        run: kamal lock release
       - name: Deploy
-        run: bundle exec kamal setup
+        run: kamal setup
+      # The backup job reads its script when it starts; restart it so it
+      # always runs the current config/backup/backup.sh.
+      - name: Restart the backup job
+        run: kamal accessory reboot backup

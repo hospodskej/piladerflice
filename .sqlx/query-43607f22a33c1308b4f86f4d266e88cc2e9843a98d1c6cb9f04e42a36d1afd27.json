@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT note FROM discount_codes WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "note",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "discount_codes",
+            "name": "note"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      true
+    ]
+  },
+  "hash": "43607f22a33c1308b4f86f4d266e88cc2e9843a98d1c6cb9f04e42a36d1afd27"
+}

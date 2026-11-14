@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO catalog_products (key, template, category, hardness, active, position, title, title_de, type_label, type_label_de,\n                        subtitle, subtitle_de, description, description_de, drying_note, drying_note_de, image_alt, image_alt_de, image)\n                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id AS \"id!\"",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 19
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "82f5441e97a8d71b4f3aca33be5a0cf8f82aed4dc5af641b0ec23d9a1011421d"
+}

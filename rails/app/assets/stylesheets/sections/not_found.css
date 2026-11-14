@@ -1,0 +1,94 @@
+.not-found {
+    margin: 40px auto 80px auto;
+    text-align: center;
+}
+
+/* A wide black and white photo with the mascot standing in front of it,
+   sticking out a little above and more below. Every size is a share of
+   the width, so it scales as one piece. */
+.not-found-hero {
+    position: relative;
+    padding: 1.4% 0 4.6% 0;
+    margin-bottom: 36px;
+}
+
+.not-found-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1174 / 330;
+    object-fit: cover;
+    object-position: center 50%;
+    border-radius: 28px;
+}
+
+.not-found-mascot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 46%;
+    height: auto;
+    transform: translateX(-50%);
+}
+
+/* Phones: a taller photo and a bigger mascot, or it would be tiny */
+@media (max-width: 768px) {
+    .not-found-photo {
+        aspect-ratio: 2.4 / 1;
+        border-radius: 18px;
+    }
+
+    .not-found-mascot {
+        width: 74%;
+    }
+
+    .not-found-hero {
+        padding: 4% 0 9.5% 0;
+        margin-bottom: 24px;
+    }
+}
+
+.not-found h1,
+.not-found-text,
+.not-found-links {
+    max-width: 640px;
+}
+
+.not-found h1 {
+    font-size: 2rem;
+    margin: 0 auto 14px auto;
+}
+
+.not-found-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0 auto 24px auto;
+}
+
+.not-found-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 28px auto 0 auto;
+}
+
+.not-found-links a {
+    color: #2C8FFF;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.not-found-links a:hover {
+    text-decoration: underline;
+}
+
+html.dark-mode .not-found-text {
+    color: #a8adb5;
+}
+
+/* The photo a little dimmer on the dark page */
+html.dark-mode .not-found-photo {
+    filter: brightness(0.8);
+}

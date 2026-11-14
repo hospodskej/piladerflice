@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM inquiry_form_options WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "f3d0c15c21c4311763ce1dd060c7b4775f9887e57e35ab172e184be0df4ee292"
+}

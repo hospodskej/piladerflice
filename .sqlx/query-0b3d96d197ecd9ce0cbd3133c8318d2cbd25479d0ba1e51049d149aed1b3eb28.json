@@ -1,0 +1,141 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position, p.hardness,\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))\n                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\"\n           FROM catalog_products p WHERE p.active = 1",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "key",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "key"
+          }
+        }
+      },
+      {
+        "name": "title",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "title"
+          }
+        }
+      },
+      {
+        "name": "title_de",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "title_de"
+          }
+        }
+      },
+      {
+        "name": "type_label",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "type_label"
+          }
+        }
+      },
+      {
+        "name": "type_label_de",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "type_label_de"
+          }
+        }
+      },
+      {
+        "name": "image",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "image"
+          }
+        }
+      },
+      {
+        "name": "category",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "position",
+        "ordinal": 8,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "position"
+          }
+        }
+      },
+      {
+        "name": "hardness",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "hardness"
+          }
+        }
+      },
+      {
+        "name": "starting_price: i64",
+        "ordinal": 10,
+        "type_info": "Integer",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true
+    ]
+  },
+  "hash": "0b3d96d197ecd9ce0cbd3133c8318d2cbd25479d0ba1e51049d149aed1b3eb28"
+}

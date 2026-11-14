@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO users (email_address, password_hash, role) VALUES (?, ?, 'admin')\n             ON CONFLICT (email_address) DO UPDATE SET password_hash = excluded.password_hash, role = 'admin',\n                 session_epoch = session_epoch + 1, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "cc8c3cf5251e458f83e655f8cf7934fcc85cfc15b941c3f10bc943acc69a61b5"
+}

@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT items FROM orders WHERE id = ? AND user_id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "items",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "items"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "178bafa8c15501005ebc4781fe42279e070fbfed6b79668a1436f7ff025145af"
+}

@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE discount_codes SET code = ?, kind = ?, value = ?, active = ?, valid_until = ?, usage_limit = ?, min_order_czk = ?, note = ?,\n                        updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 9
+    },
+    "nullable": []
+  },
+  "hash": "fb093596c792e51c14df910f403b4e50dfe16c9c2308275146c80e9831bf30d1"
+}

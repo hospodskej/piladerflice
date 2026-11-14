@@ -1,0 +1,38 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT category, field FROM inquiry_form_options WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "category",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "field",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "field"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "c13f82191b47bc35c32a5936b8660935fdd90093512ee442674642cb583d2ec6"
+}

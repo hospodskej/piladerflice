@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO vat_rules (category, rate_cz, rate_at, prices_include_vat) VALUES (?, ?, ?, ?)\n             ON CONFLICT (category) DO UPDATE SET rate_cz = excluded.rate_cz, rate_at = excluded.rate_at,\n                 prices_include_vat = excluded.prices_include_vat, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 4
+    },
+    "nullable": []
+  },
+  "hash": "6a989043014c3a6664334a877ae98d761ff818fc5604c0f721ae537efb84312b"
+}

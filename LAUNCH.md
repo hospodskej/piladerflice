@@ -66,7 +66,7 @@ Go to the repository → **Settings → Secrets and variables → Actions**.
 |---|---|
 | `SSH_PRIVATE_KEY` | the whole contents of `piladerflice_deploy`, the file **without** `.pub` |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | the admin login, for the **Admin account** workflow |
-| `SECRET_KEY_BASE` | a long random string: run `ruby bin/rails secret` in the project and paste the output. Set it once and never change it: changing it logs everyone out and breaks password-reset links. |
+| `SECRET_KEY_BASE` | a long random string (at least 32 characters): run `openssl rand -hex 64` (or, in PowerShell, `[Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(64))`) and paste the output. Set it once and never change it: changing it breaks password-reset links that are on their way. The site refuses to start without it. |
 | `SMTP_USERNAME` / `SMTP_PASSWORD` | the mail account the site sends from |
 | `ORDER_NOTIFICATION_EMAIL` | where new orders and inquiries go, e.g. Štěpán's e-mail |
 | `ORS_API_KEY` | the openrouteservice key (delivery prices, address suggestions) |
@@ -122,7 +122,7 @@ This needs Štěpán to be the domain's owner ("Držitel") at WEDOS first.
 4. In the WEDOS account, set the domain's nameservers to the two Cloudflare shows. It takes from minutes to a few hours.
 5. When `https://piladerflice.cz` shows the new site, check:
    - `https://www.piladerflice.cz/obchod/` redirects to the new e-shop.
-   - The old WordPress addresses redirect too. They're all listed in `config/routes/legacy.rb`, and Google keeps its rankings this way.
+   - The old WordPress addresses redirect too. They're all listed in `crates/site/src/plain.rs` (`OLD_ADDRESSES`), and Google keeps its rankings this way.
    - A test order goes through.
 6. In [Google Search Console](https://search.google.com/search-console):
    - Add `piladerflice.cz`.
@@ -132,9 +132,10 @@ This needs Štěpán to be the domain's owner ("Držitel") at WEDOS first.
 
 - **Deploy a change:** merge it into `main`, then **Actions → Deploy → Run workflow**.
 - **Restore a backup:** each night is a folder in `/var/backups/piladerflice/`
-  holding `production.sqlite3.gz` (the database) and `uploads.tar.gz` (photos).
+  holding `production.db.gz` (the database) and `uploads.tar.gz` (photos).
   1. Stop the app: `kamal app stop`.
-  2. Unpack both into the `piladerflice_storage` volume:
+  2. Unpack both into the `piladerflice_storage` volume, and delete any
+     `production.db-wal` / `production.db-shm` files left there:
      `docker volume inspect piladerflice_storage` shows the volume's folder on the server.
   3. Start the app again: `kamal app boot`.
 - **Copy a backup to your computer:**
@@ -143,8 +144,9 @@ This needs Štěpán to be the domain's owner ("Držitel") at WEDOS first.
 ### Running Kamal commands
 
 Deploys and the admin account go through GitHub. For anything else (logs, the
-console, a backup on demand) you run Kamal by hand. On Windows, use **WSL** (Ubuntu)
-or simply SSH into the server and use plain `docker` there.
+database, a backup on demand) you run Kamal by hand. Kamal is a Ruby program:
+install Ruby, then `gem install kamal`. On Windows, use **WSL** (Ubuntu) or
+simply SSH into the server and use plain `docker` there.
 
 Kamal needs the same variables as the workflow. In the project folder, create
 a `.env` file. It's ignored by git, so never commit it. Put these in it:
@@ -157,11 +159,11 @@ The private key must be loaded: `ssh-add ~/.ssh/piladerflice_deploy`.
 
 | Command | Does |
 |---|---|
-| `bundle exec kamal logs` | live log of the site |
-| `bundle exec kamal console` | Rails console on the live database (careful) |
-| `bundle exec kamal dbconsole` | SQLite prompt on the live database |
-| `bundle exec kamal backup-now` | take a backup right now |
-| `bundle exec kamal accessory logs backup` | the backup job's output |
-| `bundle exec kamal app exec "ruby bin/rails admin:create_user" -e ADMIN_EMAIL:… ADMIN_PASSWORD:…` | create or reset an admin |
+| `kamal logs` | live log of the site |
+| `kamal shell` | a shell in the running container |
+| `kamal dbconsole` | SQLite prompt on the live database (careful) |
+| `kamal backup-now` | take a backup right now |
+| `kamal accessory logs backup` | the backup job's output |
+| `kamal app exec "/app/server admin:create_user" -e ADMIN_EMAIL:… ADMIN_PASSWORD:…` | create or reset an admin |
 
 Never run `kamal remove` or delete the `piladerflice_storage` volume: that is the shop's data.

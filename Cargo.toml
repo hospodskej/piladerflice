@@ -1,0 +1,84 @@
+[workspace]
+resolver = "3"
+members = ["crates/domain", "crates/site", "crates/server", "crates/front"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+publish = false
+
+[workspace.dependencies]
+domain = { path = "crates/domain" }
+site = { path = "crates/site", default-features = false }
+
+leptos = { version = "0.8", features = ["islands"] }
+leptos_meta = "0.8"
+leptos_router = "0.8"
+leptos_axum = "0.8"
+axum = { version = "0.8", features = ["macros"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "time"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["fs", "compression-gzip", "compression-br", "trace", "set-header"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "sqlite", "macros", "migrate", "time", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+time = { version = "0.3", features = ["serde", "macros", "formatting", "parsing"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+wasm-bindgen = "0.2"
+web-sys = "0.3"
+console_error_panic_hook = "0.1"
+tower-sessions = "0.15"
+tower-sessions-sqlx-store = { version = "0.16", features = ["sqlite"] }
+
+# Our own crates (hospodskej/rust-crates); move to crates.io versions once published.
+codon = { git = "https://github.com/hospodskej/rust-crates", branch = "codon", features = ["serde"] }
+refractory = { git = "https://github.com/hospodskej/rust-crates", branch = "refractory" }
+chemotaxis = { git = "https://github.com/hospodskej/rust-crates", branch = "chemotaxis" }
+thymus = { git = "https://github.com/hospodskej/rust-crates", branch = "thymus" }
+spliceosome = { git = "https://github.com/hospodskej/rust-crates", branch = "spliceosome" }
+attenuator = { git = "https://github.com/hospodskej/rust-crates", branch = "attenuator" }
+cuticle = { git = "https://github.com/hospodskej/rust-crates", branch = "cuticle", features = ["leptos"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+# Built by cargo-leptos: `cargo leptos watch` for development,
+# `cargo leptos build --release` for production.
+[[workspace.metadata.leptos]]
+name = "piladerflice"
+bin-package = "server"
+lib-package = "front"
+output-name = "piladerflice"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+assets-dir = "assets"
+site-addr = "127.0.0.1:3000"
+reload-port = 3001
+env = "DEV"
+bin-features = []
+lib-features = []
+lib-profile-release = "wasm-release"
+
+[profile.release]
+lto = "thin"
+
+# The browser bundle: small over fast.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+# Lighter debug builds: line numbers for our code, no debug info for dependencies.
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+debug = false

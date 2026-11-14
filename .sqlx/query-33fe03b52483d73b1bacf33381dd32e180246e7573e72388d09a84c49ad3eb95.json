@@ -1,0 +1,21 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT EXISTS (SELECT 1 FROM catalog_products) OR EXISTS (SELECT 1 FROM products) AS \"x!: bool\"",
+  "describe": {
+    "columns": [
+      {
+        "name": "x!: bool",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "33fe03b52483d73b1bacf33381dd32e180246e7573e72388d09a84c49ad3eb95"
+}

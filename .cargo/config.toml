@@ -1,0 +1,4 @@
+[net]
+# Fetch git dependencies (the crates in hospodskej/rust-crates) with the
+# system git, which follows the machine's proxy and certificates.
+git-fetch-with-cli = true

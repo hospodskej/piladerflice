@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO catalog_variants (catalog_product_id, key, variant_group, length_label, variant_label, variant_label_de, amount_value,\n                        stacked, price_czk, in_stock, position, grade, grade_de, width_mm, height_mm, image)\n                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 16
+    },
+    "nullable": []
+  },
+  "hash": "fa9d485eafbf6f9f8705f1f1ea273f8af3cb3aaf83e5354e4ffc83c055655c17"
+}

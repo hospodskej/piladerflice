@@ -1,21 +1,12 @@
 # Kept out of the image: git history, secrets, local databases and uploads,
-# logs, tests and anything built locally.
+# and anything built locally.
 /.git/
-/.gitignore
 /.github/
 /.kamal/
 /.env*
-/config/*.key
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
-/tmp/pids/*
-!/tmp/pids/.keep
+/target/
 /storage/*
 !/storage/.keep
-/public/assets
-/test/
-/node_modules/
 /Dockerfile*
 /.dockerignore
+/rails/

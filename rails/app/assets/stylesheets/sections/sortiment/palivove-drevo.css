@@ -1,0 +1,188 @@
+.product-detail-hero {
+    margin: 0 0 100px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.product-detail-hero:first-of-type {
+    margin-top: 60px;
+}
+
+.product-hero-text h1,
+.product-hero-text h2 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.product-hero-text p {
+    font-size: 1rem;
+    line-height: 1;
+    color: #333;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.product-hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.product-hero-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-weight: bold;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    margin: 0;
+    flex: 1;
+}
+
+.btn-outline-dark {
+    background: transparent;
+    color: #000;
+    border: 1px solid #000 !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    background: #000;
+    color: #fff;
+}
+
+.product-hero-carousel {
+    width: 100%;
+    margin-top: 0px;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+}
+
+.wood-types-section {
+    margin: 80px 0;
+    display: block !important;
+}
+
+.wood-types-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: left;
+}
+
+.wood-types-layout {
+    display: flex;
+    gap: 40px;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.wood-category-box {
+    background: #F5F5F5;
+    border-radius: 12px;
+    padding: 20px 57px;
+}
+
+.wood-category-box h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    margin-top: 0;
+}
+
+.wood-items-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: nowrap;
+}
+
+.wood-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.wood-texture {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid #2C8FFF;
+    transition: transform 0.3s ease;
+}
+
+.wood-item:hover .wood-texture {
+    transform: translateY(-5px);
+}
+
+.wood-item span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.product-detail-hero.reverse-layout .product-hero-text {
+    order: 2;
+}
+
+.product-detail-hero.reverse-layout .product-hero-carousel {
+    order: 1;
+}
+
+@media (max-width: 992px) {
+    .wood-category-box {
+        padding: 20px 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .product-detail-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .wood-types-layout {
+        flex-wrap: wrap;
+    }
+
+    .product-detail-hero.reverse-layout .product-hero-text {
+        order: 2;
+    }
+    .product-detail-hero.reverse-layout .product-hero-carousel {
+        order: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .wood-category-box {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .wood-items-grid {
+        flex-wrap: wrap;
+        gap: 20px 15px;
+    }
+
+    .wood-texture {
+        width: 60px;
+        height: 60px;
+    }
+
+    .wood-item span {
+        font-size: 0.9rem;
+    }
+}

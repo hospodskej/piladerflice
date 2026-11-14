@@ -1,0 +1,38 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT email_address, password_hash FROM users WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "email_address",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "email_address"
+          }
+        }
+      },
+      {
+        "name": "password_hash",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "users",
+            "name": "password_hash"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "4b6af4496e52a11eb3b45eb0f09cc76869d70ca86b70c49116ed21f85b3be388"
+}

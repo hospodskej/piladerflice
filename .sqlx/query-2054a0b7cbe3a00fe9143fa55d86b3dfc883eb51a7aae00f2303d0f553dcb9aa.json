@@ -1,0 +1,134 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT category, delivery_rate, subcategory, subcategory_de, item_name, item_name_de, details, details_de, price, price_de\n         FROM pricelist_items ORDER BY position, id",
+  "describe": {
+    "columns": [
+      {
+        "name": "category",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "delivery_rate",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "delivery_rate"
+          }
+        }
+      },
+      {
+        "name": "subcategory",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "subcategory"
+          }
+        }
+      },
+      {
+        "name": "subcategory_de",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "subcategory_de"
+          }
+        }
+      },
+      {
+        "name": "item_name",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "item_name"
+          }
+        }
+      },
+      {
+        "name": "item_name_de",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "item_name_de"
+          }
+        }
+      },
+      {
+        "name": "details",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "details"
+          }
+        }
+      },
+      {
+        "name": "details_de",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "details_de"
+          }
+        }
+      },
+      {
+        "name": "price",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "price"
+          }
+        }
+      },
+      {
+        "name": "price_de",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "pricelist_items",
+            "name": "price_de"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true
+    ]
+  },
+  "hash": "2054a0b7cbe3a00fe9143fa55d86b3dfc883eb51a7aae00f2303d0f553dcb9aa"
+}

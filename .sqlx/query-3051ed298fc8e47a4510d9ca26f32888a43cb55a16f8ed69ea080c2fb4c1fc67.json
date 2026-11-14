@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO orders (user_id, locale, items, subtotal_czk, discount_code, discount_czk, delivery_distance_km, delivery_czk,\n                               vat_czk, vat_breakdown, vat_country, total_czk, shipping_method, payment_method,\n                               first_name, last_name, email, phone, billing_street, billing_city, billing_zip, billing_country,\n                               company_purchase, company_name, company_ico, company_dic,\n                               delivery_address_different, delivery_street, delivery_city, delivery_zip, delivery_country, newsletter_opt_in)\n           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id AS \"id!\"",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 32
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "3051ed298fc8e47a4510d9ca26f32888a43cb55a16f8ed69ea080c2fb4c1fc67"
+}

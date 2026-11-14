@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO discount_codes (code, kind, value, active, valid_until, usage_limit, min_order_czk, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 8
+    },
+    "nullable": []
+  },
+  "hash": "9d3f3f259daee4b7a85d3cf8d4c09387f66d2ae5b58eddda6d8f608b868599f2"
+}

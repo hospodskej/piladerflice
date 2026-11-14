@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE promos SET title = ?, title_de = ?, feature_1 = ?, feature_1_de = ?, feature_2 = ?, feature_2_de = ?, feature_3 = ?, feature_3_de = ?,\n                        price = ?, price_de = ?, link = ?, image = COALESCE(?, image), updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 13
+    },
+    "nullable": []
+  },
+  "hash": "561c19bcc4d9d2eb0db2c8f09cb1a28fe48ef0ea8e2d51b9ebd01cf4894d75d8"
+}

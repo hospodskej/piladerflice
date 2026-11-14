@@ -1,0 +1,86 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT title, title_de, text, text_de, image, link FROM products ORDER BY id",
+  "describe": {
+    "columns": [
+      {
+        "name": "title",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "title"
+          }
+        }
+      },
+      {
+        "name": "title_de",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "title_de"
+          }
+        }
+      },
+      {
+        "name": "text",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "text"
+          }
+        }
+      },
+      {
+        "name": "text_de",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "text_de"
+          }
+        }
+      },
+      {
+        "name": "image",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "image"
+          }
+        }
+      },
+      {
+        "name": "link",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "products",
+            "name": "link"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "7a22f6d6b9ac255e041dcfef2d559b7075ee702b42ce8e221d30a773b3ab3e40"
+}

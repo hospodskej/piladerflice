@@ -1,0 +1,242 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT * FROM catalog_variants WHERE id = ? AND catalog_product_id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "catalog_product_id",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "catalog_product_id"
+          }
+        }
+      },
+      {
+        "name": "key",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "key"
+          }
+        }
+      },
+      {
+        "name": "position",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "position"
+          }
+        }
+      },
+      {
+        "name": "price_czk",
+        "ordinal": 4,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "price_czk"
+          }
+        }
+      },
+      {
+        "name": "in_stock",
+        "ordinal": 5,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "in_stock"
+          }
+        }
+      },
+      {
+        "name": "stacked",
+        "ordinal": 6,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "stacked"
+          }
+        }
+      },
+      {
+        "name": "variant_group",
+        "ordinal": 7,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "variant_group"
+          }
+        }
+      },
+      {
+        "name": "variant_label",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "variant_label"
+          }
+        }
+      },
+      {
+        "name": "variant_label_de",
+        "ordinal": 9,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "variant_label_de"
+          }
+        }
+      },
+      {
+        "name": "grade",
+        "ordinal": 10,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "grade"
+          }
+        }
+      },
+      {
+        "name": "grade_de",
+        "ordinal": 11,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "grade_de"
+          }
+        }
+      },
+      {
+        "name": "length_label",
+        "ordinal": 12,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "length_label"
+          }
+        }
+      },
+      {
+        "name": "amount_value",
+        "ordinal": 13,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "amount_value"
+          }
+        }
+      },
+      {
+        "name": "width_mm",
+        "ordinal": 14,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "width_mm"
+          }
+        }
+      },
+      {
+        "name": "height_mm",
+        "ordinal": 15,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "height_mm"
+          }
+        }
+      },
+      {
+        "name": "image",
+        "ordinal": 16,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "image"
+          }
+        }
+      },
+      {
+        "name": "created_at",
+        "ordinal": 17,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "created_at"
+          }
+        }
+      },
+      {
+        "name": "updated_at",
+        "ordinal": 18,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_variants",
+            "name": "updated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "7ef941e26f73f438f4e4c5dcd3cb9efd674933966f45400528e34abcf8634618"
+}

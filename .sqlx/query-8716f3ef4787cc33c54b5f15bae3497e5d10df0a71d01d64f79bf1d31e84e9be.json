@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT o.id AS \"id!\" FROM inquiry_form_options o JOIN inquiry_form_options me ON me.id = ?\n               WHERE o.category = me.category AND o.field = me.field ORDER BY o.position, o.id",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "inquiry_form_options",
+            "name": "id"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "8716f3ef4787cc33c54b5f15bae3497e5d10df0a71d01d64f79bf1d31e84e9be"
+}

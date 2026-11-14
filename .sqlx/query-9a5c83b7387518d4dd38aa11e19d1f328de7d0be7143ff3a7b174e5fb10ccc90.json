@@ -1,0 +1,100 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.template, p.category, p.active,\n                  (SELECT COUNT(*) FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"variants!: i64\",\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk)) FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\"\n           FROM catalog_products p ORDER BY p.position, p.id",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "key",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "key"
+          }
+        }
+      },
+      {
+        "name": "title",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "title"
+          }
+        }
+      },
+      {
+        "name": "template",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "template"
+          }
+        }
+      },
+      {
+        "name": "category",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "category"
+          }
+        }
+      },
+      {
+        "name": "active",
+        "ordinal": 5,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "catalog_products",
+            "name": "active"
+          }
+        }
+      },
+      {
+        "name": "variants!: i64",
+        "ordinal": 6,
+        "type_info": "Integer",
+        "origin": "Expression"
+      },
+      {
+        "name": "starting_price: i64",
+        "ordinal": 7,
+        "type_info": "Integer",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "9a5c83b7387518d4dd38aa11e19d1f328de7d0be7143ff3a7b174e5fb10ccc90"
+}

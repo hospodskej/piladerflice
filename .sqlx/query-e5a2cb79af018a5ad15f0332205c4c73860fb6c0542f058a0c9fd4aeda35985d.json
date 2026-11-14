@@ -1,0 +1,28 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT json_extract(item.value, '$.product_key') AS \"key: String\",\n                  SUM(json_extract(item.value, '$.quantity')) AS \"sold: i64\"\n           FROM orders, json_each(orders.items) AS item\n           WHERE orders.created_at >= ?\n           GROUP BY 1",
+  "describe": {
+    "columns": [
+      {
+        "name": "key: String",
+        "ordinal": 0,
+        "type_info": "Null",
+        "origin": "Expression"
+      },
+      {
+        "name": "sold: i64",
+        "ordinal": 1,
+        "type_info": "Null",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      null,
+      true
+    ]
+  },
+  "hash": "e5a2cb79af018a5ad15f0332205c4c73860fb6c0542f058a0c9fd4aeda35985d"
+}

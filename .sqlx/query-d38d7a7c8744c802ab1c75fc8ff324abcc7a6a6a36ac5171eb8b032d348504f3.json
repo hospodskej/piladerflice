@@ -1,0 +1,434 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT * FROM orders WHERE id = ?",
+  "describe": {
+    "columns": [
+      {
+        "name": "id",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "user_id",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "user_id"
+          }
+        }
+      },
+      {
+        "name": "locale",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "locale"
+          }
+        }
+      },
+      {
+        "name": "items",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "items"
+          }
+        }
+      },
+      {
+        "name": "subtotal_czk",
+        "ordinal": 4,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "subtotal_czk"
+          }
+        }
+      },
+      {
+        "name": "discount_code",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "discount_code"
+          }
+        }
+      },
+      {
+        "name": "discount_czk",
+        "ordinal": 6,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "discount_czk"
+          }
+        }
+      },
+      {
+        "name": "delivery_distance_km",
+        "ordinal": 7,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_distance_km"
+          }
+        }
+      },
+      {
+        "name": "delivery_czk",
+        "ordinal": 8,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_czk"
+          }
+        }
+      },
+      {
+        "name": "vat_czk",
+        "ordinal": 9,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "vat_czk"
+          }
+        }
+      },
+      {
+        "name": "vat_breakdown",
+        "ordinal": 10,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "vat_breakdown"
+          }
+        }
+      },
+      {
+        "name": "vat_country",
+        "ordinal": 11,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "vat_country"
+          }
+        }
+      },
+      {
+        "name": "total_czk",
+        "ordinal": 12,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "total_czk"
+          }
+        }
+      },
+      {
+        "name": "shipping_method",
+        "ordinal": 13,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "shipping_method"
+          }
+        }
+      },
+      {
+        "name": "payment_method",
+        "ordinal": 14,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "payment_method"
+          }
+        }
+      },
+      {
+        "name": "first_name",
+        "ordinal": 15,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "first_name"
+          }
+        }
+      },
+      {
+        "name": "last_name",
+        "ordinal": 16,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "last_name"
+          }
+        }
+      },
+      {
+        "name": "email",
+        "ordinal": 17,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "email"
+          }
+        }
+      },
+      {
+        "name": "phone",
+        "ordinal": 18,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "phone"
+          }
+        }
+      },
+      {
+        "name": "billing_street",
+        "ordinal": 19,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "billing_street"
+          }
+        }
+      },
+      {
+        "name": "billing_city",
+        "ordinal": 20,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "billing_city"
+          }
+        }
+      },
+      {
+        "name": "billing_zip",
+        "ordinal": 21,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "billing_zip"
+          }
+        }
+      },
+      {
+        "name": "billing_country",
+        "ordinal": 22,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "billing_country"
+          }
+        }
+      },
+      {
+        "name": "company_purchase",
+        "ordinal": 23,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "company_purchase"
+          }
+        }
+      },
+      {
+        "name": "company_name",
+        "ordinal": 24,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "company_name"
+          }
+        }
+      },
+      {
+        "name": "company_ico",
+        "ordinal": 25,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "company_ico"
+          }
+        }
+      },
+      {
+        "name": "company_dic",
+        "ordinal": 26,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "company_dic"
+          }
+        }
+      },
+      {
+        "name": "delivery_address_different",
+        "ordinal": 27,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_address_different"
+          }
+        }
+      },
+      {
+        "name": "delivery_street",
+        "ordinal": 28,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_street"
+          }
+        }
+      },
+      {
+        "name": "delivery_city",
+        "ordinal": 29,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_city"
+          }
+        }
+      },
+      {
+        "name": "delivery_zip",
+        "ordinal": 30,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_zip"
+          }
+        }
+      },
+      {
+        "name": "delivery_country",
+        "ordinal": 31,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "delivery_country"
+          }
+        }
+      },
+      {
+        "name": "newsletter_opt_in",
+        "ordinal": 32,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "newsletter_opt_in"
+          }
+        }
+      },
+      {
+        "name": "created_at",
+        "ordinal": 33,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "created_at"
+          }
+        }
+      },
+      {
+        "name": "updated_at",
+        "ordinal": 34,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "orders",
+            "name": "updated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "d38d7a7c8744c802ab1c75fc8ff324abcc7a6a6a36ac5171eb8b032d348504f3"
+}

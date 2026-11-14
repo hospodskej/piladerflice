@@ -1,0 +1,13 @@
+<div id="cookie-consent-banner" class="cookie-consent-banner" hidden>
+  <div class="cookie-consent-content">
+    <p class="cookie-consent-text">
+      <%= t("cookies.banner_text") %>
+      <%= link_to t("cookies.learn_more"), cookies_policy_path, class: "cookie-consent-link" %>
+    </p>
+    <div class="cookie-consent-actions">
+      <button type="button" class="btn-cookie btn-cookie-decline" data-cookie-consent="declined"><%= t("cookies.decline") %></button>
+      <button type="button" class="btn-cookie btn-cookie-necessary" data-cookie-consent="necessary"><%= t("cookies.necessary_only") %></button>
+      <button type="button" class="btn-cookie btn-cookie-accept" data-cookie-consent="all"><%= t("cookies.accept_all") %></button>
+    </div>
+  </div>
+</div>

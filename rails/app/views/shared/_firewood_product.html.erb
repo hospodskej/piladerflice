@@ -1,0 +1,124 @@
+<%
+  title = product.title_i18n
+  @breadcrumb_items = product_breadcrumb_items(product)
+
+  kontejner_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "kontejner" }
+  bedny_variants = product.catalog_variants.to_a.select { |v| v.variant_group == "bedny" }
+
+  grid = FirewoodGrid.new(kontejner_variants)
+
+  # The filter's choices come from this product's variants.
+  all_variants = kontejner_variants + bedny_variants
+  filter_lengths = all_variants.map(&:length_label).uniq.sort_by { |label| -label.to_i }
+  filter_amounts = all_variants.map(&:amount_value).compact.uniq.sort
+  filter_kinds = %w[loose stacked].select { |kind| all_variants.any? { |v| (v.variant_group == "bedny" || v.stacked?) == (kind == "stacked") } }
+%>
+
+<main class="product-page-main main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag_if_attached product.image, alt: product.image_alt_i18n, loading: "eager", fetchpriority: "high" %>
+      </div>
+      <div class="product-intro-details">
+        <h1><%= title %></h1>
+        <p class="subtitle"><%= product.subtitle_i18n %></p>
+        <p class="description">
+          <%= product.description_i18n %>
+        </p>
+        <p class="drying-note"><%= product.drying_note_i18n %></p>
+        <p class="stock-status"><%= t("eshop.firewood.stock_status") %></p>
+        <%= render "shared/delivery_note" %>
+      </div>
+    </section>
+
+    <section class="inventory-section" data-controller="variant-filter">
+
+      <%= render "shared/variant_filter", groups: [
+            ["kind", t("common.spec_variant"), filter_kinds.map { |k| [k, nil, t(k == "stacked" ? "common.stacked_variant" : "common.loose_variant")] }],
+            ["amount", t("common.spec_amount"), filter_amounts.map { |a| [a, a, t("common.per_m3")] }],
+            ["length", t("common.spec_length"), filter_lengths.map { |l| [l, l.to_i, l.sub(/\A\d+\s*/, "")] }]
+          ] %>
+
+      <hr class="inventory-separator main-separator">
+
+      <div id="section-kontejner" class="inventory-group" data-variant-filter-target="section">
+        <h2 class="section-title"><%= t("eshop.firewood.variants_heading_html") %></h2>
+
+        <div class="matrix-grid" data-variant-filter-target="grid" data-columns="4">
+          <% grid.rows.each_index do |row_index| %>
+            <% grid.lengths.each do |len| %>
+              <% variant = grid.variant_at(row_index, len) %>
+              <div class="matrix-cell" data-row="<%= row_index %>" data-length="<%= len %>">
+                <% if variant %>
+                  <div class="inventory-card" data-kind="<%= variant.stacked? ? "stacked" : "loose" %>" data-amount="<%= variant.amount_value %>" data-length="<%= len %>">
+                    <%= image_tag_with_fallback variant.image, "eshop/container.webp", alt: t("common.container"), class: "inventory-img" %>
+                    <div class="inventory-specs">
+                      <div class="spec-labels">
+                        <span><%= t("common.spec_variant") %></span>
+                        <span><%= t("common.spec_length") %></span>
+                        <span><%= t("common.spec_amount") %></span>
+                      </div>
+                      <div class="spec-values">
+                        <span class="spec-value"><%= variant.stacked? ? t("common.stacked_variant") : t("common.loose_variant") %></span>
+                        <span class="spec-value"><%= len %></span>
+                        <span class="spec-value"><%= variant.amount_value %> <%= t("common.per_m3") %></span>
+                      </div>
+                    </div>
+                    <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %></p>
+                    <% if variant.in_stock? %>
+                      <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
+                    <% else %>
+                      <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <hr class="inventory-separator mid-separator" data-variant-filter-target="separator">
+
+      <div id="section-bedny" class="inventory-group" data-variant-filter-target="section">
+        <h2 class="section-title"><%= t("eshop.firewood.crates_heading_html") %></h2>
+
+        <div class="matrix-grid-bedny" data-variant-filter-target="grid" data-columns="3">
+          <% bedny_variants.each do |variant| %>
+            <div class="matrix-cell" data-row="crates" data-length="<%= variant.length_label %>">
+              <div class="inventory-card" data-kind="stacked" data-amount="<%= variant.amount_value %>" data-length="<%= variant.length_label %>">
+                <%= image_tag_with_fallback variant.image, "eshop/bedna.webp", alt: t("common.crate"), class: "inventory-img" %>
+                <div class="inventory-specs">
+                  <div class="spec-labels">
+                    <span><%= t("common.spec_variant") %></span>
+                    <span><%= t("common.spec_length") %></span>
+                    <span><%= t("common.spec_amount") %></span>
+                  </div>
+                  <div class="spec-values">
+                    <span class="spec-value"><%= t("common.stacked_variant") %></span>
+                    <span class="spec-value"><%= variant.length_label %></span>
+                    <span class="spec-value"><%= variant.amount_value %> <%= t("common.per_m3") %></span>
+                  </div>
+                </div>
+                <p class="inventory-price"><%= ExchangeRateService.display_amount(variant.customer_price_czk) %></p>
+                <% if variant.in_stock? %>
+                  <%= render "shared/add_to_cart_form", catalog_variant: variant, show_qty: false %>
+                <% else %>
+                  <%= button_to t("common.out_of_stock"), "#", class: "btn-primary btn-cart", disabled: true, style: "background-color: #9CA3AF; color: #FFFFFF; border: none; cursor: not-allowed;" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </section>
+
+    <%= render "shared/recommendations", current_product: product.key %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

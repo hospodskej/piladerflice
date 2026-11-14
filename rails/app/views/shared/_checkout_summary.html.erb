@@ -1,0 +1,15 @@
+<aside class="checkout-summary-box">
+  <h3 class="checkout-summary-title"><%= t("checkout.order_contents") %></h3>
+  <ul class="checkout-summary-items">
+    <% current_cart.items.each do |item| %>
+      <li class="checkout-summary-item">
+        <%= image_tag item.image, alt: cart_line_description(item), class: "checkout-summary-item-img" if item.image %>
+        <span class="checkout-summary-item-desc"><%= cart_line_description(item) %></span>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="cart-totals checkout-summary-totals">
+    <%= render "carts/totals" %>
+  </div>
+</aside>

@@ -1,0 +1,64 @@
+<%= form_with model: [:admin, discount_code], class: "admin-form" do |f| %>
+  <% if discount_code.errors.any? %>
+    <div class="admin-flash admin-flash-alert">
+      <strong><%= error_count(discount_code.errors.count) %> brání uložení:</strong>
+      <ul>
+        <% discount_code.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="admin-form-grid">
+    <div class="form-group">
+      <%= f.label :code, "Kód" %>
+      <%= f.text_field :code, placeholder: "JARO10", maxlength: 40, required: true, style: "text-transform: uppercase;" %>
+      <p class="admin-form-hint">Písmena bez diakritiky, číslice, - a _. Velikost písmen nehraje roli.</p>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :note, "Poznámka (jen pro vás)" %>
+      <%= f.text_field :note, placeholder: "Jarní akce pro stálé zákazníky" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :kind, "Typ slevy" %>
+      <%= f.select :kind, [["Procenta ze zboží (%)", "percent"], ["Pevná částka (Kč)", "fixed"]] %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :value, "Výše slevy" %>
+      <%= f.number_field :value, min: 1, step: 1, required: true %>
+      <p class="admin-form-hint">U procent 1–100, u pevné částky v Kč včetně DPH (nikdy víc, než stojí zboží).</p>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :min_order_czk, "Minimální hodnota zboží (Kč, nepovinné)" %>
+      <%= f.number_field :min_order_czk, min: 1, step: 1 %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :valid_until, "Platí do (včetně, nepovinné)" %>
+      <%= f.date_field :valid_until %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :usage_limit, "Kolikrát lze použít (nepovinné)" %>
+      <%= f.number_field :usage_limit, min: 1, step: 1 %>
+      <p class="admin-form-hint">Prázdné = bez omezení. Zatím použito <%= discount_code.times_used %>×.</p>
+    </div>
+
+  </div>
+
+  <label class="custom-checkbox-label checkout-checkbox">
+    <%= f.check_box :active %>
+    <span class="custom-checkbox"></span>
+    <span>Aktivní (zákazníci ho mohou použít)</span>
+  </label>
+
+  <div class="admin-form-actions">
+    <%= f.submit "Uložit slevový kód", class: "btn-primary" %>
+    <%= link_to "Zpět na přehled", admin_discount_codes_path, class: "btn-outline-dark" %>
+  </div>
+<% end %>

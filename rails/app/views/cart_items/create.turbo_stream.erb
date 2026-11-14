@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "cart-widget" do %>
+  <%= render "shared/cart_widget" %>
+<% end %>
+
+<%= turbo_stream.update "cart-added-modal" do %>
+  <%= render "shared/cart_added_modal", item: @added_item %>
+<% end %>

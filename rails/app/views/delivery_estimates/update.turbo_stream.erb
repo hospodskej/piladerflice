@@ -1,0 +1,14 @@
+<%# Every place that shows the estimate: the box, the cart page and the cart dropdown. %>
+<%= turbo_stream.replace "delivery-estimate" do %>
+  <%= render "shared/delivery_note" %>
+<% end %>
+
+<% unless current_cart.empty? %>
+  <%= turbo_stream.replace "cart-page-totals" do %>
+    <%= render "carts/page_totals" %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "cart-widget" do %>
+  <%= render "shared/cart_widget" %>
+<% end %>

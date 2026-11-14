@@ -57,3 +57,7 @@ jobs:
       # running yet, then deploy. On later runs the first two are no-ops.
       - name: Deploy
         run: kamal setup
+      # The backup job reads its script when it starts; restart it so it
+      # always runs the current config/backup/backup.sh.
+      - name: Restart the backup job
+        run: kamal accessory reboot backup

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <title><%= content_for(:title) || t("site.name") %></title>
+  <% if content_for?(:description) %>
+    <meta name="description" content="<%= content_for(:description) %>">
+  <% end %>
+  <%= alternate_links %>
+  <%= open_graph_tags %>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Pila Derflice">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <% if current_user %>
+    <%# Signed in: the dark/light choice saved to the account (empty until one is picked). %>
+    <meta name="theme-preference" content="<%= current_user.theme %>" data-url="<%= account_theme_path %>">
+  <% end %>
+
+  <script nonce="<%= content_security_policy_nonce %>">
+    (function () {
+      var saved = document.querySelector('meta[name="theme-preference"]');
+      var theme = saved && saved.content;
+      try {
+        if (theme) localStorage.setItem("theme", theme);
+        else theme = localStorage.getItem("theme");
+      } catch (e) {}
+      if (theme === "dark") document.documentElement.classList.add("dark-mode");
+    })();
+  </script>
+
+  <%# TODO: Google Search Console, once the site is live: add the live domain at
+      https://search.google.com/search-console and verify it (the DNS TXT record
+      needs no code; the HTML-tag option means adding Google's
+      google-site-verification meta tag here), submit sitemap.xml, and later
+      check the Pages report for pages Google couldn't index. %>
+  <%# TODO: Google Analytics has never been checked against live traffic. Once
+      live: confirm G-CMJ46E7F3G belongs to the right property and its data
+      stream points at the live domain; accept cookies and check the Realtime
+      report; place a test order and check the purchase event arrives (mark it
+      as a key event if wanted); set Data retention to match the privacy policy
+      (up to 14 months); link the property to Search Console. %>
+  <% ga_measurement_id = "G-CMJ46E7F3G" %>
+  <script nonce="<%= content_security_policy_nonce %>">
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    var storedConsent = (document.cookie.match(/(?:^|; )cookie_consent=([^;]*)/) || [])[1];
+    gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: storedConsent === "all" ? "granted" : "denied"
+    });
+  </script>
+  <script async nonce="<%= content_security_policy_nonce %>" src="https://www.googletagmanager.com/gtag/js?id=<%= ga_measurement_id %>"></script>
+  <script nonce="<%= content_security_policy_nonce %>">
+    gtag("js", new Date());
+    gtag("config", "<%= ga_measurement_id %>");
+  </script>
+
+  <%= yield :head %>
+
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+  <%= favicon_link_tag 'icon.svg' %>
+
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
+<div class="page-wrapper">
+  <%= render "shared/header" %>
+  <%= render "shared/breadcrumbs" %>
+  <% if notice %>
+    <div class="page-flash page-flash-notice"><%= notice %></div>
+  <% end %>
+  <% if alert %>
+    <div class="page-flash page-flash-alert"><%= alert %></div>
+  <% end %>
+  <%= yield %>
+  <%= render "shared/footer" %>
+</div>
+<%= render "shared/sticky_logo" %>
+<%= render "shared/mobile_sidebar" %>
+<%= render "shared/cookie_consent" %>
+<div id="cart-added-modal"></div>
+<%# TODO: AI chatbot answering customers' product/order questions. Leaning
+    towards Python (Django) as its own separate app, embedded here; scope (what
+    it answers, whether it can place orders) still undecided. /llms.txt already
+    describes the business and catalogue for AI assistants. %>
+</body>
+</html>

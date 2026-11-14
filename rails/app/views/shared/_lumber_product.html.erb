@@ -1,0 +1,67 @@
+<%
+  title = product.title_i18n
+  @breadcrumb_items = product_breadcrumb_items(product)
+
+  variants = product.catalog_variants.to_a
+
+  # The filter's choices come from this product's variants; a group with a
+  # single choice would filter nothing, so it is left out.
+  # Width and height are separate groups: fošny come in ~17 sizes, but only
+  # 6 widths and 3 thicknesses.
+  size_options = ->(attribute) do
+    variants.map(&attribute).compact.uniq.sort.map { |mm| [mm.to_s, mm, "mm"] }
+  end
+  length_options = variants.map(&:length_label).compact.uniq.sort_by { |label| label.delete(" ").to_i }
+    .map { |label| [label, label[/\A[\d\s]+/]&.strip, label.sub(/\A[\d\s]+/, "")] }
+  grade_options = variants.select(&:grade_filter_key).uniq(&:grade_filter_key)
+    .map { |v| [v.grade_filter_key, nil, v.grade_i18n] }
+
+  filter_groups = [
+    ["width", t("common.spec_width"), size_options.(:width_mm)],
+    ["height", t("common.spec_height"), size_options.(:height_mm)],
+    ["length", t("common.spec_length"), length_options],
+    ["grade", t("common.spec_grade"), grade_options]
+  ].select { |_name, _heading, options| options.size > 1 }
+%>
+
+<main class="product-page-main main">
+  <div class="product-container">
+
+    <section class="product-intro-section">
+      <div class="product-intro-image">
+        <%= image_tag_if_attached product.image, alt: title, loading: "eager", fetchpriority: "high" %>
+      </div>
+      <div class="product-intro-details">
+        <h1><%= title %></h1>
+        <p class="description">
+          <%= product.description_i18n %>
+        </p>
+        <p class="stock-status"><%= t("common.in_stock") %></p>
+        <%= render "shared/delivery_note" %>
+      </div>
+    </section>
+
+    <section class="inventory-section" data-controller="variant-filter">
+
+      <hr class="inventory-separator main-separator">
+
+      <h2 class="section-title"><%= t("eshop.lumber.variants_heading_html") %></h2>
+
+      <% if filter_groups.any? %>
+        <%= render "shared/variant_filter", groups: filter_groups %>
+      <% end %>
+
+      <div class="simple-grid-3" id="lumberGrid" data-variant-filter-target="grid">
+        <% variants.each do |variant| %>
+          <%= render "shared/lumber_card", variant: variant, product: product, title: title %>
+        <% end %>
+      </div>
+
+    </section>
+
+    <%= render "shared/recommendations", current_product: product.key %>
+
+  </div>
+
+  <%= render "shared/custom_demand" %>
+</main>

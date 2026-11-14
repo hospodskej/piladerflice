@@ -1,0 +1,39 @@
+# Creates the admin account on the live site, or resets its password.
+# Set the ADMIN_EMAIL and ADMIN_PASSWORD secrets first, then:
+# GitHub → Actions → Admin account → Run workflow. GitHub hides both in the log.
+name: Admin account
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  admin:
+    runs-on: ubuntu-24.04
+    env:
+      SERVER_IP: ${{ vars.SERVER_IP }}
+      APP_HOSTS: ${{ vars.APP_HOSTS }}
+      SSH_USER: ${{ vars.SSH_USER }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3.6"
+          bundler-cache: true
+      - uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Create or update the admin
+        # The command goes before -e: everything after -e is read as KEY:VALUE pairs.
+        run: >-
+          bundle exec kamal app exec --reuse "ruby bin/rails admin:create_user"
+          -e "ADMIN_EMAIL:${{ secrets.ADMIN_EMAIL }}" "ADMIN_PASSWORD:${{ secrets.ADMIN_PASSWORD }}"

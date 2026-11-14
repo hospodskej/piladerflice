@@ -1,0 +1,22 @@
+<% page_meta :reset_password %>
+<main class="main">
+  <section class="auth-section">
+    <div class="auth-box">
+      <h1 class="auth-box-title"><%= t("auth.reset.new_title") %></h1>
+      <div class="auth-box-body">
+        <p class="auth-privacy-note"><%= t("auth.reset.new_intro", email: @user.email_address) %></p>
+        <%= form_with url: password_path, method: :patch, class: "auth-form" do %>
+          <div class="form-group">
+            <label for="password"><%= t("auth.reset.new_password") %></label>
+            <input type="password" name="password" id="password" required minlength="8" autocomplete="new-password" autofocus>
+          </div>
+          <div class="form-group">
+            <label for="password_confirmation"><%= t("auth.password_confirmation") %></label>
+            <input type="password" name="password_confirmation" id="password_confirmation" required minlength="8" autocomplete="new-password">
+          </div>
+          <%= submit_tag t("auth.reset.new_submit"), class: "btn-primary auth-submit" %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>

@@ -69,6 +69,16 @@ impl PostalAddress {
     }
 }
 
+/// A field the details step still needs (see [`CheckoutState::missing`]).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Missing {
+    CompanyName,
+    DeliveryStreet,
+    DeliveryCity,
+    DeliveryZip,
+    DeliveryCountry,
+}
+
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CheckoutState {
     pub shipping: Option<Shipping>,
@@ -146,6 +156,29 @@ impl CheckoutState {
             .iter()
             .all(|p| p.is_some())
             && self.billing.is_complete()
+    }
+
+    /// The fields a company purchase or a separate delivery address still
+    /// needs, in the order the form shows them. Empty when nothing is missing.
+    pub fn missing(&self) -> Vec<Missing> {
+        let mut missing = Vec::new();
+        if self.company_purchase && self.company_name.is_none() {
+            missing.push(Missing::CompanyName);
+        }
+        if self.delivery_address_different {
+            let d = &self.delivery;
+            for (value, field) in [
+                (&d.street, Missing::DeliveryStreet),
+                (&d.city, Missing::DeliveryCity),
+                (&d.zip, Missing::DeliveryZip),
+                (&d.country, Missing::DeliveryCountry),
+            ] {
+                if value.is_none() {
+                    missing.push(field);
+                }
+            }
+        }
+        missing
     }
 
     /// Where the goods go: the delivery address when different, else billing.
@@ -227,6 +260,27 @@ mod tests {
             ("payment_method", "cash"),
         ]));
         assert_eq!(c.vat_country(), Some(Country::Cz));
+    }
+
+    #[test]
+    fn company_and_delivery_need_their_fields() {
+        let mut c = CheckoutState::default();
+        c.update_details(form(&[
+            ("company_purchase", "1"),
+            ("delivery_address_different", "1"),
+            ("delivery_city", "Retz"),
+        ]));
+        assert_eq!(
+            c.missing(),
+            vec![
+                Missing::CompanyName,
+                Missing::DeliveryStreet,
+                Missing::DeliveryZip,
+                Missing::DeliveryCountry
+            ]
+        );
+        c.update_details(form(&[("first_name", "Jan")]));
+        assert!(c.missing().is_empty());
     }
 
     #[test]

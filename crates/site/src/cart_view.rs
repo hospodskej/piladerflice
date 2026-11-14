@@ -137,14 +137,17 @@ mod build {
         if let Some((place, quote)) = &delivery {
             rows.push(row(
                 t::delivery_estimate::cart_line(l, quote.round_trip_km(), place),
-                format!("≈ {}", price(quote.price())),
+                v.shop.approx_price(l, quote.price()),
                 RowKind::Delivery,
             ));
         }
-        let approx = if delivery.is_some() { "≈ " } else { "" };
         rows.push(row(
             t::cart::total_due(l).into(),
-            format!("{approx}{}", price(vat.total())),
+            if delivery.is_some() {
+                v.shop.approx_price(l, vat.total())
+            } else {
+                price(vat.total())
+            },
             RowKind::Total,
         ));
         if !compact {

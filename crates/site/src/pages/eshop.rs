@@ -265,7 +265,7 @@ pub fn DeliveryNote() -> impl IntoView {
         Some(estimate) => {
             let quote = estimate.quote(v.shop.czk_per_km);
             view! {
-                <p class="delivery-estimate-result" inner_html=d::result(l, quote.one_way_km, &estimate.place, v.shop.price(l, quote.price()), &rate, quote.round_trip_km()).into_string()></p>
+                <p class="delivery-estimate-result" inner_html=d::result(l, quote.one_way_km, &estimate.place, v.shop.bare_price(l, quote.price()), &rate, quote.round_trip_km()).into_string()></p>
                 <p class="delivery-estimate-hint">{d::result_hint(l)}</p>
                 <form class="button_to" method="post" action={v.link("/doprava-odhad/zrusit")}>
                     <button class="delivery-estimate-change" type="submit">{d::change(l)}</button>

@@ -343,8 +343,26 @@ pub async fn redirects(request: Request, next: Next) -> Response {
             return moved(&format!("https://{host}{path}"));
         }
     }
-    if let Some(new) = old_address(uri.path()) {
+    // "/eshop/" is "/eshop", for old addresses too (WordPress ended them in
+    // "/"). Never "//host/": that would leave the site.
+    let path = uri.path();
+    let trimmed = path.trim_end_matches('/');
+    if let Some(new) = old_address(if trimmed.is_empty() { "/" } else { trimmed }) {
         return moved(new);
+    }
+    if path.len() > 1
+        && trimmed.len() < path.len()
+        && !trimmed.starts_with("//")
+        && matches!(
+            *request.method(),
+            axum::http::Method::GET | axum::http::Method::HEAD
+        )
+    {
+        let trimmed = if trimmed.is_empty() { "/" } else { trimmed };
+        return match uri.query() {
+            Some(query) => moved(&format!("{trimmed}?{query}")),
+            None => moved(trimmed),
+        };
     }
     // Links from before the /at prefix: ?locale=de on an unprefixed address.
     let is_get = matches!(

@@ -343,7 +343,7 @@ pub fn HomePage() -> impl IntoView {
                                     <p>{h::hero_text(l)}</p>
                                 </div>
                                 <div class="domu-buttons">
-                                    <a href=v.link("/eshop/") class="btn-eshop">{h::btn_eshop(l)}</a>
+                                    <a href=v.link("/eshop") class="btn-eshop">{h::btn_eshop(l)}</a>
                                     <a href=v.link("/kontakt#kalkulace") class="btn-vyroba">{h::btn_vyroba(l)}</a>
                                 </div>
                             </div>

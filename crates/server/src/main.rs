@@ -55,6 +55,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let conf = get_configuration(None)?;
     let leptos_options = conf.leptos_options;
     let addr = leptos_options.site_addr;
+    let pkg_dir = std::path::Path::new(leptos_options.site_root.as_ref())
+        .join(leptos_options.site_pkg_dir.as_ref());
     let routes = generate_route_list(App);
 
     // What every page and server function can reach: the database and the
@@ -91,6 +93,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             context, shell,
         ))
         .with_state(leptos_options)
+        // The WASM bundle, answering "not modified" when the browser has it.
+        .nest_service("/pkg", tower_http::services::ServeDir::new(pkg_dir))
         .merge(forms(state.clone()))
         .merge(site::plain::routes(state.clone()))
         // Photos uploaded in the admin: named after their content, so cached for a year.
@@ -119,6 +123,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .with_expiry(Expiry::OnInactivity(Duration::days(365))),
         )
         .layer(security_headers(production).into_layer())
+        .layer(middleware::from_fn(same_origin_forms))
+        .layer(tower_http::compression::CompressionLayer::new())
         .layer(middleware::from_fn(site::plain::redirects))
         // The site runs behind kamal-proxy, which says who the visitor is.
         .layer(axum::Extension(if production {
@@ -356,6 +362,40 @@ fn security_headers(production: bool) -> Cuticle {
         .hsts(production.then(|| {
             Hsts::new(std::time::Duration::from_secs(2 * 365 * 24 * 60 * 60)).include_subdomains()
         }))
+}
+
+/// Forms are only accepted from the site's own pages: a browser says where
+/// a form came from (Sec-Fetch-Site, Origin), and another site is refused.
+async fn same_origin_forms(
+    request: axum::extract::Request,
+    next: middleware::Next,
+) -> axum::response::Response {
+    use axum::http::{Method, StatusCode, header};
+    use axum::response::IntoResponse;
+    let safe = matches!(
+        *request.method(),
+        Method::GET | Method::HEAD | Method::OPTIONS
+    );
+    let headers = request.headers();
+    let cross_site = headers
+        .get("sec-fetch-site")
+        .and_then(|v| v.to_str().ok())
+        .is_some_and(|v| v == "cross-site");
+    let foreign_origin = match (headers.get(header::ORIGIN), headers.get(header::HOST)) {
+        (Some(origin), Some(host)) => {
+            let origin = origin.to_str().unwrap_or_default();
+            let host = host.to_str().unwrap_or_default();
+            origin != "null"
+                && origin
+                    .split_once("://")
+                    .is_none_or(|(_, rest)| !rest.eq_ignore_ascii_case(host))
+        }
+        _ => false,
+    };
+    if !safe && (cross_site || foreign_origin) {
+        return (StatusCode::FORBIDDEN, "Forbidden").into_response();
+    }
+    next.run(request).await
 }
 
 /// How long browsers keep the site's own files: pictures a week; the WASM

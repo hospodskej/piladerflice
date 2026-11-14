@@ -46,6 +46,23 @@ impl Shop {
         }
     }
 
+    /// An approximate amount: "≈ 640 Kč", or "≈ 25,60 €" (never "≈ ≈").
+    pub fn approx_price(&self, locale: Locale, amount: Czk) -> String {
+        let price = self.price(locale, amount);
+        if price.starts_with('≈') {
+            price
+        } else {
+            format!("≈ {price}")
+        }
+    }
+
+    /// The amount alone, for texts that already say "≈ %{price}".
+    pub fn bare_price(&self, locale: Locale, amount: Czk) -> String {
+        self.price(locale, amount)
+            .trim_start_matches("≈ ")
+            .to_owned()
+    }
+
     /// An admin-written price text ("od 1 740 Kč / m³"), in euros on the German site.
     pub fn price_text(&self, locale: Locale, text: &str) -> String {
         match locale {

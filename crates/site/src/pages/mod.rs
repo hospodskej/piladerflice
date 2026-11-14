@@ -147,7 +147,7 @@ pub fn PageMeta(
     } else {
         format!("{}{}", base_url(), v.path)
     };
-    let share_image = format!("{}/img/share/{}.webp", base_url(), l.as_str());
+    let share_image = format!("{}/img/share/share-{}.webp", base_url(), l.as_str());
 
     view! {
         <Title text=title.clone()/>

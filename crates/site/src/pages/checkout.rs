@@ -83,6 +83,7 @@ fn radio(
                 <input type="radio" name=name value=value checked=checked/>
                 " "{label}
             </span>
+            " "
             <span class="checkout-radio-note">{note}</span>
         </label>
     }
@@ -113,7 +114,7 @@ pub fn ShippingPage() -> impl IntoView {
         Some(d) => t::delivery_estimate::shipping_note(
             l,
             &d.place,
-            v.shop.price(l, d.quote(v.shop.czk_per_km).price()),
+            v.shop.bare_price(l, d.quote(v.shop.czk_per_km).price()),
         ),
         None => t::checkout::shipping_address_rate_note(
             l,
@@ -528,6 +529,7 @@ pub fn SummaryPage() -> impl IntoView {
                                         <div class="checkout-box-body checkout-radio-list">
                                             <div class="checkout-radio-option checkout-radio-option-readonly">
                                                 <span><span class="checkout-radio-dot"></span>" "{shipping}</span>
+                                                " "
                                                 <span class="checkout-radio-note">
                                                     {s.shipping_note_strong.map(|p| view! { <strong>{p}</strong>" " })}
                                                     {s.shipping_note}
@@ -539,6 +541,7 @@ pub fn SummaryPage() -> impl IntoView {
                                         <div class="checkout-box-body checkout-radio-list">
                                             <div class="checkout-radio-option checkout-radio-option-readonly">
                                                 <span><span class="checkout-radio-dot"></span>" "{payment}</span>
+                                                " "
                                                 <span class="checkout-radio-note">{t::checkout::free(l)}</span>
                                             </div>
                                         </div>

@@ -327,6 +327,12 @@ cs:
     privacy_link_text: "zásad ochrany osobních údajů"
     terms_required: "Pro dokončení objednávky je nutné souhlasit s podmínkami."
     submit_error: "Objednávku se nepodařilo odeslat. Zkontrolujte prosím vyplněné údaje."
+    missing:
+      company_name: "Při nákupu na firmu je potřeba vyplnit název firmy"
+      delivery_street: "Při odlišné doručovací adrese je potřeba vyplnit ulici a č.p."
+      delivery_city: "Při odlišné doručovací adrese je potřeba vyplnit město"
+      delivery_zip: "Při odlišné doručovací adrese je potřeba vyplnit PSČ"
+      delivery_country: "Při odlišné doručovací adrese je potřeba vyplnit stát"
     pay_later_title: "Zatím prosím nic neplaťte"
     pay_later_bank_transfer: "Objednávku nejdřív zkontrolujeme a potvrdíme vám konečnou cenu – cena dopravy se podle přesné adresy ještě může upravit. Teprve potom vám pošleme proformu s údaji k platbě."
     pay_later_cash: "Objednávku nejdřív zkontrolujeme a potvrdíme vám konečnou cenu i termín. Platíte až hotově při převzetí."

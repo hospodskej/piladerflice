@@ -85,10 +85,30 @@ pub async fn confirm(
     if !v.checkout.details_complete() {
         return Redirect::to(&l.path("/kosik/udaje")).into_response();
     }
-    let refuse = |message: String| async {
-        let _ = session.insert(CHECKOUT_ERRORS, vec![message]).await;
+    let refuse_all = |messages: Vec<String>| async {
+        let _ = session.insert(CHECKOUT_ERRORS, messages).await;
         Redirect::to(&l.path("/kosik/souhrn")).into_response()
     };
+    let refuse = |message: String| refuse_all(vec![message]);
+    let missing = v.checkout.missing();
+    if !missing.is_empty() {
+        use crate::i18n::t::checkout::missing as m;
+        use domain::checkout::Missing;
+        let messages = missing
+            .into_iter()
+            .map(|field| {
+                match field {
+                    Missing::CompanyName => m::company_name(l),
+                    Missing::DeliveryStreet => m::delivery_street(l),
+                    Missing::DeliveryCity => m::delivery_city(l),
+                    Missing::DeliveryZip => m::delivery_zip(l),
+                    Missing::DeliveryCountry => m::delivery_country(l),
+                }
+                .to_owned()
+            })
+            .collect();
+        return refuse_all(messages).await;
+    }
     if last(&fields)("terms_agreement").as_deref() != Some("1") {
         return refuse(crate::i18n::t::checkout::terms_required(l).to_owned()).await;
     }

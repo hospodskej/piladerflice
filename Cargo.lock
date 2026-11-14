@@ -421,7 +421,7 @@ dependencies = [
 [[package]]
 name = "chemotaxis"
 version = "0.1.0"
-source = "git+https://github.com/hospodskej/rust-crates?branch=chemotaxis#d9bb552a9162673cd86d25fd94f4b82dab981c29"
+source = "git+https://github.com/hospodskej/rust-crates?branch=chemotaxis#a083dd23cbea24975d46a897ed8e475d46fc356d"
 dependencies = [
  "reqwest",
  "serde",

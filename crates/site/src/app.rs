@@ -69,6 +69,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <script async nonce=nonce.clone() src=format!("https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}")></script>
                 <script nonce=nonce>{format!(r#"gtag("js", new Date()); gtag("config", "{GA_MEASUREMENT_ID}");"#)}</script>
                 <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
+                <link rel="apple-touch-icon" href="/icon.png"/>
                 <link rel="stylesheet" href=crate::assets::STYLESHEET_HREF/>
                 <HydrationScripts options islands=true/>
                 <MetaTags/>

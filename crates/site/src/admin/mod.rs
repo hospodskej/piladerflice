@@ -167,6 +167,16 @@ pub mod handlers {
         if path != "/admin" && !path.starts_with("/admin/") {
             return next.run(request).await;
         }
+        // Not signed in: to the login page, and back here after.
+        if v.user.is_none() {
+            let back = request
+                .uri()
+                .path_and_query()
+                .map_or(path, |p| p.as_str())
+                .to_owned();
+            let _ = session.insert(crate::session::RETURN_TO, back).await;
+            return Redirect::to("/prihlaseni").into_response();
+        }
         if let Err(refused) = guard(&session, &v).await {
             return refused;
         }

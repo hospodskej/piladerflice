@@ -242,7 +242,7 @@ pub fn CustomDemand() -> impl IntoView {
                         <p inner_html=c::text(l).into_string()></p>
                     </div>
                     <div class="custom-demand-action">
-                        <a href=v.link("/kontakt#kalkulace") class="icon-only-btn">
+                        <a href=v.link("/kontakt#kalkulace") class="icon-only-btn" aria-label=c::card_title(l)>
                             <svg viewBox="0 0 24 24" width="30" height="30" fill="white"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
                         </a>
                     </div>

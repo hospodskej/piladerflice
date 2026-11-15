@@ -1,0 +1,635 @@
+/* Phones: one rhythm for the whole site. The layouts above come from the
+   desktop design; here they are tightened so a phone screen reads as one
+   tidy column: even gaps between sections, one heading style, text set
+   ragged-right (justified text leaves holes on a narrow screen), compact
+   two-column grids, and nothing poking out past the edges. */
+
+@media (max-width: 768px) {
+    /* --- Rhythm ------------------------------------------------------ */
+    :root {
+        --m-gap: 56px;          /* between sections */
+        --m-radius: 14px;
+    }
+
+    .nejprodavanejsi-produkty-section,
+    .akcni-nabidka-section,
+    .nabidka-section,
+    .sluzby-section,
+    .dorucujeme-section,
+    .co-je-noveho-section,
+    .how-to-order-section,
+    .co-by-vas-mohlo-zajimat,
+    .faq-section,
+    .o-sobe-section,
+    .experience-section,
+    .google-reviews-section,
+    .let-zkusenosti-section,
+    .custom-demand-section,
+    .recommendations-section,
+    .kalkulace,
+    .cenik-section {
+        margin-top: var(--m-gap) !important;
+        margin-bottom: 0 !important;
+    }
+
+    .kontakt-page-section,
+    .product-container,
+    .eshop-container {
+        margin-top: 24px !important;
+    }
+
+    /* --- Headings: one size, one alignment ---------------------------- */
+    main h1,
+    .nejprodavanejsi-produkty-section > h1,
+    .akcni-nabidka-header h1,
+    .nabidka-header h2,
+    .sluzby-section > h2,
+    .dorucujeme-text h2,
+    .co-je-noveho-text h2,
+    .jak-objednat-title,
+    .co-by-vas-mohlo-zajimat > h2,
+    .faq-main-title,
+    .o-sobe-text h2,
+    .custom-demand-title,
+    .recommendations-section .section-title,
+    .kalkulace-header h2,
+    .cenik-main-title,
+    .top-categories-title,
+    .kontakt-main-title,
+    .google-reviews-section > h2 {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+        margin: 0 0 20px !important;
+        letter-spacing: -0.01em;
+    }
+
+    .hero-intro h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 14px !important;
+    }
+
+    /* Inline accent words keep their colour but not a second line of
+       their own unless the text wraps there naturally. */
+    .nejprodavanejsi-produkty-section > h1 span,
+    .nabidka-header h2 span,
+    .sluzby-section > h2 span,
+    .dorucujeme-text h2 span,
+    .co-by-vas-mohlo-zajimat > h2 span,
+    .faq-main-title span,
+    .custom-demand-title span {
+        display: inline !important;
+    }
+
+    /* --- Text ---------------------------------------------------------- */
+    main p,
+    .nabidka-text p,
+    .dorucujeme-text p,
+    .o-sobe-text p,
+    .hero-intro p {
+        text-align: left !important;
+        hyphens: manual;
+        line-height: 1.6 !important;
+    }
+
+    .hero-intro p {
+        font-size: 1rem !important;
+        margin-bottom: 24px !important;
+    }
+
+    .dorucujeme-section,
+    .dorucujeme-text,
+    .co-je-noveho-section,
+    .co-je-noveho-text,
+    .co-je-noveho-text h3 {
+        text-align: left !important;
+    }
+
+    .nabidka-header {
+        margin-bottom: 24px !important;
+    }
+
+    .nabidka-text p:first-child {
+        margin-top: 0 !important;
+    }
+
+    .dorucujeme-map {
+        margin-top: 24px !important;
+    }
+
+    .dorucujeme-text .btn-primary,
+    .co-je-noveho-text .btn-primary,
+    .akcni-nabidka-cenik .btn-primary {
+        display: inline-flex;
+        margin-left: 0 !important;
+    }
+
+    /* --- Hero ------------------------------------------------------------ */
+    .domu-buttons {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px !important;
+    }
+
+    .domu-buttons a {
+        padding: 14px 10px !important;
+        font-size: 0.95rem !important;
+        border-radius: 10px !important;
+    }
+
+    /* The "Doporučujeme" and "AKCE" badges sit inside their pictures
+       instead of hanging off the edge of the screen. */
+    .akcni-product-card {
+        margin-top: 32px !important;
+        border-radius: var(--m-radius);
+        overflow: hidden;
+    }
+
+    .akcni-product-card .badge {
+        left: 12px !important;
+        top: 12px !important;
+        border-radius: 8px !important;
+        font-size: 0.85rem !important;
+        padding: 5px 12px !important;
+        z-index: 2;
+    }
+
+    .akcni-badge {
+        left: 12px !important;
+        top: 12px !important;
+        width: 56px !important;
+        height: 56px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .akcni-nabidka-image,
+    .akcni-nabidka-right {
+        box-shadow: none !important;
+        max-width: 100% !important;
+    }
+
+    .akcni-nabidka-right {
+        position: relative;
+        margin-top: 24px !important;
+    }
+
+    /* The blue offset frame behind the promo photo stays on screen. */
+    .akcni-nabidka-right .product-image-wrapper::before {
+        width: calc(100% - 10px) !important;
+        top: 10px !important;
+        left: 10px !important;
+    }
+
+    .akcni-nabidka-right .product-image-wrapper img {
+        width: calc(100% - 10px) !important;
+    }
+
+    .akcni-nabidka-image img,
+    .akcni-nabidka-right img {
+        border-radius: var(--m-radius) !important;
+        box-shadow: none !important;
+    }
+
+    .hero-section {
+        row-gap: 0 !important;
+    }
+
+    .hero-trust {
+        margin-top: 28px !important;
+    }
+
+    .hero-trust .features {
+        margin-top: 28px !important;
+        row-gap: 18px !important;
+    }
+
+    .hero-trust .feature-card {
+        margin-bottom: 0 !important;
+    }
+
+    /* --- Category tiles: two columns, the name as a caption ----------- */
+    .top-categories-section {
+        margin-top: var(--m-gap) !important;
+    }
+
+    .top-categories-grid,
+    .nabidka-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+
+    .top-categories-item,
+    .nabidka-card {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 0 !important;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    html.dark-mode .top-categories-item,
+    html.dark-mode .nabidka-card {
+        background: #2a2a2e;
+    }
+
+    .top-categories-item img,
+    .nabidka-card img {
+        display: block;
+        width: 100% !important;
+        height: 120px !important;
+        object-fit: cover;
+        border-radius: 0 !important;
+    }
+
+    .top-categories-button,
+    .nabidka-btn {
+        display: block !important;
+        width: 100% !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        padding: 10px 8px !important;
+        font-size: 0.85rem !important;
+        line-height: 1.25 !important;
+        text-align: center;
+        background: transparent !important;
+    }
+
+    /* An odd last tile spans the row. */
+    .top-categories-grid > :last-child:nth-child(odd),
+    .nabidka-grid > :last-child:nth-child(odd),
+    .nejprodavanejsi-produkty-grid > :last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    .nejprodavanejsi-produkty-grid > :last-child:nth-child(odd) img {
+        height: 170px !important;
+    }
+
+    /* --- Sortiment: a list of compact cards, picture beside the text ---- */
+    .sortiment-page-section > .section-main-title {
+        font-size: 1.75rem !important;
+        text-align: left !important;
+        margin: 8px 0 20px !important;
+    }
+
+    .sortiment-page-section .jak-objednat-title {
+        margin: var(--m-gap) 0 20px !important;
+    }
+
+    .sortiment-grid-5,
+    .sortiment-page-section .jak-objednat-grid {
+        margin-top: 0 !important;
+    }
+
+    .sortiment-grid-5 {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .sortiment-card {
+        display: grid !important;
+        grid-template-columns: 112px 1fr;
+        align-items: center;
+        text-align: left !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+        min-height: 0 !important;
+    }
+
+    .sortiment-card-img {
+        width: 112px !important;
+        height: 100% !important;
+        min-height: 96px;
+        aspect-ratio: auto !important;
+    }
+
+    .sortiment-card-img img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+
+    .sortiment-card-text {
+        padding: 12px 14px !important;
+        text-align: left !important;
+    }
+
+    .sortiment-card-text h3 {
+        font-size: 1rem !important;
+        margin: 0 0 4px !important;
+    }
+
+    .sortiment-card-text p {
+        font-size: 0.85rem !important;
+        margin: 0 !important;
+    }
+
+    /* --- Product cards: two columns ------------------------------------ */
+    .nejprodavanejsi-produkty-grid,
+    .eshop-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+
+    .recommendations-section .eshop-grid {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: auto !important;
+    }
+
+    .nejprodavanejsi-produkty-card,
+    .product-card {
+        border-radius: 12px !important;
+        overflow: hidden;
+        margin: 0 !important;
+        min-width: 0;
+    }
+
+    .nejprodavanejsi-produkty-card img,
+    .product-card img {
+        height: 130px !important;
+        width: 100% !important;
+        object-fit: cover;
+    }
+
+    .nejprodavanejsi-produkty-details,
+    .product-info,
+    .product-info-eshop {
+        padding: 12px 10px 14px !important;
+    }
+
+    .nejprodavanejsi-produkty-details *,
+    .product-card .product-info * {
+        font-size: 0.85rem;
+    }
+
+    .nejprodavanejsi-produkty-details b,
+    .nejprodavanejsi-produkty-details strong,
+    .product-title {
+        font-size: 1rem !important;
+    }
+
+    .nejprodavanejsi-produkty-details a,
+    .product-card .btn-detail,
+    .product-card .btn-primary {
+        display: block !important;
+        width: 100% !important;
+        padding: 9px 6px !important;
+        margin-top: 8px !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px !important;
+    }
+
+    .product-badge {
+        width: 22px !important;
+        height: 22px !important;
+        font-size: 0.7rem !important;
+    }
+
+    /* --- E-shop filters: a row of chips, not a screen of buttons ------- */
+    .eshop-filters {
+        margin-bottom: 16px !important;
+        text-align: left !important;
+    }
+
+    .eshop-filters h3 {
+        font-size: 0.8rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #777;
+        text-align: left !important;
+        margin: 16px 0 8px !important;
+    }
+
+    .eshop-filters h3:first-child {
+        margin-top: 0 !important;
+    }
+
+    .filter-group {
+        justify-content: flex-start !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        overflow-x: auto;
+        margin: 0 -20px !important;
+        padding: 2px 20px 4px !important;
+        scrollbar-width: none;
+    }
+
+    .filter-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    .btn-filter {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        padding: 8px 14px !important;
+        border-radius: 999px !important;
+        font-size: 0.9rem !important;
+        white-space: nowrap;
+        margin: 0 !important;
+    }
+
+    .eshop-sorting {
+        margin-bottom: 16px !important;
+    }
+
+    .sorting-tabs {
+        gap: 8px !important;
+    }
+
+    .btn-sort {
+        border-radius: 999px !important;
+        padding: 6px 12px !important;
+    }
+
+    .delivery-note {
+        border-radius: 12px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* --- Inquiry card ("Nenašli jste, co jste hledali?") --------------- */
+    .custom-demand-section {
+        padding: 0 !important;
+    }
+
+    .custom-demand-card {
+        border-radius: var(--m-radius) !important;
+        overflow: hidden;
+    }
+
+    .custom-demand-img-wrapper,
+    .custom-demand-img-wrapper img {
+        height: 180px !important;
+        object-fit: cover;
+    }
+
+    .custom-demand-content {
+        padding: 20px !important;
+    }
+
+    .custom-demand-action {
+        width: 100%;
+        margin-top: 4px;
+    }
+
+    .custom-demand-content a,
+    .custom-demand-content .btn-primary,
+    .custom-demand-content button {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        min-height: 46px;
+        border-radius: 10px !important;
+    }
+
+    /* --- How to order, about us, services ------------------------------ */
+    .jak-objednat-grid {
+        gap: 16px !important;
+    }
+
+    .jak-objednat-box {
+        padding: 24px 20px !important;
+        border-radius: var(--m-radius) !important;
+    }
+
+    .jak-objednat-box h3 {
+        margin-top: 0 !important;
+    }
+
+    .jak-objednat-box-img {
+        height: 160px !important;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .o-sobe-card {
+        padding: 20px !important;
+        border-radius: var(--m-radius) !important;
+    }
+
+    .accordion-item {
+        border-radius: 10px !important;
+        overflow: hidden;
+    }
+
+    .accordion-header {
+        gap: 12px;
+        padding-right: 16px !important;
+    }
+
+    .accordion-header > svg,
+    .accordion-header > span:last-child {
+        flex-shrink: 0;
+    }
+
+    /* Carousel arrows sit on the cards, not on the screen edge. */
+    .carousel-btn {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .carousel-btn.prev-btn {
+        left: 4px !important;
+    }
+
+    .carousel-btn.next-btn {
+        right: 4px !important;
+    }
+
+    /* --- Kontakt -------------------------------------------------------- */
+    .kontakt-image,
+    .kontakt-image-wrapper img {
+        height: 200px !important;
+        object-fit: cover;
+        border-radius: var(--m-radius) !important;
+    }
+
+    .kontakt-layout-grid {
+        gap: 24px !important;
+    }
+
+    .kalkulace {
+        padding: 24px 16px !important;
+        border-width: 2px !important;
+        border-radius: var(--m-radius) !important;
+    }
+
+    .kalkulace-header,
+    .kalkulace-header h2 {
+        width: 100% !important;
+        text-align: left !important;
+    }
+
+    .kalkulace .form-group,
+    .kalkulace .form-group input,
+    .kalkulace .form-group select,
+    .kalkulace .form-group textarea,
+    .kalkulace .custom-select-wrapper,
+    .kalkulace .custom-select-display,
+    .kalkulace-fields-section,
+    .kalkulace-grid-2,
+    .kalkulace-grid-4,
+    .kalkulace-grid-5 {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .kalkulace form,
+    .kalkulace-fields-section {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .kalkulace-toggles {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px !important;
+    }
+
+    .form-submit-wrapper .btn-primary {
+        width: 100% !important;
+    }
+
+    .cenik-table td {
+        padding: 10px 8px !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* --- Cookie banner: the buttons wrap (German labels are longer) ---- */
+    .cookie-consent-banner {
+        max-width: calc(100vw - 24px) !important;
+        box-sizing: border-box;
+    }
+
+    .cookie-consent-banner button {
+        white-space: normal !important;
+    }
+
+    .cookie-consent-banner > div:last-child,
+    .cookie-consent-banner [class*="buttons"],
+    .cookie-consent-banner [class*="actions"] {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    /* --- Footer map -------------------------------------------------- */
+    .footer-map iframe {
+        height: 220px !important;
+        border-radius: 12px;
+    }
+}
+
+/* The consent tick boxes look empty until they are ticked (on every
+   screen size: a dark filled square read as already ticked). */
+.custom-checkbox-label input:not(:checked) ~ .custom-checkbox {
+    background: #fff !important;
+    border: 2px solid #1a1a1a !important;
+}

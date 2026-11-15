@@ -491,23 +491,51 @@
     }
 
     /* --- How to order, about us, services ------------------------------ */
+    /* "Jak si u nás objednat?": the two ways side by side, as compact
+       cards (steps, then the button at the bottom); the photos go. */
     .jak-objednat-grid {
-        gap: 16px !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
     }
 
     .jak-objednat-box {
-        padding: 24px 20px !important;
+        display: flex !important;
+        flex-direction: column;
+        padding: 16px 12px 14px !important;
         border-radius: var(--m-radius) !important;
+        min-width: 0;
     }
 
     .jak-objednat-box h3 {
-        margin-top: 0 !important;
+        font-size: 1.1rem !important;
+        line-height: 1.2 !important;
+        margin: 0 0 12px !important;
+    }
+
+    .jak-objednat-steps {
+        margin: 0 0 14px !important;
+        gap: 8px !important;
+        flex: 1;
+    }
+
+    .jak-objednat-steps li {
+        font-size: 0.82rem !important;
+        line-height: 1.35 !important;
+        margin: 0 !important;
     }
 
     .jak-objednat-box-img {
-        height: 160px !important;
-        object-fit: cover;
-        border-radius: 10px;
+        display: none !important;
+    }
+
+    .jak-objednat-box .btn-primary {
+        margin: 0 !important;
+        padding: 10px 6px !important;
+        font-size: 0.85rem !important;
+        line-height: 1.2 !important;
+        border-radius: 10px !important;
+        text-align: center;
     }
 
     .o-sobe-card {
@@ -554,6 +582,13 @@
 
     .kontakt-layout-grid {
         gap: 24px !important;
+    }
+
+    .kontakt-details-wrapper,
+    .kontakt-titles,
+    .kontakt-titles h2 {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 
     .kalkulace {

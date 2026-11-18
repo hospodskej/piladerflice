@@ -152,3 +152,19 @@
         min-width: 20px;
     }
 }
+/* "Dostupné" / "Nedostupné" next to a price-list item or wood. */
+.cenik-availability {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.cenik-availability-available { background: #DCFCE7; color: #15803D; }
+.cenik-availability-unavailable { background: #FEE2E2; color: #B91C1C; }
+.cenik-availability-partial { background: #FEF3C7; color: #B45309; }

@@ -46,7 +46,7 @@ module Admin
 
     def pricelist_item_params
       params.require(:pricelist_item).permit(:category, :item_name, :item_name_de, :details, :details_de,
-                                             :subcategory, :subcategory_de, :price, :price_de)
+                                             :subcategory, :subcategory_de, :price, :price_de, :available)
     end
 
     # Renumbers the whole category while swapping, so items that share a

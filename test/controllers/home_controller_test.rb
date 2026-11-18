@@ -128,9 +128,24 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     pricelist_items(:tramy).update!(position: -1, price: "9 800 Kč / m<sup>3</sup><script>alert(1)</script>")
 
     get kontakt_url
-    assert_select "#cenik .cenik-group:first-of-type tr:first-child td:first-child", text: "Trámy"
+    assert_select "#cenik .cenik-group:first-of-type tr:first-child td:first-child", text: /\ATrámy/
     assert_select "#cenik sup", minimum: 1
     assert_select "#cenik script", count: 0
+  end
+
+  test "the kontakt ceník says next to each wood and item whether it is available" do
+    pricelist_items(:tramy).update!(available: false)
+    PricelistItem.create!(category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "50cm", price: "2 030 Kč", available: false)
+
+    get kontakt_url
+    assert_select ".cenik-table td", text: /Fošny\s*Dostupné/
+    assert_select ".cenik-table td", text: /Trámy\s*Nedostupné/
+    assert_select ".cenik-subtitle", text: /Jasan \/ Dub\s*Částečně dostupné/
+    assert_select ".cenik-table td", text: /50cm\s*Nedostupné/
+    assert_select ".cenik-subtitle .cenik-availability-partial"
+
+    get "/at/kontakt"
+    assert_select ".cenik-table td", text: /Bohlen\s*Verfügbar/
   end
 
   test "the kontakt ceník shows the delivery price the shop charges" do

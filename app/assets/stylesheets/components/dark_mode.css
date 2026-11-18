@@ -986,3 +986,7 @@ html.dark-mode .address-suggestions li:hover,
 html.dark-mode .address-suggestions li[aria-selected="true"] {
     background-color: #3e3e42;
 }
+
+html.dark-mode .cenik-availability-available { background: #14532D; color: #BBF7D0; }
+html.dark-mode .cenik-availability-unavailable { background: #7F1D1D; color: #FECACA; }
+html.dark-mode .cenik-availability-partial { background: #78350F; color: #FDE68A; }

@@ -467,6 +467,10 @@ cs:
       google_review_like: "Líbí se"
 
   kontakt:
+    availability:
+      available: "Dostupné"
+      unavailable: "Nedostupné"
+      partial: "Částečně dostupné"
     inquiry_success: "Děkujeme, poptávku jsme přijali. Ozveme se vám co nejdříve."
     inquiry_error: "Poptávku se nepodařilo odeslat. Vyplňte prosím jméno, příjmení, e-mail a telefon."
     page_title: "Informační formuláře"

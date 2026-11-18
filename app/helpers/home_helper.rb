@@ -12,6 +12,18 @@ module HomeHelper
     sanitize(text, tags: %w[sup sub br strong em], attributes: [])
   end
 
+  # "Dostupné" (green) / "Nedostupné" (red) next to a price-list item or a
+  # wood; for a group of items (one wood in several lengths) "Částečně
+  # dostupné" (orange) when only some are in stock.
+  def pricelist_availability(items)
+    items = Array(items)
+    status = if items.all?(&:available?) then "available"
+             elsif items.none?(&:available?) then "unavailable"
+             else "partial"
+             end
+    tag.span(t("kontakt.availability.#{status}"), class: "cenik-availability cenik-availability-#{status}")
+  end
+
   # Texts from the database with simple formatting (line breaks, bold): the
   # same short list of tags, so a stored text can never carry a script.
   alias_method :formatted_text, :pricelist_html

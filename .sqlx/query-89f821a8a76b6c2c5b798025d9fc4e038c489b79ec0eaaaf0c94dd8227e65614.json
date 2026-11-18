@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM pricelist_stock_links WHERE category = ? AND subcategory = ?",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "89f821a8a76b6c2c5b798025d9fc4e038c489b79ec0eaaaf0c94dd8227e65614"
+}

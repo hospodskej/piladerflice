@@ -86,7 +86,9 @@ pub fn ProductCard(p: Bestseller, rank: Option<usize>) -> impl IntoView {
             <div class="product-info-eshop">
                 <h4 class="product-title">{p.title}</h4>
                 <p class="product-type">{p.type_label}</p>
-                <p class="product-stock">{t::common::stock(l)}</p>
+                <p class=if p.in_stock { "product-stock" } else { "product-stock product-stock-out" }>
+                    {if p.in_stock { t::common::stock(l) } else { t::common::stock_out(l) }}
+                </p>
                 <p class="product-price">{p.price_from.map_or_else(|| "---".to_owned(), |price| format!("{} {price}", t::common::price_from(l)))}</p>
                 <a href=href class="btn-primary btn-detail">{t::common::detail(l)}</a>
             </div>
@@ -514,7 +516,9 @@ fn ProductView(product: Product) -> impl IntoView {
             title.clone()
         };
         let firewood = product.template == "firewood";
+        let in_stock = product.variants.iter().any(|x| x.in_stock);
         let stock = match product.template.as_str() {
+            "firewood" | "lumber" if !in_stock => Some(t::common::out_of_stock(l)),
             "firewood" => Some(t::eshop::firewood::stock_status(l)),
             "lumber" => Some(t::common::in_stock(l)),
             _ => None,
@@ -529,7 +533,7 @@ fn ProductView(product: Product) -> impl IntoView {
                     {firewood.then(|| view! { <p class="subtitle">{product.subtitle.clone()}</p> })}
                     <p class="description">{product.description.clone()}</p>
                     {firewood.then(|| view! { <p class="drying-note">{product.drying_note.clone()}</p> })}
-                    {stock.map(|s| view! { <p class="stock-status">{s}</p> })}
+                    {stock.map(|s| view! { <p class=if in_stock { "stock-status" } else { "stock-status stock-status-out" }>{s}</p> })}
                     <DeliveryNote/>
                 </div>
             </section>

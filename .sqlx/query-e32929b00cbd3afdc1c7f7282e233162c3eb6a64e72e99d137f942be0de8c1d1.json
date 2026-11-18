@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position, p.hardness,\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))\n                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\"\n           FROM catalog_products p WHERE p.active = 1",
+  "query": "SELECT p.id AS \"id!\", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position, p.hardness,\n                  (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))\n                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS \"starting_price: i64\",\n                  EXISTS (SELECT 1 FROM catalog_variants v WHERE v.catalog_product_id = p.id AND v.in_stock = 1) AS \"in_stock!: bool\"\n           FROM catalog_products p WHERE p.active = 1",
   "describe": {
     "columns": [
       {
@@ -118,6 +118,12 @@
         "ordinal": 10,
         "type_info": "Integer",
         "origin": "Expression"
+      },
+      {
+        "name": "in_stock!: bool",
+        "ordinal": 11,
+        "type_info": "Integer",
+        "origin": "Expression"
       }
     ],
     "parameters": {
@@ -134,8 +140,9 @@
       false,
       false,
       true,
-      true
+      true,
+      false
     ]
   },
-  "hash": "0b3d96d197ecd9ce0cbd3133c8318d2cbd25479d0ba1e51049d149aed1b3eb28"
+  "hash": "e32929b00cbd3afdc1c7f7282e233162c3eb6a64e72e99d137f942be0de8c1d1"
 }

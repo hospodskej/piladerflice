@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE OR IGNORE pricelist_stock_links SET subcategory = ?\n                 WHERE category = ? AND subcategory = ?\n                   AND NOT EXISTS (SELECT 1 FROM pricelist_items WHERE category = ? AND subcategory = ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 5
+    },
+    "nullable": []
+  },
+  "hash": "f6258ed8a8443ffb8328285c3103f8b2072d65d0831d8822df9e3d566ae7da65"
+}

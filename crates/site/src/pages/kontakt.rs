@@ -29,11 +29,20 @@ pub struct PriceRow {
     priced: bool,
 }
 
+/// A firewood section of the price list ("Jasan / Dub").
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PriceSection {
+    name: SafeHtml,
+    /// From the e-shop's stock; `None` when not linked to the e-shop.
+    available: Option<bool>,
+    rows: Vec<PriceRow>,
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct KontaktContent {
     stavebni: Vec<PriceRow>,
-    palivove_volne: Vec<(SafeHtml, Vec<PriceRow>)>,
-    palivove_skladane: Vec<(SafeHtml, Vec<PriceRow>)>,
+    palivove_volne: Vec<PriceSection>,
+    palivove_skladane: Vec<PriceSection>,
     zbytky: Vec<PriceRow>,
     kamenivo: Option<SafeHtml>,
     sluzby: Vec<PriceRow>,
@@ -56,6 +65,7 @@ pub async fn load_kontakt() -> Result<KontaktContent, ServerFnError> {
     .fetch_all(db)
     .await
     .map_err(err)?;
+    let availability = crate::stock::pricelist_sections(db).await.map_err(err)?;
 
     let mut content = KontaktContent {
         stavebni: vec![],
@@ -97,12 +107,22 @@ pub async fn load_kontakt() -> Result<KontaktContent, ServerFnError> {
             item.subcategory.as_deref().unwrap_or_default(),
             item.subcategory_de.as_deref(),
         ));
-        let group = |groups: &mut Vec<(SafeHtml, Vec<PriceRow>)>, row: PriceRow| match groups
+        let available = availability
+            .get(&(
+                item.category.clone(),
+                item.subcategory.clone().unwrap_or_default(),
+            ))
+            .copied();
+        let group = |groups: &mut Vec<PriceSection>, row: PriceRow| match groups
             .iter_mut()
-            .find(|(s, _)| *s == subcategory)
+            .find(|s| s.name == subcategory)
         {
-            Some((_, rows)) => rows.push(row),
-            None => groups.push((subcategory.clone(), vec![row])),
+            Some(section) => section.rows.push(row),
+            None => groups.push(PriceSection {
+                name: subcategory.clone(),
+                available,
+                rows: vec![row],
+            }),
         };
         match item.category.as_str() {
             "stavebni" => content.stavebni.push(row),
@@ -221,14 +241,29 @@ fn price_group(title: &'static str, body: impl IntoView) -> impl IntoView {
     }
 }
 
-fn firewood_groups(groups: Vec<(SafeHtml, Vec<PriceRow>)>, per_m3: &'static str) -> impl IntoView {
+fn firewood_groups(groups: Vec<PriceSection>, per_m3: &'static str) -> impl IntoView {
+    let l = visitor().locale;
     groups
         .into_iter()
-        .map(|(name, rows)| {
+        .map(|section| {
+            let badge = section.available.map(|available| {
+                let (class, text) = if available {
+                    ("cenik-stock cenik-stock-in", t::kontakt::cenik_available(l))
+                } else {
+                    (
+                        "cenik-stock cenik-stock-out",
+                        t::kontakt::cenik_unavailable(l),
+                    )
+                };
+                view! { <span class=class>{text}</span> }
+            });
             view! {
                 <div class="cenik-subgroup">
-                    <h4 class="cenik-subtitle" inner_html=name.into_string()></h4>
-                    {price_table(rows, 2, Some(per_m3), false)}
+                    <div class="cenik-subtitle-row">
+                        <h4 class="cenik-subtitle" inner_html=section.name.into_string()></h4>
+                        {badge}
+                    </div>
+                    {price_table(section.rows, 2, Some(per_m3), false)}
                 </div>
             }
         })

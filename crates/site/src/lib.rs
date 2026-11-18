@@ -44,3 +44,4 @@ pub mod routing;
 pub mod session;
 #[cfg(feature = "ssr")]
 pub mod state;
+pub mod stock;

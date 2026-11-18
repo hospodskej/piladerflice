@@ -63,10 +63,46 @@ pub struct PriceItem {
     values: Values,
 }
 
+/// A firewood section of the price list and its e-shop availability.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct StockSection {
+    category: String,
+    name: String,
+    /// From the linked e-shop variants; `None` when nothing is linked.
+    available: Option<bool>,
+    /// The linked e-shop products.
+    linked: Vec<i64>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PricelistData {
+    items: Vec<PriceItem>,
+    per_km: i64,
+    sections: Vec<StockSection>,
+    /// The e-shop's firewood products: (id, title).
+    firewood: Vec<(i64, String)>,
+}
+
 #[server(endpoint = "admin/pricelist")]
-pub async fn load_pricelist() -> Result<(Vec<PriceItem>, i64), ServerFnError> {
+pub async fn load_pricelist() -> Result<PricelistData, ServerFnError> {
     let v = super::require_admin()?;
     let db = &expect_context::<crate::state::AppState>().db;
+    let err = |e: sqlx::Error| ServerFnError::new(e.to_string());
+    let availability = crate::stock::pricelist_sections(db).await.map_err(err)?;
+    let links =
+        sqlx::query!("SELECT category, subcategory, catalog_product_id FROM pricelist_stock_links")
+            .fetch_all(db)
+            .await
+            .map_err(err)?;
+    let firewood = sqlx::query!(
+        r#"SELECT id AS "id!", title FROM catalog_products WHERE category = 'palivove' ORDER BY position, id"#
+    )
+    .fetch_all(db)
+    .await
+    .map_err(err)?
+    .into_iter()
+    .map(|p| (p.id, p.title))
+    .collect();
     let o = |s: Option<String>| s.unwrap_or_default();
     let items = sqlx::query!("SELECT * FROM pricelist_items ORDER BY position, id")
         .fetch_all(db)
@@ -91,8 +127,102 @@ pub async fn load_pricelist() -> Result<(Vec<PriceItem>, i64), ServerFnError> {
             .map(|(k, v)| (k.to_owned(), v))
             .collect(),
         })
-        .collect();
-    Ok((items, v.shop.czk_per_km))
+        .collect::<Vec<PriceItem>>();
+    // The firewood sections in the order the price list shows them.
+    let mut sections: Vec<StockSection> = Vec::new();
+    for item in items
+        .iter()
+        .filter(|i| crate::stock::variant_group(&i.category).is_some())
+    {
+        let name = item.values.get("subcategory").cloned().unwrap_or_default();
+        if name.is_empty()
+            || sections
+                .iter()
+                .any(|s| s.category == item.category && s.name == name)
+        {
+            continue;
+        }
+        sections.push(StockSection {
+            available: availability
+                .get(&(item.category.clone(), name.clone()))
+                .copied(),
+            linked: links
+                .iter()
+                .filter(|l| l.category == item.category && l.subcategory == name)
+                .map(|l| l.catalog_product_id)
+                .collect(),
+            category: item.category.clone(),
+            name,
+        });
+    }
+    Ok(PricelistData {
+        items,
+        per_km: v.shop.czk_per_km,
+        sections,
+        firewood,
+    })
+}
+
+/// "Dostupnost v e-shopu" for one firewood category of the price list.
+fn stock_panel(
+    category: &str,
+    sections: Vec<StockSection>,
+    firewood: Vec<(i64, String)>,
+) -> impl IntoView {
+    let form_of = if category == "palivove_volne" {
+        "volně ložené (kontejner)"
+    } else {
+        "v bednách"
+    };
+    view! {
+        <div class="admin-stock">
+            <h3>"Dostupnost v e-shopu"</h3>
+            <p class="admin-form-hint">
+                {format!("Na webu se u dřeviny zobrazí „Dostupné“ (zeleně) nebo „Nedostupné“ (červeně). Stav se bere z e-shopu: dřevina je dostupná, když je skladem aspoň jedna varianta {form_of} propojených produktů. Tlačítkem zde nastavíte všechny tyto varianty najednou; změna u varianty v Katalogu se tu projeví také.")}
+            </p>
+            <table class="admin-table admin-stock-table">
+                <thead><tr><th>"Dřevina"</th><th>"Stav"</th><th>"Nastavit"</th><th>"Propojené produkty e-shopu"</th></tr></thead>
+                <tbody>
+                    {sections.into_iter().map(|s| {
+                        let (class, label) = match s.available {
+                            Some(true) => ("admin-stock-badge admin-stock-in", "Dostupné"),
+                            Some(false) => ("admin-stock-badge admin-stock-out", "Nedostupné"),
+                            None => ("admin-stock-badge", "Nepropojeno"),
+                        };
+                        let linked = !s.linked.is_empty();
+                        let set = |value: &'static str, text: &'static str, current: bool| view! {
+                            <form method="post" action="/admin/cenik/dostupnost" class="button_to">
+                                <input type="hidden" name="category" value=s.category.clone()/>
+                                <input type="hidden" name="subcategory" value=s.name.clone()/>
+                                <input type="hidden" name="in_stock" value=value/>
+                                <button type="submit" class=if current { "btn-primary" } else { "btn-outline-dark" } disabled=!linked>{text}</button>
+                            </form>
+                        };
+                        view! {
+                            <tr>
+                                <td><strong>{s.name.clone()}</strong></td>
+                                <td><span class=class>{label}</span></td>
+                                <td class="admin-stock-actions">
+                                    {set("1", "Dostupné", s.available == Some(true))}
+                                    {set("0", "Nedostupné", s.available == Some(false))}
+                                </td>
+                                <td>
+                                    <form method="post" action="/admin/cenik/propojeni" class="admin-stock-links">
+                                        <input type="hidden" name="category" value=s.category.clone()/>
+                                        <input type="hidden" name="subcategory" value=s.name.clone()/>
+                                        {firewood.iter().map(|(id, title)| view! {
+                                            <label><input type="checkbox" name="product_ids" value=id.to_string() checked=s.linked.contains(id)/>" "{title.clone()}</label>
+                                        }).collect_view()}
+                                        <button type="submit" class="btn-outline-dark">"Uložit propojení"</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }).collect_view()}
+                </tbody>
+            </table>
+        </div>
+    }
 }
 
 #[component]
@@ -104,8 +234,14 @@ pub fn PricelistPage() -> impl IntoView {
                 <a href="/kontakt#cenik" target="_blank" rel="noopener" class="btn-outline-dark">"Zobrazit ceník na webu ↗"</a>
             </div>
             <p class="admin-page-subtitle">"Ceník sortimentu a služeb na stránce Kontakt. Změny se na webu projeví ihned po uložení."</p>
-            {loaded(load_pricelist(), |(items, per_km): (Vec<PriceItem>, i64)| {
+            {loaded(load_pricelist(), |data: PricelistData| {
+                let PricelistData { items, per_km, sections, firewood } = data;
                 PRICELIST.iter().map(|(category, fields)| {
+                    let panel = crate::stock::is_firewood_category(category).then(|| stock_panel(
+                        category,
+                        sections.iter().filter(|s| s.category == *category).cloned().collect(),
+                        firewood.clone(),
+                    ));
                     let items: Vec<&PriceItem> = items.iter().filter(|i| i.category == *category).collect();
                     let single = *category == "kamenivo";
                     let can_add = !single || items.is_empty();
@@ -114,6 +250,7 @@ pub fn PricelistPage() -> impl IntoView {
                         <div class="admin-box admin-option-group" id=*category>
                             <h2>{section_title(category)}</h2>
                             <p class="admin-form-hint">{hint(category)}</p>
+                            {panel}
                             {items.iter().map(|i| view! { <form action=format!("/admin/pricelist_items/{}", i.id) method="post" id=format!("pricelist-item-{}-form", i.id)></form> }).collect_view()}
                             {can_add.then(|| view! { <form action="/admin/pricelist_items" method="post" id=new_form.clone()></form> })}
                             <table class="admin-table">
@@ -544,7 +681,7 @@ pub mod handlers {
     ) -> Response {
         admin!(session, v);
         let Some(row) = sqlx::query!(
-            "SELECT category, delivery_rate, price FROM pricelist_items WHERE id = ?",
+            "SELECT category, delivery_rate, price, subcategory FROM pricelist_items WHERE id = ?",
             id
         )
         .fetch_optional(&state.db)
@@ -585,7 +722,135 @@ pub mod handlers {
         )
         .execute(&state.db)
         .await;
+        // A renamed firewood section keeps its e-shop links once no row
+        // has the old name any more.
+        if let (Some(old), Some(new)) = (&row.subcategory, &sub)
+            && old != new
+        {
+            let _ = sqlx::query!(
+                "UPDATE OR IGNORE pricelist_stock_links SET subcategory = ?
+                 WHERE category = ? AND subcategory = ?
+                   AND NOT EXISTS (SELECT 1 FROM pricelist_items WHERE category = ? AND subcategory = ?)",
+                new, row.category, old, row.category, old
+            )
+            .execute(&state.db)
+            .await;
+        }
         done(&session, &back, "Položka byla uložena.").await
+    }
+
+    /// The firewood section a form names: (category, section name).
+    fn stock_section(pairs: &Pairs) -> Option<(String, String)> {
+        let get = |name: &str| {
+            pairs
+                .iter()
+                .find(|(k, _)| k == name)
+                .map(|(_, v)| v.trim().to_owned())
+                .filter(|v| !v.is_empty())
+        };
+        let category = get("category")?;
+        crate::stock::is_firewood_category(&category).then_some(())?;
+        Some((category, get("subcategory")?))
+    }
+
+    /// Sets every linked e-shop variant of a firewood section in or out of
+    /// stock (loose firewood: the container variants; crates: the crates).
+    pub async fn set_availability(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
+        admin!(session, v);
+        let Some((category, name)) = stock_section(&pairs) else {
+            return failed(&session, "/admin/pricelist_items", "Neplatná dřevina.").await;
+        };
+        let back = format!("/admin/pricelist_items#{category}");
+        let in_stock = i64::from(pairs.iter().any(|(k, v)| k == "in_stock" && v == "1"));
+        let group = crate::stock::variant_group(&category).unwrap_or_default();
+        let changed = sqlx::query!(
+            "UPDATE catalog_variants SET in_stock = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+             WHERE variant_group = ? AND catalog_product_id IN
+                 (SELECT catalog_product_id FROM pricelist_stock_links WHERE category = ? AND subcategory = ?)",
+            in_stock, group, category, name
+        )
+        .execute(&state.db)
+        .await
+        .map(|r| r.rows_affected())
+        .unwrap_or(0);
+        if changed == 0 {
+            return failed(
+                &session,
+                &back,
+                format!("{name}: nejdřív zaškrtněte produkty e-shopu, se kterými dřevina souvisí."),
+            )
+            .await;
+        }
+        let state_text = if in_stock == 1 {
+            "dostupné"
+        } else {
+            "nedostupné"
+        };
+        done(
+            &session,
+            &back,
+            format!("{name}: {state_text} (v e-shopu upraveno variant: {changed})."),
+        )
+        .await
+    }
+
+    /// Which e-shop products a firewood section stands for.
+    pub async fn save_stock_links(
+        State(state): State<AppState>,
+        session: Session,
+        Extension(v): Extension<Visitor>,
+        Form(pairs): Form<Pairs>,
+    ) -> Response {
+        admin!(session, v);
+        let Some((category, name)) = stock_section(&pairs) else {
+            return failed(&session, "/admin/pricelist_items", "Neplatná dřevina.").await;
+        };
+        let back = format!("/admin/pricelist_items#{category}");
+        let ids: Vec<i64> = pairs
+            .iter()
+            .filter(|(k, _)| k == "product_ids")
+            .filter_map(|(_, v)| v.parse().ok())
+            .collect();
+        let saved: Result<(), sqlx::Error> = async {
+            let mut tx = state.db.begin().await?;
+            sqlx::query!(
+                "DELETE FROM pricelist_stock_links WHERE category = ? AND subcategory = ?",
+                category, name
+            )
+            .execute(&mut *tx)
+            .await?;
+            for id in &ids {
+                // Only firewood products can stand for a firewood section.
+                sqlx::query!(
+                    "INSERT OR IGNORE INTO pricelist_stock_links (category, subcategory, catalog_product_id)
+                     SELECT ?, ?, id FROM catalog_products WHERE id = ? AND category = 'palivove'",
+                    category, name, id
+                )
+                .execute(&mut *tx)
+                .await?;
+            }
+            tx.commit().await
+        }
+        .await;
+        match saved {
+            Ok(()) => {
+                done(
+                    &session,
+                    &back,
+                    format!("{name}: propojení s e-shopem uloženo."),
+                )
+                .await
+            }
+            Err(e) => {
+                tracing::error!("stock links not saved: {e}");
+                failed(&session, &back, "Propojení se nepodařilo uložit.").await
+            }
+        }
     }
 
     pub async fn delete_price(

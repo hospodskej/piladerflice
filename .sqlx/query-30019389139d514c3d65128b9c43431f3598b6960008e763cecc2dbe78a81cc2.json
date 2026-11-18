@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT OR IGNORE INTO pricelist_stock_links (category, subcategory, catalog_product_id)\n                     SELECT ?, ?, id FROM catalog_products WHERE id = ? AND category = 'palivove'",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 3
+    },
+    "nullable": []
+  },
+  "hash": "30019389139d514c3d65128b9c43431f3598b6960008e763cecc2dbe78a81cc2"
+}

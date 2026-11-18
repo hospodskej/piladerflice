@@ -291,3 +291,13 @@ INSERT INTO inquiry_form_options (id, category, field, position, value, value_de
 INSERT INTO inquiry_form_options (id, category, field, position, value, value_de) VALUES (56, 'stavebni', 'sirka', 0, '330 mm', '330 mm');
 INSERT INTO inquiry_form_options (id, category, field, position, value, value_de) VALUES (57, 'stavebni', 'sirka', 1, '500 mm', '500 mm');
 INSERT INTO inquiry_form_options (id, category, field, position, value, value_de) VALUES (58, 'stavebni', 'sirka', 2, '1000 mm', '1000 mm');
+
+-- Price-list firewood sections linked to the e-shop woods they name.
+INSERT OR IGNORE INTO pricelist_stock_links (category, subcategory, catalog_product_id)
+SELECT DISTINCT i.category, i.subcategory, p.id
+FROM pricelist_items i
+JOIN catalog_products p ON p.category = 'palivove'
+    AND (instr(i.subcategory, p.title) > 0
+         OR (p.key = 'habr' AND instr(i.subcategory, 'Ostatní tvrdé') > 0))
+WHERE i.category IN ('palivove_volne', 'palivove_skladane')
+  AND i.subcategory IS NOT NULL AND i.subcategory <> '';

@@ -38,6 +38,8 @@ pub struct Bestseller {
     pub type_label: String,
     pub image: Option<String>,
     pub price_from: Option<String>,
+    /// A variant of it is in stock.
+    pub in_stock: bool,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -661,7 +663,9 @@ pub fn BestsellerCard(p: Bestseller) -> impl IntoView {
             <div class="nejprodavanejsi-produkty-details">
                 <span class="nejprodavanejsi-produkty-title">{p.type_label}</span>
                 <span class="nejprodavanejsi-produkty-desc"><strong>{p.title}</strong></span>
-                <span class="nejprodavanejsi-produkty-stock">{t::common::stock(l)}</span>
+                <span class=if p.in_stock { "nejprodavanejsi-produkty-stock" } else { "nejprodavanejsi-produkty-stock product-stock-out" }>
+                    {if p.in_stock { t::common::stock(l) } else { t::common::stock_out(l) }}
+                </span>
                 <span class="nejprodavanejsi-produkty-price">
                     <strong>{p.price_from.map_or_else(|| "---".to_owned(), |price| format!("{} {price}", t::common::price_from(l)))}</strong>
                 </span>

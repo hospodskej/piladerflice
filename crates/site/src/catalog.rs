@@ -36,7 +36,8 @@ pub async fn bestsellers(
     let mut products = sqlx::query!(
         r#"SELECT p.id AS "id!", p.key, p.title, p.title_de, p.type_label, p.type_label_de, p.image, p.category, p.position, p.hardness,
                   (SELECT COALESCE(MIN(CASE WHEN v.in_stock THEN v.price_czk END), MIN(v.price_czk))
-                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS "starting_price: i64"
+                   FROM catalog_variants v WHERE v.catalog_product_id = p.id) AS "starting_price: i64",
+                  EXISTS (SELECT 1 FROM catalog_variants v WHERE v.catalog_product_id = p.id AND v.in_stock = 1) AS "in_stock!: bool"
            FROM catalog_products p WHERE p.active = 1"#
     )
     .fetch_all(db)
@@ -78,6 +79,7 @@ pub async fn bestsellers(
                 .to_owned(),
                 image: p.image,
                 price_from,
+                in_stock: p.in_stock,
                 key: p.key,
             }
         })

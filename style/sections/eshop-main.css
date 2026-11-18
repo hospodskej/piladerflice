@@ -313,3 +313,10 @@ a.product-image-wrapper-eshop {
 .product-intro-details .delivery-note {
     margin: 16px 0 0 0;
 }
+
+/* No variant of the product is in stock. */
+.product-stock.product-stock-out,
+.nejprodavanejsi-produkty-stock.product-stock-out,
+.product-intro-details .stock-status.stock-status-out {
+    color: #DC2626 !important;
+}

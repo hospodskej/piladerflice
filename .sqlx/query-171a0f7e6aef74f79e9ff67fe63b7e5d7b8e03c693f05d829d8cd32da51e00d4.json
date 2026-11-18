@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "UPDATE catalog_variants SET in_stock = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n             WHERE variant_group = ? AND catalog_product_id IN\n                 (SELECT catalog_product_id FROM pricelist_stock_links WHERE category = ? AND subcategory = ?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 4
+    },
+    "nullable": []
+  },
+  "hash": "171a0f7e6aef74f79e9ff67fe63b7e5d7b8e03c693f05d829d8cd32da51e00d4"
+}

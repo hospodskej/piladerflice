@@ -267,6 +267,8 @@ fn admin(state: AppState) -> Router<AppState> {
             post(catalog::delete_variant),
         )
         .route("/admin/pricelist_items", post(content::create_price))
+        .route("/admin/cenik/dostupnost", post(content::set_availability))
+        .route("/admin/cenik/propojeni", post(content::save_stock_links))
         .route("/admin/pricelist_items/{id}", post(content::update_price))
         .route(
             "/admin/pricelist_items/{id}/smazat",

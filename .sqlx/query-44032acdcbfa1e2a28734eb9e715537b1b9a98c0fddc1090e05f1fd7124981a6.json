@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT category, delivery_rate, price FROM pricelist_items WHERE id = ?",
+  "query": "SELECT category, subcategory, catalog_product_id FROM pricelist_stock_links",
   "describe": {
     "columns": [
       {
@@ -9,36 +9,36 @@
         "type_info": "Text",
         "origin": {
           "Table": {
-            "table": "pricelist_items",
+            "table": "pricelist_stock_links",
             "name": "category"
           }
         }
       },
       {
-        "name": "delivery_rate",
+        "name": "subcategory",
         "ordinal": 1,
-        "type_info": "Integer",
+        "type_info": "Text",
         "origin": {
           "Table": {
-            "table": "pricelist_items",
-            "name": "delivery_rate"
+            "table": "pricelist_stock_links",
+            "name": "subcategory"
           }
         }
       },
       {
-        "name": "price",
+        "name": "catalog_product_id",
         "ordinal": 2,
-        "type_info": "Text",
+        "type_info": "Integer",
         "origin": {
           "Table": {
-            "table": "pricelist_items",
-            "name": "price"
+            "table": "pricelist_stock_links",
+            "name": "catalog_product_id"
           }
         }
       }
     ],
     "parameters": {
-      "Right": 1
+      "Right": 0
     },
     "nullable": [
       false,
@@ -46,5 +46,5 @@
       false
     ]
   },
-  "hash": "cf991f909449c1fa436b2f4ddfc15d2c4195692202851f485b756c05385d93fd"
+  "hash": "44032acdcbfa1e2a28734eb9e715537b1b9a98c0fddc1090e05f1fd7124981a6"
 }

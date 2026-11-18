@@ -584,3 +584,67 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Ceník › Dostupnost v e-shopu */
+.admin-stock {
+    margin: 16px 0 24px;
+    padding: 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    background: #FAFAFA;
+}
+
+.admin-stock h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+}
+
+.admin-stock-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    background: #EEE;
+    white-space: nowrap;
+}
+
+.admin-stock-in {
+    color: #15803D;
+    background: #DCFCE7;
+}
+
+.admin-stock-out {
+    color: #B91C1C;
+    background: #FEE2E2;
+}
+
+.admin-stock-actions {
+    white-space: nowrap;
+}
+
+.admin-stock-actions form {
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.admin-stock-actions button[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.admin-stock-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    align-items: center;
+}
+
+.admin-stock-links label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 400;
+    white-space: nowrap;
+}

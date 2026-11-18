@@ -134,18 +134,28 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "the kontakt ceník says next to each wood and item whether it is available" do
-    pricelist_items(:tramy).update!(available: false)
+    pricelist_items(:fosny).update!(available: false) # not in the e-shop: its own checkbox
     PricelistItem.create!(category: "palivove_volne", subcategory: "Jasan / Dub", item_name: "50cm", price: "2 030 Kč", available: false)
 
     get kontakt_url
-    assert_select ".cenik-table td", text: /Fošny\s*Dostupné/
-    assert_select ".cenik-table td", text: /Trámy\s*Nedostupné/
+    assert_select ".cenik-table td", text: /Fošny\s*Nedostupné/
+    assert_select ".cenik-table td", text: /Trámy\s*Dostupné/
     assert_select ".cenik-subtitle", text: /Jasan \/ Dub\s*Částečně dostupné/
     assert_select ".cenik-table td", text: /50cm\s*Nedostupné/
     assert_select ".cenik-subtitle .cenik-availability-partial"
 
     get "/at/kontakt"
-    assert_select ".cenik-table td", text: /Bohlen\s*Verfügbar/
+    assert_select ".cenik-table td", text: /Balken\s*Verfügbar/
+  end
+
+  test "ceník rows sold in the e-shop follow its Skladem ticks" do
+    pricelist_items(:tramy).update!(available: true)
+    catalog_variants(:tramy_variant).update!(in_stock: false)
+    PricelistItem.create!(category: "palivove_volne", subcategory: "Smrk / Borovice / Modřín", item_name: "1m", price: "1 320 Kč", available: false)
+
+    get kontakt_url
+    assert_select ".cenik-table td", text: /Trámy\s*Nedostupné/ # the e-shop says no, whatever the checkbox
+    assert_select ".cenik-subtitle", text: /Smrk \/ Borovice \/ Modřín\s*Dostupné/ # the 1 m container is in stock
   end
 
   test "the kontakt ceník shows the delivery price the shop charges" do

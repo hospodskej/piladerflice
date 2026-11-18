@@ -17,8 +17,8 @@ module HomeHelper
   # dostupné" (orange) when only some are in stock.
   def pricelist_availability(items)
     items = Array(items)
-    status = if items.all?(&:available?) then "available"
-             elsif items.none?(&:available?) then "unavailable"
+    status = if items.all?(&:available_now?) then "available"
+             elsif items.none?(&:available_now?) then "unavailable"
              else "partial"
              end
     tag.span(t("kontakt.availability.#{status}"), class: "cenik-availability cenik-availability-#{status}")

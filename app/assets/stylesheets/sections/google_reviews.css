@@ -77,8 +77,12 @@
 }
 
 .google-reviews-viewport {
+    --reviews-edge: 60px;
     overflow: hidden;
-    padding: 0 60px;
+    padding: 0 var(--reviews-edge);
+    /* The cards sliding past the edges fade out instead of being cut off. */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--reviews-edge), #000 calc(100% - var(--reviews-edge)), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--reviews-edge), #000 calc(100% - var(--reviews-edge)), transparent 100%);
 }
 
 .google-reviews-grid {
@@ -181,7 +185,7 @@
 
 @media (max-width: 992px) {
     .google-reviews-viewport {
-        padding: 0 45px;
+        --reviews-edge: 45px;
     }
 
     .google-review-card {
@@ -202,7 +206,7 @@
 
 @media (max-width: 576px) {
     .google-reviews-viewport {
-        padding: 0 35px;
+        --reviews-edge: 35px;
     }
 
     .google-review-card {

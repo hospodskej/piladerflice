@@ -77,8 +77,8 @@ class Cart
     )
   end
 
-  # TODO: Minimum order with a progress bar in the cart ("Zbývá 701,20 Kč do
-  # minimálního nákupu"). Štěpán wants it but says it still needs thinking
+  # TODO: Minimální objednávka - minimum order with a progress bar in the
+  # cart ("Zbývá 701,20 Kč do minimálního nákupu"). Štěpán wants it but says it still needs thinking
   # through. Open questions before building it:
   # - Is the minimum in Kč or in PRM / m³?
   # - Does it depend on distance (bands by km from Derflice)? If so, the bar

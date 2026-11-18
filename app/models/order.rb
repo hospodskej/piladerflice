@@ -1,4 +1,5 @@
-# TODO: Order status tracking. Customers see their order history but not whether
+# TODO: Sledování objednávky pro zákazníky (order status tracking). Customers
+# see their order history but not whether
 # an order was processed, dispatched or delivered, so they call to ask. Add a
 # status (e.g. processing / dispatched / delivered) with an admin UI to change
 # it, and show it in the account's order history.

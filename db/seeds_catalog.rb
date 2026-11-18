@@ -187,11 +187,6 @@ piliny = CatalogProduct.create!(
   description_de: "Hochwertiges Sägemehl geeignet als Einstreu, zum Mulchen oder zum Pressen von Briketts. Niedrige Feuchtigkeit und feine Struktur sorgen für einfache Handhabung. Erhältlich lose oder verpackt."
 )
 attach_seed_image!(piliny, "eshop/piliny.webp")
-# TODO: Piliny ne volně, ale po pytlech - sawdust is sold only in bags, not
-# loose. On the live site: Admin > Katalog a ceny > Piliny, replace the
-# "Volně ložené" variant with bag sizes (e.g. "Pytel 30 l") and their prices,
-# fix the description ("volně ložené nebo balené"), and the Piliny row in
-# Admin > Ceník; then change these seeds to match.
 piliny.catalog_variants.create!(key: "volne-lozene", variant_label: "Volně ložené", variant_label_de: "Lose geschüttet", price_czk: 450, position: 0)
 piliny.catalog_variants.create!(key: "balene", variant_label: "Balené", variant_label_de: "Verpackt", price_czk: 450, position: 1)
 

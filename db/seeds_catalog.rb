@@ -183,12 +183,11 @@ odkory.catalog_variants.create!(key: "dub", variant_label: "Dub", variant_label_
 piliny = CatalogProduct.create!(
   key: "piliny", template: "simple_variant", category: "zbytky", position: 1,
   title: "Piliny", title_de: "Sägemehl", type_label: "Piliny", type_label_de: "Sägemehl",
-  description: "Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Nabízíme volně ložené nebo balené varianty.",
-  description_de: "Hochwertiges Sägemehl geeignet als Einstreu, zum Mulchen oder zum Pressen von Briketts. Niedrige Feuchtigkeit und feine Struktur sorgen für einfache Handhabung. Erhältlich lose oder verpackt."
+  description: "Kvalitní dřevěné piliny vhodné pro podestýlku, mulčování nebo lisování briket. Nízká vlhkost a jemná struktura zaručují snadnou manipulaci. Prodáváme volně ložené.",
+  description_de: "Hochwertiges Sägemehl geeignet als Einstreu, zum Mulchen oder zum Pressen von Briketts. Niedrige Feuchtigkeit und feine Struktur sorgen für einfache Handhabung. Erhältlich lose geschüttet."
 )
 attach_seed_image!(piliny, "eshop/piliny.webp")
 piliny.catalog_variants.create!(key: "volne-lozene", variant_label: "Volně ložené", variant_label_de: "Lose geschüttet", price_czk: 450, position: 0)
-piliny.catalog_variants.create!(key: "balene", variant_label: "Balené", variant_label_de: "Verpackt", price_czk: 450, position: 1)
 
 stepka = CatalogProduct.create!(
   key: "stepka", template: "simple_variant", category: "zbytky", position: 2,

@@ -41,4 +41,15 @@ class PricelistItem < ApplicationRecord
       ExchangeRateService.convert_price_string(template)
     end
   end
+
+  # Shown in the price list: the e-shop's stock for firewood rows that match
+  # e-shop variants (PricelistEshopStock), otherwise the "Dostupné" checkbox.
+  def available_now?
+    from_eshop = PricelistEshopStock.current.available?(self)
+    from_eshop.nil? ? available? : from_eshop
+  end
+
+  def availability_from_eshop?
+    !PricelistEshopStock.current.available?(self).nil?
+  end
 end

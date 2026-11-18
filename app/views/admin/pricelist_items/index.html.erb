@@ -32,7 +32,10 @@
   <%= link_to "Zobrazit ceník na webu ↗", kontakt_path(anchor: "cenik"), target: "_blank", rel: "noopener", class: "btn-outline-dark" %>
 </div>
 <p class="admin-page-subtitle">Ceník sortimentu a služeb na stránce Kontakt. Změny se na webu projeví ihned po uložení.</p>
-<p class="admin-form-hint">„Dostupné“: zaškrtnuté položky mají v ceníku zelené „Dostupné“, ostatní červené „Nedostupné“. U palivového dřeva se stav ukáže vedle dřeviny (když je dostupná jen část délek, „Částečně dostupné“).</p>
+<p class="admin-form-hint">„Dostupné“: zaškrtnuté položky mají v ceníku zelené „Dostupné“, ostatní červené „Nedostupné“. U palivového dřeva se stav ukáže vedle dřeviny (když je dostupná jen část délek, „Částečně dostupné“).
+  Položky, které jsou i v e-shopu, se řídí zaškrtnutím „Skladem“ u variant v <%= link_to "Katalogu a cenách", admin_catalog_products_path %>:
+  palivové dřevo podle dřeviny, druhu (volně ložené = kontejner, skládané = bedny) a délky, řezivo a výrobní zbytky podle názvu (dostupné, když je skladem aspoň jedna varianta), kamenivo podle kameniva v e-shopu.
+  Zaškrtávátko tu mají jen řádky, které v e-shopu nejsou.</p>
 
 <% PricelistItem::CATEGORIES.each do |category| %>
   <% items = @items[category] || [] %>
@@ -88,8 +91,15 @@
             <% end %>
             <% if with_availability %>
               <td>
-                <%= hidden_field_tag "pricelist_item[available]", "0", form: item_form_id, id: nil %>
-                <%= check_box_tag "pricelist_item[available]", "1", item.available?, form: item_form_id, id: nil, "aria-label": "Dostupné" %>
+                <% if item.availability_from_eshop? %>
+                  <span class="admin-form-hint" title="Mění se zaškrtnutím „Skladem“ u variant v Katalogu a ceny">
+                    <%= item.available_now? ? "✓ Skladem" : "✗ Není skladem" %><br>
+                    <small>podle e-shopu: <%= PricelistEshopStock.current.product_titles(item).join(", ") %></small>
+                  </span>
+                <% else %>
+                  <%= hidden_field_tag "pricelist_item[available]", "0", form: item_form_id, id: nil %>
+                  <%= check_box_tag "pricelist_item[available]", "1", item.available?, form: item_form_id, id: nil, "aria-label": "Dostupné" %>
+                <% end %>
               </td>
             <% end %>
             <td class="admin-option-actions">

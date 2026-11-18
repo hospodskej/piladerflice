@@ -36,13 +36,20 @@ class Admin::PricelistItemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Cena je povinné pole", flash[:alert]
   end
 
-  test "an item can be marked unavailable" do
-    item = pricelist_items(:tramy)
+  test "an item the e-shop doesn't sell can be marked unavailable" do
+    item = pricelist_items(:fosny)
     patch admin_pricelist_item_path(item), params: { pricelist_item: { price: item.price, available: "0" } }
 
     assert_not item.reload.available?
     get admin_pricelist_items_path
     assert_select "input[type=checkbox][name='pricelist_item[available]'][form=pricelist-item-#{item.id}-form]:not([checked])"
+  end
+
+  test "an item sold in the e-shop shows its stock instead of a checkbox" do
+    item = pricelist_items(:tramy)
+    get admin_pricelist_items_path
+    assert_select "input[type=checkbox][form=pricelist-item-#{item.id}-form]", count: 0
+    assert_select "td", text: /Skladem\s*podle e-shopu: Trámy/
   end
 
   test "update changes the price but not the category" do

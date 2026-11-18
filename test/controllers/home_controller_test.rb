@@ -92,6 +92,17 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.breadcrumb-item[href='/eshop?category=rezivo']", text: "Stavební řezivo"
   end
 
+  test "truhlářské řezivo shows its own photo, without carousel arrows for a single picture" do
+    get "/sortiment/truhlarske-rezivo"
+    assert_response :success
+    assert_select ".product-hero-carousel img[src*='truhlarske-rezivo']", count: 1
+    assert_select ".product-hero-carousel img[src*='fosny']", count: 0
+    assert_select ".product-hero-carousel .carousel-btn", count: 0
+
+    get "/sortiment/stavebni-rezivo"
+    assert_select ".product-hero-carousel .carousel-btn.next-btn", minimum: 1
+  end
+
   test "lumber is priced per piece, not per m³" do
     get eshop_product_url(catalog_products(:tramy).key)
     assert_select ".inventory-price", text: /10 285 Kč \/ ks/

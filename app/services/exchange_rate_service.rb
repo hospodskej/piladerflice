@@ -27,22 +27,29 @@ class ExchangeRateService
       end
     end
 
-    def display_amount(czk_amount, locale: I18n.locale)
+    # An amount for the page: Kč on the Czech site, € on the German one.
+    # Takes a Money (its € amount, "≈" unless typed in the admin) or a plain
+    # number of Kč (converted, always "≈").
+    def display_amount(amount, locale: I18n.locale)
+      money = amount.is_a?(Money) ? amount : Money.from(czk: amount)
       if locale.to_sym == :de
-        "≈ #{format_eur(czk_amount / czk_per_eur)}"
+        "#{"≈ " unless money.exact_eur?}#{format_eur(money.eur)}"
       else
-        formatted = ActiveSupport::NumberHelper.number_to_delimited(czk_amount.to_i, delimiter: " ")
-        "#{formatted} Kč"
+        format_czk(money.czk)
       end
     end
 
-    private
+    def format_czk(amount)
+      "#{ActiveSupport::NumberHelper.number_to_delimited(amount.to_i, delimiter: " ")} Kč"
+    end
 
     def format_eur(amount)
       ActiveSupport::NumberHelper.number_to_currency(
         amount, unit: "€", format: "%n %u", precision: 2, delimiter: ".", separator: ","
       )
     end
+
+    private
 
     def fetch_live_rate
       uri = URI(RATE_ENDPOINT)

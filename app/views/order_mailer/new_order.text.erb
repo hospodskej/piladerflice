@@ -33,23 +33,23 @@ OBSAH OBJEDNÁVKY
 <% end %>
 
 <% if @order.delivery_quoted? || @order.discounted? %>
-Zboží: <%= ExchangeRateService.display_amount(@order.subtotal_czk, locale: :cs) %>
+Zboží: <%= @order.display(:subtotal) %>
 <% end %>
 <% if @order.discounted? %>
-<%= t("order_mailer.discount", code: @order.discount_code, locale: :cs) %>: −<%= ExchangeRateService.display_amount(@order.discount_czk, locale: :cs) %>
+<%= t("order_mailer.discount", code: @order.discount_code, locale: :cs) %>: −<%= @order.display(:discount) %>
 <% end %>
 <% if @order.delivery_quoted? %>
-<%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %>: <%= ExchangeRateService.display_amount(@order.delivery_czk, locale: :cs) %>
+<%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %>: <%= @order.display(:delivery) %>
 <% elsif @order.shipping_method == "address" %>
 Vzdálenost se nepodařilo spočítat – cenu dopravy je potřeba kalkulovat individuálně, není v celkové ceně.
 <% end %>
-Celková cena bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %>
-<% @order.vat_by_rate.each do |rate, amount| -%>
-DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= ExchangeRateService.display_amount(amount, locale: :cs) %>
+Celková cena bez DPH: <%= @order.display(:total_excl_vat) %>
+<% @order.vat_by_rate_in_currency.each do |rate, amount| -%>
+DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= @order.format_in_currency(amount) %>
 <% end -%>
 <% if @order.vat_by_rate.size > 1 -%>
-Celkem DPH: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %>
+Celkem DPH: <%= @order.display(:vat) %>
 <% end -%>
-CELKEM K ÚHRADĚ (včetně DPH): <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %>
+CELKEM K ÚHRADĚ (včetně DPH): <%= @order.display(:total) %>
 
 Jazyk zákazníka při objednávce: <%= @order.locale == "de" ? "němčina" : "čeština" %>

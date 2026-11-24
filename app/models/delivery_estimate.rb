@@ -39,5 +39,5 @@ class DeliveryEstimate
     DeliveryQuote.new(one_way_km: one_way_km)
   end
 
-  delegate :round_trip_km, :price_czk, to: :quote
+  delegate :round_trip_km, :price_czk, :price, to: :quote
 end

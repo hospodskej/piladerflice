@@ -28,11 +28,11 @@
                   <div class="checkout-summary-full-item-prices">
                     <div class="cart-total-row cart-total-excl-vat">
                       <span><%= t("cart.table_price_excl_vat") %></span>
-                      <span><%= cart_price(VatBreakdown.excl_vat(item.line_total_czk, category: item.category, country: @order.vat_country)) %></span>
+                      <span><%= cart_price(money_excl_vat(item.line_total, category: item.category, country: @order.vat_country)) %></span>
                     </div>
                     <div class="cart-total-row">
                       <span><%= t("cart.table_price_incl_vat") %></span>
-                      <strong><%= cart_price(item.line_total_czk) %></strong>
+                      <strong><%= cart_price(item.line_total) %></strong>
                     </div>
                   </div>
                 </li>
@@ -49,7 +49,7 @@
                 <% if @order.shipping_method != "address" %>
                   <%= t("checkout.free") %>
                 <% elsif @delivery %>
-                  <strong><%= cart_price(@delivery.price_czk) %></strong> <%= t("checkout.delivery_approximate") %>
+                  <strong><%= cart_price(@delivery.price) %></strong> <%= t("checkout.delivery_approximate") %>
                 <% else %>
                   <%= t("checkout.shipping_address_note") %>
                 <% end %>
@@ -77,29 +77,29 @@
             <% if @delivery || @order.discounted? %>
               <div class="cart-total-row cart-total-excl-vat">
                 <span><%= t("checkout.goods_total") %></span>
-                <span><%= cart_price(@order.subtotal_czk) %></span>
+                <span><%= @order.display(:subtotal) %></span>
               </div>
             <% end %>
             <% if @order.discounted? %>
               <div class="cart-total-row cart-total-discount">
                 <span><%= t("cart.discount_line", code: @order.discount_code) %></span>
-                <span>−<%= cart_price(@order.discount_czk) %></span>
+                <span>−<%= @order.display(:discount) %></span>
               </div>
             <% end %>
             <% if @delivery %>
               <div class="cart-total-row cart-total-excl-vat">
                 <span><%= t("checkout.delivery_line", km: @delivery.round_trip_km) %></span>
-                <span><%= cart_price(@delivery.price_czk) %></span>
+                <span><%= @order.display(:delivery) %></span>
               </div>
             <% end %>
             <div class="cart-total-row">
               <span><%= t("cart.total_due") %></span>
-              <strong><%= cart_price(@order.total_czk) %></strong>
+              <strong><%= @order.display(:total) %></strong>
             </div>
-            <%= render "shared/vat_rows", by_rate: @order.vat_by_rate %>
+            <%= render "shared/vat_rows", by_rate: @order.vat_by_rate_in_currency, format: @order.method(:format_in_currency) %>
             <div class="cart-total-row cart-total-excl-vat">
               <span><%= t("cart.without_vat") %></span>
-              <span><%= cart_price(@order.total_czk - @order.vat_czk) %></span>
+              <span><%= @order.display(:total_excl_vat) %></span>
             </div>
           </div>
         </div>

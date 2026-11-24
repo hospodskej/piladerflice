@@ -14,6 +14,7 @@ class CatalogVariant < ApplicationRecord
 
   validates :key, presence: true, uniqueness: { scope: :catalog_product_id }
   validates :price_czk, numericality: { greater_than: 0 }
+  validates :price_eur, numericality: { greater_than: 0 }, allow_nil: true
   validates :variant_group, inclusion: { in: %w[kontejner bedny] }, allow_nil: true
 
   scope :ordered, -> { order(:position, :id) }
@@ -29,6 +30,12 @@ class CatalogVariant < ApplicationRecord
   # with or without VAT depending on the category (VatRule).
   def customer_price_czk
     VatRule.for(catalog_product.category).customer_price(price_czk)
+  end
+
+  # The customer's price in Kč and € (the € price typed in the admin, with
+  # the same VAT rule as the Kč one; without one, converted at today's rate).
+  def customer_price
+    Money.from(czk: customer_price_czk, eur: VatRule.for(catalog_product.category).customer_price_eur(price_eur))
   end
 
   def dimension_filter_key

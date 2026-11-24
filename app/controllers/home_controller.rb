@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     @produkty = Product.all
     @google_reviews = Review.ordered
     @bestseller_products = Bestsellers.sort(
-      CatalogProduct.active.with_starting_price.with_attached_image.to_a, fallback: HOME_BESTSELLER_FALLBACK
+      CatalogProduct.active.with_starting_price.with_attached_image.includes(:catalog_variants).to_a, fallback: HOME_BESTSELLER_FALLBACK
     ).first(3)
   end
 

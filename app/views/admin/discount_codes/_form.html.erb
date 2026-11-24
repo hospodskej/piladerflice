@@ -34,6 +34,12 @@
     </div>
 
     <div class="form-group">
+      <%= f.label :value_eur, "Pevná sleva v € (jen u pevné částky, nepovinné)" %>
+      <%= f.number_field :value_eur, min: 0.01, step: 0.01 %>
+      <p class="admin-form-hint">Kolik se odečte na rakouské verzi. Když je prázdné, přepočte se částka v Kč podle aktuálního kurzu.</p>
+    </div>
+
+    <div class="form-group">
       <%= f.label :min_order_czk, "Minimální hodnota zboží (Kč, nepovinné)" %>
       <%= f.number_field :min_order_czk, min: 1, step: 1 %>
     </div>

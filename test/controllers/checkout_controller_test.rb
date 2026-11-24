@@ -251,7 +251,8 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
     get "/at/kosik/souhrn"
     assert_response :success
     assert_select ".checkout-radio-note", text: /≈ 160,00 €\s*\(ungefährer Preis\)/
-    assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*≈ 160,00 €/
+    # The summary lists what the order will be: its € amounts, not an estimate.
+    assert_select ".cart-total-row", text: /Lieferung \(100 km, ungefähr\)\s*160,00 €/
   end
 
   test "delivered to Austria the order costs the same but carries Austrian VAT, delivery included" do

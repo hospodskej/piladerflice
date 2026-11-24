@@ -10,12 +10,12 @@
     <% if estimate %>
       <p class="delivery-estimate-result">
         <%= t("delivery_estimate.result_html", place: estimate.place, km: estimate.one_way_km, round_trip_km: estimate.round_trip_km,
-              rate: cart_price(Setting.delivery_czk_per_km), price: cart_price(estimate.price_czk)) %>
+              rate: cart_price(Setting.delivery_per_km), price: cart_price(estimate.price)) %>
       </p>
       <p class="delivery-estimate-hint"><%= t("delivery_estimate.result_hint") %></p>
       <%= button_to t("delivery_estimate.change"), delivery_estimate_path, method: :delete, class: "delivery-estimate-change" %>
     <% else %>
-      <p><%= t("shared.delivery_note_html", rate: cart_price(Setting.delivery_czk_per_km)) %></p>
+      <p><%= t("shared.delivery_note_html", rate: cart_price(Setting.delivery_per_km)) %></p>
       <%= form_with url: delivery_estimate_path, method: :post, class: "delivery-estimate-form",
                     data: { controller: "address-autocomplete", address_autocomplete_url_value: address_suggestions_path,
                             address_autocomplete_kind_value: "place", address_autocomplete_country_value: "#delivery-estimate-country",

@@ -124,8 +124,37 @@ class CheckoutController < ApplicationController
       vat_breakdown: vat_breakdown.by_rate.transform_keys(&:to_s),
       vat_country: vat_breakdown.country,
       total_czk: total_czk,
-      locale: I18n.locale.to_s
+      locale: I18n.locale.to_s,
+      currency: eur_order? ? "EUR" : "CZK",
+      eur_amounts: (eur_amounts if eur_order?)
     }
+  end
+
+  # Ordered on the Austrian site: the order is in € (the prices shown there).
+  def eur_order?
+    I18n.locale == :de
+  end
+
+  # The € amounts the customer sees, kept on the order.
+  def eur_amounts
+    eur = vat_breakdown_eur
+    delivery = delivery_quote&.price
+    {
+      "subtotal" => decimal(current_cart.subtotal.eur),
+      "discount" => (decimal(current_cart.discount_amount.eur) if current_cart.discount_applied?),
+      "delivery" => (decimal(delivery.eur) if delivery),
+      "vat" => decimal(eur.vat),
+      "vat_breakdown" => eur.by_rate.to_h { |rate, amount| [rate.to_s, decimal(amount)] },
+      "total" => decimal(eur.total)
+    }
+  end
+
+  def vat_breakdown_eur
+    current_cart.vat_breakdown_eur(country: current_vat_country, delivery_eur: delivery_quote&.price&.eur || 0)
+  end
+
+  def decimal(amount)
+    format("%.2f", amount)
   end
 
   # Goods after the discount plus the approximate delivery price, both incl. VAT.
@@ -173,6 +202,7 @@ class CheckoutController < ApplicationController
         product_key: item.product_key,
         image: item.image,
         unit_price_czk: item.unit_price_czk,
+        unit_price_eur: (format("%.2f", item.unit_price.eur) if eur_order?),
         category: item.category,
         specs: item.specs,
         quantity: item.quantity

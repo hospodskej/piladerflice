@@ -39,18 +39,18 @@
   <% if @order.discounted? %>
     <tr>
       <td style="padding:2px 0; color:#666;"><%= t("order_mailer.discount", code: @order.discount_code) %></td>
-      <td style="padding:2px 0; color:#1a7f37;">−<%= ExchangeRateService.display_amount(@order.discount_czk, locale: @locale) %></td>
+      <td style="padding:2px 0; color:#1a7f37;">−<%= @order.display(:discount) %></td>
     </tr>
   <% end %>
   <% if @order.delivery_quoted? %>
     <tr>
       <td style="padding:2px 0; color:#666;"><%= t("order_mailer.delivery", km: @order.delivery_distance_km) %></td>
-      <td style="padding:2px 0;"><%= ExchangeRateService.display_amount(@order.delivery_czk, locale: @locale) %></td>
+      <td style="padding:2px 0;"><%= @order.display(:delivery) %></td>
     </tr>
   <% end %>
   <tr>
     <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= t("order_mailer.total_due") %></td>
-    <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= ExchangeRateService.display_amount(@order.total_czk, locale: @locale) %></td>
+    <td style="padding:10px 0 0 0; font-weight:bold; font-size:16px;"><%= @order.display(:total) %></td>
   </tr>
 </table>
 

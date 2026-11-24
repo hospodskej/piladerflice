@@ -47,7 +47,7 @@
                 </span>
               </div>
 
-              <span class="order-card-total"><%= cart_price(order.total_czk) %></span>
+              <span class="order-card-total"><%= order.display(:total) %></span>
 
               <%= button_to t("auth.reorder_button"), reorder_order_path(order), method: :post, class: "btn-outline-dark order-card-reorder-btn" %>
             </div>

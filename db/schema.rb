@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_24_120000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -81,6 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_140000) do
     t.string "variant_label"
     t.string "variant_label_de"
     t.integer "width_mm"
+    t.decimal "price_eur", precision: 10, scale: 2
     t.index ["catalog_product_id", "key"], name: "index_catalog_variants_on_catalog_product_id_and_key", unique: true
     t.index ["catalog_product_id"], name: "index_catalog_variants_on_catalog_product_id"
   end
@@ -97,6 +98,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_140000) do
     t.integer "usage_limit"
     t.date "valid_until"
     t.integer "value", null: false
+    t.decimal "value_eur", precision: 10, scale: 2
     t.index ["code"], name: "index_discount_codes_on_code", unique: true
   end
 
@@ -172,6 +174,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_140000) do
     t.json "vat_breakdown"
     t.integer "vat_czk", null: false
     t.string "vat_country"
+    t.string "currency", default: "CZK", null: false
+    t.json "eur_amounts"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

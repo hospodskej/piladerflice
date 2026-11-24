@@ -24,6 +24,8 @@ class Cart
         "product_key" => catalog_variant.catalog_product.key,
         "image" => image_url_for(catalog_variant),
         "unit_price_czk" => catalog_variant.customer_price_czk,
+        # Only a € price typed in the admin; otherwise converted when shown.
+        "unit_price_eur" => (price = catalog_variant.customer_price).exact_eur? ? price.eur.to_s("F") : nil,
         "category" => catalog_variant.catalog_product.category,
         "specs" => catalog_variant.to_cart_specs,
         "quantity" => quantity
@@ -66,6 +68,28 @@ class Cart
 
   def subtotal_czk
     items.sum(&:line_total_czk)
+  end
+
+  # Goods before the discount, in Kč and €.
+  def subtotal
+    Money.sum(items.map(&:line_total))
+  end
+
+  def discount_amount
+    discount_applied? ? discount.amount(subtotal) : Money.zero
+  end
+
+  # Goods after the discount, in Kč and €.
+  def total
+    subtotal - discount_amount
+  end
+
+  # The VAT split in € (to the cent), for the Austrian site.
+  def vat_breakdown_eur(country:, delivery_eur: 0)
+    VatBreakdown.new(
+      lines: items.map { |item| [item.category, item.line_total.eur] },
+      country: country, discount_czk: discount_amount.eur, delivery_czk: delivery_eur, precision: 2
+    )
   end
 
   # How much of the cart (after the discount, plus delivery) is VAT, at the

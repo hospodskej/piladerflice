@@ -36,7 +36,7 @@
         <tr>
           <td><%= link_to "##{order.id}", admin_order_path(order) %></td>
           <td><%= order.full_name %></td>
-          <td><%= ExchangeRateService.display_amount(order.total_czk, locale: :cs) %></td>
+          <td><%= order.display(:total) %></td>
           <td><%= order.created_at.strftime("%d.%m.%Y %H:%M") %></td>
         </tr>
       <% end %>

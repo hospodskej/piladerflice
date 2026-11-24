@@ -14,13 +14,13 @@
 <%= t("order_mailer.shipping_method") %>: <%= @order.shipping_method == "pickup" ? t("checkout.shipping_pickup") : t("checkout.shipping_address") %>
 <%= t("order_mailer.payment_method") %>: <%= @order.payment_method == "bank_transfer" ? t("checkout.payment_bank_transfer") : t("checkout.payment_cash") %>
 <% if @order.discounted? %>
-<%= t("order_mailer.discount", code: @order.discount_code) %>: −<%= ExchangeRateService.display_amount(@order.discount_czk, locale: @locale) %>
+<%= t("order_mailer.discount", code: @order.discount_code) %>: −<%= @order.display(:discount) %>
 <% end %>
 <% if @order.delivery_quoted? %>
-<%= t("order_mailer.delivery", km: @order.delivery_distance_km) %>: <%= ExchangeRateService.display_amount(@order.delivery_czk, locale: @locale) %>
+<%= t("order_mailer.delivery", km: @order.delivery_distance_km) %>: <%= @order.display(:delivery) %>
 <% end %>
 
-<%= t("order_mailer.total_due") %>: <%= ExchangeRateService.display_amount(@order.total_czk, locale: @locale) %>
+<%= t("order_mailer.total_due") %>: <%= @order.display(:total) %>
 
 <%= t("order_mailer.questions_text") %>
 

@@ -19,7 +19,7 @@
       </div>
 
       <% current_cart.items.each do |item| %>
-        <% line_excl_vat = VatBreakdown.excl_vat(item.line_total_czk, category: item.category, country: current_vat_country) %>
+        <% line_excl_vat = money_excl_vat(item.line_total, category: item.category, country: current_vat_country) %>
         <div class="checkout-cart-row">
           <div class="col-item">
             <%= image_tag item.image, alt: cart_line_description(item), class: "cart-item-img" if item.image %>
@@ -35,9 +35,9 @@
           </div>
 
           <div class="col-avail" data-label="<%= t("cart.table_availability") %>"><span class="text-green"><%= t("common.in_stock") %></span></div>
-          <div class="col-unit-price" data-label="<%= t("cart.table_unit_price") %>"><%= cart_price(item.unit_price_czk) %></div>
+          <div class="col-unit-price" data-label="<%= t("cart.table_unit_price") %>"><%= cart_price(item.unit_price) %></div>
           <div class="col-price-excl" data-label="<%= t("cart.table_price_excl_vat") %>"><%= cart_price(line_excl_vat) %></div>
-          <div class="col-price-incl" data-label="<%= t("cart.table_price_incl_vat") %>"><strong><%= cart_price(item.line_total_czk) %></strong></div>
+          <div class="col-price-incl" data-label="<%= t("cart.table_price_incl_vat") %>"><strong><%= cart_price(item.line_total) %></strong></div>
 
           <div class="col-remove">
             <%= button_to "×", cart_item_path(item.id), method: :delete, class: "cart-remove-btn", aria: { label: t("cart.remove_aria") } %>
@@ -53,7 +53,7 @@
         <% if current_cart.discount %>
           <span class="discount-code-label"><%= t("cart.discount_code_label") %></span>
           <div class="discount-code-applied">
-            <span class="discount-code-chip"><%= current_cart.discount.code %> (−<%= current_cart.discount.percent? ? "#{current_cart.discount.value} %" : cart_price(current_cart.discount.value) %>)</span>
+            <span class="discount-code-chip"><%= current_cart.discount.code %> (−<%= current_cart.discount.label %>)</span>
             <%= button_to t("cart.discount_remove"), cart_discount_path, method: :delete, class: "discount-code-remove" %>
           </div>
           <% if (reason = current_cart.discount_unusable_reason) %>

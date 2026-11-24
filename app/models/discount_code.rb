@@ -13,6 +13,7 @@ class DiscountCode < ApplicationRecord
   validates :value, numericality: { less_than_or_equal_to: 100 }, if: :percent?
   validates :usage_limit, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :min_order_czk, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :value_eur, numericality: { greater_than: 0 }, allow_nil: true
 
   def self.lookup(code)
     find_by(code: code.to_s.strip.upcase) if code.present?
@@ -37,6 +38,17 @@ class DiscountCode < ApplicationRecord
     percent? ? (subtotal_czk * value / 100.0).round : [value, subtotal_czk].min
   end
 
+  # The discount on goods worth subtotal (Money), in Kč and €. A fixed code
+  # takes its € value from the admin, or converts its Kč value.
+  def amount(subtotal)
+    czk = amount_for(subtotal.czk)
+    if percent?
+      Money.new(czk: czk, eur: (subtotal.eur * value / 100).round(2), exact: subtotal.exact_eur?)
+    else
+      Money.from(czk: czk, eur: value_eur && [BigDecimal(value_eur.to_s), subtotal.eur].min)
+    end
+  end
+
   # Counts one use, unless the limit was reached in the meantime.
   def redeem!
     self.class.where(id: id)
@@ -44,7 +56,9 @@ class DiscountCode < ApplicationRecord
       .update_all("times_used = times_used + 1") == 1
   end
 
-  def label
-    percent? ? "#{value} %" : "#{ActiveSupport::NumberHelper.number_to_delimited(value, delimiter: ' ')} Kč"
+  def label(locale: I18n.locale)
+    return "#{value} %" if percent?
+
+    ExchangeRateService.display_amount(Money.from(czk: value, eur: value_eur), locale: locale)
   end
 end

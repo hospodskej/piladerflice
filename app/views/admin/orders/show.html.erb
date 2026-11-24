@@ -68,8 +68,8 @@
         <tr>
           <td><%= cart_line_description(item) %></td>
           <td><%= item.quantity %></td>
-          <td><%= ExchangeRateService.display_amount(item.unit_price_czk, locale: :cs) %></td>
-          <td><%= ExchangeRateService.display_amount(item.line_total_czk, locale: :cs) %></td>
+          <td><%= @order.format_amount(item.unit_price) %></td>
+          <td><%= @order.format_amount(item.line_total) %></td>
         </tr>
       <% end %>
     </tbody>
@@ -77,23 +77,23 @@
 
   <div class="admin-order-totals">
     <% if @order.delivery_quoted? || @order.discounted? %>
-      <p>Zboží: <%= ExchangeRateService.display_amount(@order.subtotal_czk, locale: :cs) %></p>
+      <p>Zboží: <%= @order.display(:subtotal) %></p>
     <% end %>
     <% if @order.discounted? %>
-      <p><%= t("order_mailer.discount", code: @order.discount_code, locale: :cs) %>: −<%= ExchangeRateService.display_amount(@order.discount_czk, locale: :cs) %></p>
+      <p><%= t("order_mailer.discount", code: @order.discount_code, locale: :cs) %>: −<%= @order.display(:discount) %></p>
     <% end %>
     <% if @order.delivery_quoted? %>
-      <p><%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %>: <%= ExchangeRateService.display_amount(@order.delivery_czk, locale: :cs) %></p>
+      <p><%= t("order_mailer.delivery", km: @order.delivery_distance_km, locale: :cs) %>: <%= @order.display(:delivery) %></p>
     <% elsif @order.shipping_method == "address" %>
       <p>Doprava: vzdálenost se nepodařilo spočítat, cena dopravy není v celkové ceně.</p>
     <% end %>
-    <p>Bez DPH: <%= ExchangeRateService.display_amount(@order.total_czk - @order.vat_czk, locale: :cs) %></p>
-    <% @order.vat_by_rate.each do |rate, amount| %>
-      <p>DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= ExchangeRateService.display_amount(amount, locale: :cs) %></p>
+    <p>Bez DPH: <%= @order.display(:total_excl_vat) %></p>
+    <% @order.vat_by_rate_in_currency.each do |rate, amount| %>
+      <p>DPH <%= rate %> % (<%= @order.vat_country_name(locale: :cs) %>): <%= @order.format_in_currency(amount) %></p>
     <% end %>
     <% if @order.vat_by_rate.size > 1 %>
-      <p>DPH celkem: <%= ExchangeRateService.display_amount(@order.vat_czk, locale: :cs) %></p>
+      <p>DPH celkem: <%= @order.display(:vat) %></p>
     <% end %>
-    <p><strong>Celkem k úhradě: <%= ExchangeRateService.display_amount(@order.total_czk, locale: :cs) %></strong></p>
+    <p><strong>Celkem k úhradě: <%= @order.display(:total) %></strong></p>
   </div>
 </div>

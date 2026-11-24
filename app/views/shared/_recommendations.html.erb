@@ -1,5 +1,5 @@
 <%
-  recommendations = CatalogProduct.active.with_starting_price.with_attached_image
+  recommendations = CatalogProduct.active.with_starting_price.with_attached_image.includes(:catalog_variants)
     .where.not(key: local_assigns[:current_product])
     .order(Arel.sql("RANDOM()"))
     .limit(4)
@@ -19,7 +19,7 @@
           <p class="product-stock"><%= t("common.stock") %></p>
           <p class="product-price">
             <% if product.starting_price_czk %>
-              <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.customer_starting_price_czk) %>
+              <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.customer_starting_price) %>
             <% else %>
               ---
             <% end %>

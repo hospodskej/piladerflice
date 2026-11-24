@@ -29,8 +29,8 @@ class OrderMailer < ApplicationMailer
       {
         description: line_description(line_item, locale: locale),
         quantity: line_item.quantity,
-        unit_price: ExchangeRateService.display_amount(line_item.unit_price_czk, locale: locale),
-        line_total: ExchangeRateService.display_amount(line_item.line_total_czk, locale: locale)
+        unit_price: order.format_amount(line_item.unit_price),
+        line_total: order.format_amount(line_item.line_total)
       }
     end
   end

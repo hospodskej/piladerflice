@@ -5,8 +5,27 @@ module CartHelper
     parts.join(", ")
   end
 
-  def cart_price(amount_czk)
-    ExchangeRateService.display_amount(amount_czk)
+  # Kč on the Czech site, € on the Austrian one. Takes a Money (the € price
+  # from the admin) or a number of Kč (converted at today's rate).
+  def cart_price(amount)
+    ExchangeRateService.display_amount(amount)
+  end
+
+  # A line's price without VAT, in both currencies.
+  def money_excl_vat(money, category:, country:)
+    Money.new(
+      czk: VatBreakdown.excl_vat(money.czk, category: category, country: country),
+      eur: VatBreakdown.excl_vat(money.eur, category: category, country: country, precision: 2),
+      exact: money.exact_eur?
+    )
+  end
+
+  # { rate => Money } from the Kč and the € VAT split of the same goods.
+  def vat_money_by_rate(vat_czk, vat_eur, exact:)
+    rates = (vat_czk.by_rate.keys | vat_eur.by_rate.keys).sort.reverse
+    rates.to_h do |rate|
+      [rate, Money.new(czk: vat_czk.by_rate.fetch(rate, 0), eur: vat_eur.by_rate.fetch(rate, 0), exact: exact)]
+    end
   end
 
   # Why a discount code can't be used, for the customer.

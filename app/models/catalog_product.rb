@@ -47,6 +47,14 @@ class CatalogProduct < ApplicationRecord
     vat_rule.customer_price(starting_price_czk)
   end
 
+  # The same in Kč and € (Money): the variant behind the "from" price - the
+  # cheapest in stock, or the cheapest of all - or nil without variants.
+  def customer_starting_price
+    variants = catalog_variants.to_a
+    cheapest = (variants.select(&:in_stock?).presence || variants).min_by(&:price_czk)
+    cheapest&.customer_price
+  end
+
   def vat_rule
     VatRule.for(category)
   end

@@ -43,7 +43,7 @@ module Admin
     end
 
     def discount_code_params
-      params.require(:discount_code).permit(:code, :kind, :value, :active, :valid_until, :usage_limit, :min_order_czk, :note)
+      params.require(:discount_code).permit(:code, :kind, :value, :active, :valid_until, :usage_limit, :min_order_czk, :value_eur, :note)
     end
   end
 end

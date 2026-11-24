@@ -2,7 +2,7 @@
   valid_categories = %w[palivove rezivo zbytky kamenivo]
   category = valid_categories.include?(params[:category]) ? params[:category] : "palivove"
 
-  base_products = CatalogProduct.active.where(category: category).with_starting_price.with_attached_image
+  base_products = CatalogProduct.active.where(category: category).with_starting_price.with_attached_image.includes(:catalog_variants)
 
   page_meta "eshop_#{category}"
 
@@ -71,7 +71,7 @@
               <p class="product-stock"><%= t("common.stock") %></p>
               <p class="product-price">
                 <% if product.starting_price_czk %>
-                  <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.customer_starting_price_czk) %>
+                  <%= t("common.price_from") %> <%= ExchangeRateService.display_amount(product.customer_starting_price) %>
                 <% else %>
                   ---
                 <% end %>

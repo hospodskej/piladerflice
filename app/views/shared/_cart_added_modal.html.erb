@@ -9,7 +9,7 @@
       <%= image_tag item.image, alt: cart_line_description(item), class: "cart-modal-item-img" if item.image %>
       <div class="cart-modal-item-details">
         <span class="cart-modal-item-desc"><%= cart_line_description(item) %></span>
-        <span class="cart-modal-item-price"><%= cart_price(item.line_total_czk) %></span>
+        <span class="cart-modal-item-price"><%= cart_price(item.line_total) %></span>
       </div>
     </div>
 

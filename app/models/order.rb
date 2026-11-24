@@ -8,6 +8,7 @@ class Order < ApplicationRecord
 
   SHIPPING_METHODS = %w[address pickup].freeze
   PAYMENT_METHODS = %w[cash bank_transfer].freeze
+  CURRENCIES = %w[CZK EUR].freeze
 
   COUNTRY_NAMES = {
     "cs" => { "cz" => "Česká republika", "at" => "Rakousko" },
@@ -19,6 +20,7 @@ class Order < ApplicationRecord
   validates :shipping_method, inclusion: { in: SHIPPING_METHODS }
   validates :payment_method, inclusion: { in: PAYMENT_METHODS }
   validates :items_snapshot, presence: true
+  validates :currency, inclusion: { in: CURRENCIES }
 
   validates :company_name, presence: true, if: :company_purchase?
   validates :delivery_street, :delivery_city, :delivery_zip, :delivery_country,
@@ -44,6 +46,53 @@ class Order < ApplicationRecord
   # agreed individually).
   def delivery_quoted?
     shipping_method == "address" && delivery_czk.present?
+  end
+
+  # Ordered on the Austrian site: priced and paid in €. eur_amounts then holds
+  # the € amounts the customer saw (goods, discount, delivery, VAT, total).
+  def eur?
+    currency == "EUR"
+  end
+
+  # One of the order's amounts (:subtotal, :discount, :delivery, :total,
+  # :vat, :total_excl_vat) in Kč and € - the € amount as ordered.
+  def money(name)
+    czk = case name
+          when :subtotal then subtotal_czk
+          when :discount then discount_czk
+          when :delivery then delivery_czk
+          when :total then total_czk
+          when :vat then vat_czk
+          when :total_excl_vat then total_czk.to_i - vat_czk.to_i
+          end
+    return Money.from(czk: czk.to_i) unless eur?
+
+    eur = if name == :total_excl_vat
+      BigDecimal(eur_amounts["total"].to_s) - BigDecimal(eur_amounts["vat"].to_s)
+    else
+      eur_amounts[name.to_s]
+    end
+    Money.new(czk: czk.to_i, eur: eur.to_s.presence || 0, exact: true)
+  end
+
+  # An amount written in the order's currency, whatever site it's shown on.
+  def format_amount(money)
+    eur? ? ExchangeRateService.format_eur(money.eur) : ExchangeRateService.format_czk(money.czk)
+  end
+
+  def display(name)
+    format_amount(money(name))
+  end
+
+  # { rate => VAT } in the order's currency, as it was when ordered.
+  def vat_by_rate_in_currency
+    return vat_by_rate unless eur?
+
+    eur_amounts.fetch("vat_breakdown", {}).to_h { |rate, amount| [rate.to_i, BigDecimal(amount.to_s)] }.sort_by { |rate, _| -rate }.to_h
+  end
+
+  def format_in_currency(amount)
+    eur? ? ExchangeRateService.format_eur(amount) : ExchangeRateService.format_czk(amount)
   end
 
   # { rate in % => VAT in Kč } as it was when ordered; older orders (before

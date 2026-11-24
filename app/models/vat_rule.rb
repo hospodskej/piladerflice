@@ -46,4 +46,12 @@ class VatRule < ApplicationRecord
 
     (admin_price * (100 + rate_cz) / 100.0).round
   end
+
+  # The same for a € price, to the cent.
+  def customer_price_eur(admin_price)
+    return nil if admin_price.nil?
+
+    price = BigDecimal(admin_price.to_s)
+    prices_include_vat? ? price.round(2) : (price * (100 + rate_cz) / 100).round(2)
+  end
 end

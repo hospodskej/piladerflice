@@ -19,9 +19,10 @@ class DeliveryQuote
     km && new(one_way_km: km)
   end
 
-  def initialize(one_way_km:, czk_per_km: Setting.delivery_czk_per_km)
+  def initialize(one_way_km:, czk_per_km: Setting.delivery_czk_per_km, eur_per_km: Setting.delivery_eur_per_km)
     @one_way_km = one_way_km.to_i
     @czk_per_km = czk_per_km
+    @eur_per_km = eur_per_km
   end
 
   def round_trip_km
@@ -30,5 +31,10 @@ class DeliveryQuote
 
   def price_czk
     round_trip_km * czk_per_km
+  end
+
+  # In Kč and € (€ per km from the admin, or converted).
+  def price
+    Money.from(czk: price_czk, eur: @eur_per_km && (round_trip_km * @eur_per_km).round(2))
   end
 end

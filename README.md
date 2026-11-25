@@ -1,5 +1,7 @@
 # README for Pila Derflice
 
+Autorské dílo: **Pavel Patočka** ([github.com/hospodskej](https://github.com/hospodskej)).
+
 - Install Ruby on Rails
 - `bundle install`
 - `rails db:migrate`

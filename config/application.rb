@@ -1,3 +1,6 @@
+# Pila Derflice - web a e-shop pro Pilu Derflice (Štěpán Merta).
+# Autorské dílo: Pavel Patočka, https://github.com/hospodskej
+
 require_relative "boot"
 
 require "rails"
